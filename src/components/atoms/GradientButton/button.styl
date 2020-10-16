@@ -1,0 +1,96 @@
+.wrapper {
+  border-radius: 4px;
+  overflow: hidden;
+
+
+	borderTopColor: #ffffffee;
+	borderLeftColor: #ffffffee;
+	borderRightColor: #bfa4e7ee;
+	borderBottomColor: #bfa4e7ee;
+	//borderWidth: 2px;
+	margin-left: 27px;
+	margin-right: 27px;
+}
+
+.wrapperDisabled {
+	borderTopColor: #0000;
+	borderLeftColor: #0000;
+	borderRightColor: #0000;
+	borderBottomColor: #0000;
+}
+
+.button {
+  min-width: 216px;
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  //padding-left: 32px;
+  //padding-right: 32px;
+
+
+
+  &__disabled {
+    elevation: 0px;
+    background-color: #cccccc;
+  }
+
+  &__fill {
+    background-color: #4b0082;
+  }
+}
+
+.gradient {
+  &__start {
+    x: 0;
+    y: 0;
+  }
+
+  &__end {
+    x: 1;
+    y: 0;
+  }
+
+  &__colors {
+    start: #d8caf0;
+    center: #eeedf4;
+    end: #f3f4f8;
+  }
+}
+
+.text {
+  font-size: 12px;
+  font-family: 'NotoSans-Bold';
+  color: #44004e;
+  text-align: center;
+  padding: 12px;
+
+  &__fill {
+    color: #44004e;
+  }
+
+  &__disabled {
+    color: #dddddd;
+  }
+}
+
+.loading {
+  padding: 12px;
+}
+
+.icon {
+  max-width: 16px;
+  max-height: 16px;
+}
+
+.buttonContent {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+margin-top: 15px;
+  margin-bottom: 15px;
+  width: 120px;
+  height: 15px;
+}

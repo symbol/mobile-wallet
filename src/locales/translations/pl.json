@@ -1,0 +1,398 @@
+{
+  "hello": "Witaj",
+  "TERMS_title": "Zasady i warunki",
+  "TERMS_button": "Zasady i warunki",
+  "PRIVACY_title": "Polityka prywatności",
+  "PRIVACY_button": "Polityka prywatności",
+  "TERMS_agreeText": "Akceptuje {terms} oraz {privacy}",
+  "TERMS_content": "__Warunki__mock__>> Zobowiązujemy się do ochrony prywatności osób odwiedzających naszą stronę internetową.\n1.2 Niniejsza zasada ma zastosowanie, gdy działamy jako administrator danych w odniesieniu do danych osobowych osób odwiedzających naszą stronę internetową; innymi słowy, gdy określamy cele i sposoby przetwarzania tych danych osobowych. \n1.3 Używamy plików cookie na naszej stronie internetowej. O ile te pliki cookie nie są absolutnie niezbędne do zapewnienia naszej witryny, poprosimy Cię o zgodę na korzystanie z plików cookie podczas pierwszej wizyty na naszej stronie. W niniejszej polityce „my”, „my” i „nasz” odnoszą się do NEM Group Limited. Aby uzyskać więcej informacji o nas, zobacz rozdział 11.",
+  "PRIVACY_content": "__Prywatność__mock__>> Jesteśmy zobowiązani do ochrony prywatności osób odwiedzających naszą stronę internetową.\n1.2 Niniejsza polityka ma zastosowanie, gdy działamy jako administrator danych w odniesieniu do danych osobowych odwiedzających naszą stronę internetową; innymi słowy, gdy określamy cele i sposoby przetwarzania tych danych osobowych. \n1.3 Używamy plików cookie na naszej stronie internetowej. O ile te pliki cookie nie są absolutnie niezbędne do zapewnienia naszej witryny, poprosimy Cię o zgodę na korzystanie z plików cookie podczas pierwszej wizyty na naszej stronie. W niniejszej polityce „my”, „my” i „nasz” odnoszą się do NEM Group Limited. Aby uzyskać więcej informacji o nas, patrz rozdział 11. ",
+  "TERMS_confirmButton": "ZAAKCEPTUJ WARUNKI",
+  "INTRO_slideOne": {
+    "title": "Rozpocznij z XEM",
+    "text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+  },
+  "INTRO_slideTwo": {
+    "title": "Rozpocznij z XEM",
+    "text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+  },
+  "INTRO_slideThree": {
+    "title": "Rozpocznij z XEM",
+    "text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+  },
+  "INTRO_createWalletButton": "UTWÓRZ PORTFEL",
+  "INTRO_alreadyHaveWallet": "Masz już portfel?",
+  "INTRO_importWalletButton": "Zaimportuj",
+  "IMPORT_WALLET_OPTIONS_title": "Zaimporuj portfel",
+  "IMPORT_WALLET_OPTIONS_content": "Zaimportuj konto, wprowadzając 24-wyrazowe hasło lub skanując kod QR. Wybierz opcję",
+  "IMPORT_WALLET_OPTIONS_button_mnemonics": "Odzyskaj za pomocą Mnemoniku",
+  "IMPORT_WALLET_OPTIONS_button_qr": "Zeskanuj kod QR",
+
+  "ImportWallet": {
+    "EnterMnemonics": {
+      "title": "Zaimportuj Portfel",
+      "content": "Zaimportuj konto, wprowadzając mnemoniki w odpowiedniej kolejności.",
+      "button": "Zaimportuj",
+      "ignoreWarning": "Zignoruj Ostrzeżenie",
+      "cancelModalButton": "Anuluj",
+      "error": {
+        "invalidMnemonic": "Niepoprawny Mnemonik",
+        "invalidMnemonics": "Niepoprawne Mnemoniki."
+      }
+    },
+    "ImportOptions": {
+      "title": "Zaimportuj Portfel",
+      "buttonTitleRestoreMnemonics": "Odzyskaj za pomocą Mnemoniku",
+      "buttonTitleQr": "Zeskanuj kod QR",
+      "contentPlaceholder": "Zaimportuj konto, wprowadzając 24-wyrazowe hasło lub skanując kod QR. Wybierz opcję"
+    },
+    "EnterPassword": {
+      "title": "Wprowadź Hasło",
+      "inputPassword": "Wprowadź Hasło",
+      "inputConfirmPassword": "Potwierdź Hasło",
+      "dashboardButton": "Przejdź do Panelu"
+    }
+  },
+  "CreateWallet": {
+    "WalletName": {
+      "title": "Utwórz Portfel",
+      "inputLabel": "Nazwa Portfela",
+      "inputPlaceholder": "Wpisz nazwę swojego portfela",
+      "submitButton": "Utwórz"
+    },
+    "GenerateKey": {
+      "title": "Potrząśnij!",
+      "description": "Potrząśnij telefonem, aby uzyskać entropię",
+      "submitButton": "Zakończ"
+    },
+    "GenerateBackup": {
+      "title": "Utwórz Kopię Zapasową",
+      "description": "Możesz utworzyć kopię zapasową portfela, zapisując hasło portfela i przechowując je w bezpiecznym miejscu - możesz ponownie zaimportować portfel, ale pamiętaj, że każdy, kto ma dostęp do Twojego hasła, ma również dostęp do utworzonych z niego kont i funduszy. Możesz również utworzyć kopię zapasową portfela, generując kod QR zawierający hasło.",
+      "mnemonicButton": "Kopia zapasowa za pomocą Mnemoników",
+      "QRButton": "Kopia zapasową za pomocą kodu QR",
+      "dashboardButton": "Przejdź do Panelu"
+    },
+    "ShowMnemonics": {
+      "title": "Mnemonik/Hasło",
+      "description": "Zapisz 24-wyrazowe wyrażenie zapasowe i przechowuj kopię w bezpiecznym miejscu. W każdej chwili możesz przywrócić swój portfel.",
+      "submitButton": "Dalej"
+    },
+    "SetPassword": {
+      "title": "Utwórz Hasło",
+      "inputPassword": "Wprowadź Hasło",
+      "inputConfirmPassword": "Potwierdź Hasło",
+      "checkboxText": "Nie chcę używać hasła do szyfrowania hasła kopii zapasowej w celu ochrony kodu QR",
+      "submitButton": "Generuj"
+    },
+    "VerifyMnemonics": {
+      "title": "Zweryfikuj swoje 24-wyrazowe hasło",
+      "description": "Wybierz słowa, aby upewnić się, że mnemoniki są poprawne.",
+      "submitButton": {
+        "title": "Zakończ"
+      },
+      "error": {
+        "passphraseOrder": "Niepoprawna kolejność 24-wyrazowego hasła."
+      },
+      "success": {
+        "passphraseOrder": "Sukces, kontynuuj."
+      }
+    },
+    "ShowQRCode": {
+      "title": "Kopia zapasowa konta",
+      "description": "Możesz później zaimportować konto ponownie, skanując kod QR i podając wybrane hasło",
+      "downloadButton": "Pobierz Kod QR",
+      "dashboardButton": "Przejdź do Panelu"
+    }
+  },
+  "WalletLoading": {
+    "title": "Czekaj",
+    "description": "Tworzymy Twój portfel!"
+  },
+  "NetworkLoading": {
+    "title": "Pobieranie informacji o sieci",
+    "error": "Błąd pobierania informacji o sieci, Proszę spróbuj później."
+  },
+
+  "Home": {
+    "Tabs": {
+      "news": "Aktualności",
+      "dashboard": "Dashboard",
+      "sendReceive": "Wyślij & Odbierz",
+      "SearchTransacation": {
+        "inputPlaceholder": "Wyszukaj po adresie / kwocie / haszu"
+      }
+    },
+    "News": {
+      "title": "Najważniejsze informacje"
+    },
+    "SendReceive": {}
+  },
+  "TransactionViewModel": {
+    "LinkAccount": {
+      "labelType": "Typ",
+      "labelFrom": "Od",
+      "labelRemotePublicKey": "Zdalny klucz publiczny",
+      "labelLinkAction": "Akcja podłączenia",
+      "labelFee": "Opłata",
+      "labelBlock": "Blok",
+      "labelHash": "Hasz",
+      "actionLink": "Połączenie",
+      "actionUnlink": "Odłączenie"
+    },
+    "Aggregate": {
+      "labelType": "Typ",
+      "labelCosignedby": "Podpisana przez",
+      "labelInnerTransactions": "Transakcje wewnętrzne"
+    },
+    "Lock": {
+      "labelType": "Typ",
+      "labelFrom": "Od",
+      "labelAmount": "Kwota",
+      "labelFee": "Opłata",
+      "labelBlock": "Blok",
+      "labelHash": "Hasz"
+    },
+    "MosaicDefinition": {
+      "labelType": "Typ",
+      "labelFrom": "Od",
+      "labelFee": "Opłata",
+      "labelBlock": "Blok",
+      "labelHash": "Hasz",
+      "labelSupplyMutable": "Zmienna ilość",
+      "labelTransferable": "Zbywalny",
+      "labelRestrictable": "Ograniczony"
+    },
+    "MosaicSupplyChange": {
+      "labelType": "Typ",
+      "labelFrom": "Od",
+      "labelFee": "Opłata",
+      "labelBlock": "Blok",
+      "labelHash": "Hasz",
+      "labelSupplyChange": "Zmiana ilości",
+      "labelDelta": "Zmiana"
+    },
+    "ModifyMultisig": {
+      "labelType": "Typ",
+      "labelFrom": "Od",
+      "labelCosignatories": "Sygnatariusze",
+      "labelMinApprovalDelta": "Min Ilość akcept.",
+      "labelMinRemovalDelta": "Min Ilość usuwaj."
+    },
+    "Transfer": {
+      "labelAccount": "Od ",
+      "labelAddress": "Do",
+      "labelAmount": "Kwota",
+      "labelMessage": "Wiadomość",
+      "labelBlock": "Blok",
+      "labelHash": "Hasz",
+      "labelTotal": "Razem Wysłano",
+      "labelMosaics": "Tokeny",
+      "labelFee": "Opłata"
+    },
+    "Unknown": {
+      "title": "Nierozpoznana transakcja",
+      "labelType": "Typ transakcji",
+      "titleDetailView": "Nierozpoznana transakcja"
+    }
+  },
+  "Send": {
+    "Recipient": {
+      "errors": {
+        "invalidRecipient": "Adres jest niepoprawny lub należy do innej sieci",
+        "multisigAccountErrTitle": "Konto z multipodpisem",
+        "multisigAccountErrDesc": "Konto z multipodpisem nie może zainicjalizować transakcji. Proszę, użyj kont sygnatariuszy."
+      },
+      "title": "Wyślij do",
+      "description": "Wprowadź adres albo zeskanuj kod QR żeby wysłać",
+      "submitButton": "Dalej"
+    },
+    "Amount": {
+      "title": "Kwota",
+      "description": "Podaj ile chcesz wysłać",
+      "submitButton": "Dalej",
+      "errors": {
+        "emptyMosaics": "Nie znaleziono żadnych tokenów :(",
+        "unknownError": "Nienany błąd, Skontaktuj się z pomocą techniczną",
+        "feeError": "Nie można pobrać opłaty sieciowej",
+        "insufficientBalance": "Niewystarczające saldo",
+        "invalidAmount": "Niepoprawna kwota"
+      }
+    },
+    "Message": {
+      "title": "Wiadomość",
+      "description": "Dodaj opcjonalną wiadomość do Twojej transakcji",
+      "checkboxText": "Szyfruj wiadomość",
+      "submitButton": "Dalej",
+      "invalidReceiverPub": "Szyfrowanie niedostępne (Ten adres nie ma klucza publicznego widocznego w sieci)"
+    },
+    "ConfirmTransaction": {
+      "title": "Potwierdź transakcję",
+      "submitButton": "Potwierdź",
+      "from": "FROM",
+      "balance": "BALANCE",
+      "sendTo": "SEND TO",
+      "messsge": "MESSAGE",
+      "fee": "FEE",
+      "mosaics": "MOSAICS"
+    },
+    "ApproveTransaction": {
+      "title": "Zatwierdź transakcję",
+      "submitButton": "Zatwierdź",
+      "helpText": "Lorem Ipsum jest tekstem stosowanym jako przykładowy "
+    },
+    "TransactionSuccessfull": {
+      "title": "Transakcja w toku",
+      "actionButton": "Przejdź do Panelu"
+    },
+    "InvoiceQR": {
+      "title": "Czekaj",
+      "description": "Odczytywanie QR!",
+      "errors": {
+        "unsupportedQrTitle": "Błąd QR",
+        "unsupportedQrDesc": "Niewspierany kod QR"
+      }
+    }
+  },
+  "Receive": {
+    "ReceiveDetails": {
+      "title": "Otrzymaj",
+      "namePlaceholder": "MOJA NAZWA",
+      "addressPlaceholder": "MÓJ ADRES",
+      "shareButton": "UDOSTĘPNIJ",
+      "createInvoiceButton": "UTWÓRZ FAKTURĘ"
+    },
+    "CreateInvoice": {
+      "title": "Utwórz Fakturę",
+      "to": "DO",
+      "amount": "KWOTA (XEM)",
+      "message": "WIADOMOŚĆ",
+      "createButton": "UTWÓRZ",
+      "addressPlaceholder": "Wprowadź adres",
+      "amountPlaceholder": "Wprowadź kwotę",
+      "messagePlaceholder": "Wprowadź wiadomość",
+      "errors": {
+        "invalidAmount": "Niepoprawna kwota"
+      }
+    },
+    "Invoice": {
+      "title": "Faktura",
+      "shareButton": "UDOSTĘPNIJ",
+      "description": "*Lorem Ipsum jest tekstem stosowanym jako przykładowy "
+    }
+  },
+  "Sidebar": {
+    "detailButton": "Pokaż Szczegóły",
+    "manageAccountButton": "Zarządzaj Kontami"
+  },
+  "Settings": {
+    "title": "Ustawienia",
+    "notification": "Powiadomienia",
+    "useMainnet": "Użyj sieci głównej (mainnet)",
+    "passcode": {
+      "turnOnPasscode": "Włącz Kod Dostępu",
+      "turnOffPasscode": "Wyłącz Kod Dostępu",
+      "choose": {
+        "title": "Utwórz Kod Dostępu",
+        "subtitle": "Wprowadź Kod Dostępu",
+        "titleconfirm": "Potwierdź Kod Dostępu"
+      },
+      "enterPasscode": {
+        "title": "Wprowadź Kod Dostępu "
+      },
+      "enterBiometrics": {
+        "title": "Wprowadź Kod Dostępu lub Touch ID"
+      },
+      "promtTitle": "Włącz kod dostępu",
+      "promtMessage": "Nie ustawiłeś jeszcze kodu dostępu, utworzyć nowy?"
+    },
+    "touchID": {
+      "turnOnTouchID": "Włącz Touch ID",
+      "turnOffTouchID": "Wyłącz Touch ID",
+      "promtTitle": "Wymagaj kodu dostępu",
+      "promtMessage": "Nie ustawiłeś jeszcze kodu dostępu, utworzyć nowy?"
+    },
+    "node": {
+      "menuTitle": "Użyj Węzła",
+      "pageTitle": "Wybierz Węzeł",
+      "submitButton": "Gotowe",
+      "errorNetworkExist": "Sieć już istnieje",
+      "errorInvalidUrl": "Niepoprawny URL"
+    },
+    "feedback": {
+      "submitButton": "Wyślij",
+      "title": "Wyraź Opinię",
+      "urlError": "Nie można otworzyć klienta poczty e-mail"
+    },
+    "language": {
+      "title": "Język",
+      "selectBoxTitle": "Wybierz język"
+    },
+    "currency": {
+      "title": "Waluta",
+      "selectBoxTitle": "Wybierz walutę"
+    },
+    "backup": "Kopia zapasowa",
+    "giveFeedback": "Wyraź opinię",
+    "aboutNem": "O NEM",
+    "logout": "Wyloguj"
+  },
+  "AccountDetails": {
+    "title": "Szczegóły Konta",
+    "urlError": "Nie można otworzyć linku"
+  },
+  "ManageAccount": {
+    "title": "Zarządzaj Kontami",
+    "addAccountButton": "Dodaj Nowa Konto",
+    "inputLabel": "Podaj nazwę konta",
+    "inputPlaceholder": "Nazwa Konta",
+    "submitButton": "Gotowe",
+    "moreInfo": "Więcej informacji",
+    "inputSubmitError": "Błąd aktualizacji nazwy konta, Proszę spróbuj później"
+  },
+  "CreateNewAccount": {
+    "title": "Utwórz Nowe Konto",
+    "inputLabel": "Nazwa Konta",
+    "inputPlaceholder": "Wprowadź nazwę konta",
+    "submitButton": "Dodaj",
+    "inputSubmitError": "Błąd podczas tworzenia nazwy konta. Spróbuj ponownie później"
+  },
+  "About": {
+    "title": "O NEM",
+    "aboutTextPara_1": "Fundacja NEM jest wspierana przez międzynarodową sieć, złożoną z bogatego doświadczenia w dziedzinie IT, przedsiębiorczości, procesów biznesowych, handlu, rozwoju nieruchomości i aktywów, zarządzania międzynarodowego i środowisk akademickich. Etos firmy polega na zapewnieniu platformy technologicznej blockchain firmy NEM w celu usprawnienia przedsiębiorczości, podczas gdy ludzie nią zarządzają. Zespół NEM zapewnia to poprzez szereg wsparcia i edukacji, od szkoleń i dostawców usług po wsparcie techniczne dla ekosystemu.",
+    "aboutTextPara_2": " Nasze unikalne podejście do przywództwa wyznacza jasny, rygorystyczny kurs dla ciągle ewoluujących wpływów rosnących w każdym biznesie i regionie, na każdym poziomie. W rezultacie nasz zespół odzwierciedla grupę zróżnicowanych na arenie międzynarodowej osób o szerokim i głębokim doświadczeniu w całej fundacji.",
+    "button": "Dowiedz się więcej",
+    "urlError": "Nie można otworzyć linku"
+  },
+  "NodeSwitching": {
+    "title": "Czekaj",
+    "description": "Zmieniamy użyty węzeł."
+  },
+  "Harvest": {
+    "DelegatedHarvesting": {
+      "title": "Delegowane Zbieranie",
+      "remoteStatus": "Status zdalny",
+      "harvestingStatus": "Status zbierania",
+      "delegationStatus": "Status delegowania",
+      "vestedBalance": "Saldo usankcjonowane",
+      "availableBalance": "Soldo dostępne",
+      "importanceScore": "Wskaźnik ważności",
+      "infoLink": "Więcej informacji",
+      "registerButton": "Zarejestruj Konto Delegowane",
+      "startHarvestingButton": "Rozpocznij Zbieranie",
+      "stopHarvestingButton": "Zatrzymaj Zbieranie",
+      "urlError": "Nie można otworzyć linku"
+    },
+    "RegisterAccount": {
+      "title": "Zarejestruj Konto Delegowane",
+      "registerButton": "Zarejestruj",
+      "errors": {
+        "invalidAmount": "Niepoprawna wartość",
+        "errorCreateAccount": "Błąd tworzenia konta"
+      }
+    },
+    "StartHarvesting": {
+      "title": "Rozpocznij Zbieranie",
+      "submitButton": "Rozpocznij Zbieranie"
+    }
+  }
+}

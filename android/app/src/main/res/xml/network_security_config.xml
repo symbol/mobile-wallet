@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <!-- TODO remove this after testing -->
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">nemtech.network</domain>
+    <domain includeSubdomains="true">rssmix.com</domain>
+    <domain includeSubdomains="true">localhost</domain>
+    <domain includeSubdomains="true">symboldev.network</domain>
+  </domain-config>
+</network-security-config>

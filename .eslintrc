@@ -1,0 +1,55 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "plugin:prettier/recommended",
+    "@react-native-community"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react-native"],
+  "env": {
+    "react-native/react-native": true,
+    "jest": true
+  },
+  "rules": {
+    "global-require": "off",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "import": "always-multiline",
+        "export": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "react/state-in-constructor": "off",
+    "react/jsx-curly-newline": "off",
+    "react/static-property-placement": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "indent": [2, 2, { "SwitchCase": 1 }],
+    "react-native/no-unused-styles": 2,
+    "react-native/no-inline-styles": 2,
+    "object-shorthand": ["error", "consistent"],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": true,
+        "variables": false
+      }
+    ]
+  }
+}

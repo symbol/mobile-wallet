@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© NEM.io Foundation Ltd (Singapore) 2014 - 2019 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
+                    <rect key="frame" x="20" y="410" width="440" height="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.15294117647058825" green="0.12549019607843137" blue="0.18823529411764706" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Rights Reserved | NEM ™" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="mxO-6U-5IW">
+                    <rect key="frame" x="19" y="431" width="442" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.15294117647058825" green="0.12549019607843137" blue="0.18823529411764706" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nem_logo" translatesAutoresizingMaskIntoConstraints="NO" id="IA0-fT-mVj">
+                    <rect key="frame" x="149" y="99" width="176" height="176"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="176" id="2VI-pM-a6Y"/>
+                        <constraint firstAttribute="height" constant="176" id="V7D-1T-hdm"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nem_name_logo" translatesAutoresizingMaskIntoConstraints="NO" id="sP7-VS-C0d">
+                    <rect key="frame" x="197.5" y="373" width="85" height="26"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar" translatesAutoresizingMaskIntoConstraints="NO" id="O7y-os-rbP">
+                    <rect key="frame" x="0.0" y="470" width="480" height="10"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="10" id="GJT-7L-D9l"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="firstBaseline" secondItem="sP7-VS-C0d" secondAttribute="baseline" constant="22.5" id="0zm-iB-4Ia"/>
+                <constraint firstItem="IA0-fT-mVj" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-3" id="2gi-nH-pcG"/>
+                <constraint firstItem="O7y-os-rbP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4Uy-7T-DDG"/>
+                <constraint firstAttribute="bottom" secondItem="O7y-os-rbP" secondAttribute="bottom" id="ASQ-3U-yQE"/>
+                <constraint firstAttribute="bottom" secondItem="mxO-6U-5IW" secondAttribute="bottom" constant="34" id="BrW-K9-U1I"/>
+                <constraint firstItem="IA0-fT-mVj" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-53" id="DiY-Hb-kAM"/>
+                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="51" id="Kzo-t9-V3l"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
+                <constraint firstAttribute="trailing" secondItem="O7y-os-rbP" secondAttribute="trailing" id="Txc-BO-tWy"/>
+                <constraint firstItem="sP7-VS-C0d" firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="XDM-z6-qbf"/>
+                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
+                <constraint firstItem="sP7-VS-C0d" firstAttribute="centerX" secondItem="IA0-fT-mVj" secondAttribute="centerX" constant="3" id="ZJR-ZI-9eP"/>
+                <constraint firstItem="mxO-6U-5IW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="aom-5v-Gjk"/>
+                <constraint firstItem="mxO-6U-5IW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="btb-Ni-vY3"/>
+                <constraint firstItem="sP7-VS-C0d" firstAttribute="width" secondItem="8ie-xW-0ye" secondAttribute="height" multiplier="31:7" id="j0m-5D-5gv"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-35" y="-96"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bar" width="375" height="12"/>
+        <image name="nem_logo" width="160" height="160"/>
+        <image name="nem_name_logo" width="85" height="26"/>
+    </resources>
+</document>

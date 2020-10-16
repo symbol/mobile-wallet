@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    collapsable={true}
+    pointerEvents="box-none"
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <TouchableHighlight
+      accessibilityLabel="Button"
+      activeOpacity={0.85}
+      delayPressOut={100}
+      disabled={false}
+      testID="link-button"
+      underlayColor="#ddd"
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#2db5b3",
+              "fontWeight": "500",
+              "paddingBottom": 0,
+              "paddingLeft": 4,
+              "paddingRight": 4,
+              "paddingTop": 0,
+            },
+            undefined,
+          ]
+        }
+        testID="link-text"
+      >
+        LINK
+      </Text>
+    </TouchableHighlight>
+  </View>
+</View>
+`;
+
+exports[`renders correctly with disabled prop 1`] = `
+<View
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    collapsable={true}
+    pointerEvents="box-none"
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <TouchableHighlight
+      accessibilityLabel="Button"
+      activeOpacity={1}
+      delayPressOut={100}
+      disabled={true}
+      testID="link-button"
+      underlayColor="#ddd"
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#666",
+              "fontWeight": "500",
+              "paddingBottom": 0,
+              "paddingLeft": 4,
+              "paddingRight": 4,
+              "paddingTop": 0,
+            },
+            undefined,
+          ]
+        }
+        testID="link-text"
+      >
+        DISABLED_LINK
+      </Text>
+    </TouchableHighlight>
+  </View>
+</View>
+`;

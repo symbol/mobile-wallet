@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_dark">#FFFFFF</color>
+    <color name="status_bar_color">@android:color/transparent</color>
+    <color name="white">#FFF</color>
+</resources>

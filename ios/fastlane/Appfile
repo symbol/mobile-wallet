@@ -1,0 +1,8 @@
+app_identifier("com.nemgrouplimited.symbolwallet") # The bundle identifier of your app
+apple_id("acarrera@peersyst.com") # Your Apple email address
+
+itc_team_id("122014636") # App Store Connect Team ID
+team_id("W594P93ZB8") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

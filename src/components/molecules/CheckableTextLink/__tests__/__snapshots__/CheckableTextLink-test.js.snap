@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    collapsable={true}
+    pointerEvents="box-none"
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexWrap": "wrap",
+          "marginBottom": 16,
+          "marginTop": 8,
+        }
+      }
+    >
+      <TouchableHighlight
+        activeOpacity={0.85}
+        delayPressOut={100}
+        style={
+          Object {
+            "flexBasis": 0,
+            "flexGrow": 0.1,
+            "flexShrink": 1,
+          }
+        }
+        underlayColor="transparent"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../react-native-check-box/img/ic_check_box.png",
+              }
+            }
+            style={
+              Object {
+                "tintColor": undefined,
+              }
+            }
+          />
+        </View>
+      </TouchableHighlight>
+      <View
+        style={
+          Object {
+            "flexBasis": 0,
+            "flexDirection": "row",
+            "flexGrow": 0.9,
+            "flexShrink": 1,
+            "flexWrap": "wrap",
+            "paddingLeft": 4,
+          }
+        }
+        testID="text-container"
+      >
+        <Text
+          testID="text-normal"
+        >
+          hello 
+        </Text>
+        <TouchableHighlight
+          accessibilityLabel="Button"
+          activeOpacity={0.85}
+          delayPressOut={100}
+          disabled={false}
+          testID="link-button"
+          underlayColor="#ddd"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#2db5b3",
+                  "fontWeight": "500",
+                  "paddingBottom": 0,
+                  "paddingLeft": 4,
+                  "paddingRight": 4,
+                  "paddingTop": 0,
+                },
+                undefined,
+              ]
+            }
+            testID="link-text"
+          >
+            Terms
+          </Text>
+        </TouchableHighlight>
+        <Text
+          testID="text-normal"
+        >
+           and 
+        </Text>
+        <TouchableHighlight
+          accessibilityLabel="Button"
+          activeOpacity={1}
+          delayPressOut={100}
+          disabled={true}
+          testID="link-button"
+          underlayColor="#ddd"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#666",
+                  "fontWeight": "500",
+                  "paddingBottom": 0,
+                  "paddingLeft": 4,
+                  "paddingRight": 4,
+                  "paddingTop": 0,
+                },
+                undefined,
+              ]
+            }
+            testID="link-text"
+          >
+            Privacy
+          </Text>
+        </TouchableHighlight>
+      </View>
+    </View>
+  </View>
+</View>
+`;

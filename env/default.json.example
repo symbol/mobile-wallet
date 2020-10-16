@@ -1,0 +1,30 @@
+{
+  "sessionTimeoutInSeconds": 10,
+  "marketCurrencyName": "nem",
+  "newsURL": "https://nemflash.io/feed",
+  "explorerURL": "http://explorer.nemtech.network/account",
+  "aboutURL": "https://nem.io",
+  "currencies": {
+    "USD": "usd",
+    "BTC": "btc",
+    "EURO": "eur",
+    "YEN": "jpy"
+  },
+  "syncIntervals": {
+    "OFF": 0,
+    "15 MIN": 15,
+    "1 HR": 60,
+    "4 HR": 240,
+    "12 HR": 720
+  },
+  "defaultSyncInterval": "15 MIN",
+  "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
+  "networks": {
+    "mainnet": {
+      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+    },
+    "testnet": {
+      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+    }
+  }
+}
