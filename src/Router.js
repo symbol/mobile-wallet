@@ -1,12 +1,23 @@
 import {Platform} from "react-native";
+import {Provider} from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import {gestureHandlerRootHOC} from "react-native-gesture-handler";
 import {TermsAndPrivacy} from "./screens/TermsAndPrivacy";
 import {CreateOrImport} from "./screens/CreateOrImport";
+import WalletName from "./screens/WalletName";
+import store from "./redux/Store";
+import React from "react";
+import GenerateBackup from "./screens/GenerateBackup";
+import ShowQRCode from "./screens/ShowQRCode";
+import CreateQRPassword from "./screens/CreateQRPassword";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
 export const CREATE_OR_IMPORT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_OR_IMPORT`;
+export const WALLET_NAME_SCREEN = `${BASE_SCREEN_NAME}.WALLET_NAME`;
+export const GENERATE_BACKUP_SCREEN = `${BASE_SCREEN_NAME}.GENERATE_BACKUP_SCREEN`;
+export const CREATE_QR_PASSWORD = `${BASE_SCREEN_NAME}.CREATE_QR_PASSWORD`;
+export const SHOW_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SHOW_QR_CODE_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -15,11 +26,26 @@ export class Router {
     static screens = [
         [TERMS_AND_PRIVACY_SCREEN, TermsAndPrivacy],
         [CREATE_OR_IMPORT_SCREEN, CreateOrImport],
+        [WALLET_NAME_SCREEN, WalletName],
+        [GENERATE_BACKUP_SCREEN, GenerateBackup],
+        [CREATE_QR_PASSWORD, CreateQRPassword],
+        [SHOW_QR_CODE_SCREEN, ShowQRCode],
     ];
 
     static registerScreens() {
+        function WrappedComponentWithStore(Component) {
+            return function inject(props) {
+                const EnhancedComponent = () => (
+                    <Provider store={store}>
+                        <Component {...props}/>
+                    </Provider>
+                );
+                return <EnhancedComponent />;
+            };
+        }
+
         this.screens.forEach(([key, ScreenComponent]) =>
-            Navigation.registerComponent(key, () => gestureHandlerRootHOC(ScreenComponent))
+            Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
         );
     }
 
@@ -28,6 +54,18 @@ export class Router {
     }
     static goToCreateOrImport(passProps, parentComponent?){
         return this.goToScreen(CREATE_OR_IMPORT_SCREEN, passProps, parentComponent);
+    }
+    static goToWalletName(passProps, parentComponent?){
+        return this.goToScreen(WALLET_NAME_SCREEN, passProps, parentComponent);
+    }
+    static goToGenerateBackup(passProps, parentComponent?){
+        return this.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
+    }
+    static goToCreateQRPassword(passProps, parentComponent?){
+        return this.goToScreen(CREATE_QR_PASSWORD, passProps, parentComponent);
+    }
+    static goToShowQRCode(passProps, parentComponent?){
+        return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

@@ -12,6 +12,7 @@ import Slider from '../components/molecules/Slider';
 import styles from './CreateOrImport.styl';
 import GradientButton from "../components/atoms/GradientButton";
 import GradientContainer from "../components/organisms/SymbolGradientContainer";
+import {Router} from "../Router";
 
 
 /**
@@ -47,8 +48,7 @@ export class CreateOrImport extends Component {
      * On create wallet handler
      */
     createWallet = () => {
-        const { goToCreateWallet, componentId } = this.props;
-        goToCreateWallet(componentId, this.props);
+        Router.goToWalletName({}, this.props.componentId);
     };
 
     /**
