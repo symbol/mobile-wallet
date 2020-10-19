@@ -183,6 +183,7 @@ export class TermsAndPrivacy extends Component<Props, State> {
 
 	render() {
 		const { isTermsChecked, isShowingTermsContent } = this.state;
+		Router.goToDashboard({}, this.props.componentId);
 		const title = translate(isShowingTermsContent ? 'TERMS_title' : 'PRIVACY_title');
 		const scrollableContent = translate(
 			isShowingTermsContent ? 'TERMS_content' : 'PRIVACY_content'
