@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions, View } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
 import GlobalStyles from '../../styles/GlobalStyles';
 
-
 const styles = StyleSheet.create({
 	root: {
 		marginLeft: 0,
@@ -33,13 +32,13 @@ export default class PriceChart extends Component<Props, State> {
 	};
 
 	render() {
-		const { } = this.props;
+		const { style = {} } = this.props;
 		const { data } = this.state;
 
 		const labels = [];
 
 		return (
-			<View style={styles.root}>
+			<View style={[styles.root, style]}>
 				<LineChart
 					data={{
 						labels,
@@ -49,14 +48,15 @@ export default class PriceChart extends Component<Props, State> {
 					height={220}
 					chartConfig={{
 						paddingRight: 300,
-						backgroundGradientFrom: GlobalStyles.color.PRIMARY,
-						backgroundGradientTo: GlobalStyles.color.SECONDARY,
+						fillShadowGradientOpacity: 0.3,
+						//useShadowColorFromDataset: true,
+						backgroundGradientTo:`rgba(255, 255, 255, 0)`,
 						backgroundGradientFromOpacity: 0,
 						backgroundGradientToOpacity: 0,
 						decimalPlaces: 2, // optional, defaults to 2dp
 						color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 						labelColor: (opacity = 1) => `rgba(255, 255, 255, 0)`,
-						strokeWidth: 1,
+						strokeWidth: 1.5,
 						style: {
 							borderRadius: 0
 						},

@@ -4,6 +4,7 @@ import {
 	Text, 
 	Section, 
 	PriceChart, 
+	GradientBackground,
 	ImageBackground,
 	BalanceWidget 
 } from '../components';
@@ -28,8 +29,7 @@ export default class Dashboard extends Component<Props, State> {
 		//return (<View></View>)
 		
         return (
-			<ImageBackground>
-				<PriceChart />
+			<GradientBackground>
 				<Section type="center">
 					<BalanceWidget/>
 				</Section>
@@ -48,7 +48,7 @@ export default class Dashboard extends Component<Props, State> {
 				<Section type="button">
 					<Text type="bold">Bold</Text>
 				</Section> */}
-			</ImageBackground>
+			</GradientBackground>
         );
     };
 }

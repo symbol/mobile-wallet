@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Row, Col, Text } from '../../components';
+import { Row, Col, Text, PriceChart } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
 const styles = StyleSheet.create({
 	root: {
-		
+		marginTop: 168
+	},	
+	priceChart: {
+		position: 'absolute',
+		top: -30,
+		left: -64
+	},
+	currencyText: {
+		fontSize: 15,
+		marginBottom: 8,
+		color: GlobalStyles.color.onDark.TEXT,
+	},	
+	balanceText: {
+		fontFamily: 'NotoSans-SemiBold',
+		fontSize: 36,
+		color: GlobalStyles.color.onDark.TEXT,
+	},	
+	bottomContainer: {
+		marginTop: 3,
+		opacity: 0.5
+	},
+	fiatText: {
+		fontSize: 15,
+		color: GlobalStyles.color.onDark.TEXT,
+	},
+	priceChange: {
+		fontSize: 15,
+		color: GlobalStyles.color.GREEN,
 	}
 });
 
@@ -27,22 +54,29 @@ export default class BalanceWidget extends Component<Props, State> {
 		const { } = this.props;
 		const { data } = this.state;
 
-		const labels = [];
+		const currency = 'XYM';
+		const balance = '12000';
+		const fiat = '68,148 USD';
+		const priceChange = '+1.20% /////';
 
 		return (
 			<View style={styles.root}>
-				<Col style={{backgroundColor: '#f005'}}>
-					<Row style={{backgroundColor: '#0f05'}}>
-						<Text>
-							First
+				<PriceChart style={styles.priceChart}/>
+				<Col>
+					<Row justify="center" align="end">
+						<Text style={styles.currencyText}>
+							{currency}
 						</Text>
-						<Text>
-							First
+						<Text style={styles.balanceText}>
+							{balance}
 						</Text>
 					</Row>
-					<Row style={{backgroundColor: '#00f5'}}>
-						<Text align="center">
-							Second
+					<Row justify="center" style={styles.bottomContainer}>
+						<Text style={styles.fiatText}>
+							{fiat} | 
+						</Text>
+						<Text style={styles.priceChange}>
+							{priceChange}
 						</Text>
 					</Row>
 				</Col>
