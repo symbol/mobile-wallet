@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput  } from 'react-native';
-import PriceChart from '../components/organisms/PriceChart';
-import Gradient from '../components/backgrounds/Gradient';
-import Text from '../components/controls/Text'
-
+import { StyleSheet, View  } from 'react-native';
+import { 
+	Text, 
+	Section, 
+	PriceChart, 
+	ImageBackground 
+} from '../components';
 import translate from "../locales/i18n";
 import { Router } from "../Router";
 
@@ -21,16 +23,31 @@ export default class Dashboard extends Component<Props, State> {
     render() {
 		const {} = this.props;
 		const {} = this.state;
-
+		//sconsole.log(Object.values(components).map(el => typeof el))
+		//return (<View></View>)
+		
         return (
-			<Gradient>
+			<ImageBackground>
 				<PriceChart />
-				<Text type="title">Title</Text>
-				<Text type="subtitle">Subtitle</Text>
-				<Text type="alert">Alert</Text>
-				<Text>Regular</Text>
-				<Text type="bold">Bold</Text>
-			</Gradient>
+				<Section type="center">
+					<Text type="alert">Alert</Text>
+				</Section>
+				{/* <Section type="title">
+					<Text type="title">Title</Text>
+				</Section>
+				<Section type="subtitle">
+					<Text type="subtitle">Subtitle</Text>
+				</Section>
+				<Section type="center">
+					<Text type="alert">Alert</Text>
+				</Section>
+				<Section type="text">
+					<Text>Regular</Text>
+				</Section>
+				<Section type="button">
+					<Text type="bold">Bold</Text>
+				</Section> */}
+			</ImageBackground>
         );
     };
 }

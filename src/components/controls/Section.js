@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
@@ -9,8 +9,9 @@ const styles = StyleSheet.create({
 
 type Type = 'title' 
 	| 'subtitle'
-	| 'alert'
-	| 'bold';
+	| 'text'
+	| 'center'
+	| 'button';
 
 interface Props {
 	type: Type
@@ -19,33 +20,33 @@ interface Props {
 type State = {};
 
 
-export default class C extends Component<Props, State> {
+export default class Text extends Component<Props, State> {
     render() {
 		const { children, type, style = {} } = this.props;
 		let globalStyle = {};
 
 		switch(type) {
 			case 'title': 
-				globalStyle = GlobalStyles.text.title; 
+				globalStyle = GlobalStyles.section.title; 
 				break;
 			case 'subtitle': 
-				globalStyle = GlobalStyles.text.subtitle; 
+				globalStyle = GlobalStyles.section.subtitle; 
 				break;
-			case 'alert': 
-				globalStyle = GlobalStyles.text.alert; 
+			case 'text': 
+				globalStyle = GlobalStyles.section.text; 
 				break;
-			case 'bold': 
-				globalStyle = GlobalStyles.text.bold; 
+			case 'center': 
+				globalStyle = GlobalStyles.section.center; 
 				break;
-			default: 
-				globalStyle = GlobalStyles.text.regular; 
+			case 'button': 
+				globalStyle = GlobalStyles.section.button; 
 				break;
 		}
 
         return (
-			<Text style={[globalStyle, style]}>
+			<View style={[globalStyle, style]}>
 				{children}
-			</Text>
+			</View>
         );
     };
 }

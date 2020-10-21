@@ -1,3 +1,5 @@
+import { Directions } from "react-native-gesture-handler";
+
 /**
  * Symbol branding colors
  */
@@ -116,6 +118,12 @@ export default {
 
 		list: {
 
+		},
+
+		center: {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center'
 		}
 	},
 

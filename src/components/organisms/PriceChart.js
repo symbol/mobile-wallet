@@ -16,7 +16,7 @@ type Props = {};
 type State = { data: any };
 
 
-export default class Dashboard extends Component<Props, State> {
+export default class PriceChart extends Component<Props, State> {
 	state = { data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
 
 	// TODO: move http reqest to Services

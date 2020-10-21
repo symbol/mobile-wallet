@@ -15,7 +15,7 @@ type Props = {};
 type State = {};
 
 
-export default class Gradient extends Component<Props, State> {
+export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
