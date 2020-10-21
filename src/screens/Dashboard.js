@@ -4,7 +4,8 @@ import {
 	Text, 
 	Section, 
 	PriceChart, 
-	ImageBackground 
+	ImageBackground,
+	BalanceWidget 
 } from '../components';
 import translate from "../locales/i18n";
 import { Router } from "../Router";
@@ -30,7 +31,7 @@ export default class Dashboard extends Component<Props, State> {
 			<ImageBackground>
 				<PriceChart />
 				<Section type="center">
-					<Text type="alert">Alert</Text>
+					<BalanceWidget/>
 				</Section>
 				{/* <Section type="title">
 					<Text type="title">Title</Text>

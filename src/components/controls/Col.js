@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
 	'justify-center': {
 		justifyContent: 'center'
 	},
-	'justify-space-arround': {
-		justifyContent: 'space-arround'
+	'justify-space-around': {
+		justifyContent: 'space-around'
 	},
 	'justify-space-between': {
 		justifyContent: 'space-between'
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 type Justify = 'start' 
 	| 'end'
 	| 'center'
-	| 'space-arround'
+	| 'space-around'
 	| 'space-between';
 
 type Align = 'start' 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Section } from '../../components';
+import { StyleSheet, View } from 'react-native';
+import { Row, Col, Text } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
@@ -31,6 +31,21 @@ export default class BalanceWidget extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
+				<Col style={{backgroundColor: '#f005'}}>
+					<Row style={{backgroundColor: '#0f05'}}>
+						<Text>
+							First
+						</Text>
+						<Text>
+							First
+						</Text>
+					</Row>
+					<Row style={{backgroundColor: '#00f5'}}>
+						<Text align="center">
+							Second
+						</Text>
+					</Row>
+				</Col>
 			</View>
 		);
 	};

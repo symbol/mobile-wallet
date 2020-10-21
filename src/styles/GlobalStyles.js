@@ -65,16 +65,14 @@ export default {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-SemiBold',
 			fontWeight: '100',
-			fontSize: 24,
-			flexWrap: 'wrap'
+			fontSize: 24
 		},
 
 		subtitle: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-SemiBold',
 			fontWeight: '100',
-			fontSize: 13,
-			flexWrap: 'wrap'
+			fontSize: 13
 		},
 
 		regular: {
@@ -102,7 +100,6 @@ export default {
 			lineHeight: 43,
 			paddingBottom: 8,
 			paddingTop: 16,
-			flexWrap: 'wrap'
 		},
 	},
 
