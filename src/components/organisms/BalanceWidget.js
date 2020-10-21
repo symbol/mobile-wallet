@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
-import { LineChart } from "react-native-chart-kit";
+import { StyleSheet, View, Text } from 'react-native';
+import { Section } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
 const styles = StyleSheet.create({
 	root: {
-		marginLeft: 0,
-		opacity: 0.8
+		
 	}
 });
 
@@ -32,7 +31,6 @@ export default class BalanceWidget extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
-				
 			</View>
 		);
 	};
