@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View  } from 'react-native';
+import { StyleSheet, View, Button  } from 'react-native';
 import { 
 	Text, 
 	Section, 
@@ -10,33 +10,37 @@ import {
 } from '../components';
 import translate from "../locales/i18n";
 import { Router } from "../Router";
+import store from '../store';
 
 
 const styles = StyleSheet.create({});
 
 type Props = {};
 
-type State = {};
+type State = {  };
 
 
 export default class Dashboard extends Component<Props, State> {
-	state = {};
+	state = { a: 1 };
 
     render() {
 		const {} = this.props;
-		const {} = this.state;
-		//sconsole.log(Object.values(components).map(el => typeof el))
-		//return (<View></View>)
+		const { a } = this.state;
+		
+		store.subscribe(() => this.setState({a: store.getState().test.a}))
 		
         return (
 			<GradientBackground>
 				<Section type="center">
 					<BalanceWidget/>
 				</Section>
-				{/* <Section type="title">
-					<Text type="title">Title</Text>
+				<Button title="test" onPress={() => store.dispatchAction('test/a1', 5)}>
+					test/a1
+				</Button>
+				 <Section type="title">
+					<Text type="title">{a}</Text>
 				</Section>
-				<Section type="subtitle">
+				{/*<Section type="subtitle">
 					<Text type="subtitle">Subtitle</Text>
 				</Section>
 				<Section type="center">

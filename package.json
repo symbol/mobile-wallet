@@ -87,6 +87,7 @@
     "readable-stream": "^3.4.0",
     "realm": "4.0.0-beta.0",
     "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "reusable": "^1.0.0",
     "rn-fetch-blob": "^0.11.1",
     "rn-secure-storage": "https://github.com/irshadpc/rn-secure-storage.git#master",
