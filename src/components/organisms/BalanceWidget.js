@@ -3,14 +3,14 @@ import { StyleSheet, View } from 'react-native';
 import { Row, Col, Text, PriceChart } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
-
+// TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
 	root: {
 		marginTop: 168
 	},	
 	priceChart: {
 		position: 'absolute',
-		top: -30,
+		top: -50,
 		left: -64
 	},
 	currencyText: {
@@ -39,25 +39,31 @@ const styles = StyleSheet.create({
 
 type Props = {};
 
-type State = { data: any };
+type State = {
+	currency: string,
+	balance: string,
+	fiat: string,
+	priceChange: string
+};
 
 
 export default class BalanceWidget extends Component<Props, State> {
-	state = { data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
-
-	// TODO: move http reqest to Services
-	componentDidMount() {
-		
+	// TODO: Replace with data from Store
+	state = {
+		currency: 'XYM',
+		balance: '12000',
+		fiat: '68,148 USD',
+		priceChange: '+1.20% /////',
 	};
 
 	render() {
 		const { } = this.props;
-		const { data } = this.state;
-
-		const currency = 'XYM';
-		const balance = '12000';
-		const fiat = '68,148 USD';
-		const priceChange = '+1.20% /////';
+		const { 
+			currency,
+			balance,
+			fiat,
+			priceChange
+		} = this.state;
 
 		return (
 			<View style={styles.root}>

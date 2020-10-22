@@ -369,5 +369,8 @@
 		"ImportErrorWrongOptedInAccount": "The account has already opted-in, but the Symbol account is not the one in this wallet. Please import the correct Symbol account or use another XEM account private key",
 		"ErrorCreatingAccount": "Failed to create account",
 		"NamespaceUnavailable": "Unavailable"
+	},
+	"menu": {
+		"news": "News"
 	}
 }

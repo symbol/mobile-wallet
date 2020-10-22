@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import test from './test';
+
+
 const modules = {
 	test
 };
@@ -17,6 +19,7 @@ const createModuleReducer = (module, state = {}, action) => {
 		typeof module.mutations[mutation] === 'function'
 	)
 		return module.mutations[mutation](state, action.payload);
+
 	return state;
 }
 
@@ -37,9 +40,10 @@ const createRootReducer = (state, action) => {
 
 const store = createStore(createRootReducer, applyMiddleware(thunk));
 
-store.dispatchAction = (type, payload) => {
+store.dispatchAction = ({type, payload}) => {
 	const namespace = type.split('/')[0];
 	const action = type.split('/')[1];
+
 	if(!modules[namespace]) {
 		console.error('Failed to dispatchAction. Module "' + namespace + '" not found');
 		return;
