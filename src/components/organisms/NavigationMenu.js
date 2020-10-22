@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { Row, Col, Icon, Text, PriceChart } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
@@ -29,10 +29,13 @@ const styles = StyleSheet.create({
 type MenuItem = {
 	text: string,
 	iconName: string,
-	routeMethod: function
+	name: string
 }
 
-type Props = {};
+type Props = {
+	menuItemList: MenuItem[],
+	onChange: function
+};
 
 interface State {
 	items: MenuItem[]
@@ -41,52 +44,30 @@ interface State {
 
 export default class NavigationMenu extends Component<Props, State> {
 	// TODO: Move navigation menu items to config file
-	state = {
-		items: [
-			{
-				text: 'menu.news',
-				iconName: 'news',
-				routeMethod: () => {}
-			},
-			{
-				text: 'menu.mosaics',
-				iconName: 'mosaics',
-				routeMethod: () => {}
-			},
-			{
-				text: 'menu.home',
-				iconName: 'home',
-				routeMethod: () => {}
-			},
-			{
-				text: 'menu.history',
-				iconName: 'history',
-				routeMethod: () => {}
-			},
-			{
-				text: 'menu.harvest',
-				iconName: 'harvest',
-				routeMethod: () => {}
-			}
-		]
-	}
-	componentDidMount() {
-		
-	};
+	state = {}
+	componentDidMount() {};
 
 	render() {
-		const { } = this.props;
-		const { items } = this.state;
+		const { menuItemList = [], onChange = () => {}, value } = this.props;
+		const {} = this.state;
 
 		return (
 			<View style={styles.root}>
 				<Row justify="space-evenly" align="center">
 					{
-						items.map(item => 
-							<Col align="center" justify="space-" style={styles.item}>
-								<Icon name={item.iconName} size="medium" style={styles.icon}/>
-								<Text type="regular">{translate(item.text)}</Text>
-							</Col>
+						menuItemList.map(item =>
+							<TouchableOpacity onPress={() => onChange(item.name)}>
+								<Col align="center" justify="space-" style={styles.item}>
+									<Icon name={item.iconName} size="medium" style={styles.icon}/>
+									<Text 
+										type={
+											item.name === value
+											? "bold"
+											: "regular"
+										}
+									>{translate(item.text)}</Text>
+								</Col>
+							</TouchableOpacity> 
 						)
 					}
 				</Row>
