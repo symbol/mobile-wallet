@@ -34,12 +34,6 @@ export default class Dashboard extends Component<Props, State> {
 				<Section type="center">
 					<BalanceWidget/>
 				</Section>
-				<Button title="test" onPress={() => store.dispatchAction('test/a1', 5)}>
-					test/a1
-				</Button>
-				 <Section type="title">
-					<Text type="title">{a}</Text>
-				</Section>
 				{/*<Section type="subtitle">
 					<Text type="subtitle">Subtitle</Text>
 				</Section>

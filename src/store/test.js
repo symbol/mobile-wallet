@@ -6,17 +6,15 @@ const module = {
 	},
 	mutations: {
 		setA(state, payload) {
-			console.log('setA', state)
 			state.test.a = payload;
 			return state;
 		}
 	},
 	actions: {
-		a1: (commit, payload) => {
-			
+		ASYNC_ACTION: (commit, payload) => {
 			setTimeout(() => {
 				commit({type: 'test/setA', payload})
-			}, 0)
+			}, 1500)
 		}
 	}
 }
