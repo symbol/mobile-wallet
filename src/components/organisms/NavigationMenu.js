@@ -13,10 +13,17 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		width: '100%',
-		backgroundColor: GlobalStyles.color.SECONDARY,
-		borderTopColor: GlobalStyles.color.PINK,
-		borderTopWidth: 1
-	},	
+		//backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
+		//borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
+		//borderTopWidth: 1
+	},
+	item: {
+		padding: 5
+	},
+	icon: {
+		marginTop: 2,
+		marginBottom: 4
+	}
 });
 
 type MenuItem = {
@@ -33,11 +40,32 @@ interface State {
 
 
 export default class NavigationMenu extends Component<Props, State> {
+	// TODO: Move navigation menu items to config file
 	state = {
 		items: [
 			{
 				text: 'menu.news',
-				iconName: 'none',
+				iconName: 'news',
+				routeMethod: () => {}
+			},
+			{
+				text: 'menu.mosaics',
+				iconName: 'mosaics',
+				routeMethod: () => {}
+			},
+			{
+				text: 'menu.home',
+				iconName: 'home',
+				routeMethod: () => {}
+			},
+			{
+				text: 'menu.history',
+				iconName: 'history',
+				routeMethod: () => {}
+			},
+			{
+				text: 'menu.harvest',
+				iconName: 'harvest',
 				routeMethod: () => {}
 			}
 		]
@@ -52,12 +80,12 @@ export default class NavigationMenu extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
-				<Row justify="center" align="space-around">
+				<Row justify="space-evenly" align="center">
 					{
 						items.map(item => 
-							<Col align="center" justify="center" style={styles.item}>
-								<Icon name={item.iconName} style={styles.icon} />
-								<Text type="bold">{translate(item.text)}</Text>
+							<Col align="center" justify="space-" style={styles.item}>
+								<Icon name={item.iconName} size="medium" style={styles.icon}/>
+								<Text type="regular">{translate(item.text)}</Text>
 							</Col>
 						)
 					}

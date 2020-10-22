@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
 		width: 64
 	},
 	medium: {
-		height: 32,
-		width: 32
+		height: 24,
+		width: 24
 	},
 	small: {
 		height: 16,
@@ -24,7 +24,12 @@ const styles = StyleSheet.create({
 });
 
 
-type IconName = 'none';
+type IconName = 'none'
+	| 'news'
+	| 'mosaics'
+	| 'home'
+	| 'history'
+	| 'harvest';
 
 type Size = 'large'
 	| 'big'
@@ -47,10 +52,25 @@ export default class C extends Component<Props, State> {
 
 		switch(name) {
 			case 'none': 
-				source = require('../../assets/icons/signature_light.png');
+				source = require('../../assets/icons/ic-about.png');
+				break;
+			case 'news': 
+				source = require('../../assets/icons/menu/news.png');
+				break;
+			case 'mosaics': 
+				source = require('../../assets/icons/menu/mosaics.png');
+				break;
+			case 'home': 
+				source = require('../../assets/icons/menu/home.png');
+				break;
+			case 'history': 
+				source = require('../../assets/icons/menu/history.png');
+				break;
+			case 'harvest': 
+				source = require('../../assets/icons/menu/harvest.png');
 				break;
 			default:
-				source = require('../../assets/icons/signature_light.png');
+				source = require('../../assets/icons/ic-about.png');
 				break;
 		}
 

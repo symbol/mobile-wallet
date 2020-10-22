@@ -371,6 +371,10 @@
 		"NamespaceUnavailable": "Unavailable"
 	},
 	"menu": {
-		"news": "News"
+		"news": "News",
+		"mosaics": "Mosaics",
+		"home": "Home",
+		"history": "History",
+		"harvest": "Harvest"
 	}
 }
