@@ -110,11 +110,13 @@ export default {
 		},
 
 		text: {
-
+			paddingLeft: 34,
+			paddingRight: 34
 		},
 
 		list: {
-
+			paddingLeft: 34,
+			paddingRight: 34,
 		},
 
 		center: {

@@ -41,6 +41,9 @@ export default class Text extends Component<Props, State> {
 			case 'button': 
 				globalStyle = GlobalStyles.section.button; 
 				break;
+			case 'list': 
+				globalStyle = GlobalStyles.section.list; 
+				break;
 		}
 
         return (
