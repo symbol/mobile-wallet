@@ -16,7 +16,7 @@ type State = { data: any };
 
 
 export default class PriceChart extends Component<Props, State> {
-	state = { data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
+	state = { data: []};
 
 	// TODO: move http reqest to Services
 	componentDidMount() {
@@ -39,7 +39,7 @@ export default class PriceChart extends Component<Props, State> {
 
 		return (
 			<View style={[styles.root, style]}>
-				<LineChart
+				{!!data.length && <LineChart
 					data={{
 						labels,
 						datasets: [{ data }]
@@ -74,7 +74,7 @@ export default class PriceChart extends Component<Props, State> {
 						borderRadius: 0,
 						paddingRight: 0,
 					}}
-				/>
+				/>}
 			</View>
 		);
 	};

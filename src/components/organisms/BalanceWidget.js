@@ -6,7 +6,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
 	root: {
-		marginTop: 168
+		marginTop: 60
 	},	
 	priceChart: {
 		position: 'absolute',

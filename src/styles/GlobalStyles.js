@@ -89,6 +89,7 @@ export default {
 			fontFamily: 'NotoSans-SemiBold',
 			fontWeight: '100',
 			fontSize: 13,
+			lineHeight: 22,
 		},
 
 		alert: {

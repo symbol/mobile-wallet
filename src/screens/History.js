@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { 
 	Section, 
-	ShipBackground,
+	ImageBackground,
 	Text
 } from '../components';
 import translate from "../locales/i18n";
@@ -25,14 +25,14 @@ export default class History extends Component<Props, State> {
 		const {} = this.state;
 		
         return (
-			<ShipBackground>
+			<ImageBackground name="tanker">
 				<Section type="title">
 					<Text type="title">Transactions</Text>
 				</Section>
 				<Section type="title">
 					<Text type="subtitle">List starts here..</Text>
 				</Section>
-			</ShipBackground>
+			</ImageBackground>
         );
     };
 }
