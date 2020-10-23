@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View } from 'react-native';
-import { LineChart } from "react-native-chart-kit";
+import { LineChart } from 'react-native-chart-kit';
+import { FadeView } from '@src/components'
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -39,7 +40,7 @@ export default class PriceChart extends Component<Props, State> {
 
 		return (
 			<View style={[styles.root, style]}>
-				{!!data.length && <LineChart
+				{!!data.length && <FadeView><LineChart
 					data={{
 						labels,
 						datasets: [{ data }]
@@ -74,7 +75,7 @@ export default class PriceChart extends Component<Props, State> {
 						borderRadius: 0,
 						paddingRight: 0,
 					}}
-				/>}
+				/></FadeView>}
 			</View>
 		);
 	};
