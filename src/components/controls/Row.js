@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
 	'justify-space-between': {
 		justifyContent: 'space-between'
 	},
+	'justify-space-evenly': {
+		justifyContent: 'space-evenly'
+	},
 	'align-start': {
 		alignItems: 'flex-start'
 	},

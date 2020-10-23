@@ -12,9 +12,13 @@ type Align = 'left'
 	| 'center'
 	| 'right';
 
+type Theme = 'light' 
+	| 'dark';
+
 interface Props {
 	type: Type,
-	align: Align
+	align: Align,
+	theme: Theme
 };
 
 type State = {};
@@ -22,7 +26,7 @@ type State = {};
 
 export default class C extends Component<Props, State> {
     render() {
-		const { children, type, style = {}, align } = this.props;
+		const { children, type, style = {}, align, theme } = this.props;
 		let globalStyle = {};
 
 		switch(type) {
@@ -45,6 +49,11 @@ export default class C extends Component<Props, State> {
 
 		if(typeof align === 'string')
 			globalStyle.textAlign = align;
+
+		if(theme === 'light')
+			globalStyle.color = GlobalStyles.color.onLight.TEXT;
+		else
+			globalStyle.color = GlobalStyles.color.onDark.TEXT;
 
         return (
 			<Text style={[globalStyle, style]}>

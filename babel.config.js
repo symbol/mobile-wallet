@@ -5,6 +5,15 @@ module.exports = {
 	],
 	plugins: [
 		'@babel/plugin-proposal-export-default-from',
-		'@babel/plugin-proposal-export-namespace-from'
+		'@babel/plugin-proposal-export-namespace-from',
+		[
+			require.resolve('babel-plugin-module-resolver'),
+			{
+				alias: {
+					"@src": "./src"
+				}
+			}
+
+		]
 	]
 };

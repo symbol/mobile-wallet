@@ -89,7 +89,7 @@ export default {
 			fontFamily: 'NotoSans-SemiBold',
 			fontWeight: '100',
 			fontSize: 13,
-			marginTop: 20,
+			lineHeight: 22,
 		},
 
 		alert: {
@@ -110,11 +110,13 @@ export default {
 		},
 
 		text: {
-
+			paddingLeft: 34,
+			paddingRight: 34
 		},
 
 		list: {
-
+			paddingLeft: 34,
+			paddingRight: 34,
 		},
 
 		center: {

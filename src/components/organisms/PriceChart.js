@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View } from 'react-native';
-import { LineChart } from "react-native-chart-kit";
-import GlobalStyles from '../../styles/GlobalStyles';
+import { LineChart } from 'react-native-chart-kit';
+import { FadeView } from '@src/components'
+import store from '@src/store';
+import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
 	root: {
@@ -16,19 +18,18 @@ type State = { data: any };
 
 
 export default class PriceChart extends Component<Props, State> {
-	state = { data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
+	state = { data: []};
 
-	// TODO: move http reqest to Services
-	componentDidMount() {
-		fetch('https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168', {method: 'GET'})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				const data = responseJson.Data.map(el => el.close);
-				this.setState({data});
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+	componentDidMount = () => {
+		store.dispatchAction({type: 'market/loadMarketData'});
+		store.subscribe(() => this.updateData());
+	};
+
+	updateData = () => {
+		const data = store.getState().market.priceChartData;
+		this.setState({
+			data
+		});
 	};
 
 	render() {
@@ -39,7 +40,7 @@ export default class PriceChart extends Component<Props, State> {
 
 		return (
 			<View style={[styles.root, style]}>
-				<LineChart
+				{!!data.length && <FadeView><LineChart
 					data={{
 						labels,
 						datasets: [{ data }]
@@ -53,9 +54,9 @@ export default class PriceChart extends Component<Props, State> {
 						backgroundGradientTo:`rgba(255, 255, 255, 0)`,
 						backgroundGradientFromOpacity: 0,
 						backgroundGradientToOpacity: 0,
-						decimalPlaces: 2, // optional, defaults to 2dp
+						decimalPlaces: 2,
 						color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-						labelColor: (opacity = 1) => `rgba(255, 255, 255, 0)`,
+						labelColor: () => `rgba(255, 255, 255, 0)`,
 						strokeWidth: 1.5,
 						style: {
 							borderRadius: 0
@@ -74,7 +75,7 @@ export default class PriceChart extends Component<Props, State> {
 						borderRadius: 0,
 						paddingRight: 0,
 					}}
-				/>
+				/></FadeView>}
 			</View>
 		);
 	};

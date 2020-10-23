@@ -1,53 +1,57 @@
 import React, { Component } from 'react';
-import { StyleSheet, View  } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { menuItems } from '@src/config';
 import { 
-	Text, 
-	Section, 
-	PriceChart, 
 	GradientBackground,
-	ImageBackground,
-	BalanceWidget 
-} from '../components';
-import translate from "../locales/i18n";
-import { Router } from "../Router";
+	NavigationMenu
+} from '@src/components';
+import Home from './Home';
+import History from './History';
+import translate from "@src/locales/i18n";
+import { Router } from "@src/Router";
+import store from '@src/store';
 
 
 const styles = StyleSheet.create({});
 
 type Props = {};
 
-type State = {};
+type State = { 
+	currentTab: string
+};
 
 
 export default class Dashboard extends Component<Props, State> {
-	state = {};
+	state = {
+		currentTab: 'home'
+	};
+
+	onTabChange = (tabName) => {
+		this.setState({ currentTab: tabName });
+	};
 
     render() {
 		const {} = this.props;
-		const {} = this.state;
-		//sconsole.log(Object.values(components).map(el => typeof el))
-		//return (<View></View>)
+		const { currentTab } = this.state;
+		let Tab;
 		
+		switch(currentTab) {
+			default:
+			case 'home': 
+				Tab = Home;
+				break;
+			case 'history': 
+				Tab = History;
+				break;
+		}
         return (
 			<GradientBackground>
-				<Section type="center">
-					<BalanceWidget/>
-				</Section>
-				{/* <Section type="title">
-					<Text type="title">Title</Text>
-				</Section>
-				<Section type="subtitle">
-					<Text type="subtitle">Subtitle</Text>
-				</Section>
-				<Section type="center">
-					<Text type="alert">Alert</Text>
-				</Section>
-				<Section type="text">
-					<Text>Regular</Text>
-				</Section>
-				<Section type="button">
-					<Text type="bold">Bold</Text>
-				</Section> */}
+				<Tab />
+				<NavigationMenu
+					menuItemList={menuItems}
+					onChange={this.onTabChange}
+					value={currentTab}
+				/>
 			</GradientBackground>
         );
     };

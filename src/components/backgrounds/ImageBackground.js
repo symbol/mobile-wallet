@@ -8,7 +8,12 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Props = {};
+type Name = 'Tanker'
+	| 'HomeMock';
+
+interface Props {
+	name: Name;
+};
 
 type State = {};
 
@@ -17,12 +22,21 @@ export default class C extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style } = this.props;
+		const { children, style = {}, name } = this.props;
 		const {} = this.state;
-		
+		let source;
+		switch(name) {
+			default:
+			case 'tanker':
+				source = require('../../assets/backgrounds/tanker.png');
+				break;
+			case 'HomeMock':
+				source = require('../../assets/mock.png');
+				break;
+		}
         return (
 			<ImageBackground
-				source={require('../../assets/mock.png')}
+				source={source}
 				style={[styles.root, style]}
 			>
 				<Container>
