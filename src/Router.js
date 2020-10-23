@@ -13,7 +13,7 @@ import CreateQRPassword from "./screens/CreateQRPassword";
 import Dashboard from "./screens/Dashboard";
 import VerifyMnemonics from "./screens/VerifyMnemonics";
 import ShowMnemonics from "./screens/ShowMnemonics";
-import WalletLoading from "./screens/ShowMnemonics"; //FIXME: ADD WalletLoading SCREEN
+import WalletLoading from "./screens/Dashboard"; //FIXME: WalletLoading SCREEN
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;

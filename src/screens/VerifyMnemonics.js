@@ -37,7 +37,6 @@ class VerifyMnemonics extends Component {
     const originalPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
     const mnemonicPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
     const sortedMnemonics = mnemonicPassPhrase.sort((a, b) => a.key.localeCompare(b.key));
-    console.log(originalPassPhrase)
     this.state = {
       mnemonics: originalPassPhrase,
       unverifiedMnemonics: sortedMnemonics,
@@ -134,7 +133,7 @@ class VerifyMnemonics extends Component {
         <TitleBar
           title={translate('CreateWallet.VerifyMnemonics.title')}
           theme="dark"
-        />
+         alignLeft/>
         <ScrollView>
           <View style={styles.contentContainer}>
             {this.renderMnemonicNoteText()}
