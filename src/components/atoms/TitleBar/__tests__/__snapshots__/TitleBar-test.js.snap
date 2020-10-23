@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    collapsable={true}
+    pointerEvents="box-none"
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+            "marginTop": 24,
+            "paddingBottom": 8,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 8,
+            "width": "100%",
+          },
+          undefined,
+        ]
+      }
+    >
+      <TouchableOpacity
+        activeOpacity={0.2}
+        style={
+          Object {
+            "bottom": 0,
+            "left": 16,
+            "paddingBottom": 4,
+            "paddingLeft": 6,
+            "paddingRight": 6,
+            "paddingTop": 4,
+            "position": "absolute",
+            "top": 0,
+            "zIndex": 1,
+          }
+        }
+        testID="back-button"
+      >
+        <Image
+          resizeMode="center"
+          source={
+            Object {
+              "testUri": "../../../src/shared/assets/icons/ic-back-black.png",
+            }
+          }
+          style={
+            Object {
+              "marginBottom": "auto",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "auto",
+              "width": 16,
+            }
+          }
+        />
+      </TouchableOpacity>
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "fontSize": 20,
+              "fontWeight": "500",
+            },
+            Object {
+              "color": "#000000",
+            },
+          ]
+        }
+        testID="title-text"
+      >
+        MOCK-TITLE
+      </Text>
+      <TouchableOpacity
+        activeOpacity={0.2}
+        style={
+          Object {
+            "bottom": 0,
+            "paddingBottom": 4,
+            "paddingLeft": 6,
+            "paddingRight": 6,
+            "paddingTop": 4,
+            "position": "absolute",
+            "right": 16,
+            "top": 0,
+            "zIndex": 1,
+          }
+        }
+        testID="close-button"
+      >
+        <Image
+          resizeMode="center"
+          source={
+            Object {
+              "testUri": "../../../src/shared/assets/icons/close_light.png",
+            }
+          }
+          style={
+            Object {
+              "marginBottom": "auto",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "auto",
+              "width": 16,
+            }
+          }
+        />
+      </TouchableOpacity>
+    </View>
+  </View>
+</View>
+`;

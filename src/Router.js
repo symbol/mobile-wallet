@@ -11,6 +11,9 @@ import GenerateBackup from "./screens/GenerateBackup";
 import ShowQRCode from "./screens/ShowQRCode";
 import CreateQRPassword from "./screens/CreateQRPassword";
 import Dashboard from "./screens/Dashboard";
+import VerifyMnemonics from "./screens/VerifyMnemonics";
+import ShowMnemonics from "./screens/ShowMnemonics";
+import WalletLoading from "./screens/ShowMnemonics"; //FIXME: ADD WalletLoading SCREEN
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -20,6 +23,10 @@ export const GENERATE_BACKUP_SCREEN = `${BASE_SCREEN_NAME}.GENERATE_BACKUP_SCREE
 export const CREATE_QR_PASSWORD = `${BASE_SCREEN_NAME}.CREATE_QR_PASSWORD`;
 export const SHOW_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SHOW_QR_CODE_SCREEN`;
 export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
+export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
+export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
+export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
+
 
 /**
  * Class to handle Routing between screens
@@ -32,7 +39,10 @@ export class Router {
         [GENERATE_BACKUP_SCREEN, GenerateBackup],
         [CREATE_QR_PASSWORD, CreateQRPassword],
 		[SHOW_QR_CODE_SCREEN, ShowQRCode],
-		[DASHBOARD_SCREEN, Dashboard]
+		[DASHBOARD_SCREEN, Dashboard],
+        [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
+        [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
+        [WALLET_LOADING_SCREEN, WalletLoading]
     ];
 
     static registerScreens() {
@@ -73,6 +83,16 @@ export class Router {
 	static goToDashboard(passProps, parentComponent?){
         return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
     }
+    static goToVerifyMnemonics(passProps, parentComponent?){
+        return this.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
+    }
+    static goToShowMnemonics(passProps, parentComponent?){
+        return this.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
+    }
+    static goToWalletLoading(passProps, parentComponent?){
+        return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
+    }
+
 
     static goToScreen(screen: string, passProps, parentComponent?){
         setDefaultNavOptions();
