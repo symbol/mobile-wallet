@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button  } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { 
-	Text, 
-	Section, 
-	PriceChart, 
 	GradientBackground,
-	ImageBackground,
-	BalanceWidget,
 	NavigationMenu
-} from '../components';
+} from '@src/components';
 import Home from './Home';
 import History from './History';
-import translate from "../locales/i18n";
-import { Router } from "../Router";
-import store from '../store';
+import translate from "@src/locales/i18n";
+import { Router } from "@src/Router";
+import store from '@src/store';
 
 
 const styles = StyleSheet.create({});
@@ -37,6 +32,7 @@ export default class Dashboard extends Component<Props, State> {
     render() {
 		const {} = this.props;
 		const { currentTab } = this.state;
+		// TODO: move to config
 		const menuItemList = [
 			{
 				text: 'menu.news',
@@ -83,22 +79,6 @@ export default class Dashboard extends Component<Props, State> {
 					onChange={this.onTabChange}
 					value={currentTab}
 				/>
-				{/*<Section type="center">
-					<BalanceWidget/>
-				</Section>
-				
-				<Section type="subtitle">
-					<Text type="subtitle">Subtitle</Text>
-				</Section>
-				<Section type="center">
-					<Text type="alert">Alert</Text>
-				</Section>
-				<Section type="text">
-					<Text>Regular</Text>
-				</Section>
-				<Section type="button">
-					<Text type="bold">Bold</Text>
-				</Section> */}
 			</GradientBackground>
         );
     };

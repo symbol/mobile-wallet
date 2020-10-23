@@ -5,10 +5,10 @@ import {
 	ImageBackground,
 	Text,
 	Row
-} from '../components';
-import translate from "../locales/i18n";
-import { Router } from "../Router";
-import store from '../store';
+} from '@src/components';
+import translate from "@src/locales/i18n";
+import { Router } from "@src/Router";
+import store from '@src/store';
 
 
 const styles = StyleSheet.create({

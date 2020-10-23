@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
-import store from '../../store';
-import GlobalStyles from '../../styles/GlobalStyles';
+import store from '@src/store';
+import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
 	root: {
