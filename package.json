@@ -81,6 +81,7 @@
     "react-native-touch-id": "^4.4.1",
     "react-native-udp": "^2.1.0",
     "react-native-url": "^0.0.2",
+    "react-native-video": "^5.1.0-alpha8",
     "react-native-view-shot": "^3.0.2",
     "react-redux": "^7.2.1",
     "react-zlib-js": "^1.0.4",

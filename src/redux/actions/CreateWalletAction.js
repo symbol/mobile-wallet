@@ -16,3 +16,12 @@ export const setPassword = password => ({
     type: SET_PASSWORD,
     payload: password
 });
+
+export const saveWallet = () => {
+
+
+    return {
+        type: SET_PASSWORD,
+        password: password
+    }
+};

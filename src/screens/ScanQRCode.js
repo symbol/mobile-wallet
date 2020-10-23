@@ -8,6 +8,9 @@ import { View, Text } from 'react-native';
 import translate from "@src/locales/i18n";
 import QRScanner from "@src/components/atoms/QRScanner";
 import {Router} from "@src/Router";
+import {bindActionCreators} from "redux";
+import {setMnemonic, setName} from "@src/redux/actions/CreateWalletAction";
+import {connect} from "react-redux";
 
 type State = {
   showWarning: boolean,
@@ -43,6 +46,7 @@ class ScanQRCode extends Component<Props, State> {
         this.props.setName('Imported wallet');
         this.props.setMnemonic(parsedPlainQR.data.plainMnemonic);
       } else {
+        // TODO: HANDLE ENCRYPTED QRs
         // save encrypted mnemonic
         // Router.goToEnterPassword()
       }
@@ -73,4 +77,17 @@ class ScanQRCode extends Component<Props, State> {
   }
 }
 
-export default ScanQRCode;
+
+const mapStateToProps = (state) => {
+  const { createWallet } = state;
+  return { createWallet }
+};
+
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+      setName,
+      setMnemonic,
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScanQRCode);
