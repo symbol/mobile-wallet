@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import { menuItems } from '@src/config';
 import { 
 	GradientBackground,
 	NavigationMenu
@@ -32,34 +33,6 @@ export default class Dashboard extends Component<Props, State> {
     render() {
 		const {} = this.props;
 		const { currentTab } = this.state;
-		// TODO: move to config
-		const menuItemList = [
-			{
-				text: 'menu.news',
-				iconName: 'news',
-				name: 'news',
-			},
-			{
-				text: 'menu.mosaics',
-				iconName: 'mosaics',
-				name: 'mosaics',
-			},
-			{
-				text: 'menu.home',
-				iconName: 'home',
-				name: 'home',
-			},
-			{
-				text: 'menu.history',
-				iconName: 'history',
-				name: 'history',
-			},
-			{
-				text: 'menu.harvest',
-				iconName: 'harvest',
-				name: 'harvest',
-			}
-		];
 		let Tab;
 		
 		switch(currentTab) {
@@ -75,7 +48,7 @@ export default class Dashboard extends Component<Props, State> {
 			<GradientBackground>
 				<Tab />
 				<NavigationMenu
-					menuItemList={menuItemList}
+					menuItemList={menuItems}
 					onChange={this.onTabChange}
 					value={currentTab}
 				/>
