@@ -1,13 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import test from './test';
+import market from './market';
 
 
 const modules = {
-	test
+	market
 };
 
 const createModuleReducer = (module, state = {}, action) => {	
+	if(typeof action.type !== 'string') {
+		console.error('[Store] Failed to commit action. Type "' + action.type + '" is not a string');
+		return;
+	}
 	const namespace = action.type.split('/')[0];
 	const mutation = action.type.split('/')[1];
 
@@ -41,16 +45,20 @@ const createRootReducer = (state, action) => {
 const store = createStore(createRootReducer, applyMiddleware(thunk));
 
 store.dispatchAction = ({type, payload}) => {
+	if(typeof type !== 'string') {
+		console.error('[Store] Failed to dispatchAction. Type "' + type + '" is not a string');
+		return;
+	}
 	const namespace = type.split('/')[0];
 	const action = type.split('/')[1];
 
 	if(!modules[namespace]) {
-		console.error('Failed to dispatchAction. Module "' + namespace + '" not found');
+		console.error('[Store] Failed to dispatchAction. Module "' + namespace + '" not found');
 		return;
 	}
 
 	if(typeof modules[namespace].actions[action] !== 'function')  {
-		console.error('Failed to dispatchAction. Action "' + action + '" not found')
+		console.error('[Store] Failed to dispatchAction. Action "' + action + '" not found')
 		return;
 	}
 
