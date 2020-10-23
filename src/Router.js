@@ -10,6 +10,7 @@ import React from "react";
 import GenerateBackup from "./screens/GenerateBackup";
 import ShowQRCode from "./screens/ShowQRCode";
 import CreateQRPassword from "./screens/CreateQRPassword";
+import Dashboard from "./screens/Dashboard";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -18,6 +19,7 @@ export const WALLET_NAME_SCREEN = `${BASE_SCREEN_NAME}.WALLET_NAME`;
 export const GENERATE_BACKUP_SCREEN = `${BASE_SCREEN_NAME}.GENERATE_BACKUP_SCREEN`;
 export const CREATE_QR_PASSWORD = `${BASE_SCREEN_NAME}.CREATE_QR_PASSWORD`;
 export const SHOW_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SHOW_QR_CODE_SCREEN`;
+export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -29,7 +31,8 @@ export class Router {
         [WALLET_NAME_SCREEN, WalletName],
         [GENERATE_BACKUP_SCREEN, GenerateBackup],
         [CREATE_QR_PASSWORD, CreateQRPassword],
-        [SHOW_QR_CODE_SCREEN, ShowQRCode],
+		[SHOW_QR_CODE_SCREEN, ShowQRCode],
+		[DASHBOARD_SCREEN, Dashboard]
     ];
 
     static registerScreens() {
@@ -66,6 +69,9 @@ export class Router {
     }
     static goToShowQRCode(passProps, parentComponent?){
         return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
+	}
+	static goToDashboard(passProps, parentComponent?){
+        return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

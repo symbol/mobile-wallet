@@ -1,3 +1,5 @@
+import { Directions } from "react-native-gesture-handler";
+
 /**
  * Symbol branding colors
  */
@@ -14,6 +16,7 @@ const COLORS = {
 	GREY3:'#999999',
 	GREY4:'#cccccc',
 	GREY5:'#f2f2f2',
+	DARKWHITE: '#f3f4f8',
 	WHITE: '#ffffff'
 };
 
@@ -24,49 +27,108 @@ export default {
 
 		// On Light Background
 		onLight: {
-			TITLE: 				COLORS.PINK,
-			BUTTON_BACK: 		COLORS.BLACK,
-			BUTTON_CLOSE:		COLORS.BLACK,
+			TITLE: COLORS.PINK,
+			TEXT: COLORS.SECONDARY,
 
-			TEXT: 				COLORS.SECONDARY,
-
-			BUTTON: 			COLORS.PRIMARY,
-			BUTTON_DISABLED: 	COLORS.PRIMARY,
-			BUTTON_TEXT: 		COLORS.WHITE,
+			BUTTON: COLORS.PRIMARY,
+			BUTTON_DISABLED: COLORS.PRIMARY,
+			BUTTON_TEXT: COLORS.WHITE,
 			BUTTON_TEXT_DISABLED: COLORS.WHITE,
-			CONTROL: 			COLORS.PRIMARY,
-			CONTROL_ACTIVE: 	COLORS.PRIMARY,
-			CONTROL_DISABLED: 	COLORS.PRIMARY,
-			CONTROL_TEXT: 		COLORS.WHITE,
+			CONTROL: COLORS.PRIMARY,
+			CONTROL_ACTIVE: COLORS.PRIMARY,
+			CONTROL_DISABLED: COLORS.PRIMARY,
+			CONTROL_TEXT: COLORS.WHITE,
 			CONTROL_TEXT_ACTIVE: COLORS.WHITE,
 			CONTROL_TEXT_DISABLED: COLORS.WHITE,
 		},
 
 		// On Dark Background
 		onDark: {
-			TITLE: 				COLORS.WHITE,
-			BUTTON_BACK: 		COLORS.WHITE,
-			BUTTON_CLOSE:		COLORS.WHITE,
+			TITLE: COLORS.WHITE,
+			TEXT: COLORS.WHITE,
 
-			TEXT: 				COLORS.WHITE,
-
-			BUTTON: 			COLORS.PINK,
-			BUTTON_DISABLED: 	COLORS.PRIMARY,
-			BUTTON_TEXT: 		COLORS.WHITE,
+			BUTTON: COLORS.PINK,
+			BUTTON_DISABLED: COLORS.PRIMARY,
+			BUTTON_TEXT: COLORS.WHITE,
 			BUTTON_TEXT_DISABLED: COLORS.WHITE,
-			CONTROL: 			COLORS.PRIMARY,
-			CONTROL_ACTIVE: 	COLORS.PRIMARY,
-			CONTROL_DISABLED: 	COLORS.PRIMARY,
-			CONTROL_TEXT: 		COLORS.WHITE,
+			CONTROL: COLORS.PRIMARY,
+			CONTROL_ACTIVE: COLORS.PRIMARY,
+			CONTROL_DISABLED: COLORS.PRIMARY,
+			CONTROL_TEXT: COLORS.WHITE,
 			CONTROL_TEXT_ACTIVE: COLORS.WHITE,
 			CONTROL_TEXT_DISABLED: COLORS.WHITE,
 		},
 	},
 
-	fontSize: {
-		PAGE_TITLE: '',
-		PAGE_SUBTITLE: '',
-		PAGE_TEXT: '',
-		MODAL_TITLE: '',
+	text: {
+		title: {
+			color: COLORS.WHITE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '100',
+			fontSize: 24
+		},
+
+		subtitle: {
+			color: COLORS.WHITE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '100',
+			fontSize: 13
+		},
+
+		regular: {
+			color: COLORS.DARKWHITE,
+			fontFamily: 'NotoSans-Regular',
+			fontSize: 12,
+			lineHeight: 22,
+			opacity: 0.6,
+			
+		},
+
+		bold: {
+			color: COLORS.WHITE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '100',
+			fontSize: 13,
+			lineHeight: 22,
+		},
+
+		alert: {
+			color: COLORS.WHITE,
+			fontFamily: 'NotoSans-Bold',
+			fontWeight: '100',
+			fontSize: 38,
+			lineHeight: 43,
+			paddingBottom: 8,
+			paddingTop: 16,
+		},
+	},
+
+	section: {
+		title: {
+			paddingLeft: 34,
+			paddingRight: 34
+		},
+
+		text: {
+			paddingLeft: 34,
+			paddingRight: 34
+		},
+
+		list: {
+			paddingLeft: 34,
+			paddingRight: 34,
+		},
+
+		center: {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center'
+		}
+	},
+
+	menu: {
+		icon: {
+
+		}
 	}
 };
