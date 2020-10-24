@@ -40,7 +40,7 @@ export default {
 		}
 	},
 	actions: {
-		loadMarketData: async (commit, payload) => {
+		loadMarketData: async ({commit}, payload) => {
 			commit({type: 'market/setLoading', payload: true});
 			const priceChartData = await MarketService.getPriceChartData();
 			const currentPrice = await MarketService.getCurrentPrice();

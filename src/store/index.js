@@ -62,9 +62,16 @@ store.dispatchAction = ({type, payload}) => {
 		return;
 	}
 
+	const state = store.getState();
 	store.dispatch(dispatch => 
 		modules[namespace]
-			.actions[action](dispatch, payload)
+			.actions[action](
+				{
+					commit: dispatch,
+					state
+				}, 
+				payload
+			)
 	);
 }
 
