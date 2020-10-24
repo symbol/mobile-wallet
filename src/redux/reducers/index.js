@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import {CreateWalletReducer} from "./CreateWalletReducer";
+import { CreateWalletReducer } from "./CreateWalletReducer";
+import { MainWalletReducer } from "./MainWalletReducer";
 
 export default combineReducers({
-    createWallet: CreateWalletReducer
+    createWallet: CreateWalletReducer,
+    mainWallet: MainWalletReducer
 });

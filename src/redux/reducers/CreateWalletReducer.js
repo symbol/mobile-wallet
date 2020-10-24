@@ -1,4 +1,4 @@
-import {SET_MNEMONIC_PASSPHRASE, SET_NAME, SET_PASSWORD} from "../actions/CreateWalletAction";
+import {SAVE_WALLET, SET_MNEMONIC_PASSPHRASE, SET_NAME, SET_PASSWORD} from "../actions/CreateWalletAction";
 
 const initialState = {
     name: '',
@@ -23,6 +23,8 @@ export const CreateWalletReducer = (state = initialState, action) => {
                 ...state,
                 password: action.payload
             };
+        case SAVE_WALLET:
+            return {...state};
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import {Platform} from "react-native";
+import {Dimensions, Platform, View} from "react-native";
 import {Provider} from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import {gestureHandlerRootHOC} from "react-native-gesture-handler";
@@ -14,6 +14,7 @@ import Dashboard from "./screens/Dashboard";
 import ImportOptions from "./screens/ImportOptions";
 import EnterMnemonics from "./screens/EnterMnemonics";
 import ScanQRCode from "@src/screens/ScanQRCode";
+import WalletLoading from "@src/screens/WalletLoading";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -26,6 +27,7 @@ export const IMPORT_OPTION_SCREEN = `${BASE_SCREEN_NAME}.IMPORT_OPTION_SCREEN`;
 export const SCAN_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_QR_CODE_SCREEN`;
 export const ENTER_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.ENTER_MNEMONICS_SCREEN`;
 export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
+export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -42,7 +44,8 @@ export class Router {
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
         [ENTER_MNEMONICS_SCREEN, EnterMnemonics],
 		[SHOW_QR_CODE_SCREEN, ShowQRCode],
-		[DASHBOARD_SCREEN, Dashboard]
+		[DASHBOARD_SCREEN, Dashboard],
+        [WALLET_LOADING_SCREEN, WalletLoading],
     ];
 
     static registerScreens() {
@@ -91,6 +94,9 @@ export class Router {
     }
     static goToEnterMnemonics(passProps, parentComponent?){
         return this.goToScreen(ENTER_MNEMONICS_SCREEN, passProps, parentComponent);
+    }
+    static goToWalletLoading(passProps, parentComponent?){
+        return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

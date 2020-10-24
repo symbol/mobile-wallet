@@ -19,13 +19,14 @@ import { captureRef } from 'react-native-view-shot';
 
 import RNFetchBlob from 'rn-fetch-blob';
 import styles from './ShowQRCode.styl';
-import translate from "../locales/i18n";
-import {generateMnemonicQR} from "../utils/SymbolQR";
-import WizardStepView from "../components/organisms/SymbolPageView";
-import Warning from "../components/atoms/Warning";
+import translate from "../../locales/i18n";
+import {generateMnemonicQR} from "../../utils/SymbolQR";
+import WizardStepView from "../../components/organisms/SymbolPageView";
+import Warning from "../../components/atoms/Warning";
 import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
+import {setMnemonic, setName} from "../../redux/actions/CreateWalletAction";
 import {connect} from "react-redux";
+import {Router} from "../../Router";
 
 const testIDs = {
 	qrImage: 'image-qr-code',
@@ -159,8 +160,7 @@ class ShowQRCode extends Component {
 	};
 
 	handleSubmit = () => {
-		const { goToWalletLoading } = this.props;
-		goToWalletLoading({ ...this.props, isMnemonicExported: true });
+		Router.goToWalletLoading({})
 	};
 
 	componentDidMount = () => {
@@ -195,7 +195,7 @@ class ShowQRCode extends Component {
 		const { base64QRData } = this.state;
 		const imgProps =
 			base64QRData === ''
-				? { source: require('../assets/loader.gif'), resizeMode: 'center' }
+				? { source: require('../../assets/loader.gif'), resizeMode: 'center' }
 				: { xml: base64QRData };
 		return (
 			<View style={styles.contentContainer}>
@@ -222,7 +222,7 @@ class ShowQRCode extends Component {
 	};
 
 	renderError = () => {
-		const imgProps = { source: require('../assets/sad.png'), resizeMode: 'center' };
+		const imgProps = { source: require('../../assets/sad.png'), resizeMode: 'center' };
 		return (
 			<View style={styles.contentContainer}>
 				<Image style={styles.qr} {...imgProps} />

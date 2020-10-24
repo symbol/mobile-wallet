@@ -78,6 +78,7 @@
     "react-native-swipeable-item": "^1.5.0",
     "react-native-tab-view": "^2.9.0",
     "react-native-tcp": "^3.2.1",
+    "react-native-video": "^5.1.0-alpha8",
     "react-native-touch-id": "^4.4.1",
     "react-native-udp": "^2.1.0",
     "react-native-url": "^0.0.2",
