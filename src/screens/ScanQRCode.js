@@ -45,6 +45,7 @@ class ScanQRCode extends Component<Props, State> {
       if (parsedPlainQR && parsedPlainQR.data && parsedPlainQR.data.plainMnemonic) {
         this.props.setName('Imported wallet');
         this.props.setMnemonic(parsedPlainQR.data.plainMnemonic);
+        Router.goToWalletLoading({}, this.props.componentId);
       } else {
         // TODO: HANDLE ENCRYPTED QRs
         // save encrypted mnemonic

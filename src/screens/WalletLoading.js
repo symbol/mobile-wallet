@@ -10,13 +10,16 @@ import GradientContainer from "@src/components/organisms/SymbolGradientContainer
 import translate from "@src/locales/i18n";
 import styles from './WalletLoading.styl';
 import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "@src/redux/actions/CreateWalletAction";
+import {saveWallet} from "@src/redux/actions/CreateWalletAction";
 import {connect} from "react-redux";
+import {Router} from "@src/Router";
 
 class WalletLoading extends Component<> {
 
   componentDidMount = () => {
-
+	this.props.saveWallet().then(_ => {
+		Router.goToDashboard({});
+	})
   };
 
   render() {
@@ -31,7 +34,7 @@ class WalletLoading extends Component<> {
         style={styles.gradientContainer}>
 			{/*<Image style={styles.mesh} source={require('../../../shared/assets/mesh1.png')}/>*/}
 			<Video
-				source={require('../../../shared/assets/videos/mesh.mp4')}
+				source={require('../assets/videos/mesh.mp4')}
 				style={styles.mesh}
 				muted={true}
 				repeat={true}
@@ -50,7 +53,7 @@ class WalletLoading extends Component<> {
 			<View style={{height: '25%'}}></View>
         	{/* <Image style={styles.loader} source={require('../../../shared/assets/loader.gif')} /> */}
 
-			<Image style={styles.logo} source={require('../../../shared/assets/nem_logo.png')} />
+			<Image style={styles.logo} source={require('../assets/nem_logo.png')} />
 
 
       </GradientContainer>

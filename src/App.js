@@ -11,12 +11,7 @@ import * as Config from "./config/environment";
 import {languageNames, setI18nConfig} from "./locales/i18n";
 import {Router} from "./Router";
 import {AsyncCache} from "./utils/storage/AsyncCache";
-
-const ONBOARDED_KEY = 'onboarding.finished';
-// TODO: Find if user is already registered or not.
-const loadAppData = async () => {
-    return AsyncCache.get(ONBOARDED_KEY);
-};
+import {SecureStorage} from "@src/utils/storage/SecureStorage";
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -52,12 +47,12 @@ export const startApp = async () => {
     */
     setI18nConfig(languageNames.en);
 
-    const data = await loadAppData();
+    const mnemonic = await SecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
 
     SplashScreen.hide();
 
-    if (data === 'true') {
+    if (mnemonic) {
         scheduleBackgroundJob();
 
         /* TODO: SELECT FIRST PAGE

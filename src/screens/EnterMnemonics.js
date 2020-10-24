@@ -179,6 +179,7 @@ class EnterMnemonics extends Component {
     const { setName, setMnemonic } = this.props;
     setMnemonic(mnemonics);
     setName('Imported Wallet');
+    Router.goToWalletLoading({}, this.props.componentId);
     // Router go to pre-dashboard
   };
 

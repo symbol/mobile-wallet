@@ -6,17 +6,17 @@ import { View,
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import translate from "../../locales/i18n";
-import GradientButton from "../../components/atoms/GradientButton";
-import GradientButtonLight from "../../components/atoms/GradientButtonLight";
-import SymbolGradientContainer from "../../components/organisms/SymbolGradientContainer";
-import FadeView from "../../components/organisms/FadeView";
-import Input from "../../components/atoms/Input";
+import translate from "../locales/i18n";
+import GradientButton from "../components/atoms/GradientButton";
+import GradientButtonLight from "../components/atoms/GradientButtonLight";
+import SymbolGradientContainer from "../components/organisms/SymbolGradientContainer";
+import FadeView from "../components/organisms/FadeView";
+import Input from "../components/atoms/Input";
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "../../redux/actions/CreateWalletAction";
-import {createRandomMnemonic} from "../../utils/SymbolMnemonic";
-import {Router} from "../../Router";
+import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
+import {createRandomMnemonic} from "../utils/SymbolMnemonic";
+import {Router} from "../Router";
 
 const styles = StyleSheet.create({
 	mesh: {
@@ -239,11 +239,11 @@ class WalletName extends Component {
 
 
 		const iconBackSrc = theme === 'light'
-			? require('../../assets/icons/back_light.png')
-			: require('../../assets/icons/back_dark.png');
+			? require('../assets/icons/back_light.png')
+			: require('../assets/icons/back_dark.png');
 		const iconSettingsSrc = theme === 'light'
-			? require('../../assets/icons/settings_light.png')
-			: require('../../assets/icons/settings_dark.png');
+			? require('../assets/icons/settings_light.png')
+			: require('../assets/icons/settings_dark.png');
 
 
 		const Title = (props) => {
@@ -258,7 +258,7 @@ class WalletName extends Component {
 			let iconSize = { width: 55, height: 55 };
 			switch(icon) {
 				case 'wallet':
-					iconSrc = require('../../assets/icons/wallet.png');
+					iconSrc = require('../assets/icons/wallet.png');
 					iconSize.width = 55;
 					iconSize.height = 40;
 					break;
@@ -285,7 +285,7 @@ class WalletName extends Component {
 			<SymbolGradientContainer style={ styles.container }>
 			<Image
 				style={styles.mesh}
-				source={require('../../assets/background1.png')}
+				source={require('../assets/background1.png')}
 			/>
 			<FadeView style={ styles.pageContainer }>
 				<View style={styles.topBar}>

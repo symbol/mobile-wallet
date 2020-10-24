@@ -6,13 +6,13 @@
 import React, { Component } from 'react';
 import {View, Image, Text, TouchableHighlight} from 'react-native';
 
-import translate from "../../locales/i18n";
-import Slider from '../../components/molecules/Slider';
+import translate from "../locales/i18n";
+import Slider from '../components/molecules/Slider';
 
 import styles from './CreateOrImport.styl';
-import GradientButton from "../../components/atoms/GradientButton";
-import GradientContainer from "../../components/organisms/SymbolGradientContainer";
-import {Router} from "../../Router";
+import GradientButton from "../components/atoms/GradientButton";
+import GradientContainer from "../components/organisms/SymbolGradientContainer";
+import {Router} from "../Router";
 
 
 /**
@@ -24,8 +24,8 @@ export class CreateOrImport extends Component {
             key: 'slide_1',
             title: translate(['INTRO_slideOne', 'title']),
             text: translate(['INTRO_slideOne', 'text']),
-            image: require('../../assets/intro/slide_0.png'),
-            mesh: require('../../assets/intro/mesh_1.png'),
+            image: require('../assets/intro/slide_0.png'),
+            mesh: require('../assets/intro/mesh_1.png'),
             bg: {
                 colors: ['#095265', '#203455', '#262439'],
                 angle: 135,
@@ -35,8 +35,8 @@ export class CreateOrImport extends Component {
             key: 'slide_2',
             title: translate(['INTRO_slideTwo', 'title']),
             text: translate(['INTRO_slideTwo', 'text']),
-            image: require('../../assets/intro/slide_2.png'),
-            mesh: require('../../assets/intro/mesh_2.png'),
+            image: require('../assets/intro/slide_2.png'),
+            mesh: require('../assets/intro/mesh_2.png'),
             bg: {
                 colors: ['#262439', '#203455', '#095265'],
                 angle: 45,

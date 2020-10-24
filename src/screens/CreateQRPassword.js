@@ -7,15 +7,15 @@ import React, { Component } from 'react';
 import { View, Alert, Keyboard } from 'react-native';
 
 import styles from './CreateQRPassword.styl';
-import translate from "../../locales/i18n";
-import GradientContainer from "../../components/organisms/SymbolGradientContainer";
-import Input from "../../components/atoms/Input";
-import GradientButton from "../../components/atoms/GradientButton";
-import {passwordValidation} from "../../utils/SymbolQR";
+import translate from "../locales/i18n";
+import GradientContainer from "../components/organisms/SymbolGradientContainer";
+import Input from "../components/atoms/Input";
+import GradientButton from "../components/atoms/GradientButton";
+import {passwordValidation} from "../utils/SymbolQR";
 import {bindActionCreators} from "redux";
-import {setPassword} from "../../redux/actions/CreateWalletAction";
+import {setPassword} from "../redux/actions/CreateWalletAction";
 import {connect} from "react-redux";
-import {Router} from "../../Router";
+import {Router} from "../Router";
 
 const testIDs = {
 	password: 'input-wallet-name',
