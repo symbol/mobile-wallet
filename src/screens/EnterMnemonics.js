@@ -14,12 +14,10 @@ import GradientContainer from "../components/organisms/SymbolGradientContainer";
 import translate from "../locales/i18n";
 import Warning from "../components/atoms/Warning";
 import GradientButton from "../components/atoms/GradientButton";
-import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
-import {connect} from "react-redux";
 import {Router} from "../Router";
 import TitleBar from "../components/atoms/TitleBar";
 import Card from "@src/components/atoms/Card";
+import store from "@src/store";
 
 const INITIAL_TEXT = ' ';
 const DEFAULT_LANGUAGE = 'english';
@@ -176,9 +174,8 @@ class EnterMnemonics extends Component {
 
   createWallet = async () => {
     const { mnemonics } = this.state;
-    const { setName, setMnemonic } = this.props;
-    setMnemonic(mnemonics);
-    setName('Imported Wallet');
+    store.dispatch({type: 'wallet/setName', payload: 'Imported wallet' });
+    store.dispatch({type: 'wallet/setMnemonic', payload:mnemonics });
     Router.goToWalletLoading({}, this.props.componentId);
     // Router go to pre-dashboard
   };
@@ -283,17 +280,4 @@ class EnterMnemonics extends Component {
   }
 }
 
-
-const mapStateToProps = (state) => {
-  const { createWallet } = state;
-  return { createWallet }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      setName,
-      setMnemonic,
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(EnterMnemonics);
+export default EnterMnemonics;

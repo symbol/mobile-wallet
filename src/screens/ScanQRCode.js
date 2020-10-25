@@ -8,9 +8,7 @@ import { View, Text } from 'react-native';
 import translate from "@src/locales/i18n";
 import QRScanner from "@src/components/atoms/QRScanner";
 import {Router} from "@src/Router";
-import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "@src/redux/actions/CreateWalletAction";
-import {connect} from "react-redux";
+import store from "@src/store";
 
 type State = {
   showWarning: boolean,
@@ -43,8 +41,8 @@ class ScanQRCode extends Component<Props, State> {
         parsedPlainQR = JSON.parse(res.data);
       } catch (e) {}
       if (parsedPlainQR && parsedPlainQR.data && parsedPlainQR.data.plainMnemonic) {
-        this.props.setName('Imported wallet');
-        this.props.setMnemonic(parsedPlainQR.data.plainMnemonic);
+        store.dispatch({type: 'wallet/setName', payload: 'Imported wallet' });
+        store.dispatch({type: 'wallet/setMnemonic', payload: parsedPlainQR.data.plainMnemonic });
         Router.goToWalletLoading({}, this.props.componentId);
       } else {
         // TODO: HANDLE ENCRYPTED QRs
@@ -78,17 +76,4 @@ class ScanQRCode extends Component<Props, State> {
   }
 }
 
-
-const mapStateToProps = (state) => {
-  const { createWallet } = state;
-  return { createWallet }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      setName,
-      setMnemonic,
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ScanQRCode);
+export default ScanQRCode;

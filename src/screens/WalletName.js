@@ -12,9 +12,6 @@ import GradientButtonLight from "../components/atoms/GradientButtonLight";
 import SymbolGradientContainer from "../components/organisms/SymbolGradientContainer";
 import FadeView from "../components/organisms/FadeView";
 import Input from "../components/atoms/Input";
-import { connect } from 'react-redux';
-import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
 import {createRandomMnemonic} from "../utils/SymbolMnemonic";
 import {Router} from "../Router";
 import store from '@src/store';
@@ -208,9 +205,7 @@ class WalletName extends Component {
 	};
 
 	handleSubmit = () => {
-		this.props.setName(this.state.walletName);
 		const mnemonic = createRandomMnemonic();
-		this.props.setMnemonic(mnemonic);
 		store.dispatch({type: 'wallet/setName', payload: this.state.walletName });
 		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonic });
 		Router.goToGenerateBackup({}, this.props.componentId);
@@ -345,17 +340,4 @@ class WalletName extends Component {
 }
 
 export { testIDs };
-
-const mapStateToProps = (state) => {
-	const { createWallet } = state;
-	return { createWallet }
-};
-
-const mapDispatchToProps = dispatch => (
-	bindActionCreators({
-		setName,
-		setMnemonic,
-	}, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(WalletName);
+export default WalletName;

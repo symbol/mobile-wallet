@@ -12,7 +12,7 @@ import Card from '../components/atoms/Card';
 import TitleBar from '../components/atoms/TitleBar';
 import translate from '../locales/i18n';
 import {Router} from "../Router";
-import {connect} from "react-redux";
+import store from "@src/store";
 
 const testIDs = {
 	listItem: 'list-item-mnemonic',
@@ -31,7 +31,7 @@ class ShowMnemonics extends Component {
 	};
 
 	renderOrderedMnemonicItem = () => {
-		const mnemonic = this.props.createWallet.mnemonic;
+		const mnemonic = store.getState().wallet.mnemonic;
 		// const mnemonicArray = mnemonic.split(' ');
 		const mnemonicPassPhrase = mnemonic.split(' ').map((item, index) => ({ key: item, id: index }));
 
@@ -56,7 +56,7 @@ class ShowMnemonics extends Component {
 				<TitleBar
 					title={translate('CreateWallet.ShowMnemonics.title')}
 					theme="dark"
-				/>	
+				/>
 				<View style={styles.contentContainer}>
 					<Text style={styles.textContent}>
 						{translate('CreateWallet.ShowMnemonics.description')}
@@ -80,10 +80,6 @@ class ShowMnemonics extends Component {
 
 export { testIDs };
 
-const mapStateToProps = (state) => {
-	const { createWallet } = state;
-	return { createWallet }
-};
 
-export default connect(mapStateToProps)(ShowMnemonics);
+export default ShowMnemonics;
 

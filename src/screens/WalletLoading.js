@@ -9,9 +9,6 @@ import Video from "react-native-video";
 import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
 import translate from "@src/locales/i18n";
 import styles from './WalletLoading.styl';
-import {bindActionCreators} from "redux";
-import {saveWallet} from "@src/redux/actions/CreateWalletAction";
-import {connect} from "react-redux";
 import {Router} from "@src/Router";
 import store from "@src/store";
 
@@ -62,16 +59,4 @@ class WalletLoading extends Component {
   }
 }
 
-
-const mapStateToProps = (state) => {
-  const { createWallet } = state;
-  return { createWallet }
-};
-
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-      saveWallet
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(WalletLoading);
+export default WalletLoading;

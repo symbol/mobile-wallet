@@ -12,10 +12,8 @@ import GradientContainer from "../components/organisms/SymbolGradientContainer";
 import Input from "../components/atoms/Input";
 import GradientButton from "../components/atoms/GradientButton";
 import {passwordValidation} from "../utils/SymbolQR";
-import {bindActionCreators} from "redux";
-import {setPassword} from "../redux/actions/CreateWalletAction";
-import {connect} from "react-redux";
 import {Router} from "../Router";
+import store from "@src/store";
 
 const testIDs = {
 	password: 'input-wallet-name',
@@ -61,7 +59,7 @@ class SetPassword extends Component<Props, State> {
 			try {
 				Keyboard.dismiss();
 				const passwordObject = passwordValidation(password);
-				this.props.setPassword(password);
+				store.dispatch({type: 'wallet/setPassword', payload: password });
 				Router.goToShowQRCode({}, this.props.componentId);
 			} catch (error) {
 				// TODO: localize
@@ -131,15 +129,4 @@ class SetPassword extends Component<Props, State> {
 export { testIDs };
 
 
-const mapStateToProps = (state) => {
-	const { createWallet } = state;
-	return { createWallet }
-};
-
-const mapDispatchToProps = dispatch => (
-	bindActionCreators({
-		setPassword
-	}, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(SetPassword);
+export default SetPassword;
