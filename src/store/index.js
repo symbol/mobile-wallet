@@ -65,7 +65,7 @@ store.dispatchAction = ({type, payload}) => {
 	}
 
 	const state = store.getState();
-	store.dispatch(dispatch =>
+	return store.dispatch(dispatch =>
 		modules[namespace]
 			.actions[action](
 				{

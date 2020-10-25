@@ -13,13 +13,14 @@ import {bindActionCreators} from "redux";
 import {saveWallet} from "@src/redux/actions/CreateWalletAction";
 import {connect} from "react-redux";
 import {Router} from "@src/Router";
+import store from "@src/store";
 
-class WalletLoading extends Component<> {
+class WalletLoading extends Component {
 
   componentDidMount = () => {
-	this.props.saveWallet().then(_ => {
-		Router.goToDashboard({});
-	})
+	  store.dispatchAction({type: 'wallet/saveWallet'}).then( _ => {
+	  	Router.goToDashboard({})
+	  });
   };
 
   render() {

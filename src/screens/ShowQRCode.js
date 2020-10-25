@@ -24,6 +24,7 @@ import {generateMnemonicQR} from "../utils/SymbolQR";
 import WizardStepView from "../components/organisms/SymbolPageView";
 import Warning from "../components/atoms/Warning";
 import {connect} from "react-redux";
+import {Router} from "@src/Router";
 
 const testIDs = {
 	qrImage: 'image-qr-code',

@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView, Platform, StatusBar } from 'react-nativ
 
 
 const styles = StyleSheet.create({
-	container: { 
+	container: {
 		paddingTop: StatusBar.currentHeight,
 		height: '100%'
 	}
@@ -22,7 +22,7 @@ export default class ComponentName extends Component<Props, State> {
 
 		if (Platform.OS === 'ios') {
 			return (
-				<SafeAreaView style={props.style}>
+				<SafeAreaView style={this.props.style}>
 					{children}
 				</SafeAreaView>
 			);

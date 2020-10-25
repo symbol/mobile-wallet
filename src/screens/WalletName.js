@@ -17,6 +17,7 @@ import {bindActionCreators} from "redux";
 import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
 import {createRandomMnemonic} from "../utils/SymbolMnemonic";
 import {Router} from "../Router";
+import store from '@src/store';
 
 const styles = StyleSheet.create({
 	mesh: {
@@ -210,6 +211,8 @@ class WalletName extends Component {
 		this.props.setName(this.state.walletName);
 		const mnemonic = createRandomMnemonic();
 		this.props.setMnemonic(mnemonic);
+		store.dispatch({type: 'wallet/setName', payload: this.state.walletName });
+		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonic });
 		Router.goToGenerateBackup({}, this.props.componentId);
 	};
 

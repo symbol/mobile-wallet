@@ -59,6 +59,7 @@ export const startApp = async () => {
         if (isPin) goToPasscode({ resetPasscode: false, onSuccessFunc: goToNetworkSelector });
         else goToNetworkSelector({});
         */
+        Router.goToDashboard({});
     } else {
         /* TODO: SELECT FIRST PAGE
         goToOnBoarding({
@@ -67,8 +68,8 @@ export const startApp = async () => {
             goToPasscode: (props: Object) => goToPasscode(props),
         });
          */
+        Router.goToTermsAndPrivacy({});
     }
-    Router.goToTermsAndPrivacy({});
 };
 
 const scheduleBackgroundJob = () => {

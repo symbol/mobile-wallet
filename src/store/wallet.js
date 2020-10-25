@@ -30,14 +30,14 @@ export default {
 		}
 	},
 	actions: {
-		saveWallet: async (commit, payload) => {
-			await SecureStorage.saveMnemonic(mnemonic);
-			const mainnetAccount = createAccountFromMnemonic(mnemonic, 0, NetworkType.MAIN_NET);
-			await createAccount(name, 0, '', mainnetAccount.address.pretty(), NetworkType.MAIN_NET, '', mainnetAccount.publicKey);
-			const testnetAccount = createAccountFromMnemonic(mnemonic, 0, NetworkType.TEST_NET);
-			await createAccount(name, 0, '', testnetAccount.address.pretty(), NetworkType.TEST_NET, '', testnetAccount.publicKey);
+		saveWallet: async ({commit, state}, payload) => {
+			await SecureStorage.saveMnemonic(state.wallet.mnemonic);
+			const mainnetAccount = createAccountFromMnemonic(state.wallet.mnemonic, 0, NetworkType.MAIN_NET);
+			await createAccount(state.wallet.name, 0, '', mainnetAccount.address.pretty(), NetworkType.MAIN_NET, '', mainnetAccount.publicKey);
+			const testnetAccount = createAccountFromMnemonic(state.wallet.mnemonic, 0, NetworkType.TEST_NET);
+			await createAccount(state.wallet.name, 0, '', testnetAccount.address.pretty(), NetworkType.TEST_NET, '', testnetAccount.publicKey);
 
-			commit({type: 'market/setWalletCreated', payload: true});
+			commit({type: 'wallet/setWalletCreated', payload: true});
 		}
 	}
 }
