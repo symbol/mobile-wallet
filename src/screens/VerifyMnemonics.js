@@ -13,8 +13,8 @@ import translate from '../locales/i18n';
 import styles from './VerifyMnemonics.styl';
 import Card from '../components/atoms/Card';
 import TitleBar from '../components/atoms/TitleBar';
-import {connect} from "react-redux";
 import {Router} from "../Router";
+import store from "@src/store";
 
 const testIDs = {
   listItemVerifiedMnemonics: 'list-item-mnemonic',
@@ -33,7 +33,7 @@ class VerifyMnemonics extends Component {
   constructor(props) {
     super(props);
 
-    const mnemonics = this.props.createWallet.mnemonic;
+    const mnemonics = store.getState().wallet.mnemonic;
     const originalPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
     const mnemonicPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
     const sortedMnemonics = mnemonicPassPhrase.sort((a, b) => a.key.localeCompare(b.key));
@@ -46,8 +46,6 @@ class VerifyMnemonics extends Component {
   }
 
   handleSubmit = async () => {
-    // const { goToWalletLoading } = this.props;
-    // goToWalletLoading({ ...this.props, isMnemonicExported: true });
     Router.goToWalletLoading({}, this.props.componentId);
   };
 
@@ -175,9 +173,4 @@ class VerifyMnemonics extends Component {
 
 export { testIDs };
 
-const mapStateToProps = (state) => {
-  const { createWallet } = state;
-  return { createWallet }
-};
-
-export default connect(mapStateToProps)(VerifyMnemonics);
+export default VerifyMnemonics;

@@ -16,16 +16,14 @@ import {
 import { SvgXml } from 'react-native-svg';
 import ViewShot from 'react-native-view-shot';
 import { captureRef } from 'react-native-view-shot';
-
 import RNFetchBlob from 'rn-fetch-blob';
 import styles from './ShowQRCode.styl';
 import translate from "../locales/i18n";
 import {generateMnemonicQR} from "../utils/SymbolQR";
 import WizardStepView from "../components/organisms/SymbolPageView";
 import Warning from "../components/atoms/Warning";
-import {bindActionCreators} from "redux";
-import {setMnemonic, setName} from "../redux/actions/CreateWalletAction";
-import {connect} from "react-redux";
+import {Router} from "@src/Router";
+import store from "@src/store";
 
 const testIDs = {
 	qrImage: 'image-qr-code',
@@ -159,12 +157,11 @@ class ShowQRCode extends Component {
 	};
 
 	handleSubmit = () => {
-		const { goToWalletLoading } = this.props;
-		goToWalletLoading({ ...this.props, isMnemonicExported: true });
+		Router.goToWalletLoading({})
 	};
 
 	componentDidMount = () => {
-		const { mnemonic, password } = this.props.createWallet;
+		const { mnemonic, password } = store.getState().wallet;
 		console.log(mnemonic);
 		generateMnemonicQR(mnemonic, password).subscribe(
 			base64Data => {
@@ -266,9 +263,4 @@ class ShowQRCode extends Component {
 
 export { testIDs };
 
-const mapStateToProps = (state) => {
-	const { createWallet } = state;
-	return { createWallet }
-};
-
-export default connect(mapStateToProps)(ShowQRCode);
+export default ShowQRCode;

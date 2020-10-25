@@ -1,13 +1,15 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import market from './market';
+import wallet from "@src/store/wallet";
 
 
 const modules = {
-	market
+	market,
+	wallet
 };
 
-const createModuleReducer = (module, state = {}, action) => {	
+const createModuleReducer = (module, state = {}, action) => {
 	if(typeof action.type !== 'string') {
 		console.error('[Store] Failed to commit action. Type "' + action.type + '" is not a string');
 		return;
@@ -15,7 +17,7 @@ const createModuleReducer = (module, state = {}, action) => {
 	const namespace = action.type.split('/')[0];
 	const mutation = action.type.split('/')[1];
 
-	if(!state[module.namespace]) 
+	if(!state[module.namespace])
 		state[module.namespace] = module.state;
 
 	if(
@@ -36,7 +38,7 @@ const createRootReducer = (state, action) => {
 			rootState = {
 				...rootState,
 				...createModuleReducer(module, state, action)
-			}	
+			}
 		});
 
 	return rootState;
@@ -63,13 +65,13 @@ store.dispatchAction = ({type, payload}) => {
 	}
 
 	const state = store.getState();
-	store.dispatch(dispatch => 
+	return store.dispatch(dispatch =>
 		modules[namespace]
 			.actions[action](
 				{
 					commit: dispatch,
 					state
-				}, 
+				},
 				payload
 			)
 	);

@@ -1,23 +1,38 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import {NetworkType} from "symbol-sdk";
+import {getDefaultNetworkType} from "../../config/environment";
 
 export class AsyncCache {
-  static set = async (key: String, value: string) => {
-    return AsyncStorage.setItem(key, value);
-  };
+    static SELECTED_NETWORK_KEY = 'selectedNetwork';
 
-  static multiSet = async (keyValuePairs: string[][]) => {
-    return AsyncStorage.multiSet(keyValuePairs);
-  };
+    static setSelectedNetwork = async (networkType) => {
+        return this.set(this.SELECTED_NETWORK_KEY, networkType);
+    };
+    static getSelectedNetwork = async () => {
+      try {
+        return this.get(this.SELECTED_NETWORK_KEY);
+      } catch (e) {
+        return getDefaultNetworkType();
+      }
+    };
 
-  static get = async (key: string) => {
-    return AsyncStorage.getItem(key);
-  };
+    static set = async (key: String, value: string) => {
+        return AsyncStorage.setItem(key, value);
+    };
 
-  static getAllKeys = async () => {
-    return AsyncStorage.getAllKeys();
-  };
+    static multiSet = async (keyValuePairs: string[][]) => {
+        return AsyncStorage.multiSet(keyValuePairs);
+    };
 
-  static remove = async (key: string) => {
-    return AsyncStorage.removeItem(key);
-  };
+    static get = async (key: string) => {
+        return AsyncStorage.getItem(key);
+    };
+
+    static getAllKeys = async () => {
+        return AsyncStorage.getAllKeys();
+    };
+
+    static remove = async (key: string) => {
+        return AsyncStorage.removeItem(key);
+    };
 }

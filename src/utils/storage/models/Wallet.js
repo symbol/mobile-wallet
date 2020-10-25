@@ -4,7 +4,7 @@
  */
 import Realm from 'realm';
 import Observable, { from } from 'rxjs';
-import { getDefaultSyncInterval } from '../../../shared/config';
+import { getDefaultSyncInterval } from '../../../config/environment';
 
 class Wallet extends Realm.Object {}
 

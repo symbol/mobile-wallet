@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { menuItems } from '@src/config';
-import { 
+import {
 	GradientBackground,
 	NavigationMenu
 } from '@src/components';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({});
 
 type Props = {};
 
-type State = { 
+type State = {
 	currentTab: string
 };
 
@@ -34,13 +34,13 @@ export default class Dashboard extends Component<Props, State> {
 		const {} = this.props;
 		const { currentTab } = this.state;
 		let Tab;
-		
+
 		switch(currentTab) {
 			default:
-			case 'home': 
+			case 'home':
 				Tab = Home;
 				break;
-			case 'history': 
+			case 'history':
 				Tab = History;
 				break;
 		}

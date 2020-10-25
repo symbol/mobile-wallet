@@ -103,9 +103,9 @@ function TitleBar(props: Props) {
 		const titleStyle = { color: barTheme.textColor, ...titleTextStyle }
 		titleBarContent = (
 			<Text testID="title-text" style={[
-				styles.title, 
-				titleStyle, 
-				(alignLeft && styles.titleAlignLeft), 
+				styles.title,
+				titleStyle,
+				(alignLeft && styles.titleAlignLeft),
 				(theme === 'light' && styles.titleLight)
 				]} allowFontScaling={false}>
 				{title}
