@@ -15,6 +15,8 @@ import ImportOptions from "./screens/ImportOptions";
 import EnterMnemonics from "./screens/EnterMnemonics";
 import ScanQRCode from "@src/screens/ScanQRCode";
 import WalletLoading from "@src/screens/WalletLoading";
+import VerifyMnemonics from "./screens/VerifyMnemonics";
+import ShowMnemonics from "./screens/ShowMnemonics";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -27,6 +29,8 @@ export const IMPORT_OPTION_SCREEN = `${BASE_SCREEN_NAME}.IMPORT_OPTION_SCREEN`;
 export const SCAN_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_QR_CODE_SCREEN`;
 export const ENTER_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.ENTER_MNEMONICS_SCREEN`;
 export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
+export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
+export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 
 /**
@@ -43,9 +47,10 @@ export class Router {
         [IMPORT_OPTION_SCREEN, ImportOptions],
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
         [ENTER_MNEMONICS_SCREEN, EnterMnemonics],
-		[SHOW_QR_CODE_SCREEN, ShowQRCode],
 		[DASHBOARD_SCREEN, Dashboard],
-        [WALLET_LOADING_SCREEN, WalletLoading],
+        [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
+        [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
+        [WALLET_LOADING_SCREEN, WalletLoading]
     ];
 
     static registerScreens() {
@@ -85,6 +90,12 @@ export class Router {
 	}
 	static goToDashboard(passProps, parentComponent?){
         return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
+    }
+    static goToVerifyMnemonics(passProps, parentComponent?){
+        return this.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
+    }
+    static goToShowMnemonics(passProps, parentComponent?){
+        return this.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
     }
     static goToImportOptions(passProps, parentComponent?){
         return this.goToScreen(IMPORT_OPTION_SCREEN, passProps, parentComponent);

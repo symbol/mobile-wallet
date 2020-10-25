@@ -19,7 +19,7 @@ const testIDs = {
 class GenerateBackup extends Component {
 
 	handleMnemonicBackup = () => {
-		// Router.goToCreateQRPassword({}, this.props.componentId);
+		Router.goToShowMnemonics({}, this.props.componentId);
 	};
 
 	handleQRBackup = () => {

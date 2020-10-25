@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Container from '../Container'
-import GlobalStyles from '@src/styles/GlobalStyles';
+import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({
 	root: {
@@ -26,7 +26,7 @@ type Name = 'connector'
 
 interface Props {
 	name: Name
-};
+}
 
 type State = {};
 
