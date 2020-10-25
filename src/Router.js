@@ -5,7 +5,6 @@ import {gestureHandlerRootHOC} from "react-native-gesture-handler";
 import {TermsAndPrivacy} from "./screens/TermsAndPrivacy";
 import {CreateOrImport} from "./screens/CreateOrImport";
 import WalletName from "./screens/WalletName";
-import store from "./redux/Store";
 import React from "react";
 import GenerateBackup from "./screens/GenerateBackup";
 import ShowQRCode from "./screens/ShowQRCode";
@@ -54,19 +53,8 @@ export class Router {
     ];
 
     static registerScreens() {
-        function WrappedComponentWithStore(Component) {
-            return function inject(props) {
-                const EnhancedComponent = () => (
-                    <Provider store={store}>
-                        <Component {...props}/>
-                    </Provider>
-                );
-                return <EnhancedComponent />;
-            };
-        }
-
         this.screens.forEach(([key, ScreenComponent]) =>
-            Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
+            Navigation.registerComponent(key, () => gestureHandlerRootHOC(ScreenComponent))
         );
     }
 
