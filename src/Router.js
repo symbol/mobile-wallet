@@ -6,6 +6,7 @@ import {TermsAndPrivacy} from "./screens/TermsAndPrivacy";
 import {CreateOrImport} from "./screens/CreateOrImport";
 import WalletName from "./screens/WalletName";
 import React from "react";
+import store from '@src/store';
 import GenerateBackup from "./screens/GenerateBackup";
 import ShowQRCode from "./screens/ShowQRCode";
 import CreateQRPassword from "./screens/CreateQRPassword";
@@ -53,8 +54,19 @@ export class Router {
     ];
 
     static registerScreens() {
+        function WrappedComponentWithStore(Component) {
+            return function inject(props) {
+                const EnhancedComponent = () => (
+                    <Provider store={store}>
+                        <Component {...props}/>
+                    </Provider>
+                );
+                return <EnhancedComponent />;
+            };
+        }
+		
         this.screens.forEach(([key, ScreenComponent]) =>
-            Navigation.registerComponent(key, () => gestureHandlerRootHOC(ScreenComponent))
+            Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
         );
     }
 

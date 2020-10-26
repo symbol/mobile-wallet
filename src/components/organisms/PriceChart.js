@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, View } from 'react-native';
+import { connect } from 'react-redux';
 import { LineChart } from 'react-native-chart-kit';
 import { FadeView } from '@src/components'
 import store from '@src/store';
@@ -14,27 +15,18 @@ const styles = StyleSheet.create({
 
 type Props = {};
 
-type State = { data: any };
+type State = {};
 
 
-export default class PriceChart extends Component<Props, State> {
-	state = { data: []};
+class PriceChart extends Component<Props, State> {
+	state = {};
 
 	componentDidMount = () => {
 		store.dispatchAction({type: 'market/loadMarketData'});
-		store.subscribe(() => this.updateData());
-	};
-
-	updateData = () => {
-		const data = store.getState().market.priceChartData;
-		this.setState({
-			data
-		});
 	};
 
 	render() {
-		const { style = {} } = this.props;
-		const { data } = this.state;
+		const { style = {}, data = [] } = this.props;
 
 		const labels = [];
 
@@ -80,3 +72,8 @@ export default class PriceChart extends Component<Props, State> {
 		);
 	};
 }
+
+
+export default connect(state => ({
+	data: state.market.priceChartData
+}))(PriceChart);
