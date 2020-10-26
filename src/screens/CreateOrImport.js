@@ -55,8 +55,7 @@ export class CreateOrImport extends Component {
      * Import Wallet handler
      */
     importWallet = () => {
-        const { goToImportWallet, componentId } = this.props;
-        goToImportWallet(componentId, this.props);
+        Router.goToImportOptions({}, this.props.componentId)
     };
 
     renderItem = (props) => {
