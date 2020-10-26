@@ -12,6 +12,7 @@ import {
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
 import store from '@src/store';
+//import GlobalStyles from '@scr/styles/GlobalSyles'
 
 
 const styles = StyleSheet.create({
@@ -40,26 +41,26 @@ export default class Home extends Component<Props, State> {
 	state = {};
 
     render() {
-		const {} = this.props;
+		const { constentStyle={} } = this.props;
 		const {} = this.state;
 		
         return (
-			<GradientBackground name='mesh'>
+			<GradientBackground name='none' fade={true}>
 				<Section type="title">
 					<Text type='title'>Home</Text>
 				</Section>
 				<Section type="title">
 					<Text type='subtitle'>Switch account button, qr, etc..</Text>
 				</Section>
-				<Col justify="space-around" style={{flex: 1}}>
+				<Col justify="space-around" style={constentStyle}>
 					<Section type="center">
-						<BalanceWidget/>
+						<BalanceWidget showChart={false}/>
 					</Section>
 					<Section type="list">
 						<PluginList />					
 					</Section>
-					<Section type="list" style={styles.list}>
-						{/* TODO: move transaction preview to a separate component. Mockup */}
+					{/*<Section type="list" style={styles.list}>
+						 TODO: move transaction preview to a separate component. Mockup 
 						<View style={styles.transactionPreview}>
 							<Row justify="space-between">
 								<Text type="regular" theme="light">Opt-in</Text>
@@ -78,7 +79,7 @@ export default class Home extends Component<Props, State> {
 								<Text type="bold" theme="light">Awaiting your signature</Text>
 							</Row>
 						</View>
-					</Section>
+					</Section>*/}
 				</Col>
 			</GradientBackground>
         );

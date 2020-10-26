@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Container from '../Container'
+import Container from '../Container';
+import { FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -54,25 +55,28 @@ export default class GradientBackground extends Component<Props, State> {
 				break;
 		}
         return (
-			<LinearGradient
-				colors={[
-					GlobalStyles.color.PRIMARY,
-					GlobalStyles.color.SECONDARY
-				]}
-				start={{x: 1, y: 0}}
-				end={{x: 0, y: 1}}
-				angle={135}
-				useAngle={true}
-				style={[styles.root, style]}
-			>
-				<Container>
-					{!!source && <Image
-						style={styles.image}
-						source={source}
-					/>}
-					{children}
-				</Container>
-			</LinearGradient>
+			<FadeView style={styles.root} duration={200}>
+				<LinearGradient
+					colors={[
+						GlobalStyles.color.PRIMARY,
+						GlobalStyles.color.SECONDARY
+					]}
+					start={{x: 1, y: 0}}
+					end={{x: 0, y: 1}}
+					angle={135}
+					useAngle={true}
+					style={[styles.root, style]}
+				>
+					<Container>
+						{!!source && <Image
+							style={styles.image}
+							source={source}
+						/>}
+						{children}
+					</Container>
+				</LinearGradient>
+			</FadeView>
+			
         );
     };
 }

@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
 
 
 type IconName = 'none'
+	| 'send'
+	| 'receive'
 	| 'news'
 	| 'mosaics'
 	| 'home'
@@ -56,6 +58,12 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'news': 
 				source = require('../../assets/icons/menu/news.png');
+				break;
+			case 'send': 
+				source = require('../../assets/icons/send.png');
+				break;
+			case 'receive': 
+				source = require('../../assets/icons/receive.png');
 				break;
 			case 'mosaics': 
 				source = require('../../assets/icons/menu/mosaics.png');

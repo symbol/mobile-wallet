@@ -12,7 +12,12 @@ import { Router } from "@src/Router";
 import store from '@src/store';
 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	contentContainer: {
+		flex: 1,
+		marginBottom: 64
+	}
+});
 
 type Props = {};
 
@@ -46,7 +51,7 @@ export default class Dashboard extends Component<Props, State> {
 		}
         return (
 			<GradientBackground>
-				<Tab />
+				<Tab constentStyle={styles.contentContainer}/>
 				<NavigationMenu
 					menuItemList={menuItems}
 					onChange={this.onTabChange}

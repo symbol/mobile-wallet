@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Row, Col, Icon, Text, PriceChart } from '../../components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from "../../locales/i18n";
-import { Router } from "../../Router";
+import { Router, BASE_SCREEN_NAME } from "../../Router";
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 
@@ -62,7 +62,8 @@ export default class PluginList extends Component<Props, State> {
 	componentDidMount() {};
 
 	onOpen = (name) => {
-		console.log('Open plugin', name);
+		console.log(this.props)
+		Router.goToScreen(`${BASE_SCREEN_NAME}.${name}`, null, this.props.componentId);
 	};
 
 	render = () => {
@@ -71,17 +72,17 @@ export default class PluginList extends Component<Props, State> {
 		const pluginList = [
 			{
 				text: 'plugin.send',
-				name: 'send',
+				name: 'SEND_SCREEN',
 				iconName: 'send'
 			},
 			{
 				text: 'plugin.receive',
-				name: 'receive',
+				name: 'RECEIVE_SCREEN',
 				iconName: 'receive'
 			},
 			{
 				text: 'plugin.more',
-				name: 'more',
+				name: 'PLUGINS_SCREEN',
 				iconName: 'more'
 			}
 		];
@@ -94,7 +95,7 @@ export default class PluginList extends Component<Props, State> {
 							<Col align="center" justify="center" style={styles.item}>
 								<TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)}>
 									<Col align="center" justify="center" style={{height: '100%'}}>
-										<Icon name={item.iconName} size="medium" style={styles.icon}/>
+										<Icon name={item.iconName} size="small" style={styles.icon}/>
 									</Col>
 								</TouchableOpacity> 
 								<Text type="bold">{translate(item.text)}</Text>			
