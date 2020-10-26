@@ -3,138 +3,145 @@
  * @flow
  */
 import {
-  sessionTimeoutInSeconds,
-  marketCurrencyName,
-  newsURL,
-  explorerURL,
-  aboutURL,
-  currencies,
-  lanugages,
-  syncIntervals,
-  nodeTypes,
-  networks,
-  defaultSyncInterval,
-  optinEnv,
-  NISNodes
+    sessionTimeoutInSeconds,
+    marketCurrencyName,
+    newsURL,
+    explorerURL,
+    aboutURL,
+    currencies,
+    lanugages,
+    syncIntervals,
+    nodeTypes,
+    networks,
+    defaultSyncInterval,
+    optinEnv,
+    NISNodes,
+    defaultNetworkType,
 } from 'react-native-env-json';
+import {NetworkType} from "symbol-sdk";
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
-  return sessionTimeoutInSeconds * 1000;
+    return sessionTimeoutInSeconds * 1000;
 };
 
 // Market currency
 const getMarketCurrencyLabel = (): string => {
-  return marketCurrencyName;
+    return marketCurrencyName;
 };
 
 // News URL
 const getNewsURL = (): string => {
-  return newsURL;
+    return newsURL;
 };
 
 // Explorer URL
 const getExplorerURL = (): string => {
-  return explorerURL;
+    return explorerURL;
 };
 
 // Explorer URL
 const getAboutURL = (): string => {
-  return aboutURL;
+    return aboutURL;
 };
 
 // Currency
 const getCurrencyList = (): Array<string> => {
-  return Object.keys(currencies);
+    return Object.keys(currencies);
 };
 
 const getDefaultCurrency = (): string => {
-  return currencies.USD || 'USD';
+    return currencies.USD || 'USD';
 };
 
 const getCurrencyValue = (currencyKey: string): string => {
-  return currencies[currencyKey];
+    return currencies[currencyKey];
 };
 
 // Lanugage
 const getLanguageList = (): Array<string> => {
-  return Object.keys(lanugages);
+    return Object.keys(lanugages);
 };
 
 const getDefaultLanguage = (): string => {
-  return lanugages.English || 'en';
+    return lanugages.English || 'en';
 };
 
 const getLanguageValue = (languageKey: string): string => {
-  return lanugages[languageKey];
+    return lanugages[languageKey];
 };
 
 // Notification/Sync interval
 const getValidSyncIntervals = (): Array<string> => {
-  return Object.keys(syncIntervals);
+    return Object.keys(syncIntervals);
 };
 
 const getDefaultSyncInterval = (): string => {
-  return defaultSyncInterval || 'OFF';
+    return defaultSyncInterval || 'OFF';
 };
 
 const getSyncIntervalValue = (intervalKey: string): number => {
-  return syncIntervals[intervalKey];
+    return syncIntervals[intervalKey];
 };
 
 // Node types
 const getAvailableNodeTypes = (): Array<string> => {
-  return Object.keys(nodeTypes);
+    return Object.keys(nodeTypes);
 };
 
 const getDefaultNodeType = (): string => {
-  return nodeTypes.MAINNET || 'mainnet';
+    return nodeTypes.MAINNET || 'mainnet';
 };
 
 const getNodeTypeValue = (nodeTypeKey: string): string => {
-  return nodeTypes[nodeTypeKey];
+    return nodeTypes[nodeTypeKey];
 };
 
 const isCustomNode = (nodeType: string): boolean => {
-  return nodeType !== undefined && nodeType === nodeTypes.CUSTOM;
+    return nodeType !== undefined && nodeType === nodeTypes.CUSTOM;
 };
 
 // Network info
 const getNetworkInfo = (nodeType: string): Object => {
-	console.log(networks)
-  const networkConfig = networks[nodeType];
-  // use mainnet as fallback config
-  return networkConfig !== undefined ? networkConfig : networks.MAINNET;
+    console.log(networks)
+    const networkConfig = networks[nodeType];
+    // use mainnet as fallback config
+    return networkConfig !== undefined ? networkConfig : networks.MAINNET;
 };
 
 const getOptinEnv = (): string => {
-  return optinEnv
+    return optinEnv
 };
 
 const getNISNodes = (): string => {
-  return NISNodes
+    return NISNodes
+};
+
+const getDefaultNetworkType = (): NetworkType => {
+    return defaultNetworkType === 'mainnet' ? NetworkType.MAIN_NET : NetworkType.TEST_NET;
 };
 
 export {
-  getSessionTimeoutInMillis,
-  getMarketCurrencyLabel,
-  getNewsURL,
-  getExplorerURL,
-  getAboutURL,
-  getCurrencyList,
-  getDefaultCurrency,
-  getCurrencyValue,
-  getLanguageList,
-  getDefaultLanguage,
-  getLanguageValue,
-  getValidSyncIntervals,
-  getDefaultSyncInterval,
-  getSyncIntervalValue,
-  getAvailableNodeTypes,
-  getDefaultNodeType,
-  getNodeTypeValue,
-  isCustomNode,
-  getNetworkInfo,
-  getOptinEnv,
-  getNISNodes
+    getSessionTimeoutInMillis,
+    getMarketCurrencyLabel,
+    getNewsURL,
+    getExplorerURL,
+    getAboutURL,
+    getCurrencyList,
+    getDefaultCurrency,
+    getCurrencyValue,
+    getLanguageList,
+    getDefaultLanguage,
+    getLanguageValue,
+    getValidSyncIntervals,
+    getDefaultSyncInterval,
+    getSyncIntervalValue,
+    getAvailableNodeTypes,
+    getDefaultNodeType,
+    getNodeTypeValue,
+    isCustomNode,
+    getNetworkInfo,
+    getOptinEnv,
+    getNISNodes,
+    getDefaultNetworkType
 };
