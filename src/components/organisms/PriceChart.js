@@ -26,7 +26,7 @@ class PriceChart extends Component<Props, State> {
 	};
 
 	render() {
-		const { style = {}, data } = this.props;
+		const { style = {}, data = [] } = this.props;
 
 		const labels = [];
 
