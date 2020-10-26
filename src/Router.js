@@ -54,7 +54,7 @@ export class Router {
     ];
 
     static registerScreens() {
-		function WrappedComponentWithStore(Component) {
+        function WrappedComponentWithStore(Component) {
             return function inject(props) {
                 const EnhancedComponent = () => (
                     <Provider store={store}>
@@ -63,7 +63,7 @@ export class Router {
                 );
                 return <EnhancedComponent />;
             };
-		}
+        }
 		
         this.screens.forEach(([key, ScreenComponent]) =>
             Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
