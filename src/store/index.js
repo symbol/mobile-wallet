@@ -8,15 +8,20 @@ const modules = {
 };
 
 const createModuleReducer = (module, state = {}, action) => {	
-	if(typeof action.type !== 'string') {
-		console.error('[Store] Failed to commit action. Type "' + action.type + '" is not a string');
-		return;
-	}
+	if(!state[module.namespace]) 
+		state[module.namespace] = module.state;
+
+	
 	const namespace = action.type.split('/')[0];
 	const mutation = action.type.split('/')[1];
 
-	if(!state[module.namespace]) 
-		state[module.namespace] = module.state;
+	if(
+		module.namespace === namespace &&
+		typeof module.mutations[mutation] !== 'function'
+	) {
+		console.error('[Store] Failed to commit mutation. Type "' + mutation + '" does not exist in "' + namespace + '"');
+		return state;
+	}
 
 	if(
 		module.namespace === namespace &&
@@ -29,6 +34,18 @@ const createModuleReducer = (module, state = {}, action) => {
 
 const createRootReducer = (state, action) => {
 	let rootState = {...state};
+
+	if(typeof action.type !== 'string') {
+		console.error('[Store] Failed to commit mutation. Type "' + action.type + '" is not a string');
+		return rootState;
+	}
+
+	const namespace = action.type.split('/')[0];
+
+	if(namespace !== '@@redux' && !modules[namespace]) {
+		console.error('[Store] Failed to commit mutation. Module "' + namespace + '" not found');
+		return rootState;
+	}
 
 	Object
 		.values(modules)
@@ -62,13 +79,15 @@ store.dispatchAction = ({type, payload}) => {
 		return;
 	}
 
+
 	const state = store.getState();
 	store.dispatch(dispatch => 
 		modules[namespace]
 			.actions[action](
 				{
 					commit: dispatch,
-					state
+					state,
+					dispatchAction: store.dispatchAction
 				}, 
 				payload
 			)
