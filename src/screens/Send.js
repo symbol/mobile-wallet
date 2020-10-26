@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { 
 	Section, 
-	ImageBackground,
+	GradientBackground,
 	Text,
-	Row
+	Row,
+	TitleBar
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
@@ -38,15 +39,15 @@ export default class History extends Component<Props, State> {
     render() {
 		const {} = this.props;
 		const {} = this.state;
-		
+
         return (
-			<ImageBackground name="tanker">
-				<Section type="title">
-					<Text type="title" theme="light">Send</Text>
-				</Section>
-				<Section type="text">
-					<Text type="regular" theme="light">Search & filters will be here..</Text>
-				</Section>
+			<GradientBackground name="connector_small" theme="light">
+				<TitleBar
+					theme="light"
+					onBack={()=>Router.goBack(this.props.componentId)}
+					title="Send"
+		
+				/>
 				<Section type="list" style={styles.list}>
 					{/* TODO: move transaction preview to a separate component. Mockup */}
 					<View style={styles.transactionPreview}>
@@ -70,7 +71,7 @@ export default class History extends Component<Props, State> {
 						</Row>
 					</View>
 				</Section>
-			</ImageBackground>
+			</GradientBackground>
         );
     };
 }

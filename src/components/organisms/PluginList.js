@@ -48,7 +48,7 @@ type Plugin = {
 
 type Props = {
 	menuItemList: MenuItem[],
-	onChange: function
+	onChange: function,
 };
 
 interface State {
@@ -62,8 +62,8 @@ export default class PluginList extends Component<Props, State> {
 	componentDidMount() {};
 
 	onOpen = (name) => {
-		console.log(this.props)
-		Router.goToScreen(`${BASE_SCREEN_NAME}.${name}`, null, this.props.componentId);
+		console.log(this.props.componentId)
+		Router.goToScreen(`${BASE_SCREEN_NAME}.${name}`, {}, this.props.componentId);
 	};
 
 	render = () => {

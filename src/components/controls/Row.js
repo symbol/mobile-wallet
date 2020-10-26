@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
 	'main': {
 		display: 'flex',
 		flexDirection: 'row',
+	},
+	'fullWidth': {
 		width: '100%'
 	},
 	'justify-start': {
@@ -54,7 +56,8 @@ type Align = 'start'
 interface Props {
 	justify: Justify;
 	align: Align;
-	wrap: boolean
+	wrap: boolean,
+	fullWidth: boolean
 };
 
 type State = {};
@@ -66,7 +69,8 @@ export default class Row extends Component<Props, State> {
 			style = {},
 			justify,
 			align,
-			wrap
+			wrap,
+			fullWidth
 		} = this.props;
 		const stylesArray = [styles.main];
 
@@ -74,8 +78,10 @@ export default class Row extends Component<Props, State> {
 			stylesArray.push(styles['justify-'+justify]);
 		if(typeof align === 'string')
 			stylesArray.push(styles['align-'+align]);
-		if(typeof wrap === 'boolean')
+		if(wrap)
 			stylesArray.push(styles.wrap);
+		if(fullWidth)
+			stylesArray.push(styles.fullWidth);
 
 		stylesArray.push(style);
         return (

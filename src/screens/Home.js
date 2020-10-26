@@ -7,7 +7,7 @@ import {
 	Text,
 	PluginList,
 	Col,
-	Row
+	TitleBar
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
@@ -41,23 +41,23 @@ export default class Home extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { constentStyle={} } = this.props;
+		const { constentStyle={}, componentId } = this.props;
+		console.log('home.componentId', this.props.componentId)
 		const {} = this.state;
 		
         return (
-			<GradientBackground name='none' fade={true}>
-				<Section type="title">
-					<Text type='title'>Home</Text>
-				</Section>
-				<Section type="title">
-					<Text type='subtitle'>Switch account button, qr, etc..</Text>
-				</Section>
+			<GradientBackground name='mesh_small_2' fade={true}>
+				<TitleBar
+					theme="dark"
+					onSettings={()=>{this.props.componentId}}
+					title="Home"
+				/>
 				<Col justify="space-around" style={constentStyle}>
 					<Section type="center">
 						<BalanceWidget showChart={false}/>
 					</Section>
 					<Section type="list">
-						<PluginList />					
+						<PluginList componentId={componentId}/>					
 					</Section>
 					{/*<Section type="list" style={styles.list}>
 						 TODO: move transaction preview to a separate component. Mockup 
