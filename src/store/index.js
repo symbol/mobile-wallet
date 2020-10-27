@@ -2,11 +2,13 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import market from './market';
 import wallet from "@src/store/wallet";
+import settings from '@src/store/settings';
 
 
 const modules = {
 	market,
-	wallet
+	wallet,
+	settings
 };
 
 const createModuleReducer = (module, state = {}, action) => {

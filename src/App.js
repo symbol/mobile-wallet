@@ -12,6 +12,7 @@ import {languageNames, setI18nConfig} from "./locales/i18n";
 import {Router} from "./Router";
 import {AsyncCache} from "./utils/storage/AsyncCache";
 import {SecureStorage} from "@src/utils/storage/SecureStorage";
+import store from '@src/store';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -39,8 +40,14 @@ export const handleAppStateChange = async (nextAppState: any) => {
     appState = nextAppState;
 };
 
+const initStore = async () => {
+    await store.dispatchAction({ type: 'settings/initState' });
+};
+
 export const startApp = async () => {
     setGlobalCustomFont();
+
+    await initStore();
 
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();

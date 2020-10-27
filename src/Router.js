@@ -16,6 +16,7 @@ import ScanQRCode from "@src/screens/ScanQRCode";
 import WalletLoading from "@src/screens/WalletLoading";
 import VerifyMnemonics from "./screens/VerifyMnemonics";
 import ShowMnemonics from "./screens/ShowMnemonics";
+import Settings from '@src/screens/Settings';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -31,6 +32,7 @@ export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
 export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
+export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -49,7 +51,8 @@ export class Router {
 		[DASHBOARD_SCREEN, Dashboard],
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
         [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
-        [WALLET_LOADING_SCREEN, WalletLoading]
+        [WALLET_LOADING_SCREEN, WalletLoading],
+        [SETTINGS_SCREEN, Settings],
     ];
 
     static registerScreens() {
@@ -96,6 +99,9 @@ export class Router {
     }
     static goToWalletLoading(passProps, parentComponent?){
         return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
+    }
+    static goToSettings(passProps, parentComponent?){
+        return this.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

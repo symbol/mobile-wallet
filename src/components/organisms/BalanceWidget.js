@@ -7,7 +7,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 const styles = StyleSheet.create({
 	root: {
 		marginTop: 60
-	},	
+	},
 	priceChart: {
 		position: 'absolute',
 		top: -50,
@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		marginBottom: 8,
 		color: GlobalStyles.color.onDark.TEXT,
-	},	
+	},
 	balanceText: {
 		fontFamily: 'NotoSans-SemiBold',
 		fontSize: 36,
 		color: GlobalStyles.color.onDark.TEXT,
-	},	
+	},
 	bottomContainer: {
 		marginTop: 3,
 		opacity: 0.5
@@ -58,7 +58,7 @@ export default class BalanceWidget extends Component<Props, State> {
 
 	render() {
 		const { } = this.props;
-		const { 
+		const {
 			currency,
 			balance,
 			fiat,
@@ -67,7 +67,6 @@ export default class BalanceWidget extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
-				<PriceChart style={styles.priceChart}/>
 				<Col>
 					<Row justify="center" align="end">
 						<Text style={styles.currencyText}>
@@ -79,7 +78,7 @@ export default class BalanceWidget extends Component<Props, State> {
 					</Row>
 					<Row justify="center" style={styles.bottomContainer}>
 						<Text style={styles.fiatText}>
-							{fiat} | 
+							{fiat} |
 						</Text>
 						<Text style={styles.priceChange}>
 							{priceChange}

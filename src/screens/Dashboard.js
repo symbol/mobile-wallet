@@ -46,7 +46,7 @@ export default class Dashboard extends Component<Props, State> {
 		}
         return (
 			<GradientBackground>
-				<Tab />
+				<Tab { ...this.props }/>
 				<NavigationMenu
 					menuItemList={menuItems}
 					onChange={this.onTabChange}

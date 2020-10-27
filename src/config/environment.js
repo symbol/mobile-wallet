@@ -18,7 +18,8 @@ import {
     NISNodes,
     defaultNetworkType,
 } from 'react-native-env-json';
-import {NetworkType} from "symbol-sdk";
+import { NetworkType } from "symbol-sdk";
+import { languageNames } from '@src/locales/i18n';
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
@@ -60,11 +61,12 @@ const getCurrencyValue = (currencyKey: string): string => {
 
 // Lanugage
 const getLanguageList = (): Array<string> => {
+    console.log(lanugages);
     return Object.keys(lanugages);
 };
 
 const getDefaultLanguage = (): string => {
-    return lanugages.English || 'en';
+    return languageNames.en || 'en';
 };
 
 const getLanguageValue = (languageKey: string): string => {

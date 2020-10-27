@@ -51,23 +51,26 @@ export default class C extends Component<Props, State> {
 		let _style = {};
 
 		switch(name) {
-			case 'none': 
+			case 'none':
 				source = require('../../assets/icons/ic-about.png');
 				break;
-			case 'news': 
+			case 'news':
 				source = require('../../assets/icons/menu/news.png');
 				break;
-			case 'mosaics': 
+			case 'mosaics':
 				source = require('../../assets/icons/menu/mosaics.png');
 				break;
-			case 'home': 
+			case 'home':
 				source = require('../../assets/icons/menu/home.png');
 				break;
-			case 'history': 
+			case 'history':
 				source = require('../../assets/icons/menu/history.png');
 				break;
-			case 'harvest': 
+			case 'harvest':
 				source = require('../../assets/icons/menu/harvest.png');
+				break;
+			case 'settings':
+				source = require('../../assets/icons/settings_dark.png');
 				break;
 			default:
 				source = require('../../assets/icons/ic-about.png');
@@ -75,16 +78,16 @@ export default class C extends Component<Props, State> {
 		}
 
 		switch(size) {
-			case 'large': 
+			case 'large':
 				_style = styles.large
 				break;
-			case 'big': 
+			case 'big':
 				_style = styles.big
 				break;
-			case 'medium': 
+			case 'medium':
 				_style = styles.medium
 				break;
-			case 'small': 
+			case 'small':
 				_style = styles.small
 				break;
 			default:
