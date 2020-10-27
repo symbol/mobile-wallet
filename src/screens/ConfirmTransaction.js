@@ -46,7 +46,8 @@ class ConfirmTransaction extends Component<Props, State> {
 			isLoading,
 			isError,
 			isSuccessfullySent,
-			transaction
+			transaction,
+			onBack
 		} = this.props;
 		const {} = this.state;
 		console.log({ 
@@ -63,11 +64,17 @@ class ConfirmTransaction extends Component<Props, State> {
 			&& !isError
 			&& !isSuccessfullySent;
 
+		const backFunction = isSuccessfullySent
+			? () => Router.goToDashboard()
+			: (typeof onBack === 'function'
+			? onBack
+			: ()=>Router.goBack(this.props.componentId));
+
         return (
 			<GradientBackground name="connector_small" theme="light">
 				<TitleBar
 					theme="light"
-					onBack={()=>Router.goBack(this.props.componentId)}
+					onBack={backFunction}
 					title="Confirm Transaction"
 				/>
 					{isPreviewShown && 
@@ -89,15 +96,15 @@ class ConfirmTransaction extends Component<Props, State> {
 						</Section>
 					}
 					{isLoading &&
-						<Section type="form">
-							<Text type="alert" theme="light">
+						<Section type="center">
+							<Text type="bold" theme="light">
 								Loading
 							</Text>
 						</Section>
 					}
 					{isError &&
-						<Section type="form">
-							<Text type="alert" theme="light">
+						<Section type="center">
+							<Text type="bold" theme="light">
 								Error
 							</Text>
 						</Section>
@@ -107,6 +114,15 @@ class ConfirmTransaction extends Component<Props, State> {
 							<Text type="alert" theme="light">
 								Success!
 							</Text>
+							<Section type="form-bottom">
+								<Button
+									isLoading={false}
+									isDisabled={false}
+									text="Go to dashboard"
+									theme="light"
+									onPress={() => Router.goToDashboard()}
+								/>
+							</Section>
 						</Section>
 					}
 			</GradientBackground>

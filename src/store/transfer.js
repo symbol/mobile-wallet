@@ -29,7 +29,7 @@ export default {
 	},
 	mutations: {
 		setLoading(state, payload) {
-			state.transfer.loading = payload;
+			state.transfer.isLoading = payload;
 			return state;
 		},
 		setError(state, payload) {
@@ -54,7 +54,7 @@ export default {
 		},
 
 		signTransaction: ({commit}, payload) => {
-			const transaction = TransactionBuilder.transfer({}); // mock
+			const transaction = TransactionBuilder.transfer(payload); // mock
 			commit({type: 'transfer/setTransaction', payload: transaction});
 		},
 
@@ -65,7 +65,6 @@ export default {
 				await TransactionService.announceTransaction(payload);
 				commit({type: 'transfer/setLoading', payload: false});
 				commit({type: 'transfer/setSuccessfullySent', payload: true});
-				setTimeout(() => dispatchAction({type: 'transfer/clear', payload: true}), 3000);
 			} catch(e) {
 				commit({type: 'transfer/setError', payload: ErrorHandler.getMessage(e)})
 			}

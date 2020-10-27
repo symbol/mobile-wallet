@@ -7,6 +7,7 @@ import {
 	Input,
 	Button
 } from '@src/components';
+import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
 import { Router } from "@src/Router";
@@ -38,7 +39,12 @@ class Send extends Component<Props, State> {
 		amount: '0',
 		message: '',
 		isEncrypted: false,
-		fee: '0.5'
+		fee: '0.5',
+		isConfirmShown: false
+	};
+
+	componentDidMount = () => {
+		Store.dispatchAction({type: 'transfer/clear'});
 	};
 
 	submit = () => {
@@ -50,12 +56,21 @@ class Send extends Component<Props, State> {
 			isEncrypted: this.state.isEncrypted,
 			fee: this.state.fee
 		}});
-		Router.goToConfirmTransaction({
-			isLoading: this.props.isLoading,
-			isError: this.props.isError,
-			isSuccessfullySent: this.props.isSuccessfullySent,
-			transaction: this.props.transaction,
-		}, this.props.componentId);
+		this.setState({
+			isConfirmShown: true
+		})
+		// Router.goToConfirmTransaction({
+		// 	isLoading: this.props.isLoading,
+		// 	isError: this.props.isError,
+		// 	isSuccessfullySent: this.props.isSuccessfullySent,
+		// 	transaction: this.props.transaction,
+		// }, this.props.componentId);
+	};
+
+	showSendForm = () => {
+		this.setState({
+			isConfirmShown: false
+		});
 	};
 
     render = () => {
@@ -66,11 +81,20 @@ class Send extends Component<Props, State> {
 			amount,
 			message,
 			isEncrypted,
-			fee
+			fee,
+			isConfirmShown
 		} = this.state;
 
-        return (
-			<GradientBackground name="connector_small" theme="light">
+		return (isConfirmShown
+			? <ConfirmTransaction
+				isLoading={this.props.isLoading}
+				isError={this.props.isError}
+				isSuccessfullySent={this.props.isSuccessfullySent}
+				transaction={this.props.transaction}
+				submitActionName="transfer/announceTransaction"
+				onBack={() => this.showSendForm()}
+			/>
+			: (<GradientBackground name="connector_small" theme="light">
 				<TitleBar
 					theme="light"
 					onBack={()=>Router.goBack(this.props.componentId)}
@@ -128,8 +152,8 @@ class Send extends Component<Props, State> {
 							/>
 						</Section>
 					</Section>
-			</GradientBackground>
-        );
+			</GradientBackground>)
+		);
     };
 }
 

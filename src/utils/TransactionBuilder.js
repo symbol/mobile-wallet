@@ -49,11 +49,11 @@ export default class TransctionBuilder {
 				type: 'transfer',
 				deadline: '15:51:00 28 oct 2020',
 				signerAddress: 'TV6960-BACWBF-TXKGIG-56XWC7-AAHLT6-BGUK387-KLM',
-				recipientAddress: 'TB6Q5E-YACWBP-CXKGIL-I6XWCH-DRFLTB-KUK34I-YJQ',
-				message: 'Test message',
+				recipientAddress,
+				message,
 				mosaic: 'Symbol.XYM',
 				amount: '228',
-				fee: '0.5'
+				fee
 			},
 			signedTransaction: {}
 		}
