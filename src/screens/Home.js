@@ -58,7 +58,7 @@ export default class Home extends Component<Props, State> {
 						<PluginList componentId={componentId}/>					
 					</Section>
 					<Section type="list" style={styles.list}>
-						 
+						{/* Notifications Mockup */}
 						<View style={styles.transactionPreview}>
 							<Row justify="space-between">
 								<Text type="regular" theme="light">Opt-in</Text>
