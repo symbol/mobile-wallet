@@ -8,6 +8,7 @@ import {
 	Button
 } from '@src/components';
 import translate from "@src/locales/i18n";
+import Store from '@src/store';
 import { Router } from "@src/Router";
 import { connect } from 'react-redux';
 
@@ -38,6 +39,23 @@ class Send extends Component<Props, State> {
 		message: '',
 		isEncrypted: false,
 		fee: '0.5'
+	};
+
+	submit = () => {
+		Store.dispatchAction({type: 'transfer/signTransaction', payload: {
+			recipientAddress: this.state.recipientAddress,
+			mosaicNamespaceName: this.state.mosaicNamespaceName,
+			amount: this.state.amount,
+			message: this.state.message,
+			isEncrypted: this.state.isEncrypted,
+			fee: this.state.fee
+		}});
+		Router.goToConfirmTransaction({
+			isLoading: this.props.isLoading,
+			isError: this.props.isError,
+			isSuccessfullySent: this.props.isSuccessfullySent,
+			transaction: this.props.transaction,
+		}, this.props.componentId);
 	};
 
     render = () => {
@@ -106,7 +124,7 @@ class Send extends Component<Props, State> {
 								isDisabled={false}
 								text="Send"
 								theme="light"
-								onPress={() => console.log('button click')}
+								onPress={() => this.submit()}
 							/>
 						</Section>
 					</Section>
@@ -115,6 +133,9 @@ class Send extends Component<Props, State> {
     };
 }
 
-export default connect(() => ({
-
+export default connect(state => ({
+	isLoading: state.transfer.isLoading,
+	isError: state.transfer.isError,
+	isSuccessfullySent: state.transfer.isSuccessfullySent,
+	transaction: state.transfer.transaction,
 }))(Send);

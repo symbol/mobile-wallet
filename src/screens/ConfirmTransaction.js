@@ -1,0 +1,119 @@
+import React, { Component } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { 
+	Section, 
+	GradientBackground,
+	TitleBar,
+	Text,
+	Button
+} from '@src/components';
+import translate from "@src/locales/i18n";
+import Store from '@src/store';
+import { Router } from "@src/Router";
+import { connect } from 'react-redux';
+
+
+const styles = StyleSheet.create({
+	transactionPreview: {
+		width: '100%',
+		height: 60,
+		borderRadius: 6,
+		marginTop: 4,
+		marginBottom: 4,
+		padding: 17,
+		paddingTop: 8,
+		backgroundColor: '#fff5'
+	},
+});
+
+type Props = {};
+
+type State = {};
+
+
+class ConfirmTransaction extends Component<Props, State> {
+	state = {};
+
+	submit = () => {
+		Store.dispatchAction({
+			type: this.props.submitActionName, 
+			payload: this.props.transaction.signedTransaction
+		});
+	};
+
+    render = () => {
+		const { 
+			isLoading,
+			isError,
+			isSuccessfullySent,
+			transaction
+		} = this.props;
+		const {} = this.state;
+		console.log({ 
+			isLoading,
+			isError,
+			isSuccessfullySent
+		})
+
+		const preview = Object
+			.keys(transaction.preview)
+			.map(key => ({key, value: transaction.preview[key]}));
+
+		const isPreviewShown = !isLoading
+			&& !isError
+			&& !isSuccessfullySent;
+
+        return (
+			<GradientBackground name="connector_small" theme="light">
+				<TitleBar
+					theme="light"
+					onBack={()=>Router.goBack(this.props.componentId)}
+					title="Confirm Transaction"
+				/>
+					{isPreviewShown && 
+						<Section type="form" style={styles.list} isScrollable>
+							{preview.map(el => <Section type="form-item">
+								<Text type="bold" theme="light">{el.key}:</Text>
+								<Text type="regular" theme="light">{el.value}</Text>
+							</Section>)}
+				
+							<Section type="form-bottom">
+								<Button
+									isLoading={false}
+									isDisabled={false}
+									text="Confirm"
+									theme="light"
+									onPress={() => this.submit()}
+								/>
+							</Section>
+						</Section>
+					}
+					{isLoading &&
+						<Section type="form">
+							<Text type="alert" theme="light">
+								Loading
+							</Text>
+						</Section>
+					}
+					{isError &&
+						<Section type="form">
+							<Text type="alert" theme="light">
+								Error
+							</Text>
+						</Section>
+					}
+					{isSuccessfullySent &&
+						<Section type="form">
+							<Text type="alert" theme="light">
+								Success!
+							</Text>
+						</Section>
+					}
+			</GradientBackground>
+        );
+    };
+}
+
+export default connect(state => ({
+	
+}))(ConfirmTransaction);

@@ -1,5 +1,4 @@
 import TransactionBuilder from '@src/utils/TransactionBuilder';
-import { set } from 'lodash';
 
 class TransactionService {
 	static announceTransaction = signedTransaction => {
@@ -22,7 +21,7 @@ export default {
 	state: {
 		isLoading: false,
 		isError: false,
-		isSuccesfullySent: false,
+		isSuccessfullySent: false,
 		transaction: {
 			preview: {},
 			signedTransaction: {}
@@ -31,6 +30,14 @@ export default {
 	mutations: {
 		setLoading(state, payload) {
 			state.transfer.loading = payload;
+			return state;
+		},
+		setError(state, payload) {
+			state.transfer.isError = payload;
+			return state;
+		},
+		setSuccessfullySent(state, payload) {
+			state.transfer.isSuccessfullySent = payload;
 			return state;
 		},
 		setTransaction(state, payload) {
@@ -42,7 +49,7 @@ export default {
 		clear: ({commit}) => {
 			commit({type: 'transfer/setLoading', payload: false});
 			commit({type: 'transfer/setError', payload: false});
-			commit({type: 'transfer/setSuccesfullySent', payload: false});
+			commit({type: 'transfer/setSuccessfullySent', payload: false});
 			commit({type: 'transfer/setTransaction', payload: {}});
 		},
 
@@ -57,7 +64,7 @@ export default {
 				commit({type: 'transfer/setError', payload: false});
 				await TransactionService.announceTransaction(payload);
 				commit({type: 'transfer/setLoading', payload: false});
-				commit({type: 'transfer/setSuccesfullySent', payload: true});
+				commit({type: 'transfer/setSuccessfullySent', payload: true});
 				setTimeout(() => dispatchAction({type: 'transfer/clear', payload: true}), 3000);
 			} catch(e) {
 				commit({type: 'transfer/setError', payload: ErrorHandler.getMessage(e)})

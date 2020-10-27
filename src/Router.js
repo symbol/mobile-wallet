@@ -17,7 +17,8 @@ import ScanQRCode from "@src/screens/ScanQRCode";
 import WalletLoading from "@src/screens/WalletLoading";
 import VerifyMnemonics from "./screens/VerifyMnemonics";
 import ShowMnemonics from "./screens/ShowMnemonics";
-import Send from "./screens/Send";
+import Send from "@src/screens/Send";
+import ConfirmTransaction from "@src/screens/ConfirmTransaction";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -34,6 +35,7 @@ export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCR
 export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
+export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -53,7 +55,8 @@ export class Router {
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
         [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
 		[WALLET_LOADING_SCREEN, WalletLoading],
-		[SEND_SCREEN, Send]
+		[SEND_SCREEN, Send],
+		[CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction]
     ];
 
     static registerScreens() {
@@ -111,6 +114,9 @@ export class Router {
     }
     static goToWalletLoading(passProps, parentComponent?){
         return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
+	}
+	static goToConfirmTransaction(passProps, parentComponent?){
+        return this.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

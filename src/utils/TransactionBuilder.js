@@ -9,7 +9,7 @@ import {
 
 export interface WalletTransaction {
 	preview: Object,
-	signedTransaction
+	signedTransaction: Object
 }
 
 export interface WalletMosaic {
