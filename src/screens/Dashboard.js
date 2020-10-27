@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
 import {
 	GradientBackground,
@@ -12,7 +12,15 @@ import { Router } from "@src/Router";
 import store from '@src/store';
 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	root: {
+		backgroundColor: '#000'
+	},
+	contentContainer: {
+		flex: 1,
+		marginBottom: 64
+	}
+});
 
 type Props = {};
 
@@ -31,7 +39,7 @@ export default class Dashboard extends Component<Props, State> {
 	};
 
     render() {
-		const {} = this.props;
+		const { componentId } = this.props;
 		const { currentTab } = this.state;
 		let Tab;
 
@@ -45,14 +53,14 @@ export default class Dashboard extends Component<Props, State> {
 				break;
 		}
         return (
-			<GradientBackground>
-				<Tab />
+			<View style={styles.root}>
+				<Tab contentStyle={styles.contentContainer} componentId={componentId}/>
 				<NavigationMenu
 					menuItemList={menuItems}
 					onChange={this.onTabChange}
 					value={currentTab}
 				/>
-			</GradientBackground>
+			</View>
         );
     };
 }

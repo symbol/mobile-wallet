@@ -69,10 +69,11 @@ export default {
 		},
 
 		subtitle: {
-			color: COLORS.WHITE,
-			fontFamily: 'NotoSans-SemiBold',
-			fontWeight: '100',
-			fontSize: 13
+			color: COLORS.DARKWHITE,
+			fontFamily: 'NotoSans-Regular',
+			fontSize: 12,
+			lineHeight: 22,
+			opacity: 0.6,
 		},
 
 		regular: {

@@ -25,11 +25,17 @@ const styles = StyleSheet.create({
 
 
 type IconName = 'none'
+	| 'send'
+	| 'receive'
 	| 'news'
 	| 'mosaics'
 	| 'home'
 	| 'history'
-	| 'harvest';
+	| 'harvest'
+	| 'back_light'
+	| 'back_dark'
+	| 'settings_light'
+	| 'settings_dark';
 
 type Size = 'large'
 	| 'big'
@@ -57,6 +63,12 @@ export default class C extends Component<Props, State> {
 			case 'news': 
 				source = require('../../assets/icons/menu/news.png');
 				break;
+			case 'send': 
+				source = require('../../assets/icons/send.png');
+				break;
+			case 'receive': 
+				source = require('../../assets/icons/receive.png');
+				break;
 			case 'mosaics': 
 				source = require('../../assets/icons/menu/mosaics.png');
 				break;
@@ -68,6 +80,18 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'harvest': 
 				source = require('../../assets/icons/menu/harvest.png');
+				break;
+			case 'back_light': 
+				source = require('../../assets/icons/back_light.png');
+				break;
+			case 'back_dark': 
+				source = require('../../assets/icons/back_dark.png');
+				break;
+			case 'settings_light': 
+				source = require('../../assets/icons/settings_light.png');
+				break;
+			case 'settings_dark': 
+				source = require('../../assets/icons/settings_dark.png');
 				break;
 			default:
 				source = require('../../assets/icons/ic-about.png');

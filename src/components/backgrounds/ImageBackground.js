@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground } from 'react-native';
 import Container from '../Container';
+import { FadeView } from '@src/components';
 
 const styles = StyleSheet.create({
 	root: {
@@ -35,14 +36,16 @@ export default class C extends Component<Props, State> {
 				break;
 		}
         return (
-			<ImageBackground
-				source={source}
-				style={[styles.root, style]}
-			>
-				<Container>
-					{children}
-				</Container>
-			</ImageBackground>
+			<FadeView style={styles.root} duration={200}>
+				<ImageBackground
+					source={source}
+					style={[styles.root, style]}
+				>
+					<Container>
+						{children}
+					</Container>
+				</ImageBackground>
+			</FadeView>
         );
     };
 }

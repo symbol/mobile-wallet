@@ -13,12 +13,11 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		width: '100%',
-		//backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
-		//borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
-		//borderTopWidth: 1
 	},
 	item: {
-		padding: 5
+		padding: 5,
+		width: 65,
+
 	},
 	icon: {
 		marginTop: 2,
@@ -53,7 +52,7 @@ export default class NavigationMenu extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
-				<Row justify="space-evenly" align="center">
+				<Row justify="space-around" align="center">
 					{
 						menuItemList.map(item =>
 							<TouchableOpacity onPress={() => onChange(item.name)}>

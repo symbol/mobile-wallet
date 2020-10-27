@@ -376,5 +376,10 @@
 		"home": "Home",
 		"history": "History",
 		"harvest": "Harvest"
+	},
+	"plugin": {
+		"send": "Send",
+		"receive": "Receive",
+		"more": "More"
 	}
 }
