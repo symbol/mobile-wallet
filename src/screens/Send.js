@@ -6,7 +6,8 @@ import {
 	Text,
 	Row,
 	TitleBar,
-	Input
+	Input,
+	Button
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
@@ -24,9 +25,6 @@ const styles = StyleSheet.create({
 		paddingTop: 8,
 		backgroundColor: '#fff5'
 	},
-	list: {
-		marginTop: 30
-	}
 });
 
 type Props = {};
@@ -48,28 +46,44 @@ export default class History extends Component<Props, State> {
 					onBack={()=>Router.goBack(this.props.componentId)}
 					title="Send"
 				/>
-				<Section type="list" style={styles.list}>
-					<Input 
-						value="TDHGSJHDHJJDJ"
-						placeholder="Recipient Address"
-						theme="light"
-					/>
-					<Input 
-						value="Symbol.XYM"
-						placeholder="Mosaic"
-						theme="light"
-					/>
-					<Input 
-						value="121,456.18"
-						placeholder="Amount"
-						theme="light"
-					/>
-					<Input 
-						value="0.5"
-						placeholder="Fee"
-						theme="light"
-					/>
-	
+				<Section type="form" style={styles.list}>
+					<Section type="form-item">
+						<Input 
+							value="TDHGSJHDHJJDJ"
+							placeholder="Recipient Address"
+							theme="light"
+						/>
+					</Section>
+					<Section type="form-item">
+						<Input 
+							value="TDHGSJHDHJJDJ"
+							placeholder="Recipient Address"
+							theme="light"
+						/>
+					</Section>
+					<Section type="form-item">
+						<Input 
+							value="TDHGSJHDHJJDJ"
+							placeholder="Recipient Address"
+							theme="light"
+						/>
+					</Section>
+					<Section type="form-item">
+						<Input 
+							value="TDHGSJHDHJJDJ"
+							placeholder="Recipient Address"
+							theme="light"
+						/>
+					</Section>
+					<Section type="form-item">
+						<Button
+							isLoading={false}
+							isDisabled={false}
+							text="Send"
+							theme="light"
+							onPress={() => console.log('button click')}
+						/>
+					</Section>
 				</Section>
 			</GradientBackground>
         );

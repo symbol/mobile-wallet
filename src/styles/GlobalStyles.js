@@ -124,6 +124,15 @@ export default {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center'
+		},
+
+		form: {
+			paddingLeft: 34,
+			paddingRight: 34,
+		},
+
+		formItem: {
+			paddingVertical: 10
 		}
 	},
 
