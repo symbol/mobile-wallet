@@ -5,8 +5,10 @@ import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import ModalSelector from '@src/components/organisms/ModalSelector';
 import translate, { getLocales } from '@src/locales/i18n';
 import { getValidSyncIntervals } from '@src/config/environment';
+import store from '@src/store';
+import { connect } from 'react-redux';
 
-export default class SettingsNotificationSelector extends Component {
+class SettingsNotificationSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,15 +16,6 @@ export default class SettingsNotificationSelector extends Component {
             isBoxOpen: false,
         };
     }
-
-    componentDidMount = () => {
-        AsyncCache.getSelectedNotification().then(notification => {
-            const { data } = this.state;
-            this.setState({
-                selected: notification || data[0],
-            });
-        });
-    };
 
     closeModal = () => {
         this.setState({
@@ -37,12 +30,14 @@ export default class SettingsNotificationSelector extends Component {
     };
 
     onSelect = notification => {
-        console.log(`Selected ${notification}`);
-        this.closeModal();
+        store
+            .dispatchAction({ type: 'settings/saveSelectedSyncInterval', payload: notification })
+            .then(_ => this.closeModal());
     };
 
     render() {
-        const { data, isBoxOpen, selected } = this.state;
+        const { data, isBoxOpen } = this.state;
+        const { selectedSyncInterval } = this.props.settings;
 
         return (
             <View>
@@ -50,12 +45,12 @@ export default class SettingsNotificationSelector extends Component {
                     title={translate('Settings.notification.title')}
                     icon={require('../../assets/icons/ic-notification.png')}
                     isSelector={true}
-                    itemValue={selected}
+                    itemValue={selectedSyncInterval}
                     onPress={this.openModal}
                 />
                 <ModalSelector
                     data={data}
-                    selectedItem={selected}
+                    selectedItem={selectedSyncInterval}
                     isModalOpen={isBoxOpen}
                     onClose={this.closeModal}
                     onSelect={this.onSelect}
@@ -64,3 +59,7 @@ export default class SettingsNotificationSelector extends Component {
         );
     }
 }
+
+export default connect(state => ({
+    settings: state.settings,
+}))(SettingsNotificationSelector);

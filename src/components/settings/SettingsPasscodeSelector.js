@@ -1,48 +1,62 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
-import { getCurrencyList } from '@src/config/environment';
-import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import translate from '@src/locales/i18n';
+import store from '@src/store';
+import { connect } from 'react-redux';
+import { Router } from '@src/Router';
 
-export default class SettingsCurrencySelector extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: getCurrencyList(),
-            isCurrencyBoxOpen: false,
-        };
-    }
-
-    componentDidMount = () => {
-        AsyncCache.getSelectedCurrency().then(currency => {
-            const { data } = this.state;
-            this.setState({
-                selectedCurrency: currency || data[0],
-            });
-        });
+class SettingsPasscodeSelector extends Component {
+    state = {
+        reflected: true,
     };
 
-    onTogglePasscode = () => {
-        this.setState({
-            isCurrencyBoxOpen: true,
-        });
+    onSelect = payload => {
+        const setPasscode = () => {
+            store
+                .dispatchAction({type: 'settings/saveIsPasscodeSelected', payload: payload})
+                .then(_ => {
+                    this.setState({
+                        reflected: !this.state.reflected,
+                    });
+                    Router.goToDashboard({});
+                });
+        };
+
+        if (payload) {
+            Router.showPasscode({
+                disablePasscode: true,
+                resetPasscode: true,
+                onSuccess: setPasscode,
+            });
+        } else {
+            Router.showPasscode({
+                resetPasscode: false,
+                onSuccess: setPasscode,
+            });
+        }
     };
 
     render() {
-        const { data, isCurrencyBoxOpen, selectedCurrency } = this.state;
-
+        const {isPasscodeSelected} = this.props.settings;
         return (
             <View>
                 <SettingsListItem
-                    title={translate('Settings.currency.title')}
-                    icon={require('../../assets/icons/ic-currency.png')}
-                    isSelector={true}
-                    itemValue={selectedCurrency}
+                    title={
+                        isPasscodeSelected
+                            ? translate('Settings.passcode.turnOffPasscode')
+                            : translate('Settings.passcode.turnOnPasscode')
+                    }
+                    icon={require('../../assets/icons/ic-passcode.png')}
                     isSwitch={true}
-                    onValueChange={this.onTogglePasscode}
+                    itemValue={isPasscodeSelected}
+                    onValueChange={this.onSelect}
                 />
             </View>
         );
     }
 }
+
+export default connect(state => ({
+    settings: state.settings,
+}))(SettingsPasscodeSelector);

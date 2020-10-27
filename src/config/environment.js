@@ -66,7 +66,7 @@ const getLanguageList = (): Array<string> => {
 };
 
 const getDefaultLanguage = (): string => {
-    return languageNames.en || 'en';
+    return 'en';
 };
 
 const getLanguageValue = (languageKey: string): string => {
@@ -120,7 +120,11 @@ const getNISNodes = (): string => {
 };
 
 const getDefaultNetworkType = (): NetworkType => {
-    return defaultNetworkType === 'mainnet' ? NetworkType.MAIN_NET : NetworkType.TEST_NET;
+    return defaultNetworkType;
+};
+
+const getNodes = (network: 'mainnet' | 'testnet'): string[] => {
+    return networks[network].nodes;
 };
 
 export {
@@ -145,5 +149,6 @@ export {
     getNetworkInfo,
     getOptinEnv,
     getNISNodes,
-    getDefaultNetworkType
+    getDefaultNetworkType,
+    getNodes,
 };

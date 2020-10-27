@@ -32,8 +32,7 @@ export const handleAppStateChange = async (nextAppState: any) => {
 
         const isPin = await hasUserSetPinCode();
         if (isPin) {
-            // TODO: PASSCODE
-            // goToPasscode({ resetPasscode: false, onSuccessFunc: goToDashboard });
+            Router.showPasscode({ onSuccess: () => Router.goToDashboard() });
         }
     }
 
@@ -41,7 +40,13 @@ export const handleAppStateChange = async (nextAppState: any) => {
 };
 
 const initStore = async () => {
-    await store.dispatchAction({ type: 'settings/initState' });
+    try {
+        await Promise.all([
+            store.dispatchAction({ type: 'settings/initState' }),
+            store.dispatchAction({ type: 'market/loadMarketData' }),
+            store.dispatchAction({ type: 'network/initState' }),
+        ]);
+    } catch (e) {}
 };
 
 export const startApp = async () => {
@@ -52,7 +57,7 @@ export const startApp = async () => {
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();
     */
-    setI18nConfig(languageNames.en);
+    setI18nConfig(store.getState().settings.selectedLanguage);
 
     const mnemonic = await SecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
@@ -61,12 +66,8 @@ export const startApp = async () => {
 
     if (mnemonic) {
         scheduleBackgroundJob();
+        if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
 
-        /* TODO: SELECT FIRST PAGE
-        if (isPin) goToPasscode({ resetPasscode: false, onSuccessFunc: goToNetworkSelector });
-        else goToNetworkSelector({});
-        */
-        Router.goToDashboard({});
     } else {
         /* TODO: SELECT FIRST PAGE
         goToOnBoarding({
@@ -110,4 +111,8 @@ export const setGlobalCustomFont = () => {
 
     TextInput.defaultProps = TextInput.defaultProps || {};
     TextInput.defaultProps.maxFontSizeMultiplier = 1.3;
+};
+
+export const logout = async () => {
+    return SecureStorage.saveMnemonic('');
 };

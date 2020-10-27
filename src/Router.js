@@ -18,6 +18,7 @@ import WalletLoading from "@src/screens/WalletLoading";
 import VerifyMnemonics from "./screens/VerifyMnemonics";
 import ShowMnemonics from "./screens/ShowMnemonics";
 import Settings from '@src/screens/Settings';
+import Passcode from '@src/screens/Passcode';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -34,6 +35,7 @@ export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCR
 export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
+export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -54,6 +56,7 @@ export class Router {
         [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
         [WALLET_LOADING_SCREEN, WalletLoading],
         [SETTINGS_SCREEN, Settings],
+        [PASSCODE_SCREEN, Passcode],
     ];
 
     static registerScreens() {
@@ -67,7 +70,7 @@ export class Router {
                 return <EnhancedComponent />;
             };
         }
-		
+
         this.screens.forEach(([key, ScreenComponent]) =>
             Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
         );
@@ -114,6 +117,9 @@ export class Router {
     }
     static goToSettings(passProps, parentComponent?){
         return this.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
+    }
+    static showPasscode(passProps, parentComponent?){
+        return this.goToScreen(PASSCODE_SCREEN, passProps, parentComponent)
     }
 
     static goToScreen(screen: string, passProps, parentComponent?){

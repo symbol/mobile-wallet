@@ -21,10 +21,11 @@
   "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
   "networks": {
     "mainnet": {
-      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+      "nodes": ["http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000", "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000", "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000"]
     },
     "testnet": {
-      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+      "nodes": ["http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000", "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000", "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000"]
     }
-  }
+  },
+ "defaultNetworkType": "testnet"
 }

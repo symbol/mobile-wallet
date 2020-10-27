@@ -3,19 +3,21 @@ import thunk from 'redux-thunk';
 import market from './market';
 import wallet from "@src/store/wallet";
 import settings from '@src/store/settings';
+import network from '@src/store/network';
 
 
 const modules = {
 	market,
 	wallet,
-	settings
+	settings,
+	network
 };
 
-const createModuleReducer = (module, state = {}, action) => {	
-	if(!state[module.namespace]) 
+const createModuleReducer = (module, state = {}, action) => {
+	if(!state[module.namespace])
 		state[module.namespace] = module.state;
 
-	
+
 	const namespace = action.type.split('/')[0];
 	const mutation = action.type.split('/')[1];
 
@@ -92,7 +94,7 @@ store.dispatchAction = ({type, payload}) => {
 					commit: dispatch,
 					state,
 					dispatchAction: store.dispatchAction
-				}, 
+				},
 				payload
 			)
 	);

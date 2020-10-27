@@ -11,41 +11,67 @@ export class AsyncCache {
     static SELECTED_CURRENCY_KEY = 'selectedCurrency';
     static SELECTED_LANGUAGE_KEY = 'selectedLanguage';
     static SELECTED_NOTIFICATION_KEY = 'selectedNotification';
-
-    static setSelectedNetwork = async networkType => {
-        return this.set(this.SELECTED_NETWORK_KEY, networkType);
-    };
+    static SELECTED_PASSCODE_KEY = 'isPasscodeSelected';
+    static SELECTED_NODE_KEY = 'selectedNode';
 
     static getSelectedNetwork = async () => {
-        try {
-            return this.get(this.SELECTED_NETWORK_KEY);
-        } catch (e) {
-            return getDefaultNetworkType();
-        }
+        const selected = await this.get(this.SELECTED_NETWORK_KEY);
+        if (!selected) return getDefaultNetworkType();
+        else return selected;
+    };
+
+    static setSelectedNetwork = async network => {
+        return this.set(this.SELECTED_NETWORK_KEY, network);
     };
 
     static getSelectedCurrency = async () => {
-        try {
-            return this.get(this.SELECTED_CURRENCY_KEY);
-        } catch (e) {
-            return getDefaultCurrency();
-        }
+        const selected = await this.get(this.SELECTED_CURRENCY_KEY);
+        if (!selected) return getDefaultCurrency();
+        else return selected;
+    };
+
+    static setSelectedCurrency = async selectedCurrency => {
+        return this.set(this.SELECTED_CURRENCY_KEY, selectedCurrency);
     };
 
     static getSelectedLanguage = async () => {
-        try {
-            return this.get(this.SELECTED_LANGUAGE_KEY);
-        } catch (e) {
-            return getDefaultLanguage();
-        }
+        const selected = await this.get(this.SELECTED_LANGUAGE_KEY);
+        if (!selected) return getDefaultLanguage();
+        else return selected;
+    };
+
+    static setSelectedLanguage = async payload => {
+        return this.set(this.SELECTED_LANGUAGE_KEY, payload);
     };
 
     static getSelectedNotification = async () => {
-        try {
-            return this.get(this.SELECTED_NOTIFICATION_KEY);
-        } catch (e) {
-            return getDefaultSyncInterval();
-        }
+        const selected = await this.get(this.SELECTED_NOTIFICATION_KEY);
+        if (!selected) return getDefaultSyncInterval();
+        else return selected;
+    };
+
+    static setSelectedSyncInterval = async payload => {
+        return this.set(this.SELECTED_NOTIFICATION_KEY, payload);
+    };
+
+    static getIsPasscodeSelected = async () => {
+        const selected = !!(await this.get(this.SELECTED_PASSCODE_KEY));
+        if (!selected) return false;
+        else return selected;
+    };
+
+    static setIsPasscodeSelected = async payload => {
+        return this.set(this.SELECTED_PASSCODE_KEY, payload.toString());
+    };
+
+    static getSelectedNode = async () => {
+        const selected = await this.get(this.SELECTED_NODE_KEY);
+        if (!selected) return null;
+        else return selected;
+    };
+
+    static setSelectedNode = async payload => {
+        return this.set(this.SELECTED_NODE_KEY, payload.toString());
     };
 
     static set = async (key: String, value: string) => {

@@ -29,9 +29,9 @@ class SettingsCurrencySelector extends Component {
     };
 
     onSelectCurrency = currency => {
-        console.log(`Selected ${currency}`);
-        store.dispatchAction({ type: 'settings/setSelectedCurrency', payload: currency });
-        this.closeModal();
+        store
+            .dispatchAction({ type: 'settings/saveSelectedCurrency', payload: currency })
+            .then(_ => this.closeModal());
     };
 
     render() {

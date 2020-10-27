@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
-import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import ModalSelector from '@src/components/organisms/ModalSelector';
 import translate, { getLocales } from '@src/locales/i18n';
+import store from '@src/store';
+import { connect } from 'react-redux';
 
-export default class SettingsLanguageSelector extends Component {
+class SettingsLanguageSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,15 +14,6 @@ export default class SettingsLanguageSelector extends Component {
             isBoxOpen: false,
         };
     }
-
-    componentDidMount = () => {
-        AsyncCache.getSelectedLanguage().then(language => {
-            const { data } = this.state;
-            this.setState({
-                selected: language || data[0],
-            });
-        });
-    };
 
     closeModal = () => {
         this.setState({
@@ -36,12 +28,14 @@ export default class SettingsLanguageSelector extends Component {
     };
 
     onSelectLanguage = language => {
-        console.log(`Selected ${language}`);
-        this.closeModal();
+        store
+            .dispatchAction({ type: 'settings/saveSelectedLanguage', payload: language })
+            .then(_ => this.closeModal());
     };
 
     render() {
-        const { data, isBoxOpen, selected } = this.state;
+        const { data, isBoxOpen } = this.state;
+        const { selectedLanguage } = this.props.settings;
 
         return (
             <View>
@@ -49,12 +43,12 @@ export default class SettingsLanguageSelector extends Component {
                     title={translate('Settings.language.title')}
                     icon={require('../../assets/icons/ic-language.png')}
                     isSelector={true}
-                    itemValue={selected}
+                    itemValue={selectedLanguage}
                     onPress={this.openModal}
                 />
                 <ModalSelector
                     data={data}
-                    selectedItem={selected}
+                    selectedItem={selectedLanguage}
                     isModalOpen={isBoxOpen}
                     onClose={this.closeModal}
                     onSelect={this.onSelectLanguage}
@@ -63,3 +57,7 @@ export default class SettingsLanguageSelector extends Component {
         );
     }
 }
+
+export default connect(state => ({
+    settings: state.settings,
+}))(SettingsLanguageSelector);

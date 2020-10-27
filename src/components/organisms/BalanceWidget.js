@@ -67,6 +67,7 @@ export default class BalanceWidget extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
+				<PriceChart style={styles.priceChart}/>
 				<Col>
 					<Row justify="center" align="end">
 						<Text style={styles.currencyText}>
