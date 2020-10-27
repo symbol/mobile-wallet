@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { 
 	Section, 
 	GradientBackground,
-	Text,
-	Row,
 	TitleBar,
 	Input,
 	Button
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
-import store from '@src/store';
+import { connect } from 'react-redux';
 
 
 const styles = StyleSheet.create({
@@ -32,7 +30,7 @@ type Props = {};
 type State = {};
 
 
-export default class History extends Component<Props, State> {
+class Send extends Component<Props, State> {
 	state = {};
 
     render() {
@@ -46,46 +44,43 @@ export default class History extends Component<Props, State> {
 					onBack={()=>Router.goBack(this.props.componentId)}
 					title="Send"
 				/>
-				<Section type="form" style={styles.list}>
-					<Section type="form-item">
-						<Input 
-							value="TDHGSJHDHJJDJ"
-							placeholder="Recipient Address"
-							theme="light"
-						/>
+					<Section type="form" style={styles.list} isScrollable>
+						<Section type="form-item">
+							<Input 
+								value="TDHGSJHDHJJDJ"
+								placeholder="Recipient Address"
+								theme="light"
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value="TDHGSJHDHJJDJ"
+								placeholder="Recipient Address"
+								theme="light"
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value="TDHGSJHDHJJDJ"
+								placeholder="Recipient Address"
+								theme="light"
+							/>
+						</Section>
+						<Section type="form-bottom">
+							<Button
+								isLoading={false}
+								isDisabled={false}
+								text="Send"
+								theme="light"
+								onPress={() => console.log('button click')}
+							/>
+						</Section>
 					</Section>
-					<Section type="form-item">
-						<Input 
-							value="TDHGSJHDHJJDJ"
-							placeholder="Recipient Address"
-							theme="light"
-						/>
-					</Section>
-					<Section type="form-item">
-						<Input 
-							value="TDHGSJHDHJJDJ"
-							placeholder="Recipient Address"
-							theme="light"
-						/>
-					</Section>
-					<Section type="form-item">
-						<Input 
-							value="TDHGSJHDHJJDJ"
-							placeholder="Recipient Address"
-							theme="light"
-						/>
-					</Section>
-					<Section type="button">
-						<Button
-							isLoading={false}
-							isDisabled={false}
-							text="Send"
-							theme="light"
-							onPress={() => console.log('button click')}
-						/>
-					</Section>
-				</Section>
 			</GradientBackground>
         );
     };
 }
+
+export default connect(() => ({
+
+}))(Send);

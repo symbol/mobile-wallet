@@ -138,7 +138,7 @@ export default {
 			paddingBottom: 17
 		},
 
-		button: {
+		formBottom: {
 			marginTop: 'auto',
 			paddingBottom: 17
 		}
