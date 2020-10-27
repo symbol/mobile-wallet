@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { 
 	Section, 
 	GradientBackground,
-	Text,
-	Row,
 	TitleBar,
-	Input
+	Input,
+	Button
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
-import store from '@src/store';
+import { connect } from 'react-redux';
 
 
 const styles = StyleSheet.create({
@@ -24,9 +23,6 @@ const styles = StyleSheet.create({
 		paddingTop: 8,
 		backgroundColor: '#fff5'
 	},
-	list: {
-		marginTop: 30
-	}
 });
 
 type Props = {};
@@ -34,12 +30,26 @@ type Props = {};
 type State = {};
 
 
-export default class History extends Component<Props, State> {
-	state = {};
+class Send extends Component<Props, State> {
+	state = {
+		recipientAddress: '',
+		mosaicNamespaceName: 'Symbol.XYM',
+		amount: '0',
+		message: '',
+		isEncrypted: false,
+		fee: '0.5'
+	};
 
-    render() {
+    render = () => {
 		const {} = this.props;
-		const {} = this.state;
+		const {
+			recipientAddress,
+			mosaicNamespaceName,
+			amount,
+			message,
+			isEncrypted,
+			fee
+		} = this.state;
 
         return (
 			<GradientBackground name="connector_small" theme="light">
@@ -48,30 +58,63 @@ export default class History extends Component<Props, State> {
 					onBack={()=>Router.goBack(this.props.componentId)}
 					title="Send"
 				/>
-				<Section type="list" style={styles.list}>
-					<Input 
-						value="TDHGSJHDHJJDJ"
-						placeholder="Recipient Address"
-						theme="light"
-					/>
-					<Input 
-						value="Symbol.XYM"
-						placeholder="Mosaic"
-						theme="light"
-					/>
-					<Input 
-						value="121,456.18"
-						placeholder="Amount"
-						theme="light"
-					/>
-					<Input 
-						value="0.5"
-						placeholder="Fee"
-						theme="light"
-					/>
-	
-				</Section>
+					<Section type="form" style={styles.list} isScrollable>
+						<Section type="form-item">
+							<Input 
+								value={recipientAddress}
+								placeholder="Recipient Address"
+								theme="light"
+								onChangeText={recipientAddress => this.setState({recipientAddress})}
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value={mosaicNamespaceName}
+								placeholder="Mosaic"
+								theme="light"
+								editable={false}
+								onChangeText={mosaicNamespaceName => this.setState({mosaicNamespaceName})}
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value={amount}
+								placeholder="Amount"
+								theme="light"
+								onChangeText={amount => this.setState({amount})}
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value={message}
+								placeholder="Message / Memo"
+								theme="light"
+								onChangeText={message => this.setState({message})}
+							/>
+						</Section>
+						<Section type="form-item">
+							<Input 
+								value={fee}
+								placeholder="Fee"
+								theme="light"
+								onChangeText={fee => this.setState({fee})}
+							/>
+						</Section>
+						<Section type="form-bottom">
+							<Button
+								isLoading={false}
+								isDisabled={false}
+								text="Send"
+								theme="light"
+								onPress={() => console.log('button click')}
+							/>
+						</Section>
+					</Section>
 			</GradientBackground>
         );
     };
 }
+
+export default connect(() => ({
+
+}))(Send);

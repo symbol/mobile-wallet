@@ -124,6 +124,23 @@ export default {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center'
+		},
+
+		form: {
+			paddingLeft: 34,
+			paddingRight: 34,
+			paddingBottom: 17,
+			flex: 1,
+			flexDirection: 'column'
+		},
+
+		formItem: {
+			paddingBottom: 17
+		},
+
+		formBottom: {
+			marginTop: 'auto',
+			paddingBottom: 17
 		}
 	},
 

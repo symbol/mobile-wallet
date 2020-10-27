@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { 
+	StyleSheet, 
+	View,
+	SafeAreaView,
+	Platform, 
+	StatusBar 
+} from 'react-native';
 
 
 const styles = StyleSheet.create({

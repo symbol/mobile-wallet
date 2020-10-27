@@ -5,9 +5,10 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
 	root: {
-		width: '100%',
-		marginBottom: 10
 		//backgroundColor: '#f005',
+	},
+	fullWidth: {
+		width: '100%',
 	},
 	placeholderLight: {
 		color: GlobalStyles.color.GREY3
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
 		borderRadius: 2,
 		borderColor: GlobalStyles.color.GREY4,
 		color: GlobalStyles.color.GREY1,
+		backgroundColor: GlobalStyles.color.DARKWHITE,
 		fontSize: 12,
 		fontFamily: 'NotoSans-SemiBold',
 		fontWeight: '300'
@@ -44,11 +46,15 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, theme, value, placeholder, ...rest } = this.props;
+		const { style = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
 		let inputStyle = {};
 		let placeholderTextColor;
 		let nativePlaceholder;
 		let placeholderStyle;
+		let rootStyle = [styles.root, style];
+
+		if(fullWidth)
+			rootStyle.push(styles.fullWidth);
 
 		if(typeof align === 'string')
 			globalStyle.textAlign = align;
@@ -68,7 +74,7 @@ export default class Input extends Component<Props, State> {
 		}
 
         return (
-			<View style={[styles.root, style]}>
+			<View style={rootStyle}>
 				{(!!value || theme === 'light') && <Text style={placeholderStyle}>{placeholder}</Text>}
 				<TextInput
 					{...rest}

@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 
 const styles = StyleSheet.create({
-
+	scrollWrapper: {
+		height: '100%'
+	},
+	scrollContent: {
+		flexGrow: 1
+	}
 });
 
 type Type = 'title' 
 	| 'subtitle'
 	| 'text'
 	| 'center'
-	| 'button';
+	| 'button'
+	| 'form'
+	| 'form-item';
 
 interface Props {
-	type: Type
+	type: Type;
+	isScrollable: boolean;
 };
 
 type State = {};
@@ -22,7 +30,7 @@ type State = {};
 
 export default class Text extends Component<Props, State> {
     render() {
-		const { children, type, style = {} } = this.props;
+		const { children, type, isScrollable, style = {} } = this.props;
 		let globalStyle = {};
 
 		switch(type) {
@@ -44,12 +52,29 @@ export default class Text extends Component<Props, State> {
 			case 'list': 
 				globalStyle = GlobalStyles.section.list; 
 				break;
+			case 'form': 
+				globalStyle = GlobalStyles.section.form; 
+				break;
+			case 'form-item': 
+				globalStyle = GlobalStyles.section.formItem; 
+				break;
+			case 'form-bottom': 
+				globalStyle = GlobalStyles.section.formBottom; 
+				break;
 		}
 
-        return (
-			<View style={[globalStyle, style]}>
+        return (!isScrollable 
+			? <View style={[globalStyle, style]}>
 				{children}
 			</View>
+			: <ScrollView 
+				style={[styles.scrollWrapper, style]}
+				contentContainerStyle={[styles.scrollContent]}
+			>
+				<View style={[globalStyle]}>
+					{children}
+				</View>
+			</ScrollView>
         );
     };
 }
