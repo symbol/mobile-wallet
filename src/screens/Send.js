@@ -75,7 +75,7 @@ export default class History extends Component<Props, State> {
 							theme="light"
 						/>
 					</Section>
-					<Section type="form-item">
+					<Section type="button">
 						<Button
 							isLoading={false}
 							isDisabled={false}

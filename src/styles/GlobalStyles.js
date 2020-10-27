@@ -129,10 +129,18 @@ export default {
 		form: {
 			paddingLeft: 34,
 			paddingRight: 34,
+			paddingBottom: 17,
+			flex: 1,
+			flexDirection: 'column'
 		},
 
 		formItem: {
-			paddingVertical: 10
+			paddingBottom: 17
+		},
+
+		button: {
+			marginTop: 'auto',
+			paddingBottom: 17
 		}
 	},
 

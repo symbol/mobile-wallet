@@ -11,7 +11,9 @@ type Type = 'title'
 	| 'subtitle'
 	| 'text'
 	| 'center'
-	| 'button';
+	| 'button'
+	| 'form'
+	| 'form-item';
 
 interface Props {
 	type: Type
@@ -43,6 +45,12 @@ export default class Text extends Component<Props, State> {
 				break;
 			case 'list': 
 				globalStyle = GlobalStyles.section.list; 
+				break;
+			case 'form': 
+				globalStyle = GlobalStyles.section.form; 
+				break;
+			case 'form-item': 
+				globalStyle = GlobalStyles.section.formItem; 
 				break;
 		}
 
