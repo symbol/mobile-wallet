@@ -54,7 +54,7 @@ export default class Dashboard extends Component<Props, State> {
 		}
         return (
 			<View style={styles.root}>
-				<Tab constentStyle={styles.contentContainer} componentId={componentId}/>
+				<Tab contentStyle={styles.contentContainer} componentId={componentId}/>
 				<NavigationMenu
 					menuItemList={menuItems}
 					onChange={this.onTabChange}

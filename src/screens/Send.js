@@ -5,7 +5,8 @@ import {
 	GradientBackground,
 	Text,
 	Row,
-	TitleBar
+	TitleBar,
+	Input
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
@@ -46,30 +47,29 @@ export default class History extends Component<Props, State> {
 					theme="light"
 					onBack={()=>Router.goBack(this.props.componentId)}
 					title="Send"
-		
 				/>
 				<Section type="list" style={styles.list}>
-					{/* TODO: move transaction preview to a separate component. Mockup */}
-					<View style={styles.transactionPreview}>
-						<Row justify="space-between">
-							<Text type="regular" theme="light">Transfer</Text>
-							<Text type="regular" theme="light">23.10.2020 11:00</Text>
-						</Row>
-						<Row justify="space-between">
-							<Text type="bold" theme="light">Seed Account 1</Text>
-							<Text type="bold" theme="light">-228</Text>
-						</Row>
-					</View>
-					<View style={styles.transactionPreview}>
-					<Row justify="space-between">
-							<Text type="regular" theme="light">Transfer</Text>
-							<Text type="regular" theme="light">23.10.2020 10:59</Text>
-						</Row>
-						<Row justify="space-between">
-							<Text type="bold" theme="light">*A7DAE</Text>
-							<Text type="bold" theme="light">133,567</Text>
-						</Row>
-					</View>
+					<Input 
+						value="TDHGSJHDHJJDJ"
+						placeholder="Recipient Address"
+						theme="light"
+					/>
+					<Input 
+						value="Symbol.XYM"
+						placeholder="Mosaic"
+						theme="light"
+					/>
+					<Input 
+						value="121,456.18"
+						placeholder="Amount"
+						theme="light"
+					/>
+					<Input 
+						value="0.5"
+						placeholder="Fee"
+						theme="light"
+					/>
+	
 				</Section>
 			</GradientBackground>
         );

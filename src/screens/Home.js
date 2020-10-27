@@ -7,6 +7,7 @@ import {
 	Text,
 	PluginList,
 	Col,
+	Row,
 	TitleBar
 } from '@src/components';
 import translate from "@src/locales/i18n";
@@ -28,7 +29,6 @@ const styles = StyleSheet.create({
 	},
 	list: {
 		marginTop: 17,
-		marginBottom: 80
 	}
 });
 
@@ -41,26 +41,24 @@ export default class Home extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { constentStyle={}, componentId } = this.props;
+		const { contentStyle={}, componentId } = this.props;
 		console.log('home.componentId', this.props.componentId)
 		const {} = this.state;
 		
         return (
-			<GradientBackground name='mesh_small_2' fade={true}>
+			<GradientBackground name='connector' fade={true}>
 				<TitleBar
 					theme="dark"
 					onSettings={()=>{this.props.componentId}}
 					title="Home"
 				/>
-				<Col justify="space-around" style={constentStyle}>
-					<Section type="center">
-						<BalanceWidget showChart={false}/>
-					</Section>
+				<Col justify="space-around" style={contentStyle}>
+					<BalanceWidget showChart={true}/>
 					<Section type="list">
 						<PluginList componentId={componentId}/>					
 					</Section>
-					{/*<Section type="list" style={styles.list}>
-						 TODO: move transaction preview to a separate component. Mockup 
+					<Section type="list" style={styles.list}>
+						 
 						<View style={styles.transactionPreview}>
 							<Row justify="space-between">
 								<Text type="regular" theme="light">Opt-in</Text>
@@ -79,7 +77,7 @@ export default class Home extends Component<Props, State> {
 								<Text type="bold" theme="light">Awaiting your signature</Text>
 							</Row>
 						</View>
-					</Section>*/}
+					</Section>
 				</Col>
 			</GradientBackground>
         );

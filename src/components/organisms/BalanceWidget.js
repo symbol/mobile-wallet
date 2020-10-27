@@ -6,12 +6,13 @@ import GlobalStyles from '../../styles/GlobalStyles';
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
 	root: {
-		marginTop: 60
+		marginTop: 34,
+		width: '100%'
 	},	
 	priceChart: {
 		position: 'absolute',
 		top: -50,
-		left: -64
+		//left: -64
 	},
 	currencyText: {
 		fontSize: 15,
