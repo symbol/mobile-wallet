@@ -7,7 +7,9 @@ import {
 	Input,
 	Button
 } from '@src/components';
+import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from "@src/locales/i18n";
+import Store from '@src/store';
 import { Router } from "@src/Router";
 import { connect } from 'react-redux';
 
@@ -37,7 +39,38 @@ class Send extends Component<Props, State> {
 		amount: '0',
 		message: '',
 		isEncrypted: false,
-		fee: '0.5'
+		fee: '0.5',
+		isConfirmShown: false
+	};
+
+	componentDidMount = () => {
+		Store.dispatchAction({type: 'transfer/clear'});
+	};
+
+	submit = () => {
+		Store.dispatchAction({type: 'transfer/signTransaction', payload: {
+			recipientAddress: this.state.recipientAddress,
+			mosaicNamespaceName: this.state.mosaicNamespaceName,
+			amount: this.state.amount,
+			message: this.state.message,
+			isEncrypted: this.state.isEncrypted,
+			fee: this.state.fee
+		}});
+		this.setState({
+			isConfirmShown: true
+		})
+		// Router.goToConfirmTransaction({
+		// 	isLoading: this.props.isLoading,
+		// 	isError: this.props.isError,
+		// 	isSuccessfullySent: this.props.isSuccessfullySent,
+		// 	transaction: this.props.transaction,
+		// }, this.props.componentId);
+	};
+
+	showSendForm = () => {
+		this.setState({
+			isConfirmShown: false
+		});
 	};
 
     render = () => {
@@ -48,11 +81,20 @@ class Send extends Component<Props, State> {
 			amount,
 			message,
 			isEncrypted,
-			fee
+			fee,
+			isConfirmShown
 		} = this.state;
 
-        return (
-			<GradientBackground name="connector_small" theme="light">
+		return (isConfirmShown
+			? <ConfirmTransaction
+				isLoading={this.props.isLoading}
+				isError={this.props.isError}
+				isSuccessfullySent={this.props.isSuccessfullySent}
+				transaction={this.props.transaction}
+				submitActionName="transfer/announceTransaction"
+				onBack={() => this.showSendForm()}
+			/>
+			: (<GradientBackground name="connector_small" theme="light">
 				<TitleBar
 					theme="light"
 					onBack={()=>Router.goBack(this.props.componentId)}
@@ -106,15 +148,18 @@ class Send extends Component<Props, State> {
 								isDisabled={false}
 								text="Send"
 								theme="light"
-								onPress={() => console.log('button click')}
+								onPress={() => this.submit()}
 							/>
 						</Section>
 					</Section>
-			</GradientBackground>
-        );
+			</GradientBackground>)
+		);
     };
 }
 
-export default connect(() => ({
-
+export default connect(state => ({
+	isLoading: state.transfer.isLoading,
+	isError: state.transfer.isError,
+	isSuccessfullySent: state.transfer.isSuccessfullySent,
+	transaction: state.transfer.transaction,
 }))(Send);
