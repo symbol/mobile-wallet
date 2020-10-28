@@ -5,6 +5,7 @@ import {
 	GradientBackground,
 	TitleBar,
 	Input,
+	InputAccount,
 	Button
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
@@ -106,10 +107,11 @@ class Send extends Component<Props, State> {
 				/>
 					<Section type="form" style={styles.list} isScrollable>
 						<Section type="form-item">
-							<Input 
+							<InputAccount 
 								value={recipientAddress}
 								placeholder="Recipient Address"
 								theme="light"
+								fullWidth
 								onChangeText={recipientAddress => this.setState({recipientAddress})}
 							/>
 						</Section>

@@ -35,7 +35,9 @@ type IconName = 'none'
 	| 'back_light'
 	| 'back_dark'
 	| 'settings_light'
-	| 'settings_dark';
+	| 'settings_dark'
+	| 'paste'
+	| 'qr';
 
 type Size = 'large'
 	| 'big'
@@ -92,6 +94,12 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'settings_dark': 
 				source = require('../../assets/icons/settings_dark.png');
+				break;
+			case 'paste': 
+				source = require('../../assets/icons/clipboard.png');
+				break;
+			case 'qr': 
+				source = require('../../assets/icons/qr.png');
 				break;
 			default:
 				source = require('../../assets/icons/ic-about.png');
