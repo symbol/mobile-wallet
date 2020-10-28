@@ -62,12 +62,19 @@ export default class InputAccount extends Component<Props, State> {
 		}
 	};
 
+	getInputStyle = (numberOfIcons, k, offset) => {
+		return {
+			paddingRight: numberOfIcons * k + offset
+		}
+	}
+
     render = () => {
 		const { style = {}, fullWidth, ...rest } = this.props;
 		let rootStyle = [styles.root, style];
 		const iconSize = 'small';
-		const iconK = 30;
+		const iconTouchableWidth = 30;
 		const iconOffset = 5;
+		const numberOfIcons = 2;
 
 		if(fullWidth)
 			rootStyle.push(styles.fullWidth);
@@ -78,21 +85,22 @@ export default class InputAccount extends Component<Props, State> {
 				<Input
 					{...rest}
 					fullWidth={fullWidth}
+					inputStyle={this.getInputStyle(numberOfIcons, iconTouchableWidth, iconOffset)}
 				/>
 				{/* <TouchableOpacity 
-					style={[styles.icon, this.getIconPosition(2, iconK, iconOffset)]} 
+					style={[styles.icon, this.getIconPosition(2, iconTouchableWidth, iconOffset)]} 
 					onPress={() => this.importWithAddressBook()}
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
 				<TouchableOpacity 
-					style={[styles.icon, this.getIconPosition(1, iconK, iconOffset)]} 
+					style={[styles.icon, this.getIconPosition(1, iconTouchableWidth, iconOffset)]} 
 					onPress={() => this.importWithQR()}
 				>
 					<Icon name="qr" size={iconSize} />
 				</TouchableOpacity>
 				<TouchableOpacity 
-					style={[styles.icon, this.getIconPosition(0, iconK, iconOffset)]} 
+					style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]} 
 					onPress={() => this.importWithClipboard()}
 				>
 					<Icon name="paste" size={iconSize} />	

@@ -46,8 +46,8 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
-		let inputStyle = {};
+		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
+		let _inputStyle = {};
 		let placeholderTextColor;
 		let nativePlaceholder;
 		let placeholderStyle;
@@ -62,13 +62,13 @@ export default class Input extends Component<Props, State> {
 
 		if(theme === 'light') {
 			placeholderTextColor = GlobalStyles.color.PRIMARY,
-			inputStyle = styles.inputLight;
+			_inputStyle = styles.inputLight;
 			placeholderStyle = styles.placeholderLight;
 			nativePlaceholder = '';
 		}	
 		else {
 			placeholderTextColor = GlobalStyles.color.PINK
-			inputStyle = styles.inputDark;
+			_inputStyle = styles.inputDark;
 			placeholderStyle = styles.placeholderDark;
 			nativePlaceholder = placeholder;
 		}
@@ -79,7 +79,7 @@ export default class Input extends Component<Props, State> {
 				<TextInput
 					{...rest}
 					value={value}
-					style={[inputStyle]}
+					style={[_inputStyle, inputStyle]}
 					placeholder={nativePlaceholder}
 					placeholderTextColor={placeholderTextColor}
 					autoCapitalize="none"

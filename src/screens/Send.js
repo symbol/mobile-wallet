@@ -5,7 +5,7 @@ import {
 	GradientBackground,
 	TitleBar,
 	Input,
-	InputAccount,
+	InputAddress,
 	Button
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
@@ -107,7 +107,7 @@ class Send extends Component<Props, State> {
 				/>
 					<Section type="form" style={styles.list} isScrollable>
 						<Section type="form-item">
-							<InputAccount 
+							<InputAddress 
 								value={recipientAddress}
 								placeholder="Recipient Address"
 								theme="light"
