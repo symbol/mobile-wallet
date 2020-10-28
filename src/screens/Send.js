@@ -73,6 +73,17 @@ class Send extends Component<Props, State> {
 		});
 	};
 
+	renderConfirmTransaction = () => {
+		return (<ConfirmTransaction
+			isLoading={this.props.isLoading}
+			isError={this.props.isError}
+			isSuccessfullySent={this.props.isSuccessfullySent}
+			transaction={this.props.transaction}
+			submitActionName="transfer/announceTransaction"
+			onBack={() => this.showSendForm()}
+		/>)
+	};
+
     render = () => {
 		const {} = this.props;
 		const {
@@ -86,14 +97,7 @@ class Send extends Component<Props, State> {
 		} = this.state;
 
 		return (isConfirmShown
-			? <ConfirmTransaction
-				isLoading={this.props.isLoading}
-				isError={this.props.isError}
-				isSuccessfullySent={this.props.isSuccessfullySent}
-				transaction={this.props.transaction}
-				submitActionName="transfer/announceTransaction"
-				onBack={() => this.showSendForm()}
-			/>
+			? this.renderConfirmTransaction()
 			: (<GradientBackground name="connector_small" theme="light">
 				<TitleBar
 					theme="light"
