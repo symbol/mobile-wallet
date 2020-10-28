@@ -37,7 +37,8 @@ type IconName = 'none'
 	| 'settings_light'
 	| 'settings_dark'
 	| 'paste'
-	| 'qr';
+	| 'qr'
+	| 'expand';
 
 type Size = 'large'
 	| 'big'
@@ -100,6 +101,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'qr': 
 				source = require('../../assets/icons/qr.png');
+				break;
+			case 'expand': 
+				source = require('../../assets/icons/expand.png');
 				break;
 			default:
 				source = require('../../assets/icons/ic-about.png');
