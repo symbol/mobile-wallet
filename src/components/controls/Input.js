@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
 	},
 	rootDark: {
 		flexDirection: 'column',
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
 		alignItems: 'flex-start',
 		borderBottomWidth: 1,
 		borderColor: GlobalStyles.color.GREY4,
-		height: 40,
+		height: 50,
 	},
 	fullWidth: {
 		width: '100%',

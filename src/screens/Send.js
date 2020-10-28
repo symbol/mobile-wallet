@@ -6,7 +6,8 @@ import {
 	TitleBar,
 	Input,
 	InputAddress,
-	Button
+	Button,
+	Dropdown
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from "@src/locales/i18n";
@@ -36,7 +37,7 @@ type State = {};
 class Send extends Component<Props, State> {
 	state = {
 		recipientAddress: '',
-		mosaicNamespaceName: 'Symbol.XYM',
+		mosaicName: 'Symbol.XYM',
 		amount: '0',
 		message: '',
 		isEncrypted: false,
@@ -51,7 +52,7 @@ class Send extends Component<Props, State> {
 	submit = () => {
 		Store.dispatchAction({type: 'transfer/signTransaction', payload: {
 			recipientAddress: this.state.recipientAddress,
-			mosaicNamespaceName: this.state.mosaicNamespaceName,
+			mosaicNamespaceName: this.state.mosaicName,
 			amount: this.state.amount,
 			message: this.state.message,
 			isEncrypted: this.state.isEncrypted,
@@ -89,13 +90,17 @@ class Send extends Component<Props, State> {
 		const {} = this.props;
 		const {
 			recipientAddress,
-			mosaicNamespaceName,
+			mosaicName,
 			amount,
 			message,
 			isEncrypted,
 			fee,
 			isConfirmShown
 		} = this.state;
+
+		const mosaicList = [
+			{value: 'symbol.xym', label: 'Symbol.XYM'}
+		]
 
 		return (isConfirmShown
 			? this.renderConfirmTransaction()
@@ -116,12 +121,13 @@ class Send extends Component<Props, State> {
 							/>
 						</Section>
 						<Section type="form-item">
-							<Input 
-								value={mosaicNamespaceName}
-								placeholder="Mosaic"
+							<Dropdown 
+								value={mosaicName}
+								title="Mosaic"
 								theme="light"
-								editable={false}
-								onChangeText={mosaicNamespaceName => this.setState({mosaicNamespaceName})}
+								editable={true}
+								list={mosaicList}
+								onChange={mosaicName => this.setState({mosaicName})}
 							/>
 						</Section>
 						<Section type="form-item">

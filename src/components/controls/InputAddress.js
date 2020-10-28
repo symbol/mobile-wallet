@@ -73,7 +73,7 @@ export default class InputAccount extends Component<Props, State> {
 		let rootStyle = [styles.root, style];
 		const iconSize = 'small';
 		const iconTouchableWidth = 30;
-		const iconOffset = 5;
+		const iconOffset = 8;
 		const numberOfIcons = 2;
 
 		if(fullWidth)
