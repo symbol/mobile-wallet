@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Row, Col, Icon, Text, Section } from '../../components';
+import { Row, Col, Icon, Text, Section } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import translate from "../../locales/i18n";
-import { Router, BASE_SCREEN_NAME } from "../../Router";
+import translate from "@src/locales/i18n";
+import { Router, BASE_SCREEN_NAME } from "@src/Router";
 
 
 const styles = StyleSheet.create({

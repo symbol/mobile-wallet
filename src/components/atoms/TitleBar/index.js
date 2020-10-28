@@ -19,14 +19,14 @@ export type titleTheme = {
 
 const lightTheme: titleTheme = {
 	textColor: '#ff00ff',
-	backIconRes: require('../../../assets/icons/ic-back-black.png'),
-	closeIconRes: require('../../../assets/icons/close_light.png'),
+	backIconRes: require('@src/assets/icons/ic-back-black.png'),
+	closeIconRes: require('@src/assets/icons/close_light.png'),
 };
 
 const darkTheme: titleTheme = {
 	textColor: '#ffffff',
-	backIconRes: require('../../../assets/icons/ic-back-white.png'),
-	closeIconRes: require('../../../assets/icons/close_dark.png'),
+	backIconRes: require('@src/assets/icons/ic-back-white.png'),
+	closeIconRes: require('@src/assets/icons/close_dark.png'),
 };
 
 const themeMap = new Map<string, titleTheme>();

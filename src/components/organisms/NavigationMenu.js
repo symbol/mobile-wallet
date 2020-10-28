@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
-import { Row, Col, Icon, Text, PriceChart } from '../../components';
+import { Row, Col, Icon, Text, PriceChart } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import translate from "../../locales/i18n";
-import { Router } from "../../Router";
+import translate from "@src/locales/i18n";
+import { Router } from "@src/Router";
 
 
 const styles = StyleSheet.create({

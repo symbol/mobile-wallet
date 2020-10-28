@@ -7,13 +7,13 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { isEqual } from 'lodash';
 
-import GradientContainer from "../components/organisms/SymbolGradientContainer";
-import GradientButton from "../components/atoms/GradientButton";
-import translate from '../locales/i18n';
+import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
+import GradientButton from "@src/components/atoms/GradientButton";
+import translate from '@src/locales/i18n';
 import styles from './VerifyMnemonics.styl';
-import Card from '../components/atoms/Card';
-import TitleBar from '../components/atoms/TitleBar';
-import {Router} from "../Router";
+import Card from '@src/components/atoms/Card';
+import TitleBar from '@src/components/atoms/TitleBar';
+import {Router} from "@src/Router";
 import store from "@src/store";
 
 const testIDs = {

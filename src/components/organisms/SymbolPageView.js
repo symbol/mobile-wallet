@@ -295,7 +295,7 @@ const WizardStepView = (props: Props) => {
 			return (
 				<View
 					style={[styles.container, styles.containerLight]}
-					source={require('../../assets/terms.png')}
+					source={require('@src/assets/terms.png')}
 				>
 					{!isLoading && !isFade && <View style={styles.container}>
 						{ props.children }
@@ -310,7 +310,7 @@ const WizardStepView = (props: Props) => {
 			return (
 				<SymbolGradientContainer
 					style={styles.container}
-					source={require('../../assets/settings.png')}
+					source={require('@src/assets/settings.png')}
 				>
 					{!isLoading && !isFade && <View style={styles.container}>
 						{ props.children }
@@ -341,36 +341,36 @@ const WizardStepView = (props: Props) => {
 		if(theme === 'light')
 			return <Image
 					style={styles.mesh}
-					source={require('../../assets/backgroun4.png')}
+					source={require('@src/assets/backgroun4.png')}
 				/>
 		if(theme === 'dark')
 			return <Image
 					style={styles.mesh}
-					source={require('../../assets/background1.png')}
+					source={require('@src/assets/background1.png')}
 				/>
 		if(theme === 'dark2')
 			return <Image
 					style={styles.mesh}
-					source={require('../../assets/background2.png')}
+					source={require('@src/assets/background2.png')}
 				/>
 		if(theme === 'dark3')
 			return <Image
 					style={styles.background3}
-					source={require('../../assets/background3.png')}
+					source={require('@src/assets/background3.png')}
 				/>
 		return null;
 	}
 
 	const TopBar = (props) => {
 		const iconBackSrc = theme === 'light'
-			? require('../../assets/icons/back_light.png')
-			: require('../../assets/icons/back_dark.png');
+			? require('@src/assets/icons/back_light.png')
+			: require('@src/assets/icons/back_dark.png');
 		const iconCloseSrc = theme === 'light'
-			? require('../../assets/icons/close_light.png')
-			: require('../../assets/icons/close_dark.png');
+			? require('@src/assets/icons/close_light.png')
+			: require('@src/assets/icons/close_dark.png');
 		const iconSettingsSrc = theme === 'light'
-			? require('../../assets/icons/settings_light.png')
-			: require('../../assets/icons/settings_dark.png');
+			? require('@src/assets/icons/settings_light.png')
+			: require('@src/assets/icons/settings_dark.png');
 		return (
 			<View style={styles.topBar}>
 				{onBack && <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
@@ -402,25 +402,25 @@ const WizardStepView = (props: Props) => {
 		let iconSize = { width: 55, height: 55 };
 		switch(icon) {
 			case 'document':
-				iconSrc = require('../../assets/icons/document.png');
+				iconSrc = require('@src/assets/icons/document.png');
 				iconSize.width = 40;
 				iconSize.height = 55;
 				break;
 			case 'security':
-				iconSrc = require('../../assets/icons/security.png');
+				iconSrc = require('@src/assets/icons/security.png');
 				iconSize.width = 40;
 				iconSize.height = 55;
 				break;
 			case 'settings':
-				iconSrc = require('../../assets/icons/settings.png');
+				iconSrc = require('@src/assets/icons/settings.png');
 				break;
 			case 'wallet':
-				iconSrc = require('../../assets/icons/wallet.png');
+				iconSrc = require('@src/assets/icons/wallet.png');
 				iconSize.width = 55;
 				iconSize.height = 40;
 				break;
 			case 'import':
-				iconSrc = require('../../assets/icons/import.png');
+				iconSrc = require('@src/assets/icons/import.png');
 				iconSize.width = 40;
 				iconSize.height = 40;
 				break;
@@ -462,7 +462,7 @@ const WizardStepView = (props: Props) => {
 					</View>
 					<View style={ styles.content } duration={100}>
 						{/* Loading animation */}
-						{ isLoading && !isError && <View style={{flex: 1, alignItems: 'center'}}><Image style={ [styles.loading, styles.center] } source={require('../../assets/loading.gif')} /></View> }
+						{ isLoading && !isError && <View style={{flex: 1, alignItems: 'center'}}><Image style={ [styles.loading, styles.center] } source={require('@src/assets/loading.gif')} /></View> }
 
 						{/* Content */}
 						{ !isLoading && !isError && children }
@@ -480,7 +480,7 @@ const WizardStepView = (props: Props) => {
 					<View style={ styles.content } duration={100}>
 
 						{/* Loading animation */}
-						{ isLoading && !isError && <Image style={ [styles.loading, styles.center] } source={require('../../assets/loading.gif')} /> }
+						{ isLoading && !isError && <Image style={ [styles.loading, styles.center] } source={require('@src/assets/loading.gif')} /> }
 
 						{/* Content */}
 						{ !isLoading && !isError && children }

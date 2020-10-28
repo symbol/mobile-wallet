@@ -31,7 +31,7 @@ export default class ScanQR extends Component {
         <TouchableOpacity onPress={closeFn} style={styles.topContainerStyle}>
           <Image
             style={styles.closeIcon}
-            source={require('../../../assets/icons/close_dark.png')}
+            source={require('@src/assets/icons/close_dark.png')}
           />
         </TouchableOpacity>
       </View>

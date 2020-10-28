@@ -29,10 +29,10 @@ export default class C extends Component<Props, State> {
 		switch(name) {
 			default:
 			case 'tanker':
-				source = require('../../assets/backgrounds/tanker.png');
+				source = require('@src/assets/backgrounds/tanker.png');
 				break;
 			case 'HomeMock':
-				source = require('../../assets/mock.png');
+				source = require('@src/assets/mock.png');
 				break;
 		}
         return (

@@ -11,7 +11,7 @@ import { FlatList, View, Text, TouchableOpacity, Platform, I18nManager } from 'r
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import styles from './slider.styl';
-import * as DeviceUtil from "../../../utils/Device";
+import * as DeviceUtil from "@src/utils/Device";
 
 const { width: windowWidth, height: windowHeight } = DeviceUtil.getWindowDimensions();
 const isAndroidRTL = I18nManager.isRTL && Platform.OS === 'android';

@@ -4,11 +4,11 @@
  */
 import React, { Component } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import SymbolPageView from "../components/organisms/SymbolPageView";
-import translate from "../locales/i18n";
-import CheckableTextLink from "../components/molecules/CheckableTextLink";
+import SymbolPageView from "@src/components/organisms/SymbolPageView";
+import translate from "@src/locales/i18n";
+import CheckableTextLink from "@src/components/molecules/CheckableTextLink";
 import GlobalStyles from "../styles/GlobalStyles";
-import {Router} from "../Router";
+import {Router} from "@src/Router";
 
 const styles = StyleSheet.create({
 	titleBar: {

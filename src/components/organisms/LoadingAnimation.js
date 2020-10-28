@@ -6,7 +6,7 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import FadeView from './FadeView';
-import translate from '../../locales/i18n';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
 	center: {
