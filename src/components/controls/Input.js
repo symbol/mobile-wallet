@@ -7,14 +7,27 @@ const styles = StyleSheet.create({
 	root: {
 		//backgroundColor: '#f005',
 	},
+	rootDark: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		borderBottomWidth: 1,
+		borderColor: GlobalStyles.color.GREY4,
+		height: 40,
+	},
 	fullWidth: {
 		width: '100%',
 	},
 	placeholderLight: {
-		color: GlobalStyles.color.GREY3
+		color: GlobalStyles.color.GREY3,
 	},
 	placeholderDark: {
-		color: GlobalStyles.color.PINK
+		color: GlobalStyles.color.PINK,
+		textTransform: 'uppercase',
+		fontSize: 12,
+		padding: 0,
+		margin: 0,
+		textAlign: 'left',
 	},
 	inputLight: {
 		paddingVertical: 8,
@@ -29,7 +42,11 @@ const styles = StyleSheet.create({
 		fontWeight: '300'
 	},
 	inputDark: {
-
+		height: 35,
+		color: GlobalStyles.color.WHITE,
+		padding: 0,
+		margin: 0,
+		fontSize: 14,
 	}
 });
 
@@ -71,6 +88,7 @@ export default class Input extends Component<Props, State> {
 			_inputStyle = styles.inputDark;
 			placeholderStyle = styles.placeholderDark;
 			nativePlaceholder = placeholder;
+			rootStyle.push(styles.rootDark);
 		}
 
         return (
