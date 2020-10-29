@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
-import ModalSelector from '@src/components/organisms/ModalSelector';
-import translate, { getLocales } from '@src/locales/i18n';
+import { Dropdown } from '@src/components';
+import translate, { languageNames } from '@src/locales/i18n';
 import store from '@src/store';
+import { getDropdownListFromObjct } from '@src/utils'
 import { connect } from 'react-redux';
 
 class SettingsLanguageSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: getLocales(),
+            data: languageNames,
             isBoxOpen: false,
         };
     }
@@ -36,23 +37,25 @@ class SettingsLanguageSelector extends Component {
     render() {
         const { data, isBoxOpen } = this.state;
         const { selectedLanguage } = this.props.settings;
+		const list = getDropdownListFromObjct(data);
 
         return (
             <View>
-                <SettingsListItem
-                    title={translate('Settings.language.title')}
-                    icon={require('@src/assets/icons/ic-language.png')}
-                    isSelector={true}
-                    itemValue={selectedLanguage}
-                    onPress={this.openModal}
-                />
-                <ModalSelector
-                    data={data}
-                    selectedItem={selectedLanguage}
-                    isModalOpen={isBoxOpen}
-                    onClose={this.closeModal}
-                    onSelect={this.onSelectLanguage}
-                />
+				<Dropdown 
+					list={list}
+					title={translate('Settings.language.title')}
+					value={selectedLanguage}
+					onChange={this.onSelectLanguage}
+				>
+					<SettingsListItem
+						title={translate('Settings.language.title')}
+						icon={require('@src/assets/icons/ic-language.png')}
+						isSelector={true}
+						isDropdown={true}
+						itemValue={selectedLanguage}
+						onPress={this.openModal}
+					/>
+				</Dropdown>
             </View>
         );
     }

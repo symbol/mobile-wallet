@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 	},
 	modalTitleContainer: {
 		borderBottomWidth: 1,
-		borderColor: GlobalStyles.color.onLight.TEXT,
+		borderColor: GlobalStyles.color.GREY4,
 		padding: 12,
 	},
 	modalTitleText: {

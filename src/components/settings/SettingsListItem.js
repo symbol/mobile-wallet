@@ -22,7 +22,10 @@ const selector = (value, icon) => (
 					value
 			}
 		</Text>
-		<Image source={require('@src/assets/icons/ic-chevron-down-white.png')} style={styles.dropDownSelectorIcon} />
+		<Image 
+			source={require('@src/assets/icons/ic-chevron-down-white.png')} 
+			style={styles.dropDownSelectorIcon} 
+		/>
 	</View>
 );
 
@@ -34,14 +37,19 @@ export default class SettingsListItem extends Component<Props> {
 			title,
 			isSwitch,
 			isSelector,
+			isDropdown,
 			itemValue,
 			color,
 			onPress,
 			onValueChange
 		} = this.props;
 
+		const ViewComponent = isDropdown
+			? View
+			: TouchableOpacity;
+
 		return (
-			<TouchableOpacity onPress={onPress} style={styles.itemContainer}>
+			<ViewComponent onPress={onPress} style={styles.itemContainer}>
 				<View style={styles.itemTitle}>
 					{/* <Image source={icon} style={styles.itemIcon} /> */}
 					<Text style={[styles.itemTitleText, { color: color || '#fff' }]}>{title}</Text>
@@ -65,7 +73,7 @@ export default class SettingsListItem extends Component<Props> {
 					circleInActiveColor={GlobalStyles.color.SECONDARY} 
 					/>
 				)}
-			</TouchableOpacity>
+			</ViewComponent>
 		);
 	}
 }
