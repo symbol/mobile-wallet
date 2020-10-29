@@ -69,10 +69,11 @@ export default {
 		},
 
 		subtitle: {
-			color: COLORS.WHITE,
-			fontFamily: 'NotoSans-SemiBold',
-			fontWeight: '100',
-			fontSize: 13
+			color: COLORS.DARKWHITE,
+			fontFamily: 'NotoSans-Regular',
+			fontSize: 12,
+			lineHeight: 22,
+			opacity: 0.6,
 		},
 
 		regular: {
@@ -123,6 +124,23 @@ export default {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center'
+		},
+
+		form: {
+			paddingLeft: 34,
+			paddingRight: 34,
+			paddingBottom: 17,
+			flex: 1,
+			flexDirection: 'column'
+		},
+
+		formItem: {
+			paddingBottom: 17
+		},
+
+		formBottom: {
+			marginTop: 'auto',
+			paddingBottom: 17
 		}
 	},
 

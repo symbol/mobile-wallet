@@ -6,12 +6,13 @@ import GlobalStyles from '../../styles/GlobalStyles';
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
 	root: {
-		marginTop: 60
+		marginTop: 34,
+		width: '100%'
 	},
 	priceChart: {
 		position: 'absolute',
 		top: -50,
-		left: -64
+		//left: -64
 	},
 	currencyText: {
 		fontSize: 15,
@@ -37,7 +38,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Props = {};
+type Props = {
+	showChart: boolean
+};
 
 type State = {
 	currency: string,
@@ -57,7 +60,9 @@ export default class BalanceWidget extends Component<Props, State> {
 	};
 
 	render() {
-		const { } = this.props;
+		const {
+			showChart = true
+		} = this.props;
 		const {
 			currency,
 			balance,
@@ -67,7 +72,7 @@ export default class BalanceWidget extends Component<Props, State> {
 
 		return (
 			<View style={styles.root}>
-				<PriceChart style={styles.priceChart}/>
+				{!!showChart && <PriceChart style={styles.priceChart}/>}
 				<Col>
 					<Row justify="center" align="end">
 						<Text style={styles.currencyText}>

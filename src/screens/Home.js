@@ -1,55 +1,95 @@
 import React, { Component } from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {
-	Section,
-	GradientBackground,
-	BalanceWidget,
-	Text, Icon
+    Section,
+    GradientBackground,
+    BalanceWidget,
+    Text,
+    PluginList,
+    Col,
+    Row,
+    TitleBar,
 } from '@src/components';
-import translate from "@src/locales/i18n";
-import { Router } from "@src/Router";
-import store from '@src/store';
-import Button from "react-native-share/components/Button";
+import { Router } from '@src/Router';
 
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    transactionPreview: {
+        width: '100%',
+        height: 60,
+        borderRadius: 6,
+        marginTop: 4,
+        marginBottom: 4,
+        padding: 17,
+        paddingTop: 8,
+        backgroundColor: '#fffc',
+    },
+    list: {
+        marginTop: 17,
+    },
+});
 
 type Props = {
-	componentId: string,
+    componentId: string,
 };
 
 type State = {};
 
-
 export default class Home extends Component<Props, State> {
-	state = {};
+    state = {};
 
-	handleSettingsClick = () => {
-		console.log(this.props.componentId);
-		Router.goToSettings({}, this.props.componentId);
-	};
+    handleSettingsClick = () => {
+        console.log(this.props.componentId);
+        Router.goToSettings({}, this.props.componentId);
+    };
 
     render() {
-		const {} = this.props;
-		const {} = this.state;
+        const { contentStyle = {}, componentId } = this.props;
+        console.log('home.componentId', this.props.componentId);
+        const {} = this.state;
 
         return (
-			<GradientBackground name='mesh'>
-				<Section type="title">
-					<Text type='title'>Home</Text>
-				</Section>
-				<Section type="button">
-					<TouchableOpacity onPress={this.handleSettingsClick} >
-						<Icon name="settings" size="medium" style={styles.icon} click/>
-					</TouchableOpacity>
-				</Section>
-				<Section type="title">
-					<Text type='subtitle'>Switch account button, qr, etc..</Text>
-				</Section>
-				<Section type="center">
-					<BalanceWidget/>
-				</Section>
-			</GradientBackground>
+            <GradientBackground name="connector" fade={true}>
+                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="Home" />
+                <Col justify="space-around" style={contentStyle}>
+                    <BalanceWidget showChart={true} />
+                    <Section type="list">
+                        <PluginList componentId={componentId} />
+                    </Section>
+                    <Section type="list" style={styles.list}>
+                        {/* Notifications Mockup */}
+                        <View style={styles.transactionPreview}>
+                            <Row justify="space-between">
+                                <Text type="regular" theme="light">
+                                    Opt-in
+                                </Text>
+                                <Text type="regular" theme="light">
+                                    23.10.2020 11:00
+                                </Text>
+                            </Row>
+                            <Row justify="space-between">
+                                <Text type="bold" theme="light">
+                                    Post launch Opt-in
+                                </Text>
+                            </Row>
+                        </View>
+                        <View style={styles.transactionPreview}>
+                            <Row justify="space-between">
+                                <Text type="regular" theme="light">
+                                    Multisig Transaction
+                                </Text>
+                                <Text type="regular" theme="light">
+                                    23.10.2020 10:59
+                                </Text>
+                            </Row>
+                            <Row justify="space-between">
+                                <Text type="bold" theme="light">
+                                    Awaiting your signature
+                                </Text>
+                            </Row>
+                        </View>
+                    </Section>
+                </Col>
+            </GradientBackground>
         );
-    };
+    }
 }

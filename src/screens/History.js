@@ -4,7 +4,8 @@ import {
 	Section, 
 	ImageBackground,
 	Text,
-	Row
+	Row,
+	TitleBar
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
@@ -41,12 +42,11 @@ export default class History extends Component<Props, State> {
 		
         return (
 			<ImageBackground name="tanker">
-				<Section type="title">
-					<Text type="title" theme="light">Transactions</Text>
-				</Section>
-				<Section type="text">
-					<Text type="regular" theme="light">Search & filters will be here..</Text>
-				</Section>
+				<TitleBar
+					theme="light"
+					onSettings={()=>{this.props.componentId}}
+					title="Transactions"
+				/>
 				<Section type="list" style={styles.list}>
 					{/* TODO: move transaction preview to a separate component. Mockup */}
 					<View style={styles.transactionPreview}>
