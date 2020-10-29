@@ -7,14 +7,27 @@ const styles = StyleSheet.create({
 	root: {
 		//backgroundColor: '#f005',
 	},
+	rootDark: {
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		alignItems: 'flex-start',
+		borderBottomWidth: 1,
+		borderColor: GlobalStyles.color.GREY4,
+		height: 50,
+	},
 	fullWidth: {
 		width: '100%',
 	},
 	placeholderLight: {
-		color: GlobalStyles.color.GREY3
+		color: GlobalStyles.color.GREY3,
 	},
 	placeholderDark: {
-		color: GlobalStyles.color.PINK
+		color: GlobalStyles.color.PINK,
+		textTransform: 'uppercase',
+		fontSize: 12,
+		padding: 0,
+		margin: 0,
+		textAlign: 'left',
 	},
 	inputLight: {
 		paddingVertical: 8,
@@ -29,7 +42,11 @@ const styles = StyleSheet.create({
 		fontWeight: '300'
 	},
 	inputDark: {
-
+		height: 35,
+		color: GlobalStyles.color.WHITE,
+		padding: 0,
+		margin: 0,
+		fontSize: 14,
 	}
 });
 
@@ -46,8 +63,8 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
-		let inputStyle = {};
+		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
+		let _inputStyle = {};
 		let placeholderTextColor;
 		let nativePlaceholder;
 		let placeholderStyle;
@@ -62,15 +79,16 @@ export default class Input extends Component<Props, State> {
 
 		if(theme === 'light') {
 			placeholderTextColor = GlobalStyles.color.PRIMARY,
-			inputStyle = styles.inputLight;
+			_inputStyle = styles.inputLight;
 			placeholderStyle = styles.placeholderLight;
 			nativePlaceholder = '';
 		}	
 		else {
 			placeholderTextColor = GlobalStyles.color.PINK
-			inputStyle = styles.inputDark;
+			_inputStyle = styles.inputDark;
 			placeholderStyle = styles.placeholderDark;
 			nativePlaceholder = placeholder;
+			rootStyle.push(styles.rootDark);
 		}
 
         return (
@@ -79,7 +97,7 @@ export default class Input extends Component<Props, State> {
 				<TextInput
 					{...rest}
 					value={value}
-					style={[inputStyle]}
+					style={[_inputStyle, inputStyle]}
 					placeholder={nativePlaceholder}
 					placeholderTextColor={placeholderTextColor}
 					autoCapitalize="none"

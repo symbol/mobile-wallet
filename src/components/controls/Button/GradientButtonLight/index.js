@@ -104,7 +104,7 @@ class GradientButton extends Component<Props> {
 				<ActivityIndicator size="small" color={GlobalStyles.color.PINK} />
 				{/* <Image
 					style={styles.loader}
-					source={require('../../../assets/loader.gif')}
+					source={require('@src/assets/loader.gif')}
 				> */}
 			</View>
             ) : (

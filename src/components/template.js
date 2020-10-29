@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import translate from "../locales/i18n";
-import { Router } from "../Router";
+import translate from "@src/locales/i18n";
+import { Router } from "@src/Router";
 
 
 const styles = StyleSheet.create({});

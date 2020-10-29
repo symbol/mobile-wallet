@@ -6,7 +6,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import Warning from '../index';
-import translate from '../../../utils/i18n';
+import translate from '@src/utils/i18n';
 
 const mockAlert = jest.fn();
 jest.doMock('react-native/Libraries/Alert/Alert', () => ({

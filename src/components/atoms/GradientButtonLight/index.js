@@ -103,7 +103,7 @@ class GradientButton extends Component<Props> {
               <View style={styles.buttonContent}>
 				<Image
 					style={styles.loader}
-					source={require('../../../assets/loader.gif')}
+					source={require('@src/assets/loader.gif')}
 				/>
 			</View>
             ) : (

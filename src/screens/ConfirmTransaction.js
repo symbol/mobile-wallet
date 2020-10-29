@@ -50,11 +50,6 @@ class ConfirmTransaction extends Component<Props, State> {
 			onBack
 		} = this.props;
 		const {} = this.state;
-		console.log({ 
-			isLoading,
-			isError,
-			isSuccessfullySent
-		})
 
 		const preview = Object
 			.keys(transaction.preview)

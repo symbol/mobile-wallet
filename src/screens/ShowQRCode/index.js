@@ -18,10 +18,10 @@ import ViewShot from 'react-native-view-shot';
 import { captureRef } from 'react-native-view-shot';
 import RNFetchBlob from 'rn-fetch-blob';
 import styles from './ShowQRCode.styl';
-import translate from "../locales/i18n";
-import {generateMnemonicQR} from "../utils/SymbolQR";
-import WizardStepView from "../components/organisms/SymbolPageView";
-import Warning from "../components/atoms/Warning";
+import translate from "@src/locales/i18n";
+import {generateMnemonicQR} from "@src/utils/SymbolQR";
+import WizardStepView from "@src/components/organisms/SymbolPageView";
+import Warning from "@src/components/atoms/Warning";
 import {Router} from "@src/Router";
 import store from "@src/store";
 
@@ -192,7 +192,7 @@ class ShowQRCode extends Component {
 		const { base64QRData } = this.state;
 		const imgProps =
 			base64QRData === ''
-				? { source: require('../assets/loader.gif'), resizeMode: 'center' }
+				? { source: require('@src/assets/loader.gif'), resizeMode: 'center' }
 				: { xml: base64QRData };
 		return (
 			<View style={styles.contentContainer}>
@@ -219,7 +219,7 @@ class ShowQRCode extends Component {
 	};
 
 	renderError = () => {
-		const imgProps = { source: require('../assets/sad.png'), resizeMode: 'center' };
+		const imgProps = { source: require('@src/assets/sad.png'), resizeMode: 'center' };
 		return (
 			<View style={styles.contentContainer}>
 				<Image style={styles.qr} {...imgProps} />

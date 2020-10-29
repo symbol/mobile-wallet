@@ -5,7 +5,9 @@ import {
 	GradientBackground,
 	TitleBar,
 	Input,
-	Button
+	InputAddress,
+	Button,
+	Dropdown
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from "@src/locales/i18n";
@@ -35,11 +37,11 @@ type State = {};
 class Send extends Component<Props, State> {
 	state = {
 		recipientAddress: '',
-		mosaicNamespaceName: 'Symbol.XYM',
+		mosaicName: 'symbol.xym',
 		amount: '0',
 		message: '',
 		isEncrypted: false,
-		fee: '0.5',
+		fee: 0.5,
 		isConfirmShown: false
 	};
 
@@ -50,7 +52,7 @@ class Send extends Component<Props, State> {
 	submit = () => {
 		Store.dispatchAction({type: 'transfer/signTransaction', payload: {
 			recipientAddress: this.state.recipientAddress,
-			mosaicNamespaceName: this.state.mosaicNamespaceName,
+			mosaicNamespaceName: this.state.mosaicName,
 			amount: this.state.amount,
 			message: this.state.message,
 			isEncrypted: this.state.isEncrypted,
@@ -73,11 +75,22 @@ class Send extends Component<Props, State> {
 		});
 	};
 
+	renderConfirmTransaction = () => {
+		return (<ConfirmTransaction
+			isLoading={this.props.isLoading}
+			isError={this.props.isError}
+			isSuccessfullySent={this.props.isSuccessfullySent}
+			transaction={this.props.transaction}
+			submitActionName="transfer/announceTransaction"
+			onBack={() => this.showSendForm()}
+		/>)
+	};
+
     render = () => {
 		const {} = this.props;
 		const {
 			recipientAddress,
-			mosaicNamespaceName,
+			mosaicName,
 			amount,
 			message,
 			isEncrypted,
@@ -85,15 +98,18 @@ class Send extends Component<Props, State> {
 			isConfirmShown
 		} = this.state;
 
+		const mosaicList = [
+			{value: 'symbol.xym', label: 'Symbol.XYM'}
+		];
+
+		const feeList = [
+			{value: 0.1, label: '0.1 XEM - slow'},
+			{value: 0.5, label: '0.5 XEM - normal'},
+			{value: 1, label: '1 XEM - fast'}
+		]
+
 		return (isConfirmShown
-			? <ConfirmTransaction
-				isLoading={this.props.isLoading}
-				isError={this.props.isError}
-				isSuccessfullySent={this.props.isSuccessfullySent}
-				transaction={this.props.transaction}
-				submitActionName="transfer/announceTransaction"
-				onBack={() => this.showSendForm()}
-			/>
+			? this.renderConfirmTransaction()
 			: (<GradientBackground name="connector_small" theme="light">
 				<TitleBar
 					theme="light"
@@ -102,20 +118,22 @@ class Send extends Component<Props, State> {
 				/>
 					<Section type="form" style={styles.list} isScrollable>
 						<Section type="form-item">
-							<Input 
+							<InputAddress 
 								value={recipientAddress}
 								placeholder="Recipient Address"
 								theme="light"
+								fullWidth
 								onChangeText={recipientAddress => this.setState({recipientAddress})}
 							/>
 						</Section>
 						<Section type="form-item">
-							<Input 
-								value={mosaicNamespaceName}
-								placeholder="Mosaic"
+							<Dropdown 
+								value={mosaicName}
+								title="Mosaic"
 								theme="light"
-								editable={false}
-								onChangeText={mosaicNamespaceName => this.setState({mosaicNamespaceName})}
+								editable={true}
+								list={mosaicList}
+								onChange={mosaicName => this.setState({mosaicName})}
 							/>
 						</Section>
 						<Section type="form-item">
@@ -135,11 +153,13 @@ class Send extends Component<Props, State> {
 							/>
 						</Section>
 						<Section type="form-item">
-							<Input 
+							<Dropdown 
 								value={fee}
-								placeholder="Fee"
+								title="Fee"
 								theme="light"
-								onChangeText={fee => this.setState({fee})}
+								editable={true}
+								list={feeList}
+								onChange={fee => this.setState({fee})}
 							/>
 						</Section>
 						<Section type="form-bottom">

@@ -5,13 +5,13 @@
 
 import React, { Component } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import GradientContainer from "../components/organisms/SymbolGradientContainer";
-import GradientButton from "../components/atoms/GradientButton";
+import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
+import GradientButton from "@src/components/atoms/GradientButton";
 import styles from './ShowMnemonics.styl';
-import Card from '../components/atoms/Card';
-import TitleBar from '../components/atoms/TitleBar';
-import translate from '../locales/i18n';
-import {Router} from "../Router";
+import Card from '@src/components/atoms/Card';
+import TitleBar from '@src/components/atoms/TitleBar';
+import translate from '@src/locales/i18n';
+import {Router} from "@src/Router";
 import store from "@src/store";
 
 const testIDs = {
