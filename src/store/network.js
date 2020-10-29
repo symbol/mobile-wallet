@@ -1,6 +1,7 @@
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { getDefaultNetworkType, getNodes } from '@src/config/environment';
 import { fetchNetworkInfo } from '@src/utils/SymbolNetwork';
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 export default {
     namespace: 'network',
@@ -9,6 +10,7 @@ export default {
         generationHash: '',
         network: 'testnet',
         selectedNode: '',
+        selectedNetwork: null,
     },
     mutations: {
         setIsLoaded(state, payload) {
@@ -27,6 +29,10 @@ export default {
             state.network.selectedNode = payload;
             return state;
         },
+        setSelectedNetwork(state, payload) {
+            state.network.selectedNetwork = payload;
+            return state;
+        },
     },
     actions: {
         initState: async ({ commit, state, dispatchAction }) => {
@@ -41,6 +47,14 @@ export default {
             commit({ type: 'network/setNetwork', payload: networkInfo.network });
             commit({ type: 'network/setSelectedNode', payload: selectedNode });
             commit({ type: 'network/setIsLoaded', payload: true });
+            commit({
+                type: 'network/setSelectedNetwork',
+                payload: {
+                    type: networkInfo.network,
+                    generationHash: networkInfo.generationHash,
+                    node: selectedNode,
+                },
+            });
             dispatchAction({ type: 'account/loadAccount' });
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {

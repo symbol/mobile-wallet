@@ -1,74 +1,75 @@
-import TransactionBuilder from '@src/utils/TransactionBuilder';
-
-class TransactionService {
-	static announceTransaction = signedTransaction => {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve();
-			}, 5000);
-		})
-	}
-};
+import type { TransactionStatus, TransactionType } from '@src/storage/models/TransactionModel';
+import TransactionService from '@src/services/TransactionService';
+import AccountService from '@src/services/AccountService';
 
 class ErrorHandler {
-	static getMessage(e) {
-		return 'Failed to send transaction. The reason is..' // translation key or already translated
-	}
-};
+    static getMessage(e) {
+        return 'Failed to send transaction. The reason is..'; // translation key or already translated
+    }
+}
 
 export default {
-	namespace: 'transfer',
-	state: {
-		isLoading: false,
-		isError: false,
-		isSuccessfullySent: false,
-		transaction: {
-			preview: {},
-			signedTransaction: {}
-		}
-	},
-	mutations: {
-		setLoading(state, payload) {
-			state.transfer.isLoading = payload;
-			return state;
-		},
-		setError(state, payload) {
-			state.transfer.isError = payload;
-			return state;
-		},
-		setSuccessfullySent(state, payload) {
-			state.transfer.isSuccessfullySent = payload;
-			return state;
-		},
-		setTransaction(state, payload) {
-			state.transfer.transaction = payload;
-			return state;
-		},
-	},
-	actions: {
-		clear: ({commit}) => {
-			commit({type: 'transfer/setLoading', payload: false});
-			commit({type: 'transfer/setError', payload: false});
-			commit({type: 'transfer/setSuccessfullySent', payload: false});
-			commit({type: 'transfer/setTransaction', payload: {}});
-		},
+    namespace: 'transfer',
+    state: {
+        isLoading: false,
+        isError: false,
+        isSuccessfullySent: false,
+        transaction: {
+            preview: {},
+            signedTransaction: {},
+        },
+    },
+    mutations: {
+        setLoading(state, payload) {
+            state.transfer.isLoading = payload;
+            return state;
+        },
+        setError(state, payload) {
+            state.transfer.isError = payload;
+            return state;
+        },
+        setSuccessfullySent(state, payload) {
+            state.transfer.isSuccessfullySent = payload;
+            return state;
+        },
+        setTransaction(state, payload) {
+            state.transfer.transaction = payload;
+            return state;
+        },
+    },
+    actions: {
+        clear: ({ commit }) => {
+            commit({ type: 'transfer/setLoading', payload: false });
+            commit({ type: 'transfer/setError', payload: false });
+            commit({ type: 'transfer/setSuccessfullySent', payload: false });
+            commit({ type: 'transfer/setTransaction', payload: {} });
+        },
 
-		signTransaction: ({commit}, payload) => {
-			const transaction = TransactionBuilder.transfer(payload); // mock
-			commit({type: 'transfer/setTransaction', payload: transaction});
-		},
+        setTransaction: ({ commit }, payload) => {
+            commit({
+                type: 'transfer/setTransaction',
+                payload: {
+                    type: 'transfer',
+                    recipientAddress: payload.recipientAddress,
+                    amount: parseInt(payload.amount),
+                    messageText: payload.message,
+                    messageEncrypted: false,
+                    fee: payload.fee,
+                },
+            });
+        },
 
-		announceTransaction: async ({commit, dispatchAction}, payload) => {
-			try {
-				commit({type: 'transfer/setLoading', payload: true});
-				commit({type: 'transfer/setError', payload: false});
-				await TransactionService.announceTransaction(payload);
-				commit({type: 'transfer/setLoading', payload: false});
-				commit({type: 'transfer/setSuccessfullySent', payload: true});
-			} catch(e) {
-				commit({type: 'transfer/setError', payload: ErrorHandler.getMessage(e)})
-			}
-			
-		}
-	}
-}
+        broadcastTransaction: async ({ commit, state, dispatchAction }, payload) => {
+            try {
+                commit({ type: 'transfer/setLoading', payload: true });
+                commit({ type: 'transfer/setError', payload: false });
+                await TransactionService.signAndBroadcastTransactionModel(payload, state.account.selectedAccount, state.network.selectedNetwork);
+                commit({ type: 'transfer/setLoading', payload: false });
+                commit({ type: 'transfer/setSuccessfullySent', payload: true });
+            } catch (e) {
+                console.log(e);
+                commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
+            }
+        },
+    },
+};

@@ -1,8 +1,9 @@
 import { AccountHttp, AccountInfo, Account, Address, NetworkType } from 'symbol-sdk';
 import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
-import type { AccountModel, AccountOriginType, AppNetwork } from '@src/storage/models/AccountModel';
+import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 export default class AccountService {
     /**
@@ -21,14 +22,14 @@ export default class AccountService {
      * @returns {NetworkType.TEST_NET|NetworkType.MAIN_NET}
      * @private
      */
-    static _appNetworkToNetworkType(net: AppNetwork): NetworkType {
-        return net === 'testnet' ? NetworkType.TEST_NET: NetworkType.MAIN_NET;
+    static _appNetworkToNetworkType(net: AppNetworkType): NetworkType {
+        return net === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
     }
 
     /**
      * Generates random mnemonic
      */
-    static getAddressByAccountModelAndNetwork(accountModel: AccountModel, network: AppNetwork): string {
+    static getAddressByAccountModelAndNetwork(accountModel: AccountModel, network: AppNetworkType): string {
         return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.pretty();
     }
 

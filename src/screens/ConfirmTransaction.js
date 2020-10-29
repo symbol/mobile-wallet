@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { 
-	Section, 
+import {
+	Section,
 	GradientBackground,
 	TitleBar,
 	Text,
@@ -36,13 +36,13 @@ class ConfirmTransaction extends Component<Props, State> {
 
 	submit = () => {
 		Store.dispatchAction({
-			type: this.props.submitActionName, 
-			payload: this.props.transaction.signedTransaction
+			type: this.props.submitActionName,
+			payload: this.props.transaction
 		});
 	};
 
     render = () => {
-		const { 
+		const {
 			isLoading,
 			isError,
 			isSuccessfullySent,
@@ -52,8 +52,8 @@ class ConfirmTransaction extends Component<Props, State> {
 		const {} = this.state;
 
 		const preview = Object
-			.keys(transaction.preview)
-			.map(key => ({key, value: transaction.preview[key]}));
+			.keys(transaction)
+			.map(key => ({key, value: transaction[key]}));
 
 		const isPreviewShown = !isLoading
 			&& !isError
@@ -72,13 +72,13 @@ class ConfirmTransaction extends Component<Props, State> {
 					onBack={backFunction}
 					title="Confirm Transaction"
 				/>
-					{isPreviewShown && 
+					{isPreviewShown &&
 						<Section type="form" style={styles.list} isScrollable>
 							{preview.map(el => <Section type="form-item">
 								<Text type="bold" theme="light">{el.key}:</Text>
 								<Text type="regular" theme="light">{el.value}</Text>
 							</Section>)}
-				
+
 							<Section type="form-bottom">
 								<Button
 									isLoading={false}
@@ -126,5 +126,5 @@ class ConfirmTransaction extends Component<Props, State> {
 }
 
 export default connect(state => ({
-	
+
 }))(ConfirmTransaction);
