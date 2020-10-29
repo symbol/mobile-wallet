@@ -2,7 +2,7 @@ import {ExtendedKey, MnemonicPassPhrase, Network, Wallet} from "symbol-hd-wallet
 import {NetworkType} from "symbol-sdk";
 
 /**
- * Generates an english mnemonic passphrase via nem2-hd-wallets SDK
+ * Generates an english mnemonic passphrase via symbol-hd-wallets SDK
  *
  * @return {string} Space separated words as string
  */
@@ -17,5 +17,5 @@ export const createAccountFromMnemonic = (plainMnemonic: string, index: number, 
     const wallet = new Wallet(extKey);
 
     const path = `m/44'/4343'/${index}'/0'/0'`;
-    return wallet.getChildAccount(path, networkType);
+    return wallet.getChildAccount(path, NetworkType.TEST_NET);
 };

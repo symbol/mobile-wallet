@@ -7,6 +7,7 @@ import {
 } from '@src/components';
 import Home from './Home';
 import History from './History';
+import Harvest from './CreateRemoteAccount';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
 import store from '@src/store';
@@ -50,6 +51,9 @@ export default class Dashboard extends Component<Props, State> {
 				break;
 			case 'history':
 				Tab = History;
+				break;
+			case 'harvest':
+				Tab = Harvest;
 				break;
 		}
         return (

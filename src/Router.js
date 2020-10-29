@@ -17,6 +17,9 @@ import ScanQRCode from "@src/screens/ScanQRCode";
 import WalletLoading from "@src/screens/WalletLoading";
 import VerifyMnemonics from "./screens/VerifyMnemonics";
 import ShowMnemonics from "./screens/ShowMnemonics";
+import CreateRemoteAccount from "./screens/CreateRemoteAccount";
+import StartHarvesting from "./screens/StartHarvesting";
+
 import Send from "./screens/Send";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
@@ -33,6 +36,9 @@ export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
 export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
+export const START_HARVESTING_SCREEN = `${BASE_SCREEN_NAME}.START_HARVESTING_SCREEN`;
+export const CREATE_REMOTE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_REMOTE_ACCOUNT_SCREEN`;
+
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 
 /**
@@ -53,7 +59,9 @@ export class Router {
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
         [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
 		[WALLET_LOADING_SCREEN, WalletLoading],
-		[SEND_SCREEN, Send]
+        [START_HARVESTING_SCREEN, StartHarvesting],
+        [CREATE_REMOTE_ACCOUNT_SCREEN, CreateRemoteAccount],
+        [SEND_SCREEN, Send]
     ];
 
     static registerScreens() {
@@ -112,7 +120,12 @@ export class Router {
     static goToWalletLoading(passProps, parentComponent?){
         return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
     }
-
+    static goToStartHarvesting(passProps, parentComponent?){
+        return this.goToScreen(START_HARVESTING_SCREEN, passProps, parentComponent);
+    }
+    static goToCreateRemoteAccount(passProps, parentComponent?){
+        return this.goToScreen(CREATE_REMOTE_ACCOUNT_SCREEN, passProps, parentComponent);
+    }
     static goToScreen(screen: string, passProps, parentComponent?){
         setDefaultNavOptions();
         if (parentComponent){

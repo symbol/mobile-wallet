@@ -381,5 +381,15 @@
 		"send": "Send",
 		"receive": "Receive",
 		"more": "More"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Start",
+			"title": "Delegated Harvesting"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Create",
+			"title": "Create remote account"
+		}
 	}
 }
