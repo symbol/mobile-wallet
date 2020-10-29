@@ -12,44 +12,44 @@ export default {
     },
     mutations: {
         setIsLoaded(state, payload) {
-            state.settings.isLoaded = payload;
+            state.network.isLoaded = payload;
             return state;
         },
         setGenerationHash(state, payload) {
-            console.log(payload);
-            state.settings.generationHash = payload;
+            state.network.generationHash = payload;
             return state;
         },
         setNetwork(state, payload) {
-            console.log(payload);
-            state.settings.network = payload;
+            state.network.network = payload;
             return state;
         },
         setSelectedNode(state, payload) {
-            console.log(payload);
-            state.settings.network = payload;
+            state.network.selectedNode = payload;
             return state;
         },
     },
     actions: {
-        initState: async ({ commit, state }) => {
+        initState: async ({ commit, state, dispatchAction }) => {
             let selectedNode = await AsyncCache.getSelectedNode();
             if (!selectedNode) {
                 const network = getDefaultNetworkType();
                 selectedNode = getNodes(network)[0];
             }
+            console.log(selectedNode);
             const networkInfo = await fetchNetworkInfo(selectedNode);
             commit({ type: 'network/setGenerationHash', payload: networkInfo.generationHash });
             commit({ type: 'network/setNetwork', payload: networkInfo.network });
             commit({ type: 'network/setSelectedNode', payload: selectedNode });
             commit({ type: 'network/setIsLoaded', payload: true });
+            dispatchAction({ type: 'account/loadAccount' });
         },
-        changeNode: async ({ commit, state }, payload) => {
+        changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const networkInfo = await fetchNetworkInfo(payload);
             commit({ type: 'network/setGenerationHash', payload: networkInfo.generationHash });
             commit({ type: 'network/setNetwork', payload: networkInfo.network });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
+            dispatchAction({ type: 'wallet/loadAccount' });
         },
     },
 };

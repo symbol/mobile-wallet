@@ -13,6 +13,8 @@ import {Router} from "./Router";
 import {AsyncCache} from "./utils/storage/AsyncCache";
 import {SecureStorage} from "@src/utils/storage/SecureStorage";
 import store from '@src/store';
+import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
+import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -52,8 +54,6 @@ const initStore = async () => {
 export const startApp = async () => {
     setGlobalCustomFont();
 
-    await initStore();
-
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();
     */
@@ -65,6 +65,7 @@ export const startApp = async () => {
     SplashScreen.hide();
 
     if (mnemonic) {
+        await initStore();
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
         else Router.goToDashboard()
@@ -115,5 +116,8 @@ export const setGlobalCustomFont = () => {
 };
 
 export const logout = async () => {
-    return SecureStorage.saveMnemonic('');
+    return Promise.all([
+        MnemonicSecureStorage.clear(),
+        AccountSecureStorage.clear(),
+    ]);
 };

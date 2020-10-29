@@ -17,6 +17,7 @@ import {
     optinEnv,
     NISNodes,
     defaultNetworkType,
+    nativeMosaicId,
 } from 'react-native-env-json';
 import { NetworkType } from "symbol-sdk";
 import { languageNames } from '@src/locales/i18n';
@@ -127,6 +128,12 @@ const getNodes = (network: 'mainnet' | 'testnet'): string[] => {
     return networks[network].nodes;
 };
 
+const getNativeMosaicId = (): string[] => {
+    console.log(nativeMosaicId);
+    console.log(nativeMosaicId);
+    return nativeMosaicId;
+};
+
 export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
@@ -151,4 +158,5 @@ export {
     getNISNodes,
     getDefaultNetworkType,
     getNodes,
+    getNativeMosaicId,
 };
