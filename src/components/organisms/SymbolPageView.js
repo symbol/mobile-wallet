@@ -9,12 +9,12 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import type { Node } from 'react';
-import SymbolGradientContainer from './SymbolGradientContainer';
-import FadeView from './FadeView';
-import GradientButton from '../atoms/GradientButton';
-import GradientButtonLight from '../atoms/GradientButtonLight';
-import CompoundButton from '../atoms/CompoundButton';
-import LoadingAnimation from './LoadingAnimation'
+import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';
+import FadeView from '@src/components/organisms/FadeView';
+import GradientButton from '@src/components/atoms/GradientButton';
+import GradientButtonLight from '@src/components/atoms/GradientButtonLight';
+import CompoundButton from '@src/components/atoms/CompoundButton';
+import LoadingAnimation from '@src/components/organisms/LoadingAnimation';
 
 const styles = StyleSheet.create({
 	mesh: {

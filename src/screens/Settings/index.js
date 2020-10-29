@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import translate from '@src/locales/i18n';
 import styles from './Settings.styl';
+import { Router } from '@src/Router';
+
 import { 
 	SymbolPageView,
 	SettingsCurrencySelector,
@@ -24,16 +26,18 @@ export default class Settings extends Component {
 				isLoading={isLoading}
 				title={ translate('Settings.title') }
 				icon="settings"
-				onBack={() => {}}
+				onBack={() => {Router.goBack(this.props.componentId)}}
 			>
-                <SettingsCurrencySelector />
-                <SettingsLanguageSelector />
-                <SettingsNotificationSelector />
-                <SettingsPasscodeSelector />
-                <SettingsNodeSelector />
-                <SettingsBackup {...this.props} />
-                <SettingsAboutNem />
-                <SettingsLogout />
+				<View style={styles.listContainer}>
+					<SettingsCurrencySelector />
+					<SettingsLanguageSelector />
+					<SettingsNotificationSelector />
+					<SettingsPasscodeSelector />
+					<SettingsNodeSelector />
+					<SettingsBackup {...this.props} />
+					<SettingsAboutNem />
+					<SettingsLogout />
+				</View>
             </SymbolPageView>
         );
     }
