@@ -6,9 +6,9 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 
 import styles from './GenerateBackup.styl';
-import translate from "../locales/i18n";
-import SymbolPageView from "../components/organisms/SymbolPageView";
-import {Router} from "../Router";
+import translate from "@src/locales/i18n";
+import SymbolPageView from "@src/components/organisms/SymbolPageView";
+import {Router} from "@src/Router";
 
 const testIDs = {
 	buttonMnemonic: 'button-mnemonic',
@@ -33,14 +33,14 @@ class GenerateBackup extends Component {
 				style: styles.button,
 				onPress: this.handleMnemonicBackup,
 				testID: testIDs.buttonMnemonic,
-				icon: require('../assets/icons/mnemonics_light.png'),
+				icon: require('@src/assets/icons/mnemonics_light.png'),
 			},
 			{
 				title: translate('CreateWallet.GenerateBackup.QRButton'),
 				style: styles.button,
 				onPress: this.handleQRBackup,
 				testID: testIDs.buttonQR,
-				icon: require('../assets/icons/qr_light.png'),
+				icon: require('@src/assets/icons/qr_light.png'),
 			}
 		];
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Row, Col, Text, PriceChart } from '../../components';
+import { Row, Col, Text, PriceChart } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 // TODO: Remove font styles. Use <Text type={} /> instead

@@ -10,12 +10,12 @@ import * as bip39 from 'bip39';
 import * as _ from 'lodash';
 
 import styles from './EnterMnemonics.styl';
-import GradientContainer from "../components/organisms/SymbolGradientContainer";
-import translate from "../locales/i18n";
-import Warning from "../components/atoms/Warning";
-import GradientButton from "../components/atoms/GradientButton";
-import {Router} from "../Router";
-import TitleBar from "../components/atoms/TitleBar";
+import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
+import translate from "@src/locales/i18n";
+import Warning from "@src/components/atoms/Warning";
+import GradientButton from "@src/components/atoms/GradientButton";
+import {Router} from "@src/Router";
+import TitleBar from "@src/components/atoms/TitleBar";
 import Card from "@src/components/atoms/Card";
 import store from "@src/store";
 

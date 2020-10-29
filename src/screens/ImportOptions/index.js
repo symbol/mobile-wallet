@@ -8,9 +8,9 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 
 import styles from './ImportOptions.styl';
-import translate from "../locales/i18n";
-import SymbolPageView from "../components/organisms/SymbolPageView";
-import {Router} from "../Router";
+import translate from "@src/locales/i18n";
+import SymbolPageView from "@src/components/organisms/SymbolPageView";
+import {Router} from "@src/Router";
 
 class ImportOptions extends Component<Props, State> {
 	state = {
@@ -32,13 +32,13 @@ class ImportOptions extends Component<Props, State> {
 				title: translate('ImportWallet.ImportOptions.buttonTitleRestoreMnemonics'),
 				style: styles.button,
 				onPress: this.enterMnemonic,
-				icon: require('../assets/icons/mnemonics_light.png'),
+				icon: require('@src/assets/icons/mnemonics_light.png'),
 			},
 			{
 				title: translate('ImportWallet.ImportOptions.buttonTitleQr'),
 				style: styles.button,
 				onPress: this.scanQR,
-				icon: require('../assets/icons/qr_light.png'),
+				icon: require('@src/assets/icons/qr_light.png'),
 			}
 		];
 

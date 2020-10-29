@@ -47,28 +47,28 @@ export default class GradientBackground extends Component<Props, State> {
 		const imageName = name + '_' + theme;
 		switch(imageName) {
 			case 'connector_light':
-				source = require('../../assets/backgrounds/connector_light.png');
+				source = require('@src/assets/backgrounds/connector_light.png');
 				break;
 			case 'connector_dark':
-				source = require('../../assets/backgrounds/connector.png');
+				source = require('@src/assets/backgrounds/connector.png');
 				break;
 			case 'connector_small_light':
-				source = require('../../assets/backgrounds/connector_small_light.png');
+				source = require('@src/assets/backgrounds/connector_small_light.png');
 				break;
 			case 'connector_small_dark':
-				source = require('../../assets/backgrounds/connector.png');
+				source = require('@src/assets/backgrounds/connector.png');
 				break;
 			case 'mesh_dark':
 			case 'mesh_light':
-				source = require('../../assets/backgrounds/mesh.png');
+				source = require('@src/assets/backgrounds/mesh.png');
 				break;
 			case 'mesh_small_light':
 			case 'mesh_small_dark':
-				source = require('../../assets/backgrounds/mesh_small.png');
+				source = require('@src/assets/backgrounds/mesh_small.png');
 				break;
 			case 'mesh_small_2_light':
 			case 'mesh_small_2_dark':
-				source = require('../../assets/backgrounds/mesh_small_2.png');
+				source = require('@src/assets/backgrounds/mesh_small_2.png');
 				break;
 		}
 

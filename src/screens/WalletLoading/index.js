@@ -21,7 +21,7 @@ class WalletLoading extends Component {
   };
 
   render() {
-	const image = { uri: '../assets/mesh1.png' };
+	const image = { uri: '@src/assets/mesh1.png' };
 
     return (
       <GradientContainer
@@ -32,7 +32,7 @@ class WalletLoading extends Component {
         style={styles.gradientContainer}>
 			{/*<Image style={styles.mesh} source={require('../../../shared/assets/mesh1.png')}/>*/}
 			<Video
-				source={require('../assets/videos/mesh.mp4')}
+				source={require('@src/assets/videos/mesh.mp4')}
 				style={styles.mesh}
 				muted={true}
 				repeat={true}
@@ -51,7 +51,7 @@ class WalletLoading extends Component {
 			<View style={{height: '25%'}}></View>
         	{/* <Image style={styles.loader} source={require('../../../shared/assets/loader.gif')} /> */}
 
-			<Image style={styles.logo} source={require('../assets/nem_logo.png')} />
+			<Image style={styles.logo} source={require('@src/assets/nem_logo.png')} />
 
 
       </GradientContainer>

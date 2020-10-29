@@ -7,12 +7,12 @@ import React, { Component } from 'react';
 import { View, Alert, Keyboard } from 'react-native';
 
 import styles from './CreateQRPassword.styl';
-import translate from "../locales/i18n";
-import GradientContainer from "../components/organisms/SymbolGradientContainer";
-import Input from "../components/atoms/Input";
-import GradientButton from "../components/atoms/GradientButton";
-import {passwordValidation} from "../utils/SymbolQR";
-import {Router} from "../Router";
+import translate from "@src/locales/i18n";
+import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
+import Input from "@src/components/atoms/Input";
+import GradientButton from "@src/components/atoms/GradientButton";
+import {passwordValidation} from "@src/utils/SymbolQR";
+import {Router} from "@src/Router";
 import store from "@src/store";
 
 const testIDs = {
