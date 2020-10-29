@@ -7,7 +7,8 @@ import {
 	Input,
 	InputAddress,
 	Button,
-	Dropdown
+	Dropdown,
+	MosaicDropdown
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from "@src/locales/i18n";
@@ -99,7 +100,9 @@ class Send extends Component<Props, State> {
 		} = this.state;
 
 		const mosaicList = [
-			{value: 'symbol.xym', label: 'Symbol.XYM'}
+			{value: 'symbol.xym', label: 'Symbol.XYM', balance: '128,8389.0012'},
+			{value: 'GH423HG4H23', label: 'GH423HG4H23', balance: '212'},
+			{value: 'cooin.my.test', label: 'Symbol.XYM', balance: '1'}
 		];
 
 		const feeList = [
@@ -127,7 +130,7 @@ class Send extends Component<Props, State> {
 							/>
 						</Section>
 						<Section type="form-item">
-							<Dropdown 
+							<MosaicDropdown 
 								value={mosaicName}
 								title="Mosaic"
 								theme="light"

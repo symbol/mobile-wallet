@@ -133,11 +133,9 @@ export default class Dropdown extends Component<Props, State> {
 		isSelectorOpen: false
 	};
 
-	getSelectedLabel = (value, list) => {
+	getselectedOption = (value, list) => {
 		const selectedOption = list.find(el => el.value === value);
-		if(selectedOption)
-			return selectedOption.label;
-		return null;
+		return selectedOption;
 	};
 
 	getIconPosition = (k, offset) => {
@@ -147,7 +145,7 @@ export default class Dropdown extends Component<Props, State> {
 		}
 	};
 
-	getInputStyle = (numberOfIcons, k, offset) => {
+	getInputStyle = (k, offset) => {
 		return {
 			paddingRight: k + offset
 		}
@@ -184,7 +182,7 @@ export default class Dropdown extends Component<Props, State> {
 					? <Text style={textStyles}>
 						{item.item.label}
 					</Text>
-					: customItemReneder(item.item.value)
+					: customItemReneder({ ...item.item, isActive, isListItem: true })
 				)}
 			</TouchableOpacity>
 		);
@@ -213,7 +211,7 @@ export default class Dropdown extends Component<Props, State> {
 		const iconSize = 'small';
 		const iconWrapperWidth = 30;
 		const iconOffset = 8;
-		const selectedLabel = this.getSelectedLabel(value, list);
+		const selectedOption = this.getselectedOption(value, list);
 
 		if(fullWidth)
 			rootStyle.push(styles.fullWidth);
@@ -231,16 +229,16 @@ export default class Dropdown extends Component<Props, State> {
 			<View style={rootStyle}>
 				{!children && <Text style={titleStyle}>{title}</Text>}
 				{!children && <TouchableOpacity 
-					style={[styles.input, _inputStyle, inputStyle]}
+					style={[styles.input, _inputStyle, inputStyle, this.getInputStyle(iconWrapperWidth, iconOffset)]}
 					onPress={() => this.openSelector()}
 				>
-					{selectedLabel && 
+					{selectedOption &&
 						(!customItemReneder 
-							? <Text>{selectedLabel}</Text>
-							: customItemReneder(value)
+							? <Text>{selectedOption.label}</Text>
+							: customItemReneder(selectedOption)
 						)
 					}
-					{!selectedLabel && <Text style={styles.placeholder}>{placeholder}</Text>}
+					{!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
 					<View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
 						<Icon name="expand" size={iconSize} />
 					</View>
