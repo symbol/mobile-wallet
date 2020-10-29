@@ -140,6 +140,7 @@ export default {
 
 		formBottom: {
 			marginTop: 'auto',
+			paddingTop: 17,
 			paddingBottom: 17
 		}
 	},
