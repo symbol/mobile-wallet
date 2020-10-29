@@ -89,7 +89,10 @@ class Send extends Component<Props, State> {
 	};
 
     render = () => {
-		const { ownedMosaics } = this.props;
+		const { 
+			ownedMosaics,
+			isOwnedMosaicsLoading
+		 } = this.props;
 		const {
 			recipientAddress,
 			mosaicName,
@@ -136,6 +139,7 @@ class Send extends Component<Props, State> {
 								title="Mosaic"
 								theme="light"
 								editable={true}
+								isLoading={isOwnedMosaicsLoading}
 								list={mosaicList}
 								onChange={mosaicName => this.setState({mosaicName})}
 							/>
@@ -186,5 +190,6 @@ export default connect(state => ({
 	isError: state.transfer.isError,
 	isSuccessfullySent: state.transfer.isSuccessfullySent,
 	transaction: state.transfer.transaction,
-	ownedMosaics: state.mosaic.ownedMosaics
+	ownedMosaics: state.mosaic.ownedMosaics,
+	isOwnedMosaicsLoading: state.mosaic.isLoading,
 }))(Send);

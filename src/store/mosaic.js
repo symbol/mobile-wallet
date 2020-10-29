@@ -9,7 +9,7 @@ class MosaicService {
 					{ mosaicId: 'AER2REW322C', mosaicName: 'namespace.coin', amount: 2 },
 					{ mosaicId: 'EFA539E73G5', mosaicName: 'EFA539E73G5', amount: 0.12312 },
 				]);
-			}, 1000);
+			}, 3000);
 		})
 	};
 
@@ -21,7 +21,7 @@ class MosaicService {
 					namespaceName: 'symnol.xym',
 					subNamespaceName: 'xym'
 				});
-			}, 1000);
+			}, 3000);
 		})
 	}
 };

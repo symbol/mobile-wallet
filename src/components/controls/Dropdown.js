@@ -6,7 +6,8 @@ import {
 	TouchableOpacity, 
 	TouchableWithoutFeedback,
 	Modal,
-	FlatList
+	FlatList,
+	ActivityIndicator
 } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row } from '@src/components';
@@ -106,6 +107,18 @@ const styles = StyleSheet.create({
 	listItemTextActive: {
 		fontFamily: 'NotoSans-SemiBold',
 		fontWeight: '400'
+	},
+	loading: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		height: 45,
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	disabled: {
+		opacity: 0.3
 	}
 });
 
@@ -199,13 +212,14 @@ export default class Dropdown extends Component<Props, State> {
 			placeholder = 'Please select..', 
 			title,
 			customItemReneder,
+			isLoading,
 			children,
 			...rest 
 		} = this.props;
 		const {
 			isSelectorOpen
 		} = this.state;
-		let _inputStyle = {};
+		let inputStyles = [];
 		let titleStyle = {};
 		let rootStyle = [styles.root, style];
 		const iconSize = 'small';
@@ -216,21 +230,28 @@ export default class Dropdown extends Component<Props, State> {
 		if(fullWidth)
 			rootStyle.push(styles.fullWidth);
 
+		inputStyles.push(styles.input);
 		if(theme === 'light') {
-			_inputStyle = styles.inputLight;
+			inputStyles.push(styles.inputLight);
 			titleStyle = styles.titleLight;
 		}	
 		else {
-			_inputStyle = styles.inputDark;
+			inputStyles.push(styles.inputDark);
 			titleStyle = styles.titleDark;
 		}
+
+		inputStyles.push(this.getInputStyle(iconWrapperWidth, iconOffset));
+		inputStyles.push(inputStyle);
+
+		if(isLoading)
+			inputStyles.push(styles.disabled);
 
         return (
 			<View style={rootStyle}>
 				{!children && <Text style={titleStyle}>{title}</Text>}
 				{!children && <TouchableOpacity 
-					style={[styles.input, _inputStyle, inputStyle, this.getInputStyle(iconWrapperWidth, iconOffset)]}
-					onPress={() => this.openSelector()}
+					style={inputStyles}
+					onPress={() => !isLoading && this.openSelector()}
 				>
 					{selectedOption &&
 						(!customItemReneder 
@@ -271,6 +292,7 @@ export default class Dropdown extends Component<Props, State> {
 						</View>
 					</View>
 				</Modal>
+				{isLoading && <ActivityIndicator size="small" color={GlobalStyles.color.PINK} style={styles.loading} />}
 			</View>
         );
     };
