@@ -5,10 +5,11 @@ import {
 	View, 
 	TouchableOpacity, 
 	TouchableWithoutFeedback,
-	Modal
+	Modal,
+	FlatList
 } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon } from '@src/components';
+import { Icon, Row } from '@src/components';
 
 
 const styles = StyleSheet.create({
@@ -56,10 +57,55 @@ const styles = StyleSheet.create({
 	modalOverlay: {
 		position: 'absolute',
 		left: 0,
-		right: 0,
-		bottom: 0,
 		top: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.4)',
+		height: '100%',
+		width: '100%',
+		backgroundColor: 'rgba(0, 0, 0, 0.6)',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	modalWrapper: {
+		padding: 34,
+		height: '100%',
+		justifyContent: 'center'
+	},
+	modal: {
+		height: '80%',
+		width: '100%',
+		backgroundColor: GlobalStyles.color.DARKWHITE,
+		opacity: 0.95,
+		borderRadius: 6,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
+	},
+	modalTitleContainer: {
+		borderBottomWidth: 1,
+		borderColor: GlobalStyles.color.onLight.TEXT,
+		padding: 12,
+	},
+	modalTitleText: {
+		color: GlobalStyles.color.onLight.TEXT,
+		fontFamily: 'NotoSans-SemiBold',
+		fontSize: 18
+	},
+	listItem: {
+		//borderBottomWidth: 1,
+		borderColor: GlobalStyles.color.onLight.TEXT,
+		padding: 12,
+	},
+	listItemText: {
+		textAlign: 'center',
+		color: GlobalStyles.color.PRIMARY,
+	},
+	listItemTextActive: {
+		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '400'
 	}
 });
 
@@ -115,6 +161,35 @@ export default class Dropdown extends Component<Props, State> {
 		this.setState({isSelectorOpen: false});
 	};
 
+	onChange = (value) => {
+		if(typeof this.props.onChange === 'function')
+			this.props.onChange(value);
+		this.closeSelector();
+	};
+
+
+	renderItem = (item) => {
+		const { customItemReneder } = this.props;
+		const isActive = this.props.value === item.item.value;
+		const textStyles = [styles.listItemText];
+		if(isActive)
+			textStyles.push(styles.listItemTextActive);
+			
+		return (
+			<TouchableOpacity 
+				style={styles.listItem} 
+				onPress={() => this.onChange(item.item.value)}
+			>
+				{(!customItemReneder 
+					? <Text style={textStyles}>
+						{item.item.label}
+					</Text>
+					: customItemReneder(item.item.value)
+				)}
+			</TouchableOpacity>
+		);
+	};
+
     render = () => {
 		const { 
 			style = {}, 
@@ -126,6 +201,7 @@ export default class Dropdown extends Component<Props, State> {
 			placeholder = 'Please select..', 
 			title,
 			customItemReneder,
+			children,
 			...rest 
 		} = this.props;
 		const {
@@ -153,13 +229,13 @@ export default class Dropdown extends Component<Props, State> {
 
         return (
 			<View style={rootStyle}>
-				<Text style={titleStyle}>{title}</Text>
-				<TouchableOpacity 
+				{!children && <Text style={titleStyle}>{title}</Text>}
+				{!children && <TouchableOpacity 
 					style={[styles.input, _inputStyle, inputStyle]}
 					onPress={() => this.openSelector()}
 				>
 					{selectedLabel && 
-						(customItemReneder 
+						(!customItemReneder 
 							? <Text>{selectedLabel}</Text>
 							: customItemReneder(value)
 						)
@@ -168,7 +244,12 @@ export default class Dropdown extends Component<Props, State> {
 					<View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
 						<Icon name="expand" size={iconSize} />
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity>}
+				{children && <TouchableOpacity 
+					onPress={() => this.openSelector()}
+				>
+					{children}
+				</TouchableOpacity>}
 
 				<Modal
 					animationType="fade"
@@ -179,6 +260,18 @@ export default class Dropdown extends Component<Props, State> {
 					<TouchableWithoutFeedback onPress={() => this.closeSelector()}>
 						<View style={styles.modalOverlay}></View>
 					</TouchableWithoutFeedback>
+					<View style={styles.modalWrapper}>
+						<View style={styles.modal}>
+							<Row justify="center" style={styles.modalTitleContainer}>
+								<Text style={styles.modalTitleText}>{title}</Text>
+							</Row>
+							<FlatList 
+								data={list} 
+								renderItem={this.renderItem} 
+								keyExtractor={(item) => item.value} 
+							/>
+						</View>
+					</View>
 				</Modal>
 			</View>
         );

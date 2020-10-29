@@ -37,7 +37,7 @@ type State = {};
 class Send extends Component<Props, State> {
 	state = {
 		recipientAddress: '',
-		mosaicName: 'Symbol.XYM',
+		mosaicName: 'symbol.xym',
 		amount: '0',
 		message: '',
 		isEncrypted: false,
@@ -99,7 +99,24 @@ class Send extends Component<Props, State> {
 		} = this.state;
 
 		const mosaicList = [
-			{value: 'symbol.xym', label: 'Symbol.XYM'}
+			{value: 'symbol.xym', label: 'Symbol.XYM'},
+			{value: '1', label: 'mycoin'},
+			{value: '2', label: 'mycoin'},
+			{value: '3', label: 'mycoin'},
+			{value: '4', label: 'mycoin'},
+			{value: '5', label: 'mycoin'},
+			{value: '6', label: 'mycoin'},
+			{value: '7', label: 'mycoin'},
+			{value: '8', label: 'mycoin'},
+			{value: '9', label: 'mycoin'},
+			{value: '0', label: 'mycoin'},
+			{value: '00', label: 'mycoin'},
+			{value: '000', label: 'mycoin'},
+			{value: '0000', label: 'mycoin'},
+			{value: '11', label: 'mycoin'},
+			{value: '22', label: 'mycoin'},
+			{value: '33', label: 'mycoin'},
+
 		]
 
 		return (isConfirmShown
