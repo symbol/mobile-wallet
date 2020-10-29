@@ -18,7 +18,8 @@ import {
     NISNodes,
     defaultNetworkType,
 } from 'react-native-env-json';
-import {NetworkType} from "symbol-sdk";
+import { NetworkType } from "symbol-sdk";
+import { languageNames } from '@src/locales/i18n';
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
@@ -60,11 +61,12 @@ const getCurrencyValue = (currencyKey: string): string => {
 
 // Lanugage
 const getLanguageList = (): Array<string> => {
+    console.log(lanugages);
     return Object.keys(lanugages);
 };
 
 const getDefaultLanguage = (): string => {
-    return lanugages.English || 'en';
+    return 'en';
 };
 
 const getLanguageValue = (languageKey: string): string => {
@@ -118,7 +120,11 @@ const getNISNodes = (): string => {
 };
 
 const getDefaultNetworkType = (): NetworkType => {
-    return defaultNetworkType === 'mainnet' ? NetworkType.MAIN_NET : NetworkType.TEST_NET;
+    return defaultNetworkType;
+};
+
+const getNodes = (network: 'mainnet' | 'testnet'): string[] => {
+    return networks[network].nodes;
 };
 
 export {
@@ -143,5 +149,6 @@ export {
     getNetworkInfo,
     getOptinEnv,
     getNISNodes,
-    getDefaultNetworkType
+    getDefaultNetworkType,
+    getNodes,
 };

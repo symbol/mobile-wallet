@@ -1,24 +1,26 @@
-import {Dimensions, Platform, View} from "react-native";
-import {Provider} from 'react-redux';
+import { Dimensions, Platform, View } from 'react-native';
+import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
-import {gestureHandlerRootHOC} from "react-native-gesture-handler";
-import {TermsAndPrivacy} from "./screens/TermsAndPrivacy";
-import {CreateOrImport} from "./screens/CreateOrImport";
-import WalletName from "./screens/WalletName";
-import React from "react";
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { TermsAndPrivacy } from './screens/TermsAndPrivacy';
+import { CreateOrImport } from './screens/CreateOrImport';
+import WalletName from './screens/WalletName';
+import React from 'react';
 import store from '@src/store';
-import GenerateBackup from "./screens/GenerateBackup";
-import ShowQRCode from "./screens/ShowQRCode";
-import CreateQRPassword from "./screens/CreateQRPassword";
-import Dashboard from "./screens/Dashboard";
-import ImportOptions from "./screens/ImportOptions";
-import EnterMnemonics from "./screens/EnterMnemonics";
-import ScanQRCode from "@src/screens/ScanQRCode";
-import WalletLoading from "@src/screens/WalletLoading";
-import VerifyMnemonics from "./screens/VerifyMnemonics";
-import ShowMnemonics from "./screens/ShowMnemonics";
-import Send from "@src/screens/Send";
-import ConfirmTransaction from "@src/screens/ConfirmTransaction";
+import GenerateBackup from './screens/GenerateBackup';
+import ShowQRCode from './screens/ShowQRCode';
+import CreateQRPassword from './screens/CreateQRPassword';
+import Dashboard from './screens/Dashboard';
+import ImportOptions from './screens/ImportOptions';
+import EnterMnemonics from './screens/EnterMnemonics';
+import ScanQRCode from '@src/screens/ScanQRCode';
+import WalletLoading from '@src/screens/WalletLoading';
+import VerifyMnemonics from './screens/VerifyMnemonics';
+import ShowMnemonics from './screens/ShowMnemonics';
+import Settings from '@src/screens/Settings';
+import Passcode from '@src/screens/Passcode';
+import Send from '@src/screens/Send';
+import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -34,6 +36,8 @@ export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
 export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`;
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
+export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
+export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 
@@ -51,12 +55,15 @@ export class Router {
         [IMPORT_OPTION_SCREEN, ImportOptions],
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
         [ENTER_MNEMONICS_SCREEN, EnterMnemonics],
-		[DASHBOARD_SCREEN, Dashboard],
+        [DASHBOARD_SCREEN, Dashboard],
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
         [SHOW_MNEMONICS_SCREEN, ShowMnemonics],
-		[WALLET_LOADING_SCREEN, WalletLoading],
-		[SEND_SCREEN, Send],
-		[CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction]
+        [WALLET_LOADING_SCREEN, WalletLoading],
+        [SETTINGS_SCREEN, Settings],
+        [PASSCODE_SCREEN, Passcode],
+        [WALLET_LOADING_SCREEN, WalletLoading],
+        [SEND_SCREEN, Send],
+        [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
     ];
 
     static registerScreens() {
@@ -64,69 +71,77 @@ export class Router {
             return function inject(props) {
                 const EnhancedComponent = () => (
                     <Provider store={store}>
-                        <Component {...props}/>
+                        <Component {...props} />
                     </Provider>
                 );
                 return <EnhancedComponent />;
             };
         }
-		
+
         this.screens.forEach(([key, ScreenComponent]) =>
-            Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
+            Navigation.registerComponent(key, () =>
+                WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent))
+            )
         );
     }
 
-    static goToTermsAndPrivacy(passProps, parentComponent?){
+    static goToTermsAndPrivacy(passProps, parentComponent?) {
         return this.goToScreen(TERMS_AND_PRIVACY_SCREEN, passProps, parentComponent);
     }
-    static goToCreateOrImport(passProps, parentComponent?){
+    static goToCreateOrImport(passProps, parentComponent?) {
         return this.goToScreen(CREATE_OR_IMPORT_SCREEN, passProps, parentComponent);
     }
-    static goToWalletName(passProps, parentComponent?){
+    static goToWalletName(passProps, parentComponent?) {
         return this.goToScreen(WALLET_NAME_SCREEN, passProps, parentComponent);
     }
-    static goToGenerateBackup(passProps, parentComponent?){
+    static goToGenerateBackup(passProps, parentComponent?) {
         return this.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
     }
-    static goToCreateQRPassword(passProps, parentComponent?){
+    static goToCreateQRPassword(passProps, parentComponent?) {
         return this.goToScreen(CREATE_QR_PASSWORD, passProps, parentComponent);
     }
-    static goToShowQRCode(passProps, parentComponent?){
+    static goToShowQRCode(passProps, parentComponent?) {
         return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
-	}
-	static goToDashboard(passProps, parentComponent?){
+    }
+    static goToDashboard(passProps, parentComponent?) {
         return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
     }
-    static goToVerifyMnemonics(passProps, parentComponent?){
+    static goToVerifyMnemonics(passProps, parentComponent?) {
         return this.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
     }
-    static goToShowMnemonics(passProps, parentComponent?){
+    static goToShowMnemonics(passProps, parentComponent?) {
         return this.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
     }
-    static goToImportOptions(passProps, parentComponent?){
+    static goToImportOptions(passProps, parentComponent?) {
         return this.goToScreen(IMPORT_OPTION_SCREEN, passProps, parentComponent);
     }
-    static goToScanQRCode(passProps, parentComponent?){
+    static goToScanQRCode(passProps, parentComponent?) {
         return this.goToScreen(SCAN_QR_CODE_SCREEN, passProps, parentComponent);
     }
-    static goToEnterMnemonics(passProps, parentComponent?){
+    static goToEnterMnemonics(passProps, parentComponent?) {
         return this.goToScreen(ENTER_MNEMONICS_SCREEN, passProps, parentComponent);
     }
-    static goToWalletLoading(passProps, parentComponent?){
+    static goToWalletLoading(passProps, parentComponent?) {
         return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
-	}
-	static goToConfirmTransaction(passProps, parentComponent?){
+    }
+    static goToConfirmTransaction(passProps, parentComponent?) {
         return this.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);
     }
+    static goToSettings(passProps, parentComponent?) {
+        return this.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
+    }
+    static showPasscode(passProps, parentComponent?) {
+        return this.goToScreen(PASSCODE_SCREEN, passProps, parentComponent);
+    }
 
-    static goToScreen(screen: string, passProps, parentComponent?){
+    static goToScreen(screen: string, passProps, parentComponent?) {
         setDefaultNavOptions();
-        if (parentComponent){
+        if (parentComponent) {
             return pushToStack(parentComponent, screen, passProps);
         } else {
             return newStack(screen, passProps);
         }
-    };
+    }
 
     static goBack(componentId) {
         return goBack(componentId);
@@ -231,6 +246,6 @@ const pushToStack = (parent, screen: string, passProps) => {
  * @param component
  * @return {Promise<any>}
  */
-const goBack = (component) => {
+const goBack = component => {
     return Navigation.pop(component);
 };

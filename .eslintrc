@@ -1,10 +1,7 @@
 {
   "extends": [
-    "plugin:react/recommended",
-    "airbnb",
     "prettier",
-    "plugin:prettier/recommended",
-    "@react-native-community"
+    "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -12,25 +9,21 @@
       "jsx": true
     }
   },
-  "plugins": ["react-native"],
   "env": {
-    "react-native/react-native": true,
     "jest": true
   },
   "rules": {
     "global-require": "off",
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "import": "always-multiline",
-        "export": "always-multiline",
-        "functions": "never"
-      }
-    ],
+    "import/no-unresolved": "off",
     "react/state-in-constructor": "off",
+    "react/prefer-stateless-function": "off",
     "react/jsx-curly-newline": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-no-undef": "warn",
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-closing-bracket-location": "off",
+    "react/no-did-mount-set-state": "off",
+    "react/require-default-props": "off",
     "react/static-property-placement": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": [
@@ -39,7 +32,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "indent": [2, 2, { "SwitchCase": 1 }],
+    "indent": ["error", 4, { "SwitchCase": 1 }],
     "react-native/no-unused-styles": 2,
     "react-native/no-inline-styles": 2,
     "object-shorthand": ["error", "consistent"],

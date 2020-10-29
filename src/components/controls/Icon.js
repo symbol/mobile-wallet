@@ -59,68 +59,67 @@ export default class C extends Component<Props, State> {
 		let source;
 		let _style = {};
 
-		switch(name) {
-			case 'none': 
-				source = require('@src/assets/icons/ic-about.png');
-				break;
-			case 'news': 
-				source = require('@src/assets/icons/menu/news.png');
-				break;
-			case 'send': 
-				source = require('@src/assets/icons/send.png');
-				break;
-			case 'receive': 
-				source = require('@src/assets/icons/receive.png');
-				break;
-			case 'mosaics': 
-				source = require('@src/assets/icons/menu/mosaics.png');
-				break;
-			case 'home': 
-				source = require('@src/assets/icons/menu/home.png');
-				break;
-			case 'history': 
-				source = require('@src/assets/icons/menu/history.png');
-				break;
-			case 'harvest': 
-				source = require('@src/assets/icons/menu/harvest.png');
-				break;
-			case 'back_light': 
-				source = require('@src/assets/icons/back_light.png');
-				break;
-			case 'back_dark': 
-				source = require('@src/assets/icons/back_dark.png');
-				break;
-			case 'settings_light': 
-				source = require('@src/assets/icons/settings_light.png');
-				break;
-			case 'settings_dark': 
-				source = require('@src/assets/icons/settings_dark.png');
-				break;
-			case 'paste': 
+        switch (name) {
+            case 'none':
+                source = require('@src/assets/icons/ic-about.png');
+                break;
+            case 'news':
+                source = require('@src/assets/icons/menu/news.png');
+                break;
+            case 'send':
+                source = require('@src/assets/icons/send.png');
+                break;
+            case 'receive':
+                source = require('@src/assets/icons/receive.png');
+                break;
+            case 'mosaics':
+                source = require('@src/assets/icons/menu/mosaics.png');
+                break;
+            case 'home':
+                source = require('@src/assets/icons/menu/home.png');
+                break;
+            case 'history':
+                source = require('@src/assets/icons/menu/history.png');
+                break;
+            case 'harvest':
+                source = require('@src/assets/icons/menu/harvest.png');
+                break;
+            case 'back_light':
+                source = require('@src/assets/icons/back_light.png');
+                break;
+            case 'back_dark':
+                source = require('@src/assets/icons/back_dark.png');
+                break;
+            case 'settings_light':
+                source = require('@src/assets/icons/settings_light.png');
+                break;
+            case 'settings_dark':
+                source = require('@src/assets/icons/settings_dark.png');
+                break;
+            case 'paste':
 				source = require('@src/assets/icons/clipboard.png');
 				break;
-			case 'qr': 
+			case 'qr':
 				source = require('@src/assets/icons/qr.png');
 				break;
-			case 'expand': 
+			case 'expand':
 				source = require('@src/assets/icons/expand.png');
-				break;
-			default:
-				source = require('@src/assets/icons/ic-about.png');
-				break;
-		}
+				break;default:
+                source = require('@src/assets/icons/ic-about.png');
+                break;
+        }
 
 		switch(size) {
-			case 'large': 
+			case 'large':
 				_style = styles.large
 				break;
-			case 'big': 
+			case 'big':
 				_style = styles.big
 				break;
-			case 'medium': 
+			case 'medium':
 				_style = styles.medium
 				break;
-			case 'small': 
+			case 'small':
 				_style = styles.small
 				break;
 			default:
@@ -129,5 +128,5 @@ export default class C extends Component<Props, State> {
 		}
 
         return <Image style={[_style, style]} source={source} />;
-    };
+    }
 }
