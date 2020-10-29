@@ -42,7 +42,7 @@ class SettingsCurrencySelector extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.currency.title')}
-                    icon={require('../../assets/icons/ic-currency.png')}
+                    icon={require('@src/assets/icons/ic-currency.png')}
                     isSelector={true}
                     itemValue={selectedCurrency}
                     onPress={this.openModal}

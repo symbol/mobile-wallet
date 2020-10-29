@@ -17,7 +17,7 @@ export default class SettingsLogout extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.logout')}
-                    icon={require('../../assets/icons/ic-logout.png')}
+                    icon={require('@src/assets/icons/ic-logout.png')}
                     onPress={this.onPress}
                 />
             </View>

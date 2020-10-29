@@ -25,7 +25,7 @@ export default class SettingsListItem extends Component<Props> {
                     <View style={styles.dropDownSelector}>
                         <Text style={styles.dropDownSelectorText}>{itemValue}</Text>
                         <Image
-                            source={require('../../assets/icons/ic-chevron-down-white.png')}
+                            source={require('@src/assets/icons/ic-chevron-down-white.png')}
                             style={styles.dropDownSelectorIcon}
                         />
                     </View>

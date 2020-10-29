@@ -14,7 +14,7 @@ export default class SettingsBackup extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.backup')}
-                    icon={require('../../assets/icons/ic-backup-white.png')}
+                    icon={require('@src/assets/icons/ic-backup-white.png')}
                     onPress={this.onPress}
                 />
             </View>

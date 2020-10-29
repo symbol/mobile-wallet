@@ -38,7 +38,7 @@ export default class ModalSelector extends Component<Props> {
                     <TouchableOpacity onPress={onClose} style={GlobalStyles.closeButton}>
                         <Image
                             style={styles.closeIcon}
-                            source={require('../../assets/icons/ic-close-black.png')}
+                            source={require('@src/assets/icons/ic-close-black.png')}
                         />
                     </TouchableOpacity>
                     <View style={styles.titleContainer}>

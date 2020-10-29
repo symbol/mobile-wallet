@@ -43,7 +43,7 @@ class SettingsNotificationSelector extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.notification.title')}
-                    icon={require('../../assets/icons/ic-notification.png')}
+                    icon={require('@src/assets/icons/ic-notification.png')}
                     isSelector={true}
                     itemValue={selectedSyncInterval}
                     onPress={this.openModal}

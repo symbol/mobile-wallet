@@ -92,7 +92,7 @@ class Passcode extends Component<Props, State> {
 
     renderCustomDeleteIcon = () => {
         return (
-            <Image style={styles.iconDelete} source={require('../assets/icons/ic-delete.png')} />
+            <Image style={styles.iconDelete} source={require('@src/assets/icons/ic-delete.png')} />
         );
     };
 
@@ -121,7 +121,7 @@ class Passcode extends Component<Props, State> {
                     <React.Fragment>
                         <Image
                             style={styles.icon}
-                            source={require('../assets/icons/lock.png')}
+                            source={require('@src/assets/icons/lock.png')}
                         />
 
                         <PINCode

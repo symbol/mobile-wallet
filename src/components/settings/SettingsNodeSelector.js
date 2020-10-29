@@ -69,7 +69,7 @@ class SettingsNodeSelector extends Component {
                 <SettingsListItem
                     title={translate('Settings.node.menuTitle')}
                     isSelector={true}
-                    icon={require('../../assets/icons/ic-mainnet.png')}
+                    icon={require('@src/assets/icons/ic-mainnet.png')}
                     itemValue={network.network}
                     onPress={this.openModal}
                 />

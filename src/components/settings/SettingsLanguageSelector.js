@@ -41,7 +41,7 @@ class SettingsLanguageSelector extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.language.title')}
-                    icon={require('../../assets/icons/ic-language.png')}
+                    icon={require('@src/assets/icons/ic-language.png')}
                     isSelector={true}
                     itemValue={selectedLanguage}
                     onPress={this.openModal}
