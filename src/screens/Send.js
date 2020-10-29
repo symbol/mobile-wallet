@@ -38,8 +38,8 @@ type State = {};
 class Send extends Component<Props, State> {
 	state = {
 		recipientAddress: '',
-		mosaicName: 'symbol.xym',
-		amount: '0',
+		mosaicName: '',
+		amount: '',
 		message: '',
 		isEncrypted: false,
 		fee: 0.5,
@@ -48,6 +48,7 @@ class Send extends Component<Props, State> {
 
 	componentDidMount = () => {
 		Store.dispatchAction({type: 'transfer/clear'});
+		Store.dispatchAction({type: 'mosaic/loadOwnedMosaics'});
 	};
 
 	submit = () => {
@@ -88,7 +89,7 @@ class Send extends Component<Props, State> {
 	};
 
     render = () => {
-		const {} = this.props;
+		const { ownedMosaics } = this.props;
 		const {
 			recipientAddress,
 			mosaicName,
@@ -99,11 +100,11 @@ class Send extends Component<Props, State> {
 			isConfirmShown
 		} = this.state;
 
-		const mosaicList = [
-			{value: 'symbol.xym', label: 'Symbol.XYM', balance: '128,8389.0012'},
-			{value: 'GH423HG4H23', label: 'GH423HG4H23', balance: '212'},
-			{value: 'cooin.my.test', label: 'Symbol.XYM', balance: '1'}
-		];
+		const mosaicList = ownedMosaics.map(mosaic => ({
+			value: mosaic.mosaicId,
+			label: mosaic.mosaicName,
+			balance: mosaic.amount
+		}))
 
 		const feeList = [
 			{value: 0.1, label: '0.1 XEM - slow'},
@@ -113,7 +114,7 @@ class Send extends Component<Props, State> {
 
 		return (isConfirmShown
 			? this.renderConfirmTransaction()
-			: (<GradientBackground name="connector_small" theme="light">
+			: (<GradientBackground name="mesh_small_2" theme="light">
 				<TitleBar
 					theme="light"
 					onBack={()=>Router.goBack(this.props.componentId)}
@@ -185,4 +186,5 @@ export default connect(state => ({
 	isError: state.transfer.isError,
 	isSuccessfullySent: state.transfer.isSuccessfullySent,
 	transaction: state.transfer.transaction,
+	ownedMosaics: state.mosaic.ownedMosaics
 }))(Send);

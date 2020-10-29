@@ -10,6 +10,9 @@ export default {
 		mnemonic: null,
 		password: null,
 		walletCreated: false,
+		
+		//TODO
+		accounts: []
 	},
 	mutations: {
 		setName(state, payload) {

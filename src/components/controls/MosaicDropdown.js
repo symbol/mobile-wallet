@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { 
 	StyleSheet, 
-	Text, 
-	View, 
+	Text,
 } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Dropdown, Row } from '@src/components';
@@ -28,21 +27,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-type Theme = 'light' 
-	| 'dark';
 
-type ListItem = {
-	value: string | number | Boolean,
-	label: string
-};
-
-interface Props {
-	fullWidth: boolean;
-	theme: Theme;
-	list: ListItem[];
-	title: String;
-};
-
+interface Props {};
 type State = {};
 
 
@@ -81,8 +67,6 @@ export default class MosaicDropdown extends Component<Props, State> {
     render = () => {
 		const { ...rest } = this.props;
 
-        return (
-			<Dropdown customItemReneder={this.renderItem} {...rest} />
-        );
+        return <Dropdown customItemReneder={this.renderItem} {...rest} />
     };
 }

@@ -5,13 +5,15 @@ import wallet from '@src/store/wallet';
 import settings from '@src/store/settings';
 import network from '@src/store/network';
 import transfer from '@src/store/transfer';
+import mosaic from '@src/store/mosaic';
 
 const modules = {
     market,
     settings,
     network,
     wallet,
-    transfer,
+	transfer,
+	mosaic
 };
 
 const createModuleReducer = (module, state = {}, action) => {
