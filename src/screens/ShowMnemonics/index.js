@@ -56,6 +56,8 @@ class ShowMnemonics extends Component {
 				<TitleBar
 					title={translate('CreateWallet.ShowMnemonics.title')}
 					theme="dark"
+					showBack
+					onBack={() => Router.goBack(this.props.componentId)}
 				/>
 				<View style={styles.contentContainer}>
 					<Text style={styles.textContent}>

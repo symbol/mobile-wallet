@@ -204,7 +204,10 @@ class EnterMnemonics extends Component {
         style={styles.gradientContainer}>
         <TitleBar
           title={translate('ImportWallet.EnterMnemonics.title')}
-          theme="dark"/>
+		  theme="dark"
+		  showBack
+			onBack={() => Router.goBack(this.props.componentId)}
+		  />
         {showWarning && (
           <Warning
             hideWarning={this.hideWarning}

@@ -309,6 +309,7 @@ const WizardStepView = (props: Props) => {
 		if(theme === 'dark2')
 			return (
 				<SymbolGradientContainer
+					noPadding
 					style={styles.container}
 					source={require('@src/assets/settings.png')}
 				>
@@ -324,6 +325,7 @@ const WizardStepView = (props: Props) => {
 		else
 			return (
 				<SymbolGradientContainer
+					noPadding
 					style={ styles.container }
 				>
 					{!isLoading && !isFade && <View style={styles.container}>
