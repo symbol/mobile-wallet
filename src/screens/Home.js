@@ -44,7 +44,6 @@ export default class Home extends Component<Props, State> {
 
     render() {
         const { contentStyle = {}, componentId } = this.props;
-        console.log('home.componentId', this.props.componentId);
         const {} = this.state;
 
         return (
