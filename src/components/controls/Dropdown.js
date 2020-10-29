@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	modal: {
-		height: '80%',
+		maxHeight: '80%',
 		width: '100%',
 		backgroundColor: GlobalStyles.color.DARKWHITE,
 		opacity: 0.95,

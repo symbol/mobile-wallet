@@ -41,7 +41,7 @@ class Send extends Component<Props, State> {
 		amount: '0',
 		message: '',
 		isEncrypted: false,
-		fee: '0.5',
+		fee: 0.5,
 		isConfirmShown: false
 	};
 
@@ -99,24 +99,13 @@ class Send extends Component<Props, State> {
 		} = this.state;
 
 		const mosaicList = [
-			{value: 'symbol.xym', label: 'Symbol.XYM'},
-			{value: '1', label: 'mycoin'},
-			{value: '2', label: 'mycoin'},
-			{value: '3', label: 'mycoin'},
-			{value: '4', label: 'mycoin'},
-			{value: '5', label: 'mycoin'},
-			{value: '6', label: 'mycoin'},
-			{value: '7', label: 'mycoin'},
-			{value: '8', label: 'mycoin'},
-			{value: '9', label: 'mycoin'},
-			{value: '0', label: 'mycoin'},
-			{value: '00', label: 'mycoin'},
-			{value: '000', label: 'mycoin'},
-			{value: '0000', label: 'mycoin'},
-			{value: '11', label: 'mycoin'},
-			{value: '22', label: 'mycoin'},
-			{value: '33', label: 'mycoin'},
+			{value: 'symbol.xym', label: 'Symbol.XYM'}
+		];
 
+		const feeList = [
+			{value: 0.1, label: '0.1 XEM - slow'},
+			{value: 0.5, label: '0.5 XEM - normal'},
+			{value: 1, label: '1 XEM - fast'}
 		]
 
 		return (isConfirmShown
@@ -164,11 +153,13 @@ class Send extends Component<Props, State> {
 							/>
 						</Section>
 						<Section type="form-item">
-							<Input 
+							<Dropdown 
 								value={fee}
-								placeholder="Fee"
+								title="Fee"
 								theme="light"
-								onChangeText={fee => this.setState({fee})}
+								editable={true}
+								list={feeList}
+								onChange={fee => this.setState({fee})}
 							/>
 						</Section>
 						<Section type="form-bottom">
