@@ -67,6 +67,7 @@ export const startApp = async () => {
     if (mnemonic) {
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
+        else Router.goToDashboard()
 
     } else {
         /* TODO: SELECT FIRST PAGE
