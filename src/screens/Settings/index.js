@@ -2,22 +2,30 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import translate from '@src/locales/i18n';
 import styles from './Settings.styl';
-import SettingsCurrencySelector from '@src/components/settings/SettingsCurrencySelector';
-import SettingsLanguageSelector from '@src/components/settings/SettingsLanguageSelector';
-import SettingsNotificationSelector from '@src/components/settings/SettingsNotificationSelector';
-import SettingsPasscodeSelector from '@src/components/settings/SettingsPasscodeSelector';
-import SettingsBackup from '@src/components/settings/SettingsBackup';
-import SettingsAboutNem from '@src/components/settings/SettingsAboutNem';
-import SettingsLogout from '@src/components/settings/SettingsLogout';
-import SettingsNodeSelector from '@src/components/settings/SettingsNodeSelector';
+import { 
+	SymbolPageView,
+	SettingsCurrencySelector,
+	SettingsLanguageSelector,
+	SettingsNotificationSelector,
+	SettingsPasscodeSelector,
+	SettingsBackup,
+	SettingsAboutNem,
+	SettingsLogout,
+	SettingsNodeSelector 
+} from '@src/components';
 
 export default class Settings extends Component {
     render() {
+		const isLoading = false;
         return (
-            <View style={styles.container}>
-                <Text style={styles.headerText} allowFontScaling={false}>
-                    {translate('Settings.title')}
-                </Text>
+            <SymbolPageView
+				theme="dark2"
+				isFade
+				isLoading={isLoading}
+				title={ translate('Settings.title') }
+				icon="settings"
+				onBack={() => {}}
+			>
                 <SettingsCurrencySelector />
                 <SettingsLanguageSelector />
                 <SettingsNotificationSelector />
@@ -26,7 +34,7 @@ export default class Settings extends Component {
                 <SettingsBackup {...this.props} />
                 <SettingsAboutNem />
                 <SettingsLogout />
-            </View>
+            </SymbolPageView>
         );
     }
 }
