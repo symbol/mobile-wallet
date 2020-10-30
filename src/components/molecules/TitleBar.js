@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
-		marginLeft: - (GlobalStyles.section.title.paddingLeft)
+		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	},
 	iconRight: {
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
-		marginRight: - (GlobalStyles.section.title.paddingLeft / 2)
+		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	}
 });
 
