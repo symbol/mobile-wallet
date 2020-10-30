@@ -11,29 +11,27 @@ import {
 	MosaicDropdown
 } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 import Store from '@src/store';
-import { Router } from "@src/Router";
+import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
-
 const styles = StyleSheet.create({
-	transactionPreview: {
-		width: '100%',
-		height: 60,
-		borderRadius: 6,
-		marginTop: 4,
-		marginBottom: 4,
-		padding: 17,
-		paddingTop: 8,
-		backgroundColor: '#fff5'
-	},
+    transactionPreview: {
+        width: '100%',
+        height: 60,
+        borderRadius: 6,
+        marginTop: 4,
+        marginBottom: 4,
+        padding: 17,
+        paddingTop: 8,
+        backgroundColor: '#fff5',
+    },
 });
 
 type Props = {};
 
 type State = {};
-
 
 class Send extends Component<Props, State> {
 	state = {
@@ -51,42 +49,47 @@ class Send extends Component<Props, State> {
 		Store.dispatchAction({type: 'mosaic/loadOwnedMosaics'});
 	};
 
-	submit = () => {
-		Store.dispatchAction({type: 'transfer/signTransaction', payload: {
-			recipientAddress: this.state.recipientAddress,
-			mosaicNamespaceName: this.state.mosaicName,
-			amount: this.state.amount,
-			message: this.state.message,
-			isEncrypted: this.state.isEncrypted,
-			fee: this.state.fee
-		}});
-		this.setState({
-			isConfirmShown: true
-		})
-		// Router.goToConfirmTransaction({
-		// 	isLoading: this.props.isLoading,
-		// 	isError: this.props.isError,
-		// 	isSuccessfullySent: this.props.isSuccessfullySent,
-		// 	transaction: this.props.transaction,
-		// }, this.props.componentId);
-	};
+    submit = () => {
+        Store.dispatchAction({
+            type: 'transfer/setTransaction',
+            payload: {
+                recipientAddress: this.state.recipientAddress,
+                mosaicNamespaceName: this.state.mosaicName,
+                amount: this.state.amount,
+                message: this.state.message,
+                isEncrypted: this.state.isEncrypted,
+                fee: this.state.fee,
+            },
+        });
+        this.setState({
+            isConfirmShown: true,
+        });
+        // Router.goToConfirmTransaction({
+        // 	isLoading: this.props.isLoading,
+        // 	isError: this.props.isError,
+        // 	isSuccessfullySent: this.props.isSuccessfullySent,
+        // 	transaction: this.props.transaction,
+        // }, this.props.componentId);
+    };
 
-	showSendForm = () => {
-		this.setState({
-			isConfirmShown: false
-		});
-	};
+    showSendForm = () => {
+        this.setState({
+            isConfirmShown: false,
+        });
+    };
 
-	renderConfirmTransaction = () => {
-		return (<ConfirmTransaction
-			isLoading={this.props.isLoading}
-			isError={this.props.isError}
-			isSuccessfullySent={this.props.isSuccessfullySent}
-			transaction={this.props.transaction}
-			submitActionName="transfer/announceTransaction"
-			onBack={() => this.showSendForm()}
-		/>)
-	};
+    renderConfirmTransaction = () => {
+        return (
+            <ConfirmTransaction
+                isLoading={this.props.isLoading}
+                isError={this.props.isError}
+                isSuccessfullySent={this.props.isSuccessfullySent}
+                transaction={this.props.transaction}
+                submitActionName="transfer/broadcastTransaction"
+                onBack={() => this.showSendForm()}
+            />
+        );
+    };
 
     render = () => {
 		const { 
@@ -109,11 +112,11 @@ class Send extends Component<Props, State> {
 			balance: mosaic.amount
 		}))
 
-		const feeList = [
-			{value: 0.1, label: '0.1 XEM - slow'},
-			{value: 0.5, label: '0.5 XEM - normal'},
-			{value: 1, label: '1 XEM - fast'}
-		]
+        const feeList = [
+            { value: 0.1, label: '0.1 XEM - slow' },
+            { value: 0.5, label: '0.5 XEM - normal' },
+            { value: 1, label: '1 XEM - fast' },
+        ];
 
 		return (isConfirmShown
 			? this.renderConfirmTransaction()

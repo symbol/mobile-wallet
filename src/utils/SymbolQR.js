@@ -3,7 +3,7 @@
  * @flow
  */
 
-import {QRCodeGenerator, MnemonicQR, QRCodeType, TransactionQR} from 'nem2-qr-library';
+import {QRCodeGenerator, MnemonicQR, QRCodeType, TransactionQR} from 'symbol-qr-library';
 
 import {
     Password,

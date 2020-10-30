@@ -12,9 +12,9 @@ import GradientButtonLight from "@src/components/atoms/GradientButtonLight";
 import SymbolGradientContainer from "@src/components/organisms/SymbolGradientContainer";
 import FadeView from "@src/components/organisms/FadeView";
 import Input from "@src/components/atoms/Input";
-import {createRandomMnemonic} from "@src/utils/SymbolMnemonic";
 import {Router} from "@src/Router";
 import store from '@src/store';
+import AccountService from '@src/services/AccountService';
 
 const styles = StyleSheet.create({
 	mesh: {
@@ -205,9 +205,9 @@ class WalletName extends Component {
 	};
 
 	handleSubmit = () => {
-		const mnemonic = createRandomMnemonic();
+		const mnemonicModel = AccountService.createRandomMnemonic();
 		store.dispatch({type: 'wallet/setName', payload: this.state.walletName });
-		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonic });
+		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonicModel.mnemonic });
 		Router.goToGenerateBackup({}, this.props.componentId);
 	};
 
