@@ -27,21 +27,25 @@ const styles = StyleSheet.create({
 		color: GlobalStyles.color.WHITE,
 	},
 	placeholder: {
-		opacity: 0.6
+		fontSize: 12,
+		opacity: 0.3
 	},
 	input: {
-		paddingVertical: 12,
+		paddingVertical: 14,
 		paddingHorizontal: 16,
+	},
+	inputText: {
 		fontSize: 12,
 		fontFamily: 'NotoSans-SemiBold',
 		fontWeight: '300'
 	},
 	inputLight: {
-		borderWidth: 1,
-		borderRadius: 2,
+		//borderWidth: 1,
+		borderRadius: 5,
 		borderColor: GlobalStyles.color.GREY4,
 		color: GlobalStyles.color.GREY1,
 		backgroundColor: GlobalStyles.color.DARKWHITE,
+		backgroundColor: GlobalStyles.color.WHITE,
 	},
 	inputDark: {
 		borderRadius: 6,
@@ -135,7 +139,8 @@ interface Props {
 	theme: Theme;
 	list: ListItem[];
 	title: String;
-	customItemReneder: (value: String) => void;
+	customInputReneder: (item: Object) => void;
+	customItemReneder: (item: Object) => void;
 };
 
 type State = {};
@@ -211,6 +216,7 @@ export default class Dropdown extends Component<Props, State> {
 			value, 
 			placeholder = 'Please select..', 
 			title,
+			customInputReneder,
 			customItemReneder,
 			isLoading,
 			children,
@@ -254,9 +260,9 @@ export default class Dropdown extends Component<Props, State> {
 					onPress={() => !isLoading && this.openSelector()}
 				>
 					{selectedOption &&
-						(!customItemReneder 
-							? <Text>{selectedOption.label}</Text>
-							: customItemReneder(selectedOption)
+						(!customInputReneder 
+							? <Text style={styles.inputText}>{selectedOption.label}</Text>
+							: customInputReneder(selectedOption)
 						)
 					}
 					{!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}

@@ -8,16 +8,8 @@ import { Dropdown, Row } from '@src/components';
 
 
 const styles = StyleSheet.create({
-	root: {
-		paddingHorizontal: 10
-	},
-	text: {
-		color: GlobalStyles.color.PRIMARY
-	},
-	rootActive: {
-		
-	},
-	textActive: {
+	name: {
+		fontSize: 12,
 		fontFamily: 'NotoSans-SemiBold',
 		fontWeight: '400'
 	},
@@ -33,31 +25,13 @@ type State = {};
 
 
 export default class MosaicDropdown extends Component<Props, State> {
-	state = {
-		isSelectorOpen: false
-	};
-
 	renderItem = (item) => {
-		const isActive = item.isActive;
-		const textStyles = [];
-		const rootStyles = [];
-
-		if(item.isListItem) {
-			textStyles.push(styles.text);
-			rootStyles.push(styles.root);
-		}
-
-		if(isActive) {
-			textStyles.push(styles.textActive);
-			rootStyles.push(styles.rootActive);
-		}
-			
 		return (
-			<Row style={rootStyles} justify ="space-between">
-				<Text style={textStyles}>
+			<Row style={styles.root} justify ="space-between">
+				<Text style={styles.name}>
 					{item.label}
 				</Text>
-				<Text style={[styles.balance, textStyles]}>
+				<Text style={styles.balance}>
 					{item.balance}
 				</Text>
 			</Row>
@@ -67,6 +41,6 @@ export default class MosaicDropdown extends Component<Props, State> {
     render = () => {
 		const { ...rest } = this.props;
 
-        return <Dropdown customItemReneder={this.renderItem} {...rest} />
+        return <Dropdown customInputReneder={this.renderItem} {...rest} />
     };
 }

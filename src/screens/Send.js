@@ -37,7 +37,7 @@ class Send extends Component<Props, State> {
 	state = {
 		recipientAddress: '',
 		mosaicName: '',
-		amount: '',
+		amount: '0',
 		message: '',
 		isEncrypted: false,
 		fee: 0.5,
