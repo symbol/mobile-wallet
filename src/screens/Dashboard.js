@@ -4,6 +4,7 @@ import { menuItems } from '@src/config';
 import { NavigationMenu } from '@src/components';
 import Home from './Home';
 import History from './History';
+import News from './News';
 
 const styles = StyleSheet.create({
     root: {
@@ -43,19 +44,14 @@ export default class Dashboard extends Component<Props, State> {
             case 'history':
                 Tab = History;
                 break;
+            case 'news':
+                Tab = News;
+                break;
         }
         return (
             <View style={styles.root}>
-                <Tab
-                    {...this.props}
-                    contentStyle={styles.contentContainer}
-                    componentId={componentId}
-                />
-                <NavigationMenu
-                    menuItemList={menuItems}
-                    onChange={this.onTabChange}
-                    value={currentTab}
-                />
+                <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} />
+                <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
             </View>
         );
     }
