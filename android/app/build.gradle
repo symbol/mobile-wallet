@@ -187,9 +187,9 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-            
+
             variant.outputs.all {
-                outputFileName = "nem-catapult-${variant.flavorName}${variant.versionName}-${variant.buildType.name}.apk"
+                outputFileName = "symbol-wallet-${variant.flavorName}${variant.versionName}-${variant.buildType.name}.apk"
             }
         }
     }
