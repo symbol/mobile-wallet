@@ -23,7 +23,6 @@ export default {
             const responseText = await response.text();
             const rss = await new RSSParser().parseString(responseText);
             let news = rss.items;
-            console.log(news);
             commit({ type: 'news/setNews', payload: news });
             commit({ type: 'news/setLoading', payload: false });
         },

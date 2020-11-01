@@ -129,8 +129,6 @@ const getNodes = (network: 'mainnet' | 'testnet'): string[] => {
 };
 
 const getNativeMosaicId = (): string[] => {
-    console.log(nativeMosaicId);
-    console.log(nativeMosaicId);
     return nativeMosaicId;
 };
 

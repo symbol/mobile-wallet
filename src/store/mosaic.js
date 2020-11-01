@@ -1,5 +1,3 @@
-import TransactionBuilder from '@src/utils/TransactionBuilder';
-
 class MosaicService {
 	static getOwnedMosaics = () => {
 		return new Promise((resolve) => {
@@ -67,8 +65,8 @@ export default {
 			console.log('teke it')
 			try {
 				commit({type: 'mosaic/setLoading', payload: true});
-				const { 
-					mosaicId, 
+				const {
+					mosaicId,
 					namespaceName,
 					subNamespaceName,
 				} = await MosaicService.getNativeMosaic();

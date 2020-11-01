@@ -20,7 +20,6 @@ class News extends Component<Props, State> {
 
     render() {
         const { news } = this.props;
-        console.log(news);
         return (
             <ImageBackground name="tanker">
                 <TitleBar theme="light" title="News" />

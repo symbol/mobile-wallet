@@ -7,8 +7,10 @@ export type TransactionStatus = 'confirmed' | 'unconfirmed';
 export interface TransactionModel {
     type: TransactionType;
     status: TransactionStatus;
+    signerAddress: string;
     deadline: string;
     hash: string;
+    fee: number;
 }
 
 /**
@@ -16,16 +18,14 @@ export interface TransactionModel {
  */
 export interface TransferTransactionModel extends TransactionModel {
     type: 'transfer';
-    signerAddress: string;
     recipientAddress: string;
     messageText: string;
     messageEncrypted: boolean;
     amount: number;
-    fee: number;
 }
 
 /**
- * Transfer transaction model
+ * Mosaic Transfer transaction model
  */
 export interface MosaicTransferTransactionModel extends TransactionModel {
     type: 'mosaicTransfer';

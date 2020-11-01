@@ -63,7 +63,7 @@ class BalanceWidget extends Component<Props, State> {
     render() {
         const { showChart = true } = this.props;
         const { currency, fiat, priceChange } = this.state;
-		const { balance } = this.props.account;
+		const { balance } = this.props;
         return (
             <View style={styles.root}>
                 {!!showChart && <PriceChart style={styles.priceChart} />}
@@ -83,6 +83,6 @@ class BalanceWidget extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    account: state.account,
+    balance: state.account.balance,
 }))(BalanceWidget);
 

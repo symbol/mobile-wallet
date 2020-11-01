@@ -1,9 +1,21 @@
-import { AccountHttp, AccountInfo, Account, Address, NetworkType } from 'symbol-sdk';
+import {
+    AccountHttp,
+    AccountInfo,
+    Account,
+    Address,
+    NetworkType,
+    TransactionHttp,
+    TransactionGroup,
+    Transaction,
+    TransferTransaction, Mosaic,
+} from 'symbol-sdk';
 import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+import type { TransactionModel, TransactionStatus, TransactionType } from '@src/storage/models/TransactionModel';
+import { formatTransactionLocalDateTime } from '@src/utils/format';
 
 export default class AccountService {
     /**
@@ -58,7 +70,6 @@ export default class AccountService {
      * @returns {Promise<number>}
      */
     static async getBalanceFromAddress(address: string, node: string): Promise<number> {
-        console.log(node);
         try {
             const accountInfo = await new AccountHttp(node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
             let amount = 0;
@@ -75,6 +86,58 @@ export default class AccountService {
     }
 
     /**
+     * Returns balance from a given Address and a node
+     * @param rawAddress
+     * @param node
+     * @returns {Promise<number>}
+     */
+    static async getTransactionsFromAddress(rawAddress: string, node: string): Promise<TransactionModel[]> {
+        const transactionHttp = new TransactionHttp(node);
+        const address = Address.createFromRawAddress(rawAddress);
+        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
+        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
+        const [confirmedTransactions, unconfirmedTransactions] = await Promise.all([
+            transactionHttp.search(confirmedSearchCriteria).toPromise(),
+            transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
+        ]);
+        const allTransactions = [...unconfirmedTransactions.data, ...confirmedTransactions.data];
+        return allTransactions.map(this.symbolTransactionToTransactionModel);
+    }
+
+    /**
+     * Transform a symbol account to an account Model
+     * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
+     * @param transaction
+     */
+    static symbolTransactionToTransactionModel(transaction: Transaction): TransactionModel {
+        let transactionModel: TransactionModel = {
+            status: transaction.isConfirmed(),
+            signerAddress: transaction.signer.address.pretty(),
+            deadline: formatTransactionLocalDateTime(transaction.deadline.value),
+            hash: transaction.transactionInfo.hash,
+            fee: transaction.maxFee.toString(),
+        };
+
+        if (transaction instanceof TransferTransaction) {
+            const nativeMosaicAttachment = transaction.mosaics.find(mosaic => mosaic.id.toHex() === getNativeMosaicId());
+            const otherMosaics = transaction.mosaics.filter(mosaic => mosaic.id.toHex() !== getNativeMosaicId());
+            transactionModel = {
+                ...transactionModel,
+                type: 'transfer',
+                recipientAddress: transaction.recipientAddress.pretty(),
+                messageText: transaction.message.message,
+                messageEncrypted: transaction.message.type,
+                amount: nativeMosaicAttachment ? nativeMosaicAttachment.amount.toString() : 0,
+                otherMosaics: otherMosaics.map(mosaic => ({
+                    id: mosaic.id,
+                    amount: mosaic.amount.toString(),
+                })),
+            };
+        }
+        return transactionModel;
+    }
+
+    /**
      * Transform a symbol account to an account Model
      * @param account
      * @param name
@@ -88,5 +151,5 @@ export default class AccountService {
             type: type,
             privateKey: account.privateKey,
         };
-    };
+    }
 }

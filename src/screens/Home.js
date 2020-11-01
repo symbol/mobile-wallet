@@ -11,6 +11,7 @@ import {
     TitleBar,
 } from '@src/components';
 import { Router } from '@src/Router';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -34,7 +35,7 @@ type Props = {
 
 type State = {};
 
-export default class Home extends Component<Props, State> {
+class Home extends Component<Props, State> {
     state = {};
 
     handleSettingsClick = () => {
@@ -43,7 +44,7 @@ export default class Home extends Component<Props, State> {
     };
 
     render() {
-        const { contentStyle = {}, componentId } = this.props;
+        const { contentStyle = {}, componentId, accountName } = this.props;
         const {} = this.state;
 
         return (
@@ -52,13 +53,13 @@ export default class Home extends Component<Props, State> {
 				<Section type="title">
 				<Row justify="space-between">
 					<Text type="bold" theme="dark">
-						O
+
 					</Text>
 					<Text type="bold" theme="dark">
-						Your Account Name
+                        { accountName }
 					</Text>
 					<Text type="bold" theme="dark">
-						O
+
 					</Text>
 				</Row>
 				</Section>
@@ -105,3 +106,7 @@ export default class Home extends Component<Props, State> {
         );
     }
 }
+
+export default connect(state => ({
+    accountName: state.account.selectedAccount.name,
+}))(Home);
