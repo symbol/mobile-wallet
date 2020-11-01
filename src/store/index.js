@@ -5,6 +5,7 @@ import wallet from '@src/store/wallet';
 import settings from '@src/store/settings';
 import network from '@src/store/network';
 import transfer from '@src/store/transfer';
+import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
 
 const modules = {
@@ -12,6 +13,7 @@ const modules = {
     settings,
     network,
     wallet,
+	mosaic,
     transfer,
     account,
 };

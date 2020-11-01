@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import { getCurrencyList } from '@src/config/environment';
-import ModalSelector from '@src/components/organisms/ModalSelector';
+import { Dropdown } from '@src/components';
 import translate from '@src/locales/i18n';
 import store from '@src/store';
 import { connect } from 'react-redux';
@@ -37,23 +37,24 @@ class SettingsCurrencySelector extends Component {
     render() {
         const { data, isCurrencyBoxOpen } = this.state;
         const { selectedCurrency } = this.props.settings;
-
+		const list = data.map(el => ({value: el, label: el}));
         return (
             <View>
-                <SettingsListItem
-                    title={translate('Settings.currency.title')}
-                    icon={require('../../assets/icons/ic-currency.png')}
-                    isSelector={true}
-                    itemValue={selectedCurrency}
-                    onPress={this.openModal}
-                />
-                <ModalSelector
-                    data={data}
-                    selectedItem={selectedCurrency}
-                    isModalOpen={isCurrencyBoxOpen}
-                    onClose={this.closeModal}
-                    onSelect={this.onSelectCurrency}
-                />
+				<Dropdown 
+					list={list}
+					title={translate('Settings.currency.title')}
+					value={selectedCurrency}
+					onChange={this.onSelectCurrency}
+				>
+					<SettingsListItem
+						title={translate('Settings.currency.title')}
+						icon={require('@src/assets/icons/ic-currency.png')}
+						isSelector={true}
+						isDropdown={true}
+						itemValue={selectedCurrency}
+						onPress={this.openModal}
+					/>
+				</Dropdown>
             </View>
         );
     }

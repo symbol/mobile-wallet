@@ -280,7 +280,10 @@ class WalletName extends Component {
 		const footerStyle = buttons && buttons.length === 1 && [styles.footer, styles.footerBigger]
 
 		return (
-			<SymbolGradientContainer style={ styles.container }>
+			<SymbolGradientContainer 
+				noPadding
+				style={ styles.container }
+			>
 			<Image
 				style={styles.mesh}
 				source={require('@src/assets/background1.png')}

@@ -93,7 +93,7 @@ export class CreateOrImport extends Component {
                     showNextButton={false}
                     showDoneButton={false}
                 />
-                <View style={styles}>
+                <View style={styles.bottomCard}>
                     <GradientButton title={translate('INTRO_createWalletButton')} onPress={this.createWallet} />
                     <View style={styles.row}>
                         <Text style={styles.buttonTextNormal}>{translate('INTRO_alreadyHaveWallet')}</Text>

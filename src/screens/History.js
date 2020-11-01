@@ -44,7 +44,6 @@ export default class History extends Component<Props, State> {
 			<ImageBackground name="tanker">
 				<TitleBar
 					theme="light"
-					onSettings={()=>{this.props.componentId}}
 					title="Transactions"
 				/>
 				<Section type="list" style={styles.list}>

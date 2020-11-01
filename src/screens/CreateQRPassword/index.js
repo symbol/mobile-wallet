@@ -11,6 +11,7 @@ import translate from "@src/locales/i18n";
 import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
 import Input from "@src/components/atoms/Input";
 import GradientButton from "@src/components/atoms/GradientButton";
+import TitleBar from "@src/components/atoms/TitleBar";
 import {passwordValidation} from "@src/utils/SymbolQR";
 import {Router} from "@src/Router";
 import store from "@src/store";
@@ -89,7 +90,14 @@ class SetPassword extends Component<Props, State> {
 				angle={135}
 				useAngle
 				style={styles.gradientContainer}>
+				<TitleBar
+					showBack
+					onBack={() => Router.goBack(this.props.componentId)}
+					title={translate('CreateWallet.SetPassword.title')}
+					theme="dark"
+				/>
 				<View style={styles.contentContainer}>
+					<View></View>
 					<View style={styles.formContainer}>
 						<Input
 							inputLabel={translate('CreateWallet.SetPassword.inputPassword')}

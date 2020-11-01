@@ -6,4 +6,5 @@ export Icon from './Icon';
 export Input from './Input';
 export InputAddress from './InputAddress';
 export Button from './Button';
-export Dropdown from './Dropdown'
+export Dropdown from './Dropdown';
+export MosaicDropdown from './MosaicDropdown';

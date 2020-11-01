@@ -20,7 +20,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import styles from './ShowQRCode.styl';
 import translate from "@src/locales/i18n";
 import {generateMnemonicQR} from "@src/utils/SymbolQR";
-import WizardStepView from "@src/components/organisms/SymbolPageView";
+import WizardStepView from "@src/components/organisms/WizardStepView";
 import Warning from "@src/components/atoms/Warning";
 import {Router} from "@src/Router";
 import store from "@src/store";
@@ -246,6 +246,7 @@ class ShowQRCode extends Component {
 			<WizardStepView
 				title={translate('CreateWallet.ShowQRCode.title')}
 				buttons={buttons}
+				onBack={() => Router.goBack(this.props.componentId)}
 			>
 				{showWarning && (
 					<Warning

@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
 	inputLight: {
 		paddingVertical: 8,
 		paddingHorizontal: 16,
-		borderWidth: 1,
-		borderRadius: 2,
-		borderColor: GlobalStyles.color.GREY4,
+		//borderWidth: 1,
+		borderRadius: 5,
+		borderColor: GlobalStyles.color.WHITE,
 		color: GlobalStyles.color.GREY1,
-		backgroundColor: GlobalStyles.color.DARKWHITE,
+		backgroundColor: GlobalStyles.color.WHITE,
 		fontSize: 12,
 		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '300'
+		fontWeight: '300',
 	},
 	inputDark: {
 		height: 35,

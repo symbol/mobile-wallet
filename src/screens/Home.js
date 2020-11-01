@@ -48,7 +48,20 @@ export default class Home extends Component<Props, State> {
 
         return (
             <GradientBackground name="connector" fade={true}>
-                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="Home" />
+                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="-" />
+				<Section type="title">
+				<Row justify="space-between">
+					<Text type="bold" theme="dark">
+						O
+					</Text>
+					<Text type="bold" theme="dark">
+						Your Account Name
+					</Text>
+					<Text type="bold" theme="dark">
+						O
+					</Text>
+				</Row>
+				</Section>
                 <Col justify="space-around" style={contentStyle}>
                     <BalanceWidget showChart={true} />
                     <Section type="list">

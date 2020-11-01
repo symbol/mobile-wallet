@@ -47,7 +47,7 @@ class SettingsPasscodeSelector extends Component {
                             ? translate('Settings.passcode.turnOffPasscode')
                             : translate('Settings.passcode.turnOnPasscode')
                     }
-                    icon={require('../../assets/icons/ic-passcode.png')}
+                    icon={require('@src/assets/icons/ic-passcode.png')}
                     isSwitch={true}
                     itemValue={isPasscodeSelected}
                     onValueChange={this.onSelect}

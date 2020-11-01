@@ -14,7 +14,7 @@ export default class SettingsAboutNem extends Component {
             <View>
                 <SettingsListItem
                     title={translate('Settings.aboutNem')}
-                    icon={require('../../assets/icons/ic-about.png')}
+                    icon={require('@src/assets/icons/ic-about.png')}
                     onPress={this.onPress}
                 />
             </View>
