@@ -47,8 +47,11 @@ const initStore = async () => {
             store.dispatchAction({ type: 'settings/initState' }),
             store.dispatchAction({ type: 'market/loadMarketData' }),
             store.dispatchAction({ type: 'network/initState' }),
+            store.dispatchAction({ type: 'news/loadNews' }),
         ]);
-    } catch (e) {}
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 export const startApp = async () => {
@@ -68,7 +71,7 @@ export const startApp = async () => {
         await initStore();
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
-        else Router.goToDashboard()
+        else Router.goToDashboard();
 
     } else {
         /* TODO: SELECT FIRST PAGE

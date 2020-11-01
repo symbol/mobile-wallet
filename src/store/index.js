@@ -7,6 +7,7 @@ import network from '@src/store/network';
 import transfer from '@src/store/transfer';
 import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
+import news from '@src/store/news';
 
 const modules = {
     market,
@@ -16,6 +17,7 @@ const modules = {
 	mosaic,
     transfer,
     account,
+    news,
 };
 
 const createModuleReducer = (module, state = {}, action) => {
