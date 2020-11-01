@@ -5,6 +5,7 @@ import { NavigationMenu } from '@src/components';
 import Home from './Home';
 import History from './History';
 import News from './News';
+import Mosaics from '@src/screens/Mosaics';
 
 const styles = StyleSheet.create({
     root: {
@@ -43,6 +44,9 @@ export default class Dashboard extends Component<Props, State> {
                 break;
             case 'history':
                 Tab = History;
+                break;
+            case 'mosaics':
+                Tab = Mosaics;
                 break;
             case 'news':
                 Tab = News;

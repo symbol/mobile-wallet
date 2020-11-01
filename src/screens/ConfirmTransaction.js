@@ -53,6 +53,8 @@ class ConfirmTransaction extends Component<Props, State> {
 
 		const preview = Object
 			.keys(transaction)
+			//TODO: WORKAROUND -> DISPLAY MOSAIC INFO
+			.filter(key => key !== 'mosaics')
 			.map(key => ({key, value: transaction[key]}));
 
 		const isPreviewShown = !isLoading

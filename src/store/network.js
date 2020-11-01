@@ -63,7 +63,7 @@ export default {
             commit({ type: 'network/setNetwork', payload: networkInfo.network });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
-            dispatchAction({ type: 'wallet/loadAccount' });
+            dispatchAction({ type: 'account/loadAccount' });
         },
     },
 };

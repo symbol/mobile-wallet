@@ -1,3 +1,4 @@
+import type { MosaicModel } from '@src/storage/models/MosaicModel';
 export type TransactionType = 'transfer' | 'mosaicTransfer';
 export type TransactionStatus = 'confirmed' | 'unconfirmed';
 
@@ -21,7 +22,7 @@ export interface TransferTransactionModel extends TransactionModel {
     recipientAddress: string;
     messageText: string;
     messageEncrypted: boolean;
-    amount: number;
+    mosaics: MosaicModel[];
 }
 
 /**

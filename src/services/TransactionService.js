@@ -27,7 +27,7 @@ export default class TransactionService {
             case 'transfer':
                 this._signAndBroadcastTransferTransactionModel(transaction, signer, networkModel);
                 break;
-            case 'mosaicTransfer':
+            default:
                 console.error('Not yet implemented');
         }
     }
@@ -42,7 +42,7 @@ export default class TransactionService {
     static _signAndBroadcastTransferTransactionModel(transaction: TransferTransactionModel, signer: AccountModel, networkModel: NetworkModel) {
         const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
-        const mosaics = [new Mosaic(new MosaicId(getNativeMosaicId()), UInt64.fromUint(10 * Math.pow(10, 6)))];
+        const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility)))];
         const message = PlainMessage.create(transaction.messageText);
         const fee = this._resolveFee(transaction.fee);
         const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);

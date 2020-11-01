@@ -51,9 +51,9 @@ export default {
                 payload: {
                     type: 'transfer',
                     recipientAddress: payload.recipientAddress,
-                    amount: parseInt(payload.amount),
                     messageText: payload.message,
                     messageEncrypted: false,
+                    mosaics: payload.mosaics,
                     fee: payload.fee,
                 },
             });
