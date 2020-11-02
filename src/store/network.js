@@ -2,6 +2,7 @@ import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { getDefaultNetworkType, getNodes } from '@src/config/environment';
 import { fetchNetworkInfo } from '@src/utils/SymbolNetwork';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+import NetworkService from '@src/services/NetworkService';
 
 export default {
     namespace: 'network',
@@ -41,19 +42,15 @@ export default {
                 const network = getDefaultNetworkType();
                 selectedNode = getNodes(network)[0];
             }
-            console.log(selectedNode);
-            const networkInfo = await fetchNetworkInfo(selectedNode);
-            commit({ type: 'network/setGenerationHash', payload: networkInfo.generationHash });
-            commit({ type: 'network/setNetwork', payload: networkInfo.network });
+            const network = await NetworkService.getNetworkModelFromNode(selectedNode);
+            commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+            commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: selectedNode });
             commit({ type: 'network/setIsLoaded', payload: true });
+            console.log(network);
             commit({
                 type: 'network/setSelectedNetwork',
-                payload: {
-                    type: networkInfo.network,
-                    generationHash: networkInfo.generationHash,
-                    node: selectedNode,
-                },
+                payload: network,
             });
             dispatchAction({ type: 'account/loadAccount' });
         },
