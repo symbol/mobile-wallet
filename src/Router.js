@@ -21,6 +21,7 @@ import Settings from '@src/screens/Settings';
 import Passcode from '@src/screens/Passcode';
 import Send from '@src/screens/Send';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
+import Harvest from '@src/screens/Harvest';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -40,6 +41,7 @@ export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
+export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -63,7 +65,8 @@ export class Router {
         [PASSCODE_SCREEN, Passcode],
         [WALLET_LOADING_SCREEN, WalletLoading],
         [SEND_SCREEN, Send],
-        [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
+		[CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
+		[HARVEST_SCREEN, Harvest]
     ];
 
     static registerScreens() {
@@ -132,7 +135,10 @@ export class Router {
     }
     static showPasscode(passProps, parentComponent?) {
         return this.goToScreen(PASSCODE_SCREEN, passProps, parentComponent);
-    }
+	}
+	static goToHarvest(passProps, parentComponent?) {
+        return this.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
+	}
 
     static goToScreen(screen: string, passProps, parentComponent?) {
         setDefaultNavOptions();

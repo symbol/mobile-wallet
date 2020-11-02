@@ -4,6 +4,7 @@ import { menuItems } from '@src/config';
 import { NavigationMenu } from '@src/components';
 import Home from './Home';
 import History from './History';
+import Harvest from './Harvest';
 import News from './News';
 import Mosaics from '@src/screens/Mosaics';
 
@@ -50,7 +51,10 @@ export default class Dashboard extends Component<Props, State> {
                 break;
             case 'news':
                 Tab = News;
-                break;
+				break;
+			case 'harvest':
+				Tab = Harvest;
+				break;
         }
         return (
             <View style={styles.root}>
