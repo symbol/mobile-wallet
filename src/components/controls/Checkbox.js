@@ -6,8 +6,7 @@ import {
 	TouchableOpacity, 
 	TouchableWithoutFeedback,
 	Modal,
-	FlatList,
-	ActivityIndicator
+	Image
 } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row } from '@src/components';
@@ -16,16 +15,40 @@ import { Icon, Row } from '@src/components';
 const styles = StyleSheet.create({
 	root: {
 		//backgroundColor: '#f005',
+		paddingRight: 8
 	},
 	fullWidth: {
 		width: '100%',
 	},
+	checkbox: {
+		height: 20,
+		width: 20,
+		marginTop: 0,
+		marginRight: 16,
+		backgroundColor: GlobalStyles.color.WHITE,
+		borderRadius: 5,
+	},
+	unchecked: {
+		borderWidth: 1,
+		borderColor: GlobalStyles.color.PINK
+	},
+	icon: {
+		height: 20,
+		width: 20,
+	},
+	titleContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		flexWrap: 'wrap'
+	},
 	titleLight: {
 		color: GlobalStyles.color.GREY3,
+		//color: GlobalStyles.color.PRIMARY,
+		//fontFamily: 'NotoSans-SemiBold'
 	},
 	titleDark: {
 		color: GlobalStyles.color.WHITE,
-	}
+	},
 });
 
 type Theme = 'light' 
@@ -58,43 +81,55 @@ export default class Dropdown extends Component<Props, State> {
 			fullWidth, 
 			value,  
 			title,
-			title,
 			checkedTitle,
 			uncheckedTitle,
 			children
 		} = this.props;
+		const checkboxStyles = [styles.checkbox];
 		let rootStyle = [styles.root, style];
 		let titleStyle = {};
+		let titleText = title;
 
+		
 		if(fullWidth)
 			rootStyle.push(styles.fullWidth);
 
-		if(theme === 'light') {
+		if(theme === 'light')
 			titleStyle = styles.titleLight;
-		}	
-		else {
-			titleStyle = styles.titleDark;
-		}
 
-		let titleText = title;
+		else 
+			titleStyle = styles.titleDark;
+		
+		if(!value)
+			checkboxStyles.push(styles.unchecked);
+		
 		if(!!value === true && checkedTitle)
 			titleText = checkedTitle;
 		if(!!value === false && uncheckedTitle)
 			titleText = uncheckedTitle;
 
+
         return (
 			<TouchableOpacity style={rootStyle} onPress={() => this.onChange()}>
-				<View style={styles.checkbox}>
-
-				</View>
-				<View style={styles.titleContainer}>
-				{!children &&
-					<Text style={titleStyle}>
-						{titleText}
-					</Text>
-				}
-				{children}
-				</View>
+				<Row align="center">
+					<View style={checkboxStyles}>
+						{!!value &&
+							<Image 
+								style={styles.icon}
+								source={require('@src/assets/icons/check.png')}
+							/>
+						}
+					</View>
+					<View style={styles.titleContainer}>
+					{!children &&
+						<Text style={titleStyle}>
+							{titleText}
+						</Text>
+					}
+					{children}
+					</View>
+				</Row>
+				
 				
 			</TouchableOpacity>
         );

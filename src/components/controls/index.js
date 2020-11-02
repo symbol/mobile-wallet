@@ -1,3 +1,4 @@
+export Checkbox from './Checkbox';
 export Text from './Text';
 export Section from './Section';
 export Row from './Row';
