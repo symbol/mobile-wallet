@@ -8,6 +8,7 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { applyMiddleware } from 'redux';
+import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -126,6 +127,7 @@ class Send extends Component<Props, State> {
                     </Section>
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.setState({ message })} />
+                        <CheckBox title="Encrypted Message" checked={isEncrypted} onPress={() => this.setState({ isEncrypted: !this.state.isEncrypted })} />
                     </Section>
                     <Section type="form-item">
                         <Dropdown value={fee} title="Fee" theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
