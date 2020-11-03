@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Linking, StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View, FlatList } from 'react-native';
 import { ImageBackground, Section, Text, TitleBar } from '@src/components';
 import New from '@src/components/organisms/New';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     list: {
-        marginTop: 30,
+        marginBottom: 70,
     },
 });
 
@@ -21,9 +21,9 @@ class News extends Component<Props, State> {
     render() {
         const { news } = this.props;
         return (
-            <ImageBackground name="tanker">
+            <ImageBackground name="solar">
                 <TitleBar theme="light" title="News" />
-                <Section type="list" style={styles.list}>
+                <Section type="list" style={styles.list} isScrollable>
                     {news.map(item => {
                         return <New title={item.title} body={item.content} url={item.link} publicationDate={item.pubDate} creator={item.creator} />;
                     })}

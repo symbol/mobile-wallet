@@ -116,8 +116,8 @@ export default {
 		},
 
 		list: {
-			paddingLeft: 34,
-			paddingRight: 34,
+			paddingLeft: 17,
+			paddingRight: 17,
 		},
 
 		center: {
