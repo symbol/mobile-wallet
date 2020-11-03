@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {
     Section,
     GradientBackground,
-    BalanceWidget,
+    AccountBalanceWidget,
     Text,
     PluginList,
     Col,
@@ -44,11 +44,11 @@ class Home extends Component<Props, State> {
     };
 
     render() {
-        const { contentStyle = {}, componentId, accountName } = this.props;
+        const { contentStyle = {}, componentId, accountName, address } = this.props;
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector" fade={true}>
+            <GradientBackground name="connector" theme="grey" fade={true}>
                 <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="-" />
 				<Section type="title">
 				<Row justify="space-between">
@@ -64,11 +64,14 @@ class Home extends Component<Props, State> {
 				</Row>
 				</Section>
                 <Col justify="space-around" style={contentStyle}>
-                    <BalanceWidget showChart={true} />
-                    <Section type="list">
+					<Section type="text">
+						<Text type="regular" theme="dark">
+							{ address }
+						</Text>
+					</Section>
+                    <AccountBalanceWidget showChart={true} />
+                    <Section type="list" isScrollable>
                         <PluginList componentId={componentId} />
-                    </Section>
-                    <Section type="list" style={styles.list}>
                         {/* Notifications Mockup */}
                         <View style={styles.transactionPreview}>
                             <Row justify="space-between">
@@ -108,5 +111,6 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    accountName: state.account.selectedAccount.name,
+	accountName: state.account.selectedAccount.name,
+	address: state.account.selectedAccountAddress,
 }))(Home);

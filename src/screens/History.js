@@ -15,9 +15,6 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         backgroundColor: '#fff5',
     },
-    list: {
-        marginTop: 30,
-    },
 });
 
 type Props = {};

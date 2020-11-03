@@ -6,7 +6,8 @@ import type { TransactionModel } from '@src/storage/models/TransactionModel';
 export default {
     namespace: 'account',
     state: {
-        selectedAccount: null,
+		selectedAccount: null,
+		selectedAccountAddress: '',
         loading: false,
         balance: 0,
         ownedMosaics: [],
@@ -16,7 +17,11 @@ export default {
         setSelectedAccount(state, payload) {
             state.account.selectedAccount = payload;
             return state;
-        },
+		},
+		setSelectedAccountAddress(state, payload) {
+            state.account.selectedAccountAddress = payload;
+            return state;
+		},
         setLoading(state, payload) {
             state.account.loading = payload;
             return state;
@@ -48,7 +53,9 @@ export default {
                 accountModel = await AccountSecureStorage.getAccountById(id);
             } else {
                 accountModel = (await AccountSecureStorage.getAllAccounts())[0];
-            }
+			}
+			const address = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
+			commit({ type: 'account/setSelectedAccountAddress', payload: address });
             commit({ type: 'account/setSelectedAccount', payload: accountModel });
             await dispatchAction({ type: 'account/loadBalance' });
             await dispatchAction({ type: 'account/loadTransactions' });

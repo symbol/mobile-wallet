@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Text, Linking } from 'react-native';
-import { Row } from '@src/components';
+import { Row, Trunc } from '@src/components';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import TransferTransaction from '@src/components/organisms/TransferTransaction';
 
@@ -40,7 +40,9 @@ export default class Transaction extends Component<Props> {
                         </Row>
                         <Row justify="space-between">
                             <Text type="bold" theme="light">
-                                {transaction.signerAddress}
+								<Trunc type="address">
+                                	{transaction.signerAddress}
+								</Trunc>
                             </Text>
                         </Row>
                     </View>

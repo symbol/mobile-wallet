@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
-import { Text, Row } from '@src/components';
+import { Text, Row, Trunc } from '@src/components';
 import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ export default class TransferTransaction extends Component<Props> {
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">
                     <Text type="regular" theme="light">
-                        {transaction.type}
+                        Transfer
                     </Text>
                     <Text type="regular" theme="light">
                         {transaction.deadline}
@@ -35,7 +35,9 @@ export default class TransferTransaction extends Component<Props> {
                 </Row>
                 <Row justify="space-between">
                     <Text type="bold" theme="light">
-                        {transaction.signerAddress}
+						<Trunc type="address">
+							{transaction.signerAddress}
+						</Trunc>
                     </Text>
                     <Text type="bold" theme="light">
                         {transaction.amount}
