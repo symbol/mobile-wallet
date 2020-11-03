@@ -40,7 +40,7 @@ export default {
     actions: {
         saveWallet: async ({ commit, state, dispatchAction }, payload) => {
             await SecureStorage.saveMnemonic(state.wallet.mnemonic);
-            dispatchAction({ type: 'account/createHdAccount', payload: { name: state.wallet.name, index: 0 } });
+            await dispatchAction({ type: 'account/createHdAccount', payload: { name: state.wallet.name, index: 0 } });
         },
     },
 };

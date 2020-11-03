@@ -13,7 +13,7 @@ import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
-import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import type { TransactionModel, TransactionStatus, TransactionType } from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
@@ -67,22 +67,23 @@ export default class AccountService {
     /**
      * Returns balance from a given Address and a node
      * @param address
-     * @param node
+     * @param network
      * @returns {Promise<number>}
      */
-    static async getBalanceAndOwnedMosaicsFromAddress(address: string, node: string): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
+    static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
-            const accountInfo = await new AccountHttp(node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
+            console.log(network.node);
+            const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
             let amount = 0;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
-                if (mosaic.id.toHex() === getNativeMosaicId()) {
+                if (mosaic.id.toHex() === network.currencyMosaicId) {
                     amount = mosaic.amount.compact() / Math.pow(10, 6);
                 }
                 let mosaicInfo = {}, mosaicName = {};
                 try {
-                    mosaicInfo = await new MosaicHttp(node).getMosaic(mosaic.id).toPromise();
-                    [mosaicName] = await new NamespaceHttp(node).getMosaicsNames([mosaic.id]).toPromise();
+                    mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
+                    [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
                 } catch (e) {
                     console.log(e);
                 }
@@ -106,11 +107,11 @@ export default class AccountService {
     /**
      * Returns balance from a given Address and a node
      * @param rawAddress
-     * @param node
+     * @param network
      * @returns {Promise<number>}
      */
-    static async getTransactionsFromAddress(rawAddress: string, node: string): Promise<TransactionModel[]> {
-        const transactionHttp = new TransactionHttp(node);
+    static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
+        const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
         const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
         const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
@@ -119,15 +120,16 @@ export default class AccountService {
             transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
         ]);
         const allTransactions = [...unconfirmedTransactions.data, ...confirmedTransactions.data.reverse()];
-        return allTransactions.map(this.symbolTransactionToTransactionModel);
+        return allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network));
     }
 
     /**
      * Transform a symbol account to an account Model
      * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
      * @param transaction
+     * @param network
      */
-    static symbolTransactionToTransactionModel(transaction: Transaction): TransactionModel {
+    static symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): TransactionModel {
         let transactionModel: TransactionModel = {
             status: transaction.isConfirmed(),
             signerAddress: transaction.signer.address.pretty(),
@@ -137,8 +139,8 @@ export default class AccountService {
         };
 
         if (transaction instanceof TransferTransaction) {
-            const nativeMosaicAttachment = transaction.mosaics.find(mosaic => mosaic.id.toHex() === getNativeMosaicId());
-            const otherMosaics = transaction.mosaics.filter(mosaic => mosaic.id.toHex() !== getNativeMosaicId());
+            const nativeMosaicAttachment = transaction.mosaics.find(mosaic => mosaic.id.toHex() === network.currencyMosaicId);
+            const otherMosaics = transaction.mosaics.filter(mosaic => mosaic.id.toHex() !== network.currencyMosaicId);
             transactionModel = {
                 ...transactionModel,
                 type: 'transfer',
