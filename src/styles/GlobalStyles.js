@@ -9,6 +9,7 @@ const COLORS = {
 	PINK: '#ff00ff',
 	BLUE: '#00c8ff',
 	GREEN: '#33dd50',
+	RED: '#dd3350',
 	ORANGE: '#ff9600',
 	BLACK: '#000000',
 	GREY1:'#333333',

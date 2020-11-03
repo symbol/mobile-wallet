@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import { Row, Text, Trunc } from '@src/components';
+import GlobalStyles from '../../styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
@@ -13,7 +14,18 @@ const styles = StyleSheet.create({
         padding: 17,
         paddingTop: 8,
         backgroundColor: '#fff5',
-    },
+	},
+	value: {
+		// paddingHorizontal: 5,
+		// borderRadius: 10,
+		// backgroundColor: GlobalStyles.color.DARKWHITE
+	},
+	amounteOutgoing: {
+		color: '#b30000' //GlobalStyles.color.RED
+	},
+	amountIncoming: {
+		color: '#1bb300' //GlobalStyles.color.GREEN
+	},
 });
 
 type Props = {
@@ -21,6 +33,17 @@ type Props = {
 };
 
 export default class Transaction extends Component<Props> {
+	renderValue = value => {
+		//const value = props.children;
+		switch(value.type) {
+			case 'nativeMosaic':
+				const textStyle = value.amount < 0 
+					? styles.amounteOutgoing
+					: styles.amountIncoming;
+				return <Text type="bold" theme="light" style={textStyle}>{''+value.value}</Text>
+		}
+	};
+
     render = () => {
 		const { transaction } = this.props;
 		let transactionType = transaction.type;
@@ -60,9 +83,12 @@ export default class Transaction extends Component<Props> {
 							{info}
 						</Trunc>
                     </Text>
-                    <Text type="bold" theme="light">
+					<View style={styles.value}>
+						{values.map(value => this.renderValue(value))}
+					</View>
+                    {/* <Text type="bold" theme="light">
                         {(values[0] && values[0].value) || ''}
-                    </Text>
+                    </Text> */}
                 </Row>
 			</View>
 		);
