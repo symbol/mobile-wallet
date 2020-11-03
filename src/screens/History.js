@@ -31,7 +31,7 @@ class History extends Component<Props, State> {
         return (
             <ImageBackground name="tanker">
                 <TitleBar theme="light" title="Transactions" />
-                <Section type="list" style={styles.list}>
+                <Section type="list" isScrollable>
                     {transactions &&
                         transactions.map(tx => {
                             return <Transaction transaction={tx} />;
