@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
 	},
 	'wrap': {
 		flexWrap: 'wrap'
+	},
+	'grow': {
+		flexGrow: 1
 	}
 });
 
@@ -50,7 +53,8 @@ type Align = 'start'
 interface Props {
 	justify: Justify;
 	align: Align;
-	wrap: boolean
+	wrap: boolean,
+	grow: boolean
 };
 
 type State = {};
@@ -63,7 +67,8 @@ export default class Col extends Component<Props, State> {
 			style = {},
 			justify,
 			align,
-			wrap
+			wrap,
+			grow
 		} = this.props;
 		const stylesArray = [styles.main];
 
@@ -71,8 +76,10 @@ export default class Col extends Component<Props, State> {
 			stylesArray.push(styles['justify-'+justify]);
 		if(typeof align === 'string')
 			stylesArray.push(styles['align-'+align]);
-		if(typeof wrap === 'boolean')
+		if(wrap)
 			stylesArray.push(styles.wrap);
+		if(grow)
+			stylesArray.push(styles.grow);
 
 		stylesArray.push(style);
 

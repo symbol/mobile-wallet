@@ -5,19 +5,6 @@ import Transaction from '@src/components/organisms/Transaction';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
-        width: '100%',
-        height: 60,
-        borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#fff5',
-    },
-    list: {
-        marginTop: 30,
-    },
 });
 
 type Props = {};

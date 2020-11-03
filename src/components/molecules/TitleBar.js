@@ -9,7 +9,8 @@ import { Router, BASE_SCREEN_NAME } from "@src/Router";
 const styles = StyleSheet.create({
 	root: {
 		width: '100%',
-		height: 68,
+		height: 72,
+		marginTop: 2,
 		//backgroundColor: '#f005',
 
 	},
