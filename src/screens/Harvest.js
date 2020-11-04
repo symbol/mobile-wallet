@@ -22,10 +22,7 @@ class Harvest extends Component<Props, State> {
             <ImageBackground name="harvest">
                 <TitleBar theme="light" title="Harvest" />
                 <Section type="list" style={styles.list}>
-                    {transactions &&
-                        transactions.map(tx => {
-                            return <Transaction transaction={tx} />;
-                        })}
+                    
                 </Section>
             </ImageBackground>
         );

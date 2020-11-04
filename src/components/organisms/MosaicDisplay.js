@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Text, Linking } from 'react-native';
-import { Row } from '@src/components';
+import { View, Image, StyleSheet, Linking } from 'react-native';
+import { Text, Row } from '@src/components';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 
 const styles = StyleSheet.create({
@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
+        marginTop: 0,
+        marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#fff5',
+        backgroundColor: '#fffd',
     },
 });
 
@@ -29,9 +29,9 @@ export default class MosaicDisplay extends Component<Props> {
                     <Text type="regular" theme="light">
                         {mosaic.mosaicId}
                     </Text>
-                    <Text type="regular" theme="light">
+                    {/* <Text type="regular" theme="light">
                         {mosaic.divisibility}
-                    </Text>
+                    </Text> */}
                 </Row>
                 <Row justify="space-between">
                     <Text type="bold" theme="light">

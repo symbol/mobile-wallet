@@ -64,11 +64,6 @@ class Home extends Component<Props, State> {
 				</Row>
 				</Section>
                 <Col justify="space-around" style={contentStyle}>
-					<Section type="text">
-						<Text type="regular" theme="dark">
-							{ address }
-						</Text>
-					</Section>
                     <AccountBalanceWidget showChart={true} />
                     <Section type="list" isScrollable>
                         <PluginList componentId={componentId} />
