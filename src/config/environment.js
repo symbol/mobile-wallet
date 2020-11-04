@@ -124,7 +124,7 @@ const getDefaultNetworkType = (): NetworkType => {
     return defaultNetworkType;
 };
 
-const getNodes = (network: 'mainnet' | 'testnet'): string[] => {
+const getNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
     return networks[network].nodes;
 };
 
