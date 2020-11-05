@@ -72,36 +72,47 @@ export default class AccountService {
      */
     static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
-            console.log(network.node);
             const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
             let amount = 0;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
+                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
-                    amount = mosaic.amount.compact() / Math.pow(10, 6);
+                    amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
                 }
-                let mosaicInfo = {}, mosaicName = {};
-                try {
-                    mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
-                    [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
-                } catch (e) {
-                    console.log(e);
-                }
-                ownedMosaics.push({
-                    mosaicId: mosaic.id.toHex(),
-                    mosaicName: mosaicName.names[0].name,
-                    amount: mosaic.amount.toString(),
-                    divisibility: mosaicInfo.divisibility,
-                });
+                ownedMosaics.push(mosaicModel);
             }
             return {
                 balance: amount,
                 ownedMosaics: ownedMosaics,
             };
         } catch (e) {
-            console.log(e);
             return { balance: 0, ownedMosaics: [] };
         }
+    }
+
+    /**
+     * Gets MosaicModel from a Mosaic
+     * @param mosaic
+     * @param network
+     * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
+     * @private
+     */
+    static async _getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
+        let mosaicInfo = {},
+            mosaicName = {};
+        try {
+            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
+            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
+        } catch (e) {
+            console.log(e);
+        }
+        return {
+            mosaicId: mosaic.id.toHex(),
+            mosaicName: mosaicName.names[0].name,
+            amount: mosaic.amount.toString(),
+            divisibility: mosaicInfo.divisibility,
+        };
     }
 
     /**
@@ -120,7 +131,7 @@ export default class AccountService {
             transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
         ]);
         const allTransactions = [...unconfirmedTransactions.data, ...confirmedTransactions.data.reverse()];
-        return allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network));
+        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network)));
     }
 
     /**
@@ -129,7 +140,7 @@ export default class AccountService {
      * @param transaction
      * @param network
      */
-    static symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): TransactionModel {
+    static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): Promise<TransactionModel> {
         let transactionModel: TransactionModel = {
             status: transaction.isConfirmed(),
             signerAddress: transaction.signer.address.pretty(),
@@ -139,19 +150,19 @@ export default class AccountService {
         };
 
         if (transaction instanceof TransferTransaction) {
-            const nativeMosaicAttachment = transaction.mosaics.find(mosaic => mosaic.id.toHex() === network.currencyMosaicId);
-            const otherMosaics = transaction.mosaics.filter(mosaic => mosaic.id.toHex() !== network.currencyMosaicId);
+            const mosaicModels: MosaicModel[] = [];
+            for (let mosaic of transaction.mosaics) {
+                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+                mosaicModels.push(mosaicModel);
+            }
             transactionModel = {
                 ...transactionModel,
                 type: 'transfer',
                 recipientAddress: transaction.recipientAddress.pretty(),
                 messageText: transaction.message.message,
                 messageEncrypted: transaction.message.type,
-                amount: nativeMosaicAttachment ? nativeMosaicAttachment.amount.toString() / Math.pow(10, 6) : 0,
-                otherMosaics: otherMosaics.map(mosaic => ({
-                    id: mosaic.id,
-                    amount: mosaic.amount.toString(),
-                })),
+                // amount: nativeMosaicAttachment ? nativeMosaicAttachment.amount.toString() / Math.pow(10, 6) : 0,
+                otherMosaics: mosaicModels,
             };
         }
         return transactionModel;
