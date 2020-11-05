@@ -53,7 +53,7 @@ export default class FetchTransactionService {
      * @returns {Promise<number>}
      */
     static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
-        const transactionHttp = new TransactionHttp('http://api-01.us-east-1.0.10.0.x.symboldev.network:3000');
+        const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
         const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
         const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 100 };
@@ -159,7 +159,7 @@ export default class FetchTransactionService {
         transaction: AggregateTransaction,
         network: NetworkModel
     ): Promise<AggregateTransactionModel> {
-        const transactionHttp = new TransactionHttp('http://api-01.us-east-1.0.10.0.x.symboldev.network:3000');
+        const transactionHttp = new TransactionHttp(network.node);
         const fullTransactionData = await transactionHttp
             .getTransaction(transaction.transactionInfo.id, transaction.isConfirmed() ? TransactionGroup.Confirmed : TransactionGroup.Partial)
             .toPromise();
