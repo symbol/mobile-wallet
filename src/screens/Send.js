@@ -137,7 +137,6 @@ class Send extends Component<Props, State> {
                     </Section>
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.setState({ message })} />
-                        <CheckBox title="Encrypted Message" checked={isEncrypted} onPress={() => this.setState({ isEncrypted: !this.state.isEncrypted })} />
                     </Section>
 					<Section type="form-item">
                         <Checkbox value={isEncrypted} title="Encrypted message" theme="light" onChange={isEncrypted => this.setState({ isEncrypted })} />

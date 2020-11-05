@@ -51,8 +51,7 @@ export default class TransactionService {
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
         const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility)))];
         const fee = this._resolveFee(transaction.fee);
-        if (transaction.messageEncrypted === false) {
-            console.log('hola');
+        if (transaction.messageEncrypted === 'false') {
             const message = PlainMessage.create(transaction.messageText);
             const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);
             return this._signAndBroadcast(transferTransaction, signer, networkModel);
