@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'column'
 	},
+	'fullHeight': {
+		height: '100%',
+	},
 	'justify-start': {
 		justifyContent: 'flex-start'
 	},
@@ -54,7 +57,8 @@ interface Props {
 	justify: Justify;
 	align: Align;
 	wrap: boolean,
-	grow: boolean
+	grow: boolean,
+	fullHeight: boolean
 };
 
 type State = {};
@@ -68,7 +72,8 @@ export default class Col extends Component<Props, State> {
 			justify,
 			align,
 			wrap,
-			grow
+			grow,
+			fullHeight
 		} = this.props;
 		const stylesArray = [styles.main];
 
@@ -80,6 +85,8 @@ export default class Col extends Component<Props, State> {
 			stylesArray.push(styles.wrap);
 		if(grow)
 			stylesArray.push(styles.grow);
+		if(fullHeight)
+			stylesArray.push(styles.fullHeight);
 
 		stylesArray.push(style);
 

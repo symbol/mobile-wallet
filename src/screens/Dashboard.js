@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
 import { NavigationMenu } from '@src/components';
-import Home from './Home';
-import History from './History';
-import Harvest from './Harvest';
-import News from './News';
+import Home from '@src/screens/Home';
+import History from '@src/screens/History';
+import Harvest from '@src/screens/Harvest';
+import News from '@src/screens/News';
 import Mosaics from '@src/screens/Mosaics';
+import Sidebar from '@src/screens/Sidebar';
 
 const styles = StyleSheet.create({
     root: {
@@ -60,6 +61,7 @@ export default class Dashboard extends Component<Props, State> {
             <View style={styles.root}>
                 <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} />
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
+				<Sidebar componentId={componentId} />
             </View>
         );
     }
