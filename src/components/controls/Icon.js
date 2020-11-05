@@ -41,7 +41,11 @@ type IconName = 'none'
 	| 'expand'
 	| 'incoming_light'
 	| 'outgoing_light'
-	| 'options_dark';
+	| 'options_dark'
+	| 'add_light'
+	| 'add_filled_light'
+	| 'delete_light'
+	| 'edit_light';
 
 type Size = 'large'
 	| 'big'
@@ -119,6 +123,18 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'options_dark':
 				source = require('@src/assets/icons/options_dark.png');
+				break;
+			case 'add_light':
+				source = require('@src/assets/icons/add_light.png');
+				break;
+			case 'add_filled_light':
+				source = require('@src/assets/icons/add_filled_light.png');
+				break;
+			case 'delete_light':
+				source = require('@src/assets/icons/delete_light.png');
+				break;
+			case 'edit_light':
+				source = require('@src/assets/icons/edit_light.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');

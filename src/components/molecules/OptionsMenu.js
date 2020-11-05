@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	icon: {
-		marginRight: 8
+		marginRight: 16
 	},
 	label: {
 
@@ -63,8 +63,8 @@ export default class OptionsMenu extends Component<Props, State> {
 				underlayColor="#0001"
 				onPress={() => onPress()}
 			>
-				<Row style={styles.listItem}>
-					<Icon style={styles.icon} name={item.item.iconName} />
+				<Row style={styles.listItem} align="center">
+					<Icon style={styles.icon} name={item.item.iconName} size="small" />
 					<Text style={styles.label} type="bold" theme="light">{item.item.label}</Text>
 				</Row>
 			</TouchableHighlight>
@@ -73,6 +73,7 @@ export default class OptionsMenu extends Component<Props, State> {
 
 	render = () => {
 		const {
+			style = {},
 			list = [],
 			children
 		} = this.props;
@@ -86,7 +87,7 @@ export default class OptionsMenu extends Component<Props, State> {
 				
 				<Popover
 					from={
-						<TouchableOpacity onPress={() => this.setState({isVisible: true})}>
+						<TouchableOpacity style={style} onPress={() => this.setState({isVisible: true})}>
 							{children}
 						</TouchableOpacity>
 					}
