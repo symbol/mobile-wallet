@@ -27,7 +27,8 @@ type State = {
 
 export default class Dashboard extends Component<Props, State> {
     state = {
-        currentTab: 'home',
+		currentTab: 'home',
+		isSidebarShown: false
     };
 
     onTabChange = tabName => {
@@ -59,9 +60,9 @@ export default class Dashboard extends Component<Props, State> {
         }
         return (
             <View style={styles.root}>
-                <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} />
+                <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} onOpenMenu={()=>this.setState({isSidebarShown: true})}/>
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
-				<Sidebar componentId={componentId} />
+				<Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={()=>this.setState({isSidebarShown: false})}/>
             </View>
         );
     }

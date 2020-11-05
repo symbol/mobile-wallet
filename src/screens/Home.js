@@ -36,7 +36,7 @@ type Props = {
 type State = {};
 
 class Home extends Component<Props, State> {
-    state = {};
+    state = { isSidebarShown: false };
 
     handleSettingsClick = () => {
         console.log(this.props.componentId);
@@ -44,22 +44,21 @@ class Home extends Component<Props, State> {
     };
 
     render() {
-        const { contentStyle = {}, componentId, accountName, address } = this.props;
+        const { contentStyle = {}, componentId, accountName, onOpenMenu } = this.props;
         const {} = this.state;
 
         return (
             <GradientBackground name="connector" theme="grey" fade={true}>
-                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="-" />
 				<Section type="title">
-				<Row justify="space-between">
-					<Text type="bold" theme="dark">
-
-					</Text>
+				<Row justify="space-between" align="end" style={{marginTop: 17}}>
+					<TouchableOpacity onPress={() => onOpenMenu()}>
+						<Text type="bold">Acc.</Text>
+					</TouchableOpacity>
 					<Text type="bold" theme="dark">
                         { accountName }
 					</Text>
 					<Text type="bold" theme="dark">
-
+						QR
 					</Text>
 				</Row>
 				</Section>

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		width: '100%',
 		height: '100%',
-		backgroundColor: '#0005'
+		backgroundColor: '#0005',
 	},
 	menuContainer: {
 		width: '70%',
@@ -60,7 +60,7 @@ type Props = {
 type State = {};
 
 class Home extends Component<Props, State> {
-    state = { isVisible: true };
+    state = {};
 
     handleSettingsClick = () => {
         console.log(this.props.componentId);
@@ -92,8 +92,8 @@ class Home extends Component<Props, State> {
 	};
 
     render = () => {
-        const { contentStyle = {}, componentId, accountName, balance } = this.props;
-		const { isVisible } = this.state;
+        const { contentStyle = {}, accountName, balance, isVisible } = this.props;
+		const { } = this.state;
 		const accountList = [ // Mock. TODO: replace with data from store
 			{ accountName, balance },
 			{ accountName: 'New account', balance: 1 }, 
@@ -110,7 +110,7 @@ class Home extends Component<Props, State> {
 			return null;
 
         return ( // TODO: restyle
-            <TouchableOpacity style={styles.root} onPress={() => this.setState({isVisible: false})}>
+            <TouchableOpacity style={styles.root} onPress={() => this.props.onHide()}>
                 <GradientBackground theme="light" name="mesh" style={styles.menuContainer}>
 					<Col justify="space-between" fullHeight>
 						{/* <Section style={{paddingVertical: 16, paddingHorizontal: 8}}>
