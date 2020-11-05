@@ -49,8 +49,7 @@ export default class Transaction extends Component<Props> {
 
     render = () => {
 		const { transaction } = this.props;
-		let rand = Math.random();
-		transaction.transferType = rand < 0.5 ? 'outgoing' : 'incoming';
+		transaction.transferType = !transaction.transferType ? 'outgoing' : 'incoming'; // TODO: Remove 
 		let transactionType = transaction.type;
 		let date = transaction.deadline;
 		let iconName = '';
