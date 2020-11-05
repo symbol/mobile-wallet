@@ -24,10 +24,11 @@ const styles = StyleSheet.create({
 	menuContainer: {
 		width: '70%',
 		height: '100%',
+		paddingTop: 4,
 		backgroundColor: GlobalStyles.color.DARKWHITE
 	},
 	accountBox: {
-		backgroundColor: '#333',
+		backgroundColor: GlobalStyles.color.SECONDARY,
 		borderRadius: 5,
 		margin: 4,
 		marginHorizontal: 8,
@@ -69,10 +70,10 @@ class Home extends Component<Props, State> {
 	renderAccountSelectorItem = ({accountName, balance}) => {
 		return (
 			<TouchableOpacity style={styles.accountBox}>
-				<Text>
+				<Text type="bold">
 					{accountName}
 				</Text>
-				<Text>
+				<Text type="regular" align="right">
 					{balance}
 				</Text>
 			</TouchableOpacity>
@@ -91,27 +92,32 @@ class Home extends Component<Props, State> {
 	};
 
     render = () => {
-        const { contentStyle = {}, componentId, accountName, address } = this.props;
+        const { contentStyle = {}, componentId, accountName, balance } = this.props;
 		const { isVisible } = this.state;
-		const accountList = [
-			{ accountName: 'My Account', balance: 12312312 },
-			{ accountName: 'My Account 1', balance: 123 },
-			{ accountName: 'My Account 2', balance: 0 }
+		const accountList = [ // Mock. TODO: replace with data from store
+			{ accountName, balance },
+			{ accountName: 'New account', balance: 1 }, 
+			{ accountName: 'New account 2', balance: 0 }
 		];
 
 		const menuItems = [
 			{ iconName: 'account', text: 'Account Details', screenName: SETTINGS_SCREEN },
 			{ iconName: 'accounts_edit', text: 'Manage Accounts', screenName: SETTINGS_SCREEN },
-			{ iconName: 'settings', text: 'settings', screenName: SETTINGS_SCREEN },
+			{ iconName: 'settings', text: 'Settings', screenName: SETTINGS_SCREEN },
 		];
 
 		if(!isVisible)
 			return null;
 
-        return (
+        return ( // TODO: restyle
             <TouchableOpacity style={styles.root} onPress={() => this.setState({isVisible: false})}>
                 <GradientBackground theme="light" style={styles.menuContainer}>
 					<Col justify="space-between" fullHeight>
+						<Section style={{paddingVertical: 16, paddingHorizontal: 8}}>
+							<Text type="title" theme="light">
+								Accounts
+							</Text>
+						</Section>
 						<Section isScrollable>
 							{accountList.map(this.renderAccountSelectorItem)}
 						</Section>
@@ -127,5 +133,5 @@ class Home extends Component<Props, State> {
 
 export default connect(state => ({
 	accountName: state.account.selectedAccount.name,
-	address: state.account.selectedAccountAddress,
+	balance: state.account.balance,
 }))(Home);
