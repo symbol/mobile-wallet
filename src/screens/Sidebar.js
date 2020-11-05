@@ -85,7 +85,7 @@ class Home extends Component<Props, State> {
 			<TouchableOpacity onPress={() => Router.goToScreen(screenName, {}, this.props.componentId)}>
 				<Row fullWidth style={styles.menuItem}>
 					<Icon name={iconName} style={styles.menuItemIcon}/>
-					<Text theme="light" style={styles.menuItemText}>{text}</Text>
+					<Text theme="light" type="bold" style={styles.menuItemText}>{text}</Text>
 				</Row>
 			</TouchableOpacity>
 		);
@@ -111,13 +111,13 @@ class Home extends Component<Props, State> {
 
         return ( // TODO: restyle
             <TouchableOpacity style={styles.root} onPress={() => this.setState({isVisible: false})}>
-                <GradientBackground theme="light" style={styles.menuContainer}>
+                <GradientBackground theme="light" name="mesh" style={styles.menuContainer}>
 					<Col justify="space-between" fullHeight>
-						<Section style={{paddingVertical: 16, paddingHorizontal: 8}}>
+						{/* <Section style={{paddingVertical: 16, paddingHorizontal: 8}}>
 							<Text type="title" theme="light">
 								Accounts
 							</Text>
-						</Section>
+						</Section> */}
 						<Section isScrollable>
 							{accountList.map(this.renderAccountSelectorItem)}
 						</Section>
