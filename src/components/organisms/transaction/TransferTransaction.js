@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import { Text, Row } from '@src/components';
 import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -20,9 +21,10 @@ type Props = {
     transaction: TransferTransactionModel,
 };
 
-export default class TransferTransaction extends Component<Props> {
+class TransferTransaction extends Component<Props> {
     render() {
-        const { transaction } = this.props;
+        const { transaction, network } = this.props;
+        const currencyMosaic = transaction.mosaics.find(mosaic => mosaic.mosaicId === network.currencyMosaicId);
         return (
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">
@@ -35,13 +37,17 @@ export default class TransferTransaction extends Component<Props> {
                 </Row>
                 <Row justify="space-between">
                     <Text type="bold" theme="light">
-                        {transaction.signerAddress}
+                        {transaction.signerAddress.slice(0, 9)}...
                     </Text>
                     <Text type="bold" theme="light">
-                        {transaction.amount}
+                        Amount: {currencyMosaic ? (currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility)) : 0}
                     </Text>
                 </Row>
             </View>
         );
     }
 }
+
+export default connect(state => ({
+    network: state.network.selectedNetwork,
+}))(TransferTransaction);

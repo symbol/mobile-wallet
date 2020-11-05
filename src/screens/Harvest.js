@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Section, ImageBackground, Text, Row, TitleBar } from '@src/components';
-import Transaction from '@src/components/organisms/Transaction';
+import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({

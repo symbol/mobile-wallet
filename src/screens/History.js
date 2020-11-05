@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Section, ImageBackground, Text, Row, TitleBar } from '@src/components';
-import Transaction from '@src/components/organisms/Transaction';
+import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -27,13 +28,22 @@ type State = {};
 class History extends Component<Props, State> {
     state = {};
 
+    handleReloadClick() {
+        store.dispatchAction({ type: 'account/loadTransactions' });
+    }
+
     render() {
-        const { transactions } = this.props;
+        const { transactions, isLoading } = this.props;
         const {} = this.state;
 
         return (
             <ImageBackground name="tanker">
-                <TitleBar theme="light" title="Transactions" />
+                <TitleBar theme="light" onReload={() => this.handleReloadClick()} title="Transactions" />
+                {isLoading && (
+                    <Text align={'left'} theme={'light'}>
+                        loading...
+                    </Text>
+                )}
                 <Section type="list" style={styles.list}>
                     {transactions &&
                         transactions.map(tx => {
@@ -47,4 +57,5 @@ class History extends Component<Props, State> {
 
 export default connect(state => ({
     transactions: state.account.transactions,
+    isLoading: state.account.loadingTransactions,
 }))(History);

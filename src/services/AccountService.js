@@ -7,7 +7,13 @@ import {
     TransactionHttp,
     TransactionGroup,
     Transaction,
-    TransferTransaction, Mosaic, MosaicHttp, MosaicId, NamespaceHttp,
+    TransferTransaction,
+    Mosaic,
+    MosaicHttp,
+    MosaicId,
+    NamespaceHttp,
+    LockFundsTransaction,
+    AggregateTransactionCosignature, AggregateTransaction, InnerTransaction,
 } from 'symbol-sdk';
 import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
@@ -113,59 +119,6 @@ export default class AccountService {
             amount: mosaic.amount.toString(),
             divisibility: mosaicInfo.divisibility,
         };
-    }
-
-    /**
-     * Returns balance from a given Address and a node
-     * @param rawAddress
-     * @param network
-     * @returns {Promise<number>}
-     */
-    static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
-        const transactionHttp = new TransactionHttp(network.node);
-        const address = Address.createFromRawAddress(rawAddress);
-        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
-        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
-        const [confirmedTransactions, unconfirmedTransactions] = await Promise.all([
-            transactionHttp.search(confirmedSearchCriteria).toPromise(),
-            transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
-        ]);
-        const allTransactions = [...unconfirmedTransactions.data, ...confirmedTransactions.data.reverse()];
-        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network)));
-    }
-
-    /**
-     * Transform a symbol account to an account Model
-     * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
-     * @param transaction
-     * @param network
-     */
-    static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): Promise<TransactionModel> {
-        let transactionModel: TransactionModel = {
-            status: transaction.isConfirmed(),
-            signerAddress: transaction.signer.address.pretty(),
-            deadline: formatTransactionLocalDateTime(transaction.deadline.value),
-            hash: transaction.transactionInfo.hash,
-            fee: transaction.maxFee.toString(),
-        };
-
-        if (transaction instanceof TransferTransaction) {
-            const mosaicModels: MosaicModel[] = [];
-            for (let mosaic of transaction.mosaics) {
-                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
-                mosaicModels.push(mosaicModel);
-            }
-            transactionModel = {
-                ...transactionModel,
-                type: 'transfer',
-                recipientAddress: transaction.recipientAddress.pretty(),
-                messageText: transaction.message.message,
-                messageEncrypted: transaction.message.type,
-                // amount: nativeMosaicAttachment ? nativeMosaicAttachment.amount.toString() / Math.pow(10, 6) : 0,
-                otherMosaics: mosaicModels,
-            };
-        }
-        return transactionModel;
     }
 
     /**

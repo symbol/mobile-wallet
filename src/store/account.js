@@ -2,12 +2,14 @@ import AccountService from '@src/services/AccountService';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
+import FetchTransactionService from '@src/services/FetchTransactionService';
 
 export default {
     namespace: 'account',
     state: {
         selectedAccount: null,
         loading: false,
+        loadingTransactions: false,
         balance: 0,
         ownedMosaics: [],
         transactions: [],
@@ -19,6 +21,10 @@ export default {
         },
         setLoading(state, payload) {
             state.account.loading = payload;
+            return state;
+        },
+        setLoadingTransactions(state, payload) {
+            state.account.loadingTransactions = payload;
             return state;
         },
         setBalance(state, payload) {
@@ -61,9 +67,11 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadTransactions: async ({ commit, state }) => {
+            commit({ type: 'account/setLoadingTransactions', payload: true });
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const transactions = await AccountService.getTransactionsFromAddress(address, state.network.selectedNetwork);
+            const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setTransactions', payload: transactions });
+            commit({ type: 'account/setLoadingTransactions', payload: false });
         },
     },
 };

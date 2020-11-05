@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Theme = 'light' 
+type Theme = 'light'
 	| 'dark';
 
 interface Props {
@@ -48,11 +48,12 @@ interface State {
 export default class PluginList extends Component<Props, State> {
 
 	render = () => {
-		const { 
-			style = {}, 
-			theme, 
-			onBack, 
+		const {
+			style = {},
+			theme,
+			onBack,
 			onSettings,
+			onReload,
 			title,
 			subtitle,
 			buttons
@@ -63,6 +64,10 @@ export default class PluginList extends Component<Props, State> {
 			: 'back_dark';
 
 		const iconSettingsName = theme === 'light'
+			? 'settings_light'
+			: 'settings_dark';
+
+		const iconReloadName = theme === 'light'
 			? 'settings_light'
 			: 'settings_dark';
 
@@ -83,6 +88,9 @@ export default class PluginList extends Component<Props, State> {
 						{buttons}
 						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
 							<Icon name={iconSettingsName} />
+						</TouchableOpacity>}
+						{!!onReload && <TouchableOpacity style={styles.iconRight} onPress={onReload}>
+							<Icon name={iconReloadName} />
 						</TouchableOpacity>}
 					</Row>
 				</Row>

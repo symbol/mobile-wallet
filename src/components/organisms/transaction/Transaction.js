@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet, Text, Linking } from 'react-native';
 import { Row } from '@src/components';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
-import TransferTransaction from '@src/components/organisms/TransferTransaction';
+import TransferTransaction from '@src/components/organisms/transaction/TransferTransaction';
+import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
+import AggregateTransaction from '@src/components/organisms/transaction/AggregateTransaction';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -27,6 +29,10 @@ export default class Transaction extends Component<Props> {
         switch (transaction.type) {
             case 'transfer':
                 return <TransferTransaction transaction={transaction} />;
+            case 'fundsLock':
+                return <FundsLockTransaction transaction={transaction} />;
+            case 'aggregate':
+                return <AggregateTransaction transaction={transaction} />;
             default:
                 return (
                     <View style={styles.transactionPreview}>
