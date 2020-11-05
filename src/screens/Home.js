@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {
     Section,
     GradientBackground,
-    AccountBalanceWidget,
+    BalanceWidget,
     Text,
     PluginList,
     Col,
@@ -48,7 +48,7 @@ class Home extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector" theme="grey" fade={true}>
+            <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
 				<Section type="title">
 				<Row justify="space-between" align="end" style={{marginTop: 17}}>
 					<TouchableOpacity onPress={() => onOpenMenu()}>
@@ -63,8 +63,8 @@ class Home extends Component<Props, State> {
 				</Row>
 				</Section>
                 <Col justify="space-around" style={contentStyle}>
-                    <AccountBalanceWidget showChart={true} />
-                    <Section type="list" isScrollable>
+                    <BalanceWidget showChart={false} />
+                    <Section type="list">
                         <PluginList componentId={componentId} />
                         {/* Notifications Mockup */}
                         <View style={styles.transactionPreview}>
