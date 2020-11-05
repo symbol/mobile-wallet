@@ -40,7 +40,8 @@ type IconName = 'none'
 	| 'qr'
 	| 'expand'
 	| 'incoming_light'
-	| 'outgoing_light';
+	| 'outgoing_light'
+	| 'options_dark';
 
 type Size = 'large'
 	| 'big'
@@ -94,7 +95,10 @@ export default class C extends Component<Props, State> {
                 break;
             case 'settings_light':
                 source = require('@src/assets/icons/settings_light.png');
-                break;
+				break;
+			case 'settings_filled_light':
+				source = require('@src/assets/icons/settings_filled_light.png');
+				break;
             case 'settings_dark':
                 source = require('@src/assets/icons/settings_dark.png');
                 break;
@@ -112,6 +116,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'outgoing_light':
 				source = require('@src/assets/icons/outgoing.png');
+				break;
+			case 'options_dark':
+				source = require('@src/assets/icons/options_dark.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');

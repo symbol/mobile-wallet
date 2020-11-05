@@ -5,7 +5,8 @@ import {
     GradientBackground,
 	Text,
 	Icon,
-    Col,
+	Col,
+	OptionsMenu,
     Row,
 } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -68,11 +69,22 @@ class Home extends Component<Props, State> {
 	};
 	
 	renderAccountSelectorItem = ({accountName, balance}) => {
+		const options = [
+			{iconName: 'edit_light', label: 'Rename'},
+			{iconName: 'delete_light', label: 'Delete'}
+		];
+
 		return (
 			<TouchableOpacity style={styles.accountBox}>
-				<Text type="bold">
-					{accountName}
-				</Text>
+				<Row justify="space-between" fullWidth>
+					<Text type="bold">
+						{accountName}
+					</Text>
+					<OptionsMenu list={options}>
+						<Icon name="options_dark" size="small"/>
+					</OptionsMenu>
+				</Row>
+				
 				<Text type="regular" align="right">
 					{balance}
 				</Text>
