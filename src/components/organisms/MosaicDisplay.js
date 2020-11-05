@@ -38,7 +38,7 @@ export default class MosaicDisplay extends Component<Props> {
                         {mosaic.mosaicName}
                     </Text>
                     <Text type="bold" theme="light">
-                        {mosaic.amount}
+                        {mosaic.amount / Math.pow(10, mosaic.divisibility)}
                     </Text>
                 </Row>
             </View>

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, InputAddress, Button, Dropdown, MosaicDropdown } from '@src/components';
+import {
+	Checkbox, 
+	Section, 
+	GradientBackground, 
+	TitleBar, 
+	Input, 
+	InputAddress, 
+	Button, 
+	Dropdown, 
+	MosaicDropdown 
+} from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import translate from '@src/locales/i18n';
 import Store from '@src/store';
@@ -128,6 +138,9 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.setState({ message })} />
                         <CheckBox title="Encrypted Message" checked={isEncrypted} onPress={() => this.setState({ isEncrypted: !this.state.isEncrypted })} />
+                    </Section>
+					<Section type="form-item">
+                        <Checkbox value={isEncrypted} title="Encrypted message" theme="light" onChange={isEncrypted => this.setState({ isEncrypted })} />
                     </Section>
                     <Section type="form-item">
                         <Dropdown value={fee} title="Fee" theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />

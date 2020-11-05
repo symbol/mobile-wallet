@@ -56,13 +56,13 @@ export default {
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNode);
+            const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadTransactions: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const transactions = await AccountService.getTransactionsFromAddress(address, state.network.selectedNode);
+            const transactions = await AccountService.getTransactionsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setTransactions', payload: transactions });
         },
     },
