@@ -13,8 +13,10 @@ import {
     TransactionHttp,
     TransferTransaction,
     UInt64,
+    RepositoryFactoryHttp,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
+import { getNativeMosaicId } from '@src/config/environment';
 
 export default class TransactionService {
     /**
@@ -25,10 +27,10 @@ export default class TransactionService {
      * @param extraParams
      */
     static signAndBroadcastTransactionModel(transaction: TransactionModel, signer: AccountModel, networkModel: NetworkModel, ...extraParams) {
+        console.log(transaction);
         switch (transaction.type) {
             case 'transfer':
-                this._signAndBroadcastTransferTransactionModel(transaction, signer, networkModel);
-                break;
+                return this._signAndBroadcastTransferTransactionModel(transaction, signer, networkModel);
             default:
                 console.error('Not yet implemented');
         }
@@ -41,7 +43,7 @@ export default class TransactionService {
      * @param networkModel
      * @private
      */
-    static _signAndBroadcastTransferTransactionModel(transaction: TransferTransactionModel, signer: AccountModel, networkModel: NetworkModel) {
+    static async _signAndBroadcastTransferTransactionModel(transaction: TransferTransactionModel, signer: AccountModel, networkModel: NetworkModel) {
         const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
         const mosaics = [
@@ -50,10 +52,24 @@ export default class TransactionService {
                 UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility))
             ),
         ];
-        const message = PlainMessage.create(transaction.messageText);
         const fee = this._resolveFee(transaction.fee);
-        const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);
-        return this._signAndBroadcast(transferTransaction, signer, networkModel);
+        if (transaction.messageEncrypted === 'false') {
+            const message = PlainMessage.create(transaction.messageText);
+            const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);
+            return this._signAndBroadcast(transferTransaction, signer, networkModel);
+        } else {
+            const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
+            const repositoryFactory = await new RepositoryFactoryHttp(networkModel.node);
+            const accountHttp = repositoryFactory.createAccountRepository();
+            try {
+                const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
+                const message = signerAccount.encryptMessage(transaction.messageText, accountInfo);
+                const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);
+                return this._signAndBroadcast(transferTransaction, signer, networkModel);
+            } catch (e) {
+                throw Error('Recipient address has not a public key');
+            }
+        }
     }
 
     /**

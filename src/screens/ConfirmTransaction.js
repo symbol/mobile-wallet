@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
 	transactionPreview: {
-		width: '100%',
+        width: '100%',
 		height: 60,
 		borderRadius: 6,
 		marginTop: 4,
@@ -45,11 +45,16 @@ class ConfirmTransaction extends Component<Props, State> {
 		const {
 			isLoading,
 			isError,
+			errorMessage,
 			isSuccessfullySent,
 			transaction,
 			onBack
 		} = this.props;
+
 		const {} = this.state;
+
+		if (transaction.messageEncrypted) transaction.messageEncrypted = 'true';
+		else transaction.messageEncrypted = 'false';
 
 		const preview = Object
 			.keys(transaction)
@@ -74,24 +79,24 @@ class ConfirmTransaction extends Component<Props, State> {
 					onBack={backFunction}
 					title="Confirm Transaction"
 				/>
-					{isPreviewShown &&
-						<Section type="form" style={styles.list} isScrollable>
-							{preview.map(el => <Section type="form-item">
-								<Text type="bold" theme="light">{el.key}:</Text>
-								<Text type="regular" theme="light">{el.value}</Text>
-							</Section>)}
+				{isPreviewShown &&
+				<Section type="form" style={styles.list} isScrollable>
+					{preview.map(el => <Section type="form-item">
+						<Text type="bold" theme="light">{el.key}:</Text>
+						<Text type="regular" theme="light">{el.value}</Text>
+					</Section>)}
 
-							<Section type="form-bottom">
-								<Button
-									isLoading={false}
-									isDisabled={false}
-									text="Confirm"
-									theme="light"
-									onPress={() => this.submit()}
-								/>
-							</Section>
-						</Section>
-					}
+					<Section type="form-bottom">
+						<Button
+							isLoading={false}
+							isDisabled={false}
+							text="Confirm"
+							theme="light"
+							onPress={() => this.submit()}
+						/>
+					</Section>
+				</Section>
+				}
 					{isLoading &&
 						<Section type="center">
 							<Text type="bold" theme="light">
@@ -101,8 +106,8 @@ class ConfirmTransaction extends Component<Props, State> {
 					}
 					{isError &&
 						<Section type="center">
-							<Text type="bold" theme="light">
-								Error
+							<Text type="bold" theme="light" align={"center"}>
+								{errorMessage}
 							</Text>
 						</Section>
 					}

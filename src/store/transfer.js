@@ -4,7 +4,7 @@ import AccountService from '@src/services/AccountService';
 
 class ErrorHandler {
     static getMessage(e) {
-        return 'Failed to send transaction. The reason is..'; // translation key or already translated
+        return 'Failed to send transaction.\n' + e; // translation key or already translated
     }
 }
 
@@ -13,6 +13,7 @@ export default {
     state: {
         isLoading: false,
         isError: false,
+        errorMessage: '',
         isSuccessfullySent: false,
         transaction: {
             preview: {},
@@ -28,6 +29,10 @@ export default {
             state.transfer.isError = payload;
             return state;
         },
+        setErrorMessage(state, payload) {
+            state.transfer.errorMessage = payload;
+            return state;
+        },
         setSuccessfullySent(state, payload) {
             state.transfer.isSuccessfullySent = payload;
             return state;
@@ -41,6 +46,7 @@ export default {
         clear: ({ commit }) => {
             commit({ type: 'transfer/setLoading', payload: false });
             commit({ type: 'transfer/setError', payload: false });
+            commit({ type: 'transfer/setErrorMessage', payload: '' });
             commit({ type: 'transfer/setSuccessfullySent', payload: false });
             commit({ type: 'transfer/setTransaction', payload: {} });
         },
@@ -52,7 +58,7 @@ export default {
                     type: 'transfer',
                     recipientAddress: payload.recipientAddress,
                     messageText: payload.message,
-                    messageEncrypted: false,
+                    messageEncrypted: payload.isEncrypted,
                     mosaics: payload.mosaics,
                     fee: payload.fee,
                 },
@@ -68,7 +74,8 @@ export default {
                 commit({ type: 'transfer/setSuccessfullySent', payload: true });
             } catch (e) {
                 console.log(e);
-                commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
+                commit({ type: 'transfer/setError', payload: true });
+                commit({ type: 'transfer/setErrorMessage', payload: ErrorHandler.getMessage(e.message) });
             }
         },
 

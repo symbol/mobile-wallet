@@ -4,7 +4,6 @@ import { Col, Row, Text, Trunc, Icon } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
-
 const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
