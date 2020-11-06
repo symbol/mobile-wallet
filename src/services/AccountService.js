@@ -7,7 +7,13 @@ import {
     TransactionHttp,
     TransactionGroup,
     Transaction,
-    TransferTransaction, Mosaic, MosaicHttp, MosaicId, NamespaceHttp,
+    TransferTransaction,
+    Mosaic,
+    MosaicHttp,
+    MosaicId,
+    NamespaceHttp,
+    LockFundsTransaction,
+    AggregateTransactionCosignature, AggregateTransaction, InnerTransaction,
 } from 'symbol-sdk';
 import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
@@ -72,89 +78,47 @@ export default class AccountService {
      */
     static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
-            console.log(network.node);
             const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
             let amount = 0;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
+                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
-                    amount = mosaic.amount.compact() / Math.pow(10, 6);
+                    amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
                 }
-                let mosaicInfo = {}, mosaicName = {};
-                try {
-                    mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
-                    [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
-                } catch (e) {
-                    console.log(e);
-                }
-                ownedMosaics.push({
-                    mosaicId: mosaic.id.toHex(),
-                    mosaicName: mosaicName.names[0].name,
-                    amount: mosaic.amount.toString(),
-                    divisibility: mosaicInfo.divisibility,
-                });
+                ownedMosaics.push(mosaicModel);
             }
             return {
                 balance: amount,
                 ownedMosaics: ownedMosaics,
             };
         } catch (e) {
-            console.log(e);
             return { balance: 0, ownedMosaics: [] };
         }
     }
 
     /**
-     * Returns balance from a given Address and a node
-     * @param rawAddress
+     * Gets MosaicModel from a Mosaic
+     * @param mosaic
      * @param network
-     * @returns {Promise<number>}
+     * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
+     * @private
      */
-    static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
-        const transactionHttp = new TransactionHttp(network.node);
-        const address = Address.createFromRawAddress(rawAddress);
-        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
-        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
-        const [confirmedTransactions, unconfirmedTransactions] = await Promise.all([
-            transactionHttp.search(confirmedSearchCriteria).toPromise(),
-            transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
-        ]);
-        const allTransactions = [...unconfirmedTransactions.data, ...confirmedTransactions.data.reverse()];
-        return allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network));
-    }
-
-    /**
-     * Transform a symbol account to an account Model
-     * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
-     * @param transaction
-     * @param network
-     */
-    static symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): TransactionModel {
-        let transactionModel: TransactionModel = {
-            status: transaction.isConfirmed(),
-            signerAddress: transaction.signer.address.pretty(),
-            deadline: formatTransactionLocalDateTime(transaction.deadline.value),
-            hash: transaction.transactionInfo.hash,
-            fee: transaction.maxFee.toString(),
-        };
-
-        if (transaction instanceof TransferTransaction) {
-            const nativeMosaicAttachment = transaction.mosaics.find(mosaic => mosaic.id.toHex() === network.currencyMosaicId);
-            const otherMosaics = transaction.mosaics.filter(mosaic => mosaic.id.toHex() !== network.currencyMosaicId);
-            transactionModel = {
-                ...transactionModel,
-                type: 'transfer',
-                recipientAddress: transaction.recipientAddress.pretty(),
-                messageText: transaction.message.message,
-                messageEncrypted: transaction.message.type,
-                amount: nativeMosaicAttachment ? nativeMosaicAttachment.amount.toString() / Math.pow(10, 6) : 0,
-                otherMosaics: otherMosaics.map(mosaic => ({
-                    id: mosaic.id,
-                    amount: mosaic.amount.toString(),
-                })),
-            };
+    static async _getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
+        let mosaicInfo = {},
+            mosaicName = {};
+        try {
+            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
+            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
+        } catch (e) {
+            console.log(e);
         }
-        return transactionModel;
+        return {
+            mosaicId: mosaic.id.toHex(),
+            mosaicName: mosaicName.names[0].name,
+            amount: mosaic.amount.toString(),
+            divisibility: mosaicInfo.divisibility,
+        };
     }
 
     /**

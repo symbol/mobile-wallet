@@ -71,5 +71,18 @@ export default {
                 commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
             }
         },
+
+        signAggregateBonded: async ({ commit, state, dispatchAction }, payload) => {
+            try {
+                commit({ type: 'transfer/setLoading', payload: true });
+                commit({ type: 'transfer/setError', payload: false });
+                await TransactionService.cosignAndBroadcastAggregateTransactionModel(payload, state.account.selectedAccount, state.network.selectedNetwork);
+                commit({ type: 'transfer/setLoading', payload: false });
+                commit({ type: 'transfer/setSuccessfullySent', payload: true });
+            } catch (e) {
+                console.log(e);
+                commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
+            }
+        },
     },
 };
