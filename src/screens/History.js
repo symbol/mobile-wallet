@@ -15,22 +15,19 @@ type State = {};
 class History extends Component<Props, State> {
     state = {};
 
-    handleReloadClick() {
-        store.dispatchAction({ type: 'account/loadTransactions' });
+    componentDidMount() {
+		store.dispatchAction({ type: 'account/loadTransactions' });
+		this.props.dataManager.reset();
     }
 
     render() {
-        const { transactions, isLoading } = this.props;
-        const {} = this.state;
+        const { dataManager } = this.props;
+		const {} = this.state;
+		const transactions = dataManager.data;
 
         return (
-            <ImageBackground name="tanker">
-                <TitleBar theme="light" onReload={() => this.handleReloadClick()} title="Transactions" />
-                {isLoading && (
-                    <Text align={'left'} theme={'light'}>
-                        loading...
-                    </Text>
-                )}
+            <ImageBackground name="tanker" dataManager={dataManager}>
+                <TitleBar theme="light" title="Transactions" />
                 <Section type="list" isScrollable>
                     {transactions &&
                         transactions.map(tx => {
@@ -43,6 +40,5 @@ class History extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    transactions: state.account.transactions,
-    isLoading: state.account.loadingTransactions,
+	dataManager: state.account.transactionListManager,
 }))(History);

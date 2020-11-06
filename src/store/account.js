@@ -3,10 +3,33 @@ import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStor
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import FetchTransactionService from '@src/services/FetchTransactionService';
+import { 
+	Pagination,
+	getStateFromManagers,
+	getMutationsFromManagers
+} from '@src/utils/DataManager';
+
+const fetchAccountTransactions = async ({ state }) => {
+	const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
+	const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
+	return { data: transactions };
+};
+
+const managers = [
+	new Pagination({
+		name: 'transactionListManager',
+		fetchFunction: (pageInfo, store) => fetchAccountTransactions(store, pageInfo),
+		pageInfo: {
+			pageSize: 15
+		},
+		errorMessage: 'Failed to fetch transaction list'
+	})
+];
 
 export default {
     namespace: 'account',
     state: {
+		...getStateFromManagers(managers),
 		selectedAccount: null,
 		selectedAccountAddress: '',
         loading: false,
@@ -16,6 +39,7 @@ export default {
         transactions: [],
     },
     mutations: {
+		...getMutationsFromManagers(managers, 'account'),
         setSelectedAccount(state, payload) {
             state.account.selectedAccount = payload;
             return state;
@@ -73,12 +97,8 @@ export default {
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
-        loadTransactions: async ({ commit, state }) => {
-            commit({ type: 'account/setLoadingTransactions', payload: true });
-            const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
-            commit({ type: 'account/setTransactions', payload: transactions });
-            commit({ type: 'account/setLoadingTransactions', payload: false });
+        loadTransactions: async (store) => {
+            store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
         },
     },
 };
