@@ -20,12 +20,12 @@ class History extends Component<Props, State> {
     }
 
     render() {
-        const { transactions, isLoading } = this.props;
+        const { dataManager, isLoading } = this.props;
 		const {} = this.state;
-		console.log(transactions)
+		const transactions = dataManager.data;
 
         return (
-            <ImageBackground name="tanker">
+            <ImageBackground name="tanker" dataManager={dataManager}>
                 <TitleBar theme="light" onReload={() => this.handleReloadClick()} title="Transactions" />
                 {isLoading && (
                     <Text align={'left'} theme={'light'}>
@@ -44,6 +44,6 @@ class History extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    transactions: state.account.transactionListManager.data,
+    dataManager: state.account.transactionListManager,
     isLoading: state.account.loadingTransactions,
 }))(History);
