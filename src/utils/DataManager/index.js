@@ -1,3 +1,4 @@
+import _ from 'lodash';
 export Pagination from './Pagination';
 
 export const getStateFromManagers = (managers) => {
@@ -8,12 +9,12 @@ export const getStateFromManagers = (managers) => {
 	return state;
 };
 
-export const getMutationsFromManagers = (managers) => {
+export const getMutationsFromManagers = (managers, namespace) => {
 	let mutations = {};
 
 	for (const manager of managers)
 		mutations[`setDataManager_${manager.name}`] = (state, payload) => {
-			state[manager.name] = payload;
+			state[namespace][manager.name] = _.clone(payload);
 			return state;
 		};
 	return mutations;

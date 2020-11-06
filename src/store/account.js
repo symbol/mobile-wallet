@@ -8,12 +8,9 @@ import { Pagination,
 	getMutationsFromManagers
 } from '@src/utils/DataManager';
 
-const fetchAccountTransactions = async ({ commit, state }) => {
-	commit({ type: 'account/setLoadingTransactions', payload: true });
+const fetchAccountTransactions = async ({ state }) => {
 	const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
 	const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
-	commit({ type: 'account/setTransactions', payload: transactions });
-	commit({ type: 'account/setLoadingTransactions', payload: false });
 	return { data: transactions };
 };
 
@@ -41,7 +38,7 @@ export default {
         transactions: [],
     },
     mutations: {
-		...getMutationsFromManagers(managers),
+		...getMutationsFromManagers(managers, 'account'),
         setSelectedAccount(state, payload) {
             state.account.selectedAccount = payload;
             return state;

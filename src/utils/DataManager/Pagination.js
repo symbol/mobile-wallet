@@ -1,7 +1,7 @@
 const PAGE_SIZE = 15;
 
 export default class Pagination {
-	constructor({ name, fetchFunction, pageInfo = {}, errorMessge }) {
+	constructor({ name, fetchFunction, pageInfo = {}, errorMessage }) {
 		if (typeof name !== 'string')
 			throw Error('Failed to construct Pagination. Name is not provided');
 		if (typeof fetchFunction !== 'function')
@@ -21,7 +21,7 @@ export default class Pagination {
 		this.initialized = false;
 		this.isLoading = true;
 		this.isError = false;
-		this.errorMessge = errorMessge || '';
+		this.errorMessage = errorMessage || '';
 		this.errorDescription = '';
 	}
 
@@ -63,7 +63,7 @@ export default class Pagination {
 	/** Set Vuex.Store context
    *
    */
-	setStore(store, namespace) {
+	setStore = (store, namespace) => {
 		this.store = store;
 		this.namespace = namespace;
 		this.store.commit({type: `${this.namespace}/setDataManager_${this.name}`, payload: this});
@@ -74,7 +74,7 @@ export default class Pagination {
 	 * Set timeline data
 	 * @param data
 	 */
-	setData(data) {
+	setData = (data) => {
 		this.pageInfo.data = data;
 		return this;
 	}
@@ -82,7 +82,7 @@ export default class Pagination {
 	/** Uninitialize Pagination
    *
    */
-	uninitialize() {
+	uninitialize = () => {
 		this.initialized = false;
 		this.pageInfo.pageNumber = 1;
 		this.isLoading = false;
@@ -92,7 +92,7 @@ export default class Pagination {
 	/** Initialize and fetch data
    *
    */
-	initialFetch() {
+	initialFetch = () => {
 		if (!this.initialized) {
 			this.reset();
 			this.initialized = true;
@@ -103,7 +103,7 @@ export default class Pagination {
 	/** Fetch data
    *
    */
-	async fetch() {
+	fetch = async () => {
 		this.isLoading = true;
 		this.store.commit({type: `${this.namespace}/setDataManager_${this.name}`, payload: this});
 
@@ -124,7 +124,7 @@ export default class Pagination {
 	/** Fetch next page of data
    *
    */
-	async fetchNext() {
+	fetchNext = async () => {
 		if (this.canFetchNext) {
 			this.store.commit({type: `${this.namespace}/setDataManager_${this.name}`, payload: this});
 			this.pageInfo.pageNumber++;
@@ -141,7 +141,7 @@ export default class Pagination {
 	/** Fetch previous page of data
    *
    */
-	async fetchPrevious() {
+	fetchPrevious = async () => {
 		if (this.canFetchPrevious) {
 			this.store.commit({type: `${this.namespace}/setDataManager_${this.name}`, payload: this});
 			this.pageInfo.pageNumber--;
@@ -157,7 +157,7 @@ export default class Pagination {
 	/** Fetch data with specific page configuration
    *
    */
-	async fetchPage(pageInfo) {
+	fetchPage = async (pageInfo) => {
 		if (
 			pageInfo !== null &&
             typeof pageInfo !== 'undefined'
@@ -179,14 +179,14 @@ export default class Pagination {
 	/** Reset Pagination and fetch data
    *
    */
-	async reset(pageNumber = 1) {
+	reset = async (pageNumber = 1) => {
 		this.pageInfo.pageNumber = pageNumber;
 		this.errorDescription = '';
 		return this.fetch();
 	}
 
 	// Add latest item to current.
-	addLatestItem(item, keyName) {
+	addLatestItem = (item, keyName) => {
 		if (this.isLive) {
 			if (this.data?.length && this.data[0][keyName] === item[keyName])
 				console.error('[Pagination]: attempted to add duplicate item as a latest item');
