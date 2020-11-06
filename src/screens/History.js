@@ -21,7 +21,8 @@ class History extends Component<Props, State> {
 
     render() {
         const { transactions, isLoading } = this.props;
-        const {} = this.state;
+		const {} = this.state;
+		console.log(transactions)
 
         return (
             <ImageBackground name="tanker">
@@ -43,6 +44,6 @@ class History extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    transactions: state.account.transactions,
+    transactions: state.account.transactionListManager.data,
     isLoading: state.account.loadingTransactions,
 }))(History);

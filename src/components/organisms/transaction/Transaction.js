@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import { Col, Row, Text, Trunc, Icon } from '@src/components';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
 
@@ -98,9 +98,9 @@ export default class Transaction extends Component<Props> {
 							<View style={styles.value}>
 								{values.map(value => this.renderValue(value))}
 							</View>
-							{/* <Text type="bold" theme="light">
+							<Text type="bold" theme="light">
 								{(values[0] && values[0].value) || ''}
-							</Text> */}
+							</Text>
 						</Row>
 					</Col>
 				</Row>
