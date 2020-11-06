@@ -60,7 +60,7 @@ export default class Pagination {
 		return this.pageInfo.pageSize;
 	}
 
-	/** Set Vuex.Store context
+	/** Store context
    *
    */
 	setStore = (store, namespace) => {
