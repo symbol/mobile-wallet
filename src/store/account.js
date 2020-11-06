@@ -3,7 +3,8 @@ import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStor
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import FetchTransactionService from '@src/services/FetchTransactionService';
-import { Pagination,
+import { 
+	Pagination,
 	getStateFromManagers,
 	getMutationsFromManagers
 } from '@src/utils/DataManager';

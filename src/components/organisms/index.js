@@ -1,5 +1,3 @@
-const { default: LoadingAnimation } = require("./LoadingAnimation");
-
 export PriceChart from './PriceChart';
 export AccountBalanceWidget from './AccountBalanceWidget';
 export BalanceWidget from './BalanceWidget';
