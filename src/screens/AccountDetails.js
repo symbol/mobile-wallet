@@ -19,40 +19,46 @@ type Props = {};
 
 type State = {};
 
-class AccountDetail extends Component<Props, State> {
+class AccountDetails extends Component<Props, State> {
     componentDidMount = () => {
-        Store.dispatchAction({ type: 'transfer/clear' });
+        Store.dispatchAction({ type: 'account/loadAccount' });
     };
 
 
     render = () => {
         const { 
+			accountName,
 			address,
 			publicKey,
 			privateKey,
 			balance,
 		} = this.props;
 
-       
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
-                <Section type="form" style={styles.list} isScrollable>
+                {/* TODO: Create table component and use it to display data below */}
+				<Section type="form" style={styles.list} isScrollable>
+					<Section type="form-item">
+                        <Input value={accountName} placeholder="Account name" theme="light" fullWidth editable={false} />
+                    </Section>
+					{/* TODO: Add copy button */}
                     <Section type="form-item">
-                        <Input value={address} placeholder="Address" theme="light" fullWidth />
+                        <Input value={address} placeholder="Address" theme="light" fullWidth editable={false} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={publicKey} placeholder="Public key" theme="light" fullWidth />
+                        <Input value={publicKey} placeholder="Public key" theme="light" fullWidth editable={false} />
+                    </Section>
+					{/* TODO: Add protected field with Passcode and timer */}
+					<Section type="form-item">
+                        <Input value={privateKey} placeholder="Private key" theme="light" fullWidth editable={false} />
                     </Section>
 					<Section type="form-item">
-                        <Input value={privateKey} placeholder="Private key" theme="light" fullWidth />
+                        <Input value={balance} placeholder="Balance" theme="light" fullWidth editable={false} />
                     </Section>
 					<Section type="form-item">
-                        <Input value={balance} placeholder="Balance" theme="light" fullWidth />
-                    </Section>
-					<Section type="form-item">
-                        <Text>
+                        <Text type="bold" theme="light">
 							Reveal account in the Block Explorer *link
 						</Text>
                     </Section>
@@ -64,8 +70,8 @@ class AccountDetail extends Component<Props, State> {
 
 export default connect(state => ({
 	accountName: state.account.selectedAccount.name,
-    address: state.account.selectedAccount,
+    address: state.account.selectedAccountAddress,
 	publicKey: 'TODO',
 	privateKey: state.account.selectedAccount.privateKey,
-	balance: state.account.balance,
-}))(AccountDetail);
+	balance: '' + state.account.balance,
+}))(AccountDetails);

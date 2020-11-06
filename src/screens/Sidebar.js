@@ -131,7 +131,7 @@ class Sidebar extends Component<Props, State> {
 	};
 
 	handleAccountDetails = () => {
-		console.log('Account details');
+		Router.goToAccountDetails({}, this.props.componentId);
 	};
 
 	handleSettingsClick = () => {
