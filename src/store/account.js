@@ -2,12 +2,15 @@ import AccountService from '@src/services/AccountService';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
+import FetchTransactionService from '@src/services/FetchTransactionService';
 
 export default {
     namespace: 'account',
     state: {
-        selectedAccount: null,
+		selectedAccount: null,
+		selectedAccountAddress: '',
         loading: false,
+        loadingTransactions: false,
         balance: 0,
         ownedMosaics: [],
         transactions: [],
@@ -16,9 +19,17 @@ export default {
         setSelectedAccount(state, payload) {
             state.account.selectedAccount = payload;
             return state;
-        },
+		},
+		setSelectedAccountAddress(state, payload) {
+            state.account.selectedAccountAddress = payload;
+            return state;
+		},
         setLoading(state, payload) {
             state.account.loading = payload;
+            return state;
+        },
+        setLoadingTransactions(state, payload) {
+            state.account.loadingTransactions = payload;
             return state;
         },
         setBalance(state, payload) {
@@ -48,7 +59,9 @@ export default {
                 accountModel = await AccountSecureStorage.getAccountById(id);
             } else {
                 accountModel = (await AccountSecureStorage.getAllAccounts())[0];
-            }
+			}
+			const address = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
+			commit({ type: 'account/setSelectedAccountAddress', payload: address });
             commit({ type: 'account/setSelectedAccount', payload: accountModel });
             await dispatchAction({ type: 'account/loadBalance' });
             await dispatchAction({ type: 'account/loadTransactions' });
@@ -61,9 +74,11 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadTransactions: async ({ commit, state }) => {
+            commit({ type: 'account/setLoadingTransactions', payload: true });
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const transactions = await AccountService.getTransactionsFromAddress(address, state.network.selectedNetwork);
+            const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setTransactions', payload: transactions });
+            commit({ type: 'account/setLoadingTransactions', payload: false });
         },
     },
 };

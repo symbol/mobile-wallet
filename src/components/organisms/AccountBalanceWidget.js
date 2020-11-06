@@ -7,12 +7,12 @@ import { connect } from 'react-redux';
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
     root: {
-        marginTop: 44,
+        marginTop: 34,
         width: '100%',
     },
     priceChart: {
         position: 'absolute',
-        top: -60,
+        top: -50,
         //left: -64
     },
     currencyText: {
@@ -66,7 +66,7 @@ class BalanceWidget extends Component<Props, State> {
 		const { balance } = this.props;
         return (
             <View style={styles.root}>
-                {!!showChart && <PriceChart style={styles.priceChart} />}
+                {!!false && <PriceChart style={styles.priceChart} />}
                 <Col>
                     <Row justify="center" align="end">
                         <Text style={styles.balanceText}>{balance} </Text>

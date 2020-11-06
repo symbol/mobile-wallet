@@ -36,7 +36,7 @@ type Props = {
 type State = {};
 
 class Home extends Component<Props, State> {
-    state = {};
+    state = { isSidebarShown: false };
 
     handleSettingsClick = () => {
         console.log(this.props.componentId);
@@ -44,31 +44,28 @@ class Home extends Component<Props, State> {
     };
 
     render() {
-        const { contentStyle = {}, componentId, accountName } = this.props;
+        const { contentStyle = {}, componentId, accountName, onOpenMenu } = this.props;
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector" fade={true}>
-                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="-" />
+            <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
 				<Section type="title">
-				<Row justify="space-between">
-					<Text type="bold" theme="dark">
-
-					</Text>
+				<Row justify="space-between" align="end" style={{marginTop: 17}}>
+					<TouchableOpacity onPress={() => onOpenMenu()}>
+						<Text type="bold">Acc.</Text>
+					</TouchableOpacity>
 					<Text type="bold" theme="dark">
                         { accountName }
 					</Text>
 					<Text type="bold" theme="dark">
-
+						QR
 					</Text>
 				</Row>
 				</Section>
                 <Col justify="space-around" style={contentStyle}>
-                    <BalanceWidget showChart={true} />
+                    <BalanceWidget showChart={false} />
                     <Section type="list">
                         <PluginList componentId={componentId} />
-                    </Section>
-                    <Section type="list" style={styles.list}>
                         {/* Notifications Mockup */}
                         <View style={styles.transactionPreview}>
                             <Row justify="space-between">
@@ -108,5 +105,6 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    accountName: state.account.selectedAccount.name,
+	accountName: state.account.selectedAccount.name,
+	address: state.account.selectedAccountAddress,
 }))(Home);

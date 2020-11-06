@@ -1,9 +1,9 @@
 import type { AccountModel } from '@src/storage/models/AccountModel';
-import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
-
+import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import {
     Account,
     Address,
+    CosignatureTransaction,
     Deadline,
     Mosaic,
     MosaicId,
@@ -13,10 +13,7 @@ import {
     TransactionHttp,
     TransferTransaction,
     UInt64,
-    EncryptedMessage,
-    Crypto,
-    PublicAccount,
-    RepositoryFactoryHttp, AccountHttp,
+    RepositoryFactoryHttp,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { getNativeMosaicId } from '@src/config/environment';
@@ -49,7 +46,12 @@ export default class TransactionService {
     static async _signAndBroadcastTransferTransactionModel(transaction: TransferTransactionModel, signer: AccountModel, networkModel: NetworkModel) {
         const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
-        const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility)))];
+        const mosaics = [
+            new Mosaic(
+                new MosaicId(transaction.mosaics[0].mosaicId),
+                UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility))
+            ),
+        ];
         const fee = this._resolveFee(transaction.fee);
         if (transaction.messageEncrypted === 'false') {
             const message = PlainMessage.create(transaction.messageText);
@@ -85,6 +87,22 @@ export default class TransactionService {
         const transactionHttp = new TransactionHttp(network.node);
         return transactionHttp.announce(signedTransaction).toPromise();
     };
+
+    /**
+     * Cosign and broadcast aggregate transactionModel
+     * @param transaction
+     * @param signer
+     * @param network
+     */
+    static cosignAndBroadcastAggregateTransactionModel(transaction: AggregateTransactionModel, signer: AccountModel, network: NetworkModel) {
+        const cosignatureTransaction = CosignatureTransaction.create(transaction.signTransactionObject);
+        const networkType = network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
+        const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
+        const signedTransaction = signerAccount.signCosignatureTransaction(cosignatureTransaction);
+
+        const transactionHttp = new TransactionHttp(network.node);
+        return transactionHttp.announceAggregateBondedCosignature(signedTransaction).toPromise();
+    }
 
     /**
      * Calculates fee
