@@ -18,7 +18,6 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { applyMiddleware } from 'redux';
-import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -89,6 +88,7 @@ class Send extends Component<Props, State> {
             <ConfirmTransaction
                 isLoading={this.props.isLoading}
                 isError={this.props.isError}
+                errorMessage={this.props.errorMessage}
                 isSuccessfullySent={this.props.isSuccessfullySent}
                 transaction={this.props.transaction}
                 submitActionName="transfer/broadcastTransaction"
@@ -156,6 +156,7 @@ class Send extends Component<Props, State> {
 export default connect(state => ({
     isLoading: state.transfer.isLoading,
     isError: state.transfer.isError,
+    errorMessage: state.transfer.errorMessage,
     isSuccessfullySent: state.transfer.isSuccessfullySent,
     transaction: state.transfer.transaction,
     ownedMosaics: state.account.ownedMosaics,

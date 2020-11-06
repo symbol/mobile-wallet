@@ -45,6 +45,7 @@ class ConfirmTransaction extends Component<Props, State> {
 		const {
 			isLoading,
 			isError,
+			errorMessage,
 			isSuccessfullySent,
 			transaction,
 			onBack
@@ -106,7 +107,7 @@ class ConfirmTransaction extends Component<Props, State> {
 					{isError &&
 						<Section type="center">
 							<Text type="bold" theme="light" align={"center"}>
-								{isError}
+								{errorMessage}
 							</Text>
 						</Section>
 					}
