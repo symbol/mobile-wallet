@@ -40,7 +40,7 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark' } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding } = this.props;
 		const {} = this.state;
 
 		let source;
@@ -91,6 +91,7 @@ export default class GradientBackground extends Component<Props, State> {
 					useAngle={true}
 					style={[styles.root, style]}
 				>
+					{!noPadding && 
 					<Container>
 						{!!source && <Image
 							style={styles.image}
@@ -98,6 +99,17 @@ export default class GradientBackground extends Component<Props, State> {
 						/>}
 						{children}
 					</Container>
+					}
+					{!!noPadding && 
+					<>
+						{!!source && <Image
+							style={styles.image}
+							source={source}
+						/>}
+						{children}
+					</>
+					}
+					
 				</LinearGradient>
 			</FadeView>
 			

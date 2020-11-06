@@ -6,8 +6,17 @@ import Card from '@src/components/atoms/Card';
 
 const styles = StyleSheet.create({
 	root: {
-		backgroundColor: '#fffe',
-		marginBottom: 10,
+		width: '100%',
+        borderRadius: 6,
+        marginTop: 0,
+        marginBottom: 8,
+        padding: 17,
+		paddingTop: 8,
+		paddingBottom: 8,
+        backgroundColor: '#fffd',
+	},
+	content: {
+		marginTop:0
 	}
 });
 
@@ -34,9 +43,6 @@ export default class New extends Component<Props> {
 					<Text theme="light"  type="regular" align={'right'} style={styles.content}>
 						{this.props.publicationDate}
 					</Text>
-					{/* <Text theme="light" type="regular" align={'right'} style={styles.content}>
-						{this.props.creator}
-					</Text> */}
 				</TouchableOpacity>
                 
             </Card>

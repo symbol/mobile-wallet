@@ -32,10 +32,13 @@ export default class C extends Component<Props, State> {
 				source = require('@src/assets/backgrounds/tanker.png');
 				break;
 			case 'solar':
-				source = require('@src/assets/backgrounds/solar.png');
+				source = require('@src/assets/backgrounds/solar_blur.png');
 				break;
 			case 'harvest':
 				source = require('@src/assets/backgrounds/harvest.png');
+				break;
+			case 'blue':
+				source = require('@src/assets/backgrounds/blue.png');
 				break;
 			case 'HomeMock':
 				source = require('@src/assets/mock.png');

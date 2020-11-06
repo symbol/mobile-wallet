@@ -38,7 +38,14 @@ type IconName = 'none'
 	| 'settings_dark'
 	| 'paste'
 	| 'qr'
-	| 'expand';
+	| 'expand'
+	| 'incoming_light'
+	| 'outgoing_light'
+	| 'options_dark'
+	| 'add_light'
+	| 'add_filled_light'
+	| 'delete_light'
+	| 'edit_light';
 
 type Size = 'large'
 	| 'big'
@@ -92,7 +99,10 @@ export default class C extends Component<Props, State> {
                 break;
             case 'settings_light':
                 source = require('@src/assets/icons/settings_light.png');
-                break;
+				break;
+			case 'settings_filled_light':
+				source = require('@src/assets/icons/settings_filled_light.png');
+				break;
             case 'settings_dark':
                 source = require('@src/assets/icons/settings_dark.png');
                 break;
@@ -104,7 +114,29 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'expand':
 				source = require('@src/assets/icons/expand.png');
-				break;default:
+				break;
+			case 'incoming_light':
+				source = require('@src/assets/icons/incoming.png');
+				break;
+			case 'outgoing_light':
+				source = require('@src/assets/icons/outgoing.png');
+				break;
+			case 'options_dark':
+				source = require('@src/assets/icons/options_dark.png');
+				break;
+			case 'add_light':
+				source = require('@src/assets/icons/add_light.png');
+				break;
+			case 'add_filled_light':
+				source = require('@src/assets/icons/add_filled_light.png');
+				break;
+			case 'delete_light':
+				source = require('@src/assets/icons/delete_light.png');
+				break;
+			case 'edit_light':
+				source = require('@src/assets/icons/edit_light.png');
+				break;
+			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;
         }

@@ -5,19 +5,6 @@ import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
-        width: '100%',
-        height: 60,
-        borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#fff5',
-    },
-    list: {
-        marginTop: 30,
-    },
 });
 
 type Props = {};
@@ -35,10 +22,7 @@ class Harvest extends Component<Props, State> {
             <ImageBackground name="harvest">
                 <TitleBar theme="light" title="Harvest" />
                 <Section type="list" style={styles.list}>
-                    {transactions &&
-                        transactions.map(tx => {
-                            return <Transaction transaction={tx} />;
-                        })}
+                    
                 </Section>
             </ImageBackground>
         );

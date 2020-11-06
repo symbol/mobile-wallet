@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
-import { Text, Row } from '@src/components';
-import type { FundsLockTransactionModel } from '@src/storage/models/TransactionModel';
+import { Text, Row, Trunc } from '@src/components';
+import type { TransactionModel, FundsLockTransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -26,7 +26,7 @@ export default class FundsLockTransaction extends Component<Props> {
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">
                     <Text type="regular" theme="light">
-                        {transaction.type}
+                        Transfer
                     </Text>
                     <Text type="regular" theme="light">
                         {transaction.deadline}
@@ -34,7 +34,9 @@ export default class FundsLockTransaction extends Component<Props> {
                 </Row>
                 <Row justify="space-between">
                     <Text type="bold" theme="light">
-                        {transaction.signerAddress.slice(0, 9)}...
+						<Trunc type="address">
+							{transaction.signerAddress}
+						</Trunc>
                     </Text>
                     <Text type="bold" theme="light">
                         Amount locked: {transaction.mosaic.amount / Math.pow(10, transaction.mosaic.divisibility)}

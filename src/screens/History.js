@@ -6,19 +6,6 @@ import { connect } from 'react-redux';
 import store from '@src/store';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
-        width: '100%',
-        height: 60,
-        borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#fff5',
-    },
-    list: {
-        marginTop: 30,
-    },
 });
 
 type Props = {};
@@ -44,7 +31,7 @@ class History extends Component<Props, State> {
                         loading...
                     </Text>
                 )}
-                <Section type="list" style={styles.list}>
+                <Section type="list" isScrollable>
                     {transactions &&
                         transactions.map(tx => {
                             return <Transaction transaction={tx} />;
