@@ -17,6 +17,15 @@ export class AccountSecureStorage extends BaseSecureStorage {
     }
 
     /**
+     * Creates a new account
+     * @returns {Promise<any>}
+     * @param accounts
+     */
+    static async saveAccounts(accounts: AccountModel[]): Promise<any> {
+        return this.secureSaveAsync(this.ACCOUNTS_KEY, JSON.stringify(accounts));
+    }
+
+    /**
      * Get all the accounts
      * @returns {Promise<AccountModel[]>}
      */

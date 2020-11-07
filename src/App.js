@@ -62,17 +62,16 @@ export const startApp = async () => {
     */
     setI18nConfig(store.getState().settings.selectedLanguage);
 
-    const mnemonic = await SecureStorage.retrieveMnemonic();
+    const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
 
     SplashScreen.hide();
 
+    await initStore();
     if (mnemonic) {
-        await initStore();
         scheduleBackgroundJob();
-        if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
+        if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
         else Router.goToDashboard();
-
     } else {
         /* TODO: SELECT FIRST PAGE
         goToOnBoarding({

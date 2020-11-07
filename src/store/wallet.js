@@ -1,5 +1,4 @@
-import { SecureStorage } from '@src/utils/storage/SecureStorage';
-import { NetworkType, Account } from 'symbol-sdk';
+import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 
 export default {
     namespace: 'wallet',
@@ -39,7 +38,7 @@ export default {
     },
     actions: {
         saveWallet: async ({ commit, state, dispatchAction }, payload) => {
-            await SecureStorage.saveMnemonic(state.wallet.mnemonic);
+            await MnemonicSecureStorage.saveMnemonic(state.wallet.mnemonic);
             await dispatchAction({ type: 'account/createHdAccount', payload: { name: state.wallet.name, index: 0 } });
         },
     },

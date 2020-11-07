@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import {
-	Checkbox, 
-	Section, 
-	GradientBackground, 
-	TitleBar, 
-	Input, 
-	InputAddress, 
-	Button, 
-	Dropdown, 
-	MosaicDropdown 
-} from '@src/components';
+import { StyleSheet } from 'react-native';
+import { Checkbox, Section, GradientBackground, TitleBar, Input, InputAddress, Button, Dropdown, MosaicDropdown } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
-import translate from '@src/locales/i18n';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-import { applyMiddleware } from 'redux';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -98,13 +86,21 @@ class Send extends Component<Props, State> {
     };
 
     render = () => {
-        const { ownedMosaics, isOwnedMosaicsLoading } = this.props;
+        const { ownedMosaics, isOwnedMosaicsLoading, network } = this.props;
         const { recipientAddress, mosaicName, amount, message, isEncrypted, fee, isConfirmShown } = this.state;
         const mosaicList = ownedMosaics.map(mosaic => ({
             value: mosaic.mosaicId,
             label: mosaic.mosaicName,
-            balance: mosaic.amount,
+            balance: mosaic.amount / Math.pow(10, mosaic.divisibility),
         }));
+
+        if (mosaicList.length === 0) {
+            mosaicList.push({
+                value: network.currencyMosaicId,
+                label: 'symbol.xym',
+                balance: 0,
+            });
+        }
 
         const feeList = [
             { value: 0.1, label: '0.1 XEM - slow' },
@@ -119,7 +115,13 @@ class Send extends Component<Props, State> {
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Send" />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
-                        <InputAddress value={recipientAddress} placeholder="Recipient Address" theme="light" fullWidth onChangeText={recipientAddress => this.setState({ recipientAddress })} />
+                        <InputAddress
+                            value={recipientAddress}
+                            placeholder="Recipient Address"
+                            theme="light"
+                            fullWidth
+                            onChangeText={recipientAddress => this.setState({ recipientAddress })}
+                        />
                     </Section>
                     <Section type="form-item">
                         <MosaicDropdown
@@ -138,7 +140,7 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.setState({ message })} />
                     </Section>
-					<Section type="form-item">
+                    <Section type="form-item">
                         <Checkbox value={isEncrypted} title="Encrypted message" theme="light" onChange={isEncrypted => this.setState({ isEncrypted })} />
                     </Section>
                     <Section type="form-item">
@@ -159,6 +161,7 @@ export default connect(state => ({
     errorMessage: state.transfer.errorMessage,
     isSuccessfullySent: state.transfer.isSuccessfullySent,
     transaction: state.transfer.transaction,
+    network: state.network.selectedNetwork,
     ownedMosaics: state.account.ownedMosaics,
     isOwnedMosaicsLoading: state.account.isLoading,
 }))(Send);

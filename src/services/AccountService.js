@@ -1,28 +1,18 @@
 import {
     AccountHttp,
-    AccountInfo,
     Account,
     Address,
     NetworkType,
-    TransactionHttp,
-    TransactionGroup,
-    Transaction,
-    TransferTransaction,
     Mosaic,
     MosaicHttp,
-    MosaicId,
     NamespaceHttp,
-    LockFundsTransaction,
-    AggregateTransactionCosignature, AggregateTransaction, InnerTransaction,
 } from 'symbol-sdk';
-import { getNativeMosaicId } from '@src/config/environment';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
-import type { TransactionModel, TransactionStatus, TransactionType } from '@src/storage/models/TransactionModel';
-import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
+import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 
 export default class AccountService {
     /**
@@ -53,6 +43,16 @@ export default class AccountService {
     }
 
     /**
+     * Remove account by it's id
+     */
+    static async removeAccountById(id: string): string {
+        const allAccounts = await AccountSecureStorage.getAllAccounts();
+        const filteredAccounts = allAccounts.filter(account => account.id !== id);
+        await AccountSecureStorage.saveAccounts(filteredAccounts);
+        return filteredAccounts;
+    }
+
+    /**
      * Creates an account from a mnemonic
      * @param mnemonic
      * @param index
@@ -64,7 +64,7 @@ export default class AccountService {
         const seed = mnemonicPassPhrase.toSeed().toString('hex');
         const extKey = ExtendedKey.createFromSeed(seed);
         const wallet = new Wallet(extKey);
-        const path = `m/44'/4343'/${index}'/0'/0'`;
+        const path = `m/44'/4343'/0'/${index}'/0'`;
         const privateKey = wallet.getChildAccountPrivateKey(path);
         const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
         return this.symbolAccountToAccountModel(symbolAccount, name, 'hd');

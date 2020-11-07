@@ -47,12 +47,11 @@ export default {
             commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: selectedNode });
             commit({ type: 'network/setIsLoaded', payload: true });
-            console.log(network);
             commit({
                 type: 'network/setSelectedNetwork',
                 payload: network,
             });
-            dispatchAction({ type: 'account/loadAccount' });
+            dispatchAction({ type: 'account/initState' });
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const networkInfo = await fetchNetworkInfo(payload);

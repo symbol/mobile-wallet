@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import {
-    Section,
-    GradientBackground,
-    BalanceWidget,
-    Text,
-    PluginList,
-    Col,
-    Row,
-    TitleBar,
-} from '@src/components';
+import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -49,19 +40,19 @@ class Home extends Component<Props, State> {
 
         return (
             <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
-				<Section type="title">
-				<Row justify="space-between" align="end" style={{marginTop: 17}}>
-					<TouchableOpacity onPress={() => onOpenMenu()}>
-						<Text type="bold">Acc.</Text>
-					</TouchableOpacity>
-					<Text type="bold" theme="dark">
-                        { accountName }
-					</Text>
-					<Text type="bold" theme="dark">
-						QR
-					</Text>
-				</Row>
-				</Section>
+                <Section type="title">
+                    <Row justify="space-between" align="end" style={{ marginTop: 17 }}>
+                        <TouchableOpacity onPress={() => onOpenMenu()}>
+                            <Text type="bold">Acc.</Text>
+                        </TouchableOpacity>
+                        <Text type="bold" theme="dark">
+                            {accountName}
+                        </Text>
+                        <Text type="bold" theme="dark">
+                            QR
+                        </Text>
+                    </Row>
+                </Section>
                 <Col justify="space-around" style={contentStyle}>
                     <BalanceWidget showChart={false} />
                     <Section type="list">
@@ -105,6 +96,6 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
-	accountName: state.account.selectedAccount.name,
-	address: state.account.selectedAccountAddress,
+    accountName: state.account.selectedAccount.name,
+    address: state.account.selectedAccountAddress,
 }))(Home);
