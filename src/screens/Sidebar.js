@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { Section, GradientBackground, Text, Icon, Col, OptionsMenu, Row, SymbolGradientContainer, Trunc } from '@src/components';
+import { Section, GradientBackground, Text, Icon, Col, OptionsMenu, Row, SymbolGradientContainer, Trunc, Input, Button } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import PopupModal from '@src/components/molecules/PopupModal';
 
 const styles = StyleSheet.create({
     root: {
@@ -91,10 +92,18 @@ type Props = {
     componentId: string,
 };
 
-type State = {};
+type State = {
+    isNameModalOpen: boolean,
+    editingAccountId: string,
+    newName: string,
+};
 
 class Sidebar extends Component<Props, State> {
-    state = {};
+    state = {
+        isNameModalOpen: false,
+        editingAccountId: '',
+        newName: '',
+    };
 
     handleSelectAccount = id => {
         store.dispatchAction({ type: 'account/loadAccount', payload: id });
@@ -104,12 +113,24 @@ class Sidebar extends Component<Props, State> {
         store.dispatchAction({ type: 'account/removeAccount', payload: id });
     };
 
-    handleRenameAccount = index => {
-        console.log('Rename account #' + index);
+    handleOpenRenameAccountModal = (id, name) => {
+        this.setState({
+            isNameModalOpen: true,
+            editingAccountId: id,
+            newName: name,
+        });
+    };
+
+    handleRenameAccount = _ => {
+        const { editingAccountId, newName } = this.state;
+        store.dispatchAction({ type: 'account/renameAccount', payload: { id: editingAccountId, newName: newName } });
+        this.setState({
+            isNameModalOpen: false,
+        });
     };
 
     handleAddAccount = () => {
-        store.dispatchAction({ type: 'account/createHdAccount', payload: { name: 'dummy-' + Math.round(Math.random() * 100) } });
+        Router.goToCreateAccount({}, this.props.componentId);
     };
 
     handleAccountDetails = () => {
@@ -143,9 +164,9 @@ class Sidebar extends Component<Props, State> {
         );
     };
 
-    renderAccountSelectorItem = ({ name, balance, id, type }) => {
+    renderAccountSelectorItem = ({ name, balance, id, type, path }) => {
         const options = [
-            { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleRenameAccount(id) },
+            { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
             { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(id) },
         ];
 
@@ -159,7 +180,7 @@ class Sidebar extends Component<Props, State> {
                 </Row>
 
                 <Text type="regular" align="right">
-                    {type === 'hd' ? 'Seed account' : 'Private key account'}
+                    {type === 'hd' ? `Seed account (${path})` : 'Private key account'}
                 </Text>
             </TouchableOpacity>
         );
@@ -180,7 +201,7 @@ class Sidebar extends Component<Props, State> {
 
     render = () => {
         const { accounts, selectedAccount, isVisible } = this.props;
-        const {} = this.state;
+        const { isNameModalOpen, newName } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
             { iconName: 'settings_filled_light', text: 'Settings', onPress: () => this.handleSettingsClick() },
@@ -203,6 +224,25 @@ class Sidebar extends Component<Props, State> {
                             <Section style={styles.menuBottomContainer}>{menuItems.map(this.renderMenuItem)}</Section>
                         </Col>
                     </TouchableOpacity>
+                    <PopupModal
+                        isModalOpen={isNameModalOpen}
+                        showTopbar={true}
+                        title={'Change name'}
+                        showClose={true}
+                        onClose={() => this.setState({ isNameModalOpen: false })}>
+                        <Section type="form-item">
+                            <Input
+                                value={newName}
+                                placeholder="Account name"
+                                theme="light"
+                                editable={true}
+                                onChangeText={newName => this.setState({ newName })}
+                            />
+                        </Section>
+                        <Section type="form-bottom">
+                            <Button text="Rename" theme="light" onPress={() => this.handleRenameAccount()} />
+                        </Section>
+                    </PopupModal>
                 </GradientBackground>
             </TouchableOpacity>
         );

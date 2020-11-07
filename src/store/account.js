@@ -79,8 +79,19 @@ export default {
             }
         },
         createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
-            const mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
-            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index || mnemonicModel.lastIndexDerived, name);
+            let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
+            if (!index && index !== 0) {
+                mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
+                index = mnemonicModel.lastIndexDerived;
+            }
+            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
+            await AccountSecureStorage.createNewAccount(accountModel);
+            const accounts = await AccountSecureStorage.getAllAccounts();
+            commit({ type: 'account/setAccounts', payload: accounts });
+            await dispatchAction({ type: 'account/loadAccount', payload: accountModel.id });
+        },
+        createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
+            const accountModel = AccountService.createFromPrivateKey(privateKey, name);
             await AccountSecureStorage.createNewAccount(accountModel);
             const accounts = await AccountSecureStorage.getAllAccounts();
             commit({ type: 'account/setAccounts', payload: accounts });
@@ -107,6 +118,14 @@ export default {
         removeAccount: async ({ commit, dispatchAction, state }, id) => {
             commit({ type: 'account/setLoading', payload: true });
             const accounts = await AccountService.removeAccountById(id);
+            commit({ type: 'account/setAccounts', payload: accounts });
+            commit({ type: 'account/setLoading', payload: false });
+        },
+        renameAccount: async ({ commit, dispatchAction, state }, { id, newName }) => {
+            commit({ type: 'account/setLoading', payload: true });
+            const accounts = await AccountService.renameAccount(id, newName);
+            const selectedAccount = await AccountSecureStorage.getAccountById(state.account.selectedAccount.id);
+            commit({ type: 'account/setSelectedAccount', payload: selectedAccount });
             commit({ type: 'account/setAccounts', payload: accounts });
             commit({ type: 'account/setLoading', payload: false });
         },

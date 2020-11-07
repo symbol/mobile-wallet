@@ -53,6 +53,20 @@ export default class AccountService {
     }
 
     /**
+     * Renames account by it's id
+     */
+    static async renameAccount(id: string, newName: string): string {
+        const allAccounts = await AccountSecureStorage.getAllAccounts();
+        allAccounts.forEach(account => {
+            if (account.id === id) {
+                account.name = newName;
+            }
+        });
+        await AccountSecureStorage.saveAccounts(allAccounts);
+        return allAccounts;
+    }
+
+    /**
      * Creates an account from a mnemonic
      * @param mnemonic
      * @param index
@@ -67,7 +81,18 @@ export default class AccountService {
         const path = `m/44'/4343'/0'/${index}'/0'`;
         const privateKey = wallet.getChildAccountPrivateKey(path);
         const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
-        return this.symbolAccountToAccountModel(symbolAccount, name, 'hd');
+        return this.symbolAccountToAccountModel(symbolAccount, name, 'hd', path);
+    }
+
+    /**
+     * Creates an account from a mnemonic
+     * @param privateKey
+     * @param name
+     * @returns {AccountModel}
+     */
+    static createFromPrivateKey(privateKey: string, name: string): AccountModel {
+        const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
+        return this.symbolAccountToAccountModel(symbolAccount, name, 'privateKey');
     }
 
     /**
@@ -126,14 +151,16 @@ export default class AccountService {
      * @param account
      * @param name
      * @param type
+     * @param path
      * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
      */
-    static symbolAccountToAccountModel(account: Account, name: string, type: AccountOriginType): AccountModel {
+    static symbolAccountToAccountModel(account: Account, name: string, type: AccountOriginType, path?: string): AccountModel {
         return {
             id: account.publicKey,
             name: name,
             type: type,
             privateKey: account.privateKey,
+            path: path,
         };
     }
 }

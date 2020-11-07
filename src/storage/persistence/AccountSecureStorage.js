@@ -12,7 +12,9 @@ export class AccountSecureStorage extends BaseSecureStorage {
      */
     static async createNewAccount(account: AccountModel): Promise<AccountModel> {
         const accounts = await this.getAllAccounts();
-        accounts.push(account);
+        if (!accounts.find(el => el.id === account.id)) {
+            accounts.push(account);
+        }
         return this.secureSaveAsync(this.ACCOUNTS_KEY, JSON.stringify(accounts));
     }
 
