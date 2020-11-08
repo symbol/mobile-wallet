@@ -24,6 +24,7 @@ import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Harvest from '@src/screens/Harvest';
 import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
+import Receive from '@src/screens/Receive';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -42,6 +43,7 @@ export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
+export const RECEIVE_SCREEN = `${BASE_SCREEN_NAME}.RECEIVE_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
 export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
@@ -69,6 +71,7 @@ export class Router {
         [PASSCODE_SCREEN, Passcode],
         [WALLET_LOADING_SCREEN, WalletLoading],
         [SEND_SCREEN, Send],
+        [RECEIVE_SCREEN, Receive],
         [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
         [HARVEST_SCREEN, Harvest],
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],

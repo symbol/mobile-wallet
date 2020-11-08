@@ -16,7 +16,7 @@ import {
     RepositoryFactoryHttp,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import { getNativeMosaicId } from '@src/config/environment';
+import { TransactionQR } from 'symbol-qr-library';
 
 export default class TransactionService {
     /**
@@ -113,5 +113,26 @@ export default class TransactionService {
         const networkCurrencyDivisibility = 6; // replace
         const k = Math.pow(10, networkCurrencyDivisibility);
         return UInt64.fromUint(unresolvedFee * k);
+    };
+
+    /**
+     * Receive QR Data
+     * @param recipientAddress
+     * @param network
+     * @param message
+     * @returns {Promise<void>}
+     */
+    static getReceiveSvgQRData = async (recipientAddress, network, message) => {
+        const netwrokType = network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
+        const transferTransaction = TransferTransaction.create(
+            Deadline.create(),
+            Address.createFromRawAddress(recipientAddress),
+            [new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(10 * Math.pow(10, 6)))],
+            PlainMessage.create(message),
+            netwrokType,
+            UInt64.fromUint(2000000)
+        );
+        const txQR = new TransactionQR(transferTransaction, netwrokType, network.generationHash);
+        return txQR.toString('svg').toPromise();
     };
 }
