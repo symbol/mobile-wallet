@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { Section, GradientBackground, TitleBar, Input, Text } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
+import { getExplorerURL } from '@src/config/environment';
 
 const styles = StyleSheet.create({});
 
@@ -11,6 +12,11 @@ type Props = {};
 type State = {};
 
 class AccountDetails extends Component<Props, State> {
+    openExplorer() {
+        const { address } = this.props;
+        Linking.openURL(`${getExplorerURL()}accounts/${address.replace(/-/g, '')}`);
+    }
+
     render = () => {
         const { accountName, address, publicKey, privateKey, balance } = this.props;
         return (
@@ -36,9 +42,11 @@ class AccountDetails extends Component<Props, State> {
                         <Input value={balance} placeholder="Balance" theme="light" fullWidth editable={false} />
                     </Section>
                     <Section type="form-item">
-                        <Text type="bold" theme="light">
-                            Reveal account in the Block Explorer *link
-                        </Text>
+                        <TouchableOpacity onPress={() => this.openExplorer()}>
+                            <Text type="bold" theme="light">
+                                Reveal account in the Block Explorer
+                            </Text>
+                        </TouchableOpacity>
                     </Section>
                 </Section>
             </GradientBackground>
