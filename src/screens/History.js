@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, Text, Row, TitleBar } from '@src/components';
+import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
     list: {
@@ -15,9 +16,16 @@ type Props = {};
 
 type State = {};
 
+const allFilters = [
+    { value: 'recent', label: 'Recent' },
+    { value: 'confirmed', label: 'Confirmed' },
+    { value: 'unconfirmed', label: 'Unconfirmed' },
+];
+
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
+        filterValue: 'recent',
     };
 
     componentDidMount() {
@@ -36,19 +44,34 @@ class History extends Component<Props, State> {
                 showingDetails: index,
             });
         }
-    }
+    };
+
+    onSelectFilter = filterValue => {
+        this.setState({ filterValue });
+    };
 
     render() {
         const { dataManager } = this.props;
-        const { showingDetails } = this.state;
+        const { showingDetails, filterValue } = this.state;
         const transactions = dataManager.data;
+        const filteredTransactions = transactions.filter((tx: TransactionModel) => {
+            switch (filterValue) {
+                case 'confirmed':
+                    return tx.status === 'confirmed';
+                case 'unconfirmed':
+                    return tx.status === 'unconfirmed';
+                default:
+                    return true;
+            }
+        });
 
         return (
             <ImageBackground name="tanker" dataManager={dataManager}>
                 <TitleBar theme="light" title="Transactions" />
+                <Dropdown list={allFilters} title={'Filter'} value={filterValue} onChange={this.onSelectFilter} />
                 <Section type="list" style={styles.list} isScrollable>
-                    {transactions &&
-                        transactions.map((tx, index) => {
+                    {filteredTransactions &&
+                        filteredTransactions.map((tx, index) => {
                             return (
                                 <TouchableOpacity onPress={() => this.showDetails(index)}>
                                     <Transaction transaction={tx} showDetails={showingDetails === index} />
