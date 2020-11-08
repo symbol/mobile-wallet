@@ -36,7 +36,7 @@ export default {
         },
     },
     actions: {
-        initState: async ({ commit, state, dispatchAction }) => {
+        initState: async ({ commit, dispatchAction }) => {
             let selectedNode = await AsyncCache.getSelectedNode();
             if (!selectedNode) {
                 const network = getDefaultNetworkType();
@@ -51,7 +51,7 @@ export default {
                 type: 'network/setSelectedNetwork',
                 payload: network,
             });
-            dispatchAction({ type: 'account/initState' });
+            await dispatchAction({ type: 'wallet/initState' });
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const networkInfo = await fetchNetworkInfo(payload);
@@ -59,7 +59,7 @@ export default {
             commit({ type: 'network/setNetwork', payload: networkInfo.network });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
-            dispatchAction({ type: 'account/loadAccount' });
+            dispatchAction({ type: 'wallet/loadAccount' });
         },
     },
 };

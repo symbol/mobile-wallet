@@ -69,7 +69,7 @@ export default {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
-                await TransactionService.signAndBroadcastTransactionModel(payload, state.account.selectedAccount, state.network.selectedNetwork);
+                await TransactionService.signAndBroadcastTransactionModel(payload, state.wallet.selectedAccount, state.network.selectedNetwork);
                 commit({ type: 'transfer/setLoading', payload: false });
                 commit({ type: 'transfer/setSuccessfullySent', payload: true });
             } catch (e) {
@@ -83,7 +83,7 @@ export default {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
-                await TransactionService.cosignAndBroadcastAggregateTransactionModel(payload, state.account.selectedAccount, state.network.selectedNetwork);
+                await TransactionService.cosignAndBroadcastAggregateTransactionModel(payload, state.wallet.selectedAccount, state.network.selectedNetwork);
                 commit({ type: 'transfer/setLoading', payload: false });
                 commit({ type: 'transfer/setSuccessfullySent', payload: true });
             } catch (e) {

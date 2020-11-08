@@ -26,7 +26,7 @@ class AggregateTransaction extends Component<Props> {
     sign() {
         const { transaction } = this.props;
         store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
-            store.dispatchAction({ type: 'account/loadAccount' });
+            store.dispatchAction({ type: 'wallet/loadAccount' });
         });
     }
 
@@ -69,5 +69,5 @@ class AggregateTransaction extends Component<Props> {
 
 export default connect(state => ({
     isLoading: state.transfer.isLoading,
-    selectedAccount: state.account.selectedAccount,
+    selectedAccount: state.wallet.selectedAccount,
 }))(AggregateTransaction);

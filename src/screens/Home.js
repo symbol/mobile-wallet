@@ -96,6 +96,6 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    accountName: state.account.selectedAccount.name,
+    accountName: state.wallet.selectedAccount.name,
     address: state.account.selectedAccountAddress,
 }))(Home);

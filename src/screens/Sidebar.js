@@ -106,11 +106,11 @@ class Sidebar extends Component<Props, State> {
     };
 
     handleSelectAccount = id => {
-        store.dispatchAction({ type: 'account/loadAccount', payload: id });
+        store.dispatchAction({ type: 'wallet/loadAccount', payload: id });
     };
 
     handleDeleteAccount = id => {
-        store.dispatchAction({ type: 'account/removeAccount', payload: id });
+        store.dispatchAction({ type: 'wallet/removeAccount', payload: id });
     };
 
     handleOpenRenameAccountModal = (id, name) => {
@@ -123,7 +123,7 @@ class Sidebar extends Component<Props, State> {
 
     handleRenameAccount = _ => {
         const { editingAccountId, newName } = this.state;
-        store.dispatchAction({ type: 'account/renameAccount', payload: { id: editingAccountId, newName: newName } });
+        store.dispatchAction({ type: 'wallet/renameAccount', payload: { id: editingAccountId, newName: newName } });
         this.setState({
             isNameModalOpen: false,
         });
@@ -251,8 +251,8 @@ class Sidebar extends Component<Props, State> {
 
 export default connect(state => ({
     address: state.account.selectedAccountAddress,
-    selectedAccount: state.account.selectedAccount,
+    selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
     nativeMosaicNamespace: 'XYM',
-    accounts: state.account.accounts,
+    accounts: state.wallet.accounts,
 }))(Sidebar);

@@ -55,9 +55,9 @@ class AccountDetails extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    accountName: state.account.selectedAccount.name,
+    accountName: state.wallet.selectedAccount.name,
     address: state.account.selectedAccountAddress,
-    publicKey: state.account.selectedAccount.id,
-    privateKey: state.account.selectedAccount.privateKey,
+    publicKey: state.wallet.selectedAccount.id,
+    privateKey: state.wallet.selectedAccount.privateKey,
     balance: '' + state.account.balance,
 }))(AccountDetails);

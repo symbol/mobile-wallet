@@ -37,14 +37,14 @@ export default class CreateAccount extends Component {
     createSeedAccount = async () => {
         this.setState({ loading: true });
         const { name, index } = this.state;
-        await store.dispatchAction({ type: 'account/createHdAccount', payload: { index, name } });
+        await store.dispatchAction({ type: 'wallet/createHdAccount', payload: { index, name } });
         this.goBack();
     };
 
     createPrivateKeyAccount = async () => {
         this.setState({ loading: true });
         const { name, privateKey } = this.state;
-        await store.dispatchAction({ type: 'account/createPkAccount', payload: { privateKey, name } });
+        await store.dispatchAction({ type: 'wallet/createPkAccount', payload: { privateKey, name } });
         this.goBack();
     };
 

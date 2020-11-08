@@ -6,7 +6,7 @@ import FetchTransactionService from '@src/services/FetchTransactionService';
 import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
 
 const fetchAccountTransactions = async ({ state }) => {
-    const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.selectedNetwork.type);
+    const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
     const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
     return { data: transactions };
 };
@@ -37,14 +37,6 @@ export default {
     },
     mutations: {
         ...getMutationsFromManagers(managers, 'account'),
-        setAccounts(state, payload) {
-            state.account.accounts = payload;
-            return state;
-        },
-        setSelectedAccount(state, payload) {
-            state.account.selectedAccount = payload;
-            return state;
-        },
         setSelectedAccountAddress(state, payload) {
             state.account.selectedAccountAddress = payload;
             return state;
@@ -71,43 +63,10 @@ export default {
         },
     },
     actions: {
-        initState: async ({ commit, state, dispatchAction }) => {
-            const accounts = await AccountSecureStorage.getAllAccounts();
-            commit({ type: 'account/setAccounts', payload: accounts });
-            if (accounts.length > 0) {
-                await dispatchAction({ type: 'account/loadAccount' });
-            }
-        },
-        createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
-            let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
-            if (!index && index !== 0) {
-                mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
-                index = mnemonicModel.lastIndexDerived;
-            }
-            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
-            await AccountSecureStorage.createNewAccount(accountModel);
-            const accounts = await AccountSecureStorage.getAllAccounts();
-            commit({ type: 'account/setAccounts', payload: accounts });
-            await dispatchAction({ type: 'account/loadAccount', payload: accountModel.id });
-        },
-        createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
-            const accountModel = AccountService.createFromPrivateKey(privateKey, name);
-            await AccountSecureStorage.createNewAccount(accountModel);
-            const accounts = await AccountSecureStorage.getAllAccounts();
-            commit({ type: 'account/setAccounts', payload: accounts });
-            await dispatchAction({ type: 'account/loadAccount', payload: accountModel.id });
-        },
-        loadAccount: async ({ commit, dispatchAction, state }, id) => {
+        loadAllData: async ({ commit, dispatchAction, state }) => {
             commit({ type: 'account/setLoading', payload: true });
-            let accountModel;
-            if (id) {
-                accountModel = await AccountSecureStorage.getAccountById(id);
-            } else {
-                accountModel = (await AccountSecureStorage.getAllAccounts())[0];
-            }
-            const address = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             commit({ type: 'account/setSelectedAccountAddress', payload: address });
-            commit({ type: 'account/setSelectedAccount', payload: accountModel });
             commit({ type: 'account/setBalance', payload: 0 });
             commit({ type: 'account/setOwnedMosaics', payload: [] });
             commit({ type: 'account/setTransactions', payload: [] });
@@ -115,22 +74,8 @@ export default {
             await dispatchAction({ type: 'account/loadTransactions' });
             commit({ type: 'account/setLoading', payload: false });
         },
-        removeAccount: async ({ commit, dispatchAction, state }, id) => {
-            commit({ type: 'account/setLoading', payload: true });
-            const accounts = await AccountService.removeAccountById(id);
-            commit({ type: 'account/setAccounts', payload: accounts });
-            commit({ type: 'account/setLoading', payload: false });
-        },
-        renameAccount: async ({ commit, dispatchAction, state }, { id, newName }) => {
-            commit({ type: 'account/setLoading', payload: true });
-            const accounts = await AccountService.renameAccount(id, newName);
-            const selectedAccount = await AccountSecureStorage.getAccountById(state.account.selectedAccount.id);
-            commit({ type: 'account/setSelectedAccount', payload: selectedAccount });
-            commit({ type: 'account/setAccounts', payload: accounts });
-            commit({ type: 'account/setLoading', payload: false });
-        },
         loadBalance: async ({ commit, state }) => {
-            const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
+            const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
