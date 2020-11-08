@@ -17,15 +17,15 @@ type Props = {};
 type State = {};
 
 const allFilters = [
-    { value: 'recent', label: 'Recent' },
-    { value: 'confirmed', label: 'Confirmed' },
-    { value: 'unconfirmed', label: 'Unconfirmed' },
+    { value: 'all', label: 'All' },
+    { value: 'sent', label: 'Sent' },
+    { value: 'received', label: 'Received' },
 ];
 
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
-        filterValue: 'recent',
+        filterValue: 'all',
     };
 
     componentDidMount() {
@@ -51,15 +51,15 @@ class History extends Component<Props, State> {
     };
 
     render() {
-        const { dataManager } = this.props;
+        const { dataManager, address } = this.props;
         const { showingDetails, filterValue } = this.state;
         const transactions = dataManager.data;
         const filteredTransactions = transactions.filter((tx: TransactionModel) => {
             switch (filterValue) {
-                case 'confirmed':
-                    return tx.status === 'confirmed';
-                case 'unconfirmed':
-                    return tx.status === 'unconfirmed';
+                case 'sent':
+                    return tx.signerAddress === address;
+                case 'received':
+                    return tx.signerAddress !== address;
                 default:
                     return true;
             }
@@ -86,4 +86,5 @@ class History extends Component<Props, State> {
 
 export default connect(state => ({
     dataManager: state.account.transactionListManager,
+    address: state.account.selectedAccountAddress,
 }))(History);
