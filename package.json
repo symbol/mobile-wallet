@@ -16,6 +16,7 @@
   "dependencies": {
     "@haskkor/react-native-pincode": "1.22.0",
     "@react-native-community/async-storage": "^1.5.0",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^4.3.0",
     "@react-native-community/push-notification-ios": "^1.0.7",
     "@tradle/react-native-http": "^2.0.0",
@@ -53,7 +54,6 @@
     "react-native-check-box": "^2.1.7",
     "react-native-crypto": "^2.1.0",
     "react-native-draggable-flatlist": "^2.3.1",
-    "react-native-elements": "^3.0.0-alpha.1",
     "react-native-flash-message": "^0.1.15",
     "react-native-fs": "^2.14",
     "react-native-gesture-handler": "1.6.0",
