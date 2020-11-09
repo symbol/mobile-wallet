@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import {
+	Icon,
 	Section,
-	GradientBackground,
-	TitleBar,
 	Text,
-	Button
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -35,7 +33,7 @@ class TableView extends Component<Props, State> {
 		return <Text type="regular" theme="light">copy {value}</Text>
 	};
 	render_boolean = (value) => {
-		return <Text type="regular" theme="light">bool {value}</Text>
+		return <Icon name={value + '_light'} size="small"/>
 	};
 	render_amount = (value) => {
 		return <Text type="regular" theme="light">amount {value}</Text>

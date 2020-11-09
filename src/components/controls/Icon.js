@@ -45,7 +45,10 @@ type IconName = 'none'
 	| 'add_light'
 	| 'add_filled_light'
 	| 'delete_light'
-	| 'edit_light';
+	| 'edit_light'
+	| 'true_light'
+	| 'true_dark'
+	| 'false_light';
 
 type Size = 'large'
 	| 'big'
@@ -135,6 +138,15 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'edit_light':
 				source = require('@src/assets/icons/edit_light.png');
+				break;
+			case 'true_light':
+				source = require('@src/assets/icons/true_light.png');
+				break;
+			case 'true_dark':
+				source = require('@src/assets/icons/true_dark.png');
+				break;
+			case 'false_light':
+				source = require('@src/assets/icons/false_light.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
