@@ -69,12 +69,22 @@ class TableView extends Component<Props, State> {
 		const {
 			data
 		} = this.props;
+		
+		let _data = data;
 
 		if(data === null || typeof data !== 'object')
 			return null;
+			
+		if(!Array.isArray(data))
+			_data = Object
+				.keys(data)
+				.map(key => ({
+					key, 
+					value: data[key]
+				}));
 
         return (
-			data.map(el => <Section type="form-item">
+			_data.map(el => <Section type="form-item">
 				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>
 				{this.renderItem(el.key, el.value)}
 			</Section>)
@@ -82,6 +92,7 @@ class TableView extends Component<Props, State> {
     };
 }
 
-export default connect(state => ({
+export default TableView;
+// connect(state => ({
 
-}))(TableView);
+// }))(TableView);

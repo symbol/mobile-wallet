@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, Text } from '@src/components';
+import { Section, GradientBackground, TitleBar, Input, Text, TableView } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { getExplorerURL } from '@src/config/environment';
@@ -18,23 +18,30 @@ class AccountDetails extends Component<Props, State> {
     }
 
     render = () => {
-        const { accountName, address, publicKey, privateKey, balance } = this.props;
+		const { accountName, address, publicKey, privateKey, balance } = this.props;
+		const data = {
+			accountName,
+			address,
+			publicKey,
+			privateKey,
+			balance
+		};
+		
         return (
             <GradientBackground name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
                 {/* TODO: Create table component and use it to display data below */}
                 <Section type="form" style={styles.list} isScrollable>
-                    <Section type="form-item">
+					<TableView data={data} />
+                    {/* <Section type="form-item">
                         <Input value={accountName} placeholder="Account name" theme="light" fullWidth editable={false} />
                     </Section>
-                    {/* TODO: Add copy button */}
                     <Section type="form-item">
                         <Input value={address} placeholder="Address" theme="light" fullWidth editable={false} />
                     </Section>
                     <Section type="form-item">
                         <Input value={publicKey} placeholder="Public key" theme="light" fullWidth editable={false} />
                     </Section>
-                    {/* TODO: Add protected field with Passcode and timer */}
                     <Section type="form-item">
                         <Input value={privateKey} placeholder="Private key" theme="light" fullWidth editable={false} />
                     </Section>
@@ -47,7 +54,7 @@ class AccountDetails extends Component<Props, State> {
                                 Reveal account in the Block Explorer
                             </Text>
                         </TouchableOpacity>
-                    </Section>
+                    </Section> */}
                 </Section>
             </GradientBackground>
         );
