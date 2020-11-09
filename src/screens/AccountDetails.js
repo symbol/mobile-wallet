@@ -26,35 +26,12 @@ class AccountDetails extends Component<Props, State> {
 			privateKey,
 			balance
 		};
-		
+
         return (
             <GradientBackground name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
-                {/* TODO: Create table component and use it to display data below */}
                 <Section type="form" style={styles.list} isScrollable>
 					<TableView data={data} />
-                    {/* <Section type="form-item">
-                        <Input value={accountName} placeholder="Account name" theme="light" fullWidth editable={false} />
-                    </Section>
-                    <Section type="form-item">
-                        <Input value={address} placeholder="Address" theme="light" fullWidth editable={false} />
-                    </Section>
-                    <Section type="form-item">
-                        <Input value={publicKey} placeholder="Public key" theme="light" fullWidth editable={false} />
-                    </Section>
-                    <Section type="form-item">
-                        <Input value={privateKey} placeholder="Private key" theme="light" fullWidth editable={false} />
-                    </Section>
-                    <Section type="form-item">
-                        <Input value={balance} placeholder="Balance" theme="light" fullWidth editable={false} />
-                    </Section>
-                    <Section type="form-item">
-                        <TouchableOpacity onPress={() => this.openExplorer()}>
-                            <Text type="bold" theme="light">
-                                Reveal account in the Block Explorer
-                            </Text>
-                        </TouchableOpacity>
-                    </Section> */}
                 </Section>
             </GradientBackground>
         );
