@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text as NativeText, TouchableOpacity, StyleSheet, View } from 'react-native';
-import { Row, Text, CopyView } from '@src/components';
+import { Row, Text, CopyView, FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -61,14 +61,14 @@ export default class SecretView extends Component<Props, State> {
 	
 
 		if(isSecretShown)
-        return (<Row wrap>
+        return (<FadeView><Row wrap>
 			<CopyView type="regular" theme={theme} style={style}>
 				{children}
 			</CopyView>
 			<View style={styles.progressBar}>
 				<View style={[{width: counter * 10 + '%'}, styles.progressBarInner]} />
 			</View>
-		</Row>);
+		</Row></FadeView>);
 		else
 		return (
 			<TouchableOpacity onPress={() => this.onShowClick()}>
