@@ -48,7 +48,8 @@ type IconName = 'none'
 	| 'edit_light'
 	| 'true_light'
 	| 'true_dark'
-	| 'false_light';
+	| 'false_light'
+	| 'copy';
 
 type Size = 'large'
 	| 'big'
@@ -147,6 +148,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'false_light':
 				source = require('@src/assets/icons/false_light.png');
+				break;
+			case 'copy':
+				source = require('@src/assets/icons/copy.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
