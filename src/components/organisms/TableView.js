@@ -4,7 +4,8 @@ import {
 	Icon,
 	Section,
 	Text,
-	Row
+	Row,
+	SecretView
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -43,12 +44,7 @@ class TableView extends Component<Props, State> {
 		</Row>)
 	};
 	render_secret = (value) => {
-		return (<Row align="center" justify="space-between">
-			<Text type="regular" theme="light" style={{marginRight: 5, maxWidth: '90%'}}>{value}</Text>
-			<TouchableOpacity style={{padding: 10}} onPress={() => copyToClipboard(value)}>
-				<Icon name="copy" size="small" />
-			</TouchableOpacity>
-		</Row>)
+		return <SecretView theme="light">{value}</SecretView>
 	};
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>

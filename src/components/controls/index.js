@@ -9,3 +9,4 @@ export InputAddress from './InputAddress';
 export Button from './Button';
 export Dropdown from './Dropdown';
 export MosaicDropdown from './MosaicDropdown';
+export SecretView from './SecretView';
