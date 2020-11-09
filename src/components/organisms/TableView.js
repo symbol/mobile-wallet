@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
 	Icon,
 	Section,
 	Text,
+	Row
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Router } from "@src/Router";
+import { copyToClipboard } from '@src/utils';
 import { connect } from 'react-redux';
 
 
@@ -33,7 +34,12 @@ class TableView extends Component<Props, State> {
 	state = {};
 
 	render_copyButton = (value) => {
-		return <Text type="regular" theme="light">copy {value}</Text>
+		return (<Row align="center" justify="space-between">
+			<Text type="regular" theme="light" style={{marginRight: 5, maxWidth: '90%'}}>{value}</Text>
+			<TouchableOpacity onPress={() => copyToClipboard(value)}>
+				<Icon name="copy" size="small" />
+			</TouchableOpacity>
+		</Row>)
 	};
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>

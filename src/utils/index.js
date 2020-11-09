@@ -1,4 +1,5 @@
-import Clipboard from '@react-native-community/clipboard';
+// import Clipboard from '@react-native-community/clipboard';
+import { Clipboard } from 'react-native'; // Remove after fix https://github.com/react-native-clipboard/clipboard/issues/71
 
 export const getDropdownListFromObjct = 
 	obj => Object
