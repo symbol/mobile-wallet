@@ -7,6 +7,7 @@ import {
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from "@src/Router";
 import { connect } from 'react-redux';
 
@@ -18,7 +19,9 @@ const renderTypeMap = {
 	amount: ['amount', 'fee']
 };
 const styles = StyleSheet.create({
-	
+	amount: {
+		color: GlobalStyles.color.RED
+	}
 });
 
 type Props = {};
@@ -36,7 +39,7 @@ class TableView extends Component<Props, State> {
 		return <Icon name={value + '_light'} size="small"/>
 	};
 	render_amount = (value) => {
-		return <Text type="regular" theme="light">amount {value}</Text>
+		return <Text type="regular" theme="light" style={styles.amount}>-{value}</Text>
 	};
 
 	renderItem = (key, value) => {
