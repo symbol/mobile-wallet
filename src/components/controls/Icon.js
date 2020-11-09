@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
-import GlobalStyles from '../../styles/GlobalStyles';
-
 
 
 const styles = StyleSheet.create({
