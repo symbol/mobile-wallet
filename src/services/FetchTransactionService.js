@@ -12,11 +12,7 @@ import {
 } from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import type {
-    AggregateTransactionModel,
-    TransactionModel,
-    TransferTransactionModel,
-} from '@src/storage/models/TransactionModel';
+import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
@@ -48,6 +44,20 @@ export default class FetchTransactionService {
 
     /**
      * Returns balance from a given Address and a node
+     * @param rawAddresses
+     * @param network
+     * @returns {Promise<number>}
+     */
+    static async getTransactionsFromAddresses(rawAddresses: string[], network: NetworkModel): Promise<any> {
+        const allTransactionsPerAddress = await Promise.all(rawAddresses.map(address => this.getTransactionsFromAddress(address, network)));
+        return allTransactionsPerAddress.reduce((acc, txList, i) => {
+            acc[rawAddresses[i]] = txList;
+            return acc;
+        }, {});
+    }
+
+    /**
+     * Returns balance from a given Address and a node
      * @param rawAddress
      * @param network
      * @returns {Promise<number>}
@@ -55,19 +65,15 @@ export default class FetchTransactionService {
     static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
         const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
-        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
-        const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 100 };
-        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
+        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 25 };
+        const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 25 };
+        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 25 };
         const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
             transactionHttp.search(confirmedSearchCriteria).toPromise(),
             transactionHttp.search(partialSearchCriteria).toPromise(),
             transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
         ]);
-        const allTransactions = [
-            ...unconfirmedTransactions.data,
-            ...partialTransactions.data,
-            ...confirmedTransactions.data.reverse(),
-        ];
+        const allTransactions = [...unconfirmedTransactions.data, ...partialTransactions.data, ...confirmedTransactions.data.reverse()];
         return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network)));
     }
 

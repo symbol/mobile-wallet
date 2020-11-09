@@ -5,7 +5,7 @@ import {
     NetworkType,
     Mosaic,
     MosaicHttp,
-    NamespaceHttp,
+    NamespaceHttp, MultisigHttp,
 } from 'symbol-sdk';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
@@ -162,5 +162,20 @@ export default class AccountService {
             privateKey: account.privateKey,
             path: path,
         };
+    }
+
+    /**
+     * Gets multisig information
+     * @param address
+     * @param network
+     * @returns {Promise<*[]>}
+     */
+    static async getCosignatoryOfByAddress(address: string, network: NetworkModel): Promise<string[]> {
+        try {
+            const multisigInfo = await new MultisigHttp(network.node).getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise();
+            return multisigInfo.multisigAddresses.map(address => address.pretty());
+        } catch (e) {
+            return [];
+        }
     }
 }
