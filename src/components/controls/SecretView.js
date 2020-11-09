@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text as NativeText, TouchableOpacity, StyleSheet, View } from 'react-native';
-import { Row, Text } from '@src/components';
+import { Row, Text, CopyView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -62,9 +62,9 @@ export default class SecretView extends Component<Props, State> {
 
 		if(isSecretShown)
         return (<Row wrap>
-			<Text type="regular" theme={theme} style={style} wrap>
+			<CopyView type="regular" theme={theme} style={style}>
 				{children}
-			</Text>
+			</CopyView>
 			<View style={styles.progressBar}>
 				<View style={[{width: counter * 10 + '%'}, styles.progressBarInner]} />
 			</View>

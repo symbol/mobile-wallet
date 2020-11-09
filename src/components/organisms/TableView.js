@@ -5,6 +5,7 @@ import {
 	Section,
 	Text,
 	Row,
+	CopyView,
 	SecretView
 } from '@src/components';
 import translate from "@src/locales/i18n";
@@ -36,12 +37,7 @@ class TableView extends Component<Props, State> {
 	state = {};
 
 	render_copyButton = (value) => {
-		return (<Row align="center" justify="space-between">
-			<Text type="regular" theme="light" style={{marginRight: 5, maxWidth: '90%'}}>{value}</Text>
-			<TouchableOpacity style={{padding: 10}} onPress={() => copyToClipboard(value)}>
-				<Icon name="copy" size="small" />
-			</TouchableOpacity>
-		</Row>)
+		return <CopyView theme="light">{value}</CopyView>
 	};
 	render_secret = (value) => {
 		return <SecretView theme="light">{value}</SecretView>
