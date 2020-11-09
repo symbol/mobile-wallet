@@ -387,6 +387,11 @@
 		"recipientAddress": "Recipient Address",
 		"messageText": "Message / Memo",
 		"messageEncrypted": "Message encryption",
-		"fee": "Fee"
+		"fee": "Fee",
+		"accountName": "Account name",
+		"address": "Address",
+		"publicKey": "Public key",
+		"privateKey": "Private key",
+		"balance": "Balance"
 	}
 }

@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 
 const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
-	copyButton: ['recipientAddress', 'signerAddress'],
+	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey'],
 	boolean: ['messageEncrypted'],
-	amount: ['amount', 'fee']
+	amount: ['amount', 'fee'],
+	secret: ['privateKey']
 };
 const styles = StyleSheet.create({
 	amount: {
@@ -36,7 +37,15 @@ class TableView extends Component<Props, State> {
 	render_copyButton = (value) => {
 		return (<Row align="center" justify="space-between">
 			<Text type="regular" theme="light" style={{marginRight: 5, maxWidth: '90%'}}>{value}</Text>
-			<TouchableOpacity onPress={() => copyToClipboard(value)}>
+			<TouchableOpacity style={{padding: 10}} onPress={() => copyToClipboard(value)}>
+				<Icon name="copy" size="small" />
+			</TouchableOpacity>
+		</Row>)
+	};
+	render_secret = (value) => {
+		return (<Row align="center" justify="space-between">
+			<Text type="regular" theme="light" style={{marginRight: 5, maxWidth: '90%'}}>{value}</Text>
+			<TouchableOpacity style={{padding: 10}} onPress={() => copyToClipboard(value)}>
 				<Icon name="copy" size="small" />
 			</TouchableOpacity>
 		</Row>)
