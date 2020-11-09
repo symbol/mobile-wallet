@@ -5,7 +5,8 @@ import {
 	GradientBackground,
 	TitleBar,
 	Text,
-	Button
+	Button,
+	TableView
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -81,11 +82,7 @@ class ConfirmTransaction extends Component<Props, State> {
 				/>
 				{isPreviewShown &&
 				<Section type="form" style={styles.list} isScrollable>
-					{preview.map(el => <Section type="form-item">
-						<Text type="bold" theme="light">{el.key}:</Text>
-						<Text type="regular" theme="light">{el.value}</Text>
-					</Section>)}
-
+					<TableView data={preview} />
 					<Section type="form-bottom">
 						<Button
 							isLoading={false}
