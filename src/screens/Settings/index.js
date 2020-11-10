@@ -4,7 +4,7 @@ import translate from '@src/locales/i18n';
 import styles from './Settings.styl';
 import { Router } from '@src/Router';
 
-import { 
+import {
 	SymbolPageView,
 	SettingsCurrencySelector,
 	SettingsLanguageSelector,
@@ -13,7 +13,7 @@ import {
 	SettingsBackup,
 	SettingsAboutNem,
 	SettingsLogout,
-	SettingsNodeSelector 
+	SettingsNodeSelector
 } from '@src/components';
 
 export default class Settings extends Component {
@@ -32,7 +32,7 @@ export default class Settings extends Component {
 					<SettingsCurrencySelector />
 					<SettingsLanguageSelector />
 					<SettingsNotificationSelector />
-					<SettingsPasscodeSelector />
+					<SettingsPasscodeSelector {...this.props} />
 					<SettingsNodeSelector />
 					<SettingsBackup {...this.props} />
 					<SettingsAboutNem />
