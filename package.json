@@ -16,6 +16,7 @@
   "dependencies": {
     "@haskkor/react-native-pincode": "1.22.0",
     "@react-native-community/async-storage": "^1.5.0",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^4.3.0",
     "@react-native-community/push-notification-ios": "^1.0.7",
     "@tradle/react-native-http": "^2.0.0",
@@ -100,7 +101,7 @@
     "stream-http": "^3.0.0",
     "string_decoder": "~0.10.25",
     "symbol-hd-wallets": "0.14.0-alpha-202010231206",
-    "symbol-qr-library": "0.13.0",
+    "symbol-qr-library": "0.13.1-alpha-202010241730",
     "symbol-sdk": "0.20.7",
     "timers-browserify": "^1.0.1",
     "tls-browserify": "^0.2.2",
