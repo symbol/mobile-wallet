@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, TitleBar } from '@src/components';
+import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -30,7 +30,6 @@ class Home extends Component<Props, State> {
     state = { isSidebarShown: false };
 
     handleSettingsClick = () => {
-        console.log(this.props.componentId);
         Router.goToSettings({}, this.props.componentId);
     };
 
@@ -48,9 +47,9 @@ class Home extends Component<Props, State> {
                         <Text type="bold" theme="dark">
                             {accountName}
                         </Text>
-                        <Text type="bold" theme="dark">
-                            QR
-                        </Text>
+                        <TouchableOpacity onPress={() => this.handleSettingsClick()}>
+                            <Icon name="settings_dark" style={styles.menuItemIcon} />
+                        </TouchableOpacity>
                     </Row>
                 </Section>
                 <Col justify="space-around" style={contentStyle}>
