@@ -202,10 +202,7 @@ class Sidebar extends Component<Props, State> {
     render = () => {
         const { accounts, selectedAccount, isVisible } = this.props;
         const { isNameModalOpen, newName } = this.state;
-        const menuItems = [
-            { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
-            { iconName: 'settings_filled_light', text: 'Settings', onPress: () => this.handleSettingsClick() },
-        ];
+        const menuItems = [{ iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() }];
 
         if (!isVisible) return null;
 

@@ -2402,11 +2402,6 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-catbuffer-typescript@0.0.21:
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.0.21.tgz#1c1918ba3609db21f6656d8177fb642682d5618b"
-  integrity sha512-fKz6NoojjWOf7eJRZeh3pH6wMkxTXSfH/55yfzaImnhTQeaL6j1xiYElgWDDkKDJe2N4UWUJywRjbfT96I/GJw==
-
 catbuffer-typescript@0.0.22:
   version "0.0.22"
   resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.0.22.tgz#a4ebbb3a91575ca38e6cf8b7193497b6d3345d63"
@@ -8667,13 +8662,6 @@ rxjs@^6.5.2, rxjs@^6.5.3:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^6.5.4:
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
-  integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
-  dependencies:
-    tslib "^1.9.0"
-
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
@@ -9332,24 +9320,6 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-symbol-hd-wallets@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/symbol-hd-wallets/-/symbol-hd-wallets-0.13.0.tgz#405c3701ba0695af13bd22c6418f8d0254a6919e"
-  integrity sha512-hu/+j4Bvsr5sWMwoEbdYAriQwcHTxtm4NUXF8z/HqSLZOa2euOgZsvP3KHhE4M4oN/GuA5CdrIVIC3qn4uyihg==
-  dependencies:
-    "@types/bip32" "^1.0.2"
-    bip32 "^1.0.4"
-    bip39 "^3.0.2"
-    bip44-constants "^8.0.5"
-    bs58check "^2.1.2"
-    create-hash "^1.2.0"
-    create-hmac "^1.1.7"
-    js-sha3 "^0.8.0"
-    rxjs "^6.5.4"
-    symbol-sdk "^0.21.0"
-    tiny-secp256k1 "^1.1.3"
-    tweetnacl "^1.0.3"
-
 symbol-hd-wallets@0.14.0-alpha-202010231206:
   version "0.14.0-alpha-202010231206"
   resolved "https://registry.yarnpkg.com/symbol-hd-wallets/-/symbol-hd-wallets-0.14.0-alpha-202010231206.tgz#ab4767a87bee089389c9c084f9d8fc83408d67d2"
@@ -9382,51 +9352,16 @@ symbol-openapi-typescript-fetch-client@0.10.0-3:
   resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.10.0-3.tgz#f4283b476690001d41943b53d1fc95f9990907bc"
   integrity sha512-cdRz7Nc/m2i7CC8wHtj//z5RxOKEKhS4l+fFQvh7YUlYcUPaHbgcq4RMXSZPmMJ4PnzocnqWpVKjMj5cTYgrPA==
 
-symbol-openapi-typescript-fetch-client@0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.9.6.tgz#6e6f35582d89eb0483fa46a4b04dd2c746e8e41a"
-  integrity sha512-ZZtR031IBkYfiG0bR26vGckKmUrJzY9sggXMusrqloxweNovtzf7Aqpx7nNEpCJdMNzwv+E0V8mYBwxgFuiMfg==
-
-symbol-qr-library@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.13.0.tgz#1a9f3f635a7d15fc53f8171770f2dd8afd6be66f"
-  integrity sha512-NZSMo+bcH4hinZr40pIqxSbLsWA1dAFUdGXVw2eG1PUlmQldv3UM4Un5STsKLwRlzHMMoeyBoaKKk01C4qsJPw==
+symbol-qr-library@0.13.1-alpha-202010241730:
+  version "0.13.1-alpha-202010241730"
+  resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.13.1-alpha-202010241730.tgz#af9badc7981883510bcb7567327401bf17466ff5"
+  integrity sha512-/ehn2WaDgs4LOl7kJK5SNyTKtIRROCMyUvwfHoQJFZp+xsHkSJ3x0G/Sr6qLgR4ZXlc4BQccKLRUHc7e1hHJzA==
   dependencies:
     braces ">=2.3.1"
     canvas "^2.6.1"
     crypto-js "^3.3.0"
     open "^7.0.2"
     qrcode "^1.4.4"
-    symbol-hd-wallets "0.13.0"
-    symbol-sdk "^0.21.0"
-
-symbol-sdk@0.20.7:
-  version "0.20.7"
-  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-0.20.7.tgz#6bfb0387228ed2e0570634430ac068849ca37651"
-  integrity sha512-313Uo/cev3ygvVLwTyDtnD1Qh56u4HeuUt5Q05R+WB3zjZl5xffXs5VKPRA4Th45/0Leyxk7oMPAS9hfFim5vw==
-  dependencies:
-    bluebird "^3.7.2"
-    catbuffer-typescript "0.0.21"
-    crypto-js "^4.0.0"
-    diff "^4.0.2"
-    futoin-hkdf "^1.3.1"
-    js-joda "^1.6.2"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
-    js-sha512 "^0.8.0"
-    long "^4.0.0"
-    merkletreejs "^0.1.7"
-    minimist "^1.2.5"
-    node-fetch "^2.6.0"
-    request "^2.88.0"
-    request-promise-native "^1.0.5"
-    ripemd160 "^2.0.2"
-    rxjs "^6.5.3"
-    rxjs-compat "^6.5.3"
-    symbol-openapi-typescript-fetch-client "0.9.6"
-    tweetnacl "^1.0.3"
-    utf8 "^3.0.0"
-    ws "^7.2.3"
 
 symbol-sdk@^0.21.0:
   version "0.21.0"

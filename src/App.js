@@ -64,10 +64,10 @@ export const startApp = async () => {
 
     const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
+    await initStore();
 
     SplashScreen.hide();
 
-    await initStore();
     if (mnemonic) {
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
@@ -118,8 +118,6 @@ export const setGlobalCustomFont = () => {
 };
 
 export const logout = async () => {
-    return Promise.all([
-        MnemonicSecureStorage.clear(),
-        AccountSecureStorage.clear(),
-    ]);
+    await Promise.all([AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
+    return initStore();
 };

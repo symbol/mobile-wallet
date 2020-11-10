@@ -25,6 +25,7 @@ import Harvest from '@src/screens/Harvest';
 import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
+import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -35,6 +36,7 @@ export const CREATE_QR_PASSWORD = `${BASE_SCREEN_NAME}.CREATE_QR_PASSWORD`;
 export const SHOW_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SHOW_QR_CODE_SCREEN`;
 export const IMPORT_OPTION_SCREEN = `${BASE_SCREEN_NAME}.IMPORT_OPTION_SCREEN`;
 export const SCAN_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_QR_CODE_SCREEN`;
+export const SCAN_GENERIC_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_GENERIC_QR_CODE_SCREEN`;
 export const ENTER_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.ENTER_MNEMONICS_SCREEN`;
 export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
@@ -62,6 +64,7 @@ export class Router {
         [SHOW_QR_CODE_SCREEN, ShowQRCode],
         [IMPORT_OPTION_SCREEN, ImportOptions],
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
+        [SCAN_GENERIC_QR_CODE_SCREEN, ScanGenericQRCode],
         [ENTER_MNEMONICS_SCREEN, EnterMnemonics],
         [DASHBOARD_SCREEN, Dashboard],
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
@@ -153,6 +156,10 @@ export class Router {
         return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
 
+    static scanQRCode(onRead, onClose) {
+        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose });
+    }
+
     static goToScreen(screen: string, passProps, parentComponent?) {
         setDefaultNavOptions();
         if (parentComponent) {
@@ -164,6 +171,10 @@ export class Router {
 
     static goBack(componentId) {
         return goBack(componentId);
+    }
+
+    static closeOverlay(componentId) {
+        Navigation.dismissOverlay(componentId);
     }
 }
 
@@ -267,4 +278,32 @@ const pushToStack = (parent, screen: string, passProps) => {
  */
 const goBack = component => {
     return Navigation.pop(component);
+};
+
+/**
+ * WIX navigation Overlay
+ * @param screen
+ * @param passProps
+ */
+const showOverlay = (screen, passProps) => {
+    Navigation.showOverlay({
+        component: {
+            name: screen,
+            passProps: { ...passProps },
+            options: {
+                overlay: {
+                    interceptTouchOutside: false,
+                },
+                layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'transparent',
+                    orientation: ['portrait'],
+                },
+                statusBar: {
+                    drawBehind: true,
+                    translucent: true,
+                },
+            },
+        },
+    });
 };

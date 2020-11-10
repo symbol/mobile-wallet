@@ -12,11 +12,7 @@ import {
 } from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import type {
-    AggregateTransactionModel,
-    TransactionModel,
-    TransferTransactionModel,
-} from '@src/storage/models/TransactionModel';
+import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
@@ -48,6 +44,20 @@ export default class FetchTransactionService {
 
     /**
      * Returns balance from a given Address and a node
+     * @param rawAddresses
+     * @param network
+     * @returns {Promise<number>}
+     */
+    static async getTransactionsFromAddresses(rawAddresses: string[], network: NetworkModel): Promise<any> {
+        const allTransactionsPerAddress = await Promise.all(rawAddresses.map(address => this.getTransactionsFromAddress(address, network)));
+        return allTransactionsPerAddress.reduce((acc, txList, i) => {
+            acc[rawAddresses[i]] = txList;
+            return acc;
+        }, {});
+    }
+
+    /**
+     * Returns balance from a given Address and a node
      * @param rawAddress
      * @param network
      * @returns {Promise<number>}
@@ -55,20 +65,40 @@ export default class FetchTransactionService {
     static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
         const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
-        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 100 };
-        const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 100 };
-        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 100 };
+        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 25 };
+        const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 25 };
+        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 25 };
         const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
             transactionHttp.search(confirmedSearchCriteria).toPromise(),
             transactionHttp.search(partialSearchCriteria).toPromise(),
             transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
         ]);
-        const allTransactions = [
-            ...unconfirmedTransactions.data,
-            ...partialTransactions.data,
-            ...confirmedTransactions.data.reverse(),
-        ];
-        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network)));
+        const allTransactions = [...unconfirmedTransactions.data, ...partialTransactions.data, ...confirmedTransactions.data.reverse()];
+        const preLoadedMosaics = await this._preLoadMosaics(allTransactions, network);
+        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network, preLoadedMosaics)));
+    }
+
+    /**
+     * Pre loads all mosaics from transaction list
+     * @param transactions
+     * @param network
+     * @returns {Promise<$TupleMap<Promise<MosaicModel>[]>>}
+     * @private
+     */
+    static async _preLoadMosaics(transactions: Transaction[], network: NetworkModel) {
+        const mosaics = {};
+        for (let transaction of transactions) {
+            if (transaction instanceof TransferTransaction) {
+                for (let mosaic of transaction.mosaics) {
+                    mosaics[mosaic.id.toHex()] = mosaic;
+                }
+            }
+        }
+        const mosaicModels = await Promise.all(Object.values(mosaics).map(mosaic => this._getMosaicModelFromMosaicId(mosaic, network)));
+        return mosaicModels.reduce((acc, mosaicModel) => {
+            acc[mosaicModel.mosaicId] = mosaicModel;
+            return acc;
+        }, {});
     }
 
     /**
@@ -76,8 +106,9 @@ export default class FetchTransactionService {
      * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
      * @param transaction
      * @param network
+     * @param preLoadedMosaics
      */
-    static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel): Promise<TransactionModel> {
+    static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel, preLoadedMosaics): Promise<TransactionModel> {
         let transactionModel: TransactionModel = {
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
             signerAddress: transaction.signer.address.pretty(),
@@ -86,9 +117,9 @@ export default class FetchTransactionService {
             fee: transaction.maxFee.toString(),
         };
         if (transaction instanceof TransferTransaction) {
-            transactionModel = await this._populateTransferTransactionModel(transactionModel, transaction, network);
+            transactionModel = await this._populateTransferTransactionModel(transactionModel, transaction, network, preLoadedMosaics);
         } else if (transaction instanceof LockFundsTransaction) {
-            transactionModel = await this._populateFundsLockTransactionModel(transactionModel, transaction, network);
+            transactionModel = await this._populateFundsLockTransactionModel(transactionModel, transaction, network, preLoadedMosaics);
         } else if (transaction instanceof AggregateTransaction) {
             transactionModel = await this._populateAggregateTransactionModel(transactionModel, transaction, network);
         }
@@ -100,24 +131,34 @@ export default class FetchTransactionService {
      * @param transactionModel
      * @param transaction
      * @param network
+     * @param preLoadedMosaics
      * @returns {Promise<void>}
      * @private
      */
     static async _populateTransferTransactionModel(
         transactionModel: TransactionModel,
         transaction: TransferTransaction,
-        network: NetworkModel
+        network: NetworkModel,
+        preLoadedMosaics?
     ): Promise<TransferTransactionModel> {
         const mosaicModels: MosaicModel[] = [];
         for (let mosaic of transaction.mosaics) {
-            const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+            let mosaicModel;
+            if (preLoadedMosaics && preLoadedMosaics[mosaic.id.toHex()]) {
+                mosaicModel = {
+                    ...preLoadedMosaics[mosaic.id.toHex()],
+                    amount: mosaic.amount.toString(),
+                };
+            } else {
+                mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+            }
             mosaicModels.push(mosaicModel);
         }
         return {
             ...transactionModel,
             type: 'transfer',
             recipientAddress: transaction.recipientAddress.pretty(),
-            messageText: transaction.message.message,
+            messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type,
             mosaics: mosaicModels,
         };
@@ -128,15 +169,26 @@ export default class FetchTransactionService {
      * @param transactionModel
      * @param transaction
      * @param network
+     * @param preLoadedMosaics
      * @returns {Promise<void>}
      * @private
      */
     static async _populateFundsLockTransactionModel(
         transactionModel: TransactionModel,
         transaction: LockFundsTransaction,
-        network: NetworkModel
+        network: NetworkModel,
+        preLoadedMosaics?
     ): Promise<FundsLockTransaction> {
-        const mosaicModel = await this._getMosaicModelFromMosaicId(transaction.mosaic, network);
+        let mosaicModel;
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
+            mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
+            mosaicModel = {
+                ...preLoadedMosaics[transaction.mosaic.id.toHex()],
+                amount: transaction.mosaic.amount.toString(),
+            };
+        } else {
+            mosaicModel = await this._getMosaicModelFromMosaicId(transaction.mosaic, network);
+        }
         return {
             ...transactionModel,
             type: 'fundsLock',

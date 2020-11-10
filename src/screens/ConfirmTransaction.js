@@ -10,68 +10,69 @@ import {
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
-import { Router } from "@src/Router";
+import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
-
 const styles = StyleSheet.create({
-	transactionPreview: {
+    transactionPreview: {
         width: '100%',
-		height: 60,
-		borderRadius: 6,
-		marginTop: 4,
-		marginBottom: 4,
-		padding: 17,
-		paddingTop: 8,
-		backgroundColor: '#fff5'
-	},
+        height: 60,
+        borderRadius: 6,
+        marginTop: 4,
+        marginBottom: 4,
+        padding: 17,
+        paddingTop: 8,
+        backgroundColor: '#fff5',
+    },
 });
 
 type Props = {};
 
 type State = {};
 
-
 class ConfirmTransaction extends Component<Props, State> {
-	state = {};
+    state = {};
 
-	submit = () => {
-		Store.dispatchAction({
-			type: this.props.submitActionName,
-			payload: this.props.transaction
-		});
-	};
+    submit = () => {
+        const finishAction = () => {
+            Store.dispatchAction({
+                type: this.props.submitActionName,
+                payload: this.props.transaction,
+            });
+        };
+
+        const { isPinSet } = this.props;
+        if (isPinSet) {
+            Router.showPasscode(
+                {
+                    resetPasscode: false,
+                    onSuccess: () => {
+                        Router.goBack(this.props.componentId);
+                        finishAction();
+                    },
+                },
+                this.props.componentId
+            );
+        } else {
+            finishAction();
+        }
+    };
 
     render = () => {
-		const {
-			isLoading,
-			isError,
-			errorMessage,
-			isSuccessfullySent,
-			transaction,
-			onBack
-		} = this.props;
+        const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
 
-		const {} = this.state;
+        const {} = this.state;
 
-		if (transaction.messageEncrypted) transaction.messageEncrypted = 'true';
-		else transaction.messageEncrypted = 'false';
+        const preview = Object.keys(transaction)
+            .map(key => ({ key, value: transaction[key].toString() }));
 
-		const preview = Object
-			.keys(transaction)
-			//TODO: WORKAROUND -> DISPLAY MOSAIC INFO
-			.filter(key => key !== 'mosaics')
-			.map(key => ({key, value: transaction[key]}));
+        const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
-		const isPreviewShown = !isLoading
-			&& !isError
-			&& !isSuccessfullySent;
-
-		const backFunction = isSuccessfullySent
-			? () => Router.goToDashboard()
-			: (typeof onBack === 'function'
-			? onBack
-			: ()=>Router.goBack(this.props.componentId));
+        const backFunction = isSuccessfullySent
+            ? () => Router.goToDashboard()
+            : typeof onBack === 'function'
+                ? onBack
+                : () => Router.goBack(this.props.componentId);
 
         return (
 			<GradientBackground name="connector_small" theme="light">
@@ -130,5 +131,5 @@ class ConfirmTransaction extends Component<Props, State> {
 }
 
 export default connect(state => ({
-
+    isPinSet: state.settings.isPasscodeSelected,
 }))(ConfirmTransaction);

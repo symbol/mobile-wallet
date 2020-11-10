@@ -7,46 +7,40 @@ import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 
 class SettingsPasscodeSelector extends Component {
-    state = {
-        reflected: true,
-    };
-
     onSelect = payload => {
         const setPasscode = () => {
-            store
-                .dispatchAction({type: 'settings/saveIsPasscodeSelected', payload: payload})
-                .then(_ => {
-                    this.setState({
-                        reflected: !this.state.reflected,
-                    });
-                    Router.goToDashboard({});
-                });
+            store.dispatchAction({ type: 'settings/saveIsPasscodeSelected', payload: payload }).then(_ => {
+                console.log('saved');
+                Router.goToDashboard({});
+            });
         };
 
         if (payload) {
-            Router.showPasscode({
-                disablePasscode: true,
-                resetPasscode: true,
-                onSuccess: setPasscode,
-            });
+            Router.showPasscode(
+                {
+                    resetPasscode: false,
+                    onSuccess: setPasscode,
+                },
+                this.props.componentId
+            );
         } else {
-            Router.showPasscode({
-                resetPasscode: false,
-                onSuccess: setPasscode,
-            });
+            Router.showPasscode(
+                {
+                    disablePasscode: true,
+                    resetPasscode: true,
+                    onSuccess: setPasscode,
+                },
+                this.props.componentId
+            );
         }
     };
 
     render() {
-        const {isPasscodeSelected} = this.props.settings;
+        const { isPasscodeSelected } = this.props;
         return (
             <View>
                 <SettingsListItem
-                    title={
-                        isPasscodeSelected
-                            ? translate('Settings.passcode.turnOffPasscode')
-                            : translate('Settings.passcode.turnOnPasscode')
-                    }
+                    title={isPasscodeSelected ? translate('Settings.passcode.turnOffPasscode') : translate('Settings.passcode.turnOnPasscode')}
                     icon={require('@src/assets/icons/ic-passcode.png')}
                     isSwitch={true}
                     itemValue={isPasscodeSelected}
@@ -58,5 +52,5 @@ class SettingsPasscodeSelector extends Component {
 }
 
 export default connect(state => ({
-    settings: state.settings,
+    isPasscodeSelected: state.settings.isPasscodeSelected,
 }))(SettingsPasscodeSelector);

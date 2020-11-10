@@ -53,7 +53,7 @@ export default class TransactionService {
             ),
         ];
         const fee = this._resolveFee(transaction.fee);
-        if (transaction.messageEncrypted === 'false') {
+        if (!transaction.messageEncrypted) {
             const message = PlainMessage.create(transaction.messageText);
             const transferTransaction = TransferTransaction.create(Deadline.create(), recipientAddress, mosaics, message, networkType, fee);
             return this._signAndBroadcast(transferTransaction, signer, networkModel);

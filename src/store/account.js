@@ -7,8 +7,11 @@ import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src
 
 const fetchAccountTransactions = async ({ state }) => {
     const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
-    const transactions = await FetchTransactionService.getTransactionsFromAddress(address, state.network.selectedNetwork);
-    return { data: transactions };
+    const transactionsByAddress = await FetchTransactionService.getTransactionsFromAddresses(
+        [address, ...state.account.cosignatoryOf],
+        state.network.selectedNetwork
+    );
+    return { data: transactionsByAddress };
 };
 
 const managers = [
@@ -32,8 +35,10 @@ export default {
         loadingTransactions: false,
         balance: 0,
         ownedMosaics: [],
-        transactions: [],
+        transactions: {},
         accounts: [],
+        cosignatoryOf: [],
+        cosignatoryTransactions: {},
     },
     mutations: {
         ...getMutationsFromManagers(managers, 'account'),
@@ -61,6 +66,10 @@ export default {
             state.account.transactions = payload;
             return state;
         },
+        setCosignatoryOf(state, payload) {
+            state.account.cosignatoryOf = payload;
+            return state;
+        },
     },
     actions: {
         loadAllData: async ({ commit, dispatchAction, state }) => {
@@ -70,8 +79,11 @@ export default {
             commit({ type: 'account/setBalance', payload: 0 });
             commit({ type: 'account/setOwnedMosaics', payload: [] });
             commit({ type: 'account/setTransactions', payload: [] });
-            await dispatchAction({ type: 'account/loadBalance' });
-            await dispatchAction({ type: 'account/loadTransactions' });
+            await Promise.all([
+                await dispatchAction({ type: 'account/loadBalance' }),
+                // await dispatchAction({ type: 'account/loadTransactions' }),
+                await dispatchAction({ type: 'account/loadCosignatoryOf' }),
+            ]);
             commit({ type: 'account/setLoading', payload: false });
         },
         loadBalance: async ({ commit, state }) => {
@@ -82,6 +94,11 @@ export default {
         },
         loadTransactions: async store => {
             store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+        },
+        loadCosignatoryOf: async ({ commit, state }) => {
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            const cosignatoryOf = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
+            commit({ type: 'account/setCosignatoryOf', payload: cosignatoryOf });
         },
     },
 };
