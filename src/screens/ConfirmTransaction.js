@@ -55,13 +55,8 @@ class ConfirmTransaction extends Component<Props, State> {
 
         const {} = this.state;
 
-        if (transaction.messageEncrypted) transaction.messageEncrypted = 'true';
-        else transaction.messageEncrypted = 'false';
-
         const preview = Object.keys(transaction)
-            //TODO: WORKAROUND -> DISPLAY MOSAIC INFO
-            .filter(key => key !== 'mosaics')
-            .map(key => ({ key, value: transaction[key] }));
+            .map(key => ({ key, value: transaction[key].toString() }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 

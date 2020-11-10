@@ -158,7 +158,7 @@ export default class FetchTransactionService {
             ...transactionModel,
             type: 'transfer',
             recipientAddress: transaction.recipientAddress.pretty(),
-            messageText: transaction.message.message,
+            messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type,
             mosaics: mosaicModels,
         };

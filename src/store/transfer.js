@@ -58,7 +58,7 @@ export default {
                     type: 'transfer',
                     recipientAddress: payload.recipientAddress,
                     messageText: payload.message,
-                    messageEncrypted: payload.isEncrypted,
+                    messageEncrypted: payload.messageEncrypted,
                     mosaics: payload.mosaics,
                     fee: payload.fee,
                 },

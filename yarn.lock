@@ -2442,10 +2442,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-catbuffer-typescript@0.0.21:
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.0.21.tgz#1c1918ba3609db21f6656d8177fb642682d5618b"
-  integrity sha512-fKz6NoojjWOf7eJRZeh3pH6wMkxTXSfH/55yfzaImnhTQeaL6j1xiYElgWDDkKDJe2N4UWUJywRjbfT96I/GJw==
+catbuffer-typescript@0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.0.22.tgz#a4ebbb3a91575ca38e6cf8b7193497b6d3345d63"
+  integrity sha512-Wip3kJFnXrsMRF+4yJSE/F+aEqrTYLPPXdNuVftHNl9oFaKwQ9si8oI2ruSu53QIR+/ohOlY4QYtOagRpHnrFg==
 
 center-align@^0.1.1:
   version "0.1.3"
@@ -9502,10 +9502,10 @@ symbol-observable@^1.2.0:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
 
-symbol-openapi-typescript-fetch-client@0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.9.6.tgz#6e6f35582d89eb0483fa46a4b04dd2c746e8e41a"
-  integrity sha512-ZZtR031IBkYfiG0bR26vGckKmUrJzY9sggXMusrqloxweNovtzf7Aqpx7nNEpCJdMNzwv+E0V8mYBwxgFuiMfg==
+symbol-openapi-typescript-fetch-client@0.10.0-3:
+  version "0.10.0-3"
+  resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.10.0-3.tgz#f4283b476690001d41943b53d1fc95f9990907bc"
+  integrity sha512-cdRz7Nc/m2i7CC8wHtj//z5RxOKEKhS4l+fFQvh7YUlYcUPaHbgcq4RMXSZPmMJ4PnzocnqWpVKjMj5cTYgrPA==
 
 symbol-qr-library@0.13.1-alpha-202010241730:
   version "0.13.1-alpha-202010241730"
@@ -9518,13 +9518,13 @@ symbol-qr-library@0.13.1-alpha-202010241730:
     open "^7.0.2"
     qrcode "^1.4.4"
 
-symbol-sdk@0.20.7:
-  version "0.20.7"
-  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-0.20.7.tgz#6bfb0387228ed2e0570634430ac068849ca37651"
-  integrity sha512-313Uo/cev3ygvVLwTyDtnD1Qh56u4HeuUt5Q05R+WB3zjZl5xffXs5VKPRA4Th45/0Leyxk7oMPAS9hfFim5vw==
+symbol-sdk@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-0.21.0.tgz#02a286f076d79e057214d3cccf4f1c33405b83a7"
+  integrity sha512-YFJ1PcVlFSivZe8RUOOGJJvXN2uleNTZB8ma6VONdz+obyI8QMAzdt4c6niyGTr76Md6dRQVJ/uaq+MpbJtDQg==
   dependencies:
     bluebird "^3.7.2"
-    catbuffer-typescript "0.0.21"
+    catbuffer-typescript "0.0.22"
     crypto-js "^4.0.0"
     diff "^4.0.2"
     futoin-hkdf "^1.3.1"
@@ -9541,7 +9541,7 @@ symbol-sdk@0.20.7:
     ripemd160 "^2.0.2"
     rxjs "^6.5.3"
     rxjs-compat "^6.5.3"
-    symbol-openapi-typescript-fetch-client "0.9.6"
+    symbol-openapi-typescript-fetch-client "0.10.0-3"
     tweetnacl "^1.0.3"
     utf8 "^3.0.0"
     ws "^7.2.3"

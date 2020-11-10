@@ -48,9 +48,8 @@ class Send extends Component<Props, State> {
             payload: {
                 recipientAddress: this.state.recipientAddress,
                 mosaics: [mosaic],
-                amount: this.state.amount,
                 message: this.state.message,
-                isEncrypted: this.state.isEncrypted,
+                messageEncrypted: this.state.isEncrypted,
                 fee: this.state.fee,
             },
         });
