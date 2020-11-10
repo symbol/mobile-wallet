@@ -140,7 +140,7 @@ export default class AccountService {
         }
         return {
             mosaicId: mosaic.id.toHex(),
-            mosaicName: mosaicName.names[0].name,
+            mosaicName: mosaicName && mosaicName.names && mosaicName.names[0] ? mosaicName.names[0].name : null,
             amount: mosaic.amount.toString(),
             divisibility: mosaicInfo.divisibility,
         };
