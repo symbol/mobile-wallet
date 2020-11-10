@@ -74,6 +74,7 @@ class Send extends Component<Props, State> {
     renderConfirmTransaction = () => {
         return (
             <ConfirmTransaction
+                componentId={this.props.componentId}
                 isLoading={this.props.isLoading}
                 isError={this.props.isError}
                 errorMessage={this.props.errorMessage}
