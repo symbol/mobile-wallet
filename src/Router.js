@@ -22,6 +22,8 @@ import Passcode from '@src/screens/Passcode';
 import Send from '@src/screens/Send';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Harvest from '@src/screens/Harvest';
+import AddressBook from '@src/screens/AddressBook';
+import AddContact from '@src/screens/AddContact';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -42,6 +44,8 @@ export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
+export const ADDRESS_BOOK_SCREEN = `${BASE_SCREEN_NAME}.ADDRESS_BOOK_SCREEN`;
+export const ADD_CONTACT_SCREEN = `${BASE_SCREEN_NAME}.ADD_CONTACT_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -65,8 +69,10 @@ export class Router {
         [PASSCODE_SCREEN, Passcode],
         [WALLET_LOADING_SCREEN, WalletLoading],
         [SEND_SCREEN, Send],
-		[CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
-		[HARVEST_SCREEN, Harvest]
+        [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
+        [HARVEST_SCREEN, Harvest],
+        [ADDRESS_BOOK_SCREEN, AddressBook],
+        [ADD_CONTACT_SCREEN, AddContact],
     ];
 
     static registerScreens() {
@@ -135,10 +141,16 @@ export class Router {
     }
     static showPasscode(passProps, parentComponent?) {
         return this.goToScreen(PASSCODE_SCREEN, passProps, parentComponent);
-	}
-	static goToHarvest(passProps, parentComponent?) {
+    }
+    static goToHarvest(passProps, parentComponent?) {
         return this.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
-	}
+    }
+    static goToAddressBook(passProps, parentComponent?) {
+        return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
+    }
+    static goToAddContact(passProps, parentComponent?) {
+        return this.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
+    }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
         setDefaultNavOptions();

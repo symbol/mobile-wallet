@@ -97,6 +97,7 @@
     "stream-browserify": "^2.0.2",
     "stream-http": "^3.0.0",
     "string_decoder": "~0.10.25",
+    "symbol-address-book": "^1.0.0",
     "symbol-hd-wallets": "0.14.0-alpha-202010231206",
     "symbol-sdk": "0.20.7",
     "symbol-qr-library": "0.13.0",

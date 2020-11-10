@@ -48,6 +48,7 @@ const initStore = async () => {
             store.dispatchAction({ type: 'market/loadMarketData' }),
             store.dispatchAction({ type: 'network/initState' }),
             store.dispatchAction({ type: 'news/loadNews' }),
+            store.dispatchAction({ type: 'addressBook/loadAddressBook' }),
         ]);
     } catch (e) {
         console.log(e);

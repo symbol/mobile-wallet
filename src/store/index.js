@@ -8,16 +8,18 @@ import transfer from '@src/store/transfer';
 import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
 import news from '@src/store/news';
+import addressBook from '@src/store/addressBook';
 
 const modules = {
     market,
     settings,
     network,
     wallet,
-	mosaic,
+    mosaic,
     transfer,
     account,
     news,
+    addressBook,
 };
 
 const createModuleReducer = (module, state = {}, action) => {
