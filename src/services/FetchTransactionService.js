@@ -145,7 +145,10 @@ export default class FetchTransactionService {
         for (let mosaic of transaction.mosaics) {
             let mosaicModel;
             if (preLoadedMosaics && preLoadedMosaics[mosaic.id.toHex()]) {
-                mosaicModel = preLoadedMosaics[mosaic.id.toHex()];
+                mosaicModel = {
+                    ...preLoadedMosaics[mosaic.id.toHex()],
+                    amount: mosaic.amount.toString(),
+                };
             } else {
                 mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
             }
@@ -179,6 +182,10 @@ export default class FetchTransactionService {
         let mosaicModel;
         if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
             mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
+            mosaicModel = {
+                ...preLoadedMosaics[transaction.mosaic.id.toHex()],
+                amount: transaction.mosaic.amount.toString(),
+            };
         } else {
             mosaicModel = await this._getMosaicModelFromMosaicId(transaction.mosaic, network);
         }
