@@ -23,12 +23,11 @@ import {MnemonicPassPhrase} from 'symbol-hd-wallets';
  * @param {Password} password
  */
 const generateMnemonicQR = (plain: string, plainPassword?: string): Observable => {
-    const mnemonic = new MnemonicPassPhrase(plain);
     const exportMnemonic = new MnemonicQR(
-        mnemonic,
-        plainPassword,
+        plain,
         NetworkType.MAIN_NET,
-        'no-chain-id'
+        'no-chain-id',
+        plainPassword,
     );
     return exportMnemonic.toString('svg');
 };

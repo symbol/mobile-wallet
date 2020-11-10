@@ -10,5 +10,6 @@ export interface AccountModel {
     id: number;
     name: string;
     type: AccountOriginType;
+    path?: string;
     privateKey: string;
 }

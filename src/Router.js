@@ -24,6 +24,10 @@ import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Harvest from '@src/screens/Harvest';
 import AddressBook from '@src/screens/AddressBook';
 import AddContact from '@src/screens/AddContact';
+import AccountDetails from '@src/screens/AccountDetails';
+import CreateAccount from '@src/screens/CreateAccount';
+import Receive from '@src/screens/Receive';
+import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -34,6 +38,7 @@ export const CREATE_QR_PASSWORD = `${BASE_SCREEN_NAME}.CREATE_QR_PASSWORD`;
 export const SHOW_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SHOW_QR_CODE_SCREEN`;
 export const IMPORT_OPTION_SCREEN = `${BASE_SCREEN_NAME}.IMPORT_OPTION_SCREEN`;
 export const SCAN_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_QR_CODE_SCREEN`;
+export const SCAN_GENERIC_QR_CODE_SCREEN = `${BASE_SCREEN_NAME}.SCAN_GENERIC_QR_CODE_SCREEN`;
 export const ENTER_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.ENTER_MNEMONICS_SCREEN`;
 export const DASHBOARD_SCREEN = `${BASE_SCREEN_NAME}.DASHBOARD_SCREEN`;
 export const VERIFY_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.VERIFY_MNEMONICS_SCREEN`;
@@ -42,10 +47,13 @@ export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
+export const RECEIVE_SCREEN = `${BASE_SCREEN_NAME}.RECEIVE_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
 export const ADDRESS_BOOK_SCREEN = `${BASE_SCREEN_NAME}.ADDRESS_BOOK_SCREEN`;
 export const ADD_CONTACT_SCREEN = `${BASE_SCREEN_NAME}.ADD_CONTACT_SCREEN`;
+export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
+export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -60,6 +68,7 @@ export class Router {
         [SHOW_QR_CODE_SCREEN, ShowQRCode],
         [IMPORT_OPTION_SCREEN, ImportOptions],
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
+        [SCAN_GENERIC_QR_CODE_SCREEN, ScanGenericQRCode],
         [ENTER_MNEMONICS_SCREEN, EnterMnemonics],
         [DASHBOARD_SCREEN, Dashboard],
         [VERIFY_MNEMONICS_SCREEN, VerifyMnemonics],
@@ -73,6 +82,11 @@ export class Router {
         [HARVEST_SCREEN, Harvest],
         [ADDRESS_BOOK_SCREEN, AddressBook],
         [ADD_CONTACT_SCREEN, AddContact],
+        [RECEIVE_SCREEN, Receive],
+        [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
+        [HARVEST_SCREEN, Harvest],
+        [ACCOUNT_DETAILS_SCREEN, AccountDetails],
+        [CREATE_ACCOUNT_SCREEN, CreateAccount],
     ];
 
     static registerScreens() {
@@ -145,6 +159,15 @@ export class Router {
     static goToHarvest(passProps, parentComponent?) {
         return this.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
     }
+    static goToAccountDetails(passProps, parentComponent?) {
+        return this.goToScreen(ACCOUNT_DETAILS_SCREEN, passProps, parentComponent);
+    }
+    static goToCreateAccount(passProps, parentComponent?) {
+        return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
+    }
+    static scanQRCode(onRead, onClose) {
+        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose });
+    }
     static goToAddressBook(passProps, parentComponent?) {
         return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
     }
@@ -163,6 +186,10 @@ export class Router {
 
     static goBack(componentId) {
         return goBack(componentId);
+    }
+
+    static closeOverlay(componentId) {
+        Navigation.dismissOverlay(componentId);
     }
 }
 
@@ -266,4 +293,32 @@ const pushToStack = (parent, screen: string, passProps) => {
  */
 const goBack = component => {
     return Navigation.pop(component);
+};
+
+/**
+ * WIX navigation Overlay
+ * @param screen
+ * @param passProps
+ */
+const showOverlay = (screen, passProps) => {
+    Navigation.showOverlay({
+        component: {
+            name: screen,
+            passProps: { ...passProps },
+            options: {
+                overlay: {
+                    interceptTouchOutside: false,
+                },
+                layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'transparent',
+                    orientation: ['portrait'],
+                },
+                statusBar: {
+                    drawBehind: true,
+                    translucent: true,
+                },
+            },
+        },
+    });
 };

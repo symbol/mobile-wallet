@@ -7,12 +7,12 @@ import { connect } from 'react-redux';
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
     root: {
-        marginTop: 34,
+        marginTop: 44,
         width: '100%',
     },
     priceChart: {
         position: 'absolute',
-        top: -50,
+        top: -60,
         //left: -64
     },
     currencyText: {

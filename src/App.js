@@ -63,17 +63,16 @@ export const startApp = async () => {
     */
     setI18nConfig(store.getState().settings.selectedLanguage);
 
-    const mnemonic = await SecureStorage.retrieveMnemonic();
+    const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
+    await initStore();
 
     SplashScreen.hide();
 
     if (mnemonic) {
-        await initStore();
         scheduleBackgroundJob();
-        if (isPin) Router.showPasscode({ resetPasscode: false,onSuccess: () => Router.goToDashboard() });
+        if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
         else Router.goToDashboard();
-
     } else {
         /* TODO: SELECT FIRST PAGE
         goToOnBoarding({
@@ -120,8 +119,6 @@ export const setGlobalCustomFont = () => {
 };
 
 export const logout = async () => {
-    return Promise.all([
-        MnemonicSecureStorage.clear(),
-        AccountSecureStorage.clear(),
-    ]);
+    await Promise.all([AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
+    return initStore();
 };

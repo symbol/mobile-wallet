@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import {
-    Section,
-    GradientBackground,
-    BalanceWidget,
-    Text,
-    PluginList,
-    Col,
-    Row,
-    TitleBar,
-} from '@src/components';
+import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -36,39 +27,35 @@ type Props = {
 type State = {};
 
 class Home extends Component<Props, State> {
-    state = {};
+    state = { isSidebarShown: false };
 
     handleSettingsClick = () => {
-        console.log(this.props.componentId);
         Router.goToSettings({}, this.props.componentId);
     };
 
     render() {
-        const { contentStyle = {}, componentId, accountName } = this.props;
+        const { contentStyle = {}, componentId, accountName, onOpenMenu } = this.props;
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector" fade={true}>
-                <TitleBar theme="dark" onSettings={this.handleSettingsClick} title="-" />
-				<Section type="title">
-				<Row justify="space-between">
-					<Text type="bold" theme="dark">
-
-					</Text>
-					<Text type="bold" theme="dark">
-                        { accountName }
-					</Text>
-					<Text type="bold" theme="dark">
-
-					</Text>
-				</Row>
-				</Section>
+            <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
+                <Section type="title">
+                    <Row justify="space-between" align="end" style={{ marginTop: 17 }}>
+                        <TouchableOpacity onPress={() => onOpenMenu()}>
+                            <Text type="bold">Acc.</Text>
+                        </TouchableOpacity>
+                        <Text type="bold" theme="dark">
+                            {accountName}
+                        </Text>
+                        <TouchableOpacity onPress={() => this.handleSettingsClick()}>
+                            <Icon name="settings_dark" style={styles.menuItemIcon} />
+                        </TouchableOpacity>
+                    </Row>
+                </Section>
                 <Col justify="space-around" style={contentStyle}>
-                    <BalanceWidget showChart={true} />
+                    <BalanceWidget showChart={false} />
                     <Section type="list">
                         <PluginList componentId={componentId} />
-                    </Section>
-                    <Section type="list" style={styles.list}>
                         {/* Notifications Mockup */}
                         <View style={styles.transactionPreview}>
                             <Row justify="space-between">
@@ -108,5 +95,6 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    accountName: state.account.selectedAccount.name,
+    accountName: state.wallet.selectedAccount.name,
+    address: state.account.selectedAccountAddress,
 }))(Home);

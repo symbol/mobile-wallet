@@ -55,9 +55,8 @@ export class AsyncCache {
     };
 
     static getIsPasscodeSelected = async () => {
-        const selected = !!(await this.get(this.SELECTED_PASSCODE_KEY));
-        if (!selected) return false;
-        else return selected;
+        const selected = await this.get(this.SELECTED_PASSCODE_KEY);
+        return selected === 'true';
     };
 
     static setIsPasscodeSelected = async payload => {
@@ -93,4 +92,15 @@ export class AsyncCache {
     static remove = async (key: string) => {
         return AsyncStorage.removeItem(key);
     };
+
+    static removeAll = async () => {
+        await Promise.all([
+            this.remove(this.SELECTED_NETWORK_KEY),
+            this.remove(this.SELECTED_CURRENCY_KEY),
+            this.remove(this.SELECTED_LANGUAGE_KEY),
+            this.remove(this.SELECTED_NOTIFICATION_KEY),
+            this.remove(this.SELECTED_PASSCODE_KEY),
+            this.remove(this.SELECTED_NODE_KEY),
+        ])
+    }
 }

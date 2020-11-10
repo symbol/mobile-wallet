@@ -10,6 +10,7 @@ import translate from '@src/locales/i18n';
 import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { deletePasscode, getPasscodeStatus } from '@src/utils/passcode';
+import { Router } from '@src/Router';
 
 type Props = {
     disablePasscode: boolean,
@@ -24,8 +25,6 @@ type State = {
 };
 
 class Passcode extends Component<Props, State> {
-    backHandler: any;
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -33,14 +32,6 @@ class Passcode extends Component<Props, State> {
             isLoading: true,
             isTouchIDEnabled: false,
         };
-    }
-
-    componentDidDisappear() {
-        this.backHandler && this.backHandler.remove();
-    }
-
-    componentDidAppear() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleCancel);
     }
 
     componentDidMount = async () => {
@@ -57,10 +48,9 @@ class Passcode extends Component<Props, State> {
     };
 
     handleCancel = async () => {
-        const { onSuccess } = this.props;
         const { isPinSet } = this.state;
         if (!isPinSet) {
-            await onSuccess();
+            Router.goBack(this.props.componentId);
             return true;
         }
         BackHandler.exitApp();

@@ -8,11 +8,12 @@ export class MnemonicSecureStorage extends BaseSecureStorage {
     /**
      * Save mnemonic
      * @param mnemonic
+     * @param index
      * @returns {Promise<string | null>}
      */
-    static async saveMnemonic(mnemonic: string): Promise<MnemonicModel> {
-        const mnemonicModel: MnemonicModel = { mnemonic: mnemonic, lastIndexDerived: 0 };
-        await this.secureSaveAsync(this.MNEMONIC_KEY, mnemonic);
+    static async saveMnemonic(mnemonic: string, index: number = -1): Promise<MnemonicModel> {
+        const mnemonicModel: MnemonicModel = { mnemonic: mnemonic, lastIndexDerived: index };
+        await this.secureSaveAsync(this.MNEMONIC_KEY, JSON.stringify(mnemonicModel));
         return mnemonicModel;
     }
 
@@ -20,8 +21,33 @@ export class MnemonicSecureStorage extends BaseSecureStorage {
      * Retrieves mnemonic model
      * @returns {Promise<MnemonicModel>}
      */
-    static retrieveMnemonic(): Promise<MnemonicModel> {
-        return this.secureRetrieveAsync(this.MNEMONIC_KEY);
+    static async retrieveMnemonic(): Promise<MnemonicModel> {
+        const mnemonic = await this.secureRetrieveAsync(this.MNEMONIC_KEY);
+        try {
+            return JSON.parse(mnemonic);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    /**
+     * Increases last bip derived path
+     * @returns {Promise<MnemonicModel>}
+     */
+    static async increaseLastBipDerivedPath(): Promise<MnemonicModel> {
+        const mnemonicModel = await this.retrieveMnemonic();
+        mnemonicModel.lastIndexDerived += 1;
+        return this.saveMnemonic(mnemonicModel.mnemonic, mnemonicModel.lastIndexDerived);
+    }
+
+    /**
+     * Decrease last bip derived path
+     * @returns {Promise<void>}
+     */
+    static async decreaseLastBipDerivedPath(): Promise<MnemonicModel> {
+        const mnemonicModel = await this.retrieveMnemonic();
+        mnemonicModel.lastIndexDerived -= 1;
+        return this.saveMnemonic(mnemonicModel.mnemonic, mnemonicModel.lastIndexDerived);
     }
 
     /**

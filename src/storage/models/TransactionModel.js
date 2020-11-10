@@ -1,5 +1,5 @@
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-export type TransactionType = 'transfer' | 'mosaicTransfer';
+export type TransactionType = 'transfer' | 'fundsLock' | 'aggregate';
 export type TransactionStatus = 'confirmed' | 'unconfirmed';
 
 /**
@@ -19,6 +19,7 @@ export interface TransactionModel {
  */
 export interface TransferTransactionModel extends TransactionModel {
     type: 'transfer';
+    isConfirmed: boolean;
     recipientAddress: string;
     messageText: string;
     messageEncrypted: boolean;
@@ -26,16 +27,21 @@ export interface TransferTransactionModel extends TransactionModel {
 }
 
 /**
- * Mosaic Transfer transaction model
+ * Funds lock transaction model
  */
-export interface MosaicTransferTransactionModel extends TransactionModel {
-    type: 'mosaicTransfer';
-    signerAddress: string;
-    recipientAddress: string;
-    message: {
-        text: string,
-        encrypted: boolean,
-    };
-    amount: number;
-    fee: number;
+export interface FundsLockTransactionModel extends TransactionModel {
+    type: 'fundsLock';
+    mosaic: MosaicModel;
+    duration: number;
+    aggregateHash: string;
+}
+
+/**
+ * Aggregate transaction model
+ */
+export interface AggregateTransactionModel extends TransactionModel {
+    type: 'aggregate';
+    innerTransactions: TransactionModel[];
+    cosignaturePublicKeys: string[];
+    signTransactionObject: any;
 }

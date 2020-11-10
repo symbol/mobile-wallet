@@ -2,34 +2,47 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet, Text, Linking } from 'react-native';
 import { Row } from '@src/components';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
-import TransferTransaction from '@src/components/organisms/TransferTransaction';
+import TransferTransaction from '@src/components/organisms/transaction/TransferTransaction';
+import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
+import AggregateTransaction from '@src/components/organisms/transaction/AggregateTransaction';
+import { getExplorerURL } from '@src/config/environment';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
+    root: {
         width: '100%',
-        height: 60,
         borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
+        marginTop: 0,
+        marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#fff5',
+        paddingBottom: 8,
+        backgroundColor: '#fffd',
     },
 });
 
 type Props = {
     transaction: TransactionModel,
+    showDetails: boolean,
 };
 
 export default class Transaction extends Component<Props> {
-    render() {
+    openExplorer() {
         const { transaction } = this.props;
+        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
+    }
+
+    render() {
+        const { transaction, showDetails } = this.props;
         switch (transaction.type) {
             case 'transfer':
-                return <TransferTransaction transaction={transaction} />;
+                return <TransferTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+            case 'fundsLock':
+                return <FundsLockTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+            case 'aggregate':
+                return <AggregateTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
             default:
                 return (
-                    <View style={styles.transactionPreview}>
+                    <View style={styles.root}>
                         <Row justify="space-between">
                             <Text type="regular" theme="light">
                                 {transaction.type}

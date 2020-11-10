@@ -40,7 +40,7 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark' } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, componentId } = this.props;
 		const {} = this.state;
 
 		let source;
@@ -81,6 +81,30 @@ export default class GradientBackground extends Component<Props, State> {
 				GlobalStyles.color.PRIMARY,
 				GlobalStyles.color.SECONDARY
 			]
+
+		const Content = () => { return (<>
+			{!dataManager.isLoading && !dataManager.isError && 
+				children
+			}
+			{dataManager.isLoading && !dataManager.isError && 
+				<LoadingAnimation />
+			}
+			{dataManager.isError && 
+				<Col justify="center" align="center" fullHeight>
+					<Section type="form-item">
+						<Text type="alert" theme="light" align="center">Error</Text>
+						<Text type="bold" theme="light" align="center">{dataManager.errorMessage}</Text>
+						<Text type="regular" theme="light" align="center">{dataManager.errorDescription}</Text>
+					</Section>
+					<Section type="form-item">
+						<Button theme="light" text="Try again" onPress={() => dataManager.fetch()} />
+					</Section>
+					{componentId && <Section type="form-item">
+						<Button theme="light" text="Go back" onPress={() => Router.goBack(componentId)} />
+					</Section>}
+				</Col>
+			}</>)}
+		
         return (
 			<FadeView style={styles.root} duration={200}>
 				<LinearGradient
@@ -91,13 +115,25 @@ export default class GradientBackground extends Component<Props, State> {
 					useAngle={true}
 					style={[styles.root, style]}
 				>
+					{!noPadding && 
 					<Container>
 						{!!source && <Image
 							style={styles.image}
 							source={source}
 						/>}
-						{children}
+						{Content()}
 					</Container>
+					}
+					{!!noPadding && 
+					<>
+						{!!source && <Image
+							style={styles.image}
+							source={source}
+						/>}
+						{Content()}
+					</>
+					}
+					
 				</LinearGradient>
 			</FadeView>
 			

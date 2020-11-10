@@ -2,23 +2,56 @@ import AccountService from '@src/services/AccountService';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
+import FetchTransactionService from '@src/services/FetchTransactionService';
+import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
+
+const fetchAccountTransactions = async ({ state }) => {
+    const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
+    const transactionsByAddress = await FetchTransactionService.getTransactionsFromAddresses(
+        [address, ...state.account.cosignatoryOf],
+        state.network.selectedNetwork
+    );
+    return { data: transactionsByAddress };
+};
+
+const managers = [
+    new Pagination({
+        name: 'transactionListManager',
+        fetchFunction: (pageInfo, store) => fetchAccountTransactions(store, pageInfo),
+        pageInfo: {
+            pageSize: 15,
+        },
+        errorMessage: 'Failed to fetch transaction list',
+    }),
+];
 
 export default {
     namespace: 'account',
     state: {
-        selectedAccount: null,
+        ...getStateFromManagers(managers),
+        selectedAccount: {},
+        selectedAccountAddress: '',
         loading: false,
+        loadingTransactions: false,
         balance: 0,
         ownedMosaics: [],
-        transactions: [],
+        transactions: {},
+        accounts: [],
+        cosignatoryOf: [],
+        cosignatoryTransactions: {},
     },
     mutations: {
-        setSelectedAccount(state, payload) {
-            state.account.selectedAccount = payload;
+        ...getMutationsFromManagers(managers, 'account'),
+        setSelectedAccountAddress(state, payload) {
+            state.account.selectedAccountAddress = payload;
             return state;
         },
         setLoading(state, payload) {
             state.account.loading = payload;
+            return state;
+        },
+        setLoadingTransactions(state, payload) {
+            state.account.loadingTransactions = payload;
             return state;
         },
         setBalance(state, payload) {
@@ -33,37 +66,39 @@ export default {
             state.account.transactions = payload;
             return state;
         },
+        setCosignatoryOf(state, payload) {
+            state.account.cosignatoryOf = payload;
+            return state;
+        },
     },
     actions: {
-        createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
-            const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
-            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonic, index, name);
-            await AccountSecureStorage.createNewAccount(accountModel);
-            dispatchAction({ type: 'account/loadAccount', payload: accountModel.id });
-        },
-        loadAccount: async ({ commit, dispatchAction, state }, id) => {
+        loadAllData: async ({ commit, dispatchAction, state }) => {
             commit({ type: 'account/setLoading', payload: true });
-            let accountModel;
-            if (id) {
-                accountModel = await AccountSecureStorage.getAccountById(id);
-            } else {
-                accountModel = (await AccountSecureStorage.getAllAccounts())[0];
-            }
-            commit({ type: 'account/setSelectedAccount', payload: accountModel });
-            await dispatchAction({ type: 'account/loadBalance' });
-            await dispatchAction({ type: 'account/loadTransactions' });
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            commit({ type: 'account/setSelectedAccountAddress', payload: address });
+            commit({ type: 'account/setBalance', payload: 0 });
+            commit({ type: 'account/setOwnedMosaics', payload: [] });
+            commit({ type: 'account/setTransactions', payload: [] });
+            await Promise.all([
+                await dispatchAction({ type: 'account/loadBalance' }),
+                // await dispatchAction({ type: 'account/loadTransactions' }),
+                await dispatchAction({ type: 'account/loadCosignatoryOf' }),
+            ]);
             commit({ type: 'account/setLoading', payload: false });
         },
         loadBalance: async ({ commit, state }) => {
-            const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
+            const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
-        loadTransactions: async ({ commit, state }) => {
-            const address = await AccountService.getAddressByAccountModelAndNetwork(state.account.selectedAccount, state.network.network);
-            const transactions = await AccountService.getTransactionsFromAddress(address, state.network.selectedNetwork);
-            commit({ type: 'account/setTransactions', payload: transactions });
+        loadTransactions: async store => {
+            store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+        },
+        loadCosignatoryOf: async ({ commit, state }) => {
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            const cosignatoryOf = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
+            commit({ type: 'account/setCosignatoryOf', payload: cosignatoryOf });
         },
     },
 };
