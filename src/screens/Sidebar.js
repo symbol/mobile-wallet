@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { Section, GradientBackground, Text, Icon, Col, OptionsMenu, Row, SymbolGradientContainer, Trunc, Input, Button } from '@src/components';
+import { Section, GradientBackground, Text, Icon, Col, OptionsMenu, Row, SymbolGradientContainer, Trunc, Input, Button, ManagerHandler } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -26,10 +26,12 @@ const styles = StyleSheet.create({
         width: null,
         borderRadius: 5,
         margin: 4,
-        marginHorizontal: 8,
-        paddingHorizontal: 17,
+        marginHorizontal: 8
+	},
+	selectedAccountBoxContent: {
+		paddingHorizontal: 17,
         paddingVertical: 8,
-    },
+	},
     selectedAccountName: {
         fontSize: 1 * 12,
         lineHeight: 1.75 * 12,
@@ -51,8 +53,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         right: 0,
-        width: '100%',
-        height: undefined,
+        width: null,
+        height: '100%',
         resizeMode: 'contain',
         aspectRatio: 1,
     },
@@ -146,23 +148,27 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderSelectedAccountItem = () => {
-        const { address, selectedAccount, balance, nativeMosaicNamespace } = this.props;
+        const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading } = this.props;
         return (
             <TouchableOpacity onPress={() => this.handleAccountDetails()}>
                 <SymbolGradientContainer noPadding style={styles.selectedAccountBox}>
                     <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-                    <Text style={styles.selectedAccountName} type="bold" theme="dark">
-                        {selectedAccount ? selectedAccount.name : ''}
-                    </Text>
-                    <Text style={styles.selectedAccountAddress} theme="dark">
-                        <Trunc type="address">{address}</Trunc>
-                    </Text>
-                    <Text style={styles.selectedAccountMosaic} theme="dark">
-                        {nativeMosaicNamespace}
-                    </Text>
-                    <Text style={styles.selectedAccountBalance} theme="dark">
-                        {balance}
-                    </Text>
+                    <ManagerHandler dataManager={{isError: false, isLoading}}>
+						<View style={styles.selectedAccountBoxContent}>
+							<Text style={styles.selectedAccountName} type="bold" theme="dark">
+								{selectedAccount ? selectedAccount.name : ''}
+							</Text>
+							<Text style={styles.selectedAccountAddress} theme="dark">
+								<Trunc type="address">{address}</Trunc>
+							</Text>
+							<Text style={styles.selectedAccountMosaic} theme="dark">
+								{nativeMosaicNamespace}
+							</Text>
+							<Text style={styles.selectedAccountBalance} theme="dark">
+								{balance}
+							</Text>
+						</View>
+					</ManagerHandler>
                 </SymbolGradientContainer>
             </TouchableOpacity>
         );
@@ -204,7 +210,7 @@ class Sidebar extends Component<Props, State> {
     };
 
     render = () => {
-        const { accounts, selectedAccount, isVisible } = this.props;
+        const { accounts, selectedAccount, isVisible, isLoading } = this.props;
         const { isNameModalOpen, newName } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
@@ -258,5 +264,6 @@ export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
     nativeMosaicNamespace: 'XYM',
-    accounts: state.wallet.accounts,
+	accounts: state.wallet.accounts,
+	isLoading: state.account.isLoading,
 }))(Sidebar);

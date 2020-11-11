@@ -258,7 +258,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = W594P93ZB8;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -369,9 +369,9 @@
 			baseConfigurationReference = 88F79594A4D170560D69F324 /* Pods-SymbolWallet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = W594P93ZB8;
 				ENABLE_TESTABILITY = NO;
@@ -415,9 +415,9 @@
 			baseConfigurationReference = 910789ECA0A43E281092F724 /* Pods-SymbolWallet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = W594P93ZB8;
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -449,7 +449,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemgrouplimited.symbolwallet;
 				PRODUCT_NAME = Symbol;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.nemgrouplimited.symbolwallet";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

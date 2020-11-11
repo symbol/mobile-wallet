@@ -28,7 +28,7 @@ type State = {};
 class Send extends Component<Props, State> {
     state = {
         recipientAddress: '',
-        mosaicName: '',
+        mosaicName: this.props.network.currencyMosaicId,
         amount: '0',
         message: '',
         isEncrypted: false,

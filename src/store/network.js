@@ -54,12 +54,16 @@ export default {
             await dispatchAction({ type: 'wallet/initState' });
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
-            const networkInfo = await fetchNetworkInfo(payload);
-            commit({ type: 'network/setGenerationHash', payload: networkInfo.generationHash });
-            commit({ type: 'network/setNetwork', payload: networkInfo.network });
+            const network = await NetworkService.getNetworkModelFromNode(payload);
+            commit({
+                type: 'network/setSelectedNetwork',
+                payload: network,
+            });
+            commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+            commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
-            dispatchAction({ type: 'wallet/loadAccount' });
+            await dispatchAction({ type: 'wallet/initState' });
         },
     },
 };
