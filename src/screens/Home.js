@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon } from '@src/components';
+import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -39,7 +39,8 @@ class Home extends Component<Props, State> {
 
         return (
             <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
-                <Section type="title">
+				<TitleBar title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => this.handleSettingsClick()}/>
+                {/* <Section type="title">
                     <Row justify="space-between" align="end" style={{ marginTop: 17 }}>
                         <TouchableOpacity onPress={() => onOpenMenu()}>
                             <Text type="bold">Acc.</Text>
@@ -51,7 +52,7 @@ class Home extends Component<Props, State> {
                             <Icon name="settings_dark" style={styles.menuItemIcon} />
                         </TouchableOpacity>
                     </Row>
-                </Section>
+                </Section> */}
                 <Col justify="space-around" style={contentStyle}>
                     <BalanceWidget showChart={false} />
                     <Section type="list">
