@@ -6,6 +6,7 @@ import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
+import { AddressBook } from 'symbol-address-book';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -40,13 +41,20 @@ class Send extends Component<Props, State> {
     };
 
     submit = () => {
+        const { selectedContact } = this.props;
+        let recipientAddress;
+        if (selectedContact.name === this.state.recipientAddress) {
+            recipientAddress = selectedContact.address;
+        } else {
+            recipientAddress = this.state.recipientAddress;
+        }
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
         mosaic.amount = this.state.amount;
         Store.dispatchAction({
             type: 'transfer/setTransaction',
             payload: {
-                recipientAddress: this.state.recipientAddress,
+                recipientAddress: recipientAddress,
                 mosaics: [mosaic],
                 message: this.state.message,
                 messageEncrypted: this.state.isEncrypted,
@@ -164,4 +172,5 @@ export default connect(state => ({
     network: state.network.selectedNetwork,
     ownedMosaics: state.account.ownedMosaics,
     isOwnedMosaicsLoading: state.account.isLoading,
+    selectedContact: state.addressBook.selectedContact,
 }))(Send);

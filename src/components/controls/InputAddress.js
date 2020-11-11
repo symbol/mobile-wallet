@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Clipboard} from 'react-native';
 import { Input, Icon } from '@src/components';
 import { Router } from '@src/Router';
 import { ContactQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
+import { Dropdown } from '@src/components';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     root: {
@@ -30,11 +32,15 @@ interface Props {
 }
 
 type State = {};
+let addressBookList = [];
 
 class InputAccount extends Component<Props, State> {
-    importWithAddressBook = () => {
+    importWithAddressBook = id => {
+        const { addressBook } = this.props;
+        const contact = addressBook.getContactById(id);
+        store.dispatchAction({ type: 'addressBook/selectContact', payload: contact });
         setTimeout(() => {
-            if (typeof this.props.onChangeText === 'function') this.props.onChangeText('This is from AddressBook');
+            if (typeof this.props.onChangeText === 'function') this.props.onChangeText(contact.name);
         }, 1000);
     };
 
@@ -79,7 +85,11 @@ class InputAccount extends Component<Props, State> {
         const iconTouchableWidth = 30;
         const iconOffset = 8;
         const numberOfIcons = 2;
-
+        const { addressBook } = this.props;
+        addressBookList = [];
+        addressBook.getAllContacts().map(item => {
+            addressBookList.push({ value: item.id, id: item.id, label: item.name });
+        });
         if (fullWidth) rootStyle.push(styles.fullWidth);
 
         return (
@@ -94,9 +104,9 @@ class InputAccount extends Component<Props, State> {
                 <TouchableOpacity style={[styles.icon, this.getIconPosition(1, iconTouchableWidth, iconOffset)]} onPress={() => this.importWithQR()}>
                     <Icon name="qr" size={iconSize} />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]} onPress={() => this.importWithClipboard()}>
+                <Dropdown title="Select Contact"  editable={true} style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]} list={addressBookList} onChange={ (address) => this.importWithAddressBook(address)}>
                     <Icon name="paste" size={iconSize} />
-                </TouchableOpacity>
+                </Dropdown>
             </View>
         );
     };
@@ -104,4 +114,5 @@ class InputAccount extends Component<Props, State> {
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
+    addressBook: state.addressBook.addressBook,
 }))(InputAccount);
