@@ -103,9 +103,20 @@ class ConfirmTransaction extends Component<Props, State> {
 				}
 				{isSuccessfullySent &&
 					<Section type="form">
-						<Text type="alert" theme="light">
-							Success!
-						</Text>
+						<Section type="form-item">
+							<Section type="center">
+								<Text type="alert" theme="light">
+									Success!
+								</Text>
+							</Section>
+						</Section>
+						
+						<Section type="form-item">
+							<Text type="bold" theme="light" align="center">
+								(GlobeIcon) Open Block Explorer
+							</Text>
+						</Section>
+						
 						<Section type="form-bottom">
 							<Button
 								isLoading={false}
