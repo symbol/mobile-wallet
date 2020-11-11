@@ -8,7 +8,7 @@ import store from '@src/store';
 import Store from '@src/store';
 
 import { Router } from '@src/Router';
-import { IContact } from "symbol-address-book/IContact";
+import { IContact } from 'symbol-address-book/IContact';
 
 const styles = StyleSheet.create({
     list: {
@@ -44,9 +44,7 @@ class AddContact extends Component<Props, State> {
             notes: this.state.notes,
         };
 
-        store
-            .dispatchAction({ type: 'addressBook/addContact', payload: contact })
-            .then(_ => Router.goToAddressBook({}, this.props.componentId))
+        store.dispatchAction({ type: 'addressBook/addContact', payload: contact }).then(_ => Router.goBack(this.props.componentId));
     };
 
     update = id => {
@@ -60,15 +58,11 @@ class AddContact extends Component<Props, State> {
             id: id,
         };
 
-        store
-            .dispatchAction({ type: 'addressBook/updateContact', payload: contact })
-            .then(_ => Router.goToAddressBook({}, this.props.componentId))
+        store.dispatchAction({ type: 'addressBook/updateContact', payload: contact }).then(_ => Router.goBack(this.props.componentId));
     };
 
     remove = id => {
-        store
-            .dispatchAction({ type: 'addressBook/removeContact', payload: id })
-            .then(_ => Router.goToAddressBook({}, this.props.componentId))
+        store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(_ => Router.goBack(this.props.componentId));
     };
 
     componentDidMount() {

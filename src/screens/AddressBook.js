@@ -37,7 +37,18 @@ class AddressBookPage extends Component<Props, State> {
                 <TitleBar theme="light" title="Address Book" />
                 <Section type="list" isScrollable>
                     {addressBook.getAllContacts().map(contact => {
-                        return <Contact id={contact.id} name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} label={contact.label} notes={contact.notes} />;
+                        return (
+                            <Contact
+                                {...this.props}
+                                id={contact.id}
+                                name={contact.name}
+                                address={contact.address}
+                                phone={contact.phone}
+                                email={contact.email}
+                                label={contact.label}
+                                notes={contact.notes}
+                            />
+                        );
                     })}
                 </Section>
                 <Section style={styles.button}>

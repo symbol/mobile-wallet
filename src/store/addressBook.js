@@ -46,7 +46,7 @@ export default {
 
         updateContact: async ({ commit, dispatchAction, state }, contact) => {
             let addressBook = state.addressBook.addressBook;
-            addressBook.updateContact(contact);
+            addressBook.updateContact(contact.id, contact);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
             commit({ type: 'addressBook/setAddressBook', payload: addressBook });
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
