@@ -26,8 +26,6 @@ import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
-import CreateRemoteAccount from './screens/CreateRemoteAccount';
-import StartHarvesting from './screens/StartHarvesting';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
@@ -77,8 +75,6 @@ export class Router {
         [SETTINGS_SCREEN, Settings],
         [PASSCODE_SCREEN, Passcode],
         [WALLET_LOADING_SCREEN, WalletLoading],
-        [START_HARVESTING_SCREEN, StartHarvesting],
-        [CREATE_REMOTE_ACCOUNT_SCREEN, CreateRemoteAccount],
         [SEND_SCREEN, Send],
         [RECEIVE_SCREEN, Receive],
         [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
@@ -142,12 +138,6 @@ export class Router {
     }
     static goToWalletLoading(passProps, parentComponent?) {
         return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
-    }
-    static goToStartHarvesting(passProps, parentComponent?) {
-        return this.goToScreen(START_HARVESTING_SCREEN, passProps, parentComponent);
-    }
-    static goToCreateRemoteAccount(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_REMOTE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
     static goToConfirmTransaction(passProps, parentComponent?) {
         return this.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);

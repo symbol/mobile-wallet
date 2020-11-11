@@ -18,4 +18,20 @@ export default class NetworkService {
             currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
         };
     }
+
+    /**
+     * Return network type from model
+     * @param network
+     * @returns {NetworkType.MAIN_NET|NetworkType.MIJIN|NetworkType.TEST_NET}
+     */
+    static getNetworkTypeFromModel(network: NetworkModel): NetworkType {
+        switch (network.type) {
+            case 'mainnet':
+                return NetworkType.MAIN_NET;
+            case 'testnet':
+                return NetworkType.TEST_NET;
+            default:
+                return NetworkType.MIJIN;
+        }
+    }
 }
