@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -70,7 +70,6 @@ export default class C extends Component<Props, State> {
 
         switch (name) {
             case 'none':
-                source = require('@src/assets/icons/ic-about.png');
                 break;
             case 'news':
                 source = require('@src/assets/icons/menu/news.png');
@@ -172,7 +171,8 @@ export default class C extends Component<Props, State> {
 				_style = styles.medium
 				break;
 		}
-
+		
+		if(!source) return <View style={[_style, style]} />;
         return <Image style={[_style, style]} source={source} />;
     }
 }

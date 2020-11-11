@@ -80,19 +80,17 @@ export default class PluginList extends Component<Props, State> {
 						{!!onBack && <TouchableOpacity style={styles.iconLeft} onPress={onBack} >
 							<Icon name={iconBackName} />
 						</TouchableOpacity>}
-						<Col>
-							<Text type='title' theme={theme}>{title}</Text>
-							{!!subtitle && <Text type='subtitle' theme={theme}>{subtitle}</Text>}
-						</Col>
+						{!onBack && <Icon name="none" />}
 					</Row>
+					<Col style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} align="center" justify="center">
+						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '70%'}}>{title}</Text>
+					</Col>
 					<Row justify="end" align="center">
 						{buttons}
 						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
 							<Icon name={iconSettingsName} />
 						</TouchableOpacity>}
-						{!!onReload && <TouchableOpacity style={styles.iconRight} onPress={onReload}>
-							<Icon name={iconReloadName} />
-						</TouchableOpacity>}
+						{!onSettings && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>
