@@ -57,26 +57,22 @@ class AddContact extends Component<Props, State> {
             notes: this.state.notes,
             id: id,
         };
-
+        store.dispatchAction({ type: 'addressBook/selectContact', payload: contact });
         store.dispatchAction({ type: 'addressBook/updateContact', payload: contact }).then(_ => Router.goBack(this.props.componentId));
     };
 
-    remove = id => {
-        store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(_ => Router.goBack(this.props.componentId));
-    };
-
     componentDidMount() {
-        const { contact } = this.props;
-        if (contact) {
+        const { selectedContact } = this.props;
+        if (selectedContact) {
             this.state.update = true;
             this.setState({
-                address: contact.address,
-                name: contact.name,
-                phone: contact.phone,
-                email: contact.email,
-                label: contact.label,
-                notes: contact.notes,
-                id: contact.id,
+                address: selectedContact.address,
+                name: selectedContact.name,
+                phone: selectedContact.phone,
+                email: selectedContact.email,
+                label: selectedContact.label,
+                notes: selectedContact.notes,
+                id: selectedContact.id,
             });
         }
     }
@@ -114,12 +110,7 @@ class AddContact extends Component<Props, State> {
                     )}
                     {this.state.update && (
                         <Section>
-                            <Button text="Update Contact" theme="dark" onPress={() => this.update(id)} />
-                        </Section>
-                    )}
-                    {this.state.update && (
-                        <Section>
-                            <Button text="Remove Contact" theme="light" onPress={() => this.remove(id)} />
+                            <Button text="Update Contact" theme="light" onPress={() => this.update(id)} />
                         </Section>
                     )}
                 </Section>
@@ -130,4 +121,5 @@ class AddContact extends Component<Props, State> {
 
 export default connect(state => ({
     addressBook: state.addressBook.addressBook,
+    selectedContact: state.addressBook.selectedContact,
 }))(AddContact);

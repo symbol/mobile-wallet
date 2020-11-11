@@ -24,6 +24,7 @@ import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Harvest from '@src/screens/Harvest';
 import AddressBook from '@src/screens/AddressBook';
 import AddContact from '@src/screens/AddContact';
+import ContactProfile from '@src/screens/ContactProfile';
 import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
@@ -52,6 +53,7 @@ export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTI
 export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
 export const ADDRESS_BOOK_SCREEN = `${BASE_SCREEN_NAME}.ADDRESS_BOOK_SCREEN`;
 export const ADD_CONTACT_SCREEN = `${BASE_SCREEN_NAME}.ADD_CONTACT_SCREEN`;
+export const CONTACT_PROFILE_SCREEN = `${BASE_SCREEN_NAME}.CONTACT_PROFILE_SCREEN`;
 export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 
@@ -87,6 +89,7 @@ export class Router {
         [HARVEST_SCREEN, Harvest],
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
+        [CONTACT_PROFILE_SCREEN, ContactProfile],
     ];
 
     static registerScreens() {
@@ -173,6 +176,9 @@ export class Router {
     }
     static goToAddContact(passProps, parentComponent?) {
         return this.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
+    }
+    static goToContactProfile(passProps, parentComponent?) {
+        return this.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {

@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '@src/components';
 import Card from '@src/components/atoms/Card';
 import { Router } from '@src/Router';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     root: {
@@ -24,7 +25,7 @@ type Props = {
 
 export default class Contact extends Component<Props> {
     onPress(contact) {
-        Router.goToAddContact({ contact }, this.props.componentId);
+        store.dispatchAction({ type: 'addressBook/selectContact', payload: contact }).then(_ => Router.goToContactProfile({}, this.props.componentId));
     }
 
     render() {

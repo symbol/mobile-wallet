@@ -44,6 +44,10 @@ export default {
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
         },
 
+        selectContact: async ({ commit, dispatchAction, state }, contact) => {
+            await commit({ type: 'addressBook/setSelectedContact', payload: contact });
+        },
+
         updateContact: async ({ commit, dispatchAction, state }, contact) => {
             let addressBook = state.addressBook.addressBook;
             addressBook.updateContact(contact.id, contact);

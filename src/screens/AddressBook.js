@@ -25,11 +25,11 @@ class AddressBookPage extends Component<Props, State> {
     state = {};
 
     submit = () => {
-        Router.goToAddContact({}, this.props.componentId);
+        store.dispatchAction({ type: 'addressBook/selectContact', payload: null }).then(_ => Router.goToAddContact({}, this.props.componentId));
     };
 
     render() {
-        const { addressBook, componentId } = this.props;
+        const { addressBook } = this.props;
         const {} = this.state;
 
         return (
@@ -52,7 +52,7 @@ class AddressBookPage extends Component<Props, State> {
                     })}
                 </Section>
                 <Section style={styles.button}>
-                    <Button text="Add Contact" theme="light" onPress={() => this.submit(addressBook)} />
+                    <Button text="Add Contact" theme="light" onPress={() => this.submit()} />
                 </Section>
             </ImageBackground>
         );
