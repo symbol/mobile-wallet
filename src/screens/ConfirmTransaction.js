@@ -66,7 +66,6 @@ class ConfirmTransaction extends Component<Props, State> {
 			isLoading,
 			isError,
 			errorMessage,
-			onBack
 		}
 
         const preview = Object.keys(transaction)
@@ -81,7 +80,7 @@ class ConfirmTransaction extends Component<Props, State> {
                 : () => Router.goBack(this.props.componentId);
 
         return (
-			<GradientBackground name="connector_small" theme="light" dataManager={hardCodedDataManager}>
+			<GradientBackground name="connector_small" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
 				<TitleBar
 					theme="light"
 					onBack={backFunction}
