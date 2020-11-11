@@ -43,8 +43,9 @@ jobs:
           name: Fastlane
           command: |
             echo "export VERSION_NUMBER=v1.0.\${BUILD_NUMBER}-testnet" >> $BASH_ENV
-            echo "export BUILD_NUMBER=${CIRCLE_BUILD_NUM}0" >> $BASH_ENV
             cd ios && bundle exec fastlane $FASTLANE_LANE
+          environment:
+            BUILD_NUMBER: ${CIRCLE_BUILD_NUM}00
 
       - store_artifacts:
           path: ios/output
