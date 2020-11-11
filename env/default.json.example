@@ -2,7 +2,7 @@
   "sessionTimeoutInSeconds": 10,
   "marketCurrencyName": "nem",
   "newsURL": "https://nemflash.io/feed",
-  "explorerURL": "http://explorer.nemtech.network/account",
+  "explorerURL": "http://explorer-0.10.0.x-01.symboldev.network/",
   "aboutURL": "https://nem.io",
   "currencies": {
     "USD": "usd",
@@ -21,10 +21,12 @@
   "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
   "networks": {
     "mainnet": {
-      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+      "nodes": ["http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000", "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000", "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000"]
     },
     "testnet": {
-      "nodes": ["http://api-01.us-east-1.096x.symboldev.network:3000"]
+      "nodes": ["http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000", "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000", "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000"]
     }
-  }
+  },
+ "defaultNetworkType": "testnet",
+ "nativeMosaicId": "5B66E76BECAD0860"
 }

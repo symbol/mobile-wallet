@@ -6,7 +6,7 @@ orbs:
   node: circleci/node@4.0.0
 
 jobs:
-  build:
+  build_testnet:
     macos:
       xcode: 11.5.0 # Specify the Xcode version to use
     working_directory: /Users/distiller/project
@@ -17,7 +17,7 @@ jobs:
       - checkout
 
       - node/install:
-          node-version: "10"
+          node-version: "10.16.3"
           install-yarn: true
       # Download and cache dependencies
       # - restore_cache:
@@ -28,7 +28,7 @@ jobs:
 
       - run: cp env/default.json.example env/default.json
 
-      - run: yarn install
+      - run: yarn cache clean && yarn install --network-concurrency 1
 
       # - save_cache:
       #    paths:
@@ -41,9 +41,19 @@ jobs:
 
       - run:
           name: Fastlane
-          command: cd ios && bundle exec fastlane $FASTLANE_LANE
+          command: |
+            echo "export VERSION_NUMBER=v1.0.\${BUILD_NUMBER}-testnet" >> $BASH_ENV
+            cd ios && bundle exec fastlane $FASTLANE_LANE
+          environment:
+            BUILD_NUMBER: ${CIRCLE_BUILD_NUM}00
 
       - store_artifacts:
           path: ios/output
       - store_test_results:
           path: ios/output/scan
+
+workflows:
+  version: 2
+  build_testnet_and_mainnet:
+    jobs:
+      - build_testnet

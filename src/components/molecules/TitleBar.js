@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Row, Col, Icon, Text, Section } from '../../components';
+import { Row, Col, Icon, Text, Section } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import translate from "../../locales/i18n";
-import { Router, BASE_SCREEN_NAME } from "../../Router";
+import translate from "@src/locales/i18n";
+import { Router, BASE_SCREEN_NAME } from "@src/Router";
 
 
 const styles = StyleSheet.create({
 	root: {
 		width: '100%',
-		height: 68,
+		height: 72,
+		marginTop: 2,
 		//backgroundColor: '#f005',
 
 	},
@@ -18,17 +19,17 @@ const styles = StyleSheet.create({
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
-		marginLeft: - (GlobalStyles.section.title.paddingLeft)
+		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	},
 	iconRight: {
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
-		marginRight: - (GlobalStyles.section.title.paddingLeft / 2)
+		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	}
 });
 
-type Theme = 'light' 
+type Theme = 'light'
 	| 'dark';
 
 interface Props {
@@ -48,11 +49,12 @@ interface State {
 export default class PluginList extends Component<Props, State> {
 
 	render = () => {
-		const { 
-			style = {}, 
-			theme, 
-			onBack, 
+		const {
+			style = {},
+			theme,
+			onBack,
 			onSettings,
+			onReload,
 			title,
 			subtitle,
 			buttons
@@ -63,6 +65,10 @@ export default class PluginList extends Component<Props, State> {
 			: 'back_dark';
 
 		const iconSettingsName = theme === 'light'
+			? 'settings_light'
+			: 'settings_dark';
+
+		const iconReloadName = theme === 'light'
 			? 'settings_light'
 			: 'settings_dark';
 
@@ -83,6 +89,9 @@ export default class PluginList extends Component<Props, State> {
 						{buttons}
 						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
 							<Icon name={iconSettingsName} />
+						</TouchableOpacity>}
+						{!!onReload && <TouchableOpacity style={styles.iconRight} onPress={onReload}>
+							<Icon name={iconReloadName} />
 						</TouchableOpacity>}
 					</Row>
 				</Row>

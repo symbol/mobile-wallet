@@ -9,6 +9,7 @@ const COLORS = {
 	PINK: '#ff00ff',
 	BLUE: '#00c8ff',
 	GREEN: '#33dd50',
+	RED: '#dd3350',
 	ORANGE: '#ff9600',
 	BLACK: '#000000',
 	GREY1:'#333333',
@@ -124,6 +125,24 @@ export default {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center'
+		},
+
+		form: {
+			paddingLeft: 34,
+			paddingRight: 34,
+			paddingBottom: 17,
+			flex: 1,
+			flexDirection: 'column'
+		},
+
+		formItem: {
+			paddingBottom: 17
+		},
+
+		formBottom: {
+			marginTop: 'auto',
+			paddingTop: 17,
+			paddingBottom: 17
 		}
 	},
 

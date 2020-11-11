@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Container from '../Container';
-import { FadeView } from '@src/components';
+import { FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -40,35 +40,35 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark' } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, componentId } = this.props;
 		const {} = this.state;
 
 		let source;
 		const imageName = name + '_' + theme;
 		switch(imageName) {
 			case 'connector_light':
-				source = require('../../assets/backgrounds/connector_light.png');
+				source = require('@src/assets/backgrounds/connector_light.png');
 				break;
 			case 'connector_dark':
-				source = require('../../assets/backgrounds/connector.png');
+				source = require('@src/assets/backgrounds/connector.png');
 				break;
 			case 'connector_small_light':
-				source = require('../../assets/backgrounds/connector_small_light.png');
+				source = require('@src/assets/backgrounds/connector_small_light.png');
 				break;
 			case 'connector_small_dark':
-				source = require('../../assets/backgrounds/connector.png');
+				source = require('@src/assets/backgrounds/connector.png');
 				break;
 			case 'mesh_dark':
 			case 'mesh_light':
-				source = require('../../assets/backgrounds/mesh.png');
+				source = require('@src/assets/backgrounds/mesh.png');
 				break;
 			case 'mesh_small_light':
 			case 'mesh_small_dark':
-				source = require('../../assets/backgrounds/mesh_small.png');
+				source = require('@src/assets/backgrounds/mesh_small.png');
 				break;
 			case 'mesh_small_2_light':
 			case 'mesh_small_2_dark':
-				source = require('../../assets/backgrounds/mesh_small_2.png');
+				source = require('@src/assets/backgrounds/mesh_small_2.png');
 				break;
 		}
 
@@ -81,6 +81,30 @@ export default class GradientBackground extends Component<Props, State> {
 				GlobalStyles.color.PRIMARY,
 				GlobalStyles.color.SECONDARY
 			]
+
+		const Content = () => { return (<>
+			{!dataManager.isLoading && !dataManager.isError && 
+				children
+			}
+			{dataManager.isLoading && !dataManager.isError && 
+				<LoadingAnimation />
+			}
+			{dataManager.isError && 
+				<Col justify="center" align="center" fullHeight>
+					<Section type="form-item">
+						<Text type="alert" theme="light" align="center">Error</Text>
+						<Text type="bold" theme="light" align="center">{dataManager.errorMessage}</Text>
+						<Text type="regular" theme="light" align="center">{dataManager.errorDescription}</Text>
+					</Section>
+					<Section type="form-item">
+						<Button theme="light" text="Try again" onPress={() => dataManager.fetch()} />
+					</Section>
+					{componentId && <Section type="form-item">
+						<Button theme="light" text="Go back" onPress={() => Router.goBack(componentId)} />
+					</Section>}
+				</Col>
+			}</>)}
+		
         return (
 			<FadeView style={styles.root} duration={200}>
 				<LinearGradient
@@ -91,13 +115,25 @@ export default class GradientBackground extends Component<Props, State> {
 					useAngle={true}
 					style={[styles.root, style]}
 				>
+					{!noPadding && 
 					<Container>
 						{!!source && <Image
 							style={styles.image}
 							source={source}
 						/>}
-						{children}
+						{Content()}
 					</Container>
+					}
+					{!!noPadding && 
+					<>
+						{!!source && <Image
+							style={styles.image}
+							source={source}
+						/>}
+						{Content()}
+					</>
+					}
+					
 				</LinearGradient>
 			</FadeView>
 			

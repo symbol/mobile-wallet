@@ -12,6 +12,9 @@ import {languageNames, setI18nConfig} from "./locales/i18n";
 import {Router} from "./Router";
 import {AsyncCache} from "./utils/storage/AsyncCache";
 import {SecureStorage} from "@src/utils/storage/SecureStorage";
+import store from '@src/store';
+import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
+import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -31,35 +34,45 @@ export const handleAppStateChange = async (nextAppState: any) => {
 
         const isPin = await hasUserSetPinCode();
         if (isPin) {
-            // TODO: PASSCODE
-            // goToPasscode({ resetPasscode: false, onSuccessFunc: goToDashboard });
+            Router.showPasscode({ onSuccess: () => Router.goToDashboard() });
         }
     }
 
     appState = nextAppState;
 };
 
+const initStore = async () => {
+    try {
+        await Promise.all([
+            store.dispatchAction({ type: 'settings/initState' }),
+            store.dispatchAction({ type: 'market/loadMarketData' }),
+            store.dispatchAction({ type: 'network/initState' }),
+            store.dispatchAction({ type: 'news/loadNews' }),
+        ]);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const startApp = async () => {
     setGlobalCustomFont();
+
+    await initStore();
 
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();
     */
-    setI18nConfig(languageNames.en);
+    setI18nConfig(store.getState().settings.selectedLanguage);
 
-    const mnemonic = await SecureStorage.retrieveMnemonic();
+    const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
 
     SplashScreen.hide();
 
     if (mnemonic) {
         scheduleBackgroundJob();
-
-        /* TODO: SELECT FIRST PAGE
-        if (isPin) goToPasscode({ resetPasscode: false, onSuccessFunc: goToNetworkSelector });
-        else goToNetworkSelector({});
-        */
-        Router.goToDashboard({});
+        if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
+        else Router.goToDashboard();
     } else {
         /* TODO: SELECT FIRST PAGE
         goToOnBoarding({
@@ -103,4 +116,9 @@ export const setGlobalCustomFont = () => {
 
     TextInput.defaultProps = TextInput.defaultProps || {};
     TextInput.defaultProps.maxFontSizeMultiplier = 1.3;
+};
+
+export const logout = async () => {
+    await Promise.all([AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
+    return initStore();
 };

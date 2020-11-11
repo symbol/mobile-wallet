@@ -21,10 +21,6 @@ type State = {};
 class PriceChart extends Component<Props, State> {
 	state = {};
 
-	componentDidMount = () => {
-		store.dispatchAction({type: 'market/loadMarketData'});
-	};
-
 	render() {
 		const { style = {}, data = [] } = this.props;
 

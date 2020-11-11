@@ -391,5 +391,17 @@
 			"submitButton": "Create",
 			"title": "Create remote account"
 		}
+	},
+	"table": {
+		"type": "Type",
+		"recipientAddress": "Recipient Address",
+		"messageText": "Message / Memo",
+		"messageEncrypted": "Message encryption",
+		"fee": "Fee",
+		"accountName": "Account name",
+		"address": "Address",
+		"publicKey": "Public key",
+		"privateKey": "Private key",
+		"balance": "Balance"
 	}
 }

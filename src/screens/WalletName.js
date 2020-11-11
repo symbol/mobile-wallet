@@ -6,15 +6,15 @@ import { View,
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import translate from "../locales/i18n";
-import GradientButton from "../components/atoms/GradientButton";
-import GradientButtonLight from "../components/atoms/GradientButtonLight";
-import SymbolGradientContainer from "../components/organisms/SymbolGradientContainer";
-import FadeView from "../components/organisms/FadeView";
-import Input from "../components/atoms/Input";
-import {createRandomMnemonic} from "../utils/SymbolMnemonic";
-import {Router} from "../Router";
+import translate from "@src/locales/i18n";
+import GradientButton from "@src/components/atoms/GradientButton";
+import GradientButtonLight from "@src/components/atoms/GradientButtonLight";
+import SymbolGradientContainer from "@src/components/organisms/SymbolGradientContainer";
+import FadeView from "@src/components/organisms/FadeView";
+import Input from "@src/components/atoms/Input";
+import {Router} from "@src/Router";
 import store from '@src/store';
+import AccountService from '@src/services/AccountService';
 
 const styles = StyleSheet.create({
 	mesh: {
@@ -205,9 +205,9 @@ class WalletName extends Component {
 	};
 
 	handleSubmit = () => {
-		const mnemonic = createRandomMnemonic();
+		const mnemonicModel = AccountService.createRandomMnemonic();
 		store.dispatch({type: 'wallet/setName', payload: this.state.walletName });
-		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonic });
+		store.dispatch({type: 'wallet/setMnemonic', payload: mnemonicModel.mnemonic });
 		Router.goToGenerateBackup({}, this.props.componentId);
 	};
 
@@ -237,11 +237,11 @@ class WalletName extends Component {
 
 
 		const iconBackSrc = theme === 'light'
-			? require('../assets/icons/back_light.png')
-			: require('../assets/icons/back_dark.png');
+			? require('@src/assets/icons/back_light.png')
+			: require('@src/assets/icons/back_dark.png');
 		const iconSettingsSrc = theme === 'light'
-			? require('../assets/icons/settings_light.png')
-			: require('../assets/icons/settings_dark.png');
+			? require('@src/assets/icons/settings_light.png')
+			: require('@src/assets/icons/settings_dark.png');
 
 
 		const Title = (props) => {
@@ -256,7 +256,7 @@ class WalletName extends Component {
 			let iconSize = { width: 55, height: 55 };
 			switch(icon) {
 				case 'wallet':
-					iconSrc = require('../assets/icons/wallet.png');
+					iconSrc = require('@src/assets/icons/wallet.png');
 					iconSize.width = 55;
 					iconSize.height = 40;
 					break;
@@ -280,10 +280,13 @@ class WalletName extends Component {
 		const footerStyle = buttons && buttons.length === 1 && [styles.footer, styles.footerBigger]
 
 		return (
-			<SymbolGradientContainer style={ styles.container }>
+			<SymbolGradientContainer 
+				noPadding
+				style={ styles.container }
+			>
 			<Image
 				style={styles.mesh}
-				source={require('../assets/background1.png')}
+				source={require('@src/assets/background1.png')}
 			/>
 			<FadeView style={ styles.pageContainer }>
 				<View style={styles.topBar}>

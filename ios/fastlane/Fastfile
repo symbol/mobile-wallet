@@ -20,8 +20,15 @@ platform :ios do
     setup_circle_ci
   end
   desc "Push a new beta build to TestFlight"
-  lane :beta do
-    increment_build_number(xcodeproj: "SymbolWallet.xcodeproj")
+  lane :beta do |options|
+    increment_build_number(
+        build_number: ENV["BUILD_NUMBER"],
+        xcodeproj: "SymbolWallet.xcodeproj"
+    )
+    increment_version_number(
+      version_number: ENV["VERSION_NUMBER"],
+      xcodeproj: "SymbolWallet.xcodeproj"
+    )
     match(type: "appstore")
     build_app(workspace: "SymbolWallet.xcworkspace", scheme: "Symbol")
     upload_to_testflight

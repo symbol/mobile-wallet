@@ -1,43 +1,90 @@
-import {SecureStorage} from "@src/utils/storage/SecureStorage";
-import {createAccountFromMnemonic} from "@src/utils/SymbolMnemonic";
-import {NetworkType} from "symbol-sdk";
-import {createAccount} from "@src/utils/storage/RealmDB";
+import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
+import AccountService from '@src/services/AccountService';
+import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 
 export default {
-	namespace: 'wallet',
-	state: {
-		name: '',
-		mnemonic: null,
-		password: null,
-		walletCreated: false,
-	},
-	mutations: {
-		setName(state, payload) {
-			state.wallet.name = payload;
-			return state;
-		},
-		setPassword(state, payload) {
-			state.wallet.password = payload;
-			return state;
-		},
-		setMnemonic(state, payload) {
-			state.wallet.mnemonic = payload;
-			return state;
-		},
-		setWalletCreated(state, payload) {
-			state.wallet.created = payload;
-			return state;
-		}
-	},
-	actions: {
-		saveWallet: async ({commit, state}, payload) => {
-			await SecureStorage.saveMnemonic(state.wallet.mnemonic);
-			const mainnetAccount = createAccountFromMnemonic(state.wallet.mnemonic, 0, NetworkType.MAIN_NET);
-			await createAccount(state.wallet.name, 0, '', mainnetAccount.address.pretty(), NetworkType.MAIN_NET, '', mainnetAccount.publicKey);
-			const testnetAccount = createAccountFromMnemonic(state.wallet.mnemonic, 0, NetworkType.TEST_NET);
-			await createAccount(state.wallet.name, 0, '', testnetAccount.address.pretty(), NetworkType.TEST_NET, '', testnetAccount.publicKey);
-
-			commit({type: 'wallet/setWalletCreated', payload: true});
-		}
-	}
-}
+    namespace: 'wallet',
+    state: {
+        name: '',
+        mnemonic: null,
+        password: null,
+        selectedAccount: {},
+        accounts: [],
+    },
+    mutations: {
+        setName(state, payload) {
+            state.wallet.name = payload;
+            return state;
+        },
+        setPassword(state, payload) {
+            state.wallet.password = payload;
+            return state;
+        },
+        setMnemonic(state, payload) {
+            state.wallet.mnemonic = payload;
+            return state;
+        },
+        setSelectedAccount(state, payload) {
+            state.wallet.selectedAccount = payload;
+            return state;
+        },
+        setAccounts(state, payload) {
+            state.wallet.accounts = payload;
+            return state;
+        },
+    },
+    actions: {
+        initState: async ({ state, dispatchAction }) => {
+            await dispatchAction({ type: 'wallet/reloadAccounts' });
+            if (state.wallet.accounts.length > 0) {
+                await dispatchAction({ type: 'wallet/loadAccount' });
+                await dispatchAction({ type: 'account/loadAllData' });
+            }
+        },
+        saveWallet: async ({ state, dispatchAction }) => {
+            await MnemonicSecureStorage.saveMnemonic(state.wallet.mnemonic);
+            await dispatchAction({ type: 'wallet/createHdAccount', payload: { name: state.wallet.name, index: 0 } });
+        },
+        reloadAccounts: async ({ commit }) => {
+            const accounts = await AccountSecureStorage.getAllAccounts();
+            commit({ type: 'wallet/setAccounts', payload: accounts });
+        },
+        loadAccount: async ({ commit, dispatchAction, state }, id) => {
+            let accountModel;
+            if (id) {
+                accountModel = await AccountSecureStorage.getAccountById(id);
+            } else {
+                accountModel = (await AccountSecureStorage.getAllAccounts())[0];
+            }
+            await commit({ type: 'wallet/setSelectedAccount', payload: accountModel });
+            await dispatchAction({ type: 'account/loadAllData' });
+        },
+        createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
+            let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
+            if (!index && index !== 0) {
+                mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
+                index = mnemonicModel.lastIndexDerived;
+            }
+            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
+            await AccountSecureStorage.createNewAccount(accountModel);
+            await dispatchAction({ type: 'wallet/reloadAccounts' });
+            await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+        },
+        createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
+            const accountModel = AccountService.createFromPrivateKey(privateKey, name);
+            await AccountSecureStorage.createNewAccount(accountModel);
+            await dispatchAction({ type: 'wallet/reloadAccounts' });
+            await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+        },
+        removeAccount: async ({ commit, dispatchAction, state }, id) => {
+            await AccountService.removeAccountById(id);
+            await dispatchAction({ type: 'wallet/reloadAccounts' });
+        },
+        renameAccount: async ({ commit, dispatchAction, state }, { id, newName }) => {
+            const accounts = await AccountService.renameAccount(id, newName);
+            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id);
+            commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
+            commit({ type: 'wallet/setAccounts', payload: accounts });
+        },
+    },
+};
