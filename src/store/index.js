@@ -8,6 +8,7 @@ import transfer from '@src/store/transfer';
 import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
 import news from '@src/store/news';
+import harvesting from "@src/store/harvesting";
 
 const modules = {
     market,
@@ -18,6 +19,7 @@ const modules = {
     transfer,
     account,
     news,
+    harvesting,
 };
 
 const createModuleReducer = (module, state = {}, action) => {

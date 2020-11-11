@@ -44,6 +44,8 @@ export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
+export const START_HARVESTING_SCREEN = `${BASE_SCREEN_NAME}.START_HARVESTING_SCREEN`;
+export const CREATE_REMOTE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_REMOTE_ACCOUNT_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const RECEIVE_SCREEN = `${BASE_SCREEN_NAME}.RECEIVE_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
@@ -255,7 +257,7 @@ const pushToStack = (parent, screen: string, passProps) => {
     return Navigation.push(parent, {
         component: {
             name: screen,
-            passProps,
+            passProps: passProps,
             options: {
                 bottomTabs: { visible: false, drawBehind: false, animate: true },
                 sideMenu: {
