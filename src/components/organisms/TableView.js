@@ -27,6 +27,12 @@ const renderTypeMap = {
 const styles = StyleSheet.create({
 	amount: {
 		color: GlobalStyles.color.RED
+	},
+	mosaic: {
+		backgroundColor: '#fff', 
+		borderRadius: 5, 
+		paddingVertical: 8, 
+		paddingHorizontal: 16
 	}
 });
 
@@ -55,7 +61,7 @@ class TableView extends Component<Props, State> {
 	};
 	render_mosaics = (value) => {
 		const mosaics = Array.isArray(value) ? value : [];
-		return mosaics.map(el => (<Row justify="space-between" fullWidth style={{backgroundColor: '#fff', borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10}}>
+		return mosaics.map(el => (<Row justify="space-between" fullWidth style={styles.mosaic}>
 			<Text type="regular" theme="light">{el.mosaicName}</Text>
 			{this.render_amount(el.amount)}
 		</Row>))
