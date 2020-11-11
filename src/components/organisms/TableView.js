@@ -18,9 +18,11 @@ import { connect } from 'react-redux';
 const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
 	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey'],
-	boolean: ['messageEncrypted'],
+	boolean: [],
 	amount: ['amount', 'fee'],
-	secret: ['privateKey']
+	secret: ['privateKey'],
+	mosaics: ['mosaics'],
+	ecryption: ['messageEncrypted']
 };
 const styles = StyleSheet.create({
 	amount: {
@@ -45,9 +47,19 @@ class TableView extends Component<Props, State> {
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>
 	};
+	render_ecryption = (value) => {
+		return <Text type="regular" theme="light">{translate('table.' + (value ? 'encrypted' : 'unencrypted'))}</Text>;
+	};
 	render_amount = (value) => {
 		return <Text type="regular" theme="light" style={styles.amount}>-{value}</Text>
 	};
+	render_mosaics = (value) => {
+		const mosaics = Array.isArray(value) ? value : [];
+		return mosaics.map(el => (<Row justify="space-between" fullWidth style={{backgroundColor: '#fff', borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10}}>
+			<Text type="regular" theme="light">{el.mosaicName}</Text>
+			{this.render_amount(el.amount)}
+		</Row>))
+	}
 
 	renderItem = (key, value) => {
 		let itemTemplate;

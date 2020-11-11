@@ -64,7 +64,7 @@ class ConfirmTransaction extends Component<Props, State> {
         const {} = this.state;
 
         const preview = Object.keys(transaction)
-            .map(key => ({ key, value: transaction[key].toString() }));
+            .map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
