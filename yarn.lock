@@ -992,6 +992,28 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@pdf-lib/fontkit@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/fontkit/-/fontkit-1.0.0.tgz#26249d7ba865714625bafeecb5677796037e8051"
+  integrity sha512-C1Hn6wqRMAXZMW5vTa/oCvcTPq0FQsqKKP2mzzzMxUcx0BWZuJKeH4ZRS320y0LKvRBEs1ntFG2txstSsMGr2g==
+  dependencies:
+    pako "^1.0.6"
+
+"@pdf-lib/standard-fonts@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/standard-fonts/-/standard-fonts-0.0.4.tgz#49fffa97fe1a5fff9b8b60fd9decf79b10bd0982"
+  integrity sha512-2pg8hXnChVAF6aSFraXtwB0cx/AgE15FvuLJbdPJSq9LYp1xMp0lapH4+t1HsdD9cA05rnWYLqlEBwS4YK1jLg==
+  dependencies:
+    base64-arraybuffer "^0.1.5"
+    pako "^1.0.6"
+
+"@pdf-lib/upng@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/upng/-/upng-1.0.1.tgz#7dc9c636271aca007a9df4deaf2dd7e7960280cb"
+  integrity sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ==
+  dependencies:
+    pako "^1.0.10"
+
 "@react-native-community/art@^1.0.3":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/art/-/art-1.2.0.tgz#386d95393f6042d9006f9d4bc6063fb898794460"
@@ -1998,6 +2020,11 @@ base-x@^3.0.2:
   integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
   dependencies:
     safe-buffer "^5.0.1"
+
+base64-arraybuffer@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
+  integrity sha1-c5JncZI7Whl0etZmqlzUv5xunOg=
 
 base64-js@0.0.8:
   version "0.0.8"
@@ -7341,7 +7368,7 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
-pako@~1.0.5:
+pako@^1.0.10, pako@^1.0.11, pako@^1.0.6, pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
@@ -7502,6 +7529,16 @@ pbkdf2@^3.0.3, pbkdf2@^3.0.9:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+pdf-lib@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.10.0.tgz#04c8c2f1b56e24758b25b6234e940f4f133ffc63"
+  integrity sha512-r9+GL84EI7HIwkgDo191ArhGZgbUPqPRwddTrfV6Th7U4u8UayPixx0FZ/Sv8Dl3K/AZLQ1nrUVFqjTlmy9uJQ==
+  dependencies:
+    "@pdf-lib/standard-fonts" "^0.0.4"
+    "@pdf-lib/upng" "^1.0.1"
+    pako "^1.0.11"
+    tslib "^1.11.1"
 
 pend@~1.2.0:
   version "1.2.0"
@@ -9507,10 +9544,20 @@ symbol-openapi-typescript-fetch-client@0.10.0-3:
   resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.10.0-3.tgz#f4283b476690001d41943b53d1fc95f9990907bc"
   integrity sha512-cdRz7Nc/m2i7CC8wHtj//z5RxOKEKhS4l+fFQvh7YUlYcUPaHbgcq4RMXSZPmMJ4PnzocnqWpVKjMj5cTYgrPA==
 
-symbol-qr-library@0.13.1-alpha-202010241730:
-  version "0.13.1-alpha-202010241730"
-  resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.13.1-alpha-202010241730.tgz#af9badc7981883510bcb7567327401bf17466ff5"
-  integrity sha512-/ehn2WaDgs4LOl7kJK5SNyTKtIRROCMyUvwfHoQJFZp+xsHkSJ3x0G/Sr6qLgR4ZXlc4BQccKLRUHc7e1hHJzA==
+symbol-paper-wallets@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/symbol-paper-wallets/-/symbol-paper-wallets-1.0.2.tgz#4419834b5e12c9ead0409e1e0a49770917fdce9b"
+  integrity sha512-JqK46bfGHwX9ZXJ2WnRfxB786ZjyjJGB+/l8ASNoRsWkfikKpqEzazJwn+2C0otdLqChBnTr3NKd1EMWZDtjhQ==
+  dependencies:
+    "@pdf-lib/fontkit" "1.0.0"
+    pdf-lib "1.10.0"
+    symbol-qr-library "^0.13.1-alpha-202010241730"
+    typescript "^3.7.4"
+
+symbol-qr-library@0.13.1-alpha-202011091256, symbol-qr-library@^0.13.1-alpha-202010241730:
+  version "0.13.1-alpha-202011091256"
+  resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.13.1-alpha-202011091256.tgz#d1507431ddcfb36b861b81127c68111f4072bbc1"
+  integrity sha512-ewcDHW3xukLjbBqU356cUmQTl83m2bghNIgVIYAhok/oaKMq9DX4EjoclJvZTFo15n74Vxso4zx4v0m0eC4hRA==
   dependencies:
     braces ">=2.3.1"
     canvas "^2.6.1"
@@ -9798,6 +9845,11 @@ tslib@1.9.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
 
+tslib@^1.11.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.0.tgz#f1f3528301621a53220d58373ae510ff747a66bc"
@@ -9866,6 +9918,11 @@ typeforce@^1.11.5:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
   integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
+
+typescript@^3.7.4:
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"

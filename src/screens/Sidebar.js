@@ -6,6 +6,7 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import PopupModal from '@src/components/molecules/PopupModal';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const styles = StyleSheet.create({
     root: {
@@ -133,6 +134,21 @@ class Sidebar extends Component<Props, State> {
         Router.goToCreateAccount({}, this.props.componentId);
     };
 
+    handleBackupAccounts = () => {
+        Router.showPasscode(
+            {
+                resetPasscode: false,
+                onSuccess: async () => {
+                    Router.goBack(this.props.componentId);
+                    const paperWalletBytes = await store.dispatchAction({ type: 'wallet/downloadPaperWallet' });
+                    console.log(paperWalletBytes);
+                    await RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/symbol-paper-wallet.pdf`, paperWalletBytes);
+                },
+            },
+            this.props.componentId
+        );
+    };
+
     handleAccountDetails = () => {
         Router.goToAccountDetails({}, this.props.componentId);
     };
@@ -202,7 +218,10 @@ class Sidebar extends Component<Props, State> {
     render = () => {
         const { accounts, selectedAccount, isVisible } = this.props;
         const { isNameModalOpen, newName } = this.state;
-        const menuItems = [{ iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() }];
+        const menuItems = [
+            { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
+            { iconName: 'add_filled_light', text: 'Backup Accounts', onPress: () => this.handleBackupAccounts() },
+        ];
 
         if (!isVisible) return null;
 

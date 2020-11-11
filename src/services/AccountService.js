@@ -1,18 +1,11 @@
-import {
-    AccountHttp,
-    Account,
-    Address,
-    NetworkType,
-    Mosaic,
-    MosaicHttp,
-    NamespaceHttp, MultisigHttp,
-} from 'symbol-sdk';
+import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp } from 'symbol-sdk';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
+import { SymbolPaperWallet } from 'symbol-paper-wallets';
 
 export default class AccountService {
     /**
@@ -177,5 +170,35 @@ export default class AccountService {
         } catch (e) {
             return [];
         }
+    }
+    /**
+     * Gets multisig information
+     * @returns {Promise<*[]>}
+     * @param mnemonic
+     * @param accounts
+     * @param network
+     */
+    static async generatePaperWallet(mnemonic: string, accounts: AccountModel[], network: NetworkModel): Promise<Uint8Array> {
+        const mnemonicAccount = this.createFromMnemonicAndIndex(mnemonic, 0, 'Root');
+        const hdRootAccount = {
+            mnemonic: mnemonic,
+            rootAccountPublicKey: mnemonicAccount.id,
+            rootAccountAddress: this.getAddressByAccountModelAndNetwork(mnemonicAccount, network.type),
+        };
+        const privateKeyAccounts = accounts.map(account => ({
+            name: account.name,
+            address: this.getAddressByAccountModelAndNetwork(account, network.type),
+            publicKey: account.id,
+            privateKey: account.privateKey,
+        }));
+
+        const paperWallet = new SymbolPaperWallet(
+            hdRootAccount,
+            privateKeyAccounts,
+            network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET,
+            network.generationHash
+        );
+
+        return paperWallet.toPdf();
     }
 }
