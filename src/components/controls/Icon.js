@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
-import GlobalStyles from '../../styles/GlobalStyles';
-
 
 
 const styles = StyleSheet.create({
@@ -45,7 +43,11 @@ type IconName = 'none'
 	| 'add_light'
 	| 'add_filled_light'
 	| 'delete_light'
-	| 'edit_light';
+	| 'edit_light'
+	| 'true_light'
+	| 'true_dark'
+	| 'false_light'
+	| 'copy';
 
 type Size = 'large'
 	| 'big'
@@ -135,6 +137,18 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'edit_light':
 				source = require('@src/assets/icons/edit_light.png');
+				break;
+			case 'true_light':
+				source = require('@src/assets/icons/true_light.png');
+				break;
+			case 'true_dark':
+				source = require('@src/assets/icons/true_dark.png');
+				break;
+			case 'false_light':
+				source = require('@src/assets/icons/false_light.png');
+				break;
+			case 'copy':
+				source = require('@src/assets/icons/copy.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
