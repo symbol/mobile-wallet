@@ -51,7 +51,7 @@ export default class CreateAccount extends Component {
     render = () => {
         const { name, privateKey, index, isIndexValid, isPkValid, isNameValid, loading } = this.state;
         return (
-            <GradientBackground name="mesh_small_2" theme="light">
+            <GradientBackground dataManager={{isLoading: loading}} name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => this.goBack()} title="Create Account" />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
