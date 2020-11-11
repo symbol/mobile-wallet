@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Checkbox, Section, GradientBackground, TitleBar, Input, InputAddress, Button, Dropdown, MosaicDropdown } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Store from '@src/store';
+import _ from 'lodash';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
@@ -56,7 +57,7 @@ class Send extends Component<Props, State> {
 
     submit = () => {
         const { ownedMosaics } = this.props;
-        const mosaic: MosaicModel = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
+        const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
 		mosaic.amount = this.state.amount;
 		if(this.verify()) {
 			Store.dispatchAction({
