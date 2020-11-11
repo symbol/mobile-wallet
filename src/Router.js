@@ -26,8 +26,10 @@ import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
+import CustomFlashMessage from "@src/components/organisms/CustomFlashMessage";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
+export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
 export const CREATE_OR_IMPORT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_OR_IMPORT`;
 export const WALLET_NAME_SCREEN = `${BASE_SCREEN_NAME}.WALLET_NAME`;
@@ -98,6 +100,8 @@ export class Router {
         this.screens.forEach(([key, ScreenComponent]) =>
             Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
         );
+
+        Navigation.registerComponent(CUSTOM_FLASH_MESSAGE, () => CustomFlashMessage);
     }
 
     static goToTermsAndPrivacy(passProps, parentComponent?) {
@@ -178,6 +182,8 @@ export class Router {
     static closeOverlay(componentId) {
         Navigation.dismissOverlay(componentId);
     }
+
+    static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
 }
 
 /**
@@ -288,7 +294,7 @@ const goBack = component => {
  * @param passProps
  */
 const showOverlay = (screen, passProps) => {
-    Navigation.showOverlay({
+    return Navigation.showOverlay({
         component: {
             name: screen,
             passProps: { ...passProps },

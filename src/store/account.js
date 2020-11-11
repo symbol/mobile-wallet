@@ -1,9 +1,7 @@
 import AccountService from '@src/services/AccountService';
-import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
-import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import FetchTransactionService from '@src/services/FetchTransactionService';
 import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
+import { forkJoin } from 'rxjs';
 
 const fetchAccountTransactions = async ({ state }) => {
     const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
@@ -29,6 +27,7 @@ export default {
     namespace: 'account',
     state: {
         ...getStateFromManagers(managers),
+        refreshingObs: null,
         selectedAccount: {},
         selectedAccountAddress: '',
         loading: false,
@@ -42,6 +41,10 @@ export default {
     },
     mutations: {
         ...getMutationsFromManagers(managers, 'account'),
+        setRefreshingObs(state, payload) {
+            state.account.refreshingObs = payload;
+            return state;
+        },
         setSelectedAccountAddress(state, payload) {
             state.account.selectedAccountAddress = payload;
             return state;
@@ -72,20 +75,30 @@ export default {
         },
     },
     actions: {
-        loadAllData: async ({ commit, dispatchAction, state }) => {
+        loadAllData: async ({ commit, dispatchAction, state }, reset) => {
             commit({ type: 'account/setLoading', payload: true });
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             commit({ type: 'account/setSelectedAccountAddress', payload: address });
-            commit({ type: 'account/setBalance', payload: 0 });
-            commit({ type: 'account/setOwnedMosaics', payload: [] });
-            commit({ type: 'account/setTransactions', payload: [] });
-            await Promise.all([
+            if (reset) {
+                commit({ type: 'account/setBalance', payload: 0 });
+                commit({ type: 'account/setOwnedMosaics', payload: [] });
+                commit({ type: 'account/setTransactions', payload: [] });
+            }
+            if (state.account.refreshingObs) {
+                console.log('Unsubscribinh');
+                console.log(state.account.refreshingObs);
+                state.account.refreshingObs.unsubscribe();
+            }
+            const refreshingObs = forkJoin(
                 dispatchAction({ type: 'account/loadBalance' }),
                 // dispatchAction({ type: 'account/loadTransactions' }),
                 dispatchAction({ type: 'account/loadCosignatoryOf' }),
-                dispatchAction({ type: 'harvesting/init' }),
-            ]);
-            commit({ type: 'account/setLoading', payload: false });
+                dispatchAction({ type: 'harvesting/init' })
+            ).subscribe(() => {
+                commit({ type: 'account/setRefreshingObs', payload: false });
+                commit({ type: 'account/setLoading', payload: false });
+            });
+            commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

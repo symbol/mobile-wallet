@@ -1,8 +1,7 @@
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { getDefaultNetworkType, getNodes } from '@src/config/environment';
-import { fetchNetworkInfo } from '@src/utils/SymbolNetwork';
-import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 import NetworkService from '@src/services/NetworkService';
+import { GlobalListener } from '@src/store/index';
 
 export default {
     namespace: 'network',
@@ -51,6 +50,7 @@ export default {
                 type: 'network/setSelectedNetwork',
                 payload: network,
             });
+            GlobalListener.setNetwork(network);
             await dispatchAction({ type: 'wallet/initState' });
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
