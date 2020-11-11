@@ -57,6 +57,8 @@ const initStore = async () => {
 export const startApp = async () => {
     setGlobalCustomFont();
 
+    await initStore();
+
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();
     */
@@ -64,7 +66,6 @@ export const startApp = async () => {
 
     const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
-    await initStore();
 
     SplashScreen.hide();
 
