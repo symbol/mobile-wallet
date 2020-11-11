@@ -37,31 +37,42 @@ class Send extends Component<Props, State> {
 
     componentDidMount = () => {
         Store.dispatchAction({ type: 'transfer/clear' });
-    };
+	};
+	
+	verify = () => {
+		if(!this.state.recipientAddress.length) {
+			console.error('Alert("Invalid recipient address")');
+			return false;
+		}
+		if(+this.props.ownedMosaics
+			.find(mosaic => mosaic.mosaicId === this.state.mosaicName)
+			.amount < +this.state.amount
+		) {
+			console.error('Alert("Invalid amount")');
+			return false;
+		}
+		return true;
+	};
 
     submit = () => {
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
-        mosaic.amount = this.state.amount;
-        Store.dispatchAction({
-            type: 'transfer/setTransaction',
-            payload: {
-                recipientAddress: this.state.recipientAddress,
-                mosaics: [mosaic],
-                message: this.state.message,
-                messageEncrypted: this.state.isEncrypted,
-                fee: this.state.fee,
-            },
-        });
-        this.setState({
-            isConfirmShown: true,
-        });
-        // Router.goToConfirmTransaction({
-        // 	isLoading: this.props.isLoading,
-        // 	isError: this.props.isError,
-        // 	isSuccessfullySent: this.props.isSuccessfullySent,
-        // 	transaction: this.props.transaction,
-        // }, this.props.componentId);
+		mosaic.amount = this.state.amount;
+		if(this.verify()) {
+			Store.dispatchAction({
+				type: 'transfer/setTransaction',
+				payload: {
+					recipientAddress: this.state.recipientAddress,
+					mosaics: [mosaic],
+					message: this.state.message,
+					messageEncrypted: this.state.isEncrypted,
+					fee: this.state.fee,
+				},
+			});
+			this.setState({
+				isConfirmShown: true,
+			});
+		}
     };
 
     showSendForm = () => {
