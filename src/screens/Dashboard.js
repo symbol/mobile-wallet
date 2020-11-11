@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
 import { NavigationMenu } from '@src/components';
-import Home from '@src/screens/Home';
-import History from '@src/screens/History';
-import Harvest from '@src/screens/Harvest';
+import Home from './Home';
+import History from './History';
+import Harvest from './Harvest';
 import News from '@src/screens/News';
 import Mosaics from '@src/screens/Mosaics';
 import Sidebar from '@src/screens/Sidebar';
@@ -27,8 +27,8 @@ type State = {
 
 export default class Dashboard extends Component<Props, State> {
     state = {
-		currentTab: 'home',
-		isSidebarShown: false
+        currentTab: 'home',
+        isSidebarShown: false,
     };
 
     onTabChange = tabName => {
@@ -53,16 +53,21 @@ export default class Dashboard extends Component<Props, State> {
                 break;
             case 'news':
                 Tab = News;
-				break;
-			case 'harvest':
-				Tab = Harvest;
-				break;
+                break;
+            case 'harvest':
+                Tab = Harvest;
+                break;
         }
         return (
             <View style={styles.root}>
-                <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} onOpenMenu={()=>this.setState({isSidebarShown: true})}/>
+                <Tab
+                    {...this.props}
+                    contentStyle={styles.contentContainer}
+                    componentId={componentId}
+                    onOpenMenu={() => this.setState({ isSidebarShown: true })}
+                />
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
-				<Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={()=>this.setState({isSidebarShown: false})}/>
+                <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
             </View>
         );
     }

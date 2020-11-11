@@ -80,9 +80,10 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: [] });
             commit({ type: 'account/setTransactions', payload: [] });
             await Promise.all([
-                await dispatchAction({ type: 'account/loadBalance' }),
-                // await dispatchAction({ type: 'account/loadTransactions' }),
-                await dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                dispatchAction({ type: 'account/loadBalance' }),
+                // dispatchAction({ type: 'account/loadTransactions' }),
+                dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                dispatchAction({ type: 'harvesting/init' }),
             ]);
             commit({ type: 'account/setLoading', payload: false });
         },
