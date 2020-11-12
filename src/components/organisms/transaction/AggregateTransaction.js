@@ -33,7 +33,7 @@ class AggregateTransaction extends Component<Props> {
     render() {
         const { transaction, isLoading, selectedAccount } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        const needsSignature = transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1;
+        const needsSignature = transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
         return (
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">
