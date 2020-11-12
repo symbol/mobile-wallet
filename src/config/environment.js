@@ -7,6 +7,7 @@ import {
     marketCurrencyName,
     newsURL,
     explorerURL,
+    faucetURL,
     aboutURL,
     currencies,
     lanugages,
@@ -40,6 +41,11 @@ const getNewsURL = (): string => {
 // Explorer URL
 const getExplorerURL = (): string => {
     return explorerURL;
+};
+
+// Explorer URL
+const getFaucetUrl = (): string => {
+    return faucetURL;
 };
 
 // Explorer URL
@@ -137,6 +143,7 @@ export {
     getMarketCurrencyLabel,
     getNewsURL,
     getExplorerURL,
+    getFaucetUrl,
     getAboutURL,
     getCurrencyList,
     getDefaultCurrency,

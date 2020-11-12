@@ -94,14 +94,6 @@ class Send extends Component<Props, State> {
             balance: mosaic.amount / Math.pow(10, mosaic.divisibility),
         }));
 
-        if (mosaicList.length === 0) {
-            mosaicList.push({
-                value: network.currencyMosaicId,
-                label: 'symbol.xym',
-                balance: 0,
-            });
-        }
-
         const feeList = [
             { value: 0.1, label: '0.1 XEM - slow' },
             { value: 0.5, label: '0.5 XEM - normal' },

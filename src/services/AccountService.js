@@ -1,12 +1,4 @@
-import {
-    AccountHttp,
-    Account,
-    Address,
-    NetworkType,
-    Mosaic,
-    MosaicHttp,
-    NamespaceHttp, MultisigHttp,
-} from 'symbol-sdk';
+import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp, MosaicId, UInt64 } from 'symbol-sdk';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
@@ -104,22 +96,52 @@ export default class AccountService {
     static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
             const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
-            let amount = 0;
+            let amount = 0,
+                hasCurrencyMosaic = false;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
                 const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
+                    hasCurrencyMosaic = true;
                     amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
                 }
                 ownedMosaics.push(mosaicModel);
+            }
+            if (!hasCurrencyMosaic) {
+                const currencyMosaic = await this.getNativeMosaicModel(network);
+                ownedMosaics.push(currencyMosaic);
             }
             return {
                 balance: amount,
                 ownedMosaics: ownedMosaics,
             };
         } catch (e) {
-            return { balance: 0, ownedMosaics: [] };
+            const currencyMosaic = await this.getNativeMosaicModel(network);
+            return { balance: 0, ownedMosaics: [currencyMosaic] };
         }
+    }
+
+    /**
+     * Get native mosaic Id
+     * @param network
+     * @returns {Promise<{amount: string, mosaicId: string, mosaicName: (*|null), divisibility: *}>}
+     */
+    static async getNativeMosaicModel(network: NetworkModel): Promise<MosaicModel> {
+        let mosaicInfo = {},
+            mosaicName = {};
+        const mosaic = new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(0));
+        try {
+            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
+            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
+        } catch (e) {
+            console.log(e);
+        }
+        return {
+            mosaicId: mosaic.id.toHex(),
+            mosaicName: mosaicName && mosaicName.names && mosaicName.names[0] ? mosaicName.names[0].name : null,
+            amount: mosaic.amount.toString(),
+            divisibility: mosaicInfo.divisibility,
+        };
     }
 
     /**
