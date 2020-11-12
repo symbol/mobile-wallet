@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Container from '../Container';
-import { FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
+import { Container, FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({

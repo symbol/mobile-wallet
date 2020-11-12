@@ -122,6 +122,9 @@ export default class C extends Component<Props, State> {
 			case 'outgoing_light':
 				source = require('@src/assets/icons/outgoing.png');
 				break;
+			case 'options_light':
+				source = require('@src/assets/icons/options_light.png');
+				break;
 			case 'options_dark':
 				source = require('@src/assets/icons/options_dark.png');
 				break;
