@@ -8,6 +8,7 @@ import store from '@src/store';
 
 export default class ListenerService {
     network: NetworkModel;
+    repositoryFactory: RepositoryFactoryHttp;
     listener: IListener;
 
     setNetwork = (network: NetworkModel) => {
@@ -15,14 +16,15 @@ export default class ListenerService {
             this.listener.close();
         }
         this.network = network;
-        const repositoryFactory = new RepositoryFactoryHttp(network.node, {
+        this.repositoryFactory = new RepositoryFactoryHttp(network.node, {
             websocketInjected: WebSocket,
         });
-        this.listener = repositoryFactory.createListener();
+        this.listener = this.repositoryFactory.createListener();
     };
 
     listen = (account: AccountModel) => {
         this.listener.close();
+        this.listener = this.repositoryFactory.createListener();
         const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, this.network.type);
         const address = Address.createFromRawAddress(rawAddress);
         this.listener.open().then(() => {
@@ -40,6 +42,7 @@ export default class ListenerService {
                 //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
                 .subscribe(() => {
                     this.showMessage('New unconfirmed transaction!', 'success');
+                    store.dispatchAction({ type: 'account/loadAllData' });
                 });
         });
     };

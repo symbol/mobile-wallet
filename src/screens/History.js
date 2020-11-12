@@ -31,8 +31,8 @@ class History extends Component<Props, State> {
     };
 
     componentDidMount() {
-        store.dispatchAction({ type: 'account/loadTransactions' });
-        this.props.dataManager.reset();
+        // store.dispatchAction({ type: 'account/loadTransactions' });
+        // this.props.dataManager.reset();
     }
 
     showDetails = index => {

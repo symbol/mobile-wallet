@@ -3,12 +3,17 @@ import FetchTransactionService from '@src/services/FetchTransactionService';
 import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
 import { forkJoin } from 'rxjs';
 
-const fetchAccountTransactions = async ({ state }) => {
+const fetchAccountTransactions = async ({ state, commit }) => {
     const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
     const transactionsByAddress = await FetchTransactionService.getTransactionsFromAddresses(
         [address, ...state.account.cosignatoryOf],
         state.network.selectedNetwork
     );
+    const someSignaturePending = Object.values(transactionsByAddress).reduce((acc, txs) => {
+        const needsSig = FetchTransactionService.checkIfTransactionsNeedsSignature(state.wallet.selectedAccount.id, txs);
+        return acc || needsSig;
+    }, false);
+    commit({ type: 'account/setPendingSignature', payload: someSignaturePending });
     return { data: transactionsByAddress };
 };
 
@@ -38,6 +43,7 @@ export default {
         accounts: [],
         cosignatoryOf: [],
         cosignatoryTransactions: {},
+        pendingSignature: false,
     },
     mutations: {
         ...getMutationsFromManagers(managers, 'account'),
@@ -73,6 +79,10 @@ export default {
             state.account.cosignatoryOf = payload;
             return state;
         },
+        setPendingSignature(state, payload) {
+            state.account.pendingSignature = payload;
+            return state;
+        },
     },
     actions: {
         loadAllData: async ({ commit, dispatchAction, state }, reset) => {
@@ -85,16 +95,15 @@ export default {
                 commit({ type: 'account/setTransactions', payload: [] });
             }
             if (state.account.refreshingObs) {
-                console.log('Unsubscribinh');
-                console.log(state.account.refreshingObs);
                 state.account.refreshingObs.unsubscribe();
             }
             const refreshingObs = forkJoin(
                 dispatchAction({ type: 'account/loadBalance' }),
-                // dispatchAction({ type: 'account/loadTransactions' }),
+                dispatchAction({ type: 'account/loadTransactions' }),
                 dispatchAction({ type: 'account/loadCosignatoryOf' }),
                 dispatchAction({ type: 'harvesting/init' })
             ).subscribe(() => {
+                //state.account.transactionListManager.reset();
                 commit({ type: 'account/setRefreshingObs', payload: false });
                 commit({ type: 'account/setLoading', payload: false });
             });
@@ -107,7 +116,8 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadTransactions: async store => {
-            store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+            await store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+            store.state.account.transactionListManager.reset();
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

@@ -34,7 +34,7 @@ class Home extends Component<Props, State> {
     };
 
     render() {
-        const { contentStyle = {}, componentId, accountName, onOpenMenu } = this.props;
+        const { pendingSignature, contentStyle = {}, componentId, accountName, onOpenMenu, changeTab } = this.props;
         const {} = this.state;
 
         return (
@@ -72,21 +72,23 @@ class Home extends Component<Props, State> {
                                 </Text>
                             </Row>
                         </View>
-                        <View style={styles.transactionPreview}>
-                            <Row justify="space-between">
-                                <Text type="regular" theme="light">
-                                    Multisig Transaction
-                                </Text>
-                                <Text type="regular" theme="light">
-                                    23.10.2020 10:59
-                                </Text>
-                            </Row>
-                            <Row justify="space-between">
-                                <Text type="bold" theme="light">
-                                    Awaiting your signature
-                                </Text>
-                            </Row>
-                        </View>
+                        {pendingSignature && (
+                            <TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
+                                <Row justify="space-between">
+                                    <Text type="regular" theme="light">
+                                        Multisig Transaction
+                                    </Text>
+                                    <Text type="regular" theme="light">
+                                        23.10.2020 10:59
+                                    </Text>
+                                </Row>
+                                <Row justify="space-between">
+                                    <Text type="bold" theme="light">
+                                        Awaiting your signature
+                                    </Text>
+                                </Row>
+                            </TouchableOpacity>
+                        )}
                     </Section>
                 </Col>
             </GradientBackground>
@@ -96,5 +98,6 @@ class Home extends Component<Props, State> {
 
 export default connect(state => ({
     accountName: state.wallet.selectedAccount.name,
+    pendingSignature: state.account.pendingSignature,
     address: state.account.selectedAccountAddress,
 }))(Home);

@@ -65,6 +65,7 @@ export default class Dashboard extends Component<Props, State> {
                     contentStyle={styles.contentContainer}
                     componentId={componentId}
                     onOpenMenu={() => this.setState({ isSidebarShown: true })}
+                    changeTab={this.onTabChange}
                 />
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
                 <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />

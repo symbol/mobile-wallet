@@ -226,4 +226,14 @@ export default class FetchTransactionService {
             signTransactionObject: transaction,
         };
     }
+
+    /**
+     * Checks if transactions need publicKey signature
+     * @param publicKey
+     * @param transactions
+     * @returns {boolean}
+     */
+    static checkIfTransactionsNeedsSignature(publicKey: string, transactions: TransactionModel[]): boolean {
+        return !!transactions.find(tx => tx.type === 'aggregate' && tx.status === 'unconfirmed' && tx.cosignaturePublicKeys.indexOf(publicKey) === -1);
+    }
 }
