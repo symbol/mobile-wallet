@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 		height: 72,
 		marginTop: 2,
 		//backgroundColor: '#f005',
-
 	},
 	iconLeft: {
 		//backgroundColor: '#f005',
@@ -34,6 +33,7 @@ type Theme = 'light'
 
 interface Props {
 	theme: Theme;
+	onOpenMenu: function;
 	onBack: function;
 	onSettings: function;
 	title: string;
@@ -52,6 +52,7 @@ export default class PluginList extends Component<Props, State> {
 		const {
 			style = {},
 			theme,
+			onOpenMenu,
 			onBack,
 			onSettings,
 			onReload,
@@ -68,31 +69,32 @@ export default class PluginList extends Component<Props, State> {
 			? 'settings_light'
 			: 'settings_dark';
 
-		const iconReloadName = theme === 'light'
-			? 'settings_light'
-			: 'settings_dark';
+		const iconMenuName = theme === 'light'
+			? 'options_light'
+			: 'options_dark';
 
 
 		return (
 			<Section type="title" style={[style]}>
 				<Row justify="space-between" align="center" style={styles.root}>
 					<Row justify="start" align="center">
+						{!!onOpenMenu && <TouchableOpacity style={styles.iconLeft} onPress={onOpenMenu} >
+							<Icon name={iconMenuName} size="small" />
+						</TouchableOpacity>}
 						{!!onBack && <TouchableOpacity style={styles.iconLeft} onPress={onBack} >
 							<Icon name={iconBackName} />
 						</TouchableOpacity>}
-						<Col>
-							<Text type='title' theme={theme}>{title}</Text>
-							{!!subtitle && <Text type='subtitle' theme={theme}>{subtitle}</Text>}
-						</Col>
+						{!onBack && !onOpenMenu && <Icon name="none" />}
 					</Row>
+					<Col style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} align="center" justify="center">
+						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '70%'}}>{title}</Text>
+					</Col>
 					<Row justify="end" align="center">
 						{buttons}
 						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
 							<Icon name={iconSettingsName} />
 						</TouchableOpacity>}
-						{!!onReload && <TouchableOpacity style={styles.iconRight} onPress={onReload}>
-							<Icon name={iconReloadName} />
-						</TouchableOpacity>}
+						{!onSettings && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>

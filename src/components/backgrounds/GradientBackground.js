@@ -40,8 +40,13 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, componentId } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, onBack, componentId } = this.props;
 		const {} = this.state;
+		const goBack = onBack 
+			? onBack
+			: componentId
+				? (() => Router.goBack(componentId))
+				: null;
 
 		let source;
 		const imageName = name + '_' + theme;
@@ -96,11 +101,11 @@ export default class GradientBackground extends Component<Props, State> {
 						<Text type="bold" theme="light" align="center">{dataManager.errorMessage}</Text>
 						<Text type="regular" theme="light" align="center">{dataManager.errorDescription}</Text>
 					</Section>
-					<Section type="form-item">
-						<Button theme="light" text="Try again" onPress={() => dataManager.fetch()} />
-					</Section>
-					{componentId && <Section type="form-item">
-						<Button theme="light" text="Go back" onPress={() => Router.goBack(componentId)} />
+					{dataManager.fetch && <Section type="form-item">
+						<Button theme={theme} text="Try again" onPress={() => dataManager.fetch()} />
+					</Section>}
+					{goBack && <Section type="form-item">
+						<Button theme={theme} text="Go back" onPress={goBack} />
 					</Section>}
 				</Col>
 			}</>)}
