@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import store from '@src/store';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
+import { Account, Address, NetworkType, PublicAccount, RepositoryFactoryHttp, TransactionGroup } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
     list: {
@@ -35,7 +36,34 @@ class History extends Component<Props, State> {
         // this.props.dataManager.reset();
     }
 
-    showDetails = index => {
+    showDetails = async index => {
+        const networkType = NetworkType.TEST_NET;
+        const { dataManager, address, privateKey, network } = this.props;
+        const { selectedMultisig } = this.state;
+        let transactions;
+        if (selectedMultisig) {
+            transactions = dataManager.data[selectedMultisig] || [];
+        } else {
+            transactions = dataManager.data[address] || [];
+        }
+
+        const certificateAccount = Account.createFromPrivateKey(privateKey, networkType);
+        const repositoryFactory = await new RepositoryFactoryHttp(network.node);
+        const accountHttp = repositoryFactory.createAccountRepository();
+        const recipientAddress = Address.createFromRawAddress(transactions[index].signerAddress);
+        const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
+        const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
+        const transactionHttp = repositoryFactory.createTransactionRepository();
+        const transactionHash = transactions[index].hash;
+
+        transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).subscribe(
+            transaction => {
+                console.log('Raw message: ', transaction.message.payload);
+                console.log('Message: ', certificateAccount.decryptMessage(transaction.message, alicePublicAccount).payload);
+            },
+            err => console.log(err)
+        );
+
         const { showingDetails } = this.state;
         if (showingDetails === index) {
             this.setState({
@@ -100,4 +128,6 @@ export default connect(state => ({
     dataManager: state.account.transactionListManager,
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
+    privateKey: state.wallet.selectedAccount.privateKey,
+    network: state.network.selectedNetwork,
 }))(History);
