@@ -213,7 +213,10 @@ export default class FetchTransactionService {
     ): Promise<AggregateTransactionModel> {
         const transactionHttp = new TransactionHttp(network.node);
         const fullTransactionData = await transactionHttp
-            .getTransaction(transaction.transactionInfo.id, transaction.isConfirmed() ? TransactionGroup.Confirmed : TransactionGroup.Partial)
+            .getTransaction(
+                transaction.transactionInfo.id,
+                transaction.isConfirmed() ? TransactionGroup.Confirmed : transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial
+            )
             .toPromise();
         const innerTransactionModels = await Promise.all(
             fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))

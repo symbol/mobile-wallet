@@ -7,6 +7,9 @@ orbs:
 
 jobs:
   build_testnet:
+    branches:
+      only:
+        - master
     macos:
       xcode: 11.5.0 # Specify the Xcode version to use
     working_directory: /Users/distiller/project
