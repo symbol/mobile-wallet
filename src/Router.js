@@ -29,8 +29,10 @@ import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
+import CustomFlashMessage from "@src/components/organisms/CustomFlashMessage";
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
+export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
 export const CREATE_OR_IMPORT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_OR_IMPORT`;
 export const WALLET_NAME_SCREEN = `${BASE_SCREEN_NAME}.WALLET_NAME`;
@@ -47,6 +49,8 @@ export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
+export const START_HARVESTING_SCREEN = `${BASE_SCREEN_NAME}.START_HARVESTING_SCREEN`;
+export const CREATE_REMOTE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_REMOTE_ACCOUNT_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const RECEIVE_SCREEN = `${BASE_SCREEN_NAME}.RECEIVE_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
@@ -109,6 +113,8 @@ export class Router {
                 WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent))
             )
         );
+
+        Navigation.registerComponent(CUSTOM_FLASH_MESSAGE, () => CustomFlashMessage);
     }
 
     static goToTermsAndPrivacy(passProps, parentComponent?) {
@@ -197,6 +203,8 @@ export class Router {
     static closeOverlay(componentId) {
         Navigation.dismissOverlay(componentId);
     }
+
+    static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
 }
 
 /**
@@ -276,7 +284,7 @@ const pushToStack = (parent, screen: string, passProps) => {
     return Navigation.push(parent, {
         component: {
             name: screen,
-            passProps,
+            passProps: passProps,
             options: {
                 bottomTabs: { visible: false, drawBehind: false, animate: true },
                 sideMenu: {
@@ -307,7 +315,7 @@ const goBack = component => {
  * @param passProps
  */
 const showOverlay = (screen, passProps) => {
-    Navigation.showOverlay({
+    return Navigation.showOverlay({
         component: {
             name: screen,
             passProps: { ...passProps },

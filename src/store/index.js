@@ -8,7 +8,9 @@ import transfer from '@src/store/transfer';
 import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
 import news from '@src/store/news';
+import harvesting from '@src/store/harvesting';
 import addressBook from '@src/store/addressBook';
+import ListenerService from '@src/services/ListenerService';
 
 const modules = {
     market,
@@ -19,6 +21,7 @@ const modules = {
     transfer,
     account,
     news,
+    harvesting,
     addressBook,
 };
 
@@ -29,18 +32,11 @@ const createModuleReducer = (module, state = {}, action) => {
     const mutation = action.type.split('/')[1];
 
     if (module.namespace === namespace && typeof module.mutations[mutation] !== 'function') {
-        console.error(
-            '[Store] Failed to commit mutation. Type "' +
-                mutation +
-                '" does not exist in "' +
-                namespace +
-                '"'
-        );
+        console.error('[Store] Failed to commit mutation. Type "' + mutation + '" does not exist in "' + namespace + '"');
         return state;
     }
 
-    if (module.namespace === namespace && typeof module.mutations[mutation] === 'function')
-        return module.mutations[mutation](state, action.payload);
+    if (module.namespace === namespace && typeof module.mutations[mutation] === 'function') return module.mutations[mutation](state, action.payload);
 
     return state;
 };
@@ -49,9 +45,7 @@ const createRootReducer = (state, action) => {
     let rootState = { ...state };
 
     if (typeof action.type !== 'string') {
-        console.error(
-            '[Store] Failed to commit mutation. Type "' + action.type + '" is not a string'
-        );
+        console.error('[Store] Failed to commit mutation. Type "' + action.type + '" is not a string');
         return rootState;
     }
 
@@ -97,12 +91,14 @@ store.dispatchAction = ({ type, payload }) => {
         modules[namespace].actions[action](
             {
                 commit: dispatch,
-                state,
+                state: state,
                 dispatchAction: store.dispatchAction,
             },
             payload
         )
     );
 };
+
+export const GlobalListener = new ListenerService();
 
 export default store;

@@ -1,6 +1,7 @@
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import AccountService from '@src/services/AccountService';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
+import { GlobalListener } from '@src/store/index';
 
 export default {
     namespace: 'wallet',
@@ -38,7 +39,7 @@ export default {
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             if (state.wallet.accounts.length > 0) {
                 await dispatchAction({ type: 'wallet/loadAccount' });
-                await dispatchAction({ type: 'account/loadAllData' });
+                await dispatchAction({ type: 'account/loadAllData', payload: true });
             }
         },
         saveWallet: async ({ state, dispatchAction }) => {
@@ -57,7 +58,8 @@ export default {
                 accountModel = (await AccountSecureStorage.getAllAccounts())[0];
             }
             await commit({ type: 'wallet/setSelectedAccount', payload: accountModel });
-            await dispatchAction({ type: 'account/loadAllData' });
+            await dispatchAction({ type: 'account/loadAllData', payload: true });
+            GlobalListener.listen(accountModel);
         },
         createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();

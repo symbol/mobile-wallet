@@ -51,11 +51,16 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, theme = 'dark', dataManager = {}, componentId } = this.props;
+		const { children, style = {}, theme = 'dark', dataManager = {}, onBack, componentId } = this.props;
 		const {} = this.state;
 		const buttonStyle = theme === 'dark' 
 			? styles.buttonLight 
 			: styles.buttonDark;
+		const goBack = onBack 
+			? onBack
+			: componentId
+				? (() => Router.goBack(componentId))
+				: null;
 
 		return (<>
 			<View style={styles.content}>
@@ -79,13 +84,13 @@ export default class GradientBackground extends Component<Props, State> {
 							{!!dataManager.errorMessage && <Text type="bold" theme={theme} align="center">{dataManager.errorMessage}</Text>}
 							{!!dataManager.errorDescription && <Text type="regular" theme={theme} align="center">{dataManager.errorDescription}</Text>}
 						</Section>
-						<Section type="form-item">
+						{dataManager.fetch && <Section type="form-item">
 							<TouchableOpacity onPress={() => dataManager.fetch()}>
 								<Text theme={theme} type="bold" style={buttonStyle}>Try again</Text>
 							</TouchableOpacity>
-						</Section>
-						{componentId && <Section type="form-item">
-							<TouchableOpacity onPress={() => Router.goBack(componentId)}>
+						</Section>}
+						{goBack && <Section type="form-item">
+							<TouchableOpacity onPress={goBack}>
 								<Text theme={theme} type="bold" style={buttonStyle}>Go back</Text>
 							</TouchableOpacity>
 						</Section>}

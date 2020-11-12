@@ -86,7 +86,7 @@ class ContactProfile extends Component<Props, State> {
                         <Button style={styles.button} text="Edit Contact" theme="light" onPress={() => this.submit()} />
                     </Section>
                     <Section>
-                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove(id)} />
+                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove(selectedContact.id)} />
                     </Section>
                 </Section>
             </ImageBackground>

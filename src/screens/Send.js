@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Checkbox, Section, GradientBackground, TitleBar, Input, InputAddress, Button, Dropdown, MosaicDropdown } from '@src/components';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Store from '@src/store';
+import _ from 'lodash';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
@@ -38,7 +39,22 @@ class Send extends Component<Props, State> {
 
     componentDidMount = () => {
         Store.dispatchAction({ type: 'transfer/clear' });
-    };
+	};
+
+	verify = () => {
+		if(!this.state.recipientAddress.length) {
+			console.error('Alert("Invalid recipient address")');
+			return false;
+		}
+		if(+this.props.ownedMosaics
+			.find(mosaic => mosaic.mosaicId === this.state.mosaicName)
+			.amount < +this.state.amount
+		) {
+			console.error('Alert("Invalid amount")');
+			return false;
+		}
+		return true;
+	};
 
     submit = () => {
         const { selectedContact } = this.props;
@@ -49,27 +65,23 @@ class Send extends Component<Props, State> {
             recipientAddress = this.state.recipientAddress;
         }
         const { ownedMosaics } = this.props;
-        const mosaic: MosaicModel = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
-        mosaic.amount = this.state.amount;
-        Store.dispatchAction({
-            type: 'transfer/setTransaction',
-            payload: {
-                recipientAddress: recipientAddress,
-                mosaics: [mosaic],
-                message: this.state.message,
-                messageEncrypted: this.state.isEncrypted,
-                fee: this.state.fee,
-            },
-        });
-        this.setState({
-            isConfirmShown: true,
-        });
-        // Router.goToConfirmTransaction({
-        // 	isLoading: this.props.isLoading,
-        // 	isError: this.props.isError,
-        // 	isSuccessfullySent: this.props.isSuccessfullySent,
-        // 	transaction: this.props.transaction,
-        // }, this.props.componentId);
+        const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
+		mosaic.amount = this.state.amount;
+		if(this.verify()) {
+			Store.dispatchAction({
+				type: 'transfer/setTransaction',
+				payload: {
+					recipientAddress: this.state.recipientAddress,
+					mosaics: [mosaic],
+					message: this.state.message,
+					messageEncrypted: this.state.isEncrypted,
+					fee: this.state.fee,
+				},
+			});
+			this.setState({
+				isConfirmShown: true,
+			});
+		}
     };
 
     showSendForm = () => {
@@ -101,14 +113,6 @@ class Send extends Component<Props, State> {
             label: mosaic.mosaicName,
             balance: mosaic.amount / Math.pow(10, mosaic.divisibility),
         }));
-
-        if (mosaicList.length === 0) {
-            mosaicList.push({
-                value: network.currencyMosaicId,
-                label: 'symbol.xym',
-                balance: 0,
-            });
-        }
 
         const feeList = [
             { value: 0.1, label: '0.1 XEM - slow' },
@@ -172,5 +176,4 @@ export default connect(state => ({
     network: state.network.selectedNetwork,
     ownedMosaics: state.account.ownedMosaics,
     isOwnedMosaicsLoading: state.account.isLoading,
-    selectedContact: state.addressBook.selectedContact,
 }))(Send);

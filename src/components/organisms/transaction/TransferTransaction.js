@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Text, Row, Button } from '@src/components';
-import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Row } from '@src/components';
+import { AddressComponent } from '@src/components/controls';
+import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -23,6 +24,7 @@ type Props = {
 };
 
 class TransferTransaction extends Component<Props> {
+
     render() {
         const { transaction, network, showDetails, openExplorer } = this.props;
         const currencyMosaic = transaction.mosaics.find(mosaic => mosaic.mosaicId === network.currencyMosaicId);
@@ -37,9 +39,9 @@ class TransferTransaction extends Component<Props> {
                     </Text>
                 </Row>
                 <Row justify="space-between">
-                    <Text type="bold" theme="light">
-                        {transaction.signerAddress.slice(0, 9)}...
-                    </Text>
+                    <AddressComponent type="bold" theme="light">
+                        {transaction.signerAddress}
+                    </AddressComponent>
                     <Text type="bold" theme="light">
                         Amount: {currencyMosaic ? currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) : 0}
                     </Text>
@@ -96,4 +98,5 @@ class TransferTransaction extends Component<Props> {
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
+    addressBook: state.addressBook.addressBook,
 }))(TransferTransaction);

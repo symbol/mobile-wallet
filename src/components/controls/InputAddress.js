@@ -35,12 +35,9 @@ type State = {};
 let addressBookList = [];
 
 class InputAccount extends Component<Props, State> {
-    importWithAddressBook = id => {
-        const { addressBook } = this.props;
-        const contact = addressBook.getContactById(id);
-        store.dispatchAction({ type: 'addressBook/selectContact', payload: contact });
+    importWithAddressBook = address => {
         setTimeout(() => {
-            if (typeof this.props.onChangeText === 'function') this.props.onChangeText(contact.name);
+            if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
         }, 1000);
     };
 
@@ -88,7 +85,7 @@ class InputAccount extends Component<Props, State> {
         const { addressBook } = this.props;
         addressBookList = [];
         addressBook.getAllContacts().map(item => {
-            addressBookList.push({ value: item.id, id: item.id, label: item.name });
+            addressBookList.push({ value: item.address, label: item.name + ': ' + item.address.slice(0, 9) + '...' });
         });
         if (fullWidth) rootStyle.push(styles.fullWidth);
 

@@ -1,16 +1,19 @@
 import AccountService from '@src/services/AccountService';
-import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
-import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import FetchTransactionService from '@src/services/FetchTransactionService';
 import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
+import {from} from 'rxjs';
 
-const fetchAccountTransactions = async ({ state }) => {
+const fetchAccountTransactions = async ({ state, commit }) => {
     const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
     const transactionsByAddress = await FetchTransactionService.getTransactionsFromAddresses(
         [address, ...state.account.cosignatoryOf],
         state.network.selectedNetwork
     );
+    const someSignaturePending = Object.values(transactionsByAddress).reduce((acc, txs) => {
+        const needsSig = FetchTransactionService.checkIfTransactionsNeedsSignature(state.wallet.selectedAccount.id, txs);
+        return acc || needsSig;
+    }, false);
+    commit({ type: 'account/setPendingSignature', payload: someSignaturePending });
     return { data: transactionsByAddress };
 };
 
@@ -29,6 +32,7 @@ export default {
     namespace: 'account',
     state: {
         ...getStateFromManagers(managers),
+        refreshingObs: null,
         selectedAccount: {},
         selectedAccountAddress: '',
         loading: false,
@@ -39,9 +43,14 @@ export default {
         accounts: [],
         cosignatoryOf: [],
         cosignatoryTransactions: {},
+        pendingSignature: false,
     },
     mutations: {
         ...getMutationsFromManagers(managers, 'account'),
+        setRefreshingObs(state, payload) {
+            state.account.refreshingObs = payload;
+            return state;
+        },
         setSelectedAccountAddress(state, payload) {
             state.account.selectedAccountAddress = payload;
             return state;
@@ -70,21 +79,40 @@ export default {
             state.account.cosignatoryOf = payload;
             return state;
         },
+        setPendingSignature(state, payload) {
+            state.account.pendingSignature = payload;
+            return state;
+        },
     },
     actions: {
-        loadAllData: async ({ commit, dispatchAction, state }) => {
+        loadAllData: async ({ commit, dispatchAction, state }, reset) => {
             commit({ type: 'account/setLoading', payload: true });
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             commit({ type: 'account/setSelectedAccountAddress', payload: address });
-            commit({ type: 'account/setBalance', payload: 0 });
-            commit({ type: 'account/setOwnedMosaics', payload: [] });
-            commit({ type: 'account/setTransactions', payload: [] });
-            await Promise.all([
-                await dispatchAction({ type: 'account/loadBalance' }),
-                // await dispatchAction({ type: 'account/loadTransactions' }),
-                await dispatchAction({ type: 'account/loadCosignatoryOf' }),
-            ]);
-            commit({ type: 'account/setLoading', payload: false });
+            if (reset) {
+                commit({ type: 'account/setBalance', payload: 0 });
+                commit({ type: 'account/setOwnedMosaics', payload: [] });
+                commit({ type: 'account/setTransactions', payload: [] });
+            }
+            if (state.account.refreshingObs) {
+                state.account.refreshingObs.unsubscribe();
+            }
+            const refreshingObs = from(
+                new Promise(async resolve => {
+                    await Promise.all([
+                        dispatchAction({ type: 'account/loadBalance' }),
+                        dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                        dispatchAction({ type: 'harvesting/init' }),
+                    ]);
+                    await dispatchAction({ type: 'account/loadTransactions' });
+                    resolve();
+                })
+            ).subscribe(() => {
+                //state.account.transactionListManager.reset();
+                commit({ type: 'account/setRefreshingObs', payload: false });
+                commit({ type: 'account/setLoading', payload: false });
+            });
+            commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
@@ -93,7 +121,8 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadTransactions: async store => {
-            store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+            await store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
+            await store.state.account.transactionListManager.reset();
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

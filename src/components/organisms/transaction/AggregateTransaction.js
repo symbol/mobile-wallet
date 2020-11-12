@@ -26,14 +26,14 @@ class AggregateTransaction extends Component<Props> {
     sign() {
         const { transaction } = this.props;
         store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
-            store.dispatchAction({ type: 'wallet/loadAccount' });
+            store.dispatchAction({ type: 'account/loadAllData' });
         });
     }
 
     render() {
         const { transaction, isLoading, selectedAccount } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        const needsSignature = transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1;
+        const needsSignature = transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
         return (
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">

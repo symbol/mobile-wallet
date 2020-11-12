@@ -213,17 +213,34 @@ export default class FetchTransactionService {
     ): Promise<AggregateTransactionModel> {
         const transactionHttp = new TransactionHttp(network.node);
         const fullTransactionData = await transactionHttp
-            .getTransaction(transaction.transactionInfo.id, transaction.isConfirmed() ? TransactionGroup.Confirmed : TransactionGroup.Partial)
+            .getTransaction(
+                transaction.transactionInfo.id,
+                transaction.isConfirmed() ? TransactionGroup.Confirmed : transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial
+            )
             .toPromise();
         const innerTransactionModels = await Promise.all(
             fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
         );
+        const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
+        if (transaction.signer) {
+            cosignaturePublicKeys.push(transaction.signer.publicKey);
+        }
         return {
             ...transactionModel,
             type: 'aggregate',
             innerTransactions: innerTransactionModels,
-            cosignaturePublicKeys: transaction.cosignatures.map(cosignature => cosignature.signer.publicKey),
+            cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
         };
+    }
+
+    /**
+     * Checks if transactions need publicKey signature
+     * @param publicKey
+     * @param transactions
+     * @returns {boolean}
+     */
+    static checkIfTransactionsNeedsSignature(publicKey: string, transactions: TransactionModel[]): boolean {
+        return !!transactions.find(tx => tx.type === 'aggregate' && tx.status === 'unconfirmed' && tx.cosignaturePublicKeys.indexOf(publicKey) === -1);
     }
 }

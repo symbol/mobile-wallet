@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
-import store from '@src/store';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 
@@ -31,8 +30,8 @@ class History extends Component<Props, State> {
     };
 
     componentDidMount() {
-        store.dispatchAction({ type: 'account/loadTransactions' });
-        this.props.dataManager.reset();
+        // store.dispatchAction({ type: 'account/loadTransactions' });
+        // this.props.dataManager.reset();
     }
 
     showDetails = index => {
@@ -60,11 +59,13 @@ class History extends Component<Props, State> {
         const { dataManager, address, cosignatoryOf } = this.props;
         const { showingDetails, filterValue, selectedMultisig } = this.state;
         let transactions;
+
         if (selectedMultisig) {
             transactions = dataManager.data[selectedMultisig] || [];
         } else {
             transactions = dataManager.data[address] || [];
         }
+
         const filteredTransactions = transactions.filter((tx: TransactionModel) => {
             switch (filterValue) {
                 case 'sent':
@@ -100,4 +101,5 @@ export default connect(state => ({
     dataManager: state.account.transactionListManager,
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
+    addressBook: state.addressBook.addressBook,
 }))(History);

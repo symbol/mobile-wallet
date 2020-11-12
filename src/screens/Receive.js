@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, InputAddress } from '@src/components';
+import { Section, GradientBackground, TitleBar, Input, InputAddress, CopyView } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { SvgXml } from 'react-native-svg';
@@ -68,14 +68,20 @@ class Receive extends Component<Props, State> {
             <GradientBackground name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Receive" />
                 <Section type="form" style={styles.list} isScrollable>
+					<Section type="form-item">
+						<Section type="center">
+							{imgData && <SvgXml style={styles.qr} xml={imgData} width="240px" height="240px" />}
+						</Section>
+					</Section>
                     <Section type="form-item">
-                        <InputAddress
+						<CopyView theme="light" placeholder="Address" fullWidth>{recipientAddress}</CopyView>
+                        {/* <InputAddress
                             value={recipientAddress}
                             placeholder="Recipient Address"
                             theme="light"
                             fullWidth
                             onChangeText={this.handleRecipientAddressChange}
-                        />
+                        /> */}
                     </Section>
                     <Section type="form-item">
                         <Input value={amount} placeholder="Amount" theme="light" onChangeText={this.handleAmountChange} />
@@ -83,7 +89,6 @@ class Receive extends Component<Props, State> {
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={this.handleMessageChange} />
                     </Section>
-                    {imgData && <SvgXml style={styles.qr} xml={imgData} width="240px" height="240px" />}
                 </Section>
             </GradientBackground>
         );

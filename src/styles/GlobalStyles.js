@@ -69,6 +69,13 @@ export default {
 			fontSize: 24
 		},
 
+		titleSmall: {
+			color: COLORS.WHITE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '400',
+			fontSize: 18
+		},
+
 		subtitle: {
 			color: COLORS.DARKWHITE,
 			fontFamily: 'NotoSans-Regular',

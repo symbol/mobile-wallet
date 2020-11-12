@@ -41,11 +41,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: |
-            echo "export VERSION_NUMBER=v1.0.\${BUILD_NUMBER}-testnet" >> $BASH_ENV
-            cd ios && bundle exec fastlane $FASTLANE_LANE
-          environment:
-            BUILD_NUMBER: ${CIRCLE_BUILD_NUM}00
+          command: cd ios && export BUILD_NUMBER=${CIRCLE_BUILD_NUM}00 && export VERSION_NUMBER=3.0.${BUILD_NUMBER} && bundle exec fastlane $FASTLANE_LANE
 
       - store_artifacts:
           path: ios/output
@@ -56,4 +52,8 @@ workflows:
   version: 2
   build_testnet_and_mainnet:
     jobs:
-      - build_testnet
+      - build_testnet:
+          filters:
+            branches:
+              only:
+                - master
