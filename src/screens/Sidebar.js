@@ -219,9 +219,10 @@ class Sidebar extends Component<Props, State> {
                     <TouchableOpacity onPress={() => {}}>
                         <Col justify="space-between" fullHeight>
                             <Section isScrollable>
+                                {selectedAccount && this.renderSelectedAccountItem(selectedAccount)}
                                 {accounts.map(account => {
-                                    if (account.id === selectedAccount.id) return this.renderSelectedAccountItem();
-                                    else return this.renderAccountSelectorItem(account);
+                                    if (account.id !== selectedAccount.id) return this.renderAccountSelectorItem(account);
+                                    else return null;
                                 })}
                             </Section>
                             <Section style={styles.menuBottomContainer}>{menuItems.map(this.renderMenuItem)}</Section>
