@@ -94,9 +94,9 @@ export default class Pagination {
    */
 	initialFetch = () => {
 		if (!this.initialized) {
-			this.reset();
+			const r = this.reset();
 			this.initialized = true;
-			return this.fetch();
+			return r;
 		}
 	}
 

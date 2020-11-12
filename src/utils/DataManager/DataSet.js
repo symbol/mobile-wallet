@@ -20,11 +20,12 @@ export default class DataSet {
 	static empty() {
 		return {
 			data: {},
-			reset: () => { }
+			fetch: () => {},
+			reset: () => {}
 		};
 	}
 
-	/** Store context
+	/** Set Store context and namespace (module) name
    *
    */
 	setStore = (store, namespace) => {
@@ -34,16 +35,8 @@ export default class DataSet {
 		return this;
 	}
 
-	/**
-	 * Set timeline data
-	 * @param data
-	 */
-	setData = (data) => {
-		this.pageInfo.data = data;
-		return this;
-	}
 
-	/** Uninitialize Pagination
+	/** Uninitialize DataSet
    *
    */
 	uninitialize = () => {
@@ -58,9 +51,9 @@ export default class DataSet {
    */
 	initialFetch = () => {
 		if (!this.initialized) {
-			this.reset();
+			const r = this.reset();
 			this.initialized = true;
-			return this.fetch();
+			return r;
 		}
 	}
 
