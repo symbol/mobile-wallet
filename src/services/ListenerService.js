@@ -44,6 +44,14 @@ export default class ListenerService {
                     this.showMessage('New unconfirmed transaction!', 'success');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
+
+            this.listener
+                .aggregateBondedAdded(address)
+                //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
+                .subscribe(() => {
+                    this.showMessage('New aggregate transaction!', 'success');
+                    store.dispatchAction({ type: 'account/loadAllData' });
+                });
         });
     };
 

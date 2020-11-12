@@ -1,7 +1,7 @@
 import AccountService from '@src/services/AccountService';
 import FetchTransactionService from '@src/services/FetchTransactionService';
 import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
-import { forkJoin } from 'rxjs';
+import {from} from 'rxjs';
 
 const fetchAccountTransactions = async ({ state, commit }) => {
     const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
@@ -97,11 +97,16 @@ export default {
             if (state.account.refreshingObs) {
                 state.account.refreshingObs.unsubscribe();
             }
-            const refreshingObs = forkJoin(
-                dispatchAction({ type: 'account/loadBalance' }),
-                dispatchAction({ type: 'account/loadTransactions' }),
-                dispatchAction({ type: 'account/loadCosignatoryOf' }),
-                dispatchAction({ type: 'harvesting/init' })
+            const refreshingObs = from(
+                new Promise(async resolve => {
+                    await Promise.all([
+                        dispatchAction({ type: 'account/loadBalance' }),
+                        dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                        dispatchAction({ type: 'harvesting/init' }),
+                    ]);
+                    await dispatchAction({ type: 'account/loadTransactions' });
+                    resolve();
+                })
             ).subscribe(() => {
                 //state.account.transactionListManager.reset();
                 commit({ type: 'account/setRefreshingObs', payload: false });
@@ -117,7 +122,7 @@ export default {
         },
         loadTransactions: async store => {
             await store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
-            store.state.account.transactionListManager.reset();
+            await store.state.account.transactionListManager.reset();
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

@@ -26,7 +26,7 @@ class AggregateTransaction extends Component<Props> {
     sign() {
         const { transaction } = this.props;
         store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
-            store.dispatchAction({ type: 'wallet/loadAccount' });
+            store.dispatchAction({ type: 'account/loadAllData' });
         });
     }
 

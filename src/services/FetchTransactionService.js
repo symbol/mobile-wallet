@@ -218,11 +218,15 @@ export default class FetchTransactionService {
         const innerTransactionModels = await Promise.all(
             fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
         );
+        const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
+        if (transaction.signer) {
+            cosignaturePublicKeys.push(transaction.signer.publicKey);
+        }
         return {
             ...transactionModel,
             type: 'aggregate',
             innerTransactions: innerTransactionModels,
-            cosignaturePublicKeys: transaction.cosignatures.map(cosignature => cosignature.signer.publicKey),
+            cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
         };
     }
