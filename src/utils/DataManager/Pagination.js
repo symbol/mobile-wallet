@@ -104,6 +104,8 @@ export default class Pagination {
    *
    */
 	fetch = async () => {
+		this.errorDescription = '';
+		this.isError = false;
 		this.isLoading = true;
 		this.store.commit({type: `${this.namespace}/setDataManager_${this.name}`, payload: this});
 
@@ -182,6 +184,7 @@ export default class Pagination {
 	reset = async (pageNumber = 1) => {
 		this.pageInfo.pageNumber = pageNumber;
 		this.errorDescription = '';
+		this.isError = false;
 		return this.fetch();
 	}
 

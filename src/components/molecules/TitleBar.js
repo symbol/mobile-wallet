@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 		height: 72,
 		marginTop: 2,
 		//backgroundColor: '#f005',
-
 	},
 	iconLeft: {
 		//backgroundColor: '#f005',
