@@ -105,54 +105,5 @@ export default class OptionsMenu extends Component<Props, State> {
 				</Popover>
 			</>
 		);
-		return (
-			<View style={rootStyle}>
-				{!children && <Text style={titleStyle}>{title}</Text>}
-				{!children && <TouchableOpacity
-					style={inputStyles}
-					onPress={() => !isLoading && this.openSelector()}
-				>
-					{selectedOption &&
-						(!customInputReneder
-							? <Text style={styles.inputText}>{selectedOption.label}</Text>
-							: customInputReneder(selectedOption)
-						)
-					}
-					{!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
-					<View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
-						<Icon name="expand" size={iconSize} />
-					</View>
-				</TouchableOpacity>}
-				{children && <TouchableOpacity
-					onPress={() => this.openSelector()}
-				>
-					{children}
-				</TouchableOpacity>}
-
-				<Modal
-					animationType="fade"
-					transparent
-					visible={isSelectorOpen}
-					onRequestClose={() => this.closeSelector()}
-				>
-					<TouchableWithoutFeedback onPress={() => this.closeSelector()}>
-						<View style={styles.modalOverlay}></View>
-					</TouchableWithoutFeedback>
-					<View style={styles.modalWrapper}>
-						<View style={styles.modal}>
-							<Row justify="center" style={styles.modalTitleContainer}>
-								<Text style={styles.modalTitleText}>{title}</Text>
-							</Row>
-							<FlatList
-								data={list}
-								renderItem={this.renderItem}
-								keyExtractor={(item) => item.value}
-							/>
-						</View>
-					</View>
-				</Modal>
-				{isLoading && <ActivityIndicator size="small" color={GlobalStyles.color.PINK} style={styles.loading} />}
-			</View>
-		);
 	};
 }
