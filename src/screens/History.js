@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem } from '@src/components';
+import { Section, GradientBackground, ImageBackground, Text, Row, TitleBar, Dropdown, TransactionItem } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
@@ -83,6 +83,7 @@ class History extends Component<Props, State> {
         });
 
         return (
+			// <ImageBackground name="tanker" dataManager={dataManager}>
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
 				<TitleBar 
 					theme="light"
@@ -121,6 +122,7 @@ class History extends Component<Props, State> {
                         })}
                 </Section>     
             </GradientBackground>
+			// </ImageBackground>
         );
     }
 }
