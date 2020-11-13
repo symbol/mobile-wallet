@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
+import { NetworkType } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
     list: {
@@ -34,7 +35,17 @@ class History extends Component<Props, State> {
         // this.props.dataManager.reset();
     }
 
-    showDetails = index => {
+    showDetails = async index => {
+        const networkType = NetworkType.TEST_NET;
+        const { dataManager, address, privateKey, network } = this.props;
+        const { selectedMultisig } = this.state;
+        let transactions;
+        if (selectedMultisig) {
+            transactions = dataManager.data[selectedMultisig] || [];
+        } else {
+            transactions = dataManager.data[address] || [];
+        }
+
         const { showingDetails } = this.state;
         if (showingDetails === index) {
             this.setState({
@@ -102,4 +113,6 @@ export default connect(state => ({
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
     addressBook: state.addressBook.addressBook,
+    privateKey: state.wallet.selectedAccount.privateKey,
+    network: state.network.selectedNetwork,
 }))(History);
