@@ -77,13 +77,11 @@ class History extends Component<Props, State> {
         const { dataManager, address, cosignatoryOf, onOpenMenu, onOpenSettings } = this.props;
         const { showingDetails, filterValue, selectedMultisig } = this.state;
         let transactions;
-
         if (selectedMultisig) {
             transactions = dataManager.data[selectedMultisig] || [];
         } else {
             transactions = dataManager.data[address] || [];
         }
-
         const filteredTransactions = transactions.filter((tx: TransactionModel) => {
             switch (filterValue) {
                 case 'sent':
@@ -136,6 +134,8 @@ export default connect(state => ({
     dataManager: state.account.transactionListManager,
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
+    privateKey: state.wallet.selectedAccount.privateKey,
+    network: state.network.selectedNetwork,
     addressBook: state.addressBook.addressBook,
     privateKey: state.wallet.selectedAccount.privateKey,
     network: state.network.selectedNetwork,
