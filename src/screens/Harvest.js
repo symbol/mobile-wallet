@@ -48,12 +48,17 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned } = this.props;
+        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings  } = this.props;
         const { selectedNodePubKey, isLoading } = this.state;
 
         return (
             <ImageBackground name="harvest">
-                <TitleBar theme="light" title="Harvest" />
+               	<TitleBar 
+					theme="light"
+					title="Harvest" 
+					onOpenMenu={() => onOpenMenu()} 
+					onSettings={() => onOpenSettings()}
+				/>
                 <Section type="list" style={styles.list}>
                     <Text type={'bold'} theme={'light'}>
                         Status: {status}

@@ -16,12 +16,17 @@ class Mosaics extends Component<Props, State> {
     state = {};
 
     render() {
-        const { ownedMosaics } = this.props;
+        const { ownedMosaics, onOpenMenu, onOpenSettings  } = this.props;
         const {} = this.state;
 
         return (
             <ImageBackground name="blue" fade={true}>
-                <TitleBar theme="light" title="Mosaics" />
+                <TitleBar 
+					theme="light"
+					title="Mosaics" 
+					onOpenMenu={() => onOpenMenu()} 
+					onSettings={() => onOpenSettings()}
+				/>
                 <Section type="list" style={styles.list} isScrollable>
                     {ownedMosaics &&
                         ownedMosaics.map(mosaic => {

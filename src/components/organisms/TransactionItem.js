@@ -49,7 +49,7 @@ export default class Transaction extends Component<Props> {
 		let iconName = '';
 		let info = transaction.signerAddress;
 		let values = [];
-		console.log(transaction)
+		//console.log(transaction)
 
 		switch(transaction.type) {
 			case 'transfer':  // TODO: replace with SDK.TransactionType.TRANSFER
