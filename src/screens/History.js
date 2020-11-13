@@ -40,6 +40,49 @@ const allFilters = [
     { value: 'received', label: 'Received' },
 ];
 
+class Hardcode { // TODO: Move this class to services or middleware. The UI component should recieve already formatted transactions
+	static formatTransactions = (rawTransactions, address) => {
+		let formattedTransactions = [];
+
+		if(!Array.isArray(rawTransactions))
+			return [];
+
+		formattedTransactions = rawTransactions.map(el => this.formatTransaction(el, address));
+		return formattedTransactions;
+	}
+
+	static formatTransaction = (transaction, selectedAccountAddress) => {
+		const type = transaction.type;
+
+		switch(type) {
+			case 'transfer':
+				const nativeMosaic = transaction.mosaics.find(el => el.mosaicName === 'symbol.xym'); //TODO: replace hardcoded native namespace with REST data
+				const hasCustomMosaic = transaction.mosaics.filter(el => el.mosaicName !== 'symbol.xym').length; //TODO: replace hardcoded native namespace with REST data
+
+				const amount = nativeMosaic ? nativeMosaic.amount : null;
+				const transferType = selectedAccountAddress === transaction.signerAddress 
+					? 'outgoing'
+					: 'incoming';
+
+				const preview = {
+					...transaction,
+					amount,
+					transferType,
+					hasCustomMosaic 
+				};
+				return {
+					preview,
+					transaction
+				};
+			default:
+				return {
+					preview: transaction,
+					transaction
+				}
+		}
+	}
+}
+
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
@@ -75,9 +118,10 @@ class History extends Component<Props, State> {
 
     render() {
         const { dataManager, address, cosignatoryOf, onOpenMenu, onOpenSettings } = this.props;
-        const { showingDetails, filterValue, selectedMultisig } = this.state;
-        let transactions;
-        if (selectedMultisig) {
+		const { showingDetails, filterValue, selectedMultisig } = this.state;
+		let transactions;
+		
+        if (selectedMultisig) { // TODO: Move this part to store. The componentDidMount() should call this: store.dispatchAction({ type: 'account/loadTransactions', payload: {address} }); 
             transactions = dataManager.data[selectedMultisig] || [];
         } else {
             transactions = dataManager.data[address] || [];
@@ -91,7 +135,9 @@ class History extends Component<Props, State> {
                 default:
                     return true;
             }
-        });
+		});
+
+		const formattedTransactions = Hardcode.formatTransactions(filteredTransactions, address);
 
         return (
 			// <ImageBackground name="tanker" dataManager={dataManager}>
@@ -123,11 +169,11 @@ class History extends Component<Props, State> {
 					</Section>
                 </Section>
 				<ListContainer style={styles.list}>
-                    {filteredTransactions &&
-                        filteredTransactions.map((tx, index) => {
+                    {Array.isArray(formattedTransactions) &&
+                        formattedTransactions.map((tx, index) => {
                             return (
                                 <ListItem onPress={() => this.showDetails(index)}>
-                                    <TransactionItem transaction={tx} showDetails={showingDetails === index} />
+                                    <TransactionItem transaction={tx.preview} model={tx.transaction} showDetails={showingDetails === index} />
                                 </ListItem>
                             );
                         })}
@@ -137,6 +183,8 @@ class History extends Component<Props, State> {
         );
     }
 }
+
+
 
 export default connect(state => ({
     dataManager: state.account.transactionListManager,
