@@ -59,7 +59,7 @@ export default class CreateAccount extends Component {
     onDecryptQR = password => {
         const { scannedAccountQR } = this.state;
         try {
-            const decrypted = new AccountQR.fromJSON(scannedAccountQR.toJSON(), password);
+            const decrypted = new AccountQR.fromJSON(scannedAccountQR, password);
             this.setState({ privateKey: decrypted.accountPrivateKey });
         } catch {
             this.setState({ error: 'Invalid password provided' });
@@ -69,13 +69,12 @@ export default class CreateAccount extends Component {
     onReadQRCode = res => {
         try {
             const accountQR = AccountQR.fromJSON(res.data);
-            if (!accountQR.encrypted) {
-                this.setState({ privateKey: accountQR.accountPrivateKey });
-                return this.createPrivateKeyAccount();
-            } else {
-                this.setState({ scannedAccountQR: accountQR, showDecryptModal: true });
-            }
+            this.setState({ privateKey: accountQR.accountPrivateKey });
+            return this.createPrivateKeyAccount();
         } catch (e) {
+            if (e.message === 'Could not parse account information.') {
+                this.setState({ scannedAccountQR: res.data, showDecryptModal: true });
+            }
             this.setState({ error: 'Invalid QR' });
         }
     };
