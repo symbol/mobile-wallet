@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, GradientBackground, ImageBackground, Text, Row, TitleBar, Dropdown, TransactionItem } from '@src/components';
+import { 
+	Section, 
+	GradientBackground, 
+	ImageBackground, 
+	Text, 
+	Row, 
+	TitleBar, 
+	Dropdown, 
+	TransactionItem,
+	ListContainer,
+	ListItem
+} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
@@ -8,7 +19,7 @@ import MultisigFilter from '@src/components/molecules/MultisigFilter';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 70,
+        marginBottom: 55,
 	},
 	filter: {
 		flexGrow: 1
@@ -111,16 +122,16 @@ class History extends Component<Props, State> {
 						</Row>
 					</Section>
                 </Section>
-				<Section type="list" style={styles.list} isScrollable>
+				<ListContainer style={styles.list}>
                     {filteredTransactions &&
                         filteredTransactions.map((tx, index) => {
                             return (
-                                <TouchableOpacity onPress={() => this.showDetails(index)}>
+                                <ListItem onPress={() => this.showDetails(index)}>
                                     <TransactionItem transaction={tx} showDetails={showingDetails === index} />
-                                </TouchableOpacity>
+                                </ListItem>
                             );
                         })}
-                </Section>     
+                </ListContainer>     
             </GradientBackground>
 			// </ImageBackground>
         );

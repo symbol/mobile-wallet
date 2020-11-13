@@ -35,7 +35,7 @@ export default class New extends Component<Props> {
 
     render() {
         return (
-            <Card style={styles.root}>
+            <View style={styles.root}>
 				<TouchableOpacity onPress={() => this.onPress(this.props.url)}>
 					<Text theme="light" type="bold" style={styles.title}>
 						{this.props.title}
@@ -45,7 +45,7 @@ export default class New extends Component<Props> {
 					</Text>
 				</TouchableOpacity>
                 
-            </Card>
+            </View>
         );
     }
 }
