@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, GradientBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
+import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 import store from '@src/store';
@@ -10,7 +10,14 @@ import MultisigFilter from '@src/components/molecules/MultisigFilter';
 const styles = StyleSheet.create({
     list: {
         marginBottom: 70,
-    },
+	},
+	filter: {
+		flexGrow: 1
+	},
+	filterRight: {
+		flexGrow: 1,
+		marginLeft: 5
+	}
 });
 
 type Props = {};
@@ -85,21 +92,31 @@ class History extends Component<Props, State> {
 					onSettings={() => onOpenSettings()}
 				/>
 				<Section type="list">
-					<Dropdown 
-						theme="light"
-						list={allFilters} 
-						title={'Filter'} 
-						value={filterValue} 
-						onChange={this.onSelectFilter} 
-					/>
-					{cosignatoryOf.length > 0 && <MultisigFilter selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />}
+					<Section type="form-item">
+						<Row fullWidth>
+							<Dropdown
+								theme="light"
+								style={styles.filter}
+								list={allFilters} 
+								title={'Filter'} 
+								value={filterValue} 
+								onChange={this.onSelectFilter} 
+							/>
+							{cosignatoryOf.length > -1 && <MultisigFilter
+								theme="light"
+								style={styles.filterRight}
+								selected={selectedMultisig} 
+								onSelect={v => this.onSelectMultisig(v)} 
+							/>}
+						</Row>
+					</Section>
                 </Section>
 				<Section type="list" style={styles.list} isScrollable>
                     {filteredTransactions &&
                         filteredTransactions.map((tx, index) => {
                             return (
                                 <TouchableOpacity onPress={() => this.showDetails(index)}>
-                                    <Transaction transaction={tx} showDetails={showingDetails === index} />
+                                    <TransactionItem transaction={tx} showDetails={showingDetails === index} />
                                 </TouchableOpacity>
                             );
                         })}

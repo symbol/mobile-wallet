@@ -10,3 +10,4 @@ export SymbolGradientContainer from './SymbolGradientContainer';
 export MosaicDisplay from './MosaicDisplay';
 export Trunc from './Trunc';
 export TableView from './TableView';
+export TransactionItem from './TransactionItem';

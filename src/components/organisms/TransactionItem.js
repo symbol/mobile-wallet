@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#fff5',
+        backgroundColor: GlobalStyles.color.WHITE
 	},
 	iconContainer: {
 		marginRight: 14,
