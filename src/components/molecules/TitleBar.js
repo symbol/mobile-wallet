@@ -18,14 +18,20 @@ const styles = StyleSheet.create({
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
+		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2)
+	},
+	iconLeftOld: {
 		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	},
 	iconRight: {
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
+		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) 
+	},
+	iconRightOld: {
 		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) -5
-	}
+	},
 });
 
 type Theme = 'light'
@@ -55,9 +61,7 @@ export default class PluginList extends Component<Props, State> {
 			onOpenMenu,
 			onBack,
 			onSettings,
-			onReload,
 			title,
-			subtitle,
 			buttons
 		} = this.props;
 
@@ -66,22 +70,29 @@ export default class PluginList extends Component<Props, State> {
 			: 'back_dark';
 
 		const iconSettingsName = theme === 'light'
-			? 'settings_light'
+			? 'settings_filled_light'
 			: 'settings_dark';
 
 		const iconMenuName = theme === 'light'
-			? 'options_light'
+			? 'wallet_filled_light'
 			: 'options_dark';
 
+		const leftIconStyle = onBack
+			? styles.iconLeftOld
+			: {};
+
+		const rightIconStyle = theme === 'dark'
+			? styles.iconRightOld
+			: {};
 
 		return (
 			<Section type="title" style={[style]}>
 				<Row justify="space-between" align="center" style={styles.root}>
 					<Row justify="start" align="center">
-						{!!onOpenMenu && <TouchableOpacity style={styles.iconLeft} onPress={onOpenMenu} >
+						{!!onOpenMenu && <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onOpenMenu} >
 							<Icon name={iconMenuName} size="small" />
 						</TouchableOpacity>}
-						{!!onBack && <TouchableOpacity style={styles.iconLeft} onPress={onBack} >
+						{!!onBack && <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onBack} >
 							<Icon name={iconBackName} />
 						</TouchableOpacity>}
 						{!onBack && !onOpenMenu && <Icon name="none" />}
@@ -91,8 +102,8 @@ export default class PluginList extends Component<Props, State> {
 					</Col>
 					<Row justify="end" align="center">
 						{buttons}
-						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
-							<Icon name={iconSettingsName} />
+						{!!onSettings && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
+							<Icon name={iconSettingsName} size="small" />
 						</TouchableOpacity>}
 						{!onSettings && <Icon name="none" />}
 					</Row>

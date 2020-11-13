@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
+import { Section, GradientBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 import store from '@src/store';
@@ -57,7 +57,7 @@ class History extends Component<Props, State> {
     };
 
     render() {
-        const { dataManager, address, cosignatoryOf } = this.props;
+        const { dataManager, address, cosignatoryOf, onOpenMenu, onOpenSettings } = this.props;
         const { showingDetails, filterValue, selectedMultisig } = this.state;
         let transactions;
         if (selectedMultisig) {
@@ -77,11 +77,24 @@ class History extends Component<Props, State> {
         });
 
         return (
-            <ImageBackground name="tanker" dataManager={dataManager}>
-                <TitleBar theme="light" title="Transactions" />
-                <Dropdown list={allFilters} title={'Filter'} value={filterValue} onChange={this.onSelectFilter} />
-                {cosignatoryOf.length > 0 && <MultisigFilter selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />}
-                <Section type="list" style={styles.list} isScrollable>
+            <GradientBackground name="mesh_small_2" theme="light" dataManager={dataManager}>
+				<TitleBar 
+					theme="light"
+					title="Transactions" 
+					onOpenMenu={() => onOpenMenu()} 
+					onSettings={() => onOpenSettings()}
+				/>
+				<Section type="list">
+					<Dropdown 
+						theme="light"
+						list={allFilters} 
+						title={'Filter'} 
+						value={filterValue} 
+						onChange={this.onSelectFilter} 
+					/>
+					{cosignatoryOf.length > 0 && <MultisigFilter selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />}
+                </Section>
+				<Section type="list" style={styles.list} isScrollable>
                     {filteredTransactions &&
                         filteredTransactions.map((tx, index) => {
                             return (
@@ -90,8 +103,8 @@ class History extends Component<Props, State> {
                                 </TouchableOpacity>
                             );
                         })}
-                </Section>
-            </ImageBackground>
+                </Section>     
+            </GradientBackground>
         );
     }
 }

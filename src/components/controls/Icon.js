@@ -106,7 +106,10 @@ export default class C extends Component<Props, State> {
 				break;
             case 'settings_dark':
                 source = require('@src/assets/icons/settings_dark.png');
-                break;
+				break;
+			case 'wallet_filled_light':
+				source = require('@src/assets/icons/wallet_filled_light.png');
+				break;
             case 'paste':
 				source = require('@src/assets/icons/clipboard.png');
 				break;
