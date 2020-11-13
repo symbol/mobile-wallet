@@ -13,15 +13,21 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		width: '100%',
+		backgroundColor: GlobalStyles.color.WHITE
 	},
 	item: {
 		padding: 5,
+		paddingBottom: 3,
 		width: 65,
-
+		borderColor: '#fff0',
+		borderBottomWidth: 2
+	},
+	activeItem: {
+		borderColor: GlobalStyles.color.PINK,
 	},
 	icon: {
-		marginTop: 2,
-		marginBottom: 4
+		marginTop: 5,
+		marginBottom: 2
 	}
 });
 
@@ -56,9 +62,11 @@ export default class NavigationMenu extends Component<Props, State> {
 					{
 						menuItemList.map(item =>
 							<TouchableOpacity onPress={() => onChange(item.name)}>
-								<Col align="center" justify="space-" style={styles.item}>
-									<Icon name={item.iconName} size="medium" style={styles.icon}/>
+								<Col align="center" justify="space-" style={[styles.item, item.name === value && styles.activeItem]}>
+									<Icon name={item.iconName} size="small" style={styles.icon}/>
 									<Text 
+										theme="light"
+										style={{fontSize: 11}}
 										type={
 											item.name === value
 											? "bold"

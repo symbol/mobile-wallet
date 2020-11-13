@@ -9,7 +9,7 @@ type Props = {
 
 class MultisigFilter extends Component<Props> {
     render() {
-        const { cosignatoryOf, selected, onSelect } = this.props;
+        const { cosignatoryOf, selected, onSelect, ...rest } = this.props;
         const allMultisigAccounts = [
             { value: null, label: 'Main account' },
             ...cosignatoryOf.map(address => ({
@@ -18,7 +18,7 @@ class MultisigFilter extends Component<Props> {
             })),
         ];
 
-        return <Dropdown list={allMultisigAccounts} title={'Select Account'} value={selected} onChange={onSelect} />;
+        return <Dropdown list={allMultisigAccounts} title={'Select Account'} value={selected} onChange={onSelect} {...rest} />;
     }
 }
 
