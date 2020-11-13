@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem } from '@src/components';
-import Transaction from '@src/components/organisms/transaction/Transaction';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
@@ -15,7 +14,7 @@ const styles = StyleSheet.create({
 		flexGrow: 1
 	},
 	filterRight: {
-		flexGrow: 1,
+		width: '50%',
 		marginLeft: 5
 	}
 });
@@ -84,7 +83,7 @@ class History extends Component<Props, State> {
         });
 
         return (
-            <GradientBackground name="mesh_small_2" theme="light" dataManager={dataManager}>
+            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
 				<TitleBar 
 					theme="light"
 					title="Transactions" 
@@ -102,7 +101,7 @@ class History extends Component<Props, State> {
 								value={filterValue} 
 								onChange={this.onSelectFilter} 
 							/>
-							{cosignatoryOf.length > -1 && <MultisigFilter
+							{cosignatoryOf.length > 0 && <MultisigFilter
 								theme="light"
 								style={styles.filterRight}
 								selected={selectedMultisig} 

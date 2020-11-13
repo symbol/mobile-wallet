@@ -85,9 +85,10 @@ const styles = StyleSheet.create({
         marginRight: -16,
     },
     menuBottomContainer: {
-        borderTopWidth: 1,
+        //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
-        paddingVertical: 8,
+		paddingVertical: 8,
+		alignItems: 'center'
     },
     menuItem: {
         margin: 4,
