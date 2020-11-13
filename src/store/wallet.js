@@ -70,7 +70,7 @@ export default {
             const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+            dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
         },
         createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
             const accountModel = AccountService.createFromPrivateKey(privateKey, name);
