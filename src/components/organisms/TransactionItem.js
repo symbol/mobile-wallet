@@ -43,12 +43,13 @@ export default class Transaction extends Component<Props> {
     render = () => {
 		const { transaction } = this.props;
 		let rand = Math.random();
-		transaction.transferType = rand < 0.5 ? 'outgoing' : 'incoming';
+		//transaction.transferType = rand < 0.5 ? 'outgoing' : 'incoming';
 		let transactionType = transaction.type;
 		let date = transaction.deadline;
 		let iconName = '';
 		let info = transaction.signerAddress;
 		let values = [];
+		console.log(transaction)
 
 		switch(transaction.type) {
 			case 'transfer':  // TODO: replace with SDK.TransactionType.TRANSFER
