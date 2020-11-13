@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Linking, StyleSheet, View, FlatList } from 'react-native';
-import { GradientBackground, ListContainer, TitleBar } from '@src/components';
+import { GradientBackground, ListContainer, ListItem, TitleBar } from '@src/components';
 import New from '@src/components/organisms/New';
 import { connect } from 'react-redux';
 
@@ -32,13 +32,15 @@ class News extends Component<Props, State> {
 				/>
                 <ListContainer type="list" style={styles.list}>
                     {news.map(item => {
-						return <New 
-							title={item.title} 
-							body={item.content} 
-							url={item.link} 
-							publicationDate={item.pubDate} 
-							creator={item.creator} 
-						/>;
+						return <ListItem>
+							<New 
+								title={item.title} 
+								body={item.content} 
+								url={item.link} 
+								publicationDate={item.pubDate} 
+								creator={item.creator} 
+							/>
+						</ListItem>;
                     })}
                 </ListContainer>
             </GradientBackground>

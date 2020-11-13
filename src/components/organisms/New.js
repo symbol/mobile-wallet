@@ -8,8 +8,6 @@ const styles = StyleSheet.create({
 	root: {
 		width: '100%',
         borderRadius: 6,
-        marginTop: 0,
-        marginBottom: 8,
         padding: 17,
 		paddingTop: 8,
 		paddingBottom: 8,
