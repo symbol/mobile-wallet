@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { 
-	StyleSheet, 
+import {
+	StyleSheet,
 	View,
 	SafeAreaView,
-	Platform, 
-	StatusBar 
+	Platform,
+	StatusBar
 } from 'react-native';
 
 
@@ -28,7 +28,7 @@ export default class ComponentName extends Component<Props, State> {
 
 		if (Platform.OS === 'ios') {
 			return (
-				<SafeAreaView style={this.props.style}>
+				<SafeAreaView style={[styles.container, style]}>
 					{children}
 				</SafeAreaView>
 			);

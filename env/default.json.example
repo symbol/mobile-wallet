@@ -3,6 +3,7 @@
   "marketCurrencyName": "nem",
   "newsURL": "https://nemflash.io/feed",
   "explorerURL": "http://explorer-0.10.0.x-01.symboldev.network/",
+  "faucetURL": "http://faucet-0.10.0.x-01.symboldev.network/",
   "aboutURL": "https://nem.io",
   "currencies": {
     "USD": "usd",

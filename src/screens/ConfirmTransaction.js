@@ -60,11 +60,16 @@ class ConfirmTransaction extends Component<Props, State> {
 
     render = () => {
         const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
-
-        const {} = this.state;
+		const {} = this.state;
+		
+		const hardCodedDataManager = {
+			isLoading,
+			isError,
+			errorMessage,
+		}
 
         const preview = Object.keys(transaction)
-            .map(key => ({ key, value: transaction[key].toString() }));
+            .map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
@@ -75,56 +80,53 @@ class ConfirmTransaction extends Component<Props, State> {
                 : () => Router.goBack(this.props.componentId);
 
         return (
-			<GradientBackground name="connector_small" theme="light">
+			<GradientBackground name="connector_small" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
 				<TitleBar
 					theme="light"
 					onBack={backFunction}
 					title="Confirm Transaction"
 				/>
 				{isPreviewShown &&
-				<Section type="form" style={styles.list} isScrollable>
-					<TableView data={preview} />
-					<Section type="form-bottom">
-						<Button
-							isLoading={false}
-							isDisabled={false}
-							text="Confirm"
-							theme="light"
-							onPress={() => this.submit()}
-						/>
+					<Section type="form" style={styles.list} isScrollable>
+						<TableView data={preview} />
+						<Section type="form-bottom">
+							<Button
+								isLoading={false}
+								isDisabled={false}
+								text="Confirm"
+								theme="light"
+								onPress={() => this.submit()}
+							/>
+						</Section>
 					</Section>
-				</Section>
 				}
-					{isLoading &&
-						<Section type="center">
-							<Text type="bold" theme="light">
-								Loading
-							</Text>
-						</Section>
-					}
-					{isError &&
-						<Section type="center">
-							<Text type="bold" theme="light" align={"center"}>
-								{errorMessage}
-							</Text>
-						</Section>
-					}
-					{isSuccessfullySent &&
-						<Section type="form">
-							<Text type="alert" theme="light">
-								Success!
-							</Text>
-							<Section type="form-bottom">
-								<Button
-									isLoading={false}
-									isDisabled={false}
-									text="Go to dashboard"
-									theme="light"
-									onPress={() => Router.goToDashboard()}
-								/>
+				{isSuccessfullySent &&
+					<Section type="form">
+						<Section type="form-item">
+							<Section type="center">
+								<Text type="alert" theme="light">
+									Success!
+								</Text>
 							</Section>
 						</Section>
-					}
+						
+						<Section type="form-item">
+							<Text type="bold" theme="light" align="center">
+								(GlobeIcon) Open Block Explorer
+							</Text>
+						</Section>
+						
+						<Section type="form-bottom">
+							<Button
+								isLoading={false}
+								isDisabled={false}
+								text="Go to dashboard"
+								theme="light"
+								onPress={() => Router.goToDashboard()}
+							/>
+						</Section>
+					</Section>
+				}
 			</GradientBackground>
         );
     };

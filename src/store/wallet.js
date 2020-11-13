@@ -63,7 +63,7 @@ export default {
         },
         createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
-            if (!index && index !== 0) {
+            if (!index) {
                 mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
                 index = mnemonicModel.lastIndexDerived;
             }

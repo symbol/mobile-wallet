@@ -56,8 +56,8 @@ export default class HarvestingService {
         const receiptRepository = new ReceiptHttp(network.node);
 
         const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, network.type);
-        // const targetAddress = Address.createFromRawAddress(rawAddress);
-        const targetAddress = Address.createFromRawAddress('TD5YTEJNHOMHTMS6XESYAFYUE36COQKPW6MQQQY');
+        const targetAddress = Address.createFromRawAddress(rawAddress);
+        // const targetAddress = Address.createFromRawAddress('TD5YTEJNHOMHTMS6XESYAFYUE36COQKPW6MQQQY');
 
         const pageTxStatement = await receiptRepository
             .searchReceipts({
@@ -86,8 +86,8 @@ export default class HarvestingService {
         const streamer = ReceiptPaginationStreamer.transactionStatements(receiptRepository);
 
         const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, network.type);
-        //const targetAddress = Address.createFromRawAddress(rawAddress);
-        const targetAddress = Address.createFromRawAddress('TD5YTEJNHOMHTMS6XESYAFYUE36COQKPW6MQQQY');
+        const targetAddress = Address.createFromRawAddress(rawAddress);
+        // const targetAddress = Address.createFromRawAddress('TD5YTEJNHOMHTMS6XESYAFYUE36COQKPW6MQQQY');
 
         let counter = 0;
         return streamer

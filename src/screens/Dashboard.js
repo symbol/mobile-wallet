@@ -8,6 +8,7 @@ import Harvest from './Harvest';
 import News from '@src/screens/News';
 import Mosaics from '@src/screens/Mosaics';
 import Sidebar from '@src/screens/Sidebar';
+import { Router } from '@src/Router';
 
 const styles = StyleSheet.create({
     root: {
@@ -63,8 +64,8 @@ export default class Dashboard extends Component<Props, State> {
                 <Tab
                     {...this.props}
                     contentStyle={styles.contentContainer}
-                    componentId={componentId}
-                    onOpenMenu={() => this.setState({ isSidebarShown: true })}
+					onOpenMenu={() => this.setState({ isSidebarShown: true })}
+					onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
                     changeTab={this.onTabChange}
                 />
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />

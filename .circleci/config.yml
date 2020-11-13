@@ -52,4 +52,8 @@ workflows:
   version: 2
   build_testnet_and_mainnet:
     jobs:
-      - build_testnet
+      - build_testnet:
+          filters:
+            branches:
+              only:
+                - master

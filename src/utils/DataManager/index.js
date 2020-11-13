@@ -1,5 +1,6 @@
 import _ from 'lodash';
 export Pagination from './Pagination';
+export DataSet from './DataSet';
 
 export const getStateFromManagers = (managers) => {
 	let state = {};

@@ -2,8 +2,8 @@ import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Props as LinearGradientProps } from 'react-native-linear-gradient/common';
-import Container from '../Container';
-import GlobalStyles from '../../styles/GlobalStyles';
+import { Container } from '@src/components';
+import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
 	container: {

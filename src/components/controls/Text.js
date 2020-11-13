@@ -4,6 +4,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 
 
 type Type = 'title' 
+	| 'title-small'
 	| 'subtitle'
 	| 'alert'
 	| 'bold';
@@ -44,6 +45,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'regular':
 				globalStyle = {...GlobalStyles.text.regular}; 
+				break;
+			case 'title-small':
+				globalStyle = {...GlobalStyles.text.titleSmall}; 
 				break;
 		}
 

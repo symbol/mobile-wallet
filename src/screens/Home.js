@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon } from '@src/components';
+import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -29,29 +29,13 @@ type State = {};
 class Home extends Component<Props, State> {
     state = { isSidebarShown: false };
 
-    handleSettingsClick = () => {
-        Router.goToSettings({}, this.props.componentId);
-    };
-
     render() {
-        const { pendingSignature, contentStyle = {}, componentId, accountName, onOpenMenu, changeTab } = this.props;
+        const { pendingSignature, contentStyle = {}, componentId, accountName, onOpenMenu, onOpenSettings, changeTab } = this.props;
         const {} = this.state;
 
         return (
             <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
-                <Section type="title">
-                    <Row justify="space-between" align="end" style={{ marginTop: 17 }}>
-                        <TouchableOpacity onPress={() => onOpenMenu()}>
-                            <Text type="bold">Acc.</Text>
-                        </TouchableOpacity>
-                        <Text type="bold" theme="dark">
-                            {accountName}
-                        </Text>
-                        <TouchableOpacity onPress={() => this.handleSettingsClick()}>
-                            <Icon name="settings_dark" style={styles.menuItemIcon} />
-                        </TouchableOpacity>
-                    </Row>
-                </Section>
+				<TitleBar title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
                 <Col justify="space-around" style={contentStyle}>
                     <BalanceWidget showChart={false} />
                     <Section type="list">
