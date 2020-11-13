@@ -70,6 +70,9 @@ class TableView extends Component<Props, State> {
 	renderItem = (key, value) => {
 		let itemTemplate;
 
+		if(typeof value === 'object' && value !== null)
+			return this.renderTable(value);
+
 		Object.keys(renderTypeMap)
 			.find(itemType => renderTypeMap[itemType]
 				.find(el => {
@@ -84,11 +87,7 @@ class TableView extends Component<Props, State> {
 		
 	};
 
-    render = () => {
-		const {
-			data
-		} = this.props;
-		
+	renderTable = (data) => {
 		let _data = data;
 
 		if(data === null || typeof data !== 'object')
@@ -108,6 +107,14 @@ class TableView extends Component<Props, State> {
 				{this.renderItem(el.key, el.value)}
 			</Section>)
         );
+	}
+
+    render = () => {
+		const {
+			data
+		} = this.props;
+		
+		return this.renderTable(data);
     };
 }
 
