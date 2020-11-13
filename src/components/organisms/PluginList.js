@@ -77,6 +77,11 @@ export default class PluginList extends Component<Props, State> {
                 text: 'plugin.receive',
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
+			},
+			{
+                text: 'plugin.more',
+                name: 'DASHBOARD_SCREEN',
+                iconName: 'options_light',
             },
         ];
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import { Col, Row, Text, Trunc, Icon } from '@src/components';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
