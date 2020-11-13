@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground } from 'react-native';
-import Container from '../Container';
-import { FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
+import { Container, FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
 import { Router } from '@src/Router';
 
 

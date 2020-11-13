@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, ImageBackground, Text, Section, TitleBar } from '@src/components';
+import {Button, ImageBackground, Text, Section, TitleBar, Input, GradientBackground} from '@src/components';
 import { connect } from 'react-redux';
 import { AddressBook } from 'symbol-address-book/AddressBook';
 import { writeFile, getFSInfo } from 'react-native-fs';
 import store from '@src/store';
-import Store from '@src/store';
 
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
+import PopupModal from '@src/components/molecules/PopupModal';
 
 const styles = StyleSheet.create({
     title: {
@@ -41,19 +41,31 @@ class ContactProfile extends Component<Props, State> {
         label: '',
         notes: '',
         update: false,
+        isModalOpen: false,
     };
 
     submit = () => {
         Router.goToAddContact({}, this.props.componentId);
     };
 
-    remove = id => {
+    remove = () => {
+        this.setState({
+            isRemoveModalOpen: true,
+        });
+    };
+
+    confirmRemove = id => {
+        console.log('confirm');
         store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(_ => Router.goBack(this.props.componentId));
     };
 
+    cancelRemove = () => {
+        console.log('remove');
+    }
+
     render() {
         const { selectedContact } = this.props;
-
+        const { isRemoveModalOpen } = this.state;
         return (
             <ImageBackground name="tanker">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Contact Profile" />
@@ -86,9 +98,25 @@ class ContactProfile extends Component<Props, State> {
                         <Button style={styles.button} text="Edit Contact" theme="light" onPress={() => this.submit()} />
                     </Section>
                     <Section>
-                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove(selectedContact.id)} />
+                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove()} />
                     </Section>
                 </Section>
+                <PopupModal
+                    isModalOpen={isRemoveModalOpen}
+                    showTopbar={true}
+                    title={'Remove contact'}
+                    showClose={true}
+                    onClose={() => this.setState({ isNameModalOpen: false })}>
+                    <Section type="form">
+                        <Section type="form-bottom">
+                            <Button text="Confirm" theme="light" onPress={() => this.confirmRemove()} />
+                        </Section>
+                        <Section type="form-bottom">
+                            <Button text="Cancel" theme="light" onPress={() => this.cancelRemove(selectedContact.id)} />
+                        </Section>
+                    </Section>
+                </PopupModal>
+
             </ImageBackground>
         );
     }

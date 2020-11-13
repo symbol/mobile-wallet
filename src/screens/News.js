@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Linking, StyleSheet, View, FlatList } from 'react-native';
-import { ImageBackground, Section, Text, TitleBar } from '@src/components';
+import { GradientBackground, Section, Text, TitleBar } from '@src/components';
 import New from '@src/components/organisms/New';
 import { connect } from 'react-redux';
 
@@ -19,16 +19,23 @@ class News extends Component<Props, State> {
     }
 
     render() {
-        const { news } = this.props;
+		const { news, onOpenMenu, onOpenSettings } = this.props;
+		const dataManager = {};
+
         return (
-            <ImageBackground name="solar">
-                <TitleBar theme="light" title="News" />
+            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+                <TitleBar 
+					theme="light"
+					title="News" 
+					onOpenMenu={() => onOpenMenu()} 
+					onSettings={() => onOpenSettings()}
+				/>
                 <Section type="list" style={styles.list} isScrollable>
                     {news.map(item => {
                         return <New title={item.title} body={item.content} url={item.link} publicationDate={item.pubDate} creator={item.creator} />;
                     })}
                 </Section>
-            </ImageBackground>
+            </GradientBackground>
         );
     }
 }

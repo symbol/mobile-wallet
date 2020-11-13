@@ -72,7 +72,7 @@ export default class C extends Component<Props, State> {
             case 'none':
                 break;
             case 'news':
-                source = require('@src/assets/icons/menu/news.png');
+                source = require('@src/assets/icons/menu2/news.png');
                 break;
             case 'send':
                 source = require('@src/assets/icons/send.png');
@@ -81,16 +81,16 @@ export default class C extends Component<Props, State> {
                 source = require('@src/assets/icons/receive.png');
                 break;
             case 'mosaics':
-                source = require('@src/assets/icons/menu/mosaics.png');
+                source = require('@src/assets/icons/menu2/mosaics.png');
                 break;
             case 'home':
-                source = require('@src/assets/icons/menu/home.png');
+                source = require('@src/assets/icons/menu2/home.png');
                 break;
             case 'history':
-                source = require('@src/assets/icons/menu/history.png');
+                source = require('@src/assets/icons/menu2/history.png');
                 break;
             case 'harvest':
-                source = require('@src/assets/icons/menu/harvest.png');
+                source = require('@src/assets/icons/menu2/harvest.png');
                 break;
             case 'back_light':
                 source = require('@src/assets/icons/back_light.png');
@@ -106,7 +106,10 @@ export default class C extends Component<Props, State> {
 				break;
             case 'settings_dark':
                 source = require('@src/assets/icons/settings_dark.png');
-                break;
+				break;
+			case 'wallet_filled_light':
+				source = require('@src/assets/icons/wallet_filled_light.png');
+				break;
             case 'paste':
 				source = require('@src/assets/icons/clipboard.png');
 				break;
@@ -121,6 +124,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'outgoing_light':
 				source = require('@src/assets/icons/outgoing.png');
+				break;
+			case 'options_light':
+				source = require('@src/assets/icons/options_light.png');
 				break;
 			case 'options_dark':
 				source = require('@src/assets/icons/options_dark.png');

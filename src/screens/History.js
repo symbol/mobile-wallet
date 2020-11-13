@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
 import Transaction from '@src/components/organisms/transaction/Transaction';
+import { Section, GradientBackground, Dropdown, ImageBackground, Text, Row, TitleBar, TransactionItem } from '@src/components';
 import { connect } from 'react-redux';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
@@ -10,6 +10,13 @@ import { NetworkType } from 'symbol-sdk';
 const styles = StyleSheet.create({
     list: {
         marginBottom: 70,
+    },
+    filter: {
+        flexGrow: 1,
+    },
+    filterRight: {
+        width: '50%',
+        marginLeft: 5,
     },
 });
 
@@ -67,7 +74,7 @@ class History extends Component<Props, State> {
     };
 
     render() {
-        const { dataManager, address, cosignatoryOf } = this.props;
+        const { dataManager, address, cosignatoryOf, onOpenMenu, onOpenSettings } = this.props;
         const { showingDetails, filterValue, selectedMultisig } = this.state;
         let transactions;
 
@@ -89,21 +96,38 @@ class History extends Component<Props, State> {
         });
 
         return (
-            <ImageBackground name="tanker" dataManager={dataManager}>
-                <TitleBar theme="light" title="Transactions" />
-                <Dropdown list={allFilters} title={'Filter'} value={filterValue} onChange={this.onSelectFilter} />
-                {cosignatoryOf.length > 0 && <MultisigFilter selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />}
+            // <ImageBackground name="tanker" dataManager={dataManager}>
+            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+                <TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+                <Section type="list">
+                    <Section type="form-item">
+                        <Row fullWidth>
+                            <Dropdown
+                                theme="light"
+                                style={styles.filter}
+                                list={allFilters}
+                                title={'Filter'}
+                                value={filterValue}
+                                onChange={this.onSelectFilter}
+                            />
+                            {cosignatoryOf.length > 0 && (
+                                <MultisigFilter theme="light" style={styles.filterRight} selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />
+                            )}
+                        </Row>
+                    </Section>
+                </Section>
                 <Section type="list" style={styles.list} isScrollable>
                     {filteredTransactions &&
                         filteredTransactions.map((tx, index) => {
                             return (
                                 <TouchableOpacity onPress={() => this.showDetails(index)}>
-                                    <Transaction transaction={tx} showDetails={showingDetails === index} />
+                                    <TransactionItem transaction={tx} showDetails={showingDetails === index} />
                                 </TouchableOpacity>
                             );
                         })}
                 </Section>
-            </ImageBackground>
+            </GradientBackground>
+            // </ImageBackground>
         );
     }
 }
