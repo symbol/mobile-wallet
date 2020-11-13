@@ -47,23 +47,6 @@ class History extends Component<Props, State> {
             transactions = dataManager.data[address] || [];
         }
 
-        const certificateAccount = Account.createFromPrivateKey(privateKey, networkType);
-        const repositoryFactory = await new RepositoryFactoryHttp(network.node);
-        const accountHttp = repositoryFactory.createAccountRepository();
-        const recipientAddress = Address.createFromRawAddress(transactions[index].signerAddress);
-        const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
-        const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
-        const transactionHttp = repositoryFactory.createTransactionRepository();
-        const transactionHash = transactions[index].hash;
-
-        transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).subscribe(
-            transaction => {
-                console.log('Raw message: ', transaction.message.payload);
-                console.log('Message: ', certificateAccount.decryptMessage(transaction.message, alicePublicAccount).payload);
-            },
-            err => console.log(err)
-        );
-
         const { showingDetails } = this.state;
         if (showingDetails === index) {
             this.setState({

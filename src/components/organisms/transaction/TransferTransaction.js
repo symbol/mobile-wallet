@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Text, Row, Button } from '@src/components';
-import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import { View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, Row } from '@src/components';
+import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { connect } from 'react-redux';
+import { Account, Address, NetworkType, PublicAccount, RepositoryFactoryHttp, TransactionGroup } from "symbol-sdk";
+import SecretView from '@src/components/controls/SecretView';
 
 const styles = StyleSheet.create({
     root: {
@@ -23,6 +25,39 @@ type Props = {
 };
 
 class TransferTransaction extends Component<Props> {
+    state = {
+        messageDecrypted: 'encrypted',
+    };
+
+    async decrypt(transaction) {
+        const networkType = NetworkType.TEST_NET;
+        const { network, privateKey } = this.props;
+        const certificateAccount = Account.createFromPrivateKey(privateKey, networkType);
+        const repositoryFactory = await new RepositoryFactoryHttp(network.node);
+        const accountHttp = repositoryFactory.createAccountRepository();
+        const recipientAddress = Address.createFromRawAddress(transaction.signerAddress);
+        const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
+        const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
+        const transactionHttp = repositoryFactory.createTransactionRepository();
+        const transactionHash = transaction.hash;
+
+        await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).subscribe(
+            tx => {
+                if (tx.message.type === 1) {
+                    this.setState({
+                        messageDecrypted: certificateAccount.decryptMessage(tx.message, alicePublicAccount).payload,
+                    });
+                }
+            },
+            err => console.log(err)
+        );
+    }
+
+    async componentDidMount() {
+        const { transaction } = this.props;
+        if (transaction.messageEncrypted) await this.decrypt(transaction);
+    }
+
     render() {
         const { transaction, network, showDetails, openExplorer } = this.props;
         const currencyMosaic = transaction.mosaics.find(mosaic => mosaic.mosaicId === network.currencyMosaicId);
@@ -67,10 +102,17 @@ class TransferTransaction extends Component<Props> {
                             <Text type="bold" theme="light">
                                 Message:
                             </Text>
-                            <Text type="bold" theme="light" onClick>
-                                {transaction.messageEncrypted ? 'Encrypted' : transaction.messageText}
-                            </Text>
                         </Row>
+                        {transaction.messageEncrypted ? (
+                            <SecretView title="Decrypt" type="regular" theme="light">
+                                {this.state.messageDecrypted}
+                            </SecretView>
+                        ) : (
+                            <Text type="bold" theme="light">
+                                {transaction.messageText}
+                            </Text>
+                        )}
+
                         <Row justify="space-between">
                             <Text type="bold" theme="light">
                                 Hash:
@@ -96,4 +138,6 @@ class TransferTransaction extends Component<Props> {
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
+    privateKey: state.wallet.selectedAccount.privateKey,
+    networkType: state.network.selectedNetwork.type,
 }))(TransferTransaction);
