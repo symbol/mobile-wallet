@@ -1,47 +1,13 @@
-import {
-    Address,
-    TransactionHttp,
-    TransactionGroup,
-    Transaction,
-    TransferTransaction,
-    Mosaic,
-    MosaicHttp,
-    NamespaceHttp,
-    LockFundsTransaction,
-    AggregateTransaction,
-} from 'symbol-sdk';
+import { Address, TransactionHttp, TransactionGroup, Transaction, TransferTransaction, LockFundsTransaction, AggregateTransaction } from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
+import MosaicService from '@src/services/MosaicService';
 
 export default class FetchTransactionService {
-    /**
-     * Gets MosaicModel from a Mosaic
-     * @param mosaic
-     * @param network
-     * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
-     * @private
-     */
-    static async _getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
-        let mosaicInfo = {},
-            mosaicName = {};
-        try {
-            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
-            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
-        } catch (e) {
-            console.log(e);
-        }
-        return {
-            mosaicId: mosaic.id.toHex(),
-            mosaicName: mosaicName.names[0].name,
-            amount: mosaic.amount.toString(),
-            divisibility: mosaicInfo.divisibility,
-        };
-    }
-
     /**
      * Returns balance from a given Address and a node
      * @param rawAddresses
@@ -94,7 +60,7 @@ export default class FetchTransactionService {
                 }
             }
         }
-        const mosaicModels = await Promise.all(Object.values(mosaics).map(mosaic => this._getMosaicModelFromMosaicId(mosaic, network)));
+        const mosaicModels = await Promise.all(Object.values(mosaics).map(mosaic => MosaicService.getMosaicModelFromMosaicId(mosaic, network)));
         return mosaicModels.reduce((acc, mosaicModel) => {
             acc[mosaicModel.mosaicId] = mosaicModel;
             return acc;
@@ -150,7 +116,7 @@ export default class FetchTransactionService {
                     amount: mosaic.amount.toString(),
                 };
             } else {
-                mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+                mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
             }
             mosaicModels.push(mosaicModel);
         }
@@ -187,7 +153,7 @@ export default class FetchTransactionService {
                 amount: transaction.mosaic.amount.toString(),
             };
         } else {
-            mosaicModel = await this._getMosaicModelFromMosaicId(transaction.mosaic, network);
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
         }
         return {
             ...transactionModel,

@@ -65,5 +65,10 @@ export default {
             commit({ type: 'network/setIsLoaded', payload: true });
             await dispatchAction({ type: 'wallet/initState' });
         },
+        updateChainHeight: async ({ state, commit }, payload) => {
+            const selectedNetwork = state.network.selectedNetwork;
+            selectedNetwork.chainHeight = payload;
+            commit({ type: 'network/setSelectedNetwork', payload: selectedNetwork });
+        },
     },
 };

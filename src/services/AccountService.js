@@ -5,6 +5,7 @@ import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
+import MosaicService from '@src/services/MosaicService';
 
 export default class AccountService {
     /**
@@ -100,7 +101,7 @@ export default class AccountService {
                 hasCurrencyMosaic = false;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
-                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+                const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
                     hasCurrencyMosaic = true;
                     amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
@@ -130,30 +131,6 @@ export default class AccountService {
         let mosaicInfo = {},
             mosaicName = {};
         const mosaic = new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(0));
-        try {
-            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
-            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
-        } catch (e) {
-            console.log(e);
-        }
-        return {
-            mosaicId: mosaic.id.toHex(),
-            mosaicName: mosaicName && mosaicName.names && mosaicName.names[0] ? mosaicName.names[0].name : null,
-            amount: mosaic.amount.toString(),
-            divisibility: mosaicInfo.divisibility,
-        };
-    }
-
-    /**
-     * Gets MosaicModel from a Mosaic
-     * @param mosaic
-     * @param network
-     * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
-     * @private
-     */
-    static async _getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
-        let mosaicInfo = {},
-            mosaicName = {};
         try {
             mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
             [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
