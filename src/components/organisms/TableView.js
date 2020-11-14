@@ -29,8 +29,10 @@ const styles = StyleSheet.create({
 		color: GlobalStyles.color.RED
 	},
 	mosaic: {
-		backgroundColor: '#fff', 
+		backgroundColor: GlobalStyles.color.WHITE,
 		borderRadius: 5, 
+		borderWidth: 1,
+		borderColor: GlobalStyles.color.SECONDARY,
 		paddingVertical: 8, 
 		paddingHorizontal: 16
 	}
@@ -45,7 +47,10 @@ class TableView extends Component<Props, State> {
 	state = {};
 
 	render_copyButton = (value) => {
-		return <CopyView theme="light">{value}</CopyView>
+		if(typeof value === 'string')
+			return <CopyView theme="light">{value}</CopyView>
+		else
+			return <Text type="regular" theme="light">{translate('table.null')}</Text>;
 	};
 	render_secret = (value) => {
 		return <SecretView theme="light">{value}</SecretView>
@@ -61,10 +66,12 @@ class TableView extends Component<Props, State> {
 	};
 	render_mosaics = (value) => {
 		const mosaics = Array.isArray(value) ? value : [];
-		return mosaics.map(el => (<Row justify="space-between" fullWidth style={styles.mosaic}>
-			<Text type="regular" theme="light">{el.mosaicName}</Text>
-			{this.render_amount(el.amount)}
-		</Row>))
+		if(mosaics.length)
+			return mosaics.map(el => (<Row justify="space-between" fullWidth style={styles.mosaic}>
+				<Text type="regular" theme="light">{el.mosaicName}</Text>
+				{this.render_amount(el.amount)}
+		</Row>));
+		return <Text type="regular" theme="light">{translate('table.null')}</Text>
 	}
 
 	renderItem = (key, value) => {
@@ -79,16 +86,13 @@ class TableView extends Component<Props, State> {
 					}
 				}));
 			
-
+		if(!itemTemplate && typeof value === 'object' && value !== null)
+			return this.renderTable(value);
 		return itemTemplate ? itemTemplate : <Text type="regular" theme="light">{value}</Text>
 		
 	};
 
-    render = () => {
-		const {
-			data
-		} = this.props;
-		
+	renderTable = (data) => {
 		let _data = data;
 
 		if(data === null || typeof data !== 'object')
@@ -108,6 +112,14 @@ class TableView extends Component<Props, State> {
 				{this.renderItem(el.key, el.value)}
 			</Section>)
         );
+	}
+
+    render = () => {
+		const {
+			data
+		} = this.props;
+		
+		return this.renderTable(data);
     };
 }
 

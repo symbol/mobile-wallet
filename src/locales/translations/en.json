@@ -407,6 +407,15 @@
 		"mosaic": "Mosaic",
 		"amount": "Amount",
 		"encrypted": "Encrypted",
-		"unencrypted": "Unencrypted"
+		"unencrypted": "Unencrypted",
+
+		"status": "Status",
+		"signerAddress": "Signer Address",
+		"deadline": "Deadline",
+		"hash": "Hash",
+		"transferType": "Transfer Type",
+		"hasCustomMosaic": "Number of Transfered Mosaics",
+		"undefined": "n/a",
+		"null": "n/a"
 	}
 }

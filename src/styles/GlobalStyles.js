@@ -157,5 +157,21 @@ export default {
 		icon: {
 
 		}
+	},
+
+	controls: {
+		shadow: {
+			zIndex: 0,
+			shadowColor: '#000',
+			shadowOffset: { width: 0, height: 0 },
+			shadowOpacity: 0.2,
+			shadowRadius: 10,
+			elevation: 7,
+			position: 'absolute',
+			backgroundColor: '#fff',
+			height: '100%',
+			width: '100%',
+			opacity: 0.1
+		}
 	}
 };
