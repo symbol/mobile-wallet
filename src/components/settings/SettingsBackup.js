@@ -6,17 +6,13 @@ import { Router } from '@src/Router';
 
 export default class SettingsBackup extends Component {
     onPress = () => {
-        Router.goToGenerateBackup({}, this.props.componentId);
+        Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
     };
 
     render() {
         return (
             <View>
-                <SettingsListItem
-                    title={translate('Settings.backup')}
-                    icon={require('@src/assets/icons/ic-backup-white.png')}
-                    onPress={this.onPress}
-                />
+                <SettingsListItem title={translate('Settings.backup')} icon={require('@src/assets/icons/ic-backup-white.png')} onPress={this.onPress} />
             </View>
         );
     }

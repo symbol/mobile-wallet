@@ -221,14 +221,25 @@ class ScanQRCode extends Component<Props, State> {
 
     onRead = (res: any) => {
         const mnemonicData = res.data;
+        // FIXME: Workaround for including legacy opt in QRs
+        let mnemonicFixed = mnemonicData;
         try {
-            const mnemonicQR = MnemonicQR.fromJSON(mnemonicData);
+            const mnemonicObj = JSON.parse(mnemonicData);
+            if (mnemonicObj.type === 6) {
+                mnemonicObj.type = 5;
+                mnemonicFixed = JSON.stringify(mnemonicObj);
+            }
+        } catch {
+            return this.setState({ showWarning: true });
+        }
+        try {
+            const mnemonicQR = MnemonicQR.fromJSON(mnemonicFixed);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
             store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonicQR.mnemonicPlainText });
             Router.goToWalletLoading({}, this.props.componentId);
         } catch (e) {
             if (e.message === 'Could not parse mnemonic pass phrase.') {
-                this.setState({ encryptedQR: mnemonicData, showPassword: true });
+                this.setState({ encryptedQR: mnemonicFixed, showPassword: true });
             } else {
                 this.setState({ showWarning: true });
             }

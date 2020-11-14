@@ -35,7 +35,9 @@ export default {
         },
     },
     actions: {
-        initState: async ({ state, dispatchAction }) => {
+        initState: async ({ commit, state, dispatchAction }) => {
+            const mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
+            commit({ type: 'wallet/setMnemonic', payload: mnemonicModel.mnemonic });
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             if (state.wallet.accounts.length > 0) {
                 await dispatchAction({ type: 'wallet/loadAccount' });
@@ -70,7 +72,7 @@ export default {
             const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+            dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
         },
         createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
             const accountModel = AccountService.createFromPrivateKey(privateKey, name);

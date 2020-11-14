@@ -139,7 +139,12 @@ class ShowQRCode extends Component {
     };
 
     handleSubmit = () => {
-        Router.goToWalletLoading({});
+        const { isBackup } = this.props;
+        if (isBackup) {
+            Router.goToDashboard({});
+        } else {
+            Router.goToWalletLoading({});
+        }
     };
 
     componentDidMount = () => {
