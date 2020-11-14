@@ -64,7 +64,6 @@ export default class PluginList extends Component<Props, State> {
 			title,
 			buttons
 		} = this.props;
-
 		const iconBackName = theme === 'light'
 			? 'back_light'
 			: 'back_dark';
@@ -105,7 +104,7 @@ export default class PluginList extends Component<Props, State> {
 						{!!onSettings && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
 							<Icon name={iconSettingsName} size="small" />
 						</TouchableOpacity>}
-						{!onSettings && <Icon name="none" />}
+						{!onSettings && !buttons && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>
