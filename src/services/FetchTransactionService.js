@@ -33,7 +33,12 @@ export default class FetchTransactionService {
         const transactionHttp = new TransactionHttp(network.node);
         // FIXME: Workaround with bad performance
         const accountHttp = new AccountHttp(network.node);
-        const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
+        let accountInfo;
+        try {
+            accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
+        } catch {
+            return false;
+        }
         if (!accountInfo.publicKey) return false;
         const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
         const transactionsData = await transactionHttp
@@ -69,8 +74,13 @@ export default class FetchTransactionService {
         if (directionFilter === 'SENT') {
             // FIXME: Workaround with bad performance
             const accountHttp = new AccountHttp(network.node);
-            const accountInfo = await accountHttp.getAccountInfo(address).toPromise();
-            baseSearchCriteria.signerPublicKey = accountInfo.publicKey;
+            let accountInfo;
+            try {
+                accountInfo = await accountHttp.getAccountInfo(address).toPromise();
+                baseSearchCriteria.signerPublicKey = accountInfo.publicKey;
+            } catch {
+                return [];
+            }
         } else if (directionFilter === 'RECEIVED') {
             baseSearchCriteria.recipientAddress = address;
         } else {
