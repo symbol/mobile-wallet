@@ -41,7 +41,7 @@ export default class ListenerService {
                 .unconfirmedAdded(address)
                 //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
                 .subscribe(() => {
-                    this.showMessage('New unconfirmed transaction!', 'success');
+                    this.showMessage('New unconfirmed transaction!', 'warning');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
 
@@ -52,6 +52,10 @@ export default class ListenerService {
                     this.showMessage('New aggregate transaction!', 'success');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
+
+            this.listener.newBlock().subscribe(block => {
+                store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
+            });
         });
     };
 

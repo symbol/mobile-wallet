@@ -41,7 +41,6 @@ export default {
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             if (state.wallet.accounts.length > 0) {
                 await dispatchAction({ type: 'wallet/loadAccount' });
-                await dispatchAction({ type: 'account/loadAllData', payload: true });
             }
         },
         saveWallet: async ({ state, dispatchAction }) => {

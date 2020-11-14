@@ -7,14 +7,14 @@ import { Text, TextInput, Platform } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
-import * as Config from "./config/environment";
-import {languageNames, setI18nConfig} from "./locales/i18n";
-import {Router} from "./Router";
-import {AsyncCache} from "./utils/storage/AsyncCache";
-import {SecureStorage} from "@src/utils/storage/SecureStorage";
+import * as Config from './config/environment';
+import { setI18nConfig } from './locales/i18n';
+import { Router } from './Router';
+import { AsyncCache } from './utils/storage/AsyncCache';
 import store from '@src/store';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
+import { deletePasscode } from '@src/utils/passcode';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -119,6 +119,6 @@ export const setGlobalCustomFont = () => {
 };
 
 export const logout = async () => {
-    await Promise.all([AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
+    await Promise.all([deletePasscode(), AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
     return initStore();
 };
