@@ -82,6 +82,6 @@ class Home extends Component<Props, State> {
 
 export default connect(state => ({
     accountName: state.wallet.selectedAccount.name,
-    pendingSignature: state.account.pendingSignature,
+    pendingSignature: state.transaction.pendingSignature,
     address: state.account.selectedAccountAddress,
 }))(Home);

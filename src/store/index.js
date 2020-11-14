@@ -10,6 +10,7 @@ import account from '@src/store/account';
 import news from '@src/store/news';
 import harvesting from '@src/store/harvesting';
 import ListenerService from '@src/services/ListenerService';
+import transaction from '@src/store/transaction';
 
 const modules = {
     market,
@@ -21,6 +22,7 @@ const modules = {
     account,
     news,
     harvesting,
+    transaction,
 };
 
 const createModuleReducer = (module, state = {}, action) => {
