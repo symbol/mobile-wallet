@@ -89,3 +89,7 @@ export const durationToRelativeTime = (durationInBlocks: number, blockGeneration
         return '';
     }
 };
+
+export const shortifyAddress = (address: string): string => {
+    return `${address.slice(0, 6)}-...-${address.slice(42)}`;
+};

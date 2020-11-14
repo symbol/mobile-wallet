@@ -1,4 +1,16 @@
-import { Address, TransactionHttp, TransactionGroup, Transaction, TransferTransaction, LockFundsTransaction, AggregateTransaction } from 'symbol-sdk';
+import {
+    Address,
+    TransactionHttp,
+    TransactionGroup,
+    Transaction,
+    TransferTransaction,
+    LockFundsTransaction,
+    AggregateTransaction,
+    Page,
+    Order,
+    AccountHttp,
+    PublicAccount,
+} from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
@@ -6,40 +18,90 @@ import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
 import MosaicService from '@src/services/MosaicService';
+import type { DirectionFilter } from '@src/store/transaction';
+import { Observable } from 'rxjs';
+import NetworkService from '@src/services/NetworkService';
 
 export default class FetchTransactionService {
     /**
-     * Returns balance from a given Address and a node
-     * @param rawAddresses
+     * Check for pending signatures
+     * @param address
      * @param network
-     * @returns {Promise<number>}
+     * @returns {Promise<void>}
      */
-    static async getTransactionsFromAddresses(rawAddresses: string[], network: NetworkModel): Promise<any> {
-        const allTransactionsPerAddress = await Promise.all(rawAddresses.map(address => this.getTransactionsFromAddress(address, network)));
-        return allTransactionsPerAddress.reduce((acc, txList, i) => {
-            acc[rawAddresses[i]] = txList;
-            return acc;
-        }, {});
+    static async hasAddressPendingSignatures(address: string, network: NetworkModel) {
+        const transactionHttp = new TransactionHttp(network.node);
+        // FIXME: Workaround with bad performance
+        const accountHttp = new AccountHttp(network.node);
+        let accountInfo;
+        try {
+            accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
+        } catch {
+            return false;
+        }
+        if (!accountInfo.publicKey) return false;
+        const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
+        const transactionsData = await transactionHttp
+            .search({ pageNumber: 1, pageSize: 100, group: TransactionGroup.Partial, address: publicAccount.address })
+            .toPromise();
+        for (let transaction: Transaction of transactionsData.data) {
+            if (transaction instanceof AggregateTransaction) {
+                if (!transaction.signedByAccount(publicAccount)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
      * Returns balance from a given Address and a node
      * @param rawAddress
+     * @param page
+     * @param directionFilter
      * @param network
      * @returns {Promise<number>}
      */
-    static async getTransactionsFromAddress(rawAddress: string, network: NetworkModel): Promise<TransactionModel[]> {
+    static async getTransactionsFromAddress(
+        rawAddress: string,
+        page: number,
+        directionFilter: DirectionFilter,
+        network: NetworkModel
+    ): Promise<TransactionModel[]> {
         const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
-        const confirmedSearchCriteria = { group: TransactionGroup.Confirmed, address, pageNumber: 1, pageSize: 25 };
-        const partialSearchCriteria = { group: TransactionGroup.Partial, address, pageNumber: 1, pageSize: 25 };
-        const unconfirmedSearchCriteria = { group: TransactionGroup.Unconfirmed, address, pageNumber: 1, pageSize: 25 };
-        const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
-            transactionHttp.search(confirmedSearchCriteria).toPromise(),
-            transactionHttp.search(partialSearchCriteria).toPromise(),
-            transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
-        ]);
-        const allTransactions = [...unconfirmedTransactions.data, ...partialTransactions.data, ...confirmedTransactions.data.reverse()];
+        const baseSearchCriteria = { pageNumber: page, order: Order.Desc };
+        if (directionFilter === 'SENT') {
+            // FIXME: Workaround with bad performance
+            const accountHttp = new AccountHttp(network.node);
+            let accountInfo;
+            try {
+                accountInfo = await accountHttp.getAccountInfo(address).toPromise();
+                baseSearchCriteria.signerPublicKey = accountInfo.publicKey;
+            } catch {
+                return [];
+            }
+        } else if (directionFilter === 'RECEIVED') {
+            baseSearchCriteria.recipientAddress = address;
+        } else {
+            baseSearchCriteria.address = address;
+        }
+
+        const confirmedSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Confirmed, pageSize: 25 };
+        const partialSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Partial, pageSize: 100 };
+        const unconfirmedSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Unconfirmed, pageSize: 100 };
+        let allTransactions;
+        if (page === 1) {
+            const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
+                transactionHttp.search(confirmedSearchCriteria).toPromise(),
+                transactionHttp.search(partialSearchCriteria).toPromise(),
+                transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
+            ]);
+            allTransactions = [...unconfirmedTransactions.data, ...partialTransactions.data, ...confirmedTransactions.data];
+        } else {
+            const confirmedTxs = await transactionHttp.search(confirmedSearchCriteria).toPromise();
+            allTransactions = confirmedTxs.data;
+        }
         const preLoadedMosaics = await this._preLoadMosaics(allTransactions, network);
         return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network, preLoadedMosaics)));
     }
@@ -198,15 +260,5 @@ export default class FetchTransactionService {
             cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
         };
-    }
-
-    /**
-     * Checks if transactions need publicKey signature
-     * @param publicKey
-     * @param transactions
-     * @returns {boolean}
-     */
-    static checkIfTransactionsNeedsSignature(publicKey: string, transactions: TransactionModel[]): boolean {
-        return !!transactions.find(tx => tx.type === 'aggregate' && tx.status === 'unconfirmed' && tx.cosignaturePublicKeys.indexOf(publicKey) === -1);
     }
 }
