@@ -8,6 +8,7 @@ import store from '@src/store';
 const styles = StyleSheet.create({
     list: {
         marginBottom: 50,
+        height: '65%',
     },
     filter: {
         flexGrow: 1,
@@ -109,6 +110,11 @@ class History extends Component<Props, State> {
 
     renderTransactionItem = showingDetails => ({ item, index }) => {
         return (
+            <ListItem onPress={() => this.showDetails(index)}>
+                <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
+            </ListItem>
+        );
+        return (
             <TouchableOpacity onPress={() => this.showDetails(index)}>
                 <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
             </TouchableOpacity>
@@ -142,7 +148,7 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-                <Section type="form" style={styles.list}>
+                <ListContainer style={styles.list} isScrollable={false}>
                     <FlatList
                         data={formattedTransactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
@@ -154,7 +160,7 @@ class History extends Component<Props, State> {
                             Loading...
                         </Text>
                     )}
-                </Section>
+                </ListContainer>
             </GradientBackground>
             // </ImageBackground>
         );

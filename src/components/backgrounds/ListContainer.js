@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
 });
 
 
-interface Props {}
+interface Props {
+	isScrollable: boolean
+}
 
 type State = {};
 
@@ -23,10 +25,10 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}} = this.props;
+		const { children, style = {}, isScrollable = true} = this.props;
 
         return (
-			<Section type="list" style={style} isScrollable>
+			<Section type="list" style={style} isScrollable={isScrollable}>
 				<View style={[styles.root]}>
 					{children}
 				</View>
