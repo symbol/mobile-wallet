@@ -63,7 +63,7 @@ export default class NavigationMenu extends Component<Props, State> {
 			};
 		
 		return (
-			<View style={styles.root}>
+			<View style={[styles.root, extraPadding]}>
 				<Row justify="space-around" align="center">
 					{
 						menuItemList.map(item =>
