@@ -39,10 +39,6 @@ class Dashboard extends Component<Props, State> {
         store.dispatchAction({ type: 'network/registerNodeCheckJob' });
     }
 
-    componentDidUnmount() {
-        store.dispatchAction({ type: 'network/registerNodeCheckJob' });
-    }
-
     onTabChange = tabName => {
         this.setState({ currentTab: tabName });
     };
