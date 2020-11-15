@@ -23,7 +23,9 @@ export default class ListenerService {
     };
 
     listen = (account: AccountModel) => {
-        this.listener.close();
+        if (this.listener) {
+            this.listener.close();
+        }
         this.listener = this.repositoryFactory.createListener();
         const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, this.network.type);
         const address = Address.createFromRawAddress(rawAddress);

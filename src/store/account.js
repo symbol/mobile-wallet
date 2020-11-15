@@ -7,7 +7,7 @@ export default {
         refreshingObs: null,
         selectedAccount: {},
         selectedAccountAddress: '',
-        loading: false,
+        loading: true,
         balance: 0,
         ownedMosaics: [],
         accounts: [],
