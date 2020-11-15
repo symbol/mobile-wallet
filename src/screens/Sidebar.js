@@ -159,13 +159,23 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderSelectedAccountItem = () => {
-        const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading } = this.props;
+		const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading } = this.props;
+		const options = [
+            { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(selectedAccount.id, selectedAccount.name) },
+			{ iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(selectedAccount.id) },
+			{ iconName: 'wallet_filled_light', label: 'Details', onPress: () => this.handleAccountDetails() },
+        ];
+		const buttons = (<OptionsMenu list={options}>
+			<Icon name="options_dark" size="small" />
+		</OptionsMenu>);
+
         return (
-            <TouchableOpacity onPress={() => this.handleAccountDetails()}>
+            <View onPress={() => this.handleAccountDetails()}>
                 <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
 					<Container>
-						<TitleBar onBack={() => this.props.onHide()}/>
 						<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+						<TitleBar onBack={() => this.props.onHide()} buttons={buttons}/>
+						
 						<ManagerHandler dataManager={{isError: false, isLoading}}>
 							<Section type="form" style={styles.selectedAccountBoxContent}>
 								<Text style={styles.selectedAccountName} type="title-small" theme="dark">
@@ -186,11 +196,11 @@ class Sidebar extends Component<Props, State> {
 						</ManagerHandler>
 					</Container>
                 </SymbolGradientContainer>
-            </TouchableOpacity>
+            </View>
         );
     };
 
-    renderAccountSelectorItem = ({ name, balance, id, type, path }) => {
+    renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
         const options = [
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
             { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(id) },
@@ -204,9 +214,11 @@ class Sidebar extends Component<Props, State> {
                         <Icon name="options_light" size="small" />
                     </OptionsMenu>
                 </Row>
-
-                <Text type="regular" align="right" theme="light">
-                    {type === 'hd' ? `Seed account (${path})` : 'Private key account'}
+				<Text type="regular" align="left" theme="light">
+					<Trunc type="address">{address}</Trunc>
+				</Text>
+                <Text type="regular" align="left" theme="light">
+                    {type === 'hd' ? `Seed account #` : 'Private key account'}
                 </Text>
             </TouchableOpacity>
         );

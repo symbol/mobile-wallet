@@ -27,7 +27,7 @@ export default class MosaicDisplay extends Component<Props> {
             <View style={styles.transactionPreview}>
                 <Row justify="space-between">
                     <Text type="regular" theme="light">
-                        {mosaic.mosaicId}
+                        {mosaic.mosaicId} {mosaic.expired ? ' (expired)' : ''}
                     </Text>
                     {/* <Text type="regular" theme="light">
                         {mosaic.divisibility}

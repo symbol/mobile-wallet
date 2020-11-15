@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Linking, StyleSheet, View, FlatList } from 'react-native';
-import { GradientBackground, Section, Text, TitleBar } from '@src/components';
+import { GradientBackground, ListContainer, ListItem, TitleBar } from '@src/components';
 import New from '@src/components/organisms/New';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 70,
+        marginBottom: 36,
     },
 });
 
@@ -30,11 +30,19 @@ class News extends Component<Props, State> {
 					onOpenMenu={() => onOpenMenu()} 
 					onSettings={() => onOpenSettings()}
 				/>
-                <Section type="list" style={styles.list} isScrollable>
+                <ListContainer type="list" style={styles.list}>
                     {news.map(item => {
-                        return <New title={item.title} body={item.content} url={item.link} publicationDate={item.pubDate} creator={item.creator} />;
+						return <ListItem>
+							<New 
+								title={item.title} 
+								body={item.content} 
+								url={item.link} 
+								publicationDate={item.pubDate} 
+								creator={item.creator} 
+							/>
+						</ListItem>;
                     })}
-                </Section>
+                </ListContainer>
             </GradientBackground>
         );
     }

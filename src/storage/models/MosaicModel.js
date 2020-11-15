@@ -6,4 +6,5 @@ export interface MosaicModel {
     mosaicName: string;
     amount: number;
     divisibility: number;
+    expired: boolean;
 }
