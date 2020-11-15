@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
 		height: 16,
 		width: 16
 	},
+	mini: {
+		height: 10,
+		width: 10
+	},
 });
 
 
@@ -120,10 +124,13 @@ export default class C extends Component<Props, State> {
 				source = require('@src/assets/icons/expand.png');
 				break;
 			case 'incoming_light':
-				source = require('@src/assets/icons/incoming.png');
+				source = require('@src/assets/icons/transaction/incoming.png');
 				break;
 			case 'outgoing_light':
-				source = require('@src/assets/icons/outgoing.png');
+				source = require('@src/assets/icons/transaction/outgoing.png');
+				break;
+			case 'aggregate':
+				source = require('@src/assets/icons/transaction/aggregate.png');
 				break;
 			case 'options_light':
 				source = require('@src/assets/icons/options_light.png');
@@ -155,6 +162,12 @@ export default class C extends Component<Props, State> {
 			case 'copy':
 				source = require('@src/assets/icons/copy.png');
 				break;
+			case 'mosaics_filled':
+				source = require('@src/assets/icons/mosaics.png');
+				break;
+			case 'message_filled':
+				source = require('@src/assets/icons/message.png');
+				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;
@@ -173,11 +186,14 @@ export default class C extends Component<Props, State> {
 			case 'small':
 				_style = styles.small
 				break;
+			case 'mini':
+				_style = styles.mini
+				break;
 			default:
 				_style = styles.medium
 				break;
 		}
-		
+
 		if(!source) return <View style={[_style, style]} />;
         return <Image style={[_style, style]} source={source} />;
     }

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
-		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) 
+		marginRight: - (GlobalStyles.section.title.paddingLeft / 2)
 	},
 	iconRightOld: {
 		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) -5
@@ -64,7 +64,6 @@ export default class PluginList extends Component<Props, State> {
 			title,
 			buttons
 		} = this.props;
-
 		const iconBackName = theme === 'light'
 			? 'back_light'
 			: 'back_dark';
@@ -97,7 +96,7 @@ export default class PluginList extends Component<Props, State> {
 						</TouchableOpacity>}
 						{!onBack && !onOpenMenu && <Icon name="none" />}
 					</Row>
-					<Col style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} align="center" justify="center">
+					<Col style={{ flex: 1 }} align="center" justify="center">
 						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '70%'}}>{title}</Text>
 					</Col>
 					<Row justify="end" align="center">
@@ -105,7 +104,7 @@ export default class PluginList extends Component<Props, State> {
 						{!!onSettings && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
 							<Icon name={iconSettingsName} size="small" />
 						</TouchableOpacity>}
-						{!onSettings && <Icon name="none" />}
+						{!onSettings && !buttons && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>

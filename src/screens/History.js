@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import Transaction from '@src/components/organisms/transaction/Transaction';
-import { Section, GradientBackground, Dropdown, ImageBackground, Text, Row, TitleBar, TransactionItem } from '@src/components';
+import { StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
-import { NetworkType } from 'symbol-sdk';
+import store from '@src/store';
+import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 70,
+        marginBottom: 50,
+        height: '65%',
     },
     filter: {
         flexGrow: 1,
@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
         width: '50%',
         marginLeft: 5,
     },
+    loadingText: {
+        marginTop: 6,
+    },
 });
 
 type Props = {};
@@ -25,34 +28,17 @@ type Props = {};
 type State = {};
 
 const allFilters = [
-    { value: 'all', label: 'All' },
-    { value: 'sent', label: 'Sent' },
-    { value: 'received', label: 'Received' },
+    { value: 'ALL', label: 'All' },
+    { value: 'SENT', label: 'Sent' },
+    { value: 'RECEIVED', label: 'Received' },
 ];
 
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
-        filterValue: 'all',
-        selectedMultisig: null,
     };
 
-    componentDidMount() {
-        // store.dispatchAction({ type: 'account/loadTransactions' });
-        // this.props.dataManager.reset();
-    }
-
-    showDetails = async index => {
-        const networkType = NetworkType.TEST_NET;
-        const { dataManager, address, privateKey, network } = this.props;
-        const { selectedMultisig } = this.state;
-        let transactions;
-        if (selectedMultisig) {
-            transactions = dataManager.data[selectedMultisig] || [];
-        } else {
-            transactions = dataManager.data[address] || [];
-        }
-
+    showDetails = index => {
         const { showingDetails } = this.state;
         if (showingDetails === index) {
             this.setState({
@@ -65,37 +51,42 @@ class History extends Component<Props, State> {
         }
     };
 
+    onRefresh = () => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
+    };
+
     onSelectFilter = filterValue => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: { directionFilter: filterValue } });
         this.setState({ filterValue });
     };
 
     onSelectMultisig = multisig => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: { addressFilter: multisig } });
         this.setState({ selectedMultisig: multisig });
     };
 
-    render() {
-        const { dataManager, address, cosignatoryOf, onOpenMenu, onOpenSettings } = this.props;
-        const { showingDetails, filterValue, selectedMultisig } = this.state;
-        let transactions;
-        if (selectedMultisig) {
-            transactions = dataManager.data[selectedMultisig] || [];
-        } else {
-            transactions = dataManager.data[address] || [];
+    loadNextPage = () => {
+        const { isLastPage } = this.props;
+        if (!isLastPage) {
+            store.dispatchAction({ type: 'transaction/loadNextPage' });
         }
-        const filteredTransactions = transactions.filter((tx: TransactionModel) => {
-            switch (filterValue) {
-                case 'sent':
-                    return tx.signerAddress === address;
-                case 'received':
-                    return tx.signerAddress !== address;
-                default:
-                    return true;
-            }
-        });
+    };
+
+    renderTransactionItem = showingDetails => ({ item, index }) => {
+        return (
+            <ListItem onPress={() => this.showDetails(index)}>
+                <Transaction transaction={item} showDetails={showingDetails === index} />
+            </ListItem>
+        );
+    };
+
+    render() {
+        const { address, cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
+        const { showingDetails } = this.state;
 
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
-            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+            <GradientBackground name="connector_small" theme="light">
                 <TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
                 <Section type="list">
                     <Section type="form-item">
@@ -105,25 +96,31 @@ class History extends Component<Props, State> {
                                 style={styles.filter}
                                 list={allFilters}
                                 title={'Filter'}
-                                value={filterValue}
+                                value={directionFilter}
                                 onChange={this.onSelectFilter}
                             />
                             {cosignatoryOf.length > 0 && (
-                                <MultisigFilter theme="light" style={styles.filterRight} selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />
+                                <MultisigFilter theme="light" style={styles.filterRight} selected={addressFilter} onSelect={v => this.onSelectMultisig(v)} />
                             )}
                         </Row>
                     </Section>
                 </Section>
-                <Section type="list" style={styles.list} isScrollable>
-                    {filteredTransactions &&
-                        filteredTransactions.map((tx, index) => {
-                            return (
-                                <TouchableOpacity onPress={() => this.showDetails(index)}>
-                                    <TransactionItem transaction={tx} showDetails={showingDetails === index} />
-                                </TouchableOpacity>
-                            );
-                        })}
-                </Section>
+                <ListContainer style={styles.list} isScrollable={false}>
+                    <FlatList
+                        style={{ height: '100%' }}
+                        data={transactions}
+                        renderItem={this.renderTransactionItem(showingDetails)}
+                        onEndReachedThreshold={0.9}
+                        onEndReached={this.loadNextPage}
+                        refreshControl={
+                            <RefreshControl
+                                //refresh control used for the Pull to Refresh
+                                refreshing={loading}
+                                onRefresh={this.onRefresh}
+                            />
+                        }
+                    />
+                </ListContainer>
             </GradientBackground>
             // </ImageBackground>
         );
@@ -131,12 +128,11 @@ class History extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    dataManager: state.account.transactionListManager,
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
-    privateKey: state.wallet.selectedAccount.privateKey,
-    network: state.network.selectedNetwork,
-    addressBook: state.addressBook.addressBook,
-    privateKey: state.wallet.selectedAccount.privateKey,
-    network: state.network.selectedNetwork,
+    transactions: state.transaction.transactions,
+    isLastPage: state.transaction.isLastPage,
+    addressFilter: state.transaction.addressFilter,
+    directionFilter: state.transaction.directionFilter,
+    loading: state.transaction.loading,
 }))(History);

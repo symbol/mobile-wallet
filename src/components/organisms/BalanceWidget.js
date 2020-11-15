@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Row, Col, Text, PriceChart } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { connect } from 'react-redux';
+import store from '@src/store';
 
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     showChart: boolean,
-	account: any
+    account: any,
 };
 
 type State = {
@@ -60,29 +61,36 @@ class BalanceWidget extends Component<Props, State> {
         priceChange: '+1.20%',
     };
 
+    reload = () => {
+        store.dispatchAction({ type: 'account/loadAllData' });
+    };
+
     render() {
-        const { showChart = true } = this.props;
+        const { showChart = true, loading } = this.props;
         const { currency, fiat, priceChange } = this.state;
-		const { balance } = this.props;
+        const { balance } = this.props;
         return (
-            <View style={styles.root}>
+            <TouchableOpacity style={styles.root} onPress={this.reload}>
                 {!!showChart && <PriceChart style={styles.priceChart} />}
-                <Col>
-                    <Row justify="center" align="end">
-                        <Text style={styles.balanceText}>{balance} </Text>
-                        <Text style={styles.currencyText}>{currency}</Text>
-                    </Row>
-                    <Row justify="center" style={styles.bottomContainer}>
-                        <Text style={styles.fiatText}>{fiat} |</Text>
-                        <Text style={styles.priceChange}>{priceChange}</Text>
-                    </Row>
-                </Col>
-            </View>
+                {loading && <ActivityIndicator size="large" color="#ffffff" />}
+                {!loading && (
+                    <Col>
+                        <Row justify="center" align="end">
+                            <Text style={styles.balanceText}>{balance} </Text>
+                            <Text style={styles.currencyText}>{currency}</Text>
+                        </Row>
+                        <Row justify="center" style={styles.bottomContainer}>
+                            <Text style={styles.fiatText}>{fiat} |</Text>
+                            <Text style={styles.priceChange}>{priceChange}</Text>
+                        </Row>
+                    </Col>
+                )}
+            </TouchableOpacity>
         );
     }
 }
 
 export default connect(state => ({
     balance: state.account.balance,
+    loading: state.account.loading,
 }))(BalanceWidget);
-

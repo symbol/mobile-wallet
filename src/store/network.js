@@ -3,9 +3,13 @@ import { getDefaultNetworkType, getNodes } from '@src/config/environment';
 import NetworkService from '@src/services/NetworkService';
 import { GlobalListener } from '@src/store/index';
 
+const NETWORK_JOB_INTERVAL = 3000;
+
 export default {
     namespace: 'network',
     state: {
+        isUp: true,
+        checkNodeJob: null,
         isLoaded: false,
         generationHash: '',
         network: 'testnet',
@@ -33,6 +37,14 @@ export default {
             state.network.selectedNetwork = payload;
             return state;
         },
+        setCheckNodeJob(state, payload) {
+            state.network.checkNodeJob = payload;
+            return state;
+        },
+        setIsUp(state, payload) {
+            state.network.isUp = payload;
+            return state;
+        },
     },
     actions: {
         initState: async ({ commit, dispatchAction }) => {
@@ -55,6 +67,7 @@ export default {
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const network = await NetworkService.getNetworkModelFromNode(payload);
+            await AsyncCache.setSelectedNode(payload);
             commit({
                 type: 'network/setSelectedNetwork',
                 payload: network,
@@ -63,7 +76,33 @@ export default {
             commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
+            GlobalListener.setNetwork(network);
             await dispatchAction({ type: 'wallet/initState' });
+        },
+        updateChainHeight: async ({ state, commit }, payload) => {
+            const selectedNetwork = state.network.selectedNetwork;
+            selectedNetwork.chainHeight = payload;
+            commit({ type: 'network/setSelectedNetwork', payload: selectedNetwork });
+        },
+        checkNetwork: async ({ state, commit }) => {
+            const selectedNetwork = state.network.selectedNetwork;
+            let isUp = false;
+            if (selectedNetwork) {
+                isUp = await NetworkService.isNetworkUp(selectedNetwork);
+            }
+            commit({ type: 'network/setIsUp', payload: isUp });
+        },
+        registerNodeCheckJob: async ({ state, commit, dispatchAction }) => {
+            if (!state.network.checkNodeJob) {
+                const job = setInterval(() => dispatchAction({ type: 'network/checkNetwork' }), NETWORK_JOB_INTERVAL);
+                commit({ type: 'network/setCheckNodeJob', payload: job });
+            }
+        },
+        dismissNodeCheckJob: async ({ state, commit }) => {
+            if (state.network.checkNodeJob) {
+                clearInterval(state.network.checkNodeJob);
+                commit({ type: 'network/setCheckNodeJob', payload: null });
+            }
         },
     },
 };

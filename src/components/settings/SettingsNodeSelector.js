@@ -46,6 +46,9 @@ class SettingsNodeSelector extends Component {
     };
 
     onSelectNode = node => {
+        this.setState({
+            error: 'Loading',
+        });
         store
             .dispatchAction({ type: 'network/changeNode', payload: node })
             .then(_ => {
@@ -112,6 +115,6 @@ class SettingsNodeSelector extends Component {
 }
 
 export default connect(state => ({
-    selectedNode: state.network.selectedNetwork.node,
-    selectedNetwork: state.network.selectedNetwork.type,
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
+    selectedNetwork: state.network.selectedNetwork ? state.network.selectedNetwork.type : '',
 }))(SettingsNodeSelector);

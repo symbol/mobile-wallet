@@ -407,6 +407,22 @@
 		"mosaic": "Mosaic",
 		"amount": "Amount",
 		"encrypted": "Encrypted",
-		"unencrypted": "Unencrypted"
+		"unencrypted": "Unencrypted",
+
+		"status": "Status",
+		"innerTxs": "Inner transactions",
+		"signerAddress": "Signer Address",
+		"deadline": "Deadline",
+		"hash": "Hash",
+		"transferType": "Transfer Type",
+		"hasCustomMosaic": "Number of Transfered Mosaics",
+		"undefined": "n/a",
+		"null": "n/a"
+	},
+	"transactionTypes": {
+		"unknown": "Type not supported yet",
+		"transfer": "Transfer",
+		"fundsLock": "Funds Lock",
+		"aggregate": "Aggregate"
 	}
 }
