@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, BalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
+import { Section, GradientBackground, AccountBalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 
@@ -37,13 +37,15 @@ class Home extends Component<Props, State> {
             <GradientBackground name="mesh" theme="light" fade={true}>
 				<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
                 <Col justify="space-around" style={contentStyle}>
-                    <BalanceWidget showChart={false} />
+					<Section type="list">
+                    	<AccountBalanceWidget />
+					</Section>
                     <Section type="list">
                         <PluginList componentId={componentId} theme="light"/>
 					</Section>
 					<Section type="list">
                         {/* Notifications Mockup */}
-                        <View style={styles.transactionPreview}>
+                        {/* <View style={styles.transactionPreview}>
                             <Row justify="space-between">
                                 <Text type="regular" theme="light">
                                     Opt-in
@@ -57,7 +59,7 @@ class Home extends Component<Props, State> {
                                     Post launch Opt-in
                                 </Text>
                             </Row>
-                        </View>
+                        </View> */}
                         {pendingSignature && (
                             <TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
                                 <Row justify="space-between">
@@ -65,7 +67,7 @@ class Home extends Component<Props, State> {
                                         Multisig Transaction
                                     </Text>
                                     <Text type="regular" theme="light">
-                                        23.10.2020 10:59
+                                        Recently
                                     </Text>
                                 </Row>
                                 <Row justify="space-between">

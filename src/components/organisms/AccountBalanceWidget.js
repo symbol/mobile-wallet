@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Row, Col, Text, PriceChart } from '@src/components';
+import { Row, CopyView, Text, Section, SymbolGradientContainer } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { connect } from 'react-redux';
 
 // TODO: Remove font styles. Use <Text type={} /> instead
 const styles = StyleSheet.create({
     root: {
-        marginTop: 34,
-        width: '100%',
+		flex: null,
+		margin: 0,
+		padding: 0,
+		borderRadius: 6,
+        marginTop: 4,
+        marginBottom: 4,
+        padding: 17,
+        paddingTop: 8,
     },
-    priceChart: {
-        position: 'absolute',
-        top: -50,
-        //left: -64
-    },
-    currencyText: {
-        fontSize: 15,
-        marginBottom: 8,
-        color: GlobalStyles.color.onDark.TEXT,
-    },
-    balanceText: {
-        fontFamily: 'NotoSans-SemiBold',
-        fontSize: 36,
-        color: GlobalStyles.color.onDark.TEXT,
-    },
-    bottomContainer: {
-        marginTop: 3,
-        opacity: 0.5,
-    },
-    fiatText: {
-        fontSize: 15,
-        color: GlobalStyles.color.onDark.TEXT,
-    },
-    priceChange: {
-        fontSize: 15,
-        color: GlobalStyles.color.GREEN,
-    },
+	address: {
+		marginRight: -5,
+		opacity: 0.7,
+		color: GlobalStyles.color.WHITE,
+		fontSize: 1 * 12,
+        lineHeight: 1.75 * 12,
+        marginBottom: 17,
+	},
+	mosaic: {
+		fontSize: 1 * 12,
+		lineHeight: 1.75 * 12,
+		marginBottom: 2,
+	},
+	balance: {
+		fontFamily: 'NotoSans-Light',
+		fontSize: 2.5 * 12,
+		lineHeight: 3.25 * 12,
+		marginTop: 10
+	}
 });
 
 type Props = {
@@ -63,26 +61,35 @@ class BalanceWidget extends Component<Props, State> {
     render() {
         const { showChart = true } = this.props;
         const { currency, fiat, priceChange } = this.state;
-		const { balance } = this.props;
+		const { 
+			address,
+			nativeMosaicNamespaceName,
+			balance 
+		} = this.props;
+
         return (
-            <View style={styles.root}>
-                {!!false && <PriceChart style={styles.priceChart} />}
-                <Col>
-                    <Row justify="center" align="end">
-                        <Text style={styles.balanceText}>{balance} </Text>
-                        <Text style={styles.currencyText}>{currency}</Text>
-                    </Row>
-                    <Row justify="center" style={styles.bottomContainer}>
-                        <Text style={styles.fiatText}>{fiat} |</Text>
-                        <Text style={styles.priceChange}>{priceChange}</Text>
-                    </Row>
-                </Col>
-            </View>
+            <SymbolGradientContainer style={styles.root} noPadding>
+                <View style={styles.content}>
+					<CopyView style={styles.address} theme="dark">
+						{address}
+					</CopyView>
+					<Row align="end" justify="space-between" fullWidth>
+						<Text style={styles.mosaic} theme="dark">
+						{nativeMosaicNamespaceName}
+						</Text>
+						<Text style={styles.balance} theme="dark">
+							{balance}
+						</Text>
+					</Row>	
+				</View>
+            </SymbolGradientContainer>
         );
     }
 }
 
 export default connect(state => ({
-    balance: state.account.balance,
+	address: state.account.selectedAccountAddress,
+	nativeMosaicNamespaceName: 'XYM', //TODO: remove hardcode
+	balance: state.account.balance,
 }))(BalanceWidget);
 
