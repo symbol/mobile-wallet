@@ -1,5 +1,5 @@
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-export type TransactionType = 'transfer' | 'fundsLock' | 'aggregate';
+export type TransactionType = 'unknown' | 'transfer' | 'fundsLock' | 'aggregate';
 export type TransactionStatus = 'confirmed' | 'unconfirmed';
 
 /**

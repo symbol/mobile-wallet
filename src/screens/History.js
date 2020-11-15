@@ -4,6 +4,7 @@ import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, Transaction
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
+import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
@@ -31,47 +32,6 @@ const allFilters = [
     { value: 'SENT', label: 'Sent' },
     { value: 'RECEIVED', label: 'Received' },
 ];
-
-class Hardcode {
-    // TODO: Move this class to services or middleware. The UI component should recieve already formatted transactions
-    static formatTransactions = (rawTransactions, address) => {
-        let formattedTransactions = [];
-
-        if (!Array.isArray(rawTransactions)) return [];
-
-        formattedTransactions = rawTransactions.map(el => this.formatTransaction(el, address));
-        return formattedTransactions;
-    };
-
-    static formatTransaction = (transaction, selectedAccountAddress) => {
-        const type = transaction.type;
-
-        switch (type) {
-            case 'transfer':
-                const nativeMosaic = transaction.mosaics.find(el => el.mosaicName === 'symbol.xym'); //TODO: replace hardcoded native namespace with REST data
-                const hasCustomMosaic = transaction.mosaics.filter(el => el.mosaicName !== 'symbol.xym').length; //TODO: replace hardcoded native namespace with REST data
-
-                const amount = nativeMosaic ? nativeMosaic.amount : null;
-                const transferType = selectedAccountAddress === transaction.signerAddress ? 'outgoing' : 'incoming';
-
-                const preview = {
-                    ...transaction,
-                    amount,
-                    transferType,
-                    hasCustomMosaic,
-                };
-                return {
-                    preview,
-                    transaction,
-                };
-            default:
-                return {
-                    preview: transaction,
-                    transaction,
-                };
-        }
-    };
-}
 
 class History extends Component<Props, State> {
     state = {
@@ -115,21 +75,14 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetails => ({ item, index }) => {
         return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
+                <Transaction transaction={item} showDetails={showingDetails === index} />
             </ListItem>
-        );
-        return (
-            <TouchableOpacity onPress={() => this.showDetails(index)}>
-                <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
-            </TouchableOpacity>
         );
     };
 
     render() {
         const { address, cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
         const { showingDetails } = this.state;
-
-        const formattedTransactions = Hardcode.formatTransactions(transactions, address);
 
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
@@ -155,7 +108,7 @@ class History extends Component<Props, State> {
                 <ListContainer style={styles.list} isScrollable={false}>
                     <FlatList
                         style={{ height: '100%' }}
-                        data={formattedTransactions}
+                        data={transactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
                         onEndReachedThreshold={0.9}
                         onEndReached={this.loadNextPage}
