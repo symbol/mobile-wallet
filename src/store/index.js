@@ -9,6 +9,7 @@ import mosaic from '@src/store/mosaic';
 import account from '@src/store/account';
 import news from '@src/store/news';
 import harvesting from '@src/store/harvesting';
+import addressBook from '@src/store/addressBook';
 import ListenerService from '@src/services/ListenerService';
 import transaction from '@src/store/transaction';
 
@@ -23,6 +24,7 @@ const modules = {
     news,
     harvesting,
     transaction,
+    addressBook,
 };
 
 const createModuleReducer = (module, state = {}, action) => {
