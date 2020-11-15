@@ -34,12 +34,14 @@ class Home extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <GradientBackground name="mesh_small_2" theme="dark" fade={true}>
-				<TitleBar title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
+            <GradientBackground name="mesh" theme="light" fade={true}>
+				<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
                 <Col justify="space-around" style={contentStyle}>
                     <BalanceWidget showChart={false} />
                     <Section type="list">
-                        <PluginList componentId={componentId} />
+                        <PluginList componentId={componentId} theme="light"/>
+					</Section>
+					<Section type="list">
                         {/* Notifications Mockup */}
                         <View style={styles.transactionPreview}>
                             <Row justify="space-between">

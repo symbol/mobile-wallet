@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
-import { NavigationMenu } from '@src/components';
+import { NavigationMenu, GradientBackground } from '@src/components';
 import Home from './Home';
 import History from './History';
 import Harvest from './Harvest';
@@ -67,8 +67,8 @@ class Dashboard extends Component<Props, State> {
                 break;
         }
         return (
-            <View style={styles.root}>
-                <Tab
+			<GradientBackground theme="light" noPadding>
+				<Tab
                     {...this.props}
                     contentStyle={styles.contentContainer}
                     onOpenMenu={() => this.setState({ isSidebarShown: true })}
@@ -78,7 +78,7 @@ class Dashboard extends Component<Props, State> {
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
                 <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
                 {!isNodeUp && <NodeDownOverlay />}
-            </View>
+			</GradientBackground>
         );
     }
 }

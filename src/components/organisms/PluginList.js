@@ -66,7 +66,7 @@ class PluginList extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, isNodeUp } = this.props;
+        const { style = {}, isNodeUp, theme } = this.props;
         const {} = this.state;
         const pluginList = [
             {
@@ -79,11 +79,11 @@ class PluginList extends Component<Props, State> {
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
             },
-            {
-                text: 'plugin.more',
-                name: 'DASHBOARD_SCREEN',
-                iconName: 'options_light',
-            },
+            // {
+            //     text: 'plugin.more',
+            //     name: 'DASHBOARD_SCREEN',
+            //     iconName: 'options_light',
+            // },
         ];
 
         return (
@@ -96,7 +96,7 @@ class PluginList extends Component<Props, State> {
                                     <Icon name={item.iconName} size="small" style={styles.icon} />
                                 </Col>
                             </TouchableOpacity>
-                            <Text type="bold">{translate(item.text)}</Text>
+                            <Text type="bold" theme={theme}>{translate(item.text)}</Text>
                         </Col>
                     ))}
                 </Row>
