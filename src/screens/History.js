@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
@@ -91,6 +91,10 @@ class History extends Component<Props, State> {
         }
     };
 
+    onRefresh = () => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
+    };
+
     onSelectFilter = filterValue => {
         store.dispatchAction({ type: 'transaction/changeFilters', payload: { directionFilter: filterValue } });
         this.setState({ filterValue });
@@ -150,16 +154,19 @@ class History extends Component<Props, State> {
                 </Section>
                 <ListContainer style={styles.list} isScrollable={false}>
                     <FlatList
+                        style={{ height: '100%' }}
                         data={formattedTransactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
                         onEndReachedThreshold={0.9}
                         onEndReached={this.loadNextPage}
+                        refreshControl={
+                            <RefreshControl
+                                //refresh control used for the Pull to Refresh
+                                refreshing={loading}
+                                onRefresh={this.onRefresh}
+                            />
+                        }
                     />
-                    {loading && (
-                        <Text theme="light" align="center" style={styles.loadingText}>
-                            Loading...
-                        </Text>
-                    )}
                 </ListContainer>
             </GradientBackground>
             // </ImageBackground>
