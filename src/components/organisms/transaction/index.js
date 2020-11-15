@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Text, Linking } from 'react-native';
-import { Row } from '@src/components';
+import { StyleSheet, Linking } from 'react-native';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import TransferTransaction from '@src/components/organisms/transaction/TransferTransaction';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
 import AggregateTransaction from '@src/components/organisms/transaction/AggregateTransaction';
 import { getExplorerURL } from '@src/config/environment';
+import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 
 const styles = StyleSheet.create({
     root: {
@@ -35,29 +35,13 @@ export default class Transaction extends Component<Props> {
         const { transaction, showDetails } = this.props;
         switch (transaction.type) {
             case 'transfer':
-                return <TransferTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+                return <TransferTransaction transaction={transaction} showDetails={showDetails} />;
             case 'fundsLock':
-                return <FundsLockTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+                return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
             case 'aggregate':
                 return <AggregateTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
             default:
-                return (
-                    <View style={styles.root}>
-                        <Row justify="space-between">
-                            <Text type="regular" theme="light">
-                                {transaction.type}
-                            </Text>
-                            <Text type="regular" theme="light">
-                                {transaction.deadline}
-                            </Text>
-                        </Row>
-                        <Row justify="space-between">
-                            <Text type="bold" theme="light">
-                                {transaction.signerAddress}
-                            </Text>
-                        </Row>
-                    </View>
-                );
+                return <BaseTransactionItem transaction={transaction} showDetails={showDetails} />;
         }
     }
 }

@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
+import { AddressBook } from 'symbol-address-book';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 

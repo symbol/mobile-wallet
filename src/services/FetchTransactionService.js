@@ -138,6 +138,7 @@ export default class FetchTransactionService {
      */
     static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel, preLoadedMosaics): Promise<TransactionModel> {
         let transactionModel: TransactionModel = {
+            type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
             signerAddress: transaction.signer.address.pretty(),
             deadline: formatTransactionLocalDateTime(transaction.deadline.value),

@@ -54,6 +54,9 @@ const initStore = async () => {
     try {
         store.dispatchAction({ type: 'news/loadNews' });
     } catch {}
+    try {
+        store.dispatchAction({ type: 'addressBook/loadAddressBook' });
+    } catch {}
 };
 
 export const startApp = async () => {
