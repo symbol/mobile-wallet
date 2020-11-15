@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, } from 'react-native';
-import { Section, ImageBackground, TitleBar, MosaicDisplay } from '@src/components';
+import { Section, ImageBackground, GradientBackground, TitleBar, MosaicDisplay } from '@src/components';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -20,7 +20,10 @@ class Mosaics extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <ImageBackground name="blue" fade={true}>
+            //<ImageBackground name="blue" fade={true}>
+				<GradientBackground name="connector_small" theme="light">
+
+				
                 <TitleBar 
 					theme="light"
 					title="Mosaics" 
@@ -33,7 +36,8 @@ class Mosaics extends Component<Props, State> {
                             return <MosaicDisplay mosaic={mosaic} />;
                         })}
                 </Section>
-			</ImageBackground>
+			</GradientBackground>
+			//</ImageBackground>
         );
     }
 }

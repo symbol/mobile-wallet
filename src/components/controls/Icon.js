@@ -165,6 +165,14 @@ export default class C extends Component<Props, State> {
 			case 'message_filled':
 				source = require('@src/assets/icons/message.png');
 				break;
+			case 'mosaic_native':
+				source = require('@src/assets/icons/mosaic_native.png');
+				break;
+			case 'mosaic_custom':
+				source = require('@src/assets/icons/mosaic_custom.png');
+				break;
+				
+
 			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;

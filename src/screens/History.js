@@ -7,8 +7,7 @@ import store from '@src/store';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 50,
-        height: '65%',
+        marginBottom: 65,
     },
     filter: {
         flexGrow: 1,
@@ -133,7 +132,7 @@ class History extends Component<Props, State> {
 
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
-            <GradientBackground name="connector_small" theme="light">
+            <GradientBackground name="connector_small" theme="light" dataManager={{isLoadiong: loading}}>
                 <TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
                 <Section type="list">
                     <Section type="form-item">
@@ -154,7 +153,7 @@ class History extends Component<Props, State> {
                 </Section>
                 <ListContainer style={styles.list} isScrollable={false}>
                     <FlatList
-                        style={{ height: '100%' }}
+                        // style={{ height: '100%' }}
                         data={formattedTransactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
                         onEndReachedThreshold={0.9}
