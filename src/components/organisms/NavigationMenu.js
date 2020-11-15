@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { Row, Col, Icon, Text, PriceChart } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
@@ -55,7 +55,13 @@ export default class NavigationMenu extends Component<Props, State> {
 	render() {
 		const { menuItemList = [], onChange = () => {}, value } = this.props;
 		const {} = this.state;
+		let extraPadding = {};
 
+		if (Platform.OS === 'ios')
+			extraPadding = {
+				paddingVertical: 10
+			};
+		
 		return (
 			<View style={styles.root}>
 				<Row justify="space-around" align="center">
