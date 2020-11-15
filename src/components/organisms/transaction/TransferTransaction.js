@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import translate from '@src/locales/i18n';
 import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
-import { Icon, TableView, Text } from '@src/components';
+import { Icon, TableView, Text, Trunc } from '@src/components';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { StyleSheet } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -40,6 +40,11 @@ class TransferTransaction extends BaseTransactionItem<Props> {
     title = () => {
         const title = translate('transactionTypes.' + this.props.transaction.type);
         return title + (this.isIncoming() ? ' from' : ' to');
+    };
+
+    renderAddress = () => {
+        const { transaction } = this.props;
+        return <Trunc type="address">{this.isIncoming() ? transaction.signerAddress : transaction.recipientAddress}</Trunc>;
     };
 
     renderAction = () => {
@@ -100,5 +105,5 @@ class TransferTransaction extends BaseTransactionItem<Props> {
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
-    address: state.account.selectedAccountAddress,
+    address: state.transaction.addressFilter,
 }))(TransferTransaction);
