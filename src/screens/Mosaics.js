@@ -4,6 +4,9 @@ import { Section, ImageBackground, GradientBackground, TitleBar, MosaicDisplay }
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
+	list: {
+        marginBottom: 65,
+    }
 });
 
 type Props = {
@@ -16,14 +19,12 @@ class Mosaics extends Component<Props, State> {
     state = {};
 
     render() {
-        const { ownedMosaics, onOpenMenu, onOpenSettings  } = this.props;
+        const { ownedMosaics, nativeMosaicNamespaceName, onOpenMenu, onOpenSettings  } = this.props;
         const {} = this.state;
 
         return (
             //<ImageBackground name="blue" fade={true}>
-				<GradientBackground name="connector_small" theme="light">
-
-				
+			<GradientBackground name="connector_small" theme="light">
                 <TitleBar 
 					theme="light"
 					title="Mosaics" 
@@ -33,7 +34,7 @@ class Mosaics extends Component<Props, State> {
                 <Section type="list" style={styles.list} isScrollable>
                     {ownedMosaics &&
                         ownedMosaics.map(mosaic => {
-                            return <MosaicDisplay mosaic={mosaic} />;
+                            return <MosaicDisplay mosaic={mosaic} isNative={mosaic.mosaicName === nativeMosaicNamespaceName} />;
                         })}
                 </Section>
 			</GradientBackground>
@@ -43,5 +44,6 @@ class Mosaics extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    ownedMosaics: state.account.ownedMosaics,
+	ownedMosaics: state.account.ownedMosaics,
+	nativeMosaicNamespaceName: 'symbol.xym' //TODO: remove hardcode
 }))(Mosaics);

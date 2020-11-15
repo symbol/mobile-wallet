@@ -287,7 +287,7 @@ export default connect(state => ({
     address: state.account.selectedAccountAddress,
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
-    nativeMosaicNamespace: 'XYM',
+    nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
 	accounts: state.wallet.accounts,
 	isLoading: state.account.isLoading,
 }))(Sidebar);
