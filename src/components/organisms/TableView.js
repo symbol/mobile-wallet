@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
 	},
 	mosaic: {
 		backgroundColor: GlobalStyles.color.WHITE,
-		borderRadius: 5, 
+		borderRadius: 5,
 		borderWidth: 1,
 		borderColor: GlobalStyles.color.SECONDARY,
-		paddingVertical: 8, 
+		paddingVertical: 8,
 		paddingHorizontal: 16
 	}
 });
@@ -44,7 +44,9 @@ type State = {};
 
 
 class TableView extends Component<Props, State> {
-	state = {};
+	state = {
+		componentId: null,
+	};
 
 	render_copyButton = (value) => {
 		if(typeof value === 'string')
@@ -53,7 +55,7 @@ class TableView extends Component<Props, State> {
 			return <Text type="regular" theme="light">{translate('table.null')}</Text>;
 	};
 	render_secret = (value) => {
-		return <SecretView title="Show "theme="light">{value}</SecretView>
+		return <SecretView component={this.state.componentId} title="Show "theme="light">{value}</SecretView>
 	};
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>
@@ -85,11 +87,11 @@ class TableView extends Component<Props, State> {
 						return true;
 					}
 				}));
-			
+
 		if(!itemTemplate && typeof value === 'object' && value !== null)
 			return this.renderTable(value);
 		return itemTemplate ? itemTemplate : <Text type="regular" theme="light">{value}</Text>
-		
+
 	};
 
 	renderTable = (data) => {
@@ -97,12 +99,12 @@ class TableView extends Component<Props, State> {
 
 		if(data === null || typeof data !== 'object')
 			return null;
-			
+
 		if(!Array.isArray(data))
 			_data = Object
 				.keys(data)
 				.map(key => ({
-					key, 
+					key,
 					value: data[key]
 				}));
 
@@ -114,11 +116,17 @@ class TableView extends Component<Props, State> {
         );
 	}
 
-    render = () => {
+	componentDidMount() {
+		this.setState({
+			componentId: this.props.data.componentId,
+		});
+	}
+
+	render = () => {
 		const {
 			data
 		} = this.props;
-		
+
 		return this.renderTable(data);
     };
 }

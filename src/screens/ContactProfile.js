@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import {Button, ImageBackground, Text, Section, TitleBar, Input, GradientBackground} from '@src/components';
+import {Image, StyleSheet, View} from 'react-native';
+import { Button, ImageBackground, Text, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
-import { AddressBook } from 'symbol-address-book/AddressBook';
-import { writeFile, getFSInfo } from 'react-native-fs';
 import store from '@src/store';
-
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
-import PopupModal from '@src/components/molecules/PopupModal';
+import { AddressQR } from 'symbol-qr-library';
+import { SvgXml } from 'react-native-svg';
+import ConfirmModal from '@src/components/molecules/ConfirmModal';
 
 const styles = StyleSheet.create({
     title: {
@@ -16,12 +15,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     section: {
-        marginTop: 20,
+        marginTop: 0,
         marginRight: '3%',
         marginLeft: '3%',
     },
     button: {
         marginTop: 20,
+    },
+    qr: {
+        marginTop: 16,
+        marginBottom: 16,
+        padding: 16,
     }
 });
 
@@ -41,7 +45,8 @@ class ContactProfile extends Component<Props, State> {
         label: '',
         notes: '',
         update: false,
-        isModalOpen: false,
+        isRemoveModalOpen: false,
+        contactQR: null,
     };
 
     submit = () => {
@@ -49,30 +54,60 @@ class ContactProfile extends Component<Props, State> {
     };
 
     remove = () => {
-        this.setState({
-            isRemoveModalOpen: true,
-        });
+        Router.showPasscode(
+            {
+                resetPasscode: false,
+                onSuccess: () => {
+                    this.setState({
+                        isRemoveModalOpen: true,
+                    });
+                    Router.goBack(this.props.componentId);
+                },
+            },
+            this.props.componentId
+        );
     };
 
     confirmRemove = id => {
-        console.log('confirm');
         store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(_ => Router.goBack(this.props.componentId));
     };
 
     cancelRemove = () => {
-        console.log('remove');
+        this.setState({
+            isRemoveModalOpen: false,
+        });
+    };
+
+    onViewShotRef = (ref: any) => {
+        if (ref) {
+            this.viewShotRef = ref;
+        }
+    };
+
+    async componentDidMount() {
+        const { selectedContact, network } = this.props;
+        const name = selectedContact.name;
+        const contactAddress = selectedContact.address;
+        const generationHash = network.generationHash;
+        const addressQR = new AddressQR(name, contactAddress, network.selectedNetwork.type, generationHash);
+        const addressQRsvg = await addressQR.toString('svg').toPromise();
+        this.setState({
+            contactQR: addressQRsvg,
+        });
     }
 
     render() {
         const { selectedContact } = this.props;
-        const { isRemoveModalOpen } = this.state;
+        let { isRemoveModalOpen, contactQR } = this.state;
+
         return (
             <ImageBackground name="tanker">
-                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Contact Profile" />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
                 <Section type="form" style={styles.section}>
                     <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Name </Text>
-                        <Text type="text" theme="light"> {selectedContact.name}</Text>
+                        <Section type="center">
+                            {contactQR && <SvgXml style={styles.qr} xml={contactQR} width="140px" height="140px" />}
+                        </Section>
                     </Section>
                     <Section type="form-item">
                         <Text type="text" style={styles.title} theme="light"> Address </Text>
@@ -101,22 +136,15 @@ class ContactProfile extends Component<Props, State> {
                         <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove()} />
                     </Section>
                 </Section>
-                <PopupModal
+                <ConfirmModal
                     isModalOpen={isRemoveModalOpen}
                     showTopbar={true}
                     title={'Remove contact'}
-                    showClose={true}
-                    onClose={() => this.setState({ isNameModalOpen: false })}>
-                    <Section type="form">
-                        <Section type="form-bottom">
-                            <Button text="Confirm" theme="light" onPress={() => this.confirmRemove()} />
-                        </Section>
-                        <Section type="form-bottom">
-                            <Button text="Cancel" theme="light" onPress={() => this.cancelRemove(selectedContact.id)} />
-                        </Section>
-                    </Section>
-                </PopupModal>
-
+                    text={'Are you sure you want to remove contact?'}
+                    showClose={false}
+                    onClose={() => this.cancelRemove()}
+                    onSuccess={() => this.confirmRemove(selectedContact.id)}>
+                </ConfirmModal>
             </ImageBackground>
         );
     }
@@ -125,4 +153,5 @@ class ContactProfile extends Component<Props, State> {
 export default connect(state => ({
     addressBook: state.addressBook.addressBook,
     selectedContact: state.addressBook.selectedContact,
+    network: state.network,
 }))(ContactProfile);

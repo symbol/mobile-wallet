@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 type Props = {
     transaction: TransferTransactionModel,
     showDetails: boolean,
+    componentId: string,
 };
 
 class TransferTransaction extends Component<Props> {
@@ -38,7 +39,7 @@ class TransferTransaction extends Component<Props> {
         const accountHttp = repositoryFactory.createAccountRepository();
         const recipientAddress = Address.createFromRawAddress(transaction.signerAddress);
         const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
-        const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
+        const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
         const transactionHttp = repositoryFactory.createTransactionRepository();
         const transactionHash = transaction.hash;
 
@@ -46,7 +47,7 @@ class TransferTransaction extends Component<Props> {
             tx => {
                 if (tx.message.type === 1) {
                     this.setState({
-                        messageDecrypted: certificateAccount.decryptMessage(tx.message, alicePublicAccount).payload,
+                        messageDecrypted: certificateAccount.decryptMessage(tx.message, publicAccount).payload,
                     });
                 }
             },
@@ -60,6 +61,7 @@ class TransferTransaction extends Component<Props> {
     }
 
     render() {
+        console.log("hola");
         const { transaction, network, showDetails, openExplorer } = this.props;
         const currencyMosaic = transaction.mosaics.find(mosaic => mosaic.mosaicId === network.currencyMosaicId);
         return (
@@ -105,7 +107,7 @@ class TransferTransaction extends Component<Props> {
                             </Text>
                         </Row>
                         {transaction.messageEncrypted ? (
-                            <SecretView title="Decrypt" type="regular" theme="light">
+                            <SecretView props={this.props.componentId} title="Decrypt" type="regular" theme="light">
                                 {this.state.messageDecrypted}
                             </SecretView>
                         ) : (
