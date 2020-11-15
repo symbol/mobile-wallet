@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Section, ImageBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
+import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 
 const styles = StyleSheet.create({
+	list: {
+        marginBottom: 65,
+    },
 	card: {
 		width: '100%',
         borderRadius: 6,
@@ -14,7 +17,10 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#f3f4f8dd'
+        backgroundColor: GlobalStyles.color.WHITE
+	},
+	bottom: {
+		paddingTop: 30,
 	}
 });
 
@@ -62,7 +68,8 @@ class Harvest extends Component<Props, State> {
         const { selectedNodePubKey, isLoading } = this.state;
 
         return (
-            <ImageBackground name="harvest">
+			//<ImageBackground name="harvest">
+			<GradientBackground name="connector_small" theme="light" dataManager={{ isLoading }}>
                	<TitleBar 
 					theme="light"
 					title="Harvest" 
@@ -96,35 +103,34 @@ class Harvest extends Component<Props, State> {
 						</Text>
 					</Row>
 					</Section>
+					<Section type="form-item">
+						<Dropdown
+							theme="light"
+							list={this.getHarvestingNodesDropDown()}
+							title={'Select node'}
+							value={selectedNodePubKey}
+							onChange={this.onSelectHarvestingNode}
+						/>
+					</Section>
 
-					<Section type="form-bottom" style={styles.card}>
+					<Section type="form-bottom" style={[styles.card, styles.bottom]}>
+						
+						{status === 'INACTIVE' && 
 						<Section type="form-item">
-							<Dropdown
-								theme="light"
-								list={this.getHarvestingNodesDropDown()}
-								title={'Select node'}
-								value={selectedNodePubKey}
-								onChange={this.onSelectHarvestingNode}
-							/>
-						</Section>
+							<Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
+						</Section>}
+						{status === 'ACTIVE' &&
 						<Section type="form-item">
-							{status === 'INACTIVE' && (
-								<Button isLoading={isLoading} isDisabled={false} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
-							)}
-						</Section>
+							<Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Change node" theme="light" onPress={() => this.swapHarvesting()} />
+						</Section>}
+						{status === 'ACTIVE' && 
 						<Section type="form-item">
-							{status === 'ACTIVE' && (
-								<Button isLoading={isLoading} isDisabled={false} text="Swap node" theme="light" onPress={() => this.swapHarvesting()} />
-							)}
-						</Section>
-						<Section type="button">
-							{status === 'ACTIVE' && (
 								<Button isLoading={isLoading} isDisabled={false} text="Stop harvesting" theme="light" onPress={() => this.stopHarvesting()} />
-							)}
-						</Section>
+						</Section>}
 					</Section>
                 </Section>
-            </ImageBackground>
+			</GradientBackground>
+            //</ImageBackground>
         );
     }
 }
