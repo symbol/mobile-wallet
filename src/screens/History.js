@@ -107,11 +107,11 @@ class History extends Component<Props, State> {
                 <ListContainer style={styles.list} isScrollable={false}>
                     <FlatList
                         // style={{ height: '100%' }}
-                        data={formattedTransactions}
+                        data={transactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
                         onEndReachedThreshold={0.9}
 						onEndReached={this.loadNextPage}
-						keyExtractor={(item) => item.transaction.hash}
+						keyExtractor={(item) => item.hash}
                         refreshControl={
                             <RefreshControl
                                 //refresh control used for the Pull to Refresh
