@@ -122,6 +122,10 @@ class Sidebar extends Component<Props, State> {
         store.dispatchAction({ type: 'wallet/loadAccount', payload: id });
     };
 
+    goToAddressBook = () => {
+        Router.goToAddressBook({}, this.props.componentId);
+    };
+
     handleDeleteAccount = id => {
         store.dispatchAction({ type: 'wallet/removeAccount', payload: id });
     };
@@ -237,7 +241,10 @@ class Sidebar extends Component<Props, State> {
     render = () => {
         const { accounts, selectedAccount, isVisible, isLoading } = this.props;
         const { isNameModalOpen, newName } = this.state;
-        const menuItems = [{ iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() }];
+        const menuItems = [
+            { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
+            { iconName: 'add_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
+        ];
 
         if (!isVisible) return null;
 

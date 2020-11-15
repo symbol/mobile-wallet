@@ -39,7 +39,8 @@ type State = {
 export default class SecretView extends Component<Props, State> {
 	state = {
 		isSecretShown: false,
-		counter: 10
+		counter: 10,
+		title: 'Show',
 	};
 
 	onShowClick = () => {
@@ -56,7 +57,7 @@ export default class SecretView extends Component<Props, State> {
 	};
 
     render = () => {
-		const { children, style = {}, theme } = this.props;
+		const { children, style = {}, theme, title } = this.props;
 		const { isSecretShown, counter } = this.state;
 	
 
@@ -73,7 +74,7 @@ export default class SecretView extends Component<Props, State> {
 		return (
 			<TouchableOpacity onPress={() => this.onShowClick()}>
 				<NativeText>
-					<Text type="bold" style={styles.showButton}>Show</Text>
+					<Text type="bold" style={styles.showButton}>{title}</Text>
 				</NativeText>
 			</TouchableOpacity>
 		)

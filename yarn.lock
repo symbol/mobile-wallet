@@ -9320,6 +9320,13 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+symbol-address-book@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/symbol-address-book/-/symbol-address-book-1.0.0.tgz#24d5426184c8ef4e7249298a521d83f59fc897cc"
+  integrity sha512-exdGgPo+j9uK1Ag8McVmCxtR6lsNUwo1T4ZnAgQqLDrel+XH80oU3qDLBjzPS3DeFSLplc4yqBkWDRPNirLsvQ==
+  dependencies:
+    typescript "^3.7.4"
+
 symbol-hd-wallets@0.14.0-alpha-202010231206:
   version "0.14.0-alpha-202010231206"
   resolved "https://registry.yarnpkg.com/symbol-hd-wallets/-/symbol-hd-wallets-0.14.0-alpha-202010231206.tgz#ab4767a87bee089389c9c084f9d8fc83408d67d2"
@@ -9711,6 +9718,11 @@ typeforce@^1.11.5:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
   integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
+
+typescript@^3.7.4:
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"
