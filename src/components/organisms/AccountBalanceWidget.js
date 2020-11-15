@@ -34,6 +34,13 @@ const styles = StyleSheet.create({
 		fontSize: 2.5 * 12,
 		lineHeight: 3.25 * 12,
 		marginTop: 10
+	},
+	balanceLight: {
+		fontFamily: 'NotoSans-Light',
+		fontSize: 2.5 * 12,
+		lineHeight: 3.25 * 12,
+		marginTop: 10,
+		opacity: 0.6
 	}
 });
 
@@ -77,9 +84,15 @@ class BalanceWidget extends Component<Props, State> {
 						<Text style={styles.mosaic} theme="dark">
 						{nativeMosaicNamespaceName}
 						</Text>
-						<Text style={styles.balance} theme="dark">
-							{balance}
-						</Text>
+						<Row>
+							<Text style={styles.balance} theme="dark">
+								{(''+balance).split('.')[0]}.
+							</Text>
+							<Text style={styles.balanceLight} theme="dark">
+								{(''+balance).split('.')[1]}
+							</Text>
+						</Row>
+						
 					</Row>	
 				</View>
             </SymbolGradientContainer>

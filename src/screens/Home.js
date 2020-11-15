@@ -30,11 +30,20 @@ class Home extends Component<Props, State> {
     state = { isSidebarShown: false };
 
     render() {
-        const { pendingSignature, contentStyle = {}, componentId, accountName, onOpenMenu, onOpenSettings, changeTab } = this.props;
+        const { 
+			pendingSignature, 
+			contentStyle = {}, 
+			componentId, 
+			accountName, 
+			onOpenMenu, 
+			onOpenSettings, 
+			changeTab,
+			isLoading
+		} = this.props;
         const {} = this.state;
 
         return (
-            <GradientBackground name="mesh" theme="light" fade={true}>
+            <GradientBackground name="connector_small" theme="light" fade={true} dataManager={{isLoading}}>
 				<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
                 <Col justify="space-around" style={contentStyle}>
 					<Section type="list">
@@ -85,6 +94,7 @@ class Home extends Component<Props, State> {
 }
 
 export default connect(state => ({
+	isLoading: state.account.loading,
     accountName: state.wallet.selectedAccount.name,
     pendingSignature: state.transaction.pendingSignature,
     address: state.account.selectedAccountAddress,

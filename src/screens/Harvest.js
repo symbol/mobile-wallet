@@ -21,7 +21,23 @@ const styles = StyleSheet.create({
 	},
 	bottom: {
 		paddingTop: 30,
-	}
+	},
+	active: {
+		height: 8,
+		width: 8,
+		borderRadius: 4,
+		backgroundColor: GlobalStyles.color.GREEN,
+		marginRight: 5,
+		marginBottom: 1
+	},
+	inactive: {
+		height: 8,
+		width: 8,
+		borderRadius: 4,
+		backgroundColor: GlobalStyles.color.RED,
+		marginRight: 5,
+		marginBottom: 1
+	},
 });
 
 type Props = {};
@@ -66,6 +82,9 @@ class Harvest extends Component<Props, State> {
     render() {
         const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings  } = this.props;
         const { selectedNodePubKey, isLoading } = this.state;
+		const statusStyle = status === 'ACTIVE'
+			? styles.active
+			: styles.inactive;
 
         return (
 			//<ImageBackground name="harvest">
@@ -82,9 +101,12 @@ class Harvest extends Component<Props, State> {
 							<Text type={'bold'} theme={'light'}>
 							Status:
 						</Text>
-						<Text type={'regular'} theme={'light'}>
-							{status}
-						</Text>
+						<Row align="center">
+							<View style={statusStyle} />
+							<Text type={'regular'} theme={'light'}>
+								{status}
+							</Text>
+						</Row>
 					</Row>
 					<Row justify="space-between" fullWidth>
 						<Text type={'bold'} theme={'light'}>
