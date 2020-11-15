@@ -1,6 +1,9 @@
-import { ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType } from 'symbol-sdk';
+import { ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
+import { timeout } from 'rxjs/operators';
+
+const REQUEST_TIMEOUT = 2500;
 
 export default class NetworkService {
     /**
@@ -11,9 +14,18 @@ export default class NetworkService {
     static async getNetworkModelFromNode(node: string): NetworkModel {
         const networkHttp = new NetworkHttp(node);
         const chainHttp = new ChainHttp(node);
-        const networkType = await networkHttp.getNetworkType().toPromise();
-        const networkProps = await networkHttp.getNetworkProperties().toPromise();
-        const chainInfo = await chainHttp.getChainInfo().toPromise();
+        const networkType = await networkHttp
+            .getNetworkType()
+            .pipe(timeout(REQUEST_TIMEOUT))
+            .toPromise();
+        const networkProps = await networkHttp
+            .getNetworkProperties()
+            .pipe(timeout(REQUEST_TIMEOUT))
+            .toPromise();
+        const chainInfo = await chainHttp
+            .getChainInfo()
+            .pipe(timeout(REQUEST_TIMEOUT))
+            .toPromise();
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
             generationHash: networkProps.network.generationHashSeed,
@@ -51,6 +63,23 @@ export default class NetworkService {
                 return NetworkType.TEST_NET;
             default:
                 return NetworkType.MIJIN;
+        }
+    }
+
+    /**
+     * Check if network or node are up
+     * @param network
+     */
+    static async isNetworkUp(network: NetworkModel) {
+        const nodeHttp = new NodeHttp(network.node);
+        try {
+            const health = await nodeHttp
+                .getNodeHealth()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise();
+            return health.apiNode === 'up' && health.db === 'up';
+        } catch {
+            return false;
         }
     }
 }

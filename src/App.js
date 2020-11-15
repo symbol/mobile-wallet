@@ -43,15 +43,17 @@ export const handleAppStateChange = async (nextAppState: any) => {
 
 const initStore = async () => {
     try {
-        await Promise.all([
-            store.dispatchAction({ type: 'settings/initState' }),
-            store.dispatchAction({ type: 'market/loadMarketData' }),
-            store.dispatchAction({ type: 'network/initState' }),
-            store.dispatchAction({ type: 'news/loadNews' }),
-        ]);
-    } catch (e) {
-        console.log(e);
-    }
+        store.dispatchAction({ type: 'settings/initState' });
+    } catch {}
+    try {
+        store.dispatchAction({ type: 'market/loadMarketData' });
+    } catch {}
+    try {
+        store.dispatchAction({ type: 'network/initState' });
+    } catch {}
+    try {
+        store.dispatchAction({ type: 'news/loadNews' });
+    } catch {}
 };
 
 export const startApp = async () => {

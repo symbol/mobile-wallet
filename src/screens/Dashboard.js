@@ -9,6 +9,9 @@ import News from '@src/screens/News';
 import Mosaics from '@src/screens/Mosaics';
 import Sidebar from '@src/screens/Sidebar';
 import { Router } from '@src/Router';
+import store from '@src/store';
+import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     root: {
@@ -26,18 +29,26 @@ type State = {
     currentTab: string,
 };
 
-export default class Dashboard extends Component<Props, State> {
+class Dashboard extends Component<Props, State> {
     state = {
         currentTab: 'home',
         isSidebarShown: false,
     };
+
+    componentDidMount() {
+        store.dispatchAction({ type: 'network/registerNodeCheckJob' });
+    }
+
+    componentDidUnmount() {
+        store.dispatchAction({ type: 'network/registerNodeCheckJob' });
+    }
 
     onTabChange = tabName => {
         this.setState({ currentTab: tabName });
     };
 
     render() {
-        const { componentId } = this.props;
+        const { componentId, isNodeUp } = this.props;
         const { currentTab } = this.state;
         let Tab;
 
@@ -64,13 +75,18 @@ export default class Dashboard extends Component<Props, State> {
                 <Tab
                     {...this.props}
                     contentStyle={styles.contentContainer}
-					onOpenMenu={() => this.setState({ isSidebarShown: true })}
-					onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
+                    onOpenMenu={() => this.setState({ isSidebarShown: true })}
+                    onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
                     changeTab={this.onTabChange}
                 />
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
                 <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
+                {!isNodeUp && <NodeDownOverlay />}
             </View>
         );
     }
 }
+
+export default connect(state => ({
+    isNodeUp: state.network.isUp,
+}))(Dashboard);
