@@ -86,11 +86,11 @@ class BalanceWidget extends Component<Props, State> {
 						</Text>
 						<Row>
 							<Text style={styles.balance} theme="dark">
-								{(''+balance).split('.')[0]}.
+								{(''+balance).split('.')[0]}
 							</Text>
-							<Text style={styles.balanceLight} theme="dark">
-								{(''+balance).split('.')[1]}
-							</Text>
+							{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
+								.{(''+balance).split('.')[1]}
+							</Text>}
 						</Row>
 						
 					</Row>	
