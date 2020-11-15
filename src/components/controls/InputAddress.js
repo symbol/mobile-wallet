@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, TouchableOpacity, Clipboard} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
 import { Router } from '@src/Router';
 import { ContactQR } from 'symbol-qr-library';
@@ -65,6 +65,7 @@ class InputAccount extends Component<Props, State> {
     getIconPosition = (index, k, offset) => {
         return {
             right: index * k + offset,
+            paddingTop: 10,
             width: k,
         };
     };
@@ -76,7 +77,7 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, fullWidth, ...rest } = this.props;
+        const { style = {}, fullWidth, showAddressBook = true, ...rest } = this.props;
         let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
@@ -98,12 +99,21 @@ class InputAccount extends Component<Props, State> {
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
-                <TouchableOpacity style={[styles.icon, this.getIconPosition(1, iconTouchableWidth, iconOffset)]} onPress={() => this.importWithQR()}>
+                <TouchableOpacity
+                    style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset)]}
+                    onPress={() => this.importWithQR()}>
                     <Icon name="qr" size={iconSize} />
                 </TouchableOpacity>
-                <Dropdown title="Select Contact"  editable={true} style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]} list={addressBookList} onChange={ (address) => this.importWithAddressBook(address)}>
-                    <Icon name="paste" size={iconSize} />
-                </Dropdown>
+                {showAddressBook && (
+                    <Dropdown
+                        title="Select Contact"
+                        editable={true}
+                        style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]}
+                        list={addressBookList}
+                        onChange={address => this.importWithAddressBook(address)}>
+                        <Icon name="paste" size={iconSize} />
+                    </Dropdown>
+                )}
             </View>
         );
     };

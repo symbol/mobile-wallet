@@ -77,13 +77,6 @@ class Send extends Component<Props, State> {
     };
 
     submit = () => {
-        const { selectedContact } = this.props;
-        let recipientAddress;
-        if (selectedContact.name === this.state.recipientAddress) {
-            recipientAddress = selectedContact.address;
-        } else {
-            recipientAddress = this.state.recipientAddress;
-        }
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
         mosaic.amount = this.state.amount;

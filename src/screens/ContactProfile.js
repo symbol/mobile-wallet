@@ -42,6 +42,7 @@ class ContactProfile extends Component<Props, State> {
         notes: '',
         update: false,
         isModalOpen: false,
+        isRemoveModalOpen: false,
     };
 
     submit = () => {
@@ -55,13 +56,14 @@ class ContactProfile extends Component<Props, State> {
     };
 
     confirmRemove = id => {
-        console.log('confirm');
         store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(_ => Router.goBack(this.props.componentId));
     };
 
     cancelRemove = () => {
-        console.log('remove');
-    }
+        this.setState({
+            isRemoveModalOpen: false,
+        });
+    };
 
     render() {
         const { selectedContact } = this.props;
@@ -106,10 +108,10 @@ class ContactProfile extends Component<Props, State> {
                     showTopbar={true}
                     title={'Remove contact'}
                     showClose={true}
-                    onClose={() => this.setState({ isNameModalOpen: false })}>
+                    onClose={() => this.setState({ isRemoveModalOpen: false })}>
                     <Section type="form">
                         <Section type="form-bottom">
-                            <Button text="Confirm" theme="light" onPress={() => this.confirmRemove()} />
+                            <Button text="Confirm" theme="light" onPress={() => this.confirmRemove(selectedContact.id)} />
                         </Section>
                         <Section type="form-bottom">
                             <Button text="Cancel" theme="light" onPress={() => this.cancelRemove(selectedContact.id)} />
