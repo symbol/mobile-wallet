@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 		padding: 0,
 		borderRadius: 6,
         marginTop: 4,
-        marginBottom: 4,
+        marginBottom: 17,
         padding: 17,
         paddingTop: 8,
     },
@@ -33,13 +33,13 @@ const styles = StyleSheet.create({
 		fontFamily: 'NotoSans-Light',
 		fontSize: 2.5 * 12,
 		lineHeight: 3.25 * 12,
-		marginTop: 10
+		marginTop: 20
 	},
 	balanceLight: {
 		fontFamily: 'NotoSans-Light',
 		fontSize: 2.5 * 12,
 		lineHeight: 3.25 * 12,
-		marginTop: 10,
+		marginTop: 20,
 		opacity: 0.6
 	}
 });

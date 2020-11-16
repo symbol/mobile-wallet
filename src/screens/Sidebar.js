@@ -77,13 +77,16 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     optionsIcon: {
-        width: 30,
+        width: 34,
         height: 40,
         alignItems: 'flex-end',
         paddingTop: 4,
         paddingRight: 10,
-        marginRight: -16,
-    },
+		marginRight: -16
+	},
+	topOptinIcon: {
+		paddingTop: 11
+	},
     menuBottomContainer: {
         //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
@@ -166,7 +169,7 @@ class Sidebar extends Component<Props, State> {
             { iconName: 'wallet_filled_light', label: 'Details', onPress: () => this.handleAccountDetails() },
         ];
         const buttons = (
-            <OptionsMenu list={options}>
+            <OptionsMenu list={options} style={[styles.optionsIcon, styles.topOptinIcon]}>
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
         );

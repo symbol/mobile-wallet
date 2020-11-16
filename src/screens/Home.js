@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
 import { Section, GradientBackground, AccountBalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -69,7 +69,7 @@ class Home extends Component<Props, State> {
 						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
 					}
 				>
-					<Col justify="space-around" style={contentStyle}>
+					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
 							<AccountBalanceWidget />
 						</Section>
