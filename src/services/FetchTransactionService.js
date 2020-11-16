@@ -240,16 +240,21 @@ export default class FetchTransactionService {
         transaction: AggregateTransaction,
         network: NetworkModel
     ): Promise<AggregateTransactionModel> {
-        const transactionHttp = new TransactionHttp(network.node);
-        const fullTransactionData = await transactionHttp
-            .getTransaction(
-                transaction.transactionInfo.id,
-                transaction.isConfirmed() ? TransactionGroup.Confirmed : transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial
-            )
-            .toPromise();
-        const innerTransactionModels = await Promise.all(
-            fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
-        );
+        let innerTransactionModels = [];
+        try {
+            const transactionHttp = new TransactionHttp(network.node);
+            const fullTransactionData = await transactionHttp
+                .getTransaction(
+                    transaction.transactionInfo.id,
+                    transaction.isConfirmed()
+                        ? TransactionGroup.Confirmed
+                        : (transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial)
+                )
+                .toPromise();
+            innerTransactionModels = await Promise.all(
+                fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
+            );
+        } catch (e) {}
         const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
         if (transaction.signer) {
             cosignaturePublicKeys.push(transaction.signer.publicKey);

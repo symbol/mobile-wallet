@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import translate from '@src/locales/i18n';
 import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
-import { Icon, TableView, Text, Trunc } from '@src/components';
+import { Button, Icon, Row, SecretView, Section, TableView, Text, Trunc } from '@src/components';
 import { filterCurrencyMosaic } from '@src/utils/filter';
-import { StyleSheet } from 'react-native';
-import GlobalStyles from '@src/styles/GlobalStyles';
+import { StyleSheet, View } from 'react-native';
+import { Account } from 'symbol-sdk';
+import NetworkService from '@src/services/NetworkService';
+import TransactionService from '@src/services/TransactionService';
 
 const styles = StyleSheet.create({
     amountOutgoing: {
@@ -22,6 +24,11 @@ type Props = {
 };
 
 class TransferTransaction extends BaseTransactionItem<Props> {
+    state = {
+        messageDecrypted: null,
+        decrypting: false,
+    };
+
     isIncoming = () => {
         const { transaction, address } = this.props;
         return transaction.recipientAddress === address;
@@ -92,18 +99,47 @@ class TransferTransaction extends BaseTransactionItem<Props> {
         return items;
     };
 
+    decryptMessage = async () => {
+        this.setState({ decrypting: true });
+        const { selectedAccount, network, transaction } = this.props;
+        const messageDecrypted = await TransactionService.decryptMessage(selectedAccount, network, transaction);
+        this.setState({ messageDecrypted: messageDecrypted, decrypting: false });
+    };
+
     renderDetails = () => {
-        const { transaction } = this.props;
+        const { messageDecrypted, decrypting } = this.state;
+        const { transaction, selectedAccountAddress } = this.props;
         const parsedData = {};
 
         if (this.hasCustomMosaics()) parsedData.mosaics = transaction.mosaics;
-        if (transaction.messageText && !transaction.messageEncrypted) parsedData.messageText = transaction.messageText;
-        if (transaction.messageEncrypted) parsedData.messageEncrypted = transaction.messageEncrypted;
-        return <TableView data={parsedData} />;
+        if (!transaction.messageEncrypted) parsedData.messageText = transaction.messageText;
+
+        return (
+            <View>
+                <TableView data={parsedData} />
+                {!!transaction.messageEncrypted && (
+                    <View justify="space-between">
+                        <Section type="form-item">
+                            <Text type="bold" theme="light">
+                                Message:
+                            </Text>
+                            <Text type="regular" theme="light">
+                                {messageDecrypted !== null ? messageDecrypted : 'Encrypted'}
+                            </Text>
+                        </Section>
+                        {messageDecrypted === null && transaction.recipientAddress === selectedAccountAddress && this.isIncoming() && (
+                            <Button theme="light" title="Decrypt" loading={decrypting} onPress={() => this.decryptMessage()} />
+                        )}
+                    </View>
+                )}
+            </View>
+        );
     };
 }
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
+    selectedAccount: state.wallet.selectedAccount,
+    selectedAccountAddress: state.account.selectedAccountAddress,
     address: state.transaction.addressFilter,
 }))(TransferTransaction);
