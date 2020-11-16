@@ -57,12 +57,12 @@ export default class New extends Component<Props> {
         return (
 			<View onPress={() => this.onPress(this.props.url)} style={styles.root}>
 				<Row justify="space-between" fullWidth>
-					<Col style={{flex: 0.6}}>
+					<Col style={{flex: 0.65}}>
 						<Text theme="light" style={styles.title}>
 							{this.props.title}
 						</Text>
 					</Col>
-					<Col style={{flex: 0.4}}>
+					<Col style={{flex: 0.35}}>
 						<Text theme="light" align="right" style={styles.date}>
 							{this.props.publicationDate}
 						</Text>

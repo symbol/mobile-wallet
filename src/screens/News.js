@@ -64,7 +64,7 @@ class News extends Component<Props, State> {
 						data={news}
 						renderItem={this.renderNewsItem}
 						onEndReachedThreshold={0.9}
-						keyExtractor={(item) => item.title}
+						keyExtractor={(item, index) => '' + index + 'news'}
 						refreshControl={
 							<RefreshControl
 								//refresh control used for the Pull to Refresh
