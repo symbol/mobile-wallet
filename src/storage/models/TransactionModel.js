@@ -1,5 +1,5 @@
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-export type TransactionType = 'unknown' | 'transfer' | 'fundsLock' | 'aggregate';
+export type TransactionType = 'unknown' | 'transfer' | 'fundsLock' | 'aggregate' | 'namespace' | 'mosaicAlias';
 export type TransactionStatus = 'confirmed' | 'unconfirmed';
 
 /**
@@ -44,4 +44,19 @@ export interface AggregateTransactionModel extends TransactionModel {
     innerTransactions: TransactionModel[];
     cosignaturePublicKeys: string[];
     signTransactionObject: any;
+}
+/**
+ * Namespace transaction model
+ */
+export interface NamespaceRegistrationTransactionModel extends TransactionModel {
+    type: 'namespace';
+    namespaceName: string;
+}
+
+export interface MosaicAliasTransactionModel extends TransactionModel {
+    type: 'mosaicAlias';
+    aliasAction: string;
+    namespaceId: string;
+    namespaceName: string;
+    mosaicId: string;
 }

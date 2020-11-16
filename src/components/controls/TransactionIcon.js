@@ -30,6 +30,8 @@ const transactionIcons = {
     outgoing: require('@src/assets/icons/transaction/outgoing.png'),
     aggregate: require('@src/assets/icons/transaction/aggregate.png'),
     fundsLock: require('@src/assets/icons/transaction/fundsLock.png'),
+    namespace: require('@src/assets/icons/transaction/namespace.png'),
+    mosaicAlias: require('@src/assets/icons/transaction/mosaicAlias.png'),
 };
 
 export default class TransactionIcon extends Component<Props, State> {
