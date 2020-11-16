@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
 	list: {
-        marginBottom: 65,
+        marginBottom: 10,
     }
 });
 

@@ -8,7 +8,7 @@ import store from '@src/store';
 
 const styles = StyleSheet.create({
 	list: {
-        marginBottom: 65,
+        marginBottom: 10,
     },
 	card: {
 		width: '100%',

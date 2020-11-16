@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import { Section, GradientBackground, AccountBalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -14,10 +15,17 @@ const styles = StyleSheet.create({
         padding: 17,
         paddingTop: 8,
         backgroundColor: '#fffc',
-    },
-    list: {
-        marginTop: 17,
-    },
+	},
+	scrollView: {
+		flex: 1,
+		flexDirection: 'column',
+		width: '100%'
+	},
+	scrollViewContent: {
+		flex: 1,
+		flexDirection: 'column',
+		width: '100%'
+	}
 });
 
 type Props = {
@@ -29,7 +37,11 @@ type State = {};
 class Home extends Component<Props, State> {
     state = { isSidebarShown: false };
 
-    render() {
+	reload = () => {
+        store.dispatchAction({ type: 'account/loadAllData' });
+	};
+	
+    render = () => {
         const { 
 			pendingSignature, 
 			contentStyle = {}, 
@@ -50,49 +62,57 @@ class Home extends Component<Props, State> {
 				dataManager={{isLoading}}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
-                <Col justify="space-around" style={contentStyle}>
-					<Section type="list">
-                    	<AccountBalanceWidget />
-					</Section>
-                    <Section type="list">
-                        <PluginList componentId={componentId} theme="light"/>
-					</Section>
-					<Section type="list">
-                        {/* Notifications Mockup */}
-                        {/* <View style={styles.transactionPreview}>
-                            <Row justify="space-between">
-                                <Text type="regular" theme="light">
-                                    Opt-in
-                                </Text>
-                                <Text type="regular" theme="light">
-                                    23.10.2020 11:00
-                                </Text>
-                            </Row>
-                            <Row justify="space-between">
-                                <Text type="bold" theme="light">
-                                    Post launch Opt-in
-                                </Text>
-                            </Row>
-                        </View> */}
-                        {pendingSignature && (
-                            <TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
-                                <Row justify="space-between">
-                                    <Text type="regular" theme="light">
-                                        Multisig Transaction
-                                    </Text>
-                                    <Text type="regular" theme="light">
-                                        Recently
-                                    </Text>
-                                </Row>
-                                <Row justify="space-between">
-                                    <Text type="bold" theme="light">
-                                        Awaiting your signature
-                                    </Text>
-                                </Row>
-                            </TouchableOpacity>
-                        )}
-                    </Section>
-                </Col>
+				<ScrollView 
+					style={styles.ScrollView}
+					contentContainerStyle={styles.scrollViewContent}
+					refreshControl={
+						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
+					}
+				>
+					<Col justify="space-around" style={contentStyle}>
+						<Section type="list">
+							<AccountBalanceWidget />
+						</Section>
+						<Section type="list">
+							<PluginList componentId={componentId} theme="light"/>
+						</Section>
+						<Section type="list">
+							{/* Notifications Mockup */}
+							{/* <View style={styles.transactionPreview}>
+								<Row justify="space-between">
+									<Text type="regular" theme="light">
+										Opt-in
+									</Text>
+									<Text type="regular" theme="light">
+										23.10.2020 11:00
+									</Text>
+								</Row>
+								<Row justify="space-between">
+									<Text type="bold" theme="light">
+										Post launch Opt-in
+									</Text>
+								</Row>
+							</View> */}
+							{pendingSignature && (
+								<TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
+									<Row justify="space-between">
+										<Text type="regular" theme="light">
+											Multisig Transaction
+										</Text>
+										<Text type="regular" theme="light">
+											Recently
+										</Text>
+									</Row>
+									<Row justify="space-between">
+										<Text type="bold" theme="light">
+											Awaiting your signature
+										</Text>
+									</Row>
+								</TouchableOpacity>
+							)}
+						</Section>
+					</Col>
+				</ScrollView>
             </GradientBackground>
         );
     }

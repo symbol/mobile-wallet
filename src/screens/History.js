@@ -8,7 +8,7 @@ import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 65,
+        marginBottom: 10,
     },
     filter: {
         flexGrow: 1,
@@ -91,7 +91,6 @@ class History extends Component<Props, State> {
 				dataManager={{isLoading: loading}}
 				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
 			>
-                
                 <Section type="list">
                     <Section type="form-item">
                         <Row fullWidth>
@@ -109,23 +108,23 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-                <ListContainer style={styles.list} isScrollable={false}>
-                    <FlatList
-                        // style={{ height: '100%' }}
-                        data={transactions}
-                        renderItem={this.renderTransactionItem(showingDetails)}
-                        onEndReachedThreshold={0.9}
+				<ListContainer style={styles.list} isScrollable={false}>
+					<FlatList
+						// style={{ height: '100%' }}
+						data={transactions}
+						renderItem={this.renderTransactionItem(showingDetails)}
+						onEndReachedThreshold={0.9}
 						onEndReached={this.loadNextPage}
 						keyExtractor={(item) => item.hash}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={loading}
-                                onRefresh={this.onRefresh}
-                            />
-                        }
-                    />
-                </ListContainer>
+						refreshControl={
+							<RefreshControl
+								//refresh control used for the Pull to Refresh
+								refreshing={loading}
+								onRefresh={this.onRefresh}
+							/>
+						}
+					/>
+				</ListContainer>
             </GradientBackground>
             // </ImageBackground>
         );

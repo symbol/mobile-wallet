@@ -98,7 +98,7 @@ export default class GradientBackground extends Component<Props, State> {
 				children
 			}
 			{dataManager.isLoading && !dataManager.isError && 
-				<View style={styles.loading}><LoadingAnimationFlexible text={translate('LoadingText')}/></View>
+				<View style={styles.loading}><LoadingAnimationFlexible isFade text={translate('LoadingText')}/></View>
 			}
 			{dataManager.isError && 
 				<Col justify="center" align="center" fullHeight>

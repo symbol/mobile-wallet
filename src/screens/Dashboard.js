@@ -14,12 +14,12 @@ import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: '#000',
-    },
+    tabWrapper: {
+        paddingBottom: 56,
+	},
     contentContainer: {
         flex: 1,
-        marginBottom: 64,
+        marginBottom: 10,
     },
 });
 
@@ -68,13 +68,15 @@ class Dashboard extends Component<Props, State> {
         }
         return (
 			<GradientBackground theme="light" noPadding>
-				<Tab
-                    {...this.props}
-                    contentStyle={styles.contentContainer}
-                    onOpenMenu={() => this.setState({ isSidebarShown: true })}
-                    onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
-                    changeTab={this.onTabChange}
-                />
+				<View style={styles.tabWrapper}>
+					<Tab
+						{...this.props}
+						contentStyle={styles.contentContainer}
+						onOpenMenu={() => this.setState({ isSidebarShown: true })}
+						onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
+						changeTab={this.onTabChange}
+					/>
+				</View>
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
                 <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
                 {!isNodeUp && <NodeDownOverlay />}
