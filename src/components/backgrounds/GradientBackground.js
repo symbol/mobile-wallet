@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Container, FadeView, LoadingAnimation, Col, Section, Text, Button } from '@src/components';
-import GlobalStyles from '../../styles/GlobalStyles';
+import { Container, FadeView, LoadingAnimationFlexible, Col, Section, Text, Button, } from '@src/components';
+import GlobalStyles from '@src/styles/GlobalStyles';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
 	root: {
 		height: '100%'
+	},
+	loading: {
+		flexDirection: 'column',
+		flex: 1,
+		paddingBottom: 34
 	},
 	image: {
 		position: 'absolute',
@@ -39,7 +45,7 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, onBack, componentId } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, onBack, componentId, titleBar } = this.props;
 		const {} = this.state;
 		const goBack = onBack 
 			? onBack
@@ -87,11 +93,12 @@ export default class GradientBackground extends Component<Props, State> {
 			]
 
 		const Content = () => { return (<>
+			{titleBar}
 			{!dataManager.isLoading && !dataManager.isError && 
 				children
 			}
 			{dataManager.isLoading && !dataManager.isError && 
-				<LoadingAnimation />
+				<View style={styles.loading}><LoadingAnimationFlexible text={translate('LoadingText')}/></View>
 			}
 			{dataManager.isError && 
 				<Col justify="center" align="center" fullHeight>

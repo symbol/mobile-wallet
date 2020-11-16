@@ -43,8 +43,13 @@ class Home extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector_small" theme="light" fade={true} dataManager={{isLoading}}>
-				<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>
+			<GradientBackground 
+				name="connector_small" 
+				theme="light" 
+				fade={true} 
+				dataManager={{isLoading: true}}
+				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
+			>
                 <Col justify="space-around" style={contentStyle}>
 					<Section type="list">
                     	<AccountBalanceWidget />
