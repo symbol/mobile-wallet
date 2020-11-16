@@ -4,6 +4,7 @@ import { GradientBackground, ListContainer, ListItem, TitleBar } from '@src/comp
 import New from '@src/components/organisms/New';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     list: {
@@ -21,6 +22,10 @@ type State = {};
 class News extends Component<Props, State> {
     constructor(props: {}) {
         super(props);
+	}
+
+	refresh = () => {
+		store.dispatchAction({type: 'news/loadNews'});
 	}
 	
 	renderNewsItem = (item) => {
@@ -64,7 +69,7 @@ class News extends Component<Props, State> {
 							<RefreshControl
 								//refresh control used for the Pull to Refresh
 								refreshing={isLoading}
-								onRefresh={() => {}}
+								onRefresh={() => this.refresh()}
 							/>
 						}
 					/>
