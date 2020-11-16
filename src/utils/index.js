@@ -37,3 +37,11 @@ export const htmlToPlainString = (str: string) => {
         
     return formattedString; 
 }
+
+export const removeRSSContentEnd = (str: string) => {
+	const indexOfDots = str.indexOf('...');
+	const lastChar = indexOfDots !== -1
+		? indexOfDots
+		: str.length;
+	return str.slice(0, lastChar) + '...';
+}
