@@ -88,13 +88,17 @@ class Harvest extends Component<Props, State> {
 
         return (
 			//<ImageBackground name="harvest">
-			<GradientBackground name="connector_small" theme="light" dataManager={{ isLoading }}>
-               	<TitleBar 
+			<GradientBackground 
+				name="connector_small" 
+				theme="light" 
+				dataManager={{ isLoading }}
+				titleBar={<TitleBar 
 					theme="light"
 					title="Harvest" 
 					onOpenMenu={() => onOpenMenu()} 
 					onSettings={() => onOpenSettings()}
-				/>
+				/>}
+			>
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item" style={styles.card}>
 					<Row justify="space-between" fullWidth>

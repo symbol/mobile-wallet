@@ -36,17 +36,22 @@ class News extends Component<Props, State> {
 	}
 
     render() {
-		const { news, onOpenMenu, onOpenSettings } = this.props;
-		const dataManager = {};
+		const { news, onOpenMenu, onOpenSettings, isLoading } = this.props;
+		const dataManager = {isLoading};
 
         return (
-            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
-                <TitleBar 
+			<GradientBackground 
+				name="connector_small" 
+				theme="light" 
+				dataManager={dataManager}
+				titleBar={<TitleBar 
 					theme="light"
 					title="News" 
 					onOpenMenu={() => onOpenMenu()} 
 					onSettings={() => onOpenSettings()}
-				/>
+				/>}
+			>
+                
                 <ListContainer type="list" style={styles.list}>
 					<View style={styles.inner}>
 						{news.map(this.renderNewsItem)}
@@ -58,5 +63,6 @@ class News extends Component<Props, State> {
 }
 
 export default connect(state => ({
-    news: state.news.news,
+	news: state.news.news,
+	isLoading: state.news.isLoading
 }))(News);

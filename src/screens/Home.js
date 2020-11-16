@@ -47,7 +47,7 @@ class Home extends Component<Props, State> {
 				name="connector_small" 
 				theme="light" 
 				fade={true} 
-				dataManager={{isLoading: true}}
+				dataManager={{isLoading}}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
                 <Col justify="space-around" style={contentStyle}>
