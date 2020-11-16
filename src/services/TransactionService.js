@@ -14,9 +14,14 @@ import {
     TransferTransaction,
     UInt64,
     RepositoryFactoryHttp,
+    TransactionGroup,
+    PublicAccount,
+    Message,
+    EncryptedMessage,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { TransactionQR } from 'symbol-qr-library';
+import NetworkService from '@src/services/NetworkService';
 
 export default class TransactionService {
     /**
@@ -27,7 +32,6 @@ export default class TransactionService {
      * @param extraParams
      */
     static signAndBroadcastTransactionModel(transaction: TransactionModel, signer: AccountModel, networkModel: NetworkModel, ...extraParams) {
-        console.log(transaction);
         switch (transaction.type) {
             case 'transfer':
                 return this._signAndBroadcastTransferTransactionModel(transaction, signer, networkModel);
@@ -134,5 +138,36 @@ export default class TransactionService {
         );
         const txQR = new TransactionQR(transferTransaction, netwrokType, network.generationHash);
         return txQR.toString('svg').toPromise();
+    };
+
+    /**
+     * Decrypt message
+     * @param recipientAccount
+     * @param network
+     * @param transaction
+     * @returns {Promise<void>}
+     */
+    static decryptMessage = async (recipientAccount: AccountModel, network: NetworkModel, transaction: TransferTransactionModel) => {
+        try {
+            const networkType = NetworkService.getNetworkTypeFromModel(network);
+            const account = Account.createFromPrivateKey(recipientAccount.privateKey, networkType);
+            const signerAddress = Address.createFromRawAddress(transaction.signerAddress);
+            const repositoryFactory = new RepositoryFactoryHttp(network.node);
+            const accountHttp = repositoryFactory.createAccountRepository();
+            const transactionHttp = repositoryFactory.createTransactionRepository();
+            const accountInfo = await accountHttp.getAccountInfo(signerAddress).toPromise();
+            const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
+            const transactionHash = transaction.hash;
+            const tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
+            if (tx.message.type === 1) {
+                return account.decryptMessage(tx.message, alicePublicAccount).payload;
+            } else {
+                console.log(tx.message);
+                return '';
+            }
+        } catch (e) {
+            console.log(e);
+            return '';
+        }
     };
 }
