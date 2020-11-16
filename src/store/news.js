@@ -1,4 +1,5 @@
 import RSSParser from 'rss-parser';
+import { htmlToPlainString } from '@src/utils';
 
 export default {
     namespace: 'news',
@@ -22,8 +23,10 @@ export default {
             const response = await fetch('http://rssmix.com/u/11801188/rss.xml');
             const responseText = await response.text();
 			const rss = await new RSSParser().parseString(responseText);
-			console.log(rss.items[0].contentSnippet);
-            let news = rss.items;
+            const news = rss.items.map(el => ({
+				...el, 
+				content: htmlToPlainString(el.content)
+			}));
             commit({ type: 'news/setNews', payload: news });
             commit({ type: 'news/setLoading', payload: false });
         },
