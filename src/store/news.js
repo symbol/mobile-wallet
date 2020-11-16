@@ -21,7 +21,8 @@ export default {
             commit({ type: 'news/setLoading', payload: true });
             const response = await fetch('http://rssmix.com/u/11801188/rss.xml');
             const responseText = await response.text();
-            const rss = await new RSSParser().parseString(responseText);
+			const rss = await new RSSParser().parseString(responseText);
+			console.log(rss.items[0].contentSnippet);
             let news = rss.items;
             commit({ type: 'news/setNews', payload: news });
             commit({ type: 'news/setLoading', payload: false });

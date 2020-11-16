@@ -8,7 +8,7 @@ import store from '@src/store';
 
 const styles = StyleSheet.create({
 	list: {
-        marginBottom: 10,
+		marginBottom: 10,
     },
 	card: {
 		width: '100%',
@@ -140,7 +140,6 @@ class Harvest extends Component<Props, State> {
 					</Section>
 
 					<Section type="form-bottom" style={[styles.card, styles.bottom]}>
-						
 						{status === 'INACTIVE' && 
 						<Section type="form-item">
 							<Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
