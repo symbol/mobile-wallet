@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
         //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
         paddingVertical: 8,
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     menuItem: {
         margin: 4,
-        paddingHorizontal: 17,
+        paddingHorizontal: 30,
         paddingVertical: 8,
     },
     menuItemIcon: {
