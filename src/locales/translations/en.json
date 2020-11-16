@@ -424,5 +424,14 @@
 		"transfer": "Transfer",
 		"fundsLock": "Funds Lock",
 		"aggregate": "Aggregate"
+	},
+	"date": {
+		"monday": "Monday",
+		"tuesday": 	"Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": 	"Friday",
+		"saturday": "Saturday",
+		"sunday": "Sunday"
 	}
 }
