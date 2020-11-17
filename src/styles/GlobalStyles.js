@@ -65,20 +65,21 @@ export default {
 		title: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-SemiBold',
-			fontWeight: '100',
+			fontWeight: '600',
 			fontSize: 24
 		},
 
 		titleSmall: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-SemiBold',
-			fontWeight: '400',
+			fontWeight: '600',
 			fontSize: 18
 		},
 
 		subtitle: {
 			color: COLORS.DARKWHITE,
 			fontFamily: 'NotoSans-Regular',
+			fontWeight: '400',
 			fontSize: 12,
 			lineHeight: 22,
 			opacity: 0.6,
@@ -96,7 +97,7 @@ export default {
 		bold: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-SemiBold',
-			fontWeight: '100',
+			fontWeight: '600',
 			fontSize: 13,
 			lineHeight: 22,
 		},
@@ -104,7 +105,7 @@ export default {
 		alert: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-Bold',
-			fontWeight: '100',
+			fontWeight: '700',
 			fontSize: 38,
 			lineHeight: 43,
 			paddingBottom: 8,
