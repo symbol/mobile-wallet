@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import { Section, GradientBackground, TitleBar, Input, InputAddress, CopyView } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -70,7 +70,7 @@ class Receive extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
 						<Section type="center">
-							{imgData && <SvgXml style={styles.qr} xml={imgData} width="240px" height="240px" />}
+							{imgData && <Image style={{ height: 170, width: 170 }} source={{ uri: imgData }} />}
 						</Section>
 					</Section>
                     <Section type="form-item">

@@ -137,7 +137,7 @@ export default class TransactionService {
             UInt64.fromUint(2000000)
         );
         const txQR = new TransactionQR(transferTransaction, netwrokType, network.generationHash);
-        return txQR.toString('svg').toPromise();
+        return txQR.toBase64().toPromise();
     };
 
     /**

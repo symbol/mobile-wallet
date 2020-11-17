@@ -376,7 +376,7 @@ const WizardStepView = (props: Props) => {
 		return (
 			<View style={styles.topBar}>
 				{onBack && <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
-					<Image style={styles.topButtons} source={iconBackSrc} resizeMode="center" />
+					<Image style={{height: 24, width: 24}} source={iconBackSrc} />
 				</TouchableOpacity>}
 
 				{onClose && <TouchableOpacity style={styles.topButtonContainer} onPress={onClose}>
