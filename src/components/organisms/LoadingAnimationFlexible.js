@@ -63,7 +63,7 @@ const LoadingAnimation = (props: Props) => {
 
 	return (
 		<View style={styles.container}>
-			{isFade && <FadeView style={styles.container} duration={100}>
+			{isFade && <FadeView style={styles.container} duration={200}>
 				<View style={styles.loadingContainer}>
 					<View style={styles.spinnerWrapper}>
 						<ActivityIndicator size="large" color={color} />
@@ -72,7 +72,7 @@ const LoadingAnimation = (props: Props) => {
 					{text && text.length > 0 && <Text style={styles.loadingText}>{text}</Text>}
 				</View>
 			</FadeView>}
-			{!isFade && <View style={styles.container} duration={100}>
+			{!isFade && <View style={styles.container} duration={200}>
 				<View style={styles.loadingContainer}>
 					<View style={styles.spinnerWrapper}>
 						<ActivityIndicator size="large" color={color} />

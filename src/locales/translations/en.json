@@ -421,7 +421,7 @@
 		"namespaceName": "Namespace name",
 		"mosaicId": "Mosaic ID",
 		"namespaceId": "Namespace ID",
-		"namespace": "Namespace",
+		"namespace": "Namespace"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -429,6 +429,15 @@
 		"fundsLock": "Funds Lock",
 		"aggregate": "Aggregate",
 		"namespace": "Namespace registration",
-		"mosaicAlias": "Mosaic alias",
+		"mosaicAlias": "Mosaic alias"
+	},
+	"date": {
+		"monday": "Monday",
+		"tuesday": 	"Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": 	"Friday",
+		"saturday": "Saturday",
+		"sunday": "Sunday"
 	}
 }

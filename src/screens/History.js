@@ -114,7 +114,7 @@ class History extends Component<Props, State> {
 						renderItem={this.renderTransactionItem(showingDetails)}
 						onEndReachedThreshold={0.9}
 						onEndReached={this.loadNextPage}
-						keyExtractor={(item) => item.hash}
+						keyExtractor={(item, index) => '' + index + 'history'}
 						refreshControl={
 							<RefreshControl
 								//refresh control used for the Pull to Refresh

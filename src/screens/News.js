@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Linking, StyleSheet, View, FlatList } from 'react-native';
+import { RefreshControl, StyleSheet, View, FlatList } from 'react-native';
 import { GradientBackground, ListContainer, ListItem, TitleBar } from '@src/components';
 import New from '@src/components/organisms/New';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
     list: {
@@ -22,15 +23,20 @@ class News extends Component<Props, State> {
     constructor(props: {}) {
         super(props);
 	}
+
+	refresh = () => {
+		store.dispatchAction({type: 'news/loadNews'});
+	}
 	
-	renderNewsItem = (item, index) => {
-		return <ListItem onPress={() => {}} key={'' + item.pubDate + index}>
+	renderNewsItem = (item) => {
+		return <ListItem>
 			<New
-				title={item.title} 
-				body={item.content} 
-				url={item.link} 
-				publicationDate={item.pubDate} 
-				creator={item.creator} 
+				title={item.item.title} 
+				contentSnippet={item.item.contentSnippet}
+				body={item.item.content} 
+				url={item.item.link} 
+				publicationDate={item.item.pubDate} 
+				creator={item.item.creator} 
 			/> 
 		</ListItem>
 	}
@@ -52,10 +58,25 @@ class News extends Component<Props, State> {
 				/>}
 			>
                 
-                <ListContainer type="list" style={styles.list}>
-					<View style={styles.inner}>
+                <ListContainer type="list" style={styles.list} isScrollable={false}>
+					<FlatList
+						// style={{ height: '100%' }}
+						data={news}
+						renderItem={this.renderNewsItem}
+						onEndReachedThreshold={0.9}
+						keyExtractor={(item, index) => '' + index + 'news'}
+						refreshControl={
+							<RefreshControl
+								//refresh control used for the Pull to Refresh
+								refreshing={isLoading}
+								onRefresh={() => this.refresh()}
+							/>
+						}
+					/>
+					
+					{/* <View style={styles.inner}>
 						{news.map(this.renderNewsItem)}
-					</View>
+					</View> */}
                 </ListContainer>
             </GradientBackground>
         );

@@ -1,4 +1,6 @@
 import RSSParser from 'rss-parser';
+import { htmlToPlainString, removeRSSContentEnd } from '@src/utils';
+import { formatDate } from '@src/utils/format';
 
 export default {
     namespace: 'news',
@@ -21,8 +23,12 @@ export default {
             commit({ type: 'news/setLoading', payload: true });
             const response = await fetch('http://rssmix.com/u/11801188/rss.xml');
             const responseText = await response.text();
-            const rss = await new RSSParser().parseString(responseText);
-            let news = rss.items;
+			const rss = await new RSSParser().parseString(responseText);
+            const news = rss.items.map(el => ({
+				...el, 
+				content: removeRSSContentEnd(htmlToPlainString(el.content)),
+				pubDate: formatDate(el.pubDate)
+			}));
             commit({ type: 'news/setNews', payload: news });
             commit({ type: 'news/setLoading', payload: false });
         },

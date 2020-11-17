@@ -66,8 +66,8 @@ export default class NavigationMenu extends Component<Props, State> {
 			<View style={[styles.root, extraPadding]}>
 				<Row justify="space-around" align="center">
 					{
-						menuItemList.map(item =>
-							<TouchableOpacity onPress={() => onChange(item.name)}>
+						menuItemList.map((item, index) =>
+							<TouchableOpacity onPress={() => onChange(item.name)} key={'' + index + 'nav'}>
 								<Col align="center" justify="space-" style={[styles.item, item.name === value && styles.activeItem]}>
 									<Icon name={item.iconName} size="small" style={styles.icon}/>
 									<Text 

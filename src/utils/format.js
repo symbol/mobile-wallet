@@ -1,7 +1,25 @@
 import { LocalDate, LocalDateTime } from 'js-joda';
+import translate from '@src/locales/i18n';
 
 export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
     return `${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
+};
+
+export const formatDate = (date: LocalDateTime): string => {
+	const days = [
+		translate('date.monday'),
+		translate('date.tuesday'),
+		translate('date.wednesday'),
+		translate('date.thursday'),
+		translate('date.friday'),
+		translate('date.saturday'),
+		translate('date.sunday')
+	];
+
+	const dateObj = new Date(date);
+	return `${days[dateObj.getDay() - 1].slice(0, 3)}, ${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`;
+	const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
+	return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
 };
 
 export const durationStringToSeconds = (str: string): number => {
