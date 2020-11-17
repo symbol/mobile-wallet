@@ -5,6 +5,7 @@ import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 import { Router, BASE_SCREEN_NAME } from '@src/Router';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     root: {
@@ -54,7 +55,7 @@ interface State {
     items: MenuItem[];
 }
 
-export default class PluginList extends Component<Props, State> {
+class PluginList extends Component<Props, State> {
     // TODO: Move navigation menu items to config file
     state = {};
     componentDidMount() {}
@@ -65,7 +66,7 @@ export default class PluginList extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {} } = this.props;
+        const { style = {}, isNodeUp } = this.props;
         const {} = this.state;
         const pluginList = [
             {
@@ -77,8 +78,8 @@ export default class PluginList extends Component<Props, State> {
                 text: 'plugin.receive',
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
-			},
-			{
+            },
+            {
                 text: 'plugin.more',
                 name: 'DASHBOARD_SCREEN',
                 iconName: 'options_light',
@@ -90,7 +91,7 @@ export default class PluginList extends Component<Props, State> {
                 <Row justify="space-around" align="center" wrap>
                     {pluginList.map(item => (
                         <Col align="center" justify="center" style={styles.item}>
-                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)}>
+                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
                                 <Col align="center" justify="center" style={{ height: '100%' }}>
                                     <Icon name={item.iconName} size="small" style={styles.icon} />
                                 </Col>
@@ -103,3 +104,7 @@ export default class PluginList extends Component<Props, State> {
         );
     };
 }
+
+export default connect(state => ({
+    isNodeUp: state.network.isUp,
+}))(PluginList);

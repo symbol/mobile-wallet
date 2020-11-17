@@ -124,10 +124,13 @@ export default class C extends Component<Props, State> {
 				source = require('@src/assets/icons/expand.png');
 				break;
 			case 'incoming_light':
-				source = require('@src/assets/icons/incoming.png');
+				source = require('@src/assets/icons/transaction/incoming.png');
 				break;
 			case 'outgoing_light':
-				source = require('@src/assets/icons/outgoing.png');
+				source = require('@src/assets/icons/transaction/outgoing.png');
+				break;
+			case 'aggregate':
+				source = require('@src/assets/icons/transaction/aggregate.png');
 				break;
 			case 'options_light':
 				source = require('@src/assets/icons/options_light.png');
@@ -190,7 +193,7 @@ export default class C extends Component<Props, State> {
 				_style = styles.medium
 				break;
 		}
-		
+
 		if(!source) return <View style={[_style, style]} />;
         return <Image style={[_style, style]} source={source} />;
     }

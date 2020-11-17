@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, ImageBackground, Input, InputAddress, Section, TitleBar } from '@src/components';
+import { Button, ImageBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
-import { AddressBook } from 'symbol-address-book/AddressBook';
-import { writeFile, getFSInfo } from 'react-native-fs';
 import store from '@src/store';
-import Store from '@src/store';
 
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
+import { isAddressValid } from '@src/utils/validators';
 
 const styles = StyleSheet.create({
     list: {
@@ -32,6 +30,7 @@ class AddContact extends Component<Props, State> {
         label: '',
         notes: '',
         update: false,
+        isAddressValid: false,
     };
 
     submit = () => {
@@ -77,8 +76,13 @@ class AddContact extends Component<Props, State> {
         }
     }
 
+    onAddressChange = address => {
+        const { network } = this.props;
+        this.setState({ address: address, isAddressValid: isAddressValid(address, network) });
+    };
+
     render() {
-        let { address, name, phone, email, label, notes, id } = this.state;
+        let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
 
         return (
             <ImageBackground name="tanker">
@@ -86,10 +90,19 @@ class AddContact extends Component<Props, State> {
                 {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Update Contact" />}
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
-                        <InputAddress value={address} placeholder="Address" theme="light" fullWidth onChangeText={address => this.setState({ address })} />
+                        <Input value={name} placeholder="Name" theme="light" onChangeText={name => this.setState({ name })} />
+                        {name.length === 0 && <Text theme="light">Name is required</Text>}
                     </Section>
                     <Section type="form-item">
-                        <Input value={name} placeholder="Name" theme="light" onChangeText={name => this.setState({ name })} />
+                        <InputAddress
+                            value={address}
+                            placeholder="Address"
+                            theme="light"
+                            fullWidth
+                            onChangeText={address => this.onAddressChange(address)}
+                            showAddressBook={false}
+                        />
+                        {!isAddressValid && <Text theme="light">Invalid address</Text>}
                     </Section>
                     <Section type="form-item">
                         <Input value={phone} placeholder="Phone" theme="light" onChangeText={phone => this.setState({ phone })} />
@@ -105,12 +118,12 @@ class AddContact extends Component<Props, State> {
                     </Section>
                     {!this.state.update && (
                         <Section>
-                            <Button text="Confirm" theme="light" onPress={() => this.submit()} />
+                            <Button text="Confirm" theme="light" onPress={() => this.submit()} disabled={!isAddressValid && name.length > 0} />
                         </Section>
                     )}
                     {this.state.update && (
                         <Section>
-                            <Button text="Update Contact" theme="light" onPress={() => this.update(id)} />
+                            <Button text="Update Contact" theme="light" onPress={() => this.update(id)} disabled={!isAddressValid && name.length > 0} />
                         </Section>
                     )}
                 </Section>
@@ -120,6 +133,7 @@ class AddContact extends Component<Props, State> {
 }
 
 export default connect(state => ({
+    network: state.network.selectedNetwork,
     addressBook: state.addressBook.addressBook,
     selectedContact: state.addressBook.selectedContact,
 }))(AddContact);

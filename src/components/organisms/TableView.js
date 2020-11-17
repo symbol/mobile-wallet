@@ -71,7 +71,7 @@ class TableView extends Component<Props, State> {
 		if(mosaics.length)
 			return mosaics.map(el => (<Row justify="space-between" fullWidth style={styles.mosaic}>
 				<Text type="regular" theme="light">{el.mosaicName}</Text>
-				{this.render_amount(el.amount)}
+				{this.render_amount(el.amount / Math.pow(10, el.divisibility))}
 		</Row>));
 		return <Text type="regular" theme="light">{translate('table.null')}</Text>
 	}

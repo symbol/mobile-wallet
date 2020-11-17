@@ -29,7 +29,7 @@ import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
-import CustomFlashMessage from "@src/components/organisms/CustomFlashMessage";
+import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
