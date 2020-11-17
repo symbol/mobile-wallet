@@ -31,7 +31,7 @@ type State = {
 
 class Dashboard extends Component<Props, State> {
     state = {
-        currentTab: 'news',
+        currentTab: 'home',
         isSidebarShown: false,
     };
 

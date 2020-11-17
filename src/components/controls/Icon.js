@@ -174,6 +174,9 @@ export default class C extends Component<Props, State> {
 			case 'mosaic_custom':
 				source = require('@src/assets/icons/mosaic_custom.png');
 				break;
+			case 'qr_light':
+				source = require('@src/assets/icons/qr_light.png');
+				break;
 				
 
 			default:

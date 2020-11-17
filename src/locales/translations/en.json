@@ -380,7 +380,8 @@
 	"plugin": {
 		"send": "Send",
 		"receive": "Receive",
-		"more": "More"
+		"more": "More",
+		"qr": "Scan QR"
 	},
 	"Harvest": {
 		"StartHarvesting": {
