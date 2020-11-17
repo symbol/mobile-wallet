@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import { Button, ImageBackground, Text, Section, TitleBar } from '@src/components';
+import {Button, ImageBackground, Text, Section, TitleBar, GradientBackground} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
@@ -94,7 +94,7 @@ class ContactProfile extends Component<Props, State> {
         let { isRemoveModalOpen, contactQR } = this.state;
 
         return (
-            <ImageBackground name="tanker">
+            <GradientBackground name="connector_small" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
                 <Section type="form" style={styles.section}>
                     <Section type="form-item">
@@ -138,7 +138,7 @@ class ContactProfile extends Component<Props, State> {
                     onClose={() => this.cancelRemove()}
                     onSuccess={() => this.confirmRemove(selectedContact.id)}>
                 </ConfirmModal>
-            </ImageBackground>
+            </GradientBackground>
         );
     }
 }
