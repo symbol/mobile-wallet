@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Text, Section, Col, LoadingAnimation, Container } from '@src/components';
+import { Text, Section, Col, LoadingAnimationFlexible, Container } from '@src/components';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
 	root: {
@@ -51,7 +52,7 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, theme = 'dark', dataManager = {}, onBack, componentId, allowContainer = false } = this.props;
+		const { children, style = {}, theme = 'dark', dataManager = {}, onBack, componentId, allowContainer = false, noLoadingText } = this.props;
 		const {} = this.state;
 		const buttonStyle = theme === 'dark' 
 			? styles.buttonLight 
@@ -77,7 +78,7 @@ export default class GradientBackground extends Component<Props, State> {
 			</View>
 			<View style={styles.onTop}>
 				{dataManager.isLoading && !dataManager.isError && 
-					<LoadingAnimation style={style}/>
+					<LoadingAnimationFlexible isFade text={noLoadingText ? ' ' : translate('LoadingText')}/>
 				}
 				{dataManager.isError && 
 					<Col justify="center" align="center" fullHeight style={style}>
