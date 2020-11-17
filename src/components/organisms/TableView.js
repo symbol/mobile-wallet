@@ -6,7 +6,8 @@ import {
 	Text,
 	Row,
 	CopyView,
-	SecretView
+	SecretView,
+	View
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -75,21 +76,20 @@ class TableView extends Component<Props, State> {
 	}
 
 	renderItem = (key, value) => {
-		let itemTemplate;
+		let ItemTemplate;
 
 		Object.keys(renderTypeMap)
 			.find(itemType => renderTypeMap[itemType]
 				.find(el => {
 					if(el === key) {
-						itemTemplate = this['render_' + itemType](value);
+						ItemTemplate = this['render_' + itemType](value);
 						return true;
 					}
 				}));
-
-		if(!itemTemplate && typeof value === 'object' && value !== null)
+			
+		if(!ItemTemplate && typeof value === 'object' && value !== null)
 			return this.renderTable(value);
-		return itemTemplate ? itemTemplate : <Text type="regular" theme="light">{value}</Text>
-
+		return ItemTemplate ? ItemTemplate : <Text type="regular" theme="light">{value}</Text>
 	};
 
 	renderTable = (data) => {
@@ -107,7 +107,7 @@ class TableView extends Component<Props, State> {
 				}));
 
         return (
-			_data.map(el => <Section type="form-item">
+			_data.map(el => <Section type="form-item" key={'table'+el.key+el.value}>
 				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>
 				{this.renderItem(el.key, el.value)}
 			</Section>)
