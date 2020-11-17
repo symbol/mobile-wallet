@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import store from '@src/store';
 import PopupModal from '@src/components/molecules/PopupModal';
 import RNFetchBlob from 'rn-fetch-blob';
+import { downloadFile } from '@src/utils/donwload';
 
 const styles = StyleSheet.create({
     root: {
@@ -83,11 +84,11 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         paddingTop: 4,
         paddingRight: 10,
-		marginRight: -16
-	},
-	topOptinIcon: {
-		paddingTop: 11
-	},
+        marginRight: -16,
+    },
+    topOptinIcon: {
+        paddingTop: 11,
+    },
     menuBottomContainer: {
         //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
@@ -103,6 +104,9 @@ const styles = StyleSheet.create({
         marginRight: 17,
     },
     menuItemText: {},
+    menuItemTextDisabled: {
+        color: '#666666',
+    },
 });
 
 type Props = {
@@ -113,6 +117,7 @@ type State = {
     isNameModalOpen: boolean,
     editingAccountId: string,
     newName: string,
+    savingPaperWallet: boolean,
 };
 
 class Sidebar extends Component<Props, State> {
@@ -154,20 +159,20 @@ class Sidebar extends Component<Props, State> {
         Router.goToCreateAccount({}, this.props.componentId);
     };
 
-    handleBackupAccounts = () => {
-        Router.showPasscode(
-            {
-                resetPasscode: false,
-                onSuccess: async () => {
-                    Router.goBack(this.props.componentId);
-                    const { dirs } = RNFetchBlob.fs;
-                    const paperWalletBytes = await store.dispatchAction({ type: 'wallet/downloadPaperWallet' });
-                    console.log('exported');
-                    await RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/symbol-paper-wallet.pdf`, paperWalletBytes, 'base64');
-                },
-            },
-            this.props.componentId
-        );
+    handleBackupAccounts = async () => {
+        this.setState({ savingPaperWallet: true });
+        const paperWalletBytes = await store.dispatchAction({ type: 'wallet/downloadPaperWallet' });
+        const uniqueVal = new Date()
+            .getTime()
+            .toString()
+            .slice(9);
+        downloadFile(paperWalletBytes, `symbol-wallet-${this.props.address.slice(0, 6)}-${uniqueVal}.pdf`, 'base64')
+            .then(() => {
+                this.setState({ savingPaperWallet: false });
+            })
+            .catch(() => {
+                this.setState({ savingPaperWallet: false });
+            });
     };
 
     handleAccountDetails = () => {
@@ -195,29 +200,26 @@ class Sidebar extends Component<Props, State> {
             <View onPress={() => this.handleAccountDetails()}>
                 <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                     <Container>
-						<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-							<ManagerHandler dataManager={{isLoading}}>
-
-								<TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
-								<Section type="form" style={styles.selectedAccountBoxContent}>
-
-								<Text style={styles.selectedAccountName} type="title-small" theme="dark">
-									{selectedAccount ? selectedAccount.name : ''}
-								</Text>
-								<Text style={styles.selectedAccountAddress} theme="dark">
-									<Trunc type="address">{address}</Trunc>
-								</Text>
-								<Row align="end" justify="space-between" fullWidth>
-									<Text style={styles.selectedAccountMosaic} theme="dark">
-										{nativeMosaicNamespace}
-									</Text>
-									<Text style={styles.selectedAccountBalance} theme="dark">
-										{balance}
-									</Text>
-								</Row>
-
-                        	</Section>
-						</ManagerHandler>
+                        <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+                        <ManagerHandler dataManager={{ isLoading }}>
+                            <TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
+                            <Section type="form" style={styles.selectedAccountBoxContent}>
+                                <Text style={styles.selectedAccountName} type="title-small" theme="dark">
+                                    {selectedAccount ? selectedAccount.name : ''}
+                                </Text>
+                                <Text style={styles.selectedAccountAddress} theme="dark">
+                                    <Trunc type="address">{address}</Trunc>
+                                </Text>
+                                <Row align="end" justify="space-between" fullWidth>
+                                    <Text style={styles.selectedAccountMosaic} theme="dark">
+                                        {nativeMosaicNamespace}
+                                    </Text>
+                                    <Text style={styles.selectedAccountBalance} theme="dark">
+                                        {balance}
+                                    </Text>
+                                </Row>
+                            </Section>
+                        </ManagerHandler>
                     </Container>
                 </SymbolGradientContainer>
             </View>
@@ -250,12 +252,12 @@ class Sidebar extends Component<Props, State> {
         );
     };
 
-    renderMenuItem = ({ iconName, text, onPress }) => {
+    renderMenuItem = ({ iconName, text, onPress, disabled = false }) => {
         return (
-            <TouchableOpacity onPress={() => onPress()}>
+            <TouchableOpacity onPress={() => onPress()} disabled={disabled}>
                 <Row fullWidth style={styles.menuItem} align="center">
                     <Icon name={iconName} style={styles.menuItemIcon} size="small" />
-                    <Text theme="light" type="bold" style={styles.menuItemText}>
+                    <Text theme="light" type="bold" style={disabled ? styles.menuItemTextDisabled : styles.menuItemText}>
                         {text}
                     </Text>
                 </Row>
@@ -265,11 +267,16 @@ class Sidebar extends Component<Props, State> {
 
     render = () => {
         const { accounts, selectedAccount, isVisible, isLoading } = this.props;
-        const { isNameModalOpen, newName } = this.state;
+        const { isNameModalOpen, newName, savingPaperWallet } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
             { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
-            { iconName: 'add_filled_light', text: 'Backup Accounts', onPress: () => this.handleBackupAccounts() },
+            {
+                iconName: 'incoming_light',
+                text: savingPaperWallet ? 'Saving paper wallet...' : 'Backup Accounts',
+                onPress: () => this.handleBackupAccounts(),
+                disabled: savingPaperWallet,
+            },
         ];
 
         if (!isVisible) return null;
@@ -323,6 +330,6 @@ export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
     nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
-	accounts: state.wallet.accounts,
-	isLoading: state.account.loading,
+    accounts: state.wallet.accounts,
+    isLoading: state.account.loading,
 }))(Sidebar);
