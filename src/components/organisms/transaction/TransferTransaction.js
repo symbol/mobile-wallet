@@ -1,147 +1,145 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, Row } from '@src/components';
-import { AddressComponent } from '@src/components/controls';
-import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import { connect } from 'react-redux';
-import { Account, Address, NetworkType, PublicAccount, RepositoryFactoryHttp, TransactionGroup } from "symbol-sdk";
-import SecretView from '@src/components/controls/SecretView';
+import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
+import translate from '@src/locales/i18n';
+import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import { Button, Icon, Row, SecretView, Section, TableView, Text, Trunc } from '@src/components';
+import { filterCurrencyMosaic } from '@src/utils/filter';
+import { StyleSheet, View } from 'react-native';
+import { Account } from 'symbol-sdk';
+import NetworkService from '@src/services/NetworkService';
+import TransactionService from '@src/services/TransactionService';
 
 const styles = StyleSheet.create({
-    root: {
-        width: '100%',
-        borderRadius: 6,
-        marginTop: 0,
-        marginBottom: 8,
-        padding: 17,
-        paddingTop: 8,
-        paddingBottom: 8,
-        backgroundColor: '#fffd',
+    amountOutgoing: {
+        color: '#b30000',
+    },
+    amountIncoming: {
+        color: '#1bb300',
     },
 });
 
 type Props = {
     transaction: TransferTransactionModel,
-    showDetails: boolean,
-    componentId: string,
 };
 
-class TransferTransaction extends Component<Props> {
+class TransferTransaction extends BaseTransactionItem<Props> {
     state = {
-        messageDecrypted: 'encrypted',
+        messageDecrypted: null,
+        decrypting: false,
     };
 
-    async decrypt(transaction) {
-        const networkType = NetworkType.TEST_NET;
-        const { network, privateKey } = this.props;
-        const certificateAccount = Account.createFromPrivateKey(privateKey, networkType);
-        const repositoryFactory = await new RepositoryFactoryHttp(network.node);
-        const accountHttp = repositoryFactory.createAccountRepository();
-        const recipientAddress = Address.createFromRawAddress(transaction.signerAddress);
-        const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
-        const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
-        const transactionHttp = repositoryFactory.createTransactionRepository();
-        const transactionHash = transaction.hash;
+    isIncoming = () => {
+        const { transaction, address } = this.props;
+        return transaction.recipientAddress === address;
+    };
 
-        await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).subscribe(
-            tx => {
-                if (tx.message.type === 1) {
-                    this.setState({
-                        messageDecrypted: certificateAccount.decryptMessage(tx.message, publicAccount).payload,
-                    });
-                }
-            },
-            err => console.log(err)
-        );
-    }
+    hasCustomMosaics = () => {
+        const { transaction, network } = this.props;
+        const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+        return (currencyMosaic && transaction.mosaics.length > 1) || (!currencyMosaic && transaction.mosaics.length > 0);
+    };
 
-    async componentDidMount() {
+    iconName = () => {
+        return this.isIncoming() ? 'incoming' : 'outgoing';
+    };
+
+    title = () => {
+        const title = translate('transactionTypes.' + this.props.transaction.type);
+        return title + (this.isIncoming() ? ' from' : ' to');
+    };
+
+    renderAddress = () => {
         const { transaction } = this.props;
-        if (transaction.messageEncrypted) await this.decrypt(transaction);
-    }
+        return <Trunc type="address">{this.isIncoming() ? transaction.signerAddress : transaction.recipientAddress}</Trunc>;
+    };
 
-    render() {
-        console.log("hola");
-        const { transaction, network, showDetails, openExplorer } = this.props;
-        const currencyMosaic = transaction.mosaics.find(mosaic => mosaic.mosaicId === network.currencyMosaicId);
+    renderAction = () => {
+        const { transaction, network } = this.props;
+        const values = [];
+        const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+        if (!currencyMosaic) {
+            values.push({ type: 'nativeMosaicIncoming', value: 0 });
+        } else {
+            if (currencyMosaic && this.isIncoming())
+                values.push({ type: 'nativeMosaicIncoming', value: currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) });
+            if (currencyMosaic && !this.isIncoming())
+                values.push({ type: 'nativeMosaicOutgoing', value: currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) });
+        }
+        if ((transaction.mosaics.length > 1 && currencyMosaic) || (transaction.mosaics.length > 0 && !currencyMosaic)) {
+            values.push({ type: 'otherMosaics' });
+        }
+        if (transaction.messageText) values.push({ type: 'message' });
+
+        const items = [];
+        for (let value of values) {
+            switch (value.type) {
+                case 'nativeMosaicIncoming':
+                    items.push(
+                        <Text type="bold" theme="light" style={[styles.amountIncoming, { marginLeft: 5 }]}>
+                            {value.value}
+                        </Text>
+                    );
+                    break;
+                case 'nativeMosaicOutgoing':
+                    items.push(
+                        <Text type="bold" theme="light" style={[styles.amounteOutgoing, { marginLeft: 5 }]}>
+                            {'-' + value.value}
+                        </Text>
+                    );
+                    break;
+                case 'otherMosaics':
+                    items.push(<Icon size="mini" name="mosaics_filled" style={{ marginLeft: 5 }} />);
+                    break;
+                case 'message':
+                    items.push(<Icon size="mini" name="message_filled" style={{ marginLeft: 5 }} />);
+                    break;
+            }
+        }
+        return items;
+    };
+
+    decryptMessage = async () => {
+        this.setState({ decrypting: true });
+        const { selectedAccount, network, transaction } = this.props;
+        const messageDecrypted = await TransactionService.decryptMessage(selectedAccount, network, transaction);
+        this.setState({ messageDecrypted: messageDecrypted, decrypting: false });
+    };
+
+    renderDetails = () => {
+        const { messageDecrypted, decrypting } = this.state;
+        const { transaction, selectedAccountAddress } = this.props;
+        const parsedData = {};
+
+        if (this.hasCustomMosaics()) parsedData.mosaics = transaction.mosaics;
+        if (!transaction.messageEncrypted) parsedData.messageText = transaction.messageText;
+
         return (
-            <View style={styles.root}>
-                <Row justify="space-between">
-                    <Text type="regular" theme="light">
-                        {transaction.type}
-                    </Text>
-                    <Text type="regular" theme="light">
-                        {transaction.deadline}
-                    </Text>
-                </Row>
-                <Row justify="space-between">
-                    <AddressComponent type="bold" theme="light">
-                        {transaction.signerAddress}
-                    </AddressComponent>
-                    <Text type="bold" theme="light">
-                        Amount: {currencyMosaic ? currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) : 0}
-                    </Text>
-                </Row>
-                {showDetails && (
-                    <View>
-                        <Row justify="space-between">
-                            <Text type="bold" theme="light">
-                                Mosaics:
-                            </Text>
-                        </Row>
-                        {transaction.mosaics.map(mosaic => {
-                            return (
-                                <Row justify="space-between">
-                                    <Text type="regular" theme="light" align="right">
-                                        {mosaic.mosaicName || mosaic.mosaicId}
-                                    </Text>
-                                    <Text type="regular" theme="light">
-                                        {mosaic.amount / Math.pow(10, mosaic.divisibility)}
-                                    </Text>
-                                </Row>
-                            );
-                        })}
-                        <Row justify="space-between">
+            <View>
+                <TableView data={parsedData} />
+                {!!transaction.messageEncrypted && (
+                    <View justify="space-between">
+                        <Section type="form-item">
                             <Text type="bold" theme="light">
                                 Message:
                             </Text>
-                        </Row>
-                        {transaction.messageEncrypted ? (
-                            <SecretView props={this.props.componentId} title="Decrypt" type="regular" theme="light">
-                                {this.state.messageDecrypted}
-                            </SecretView>
-                        ) : (
-                            <Text type="bold" theme="light">
-                                {transaction.messageText}
-                            </Text>
-                        )}
-
-                        <Row justify="space-between">
-                            <Text type="bold" theme="light">
-                                Hash:
-                            </Text>
                             <Text type="regular" theme="light">
-                                {transaction.hash.slice(0, 24)}...
+                                {messageDecrypted !== null ? messageDecrypted : 'Encrypted'}
                             </Text>
-                        </Row>
-
-                        <TouchableOpacity onPress={openExplorer}>
-                            <Row justify="end">
-                                <Text type="regular" theme="light">
-                                    Open in the explorer
-                                </Text>
-                            </Row>
-                        </TouchableOpacity>
+                        </Section>
+                        {messageDecrypted === null && transaction.recipientAddress === selectedAccountAddress && this.isIncoming() && (
+                            <Button theme="light" title="Decrypt" loading={decrypting} onPress={() => this.decryptMessage()} />
+                        )}
                     </View>
                 )}
             </View>
         );
-    }
+    };
 }
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
-    addressBook: state.addressBook.addressBook,
-    privateKey: state.wallet.selectedAccount.privateKey,
-    networkType: state.network.selectedNetwork.type,
+    selectedAccount: state.wallet.selectedAccount,
+    selectedAccountAddress: state.account.selectedAccountAddress,
+    address: state.transaction.addressFilter,
 }))(TransferTransaction);

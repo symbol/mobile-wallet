@@ -53,6 +53,11 @@ export default class BaseTransactionItem extends Component<Props, State> {
         return;
     };
 
+    renderAddress = () => {
+        const { transaction } = this.props;
+        return <Trunc type="address">{transaction.signerAddress}</Trunc>;
+    };
+
     openExplorer() {
         const { transaction } = this.props;
         Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
@@ -61,7 +66,6 @@ export default class BaseTransactionItem extends Component<Props, State> {
     render = () => {
         const { transaction, showDetails } = this.props;
         let date = transaction.deadline;
-        let info = transaction.signerAddress;
 
         return (
             <View style={styles.transactionPreview}>
@@ -80,7 +84,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
                         </Row>
                         <Row justify="space-between" align="center">
                             <Text type="bold" theme="light">
-                                <Trunc type="address">{info}</Trunc>
+                                {this.renderAddress()}
                             </Text>
                             <Row style={styles.value} align="center">
                                 {this.renderAction()}

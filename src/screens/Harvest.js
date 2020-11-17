@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Section, ImageBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
+import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 
 const styles = StyleSheet.create({
+	list: {
+        marginBottom: 10,
+    },
 	card: {
 		width: '100%',
         borderRadius: 6,
@@ -14,8 +17,27 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#f3f4f8dd'
-	}
+        backgroundColor: GlobalStyles.color.WHITE
+	},
+	bottom: {
+		paddingTop: 30,
+	},
+	active: {
+		height: 8,
+		width: 8,
+		borderRadius: 4,
+		backgroundColor: GlobalStyles.color.GREEN,
+		marginRight: 5,
+		marginBottom: 1
+	},
+	inactive: {
+		height: 8,
+		width: 8,
+		borderRadius: 4,
+		backgroundColor: GlobalStyles.color.RED,
+		marginRight: 5,
+		marginBottom: 1
+	},
 });
 
 type Props = {};
@@ -60,24 +82,35 @@ class Harvest extends Component<Props, State> {
     render() {
         const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings  } = this.props;
         const { selectedNodePubKey, isLoading } = this.state;
+		const statusStyle = status === 'ACTIVE'
+			? styles.active
+			: styles.inactive;
 
         return (
-            <ImageBackground name="harvest">
-               	<TitleBar 
+			//<ImageBackground name="harvest">
+			<GradientBackground 
+				name="connector_small" 
+				theme="light" 
+				dataManager={{ isLoading }}
+				titleBar={<TitleBar 
 					theme="light"
 					title="Harvest" 
 					onOpenMenu={() => onOpenMenu()} 
 					onSettings={() => onOpenSettings()}
-				/>
+				/>}
+			>
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item" style={styles.card}>
 					<Row justify="space-between" fullWidth>
 							<Text type={'bold'} theme={'light'}>
 							Status:
 						</Text>
-						<Text type={'regular'} theme={'light'}>
-							{status}
-						</Text>
+						<Row align="center">
+							<View style={statusStyle} />
+							<Text type={'regular'} theme={'light'}>
+								{status}
+							</Text>
+						</Row>
 					</Row>
 					<Row justify="space-between" fullWidth>
 						<Text type={'bold'} theme={'light'}>
@@ -96,35 +129,34 @@ class Harvest extends Component<Props, State> {
 						</Text>
 					</Row>
 					</Section>
+					<Section type="form-item">
+						<Dropdown
+							theme="light"
+							list={this.getHarvestingNodesDropDown()}
+							title={'Select node'}
+							value={selectedNodePubKey}
+							onChange={this.onSelectHarvestingNode}
+						/>
+					</Section>
 
-					<Section type="form-bottom" style={styles.card}>
+					<Section type="form-bottom" style={[styles.card, styles.bottom]}>
+						
+						{status === 'INACTIVE' && 
 						<Section type="form-item">
-							<Dropdown
-								theme="light"
-								list={this.getHarvestingNodesDropDown()}
-								title={'Select node'}
-								value={selectedNodePubKey}
-								onChange={this.onSelectHarvestingNode}
-							/>
-						</Section>
+							<Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
+						</Section>}
+						{status === 'ACTIVE' &&
 						<Section type="form-item">
-							{status === 'INACTIVE' && (
-								<Button isLoading={isLoading} isDisabled={false} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
-							)}
-						</Section>
+							<Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Change node" theme="light" onPress={() => this.swapHarvesting()} />
+						</Section>}
+						{status === 'ACTIVE' && 
 						<Section type="form-item">
-							{status === 'ACTIVE' && (
-								<Button isLoading={isLoading} isDisabled={false} text="Swap node" theme="light" onPress={() => this.swapHarvesting()} />
-							)}
-						</Section>
-						<Section type="button">
-							{status === 'ACTIVE' && (
 								<Button isLoading={isLoading} isDisabled={false} text="Stop harvesting" theme="light" onPress={() => this.stopHarvesting()} />
-							)}
-						</Section>
+						</Section>}
 					</Section>
                 </Section>
-            </ImageBackground>
+			</GradientBackground>
+            //</ImageBackground>
         );
     }
 }

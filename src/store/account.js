@@ -42,31 +42,35 @@ export default {
     },
     actions: {
         loadAllData: async ({ commit, dispatchAction, state }, reset) => {
-            commit({ type: 'account/setLoading', payload: true });
-            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            commit({ type: 'account/setSelectedAccountAddress', payload: address });
-            dispatchAction({ type: 'transaction/init' });
-            if (reset) {
-                commit({ type: 'account/setBalance', payload: 0 });
-                commit({ type: 'account/setOwnedMosaics', payload: [] });
+            try {
+                commit({ type: 'account/setLoading', payload: true });
+                const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+                commit({ type: 'account/setSelectedAccountAddress', payload: address });
+                dispatchAction({ type: 'transaction/init' });
+                if (reset) {
+                    commit({ type: 'account/setBalance', payload: 0 });
+                    commit({ type: 'account/setOwnedMosaics', payload: [] });
+                }
+                if (state.account.refreshingObs) {
+                    state.account.refreshingObs.unsubscribe();
+                }
+                const refreshingObs = from(
+                    new Promise(async resolve => {
+                        await Promise.all([
+                            dispatchAction({ type: 'account/loadBalance' }),
+                            dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                            dispatchAction({ type: 'harvesting/init' }),
+                        ]);
+                        resolve();
+                    })
+                ).subscribe(() => {
+                    commit({ type: 'account/setRefreshingObs', payload: false });
+                    commit({ type: 'account/setLoading', payload: false });
+                });
+                commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
+            } catch (e) {
+                console.log(e);
             }
-            if (state.account.refreshingObs) {
-                state.account.refreshingObs.unsubscribe();
-            }
-            const refreshingObs = from(
-                new Promise(async resolve => {
-                    await Promise.all([
-                        dispatchAction({ type: 'account/loadBalance' }),
-                        dispatchAction({ type: 'account/loadCosignatoryOf' }),
-                        dispatchAction({ type: 'harvesting/init' }),
-                    ]);
-                    resolve();
-                })
-            ).subscribe(() => {
-                commit({ type: 'account/setRefreshingObs', payload: false });
-                commit({ type: 'account/setLoading', payload: false });
-            });
-            commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

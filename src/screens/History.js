@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import { StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
-import { NetworkType } from 'symbol-sdk';
-import { StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import store from '@src/store';
+import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 50,
-        height: '65%',
+        marginBottom: 10,
     },
     filter: {
         flexGrow: 1,
@@ -33,56 +32,10 @@ const allFilters = [
     { value: 'RECEIVED', label: 'Received' },
 ];
 
-class Hardcode {
-    // TODO: Move this class to services or middleware. The UI component should recieve already formatted transactions
-    static formatTransactions = (rawTransactions, address) => {
-        let formattedTransactions = [];
-
-        if (!Array.isArray(rawTransactions)) return [];
-
-        formattedTransactions = rawTransactions.map(el => this.formatTransaction(el, address));
-        return formattedTransactions;
-    };
-
-    static formatTransaction = (transaction, selectedAccountAddress) => {
-        const type = transaction.type;
-
-        switch (type) {
-            case 'transfer':
-                const nativeMosaic = transaction.mosaics.find(el => el.mosaicName === 'symbol.xym'); //TODO: replace hardcoded native namespace with REST data
-                const hasCustomMosaic = transaction.mosaics.filter(el => el.mosaicName !== 'symbol.xym').length; //TODO: replace hardcoded native namespace with REST data
-
-                const amount = nativeMosaic ? nativeMosaic.amount : null;
-                const transferType = selectedAccountAddress === transaction.signerAddress ? 'outgoing' : 'incoming';
-
-                const preview = {
-                    ...transaction,
-                    amount,
-                    transferType,
-                    hasCustomMosaic,
-                };
-                return {
-                    preview,
-                    transaction,
-                };
-            default:
-                return {
-                    preview: transaction,
-                    transaction,
-                };
-        }
-    };
-}
-
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
     };
-
-    componentDidMount() {
-        // store.dispatchAction({ type: 'account/loadTransactions' });
-        // this.props.dataManager.reset();
-    }
 
     showDetails = index => {
         const { showingDetails } = this.state;
@@ -95,6 +48,10 @@ class History extends Component<Props, State> {
                 showingDetails: index,
             });
         }
+    };
+
+    onRefresh = () => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
     };
 
     onSelectFilter = filterValue => {
@@ -117,13 +74,8 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetails => ({ item, index }) => {
         return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
+                <Transaction transaction={item} showDetails={showingDetails === index} />
             </ListItem>
-        );
-        return (
-            <TouchableOpacity onPress={() => this.showDetails(index)}>
-                <TransactionItem transaction={item.preview} model={item.transaction} showDetails={showingDetails === index} />
-            </TouchableOpacity>
         );
     };
 
@@ -131,12 +83,13 @@ class History extends Component<Props, State> {
         const { address, cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
         const { showingDetails } = this.state;
 
-        const formattedTransactions = Hardcode.formatTransactions(transactions, address);
-
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
-            <GradientBackground name="connector_small" theme="light">
-                <TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+			<GradientBackground
+				name="connector_small"
+				theme="light"
+				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
+			>
                 <Section type="list">
                     <Section type="form-item">
                         <Row fullWidth>
@@ -154,19 +107,23 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-                <ListContainer style={styles.list} isScrollable={false}>
-                    <FlatList
-                        data={formattedTransactions}
-                        renderItem={this.renderTransactionItem(showingDetails)}
-                        onEndReachedThreshold={0.9}
-                        onEndReached={this.loadNextPage}
-                    />
-                    {loading && (
-                        <Text theme="light" align="center" style={styles.loadingText}>
-                            Loading...
-                        </Text>
-                    )}
-                </ListContainer>
+				<ListContainer style={styles.list} isScrollable={false}>
+					<FlatList
+						// style={{ height: '100%' }}
+						data={transactions}
+						renderItem={this.renderTransactionItem(showingDetails)}
+						onEndReachedThreshold={0.9}
+						onEndReached={this.loadNextPage}
+						keyExtractor={(item) => item.hash}
+						refreshControl={
+							<RefreshControl
+								//refresh control used for the Pull to Refresh
+								refreshing={loading}
+								onRefresh={this.onRefresh}
+							/>
+						}
+					/>
+				</ListContainer>
             </GradientBackground>
             // </ImageBackground>
         );
@@ -176,8 +133,6 @@ class History extends Component<Props, State> {
 export default connect(state => ({
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
-    addressBook: state.addressBook.addressBook,
-    privateKey: state.wallet.selectedAccount.privateKey,
     transactions: state.transaction.transactions,
     isLastPage: state.transaction.isLastPage,
     addressFilter: state.transaction.addressFilter,
