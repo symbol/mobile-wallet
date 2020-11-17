@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: '#fffc',
+        backgroundColor: '#ffff',
 	},
 	scrollView: {
 		flex: 1,
@@ -77,21 +77,6 @@ class Home extends Component<Props, State> {
 						</Section>
 						<Section type="list">
 							{/* Notifications Mockup */}
-							{/* <View style={styles.transactionPreview}>
-								<Row justify="space-between">
-									<Text type="regular" theme="light">
-										Opt-in
-									</Text>
-									<Text type="regular" theme="light">
-										23.10.2020 11:00
-									</Text>
-								</Row>
-								<Row justify="space-between">
-									<Text type="bold" theme="light">
-										Post launch Opt-in
-									</Text>
-								</Row>
-							</View> */}
 							{pendingSignature && (
 								<TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
 									<Row justify="space-between">
@@ -99,7 +84,7 @@ class Home extends Component<Props, State> {
 											Multisig Transaction
 										</Text>
 										<Text type="regular" theme="light">
-											Recently
+											{/* DateTime */}
 										</Text>
 									</Row>
 									<Row justify="space-between">
@@ -109,6 +94,21 @@ class Home extends Component<Props, State> {
 									</Row>
 								</TouchableOpacity>
 							)}
+							<View style={styles.transactionPreview}>
+								<Row justify="space-between">
+									<Text type="regular" theme="light">
+										Opt-in
+									</Text>
+									<Text type="regular" theme="light">
+										{/* DateTime */}
+									</Text>
+								</Row>
+								<Row justify="space-between">
+									<Text type="bold" theme="light">
+										Post launch Opt-in is coming soon..
+									</Text>
+								</Row>
+							</View> 
 						</Section>
 					</Col>
 				</ScrollView>
