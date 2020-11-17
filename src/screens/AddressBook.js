@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, ImageBackground, Section, TitleBar } from '@src/components';
+import {Button, GradientBackground, ImageBackground, Section, TitleBar} from '@src/components';
 import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 import Contact from '@src/components/organisms/Contact';
@@ -33,8 +33,11 @@ class AddressBookPage extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <ImageBackground name="tanker">
-                <TitleBar theme="light" title="Address Book" />
+            <GradientBackground
+                name="connector_small"
+                theme="light"
+                titleBar={<TitleBar theme="light" title="Address Book"/>}
+            >
                 <Section type="list" isScrollable>
                     {addressBook.getAllContacts().map(contact => {
                         return (
@@ -54,7 +57,7 @@ class AddressBookPage extends Component<Props, State> {
                 <Section style={styles.button}>
                     <Button text="Add Contact" theme="light" onPress={() => this.submit()} />
                 </Section>
-            </ImageBackground>
+            </GradientBackground>
         );
     }
 }

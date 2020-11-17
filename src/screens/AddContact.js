@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, ImageBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
+import {
+    Button,
+    GradientBackground,
+    ImageBackground,
+    Input,
+    InputAddress,
+    Section,
+    Text,
+    TitleBar
+} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 
@@ -86,7 +95,7 @@ class AddContact extends Component<Props, State> {
         let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
 
         return (
-            <ImageBackground name="tanker">
+            <GradientBackground name="connector_small" theme="light">
                 {!this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Add Contact" />}
                 {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Update Contact" />}
                 <Section type="form" style={styles.list} isScrollable>
@@ -128,7 +137,7 @@ class AddContact extends Component<Props, State> {
                         </Section>
                     )}
                 </Section>
-            </ImageBackground>
+            </GradientBackground>
         );
     }
 }
