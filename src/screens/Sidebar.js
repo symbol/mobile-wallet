@@ -77,22 +77,25 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     optionsIcon: {
-        width: 30,
+        width: 34,
         height: 40,
         alignItems: 'flex-end',
         paddingTop: 4,
         paddingRight: 10,
-        marginRight: -16,
-    },
+		marginRight: -16
+	},
+	topOptinIcon: {
+		paddingTop: 11
+	},
     menuBottomContainer: {
         //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
         paddingVertical: 8,
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     menuItem: {
         margin: 4,
-        paddingHorizontal: 17,
+        paddingHorizontal: 30,
         paddingVertical: 8,
     },
     menuItemIcon: {
@@ -163,39 +166,44 @@ class Sidebar extends Component<Props, State> {
         const options = [
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(selectedAccount.id, selectedAccount.name) },
             // { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(selectedAccount.id) },
-            // { iconName: 'wallet_filled_light', label: 'Details', onPress: () => this.handleAccountDetails() },
+            { iconName: 'wallet_filled_light', label: 'Details', onPress: () => this.handleAccountDetails() },
         ];
         const buttons = (
-            <OptionsMenu list={options}>
+            <OptionsMenu list={options} style={[styles.optionsIcon, styles.topOptinIcon]}>
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
         );
 
         return (
-            <TouchableOpacity onPress={() => this.handleAccountDetails()}>
+            <View onPress={() => this.handleAccountDetails()}>
                 <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                     <Container>
-                        <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-                        <TitleBar buttons={buttons} />
-                        <Section type="form" style={styles.selectedAccountBoxContent}>
-                            <Text style={styles.selectedAccountName} type="title-small" theme="dark">
-                                {selectedAccount ? selectedAccount.name : ''}
-                            </Text>
-                            <Text style={styles.selectedAccountAddress} theme="dark">
-                                <Trunc type="address">{address}</Trunc>
-                            </Text>
-                            <Row align="end" justify="space-between" fullWidth>
-                                <Text style={styles.selectedAccountMosaic} theme="dark">
-                                    {nativeMosaicNamespace}
-                                </Text>
-                                <Text style={styles.selectedAccountBalance} theme="dark">
-                                    {balance}
-                                </Text>
-                            </Row>
-                        </Section>
+						<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+							<ManagerHandler dataManager={{isLoading}}>
+							
+								<TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
+								<Section type="form" style={styles.selectedAccountBoxContent}>
+							
+								<Text style={styles.selectedAccountName} type="title-small" theme="dark">
+									{selectedAccount ? selectedAccount.name : ''}
+								</Text>
+								<Text style={styles.selectedAccountAddress} theme="dark">
+									<Trunc type="address">{address}</Trunc>
+								</Text>
+								<Row align="end" justify="space-between" fullWidth>
+									<Text style={styles.selectedAccountMosaic} theme="dark">
+										{nativeMosaicNamespace}
+									</Text>
+									<Text style={styles.selectedAccountBalance} theme="dark">
+										{balance}
+									</Text>
+								</Row>
+							
+                        	</Section>
+						</ManagerHandler>
                     </Container>
                 </SymbolGradientContainer>
-            </TouchableOpacity>
+            </View>
         );
     };
 
@@ -243,7 +251,7 @@ class Sidebar extends Component<Props, State> {
         const { isNameModalOpen, newName } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
-            { iconName: 'add_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
+            { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
         ];
 
         if (!isVisible) return null;
@@ -296,7 +304,7 @@ export default connect(state => ({
     address: state.account.selectedAccountAddress,
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
-    nativeMosaicNamespace: 'XYM',
-    accounts: state.wallet.accounts,
-    isLoading: state.account.isLoading,
+    nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
+	accounts: state.wallet.accounts,
+	isLoading: state.account.loading,
 }))(Sidebar);

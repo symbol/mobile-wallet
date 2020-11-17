@@ -8,7 +8,7 @@ export default {
     },
     mutations: {
         setLoading(state, payload) {
-            state.news.loading = payload;
+            state.news.isLoading = payload;
             return state;
         },
         setNews(state, payload) {

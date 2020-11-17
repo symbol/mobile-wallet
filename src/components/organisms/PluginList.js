@@ -5,12 +5,13 @@ import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 import { Router, BASE_SCREEN_NAME } from '@src/Router';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-        marginTop: 34,
+        paddingVertical: 17,
         //backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
         //borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
         //borderTopWidth: 1
@@ -26,17 +27,21 @@ const styles = StyleSheet.create({
         borderRadius: 60 / 2,
         backgroundColor: GlobalStyles.color.DARKWHITE,
         shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.2,
+		shadowRadius: 2,
+		elevation: 2
+	},
+	gradient: {
+		height: 60,
+        width: 60,
+		borderRadius: 60 / 2,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
     icon: {
         marginTop: 2,
-        marginBottom: 4,
+        marginBottom: 2,
     },
 });
 
@@ -66,7 +71,7 @@ class PluginList extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, isNodeUp } = this.props;
+        const { style = {}, isNodeUp, theme } = this.props;
         const {} = this.state;
         const pluginList = [
             {
@@ -79,11 +84,11 @@ class PluginList extends Component<Props, State> {
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
             },
-            {
-                text: 'plugin.more',
-                name: 'DASHBOARD_SCREEN',
-                iconName: 'options_light',
-            },
+            // {
+            //     text: 'plugin.more',
+            //     name: 'DASHBOARD_SCREEN',
+            //     iconName: 'options_light',
+            // },
         ];
 
         return (
@@ -92,11 +97,20 @@ class PluginList extends Component<Props, State> {
                     {pluginList.map(item => (
                         <Col align="center" justify="center" style={styles.item}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
-                                <Col align="center" justify="center" style={{ height: '100%' }}>
+                                {/* <Col align="center" justify="center" > */}
+								<LinearGradient style={styles.gradient}
+									start={{x: 0, y: 0}}
+									end={{x: 1, y: 0}}
+									colors={[
+										GlobalStyles.color.WHITE,
+										GlobalStyles.color.DARKWHITE
+									]}
+								>
                                     <Icon name={item.iconName} size="small" style={styles.icon} />
-                                </Col>
+									</LinearGradient>
+                                {/* </Col> */}
                             </TouchableOpacity>
-                            <Text type="bold">{translate(item.text)}</Text>
+                            <Text type="bold" theme={theme}>{translate(item.text)}</Text>
                         </Col>
                     ))}
                 </Row>

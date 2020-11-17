@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, Text, Button } from '@src/components';
+import { Dropdown, Section, GradientBackground, TitleBar, Input, Text, Button } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
@@ -93,18 +93,23 @@ export default class CreateAccount extends Component {
                     <Section type="form-item">
                         <Input value={name} placeholder="New account name" theme="light" fullWidth onChangeText={val => this.handleNameChange(val)} />
                     </Section>
-                    <RadioForm
-                        radio_props={[
-                            { label: 'Create by seed index', value: 0 },
-                            { label: 'Create by private key', value: 1 },
-                        ]}
-                        initial={0}
-                        onPress={value => {
-                            this.setState({ importMethod: value });
-                        }}
-                    />
+					<Section type="form-item">
+						<Dropdown
+							theme="light"
+							title="Account type"
+							placeholder="Select"
+							list={[
+								{ label: 'Create from mnemonics seed', value: 0 },
+								{ label: 'Create from private key', value: 1 },
+							]}
+							value={importMethod}
+							onChange={value => {
+								this.setState({ importMethod: value });
+							}}
+						/>
+					</Section>
                     {importMethod === 0 && (
-                        <View>
+                      
                             <Section type="form-item">
                                 <Input
                                     value={index}
@@ -114,41 +119,44 @@ export default class CreateAccount extends Component {
                                     onChangeText={val => this.handleIndexChange(val)}
                                 />
                             </Section>
-                            <Section type="form-bottom">
-                                <Button
-                                    text="Create seed account"
-                                    theme="light"
-                                    disabled={!isNameValid || !isIndexValid}
-                                    onPress={() => this.createSeedAccount()}
-                                    loading={loading}
-                                />
-                            </Section>
-                        </View>
+                            
+
                     )}
-                    {importMethod === 1 && (
-                        <View>
+					{importMethod === 0 && <Section type="form-bottom">
+						<Button
+							text="Create seed account"
+							theme="light"
+							disabled={!isNameValid || !isIndexValid}
+							onPress={() => this.createSeedAccount()}
+							loading={loading}
+						/>
+					</Section>}
+                    {importMethod === 1 && 
+                        <>
                             <Section type="form-item">
                                 <Input value={privateKey} placeholder="Private Key" theme="light" fullWidth onChangeText={val => this.handlePkChange(val)} />
                             </Section>
-                            <Section type="form-bottom">
-                                <Button text="Import by QR" theme="light" disabled={!isNameValid} loading={loading} onPress={() => this.scanPrivateKeyQR()} />
-                            </Section>
-                            <Section type="form-item">
+                            {!!error && <Section type="form-item">
                                 <Text theme="light" type="alert">
                                     {error}
                                 </Text>
+                            </Section>}
+						</>
+					}
+					{importMethod === 1 &&
+						<Section type="form-bottom">
+							<Section type="form-item">
+                                <Button text="Import by QR" theme="light" disabled={!isNameValid} loading={loading} onPress={() => this.scanPrivateKeyQR()} />
                             </Section>
-                            <Section type="form-bottom">
-                                <Button
-                                    text="Create private key account"
-                                    theme="light"
-                                    disabled={!isNameValid || !isPkValid}
-                                    loading={loading}
-                                    onPress={() => this.createPrivateKeyAccount()}
-                                />
-                            </Section>
-                        </View>
-                    )}
+							<Button
+								text="Create private key account"
+								theme="light"
+								disabled={!isNameValid || !isPkValid}
+								loading={loading}
+								onPress={() => this.createPrivateKeyAccount()}
+							/>
+						</Section> 
+                    }
                 </Section>
                 <PasswordModal
                     showModal={showDecryptModal}

@@ -8,8 +8,7 @@ import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 50,
-        height: '65%',
+        marginBottom: 10,
     },
     filter: {
         flexGrow: 1,
@@ -86,8 +85,11 @@ class History extends Component<Props, State> {
 
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
-            <GradientBackground name="connector_small" theme="light">
-                <TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+			<GradientBackground
+				name="connector_small"
+				theme="light"
+				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
+			>
                 <Section type="list">
                     <Section type="form-item">
                         <Row fullWidth>
@@ -105,22 +107,23 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-                <ListContainer style={styles.list} isScrollable={false}>
-                    <FlatList
-                        style={{ height: '100%' }}
-                        data={transactions}
-                        renderItem={this.renderTransactionItem(showingDetails)}
-                        onEndReachedThreshold={0.9}
-                        onEndReached={this.loadNextPage}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={loading}
-                                onRefresh={this.onRefresh}
-                            />
-                        }
-                    />
-                </ListContainer>
+				<ListContainer style={styles.list} isScrollable={false}>
+					<FlatList
+						// style={{ height: '100%' }}
+						data={transactions}
+						renderItem={this.renderTransactionItem(showingDetails)}
+						onEndReachedThreshold={0.9}
+						onEndReached={this.loadNextPage}
+						keyExtractor={(item) => item.hash}
+						refreshControl={
+							<RefreshControl
+								//refresh control used for the Pull to Refresh
+								refreshing={loading}
+								onRefresh={this.onRefresh}
+							/>
+						}
+					/>
+				</ListContainer>
             </GradientBackground>
             // </ImageBackground>
         );

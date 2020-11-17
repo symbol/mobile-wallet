@@ -45,7 +45,7 @@ class CopyView extends Component<Props, State> {
 		return (<>
 			{!!placeholder && <Text style={placeholderStyle}>{placeholder}</Text>}
 			<Row align="center" justify="space-between">
-				<Text type="regular" theme={theme} style={[style, styles.text]}>{children}</Text>
+				<Text type="regular" theme={theme} style={[styles.text, style]}>{children}</Text>
 				<TouchableOpacity style={styles.button} onPress={() => copyToClipboard(children)}>
 					<Icon name="copy" size="small" />
 				</TouchableOpacity>
