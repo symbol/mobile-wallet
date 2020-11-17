@@ -5,11 +5,13 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { Modal, View } from 'react-native';
-import styles from './popupmodal.styl';
+import { Modal, View, Text } from 'react-native';
+import styles from '../ConfirmModal/confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
-import Text from "@src/components/controls/Section";
+import Button from '@src/components/controls/Button';
+import Section from '@src/components/controls/Section';
+import {testIDs} from "@src/components/molecules/CheckableTextLink";
 
 type Props = {
     children: Node,
@@ -23,9 +25,9 @@ type Props = {
     onClose: () => ?any,
 };
 
-const PopupModal = (props: Props) => {
-	const { children, isModalOpen, handleClose, showTopbar, title, showBack, onBack, showClose, onClose, noPadding } = props;
-	const contentStyle = noPadding ? {} : styles.contentBody;
+const ConfirmModal = (props: Props) => {
+    const { children, isModalOpen, handleClose, onSuccess, showTopbar, title, text, showBack, onBack, showClose, onClose, noPadding } = props;
+    const contentStyle = noPadding ? {} : styles.contentBody;
     return (
         <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
@@ -46,9 +48,10 @@ const PopupModal = (props: Props) => {
                                 alignLeft
                             />
                         )}
-						<View style={contentStyle}>
-							{children}
-						</View>
+                        <Text style={styles.text}> {text} </Text>
+                        <Button style={styles.button} title="Cancel" theme="dark" fullWidth={false} onPress={onClose} />
+                        <Button style={styles.button} title="Confirm" theme="light" fullWidth={false} onPress={onSuccess} />
+                        <View style={contentStyle}>{children}</View>
                     </View>
                 </Card>
             </View>
@@ -56,4 +59,4 @@ const PopupModal = (props: Props) => {
     );
 };
 
-export default PopupModal;
+export default ConfirmModal;

@@ -27,13 +27,14 @@ class AccountDetails extends Component<Props, State> {
     }
 
     render = () => {
-        const { accountName, address, publicKey, privateKey, balance, networkType } = this.props;
+        const { accountName, address, publicKey, privateKey, balance, networkType, componentId } = this.props;
         const data = {
             accountName,
             address,
             publicKey,
             privateKey,
             balance,
+            componentId,
         };
 
         return (

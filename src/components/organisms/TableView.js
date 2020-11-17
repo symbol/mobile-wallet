@@ -45,7 +45,9 @@ type State = {};
 
 
 class TableView extends Component<Props, State> {
-	state = {};
+	state = {
+		componentId: null,
+	};
 
 	render_copyButton = (value) => {
 		if(typeof value === 'string')
@@ -54,7 +56,7 @@ class TableView extends Component<Props, State> {
 			return <Text type="regular" theme="light">{translate('table.null')}</Text>;
 	};
 	render_secret = (value) => {
-		return <SecretView title="Show "theme="light">{value}</SecretView>
+		return <SecretView component={this.state.componentId} title="Show "theme="light">{value}</SecretView>
 	};
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>
@@ -114,7 +116,13 @@ class TableView extends Component<Props, State> {
         );
 	}
 
-    render = () => {
+	componentDidMount() {
+		this.setState({
+			componentId: this.props.data.componentId,
+		});
+	}
+
+	render = () => {
 		const {
 			data
 		} = this.props;

@@ -45,6 +45,18 @@ class Send extends Component<Props, State> {
         Store.dispatchAction({ type: 'transfer/clear' });
     };
 
+    verify = () => {
+        if (!this.state.recipientAddress.length) {
+            console.error('Alert("Invalid recipient address")');
+            return false;
+        }
+        if (+this.props.ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName).amount < +this.state.amount) {
+            console.error('Alert("Invalid amount")');
+            return false;
+        }
+        return true;
+    };
+
     isFormValid = () => {
         const { recipientAddress } = this.state;
         const { network } = this.props;
