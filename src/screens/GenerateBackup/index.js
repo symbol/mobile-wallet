@@ -24,7 +24,7 @@ class GenerateBackup extends Component {
 
     handleQRBackup = () => {
         const { isBackup } = this.props;
-        Router.goToCreateQRPassword({ isBackup }, this.props.componentId);
+        Router.goToShowQRCode({ isBackup }, this.props.componentId);
     };
 
     render() {

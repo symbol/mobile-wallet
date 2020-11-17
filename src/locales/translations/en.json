@@ -76,7 +76,7 @@
 			"title": "Create Backup",
 			"description": "You can create a backup of your wallet by writing down your wallet’s passphrase (mnemonics) and storing it in a safe place - you are then able to import your wallet again, but remember that anyone that has the access to your passphrase also has access to your accounts created from it and therefore your funds. You can alternatively create a backup of your wallet by generating a QR code that contains your passphrase.",
 			"mnemonicButton": "Back Up with Mnemonics",
-			"QRButton": "Back Up with QR Code",
+			"QRButton": "Back Up with Paper Wallet",
 			"dashboardButton": "Skip backup"
 		},
 		"ShowMnemonics": {
@@ -111,8 +111,8 @@
 		},
 		"ShowQRCode": {
 			"title": "Wallet Backup",
-			"description": "You can later import the wallet again by scanning the QR code and providing the password you have chosen",
-			"downloadButton": "Download QR Code",
+			"description": "You can later import the wallet again by scanning the QR code or providing the mnemonic in the paper wallet",
+			"downloadButton": "Download Paper wallet",
 			"dashboardButton": "Go to Dashboard",
 			"permissionTitle": "Symbol Wallet Permission",
 			"permissionMessage": "Symbol Wallet needs access to your storage to save your mnemonic QR code.",

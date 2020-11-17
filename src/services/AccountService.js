@@ -6,6 +6,7 @@ import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkMo
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
+import { SymbolPaperWallet } from 'symbol-paper-wallets';
 
 export default class AccountService {
     /**
@@ -176,5 +177,66 @@ export default class AccountService {
         } catch (e) {
             return [];
         }
+    }
+    /**
+     * Gets multisig information
+     * @returns {Promise<*[]>}
+     * @param mnemonic
+     * @param accounts
+     * @param network
+     */
+    static async generatePaperWallet(mnemonic: string, accounts: AccountModel[], network: NetworkModel): Promise<Uint8Array> {
+        const mnemonicAccount = this.createFromMnemonicAndIndex(mnemonic, 0, 'Root');
+        const hdRootAccount = {
+            mnemonic: mnemonic,
+            rootAccountPublicKey: mnemonicAccount.id,
+            rootAccountAddress: this.getAddressByAccountModelAndNetwork(mnemonicAccount, network.type),
+        };
+        const privateKeyAccounts = accounts.map(account => ({
+            name: account.name,
+            address: this.getAddressByAccountModelAndNetwork(account, network.type),
+            publicKey: account.id,
+            privateKey: account.privateKey,
+        }));
+
+        const paperWallet = new SymbolPaperWallet(
+            hdRootAccount,
+            privateKeyAccounts,
+            network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET,
+            network.generationHash
+        );
+
+        const bytes = await paperWallet.toPdf();
+        const Uint8ToString = u8a => {
+            var CHUNK_SZ = 0x8000;
+            var c = [];
+            for (var i = 0; i < u8a.length; i += CHUNK_SZ) {
+                c.push(String.fromCharCode.apply(null, u8a.subarray(i, i + CHUNK_SZ)));
+            }
+            return c.join('');
+        };
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+        const btoa = (input = '') => {
+            let str = input;
+            let output = '';
+
+            for (
+                let block = 0, charCode, i = 0, map = chars;
+                str.charAt(i | 0) || ((map = '='), i % 1);
+                output += map.charAt(63 & (block >> (8 - (i % 1) * 8)))
+            ) {
+                charCode = str.charCodeAt((i += 3 / 4));
+
+                if (charCode > 0xff) {
+                    throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
+                }
+
+                block = (block << 8) | charCode;
+            }
+
+            return output;
+        };
+
+        return btoa(Uint8ToString(bytes));
     }
 }
