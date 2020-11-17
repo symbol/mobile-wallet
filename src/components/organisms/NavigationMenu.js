@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
 		borderColor: '#fff0',
 		borderBottomWidth: 2
 	},
+	itemIos: {
+		padding: 5,
+		paddingBottom: 0,
+		width: 65,
+		borderColor: '#fff0',
+		borderTopWidth: 2
+	},
 	activeItem: {
 		borderColor: GlobalStyles.color.PINK,
 	},
@@ -56,11 +63,15 @@ export default class NavigationMenu extends Component<Props, State> {
 		const { menuItemList = [], onChange = () => {}, value } = this.props;
 		const {} = this.state;
 		let extraPadding = {};
+		let itemStyle = styles.item;
 
-		if (Platform.OS === 'ios')
+		if (Platform.OS == 'ios') {
 			extraPadding = {
-				paddingVertical: 10
+				paddingBottom: 32
 			};
+
+			itemStyle = styles.itemIos;
+		}
 		
 		return (
 			<View style={[styles.root, extraPadding]}>
@@ -68,7 +79,7 @@ export default class NavigationMenu extends Component<Props, State> {
 					{
 						menuItemList.map((item, index) =>
 							<TouchableOpacity onPress={() => onChange(item.name)} key={'' + index + 'nav'}>
-								<Col align="center" justify="space-" style={[styles.item, item.name === value && styles.activeItem]}>
+								<Col align="center" justify="space-" style={[itemStyle, item.name === value && styles.activeItem]}>
 									<Icon name={item.iconName} size="small" style={styles.icon}/>
 									<Text 
 										theme="light"
