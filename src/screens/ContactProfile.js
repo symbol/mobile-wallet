@@ -54,18 +54,9 @@ class ContactProfile extends Component<Props, State> {
     };
 
     remove = () => {
-        Router.showPasscode(
-            {
-                resetPasscode: false,
-                onSuccess: () => {
-                    this.setState({
-                        isRemoveModalOpen: true,
-                    });
-                    Router.goBack(this.props.componentId);
-                },
-            },
-            this.props.componentId
-        );
+        this.setState({
+            isRemoveModalOpen: true,
+        });
     };
 
     confirmRemove = id => {
