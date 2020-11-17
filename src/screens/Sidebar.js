@@ -140,9 +140,10 @@ class Sidebar extends Component<Props, State> {
                 resetPasscode: false,
                 onSuccess: async () => {
                     Router.goBack(this.props.componentId);
+                    const { dirs } = RNFetchBlob.fs;
                     const paperWalletBytes = await store.dispatchAction({ type: 'wallet/downloadPaperWallet' });
-                    console.log(paperWalletBytes);
-                    await RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/symbol-paper-wallet.pdf`, paperWalletBytes);
+                    console.log('exported');
+                    await RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/symbol-paper-wallet.pdf`, paperWalletBytes, 'base64');
                 },
             },
             this.props.componentId
