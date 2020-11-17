@@ -64,6 +64,7 @@ class AddContact extends Component<Props, State> {
         const { selectedContact } = this.props;
         if (selectedContact) {
             this.state.update = true;
+            this.state.isAddressValid = true;
             this.setState({
                 address: selectedContact.address,
                 name: selectedContact.name,

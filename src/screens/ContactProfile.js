@@ -12,7 +12,7 @@ import ConfirmModal from '@src/components/molecules/ConfirmModal';
 const styles = StyleSheet.create({
     title: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 12,
     },
     section: {
         marginTop: 0,
@@ -23,9 +23,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     qr: {
-        marginTop: 16,
-        marginBottom: 16,
-        padding: 16,
+        marginTop: 8,
+        marginBottom: 8,
+        padding: 8,
+        width: 120,
+        height: 120,
     }
 });
 
@@ -54,18 +56,9 @@ class ContactProfile extends Component<Props, State> {
     };
 
     remove = () => {
-        Router.showPasscode(
-            {
-                resetPasscode: false,
-                onSuccess: () => {
-                    this.setState({
-                        isRemoveModalOpen: true,
-                    });
-                    Router.goBack(this.props.componentId);
-                },
-            },
-            this.props.componentId
-        );
+        this.setState({
+            isRemoveModalOpen: true,
+        });
     };
 
     confirmRemove = id => {
@@ -90,7 +83,7 @@ class ContactProfile extends Component<Props, State> {
         const contactAddress = selectedContact.address;
         const generationHash = network.generationHash;
         const addressQR = new AddressQR(name, contactAddress, network.selectedNetwork.type, generationHash);
-        const addressQRsvg = await addressQR.toString('svg').toPromise();
+        const addressQRsvg = await addressQR.toBase64().toPromise();
         this.setState({
             contactQR: addressQRsvg,
         });
@@ -106,7 +99,7 @@ class ContactProfile extends Component<Props, State> {
                 <Section type="form" style={styles.section}>
                     <Section type="form-item">
                         <Section type="center">
-                            {contactQR && <SvgXml style={styles.qr} xml={contactQR} width="140px" height="140px" />}
+                            {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />}
                         </Section>
                     </Section>
                     <Section type="form-item">
