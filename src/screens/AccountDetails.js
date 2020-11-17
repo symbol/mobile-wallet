@@ -27,7 +27,7 @@ class AccountDetails extends Component<Props, State> {
     }
 
     render = () => {
-        const { accountName, address, publicKey, privateKey, balance, networkType, componentId } = this.props;
+        const { accountName, address, publicKey, privateKey, balance, networkType, componentId, isPasscodeSelected } = this.props;
         const data = {
             accountName,
             address,
@@ -35,6 +35,7 @@ class AccountDetails extends Component<Props, State> {
             privateKey,
             balance,
             componentId,
+            isPasscodeSelected,
         };
 
         return (
@@ -71,4 +72,5 @@ export default connect(state => ({
     privateKey: state.wallet.selectedAccount.privateKey,
     balance: '' + state.account.balance,
     networkType: state.network.selectedNetwork.type,
+    isPasscodeSelected: state.settings.isPasscodeSelected,
 }))(AccountDetails);
