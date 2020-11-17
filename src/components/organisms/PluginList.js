@@ -94,8 +94,8 @@ class PluginList extends Component<Props, State> {
         return (
             <View style={[styles.root, style]}>
                 <Row justify="space-around" align="center" wrap>
-                    {pluginList.map(item => (
-                        <Col align="center" justify="center" style={styles.item}>
+                    {pluginList.map((item, index) => (
+                        <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
                                 {/* <Col align="center" justify="center" > */}
 								<LinearGradient style={styles.gradient}

@@ -25,14 +25,20 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, onPress = () => {}} = this.props;
+		const { children, style = {}, onPress } = this.props;
 
-        return (
-			<TouchableOpacity style={[styles.root, style]} onPress={onPress}>
+        return (<>
+			{onPress && <TouchableOpacity style={[styles.root, style]} onPress={onPress}>
 				<View style={styles.inner}>
 					{children}
 				</View>
-			</TouchableOpacity>
-        );
+			</TouchableOpacity>}
+			{!onPress && <View style={[styles.root, style]}>
+				<View style={styles.inner}>
+					{children}
+				</View>
+			</View>}
+
+        </>);
     };
 }
