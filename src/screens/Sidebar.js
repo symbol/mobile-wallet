@@ -231,6 +231,9 @@ class Sidebar extends Component<Props, State> {
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
             { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(id) },
         ];
+        const startPath = "m/44'/4343'/0'/";
+        const endPath = "'/0'";
+        const index = path.replace(startPath, '').replace(endPath, '');
 
         return (
             <TouchableOpacity style={styles.accountBox} onPress={() => this.handleSelectAccount(id)}>
@@ -242,11 +245,11 @@ class Sidebar extends Component<Props, State> {
                         <Icon name="options_light" size="small" />
                     </OptionsMenu>
                 </Row>
-                <Text type="regular" align="left" theme="light">
+                {/*<Text type="regular" align="left" theme="light">
                     <Trunc type="address">{address}</Trunc>
-                </Text>
+                </Text>*/}
                 <Text type="regular" align="left" theme="light">
-                    {type === 'hd' ? `Seed account #` : 'Private key account'}
+                    {type === 'hd' ? 'Seed account ' + index : 'Private key account'}
                 </Text>
             </TouchableOpacity>
         );

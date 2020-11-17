@@ -47,6 +47,7 @@ type State = {};
 class TableView extends Component<Props, State> {
 	state = {
 		componentId: null,
+		passcode: null,
 	};
 
 	render_copyButton = (value) => {
@@ -56,7 +57,7 @@ class TableView extends Component<Props, State> {
 			return <Text type="regular" theme="light">{translate('table.null')}</Text>;
 	};
 	render_secret = (value) => {
-		return <SecretView component={this.state.componentId} title="Show "theme="light">{value}</SecretView>
+		return <SecretView component={this.state.componentId}  passcode={this.state.passcode} title="Show " theme="light">{value}</SecretView>
 	};
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>
@@ -88,7 +89,7 @@ class TableView extends Component<Props, State> {
 						return true;
 					}
 				}));
-			
+
 		if(!ItemTemplate && typeof value === 'object' && value !== null)
 			return this.renderTable(value);
 		return ItemTemplate ? ItemTemplate : <Text type="regular" theme="light">{value}</Text>
@@ -119,6 +120,7 @@ class TableView extends Component<Props, State> {
 	componentDidMount() {
 		this.setState({
 			componentId: this.props.data.componentId,
+			passcode: this.props.data.isPasscodeSelected,
 		});
 	}
 
