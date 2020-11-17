@@ -85,10 +85,9 @@ class History extends Component<Props, State> {
 
         return (
             // <ImageBackground name="tanker" dataManager={dataManager}>
-			<GradientBackground 
-				name="connector_small" 
-				theme="light" 
-				dataManager={{isLoading: loading}}
+			<GradientBackground
+				name="connector_small"
+				theme="light"
 				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
 			>
                 <Section type="list">

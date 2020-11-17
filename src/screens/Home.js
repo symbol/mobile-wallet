@@ -40,29 +40,28 @@ class Home extends Component<Props, State> {
 	reload = () => {
         store.dispatchAction({ type: 'account/loadAllData' });
 	};
-	
+
     render = () => {
-        const { 
-			pendingSignature, 
-			contentStyle = {}, 
-			componentId, 
-			accountName, 
-			onOpenMenu, 
-			onOpenSettings, 
+        const {
+			pendingSignature,
+			contentStyle = {},
+			componentId,
+			accountName,
+			onOpenMenu,
+			onOpenSettings,
 			changeTab,
 			isLoading
 		} = this.props;
         const {} = this.state;
 
         return (
-			<GradientBackground 
-				name="connector_small" 
-				theme="light" 
-				fade={true} 
-				dataManager={{isLoading}}
+			<GradientBackground
+				name="connector_small"
+				theme="light"
+				fade={true}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
-				<ScrollView 
+				<ScrollView
 					style={styles.ScrollView}
 					contentContainerStyle={styles.scrollViewContent}
 					refreshControl={
