@@ -6,14 +6,24 @@ import {
     TransferTransaction,
     LockFundsTransaction,
     AggregateTransaction,
+    NamespaceRegistrationTransaction,
+    MosaicAliasTransaction,
     Page,
+    RepositoryFactory,
+    NamespaceHttp,
     Order,
     AccountHttp,
-    PublicAccount,
+    PublicAccount, RepositoryFactoryHttp,
 } from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import type { AggregateTransactionModel, TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import type {
+    AggregateTransactionModel,
+    TransactionModel,
+    TransferTransactionModel,
+    NamespaceRegistrationTransactionModel,
+    MosaicAliasTransactionModel,
+} from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
@@ -151,6 +161,10 @@ export default class FetchTransactionService {
             transactionModel = await this._populateFundsLockTransactionModel(transactionModel, transaction, network, preLoadedMosaics);
         } else if (transaction instanceof AggregateTransaction) {
             transactionModel = await this._populateAggregateTransactionModel(transactionModel, transaction, network);
+        } else if (transaction instanceof NamespaceRegistrationTransaction) {
+            transactionModel = await this._populateNamespaceRegistrationTransactionModel(transactionModel, transaction, network);
+        } else if (transaction instanceof MosaicAliasTransaction) {
+            transactionModel = await this._populateMosaicAliasTransactionModel(transactionModel, transaction, network);
         }
         return transactionModel;
     }
@@ -240,16 +254,21 @@ export default class FetchTransactionService {
         transaction: AggregateTransaction,
         network: NetworkModel
     ): Promise<AggregateTransactionModel> {
-        const transactionHttp = new TransactionHttp(network.node);
-        const fullTransactionData = await transactionHttp
-            .getTransaction(
-                transaction.transactionInfo.id,
-                transaction.isConfirmed() ? TransactionGroup.Confirmed : transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial
-            )
-            .toPromise();
-        const innerTransactionModels = await Promise.all(
-            fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
-        );
+        let innerTransactionModels = [];
+        try {
+            const transactionHttp = new TransactionHttp(network.node);
+            const fullTransactionData = await transactionHttp
+                .getTransaction(
+                    transaction.transactionInfo.id,
+                    transaction.isConfirmed()
+                        ? TransactionGroup.Confirmed
+                        : (transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial)
+                )
+                .toPromise();
+            innerTransactionModels = await Promise.all(
+                fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
+            );
+        } catch (e) {}
         const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
         if (transaction.signer) {
             cosignaturePublicKeys.push(transaction.signer.publicKey);
@@ -260,6 +279,58 @@ export default class FetchTransactionService {
             innerTransactions: innerTransactionModels,
             cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
+        };
+    }
+
+    /**
+     * Populates namespace transaction Model
+     * @param transactionModel
+     * @param transaction
+     * @param network
+     * @returns {Promise<void>}
+     * @private
+     */
+    static async _populateNamespaceRegistrationTransactionModel(
+        transactionModel: TransactionModel,
+        transaction: NamespaceRegistrationTransaction,
+        network: NetworkModel
+    ): Promise<NamespaceRegistrationTransactionModel> {
+        const namespace = transaction.namespaceName;
+        return {
+            ...transactionModel,
+            type: 'namespace',
+            namespaceName: namespace,
+        };
+    }
+
+
+    /**
+     * Populates mosaicAlias transaction Model
+     * @param transactionModel
+     * @param transaction
+     * @param network
+     * @returns {Promise<void>}
+     * @private
+     */
+    static async _populateMosaicAliasTransactionModel(
+        transactionModel: TransactionModel,
+        transaction: MosaicAliasTransaction,
+        network: NetworkModel
+    ): Promise<MosaicAliasTransactionModel> {
+        const namespaceId = transaction.namespaceId;
+        const aliasAction = transaction.aliasAction;
+        const mosaicId = transaction.mosaicId;
+        const repositoryFactory = new RepositoryFactoryHttp(network.node);
+        const namespaceHttp = repositoryFactory.createNamespaceRepository();
+        const namespaceInfo = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
+
+        return {
+            ...transactionModel,
+            type: 'mosaicAlias',
+            aliasAction: aliasAction,
+            namespaceId: namespaceId.toHex(),
+            namespaceName: namespaceInfo[0].name,
+            mosaicId: mosaicId.toHex(),
         };
     }
 }

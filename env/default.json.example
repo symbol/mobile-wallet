@@ -28,7 +28,7 @@
       "nodes": [
         "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
         "http://api-01.eu-west-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.us-east-1.0.10.0x.symboldev.network:3000",
+        "http://api-01.us-east-1.0.10.0.x.symboldev.network:3000",
         "http://api-01.us-west-1.0.10.0.x.symboldev.network:3000",
         "http://api-01.us-west-2.0.10.0.x.symboldev.network:3000",
         "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000",

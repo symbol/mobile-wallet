@@ -23,8 +23,8 @@ const modules = {
     account,
     news,
     harvesting,
-    transaction,
     addressBook,
+    transaction,
 };
 
 const createModuleReducer = (module, state = {}, action) => {

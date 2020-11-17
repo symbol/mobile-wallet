@@ -5,8 +5,8 @@ import type { AggregateTransactionModel } from '@src/storage/models/TransactionM
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import { connect } from 'react-redux';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
-import store from "@src/store";
-import TableView from "@src/components/organisms/TableView";
+import store from '@src/store';
+import TableView from '@src/components/organisms/TableView';
 
 type Props = {
     transaction: AggregateTransactionModel,

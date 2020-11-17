@@ -4,8 +4,11 @@ import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import TransferTransaction from '@src/components/organisms/transaction/TransferTransaction';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
 import AggregateTransaction from '@src/components/organisms/transaction/AggregateTransaction';
+import NamespaceRegistrationTransaction from '@src/components/organisms/transaction/NamespaceRegistrationTransaction';
+import MosaicAliasTransaction from '@src/components/organisms/transaction/MosaicAliasTransaction';
 import { getExplorerURL } from '@src/config/environment';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
+
 
 const styles = StyleSheet.create({
     root: {
@@ -40,6 +43,10 @@ export default class Transaction extends Component<Props> {
                 return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
             case 'aggregate':
                 return <AggregateTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+            case 'namespace':
+                return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+            case 'mosaicAlias':
+                return <MosaicAliasTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
             default:
                 return <BaseTransactionItem transaction={transaction} showDetails={showDetails} />;
         }
