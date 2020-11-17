@@ -9,7 +9,6 @@ import React from 'react';
 import store from '@src/store';
 import GenerateBackup from './screens/GenerateBackup';
 import ShowQRCode from './screens/ShowQRCode';
-import CreateQRPassword from './screens/CreateQRPassword';
 import Dashboard from './screens/Dashboard';
 import ImportOptions from './screens/ImportOptions';
 import EnterMnemonics from './screens/EnterMnemonics';
@@ -70,7 +69,6 @@ export class Router {
         [CREATE_OR_IMPORT_SCREEN, CreateOrImport],
         [WALLET_NAME_SCREEN, WalletName],
         [GENERATE_BACKUP_SCREEN, GenerateBackup],
-        [CREATE_QR_PASSWORD, CreateQRPassword],
         [SHOW_QR_CODE_SCREEN, ShowQRCode],
         [IMPORT_OPTION_SCREEN, ImportOptions],
         [SCAN_QR_CODE_SCREEN, ScanQRCode],
@@ -128,9 +126,6 @@ export class Router {
     }
     static goToGenerateBackup(passProps, parentComponent?) {
         return this.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
-    }
-    static goToCreateQRPassword(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_QR_PASSWORD, passProps, parentComponent);
     }
     static goToShowQRCode(passProps, parentComponent?) {
         return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);

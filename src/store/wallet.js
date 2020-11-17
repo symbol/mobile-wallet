@@ -90,7 +90,7 @@ export default {
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
         downloadPaperWallet: async ({ state }) => {
-            const accounts = await state.wallet.accounts;
+            const accounts = state.wallet.accounts || [];
             const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
             return AccountService.generatePaperWallet(mnemonic.mnemonic, accounts, state.network);
         },
