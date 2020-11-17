@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import GlobalStyles from '../../styles/GlobalStyles';
-
+import { StyleSheet, Image, View } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -20,6 +18,10 @@ const styles = StyleSheet.create({
 	small: {
 		height: 16,
 		width: 16
+	},
+	mini: {
+		height: 10,
+		width: 10
 	},
 });
 
@@ -45,7 +47,11 @@ type IconName = 'none'
 	| 'add_light'
 	| 'add_filled_light'
 	| 'delete_light'
-	| 'edit_light';
+	| 'edit_light'
+	| 'true_light'
+	| 'true_dark'
+	| 'false_light'
+	| 'copy';
 
 type Size = 'large'
 	| 'big'
@@ -68,10 +74,9 @@ export default class C extends Component<Props, State> {
 
         switch (name) {
             case 'none':
-                source = require('@src/assets/icons/ic-about.png');
                 break;
             case 'news':
-                source = require('@src/assets/icons/menu/news.png');
+                source = require('@src/assets/icons/menu2/news.png');
                 break;
             case 'send':
                 source = require('@src/assets/icons/send.png');
@@ -80,16 +85,16 @@ export default class C extends Component<Props, State> {
                 source = require('@src/assets/icons/receive.png');
                 break;
             case 'mosaics':
-                source = require('@src/assets/icons/menu/mosaics.png');
+                source = require('@src/assets/icons/menu2/mosaics.png');
                 break;
             case 'home':
-                source = require('@src/assets/icons/menu/home.png');
+                source = require('@src/assets/icons/menu2/home.png');
                 break;
             case 'history':
-                source = require('@src/assets/icons/menu/history.png');
+                source = require('@src/assets/icons/menu2/history.png');
                 break;
             case 'harvest':
-                source = require('@src/assets/icons/menu/harvest.png');
+                source = require('@src/assets/icons/menu2/harvest.png');
                 break;
             case 'back_light':
                 source = require('@src/assets/icons/back_light.png');
@@ -105,7 +110,10 @@ export default class C extends Component<Props, State> {
 				break;
             case 'settings_dark':
                 source = require('@src/assets/icons/settings_dark.png');
-                break;
+				break;
+			case 'wallet_filled_light':
+				source = require('@src/assets/icons/wallet_filled_light.png');
+				break;
             case 'paste':
 				source = require('@src/assets/icons/clipboard.png');
 				break;
@@ -116,10 +124,16 @@ export default class C extends Component<Props, State> {
 				source = require('@src/assets/icons/expand.png');
 				break;
 			case 'incoming_light':
-				source = require('@src/assets/icons/incoming.png');
+				source = require('@src/assets/icons/transaction/incoming.png');
 				break;
 			case 'outgoing_light':
-				source = require('@src/assets/icons/outgoing.png');
+				source = require('@src/assets/icons/transaction/outgoing.png');
+				break;
+			case 'aggregate':
+				source = require('@src/assets/icons/transaction/aggregate.png');
+				break;
+			case 'options_light':
+				source = require('@src/assets/icons/options_light.png');
 				break;
 			case 'options_dark':
 				source = require('@src/assets/icons/options_dark.png');
@@ -136,6 +150,32 @@ export default class C extends Component<Props, State> {
 			case 'edit_light':
 				source = require('@src/assets/icons/edit_light.png');
 				break;
+			case 'true_light':
+				source = require('@src/assets/icons/true_light.png');
+				break;
+			case 'true_dark':
+				source = require('@src/assets/icons/true_dark.png');
+				break;
+			case 'false_light':
+				source = require('@src/assets/icons/false_light.png');
+				break;
+			case 'copy':
+				source = require('@src/assets/icons/copy.png');
+				break;
+			case 'mosaics_filled':
+				source = require('@src/assets/icons/mosaics.png');
+				break;
+			case 'message_filled':
+				source = require('@src/assets/icons/message.png');
+				break;
+			case 'mosaic_native':
+				source = require('@src/assets/icons/mosaic_native.png');
+				break;
+			case 'mosaic_custom':
+				source = require('@src/assets/icons/mosaic_custom.png');
+				break;
+				
+
 			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;
@@ -154,11 +194,15 @@ export default class C extends Component<Props, State> {
 			case 'small':
 				_style = styles.small
 				break;
+			case 'mini':
+				_style = styles.mini
+				break;
 			default:
 				_style = styles.medium
 				break;
 		}
 
+		if(!source) return <View style={[_style, style]} />;
         return <Image style={[_style, style]} source={source} />;
     }
 }

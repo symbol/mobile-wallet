@@ -1,57 +1,30 @@
 import AccountService from '@src/services/AccountService';
-import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
-import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
-import FetchTransactionService from '@src/services/FetchTransactionService';
-import { Pagination, getStateFromManagers, getMutationsFromManagers } from '@src/utils/DataManager';
-
-const fetchAccountTransactions = async ({ state }) => {
-    const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.selectedNetwork.type);
-    const transactionsByAddress = await FetchTransactionService.getTransactionsFromAddresses(
-        [address, ...state.account.cosignatoryOf],
-        state.network.selectedNetwork
-    );
-    return { data: transactionsByAddress };
-};
-
-const managers = [
-    new Pagination({
-        name: 'transactionListManager',
-        fetchFunction: (pageInfo, store) => fetchAccountTransactions(store, pageInfo),
-        pageInfo: {
-            pageSize: 15,
-        },
-        errorMessage: 'Failed to fetch transaction list',
-    }),
-];
+import { from } from 'rxjs';
 
 export default {
     namespace: 'account',
     state: {
-        ...getStateFromManagers(managers),
+        refreshingObs: null,
         selectedAccount: {},
         selectedAccountAddress: '',
-        loading: false,
-        loadingTransactions: false,
+        loading: true,
         balance: 0,
         ownedMosaics: [],
-        transactions: {},
         accounts: [],
         cosignatoryOf: [],
-        cosignatoryTransactions: {},
+        pendingSignature: false,
     },
     mutations: {
-        ...getMutationsFromManagers(managers, 'account'),
+        setRefreshingObs(state, payload) {
+            state.account.refreshingObs = payload;
+            return state;
+        },
         setSelectedAccountAddress(state, payload) {
             state.account.selectedAccountAddress = payload;
             return state;
         },
         setLoading(state, payload) {
             state.account.loading = payload;
-            return state;
-        },
-        setLoadingTransactions(state, payload) {
-            state.account.loadingTransactions = payload;
             return state;
         },
         setBalance(state, payload) {
@@ -62,38 +35,48 @@ export default {
             state.account.ownedMosaics = payload;
             return state;
         },
-        setTransactions(state, payload) {
-            state.account.transactions = payload;
-            return state;
-        },
         setCosignatoryOf(state, payload) {
             state.account.cosignatoryOf = payload;
             return state;
         },
     },
     actions: {
-        loadAllData: async ({ commit, dispatchAction, state }) => {
-            commit({ type: 'account/setLoading', payload: true });
-            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            commit({ type: 'account/setSelectedAccountAddress', payload: address });
-            commit({ type: 'account/setBalance', payload: 0 });
-            commit({ type: 'account/setOwnedMosaics', payload: [] });
-            commit({ type: 'account/setTransactions', payload: [] });
-            await Promise.all([
-                await dispatchAction({ type: 'account/loadBalance' }),
-                // await dispatchAction({ type: 'account/loadTransactions' }),
-                await dispatchAction({ type: 'account/loadCosignatoryOf' }),
-            ]);
-            commit({ type: 'account/setLoading', payload: false });
+        loadAllData: async ({ commit, dispatchAction, state }, reset) => {
+            try {
+                commit({ type: 'account/setLoading', payload: true });
+                const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+                commit({ type: 'account/setSelectedAccountAddress', payload: address });
+                dispatchAction({ type: 'transaction/init' });
+                if (reset) {
+                    commit({ type: 'account/setBalance', payload: 0 });
+                    commit({ type: 'account/setOwnedMosaics', payload: [] });
+                }
+                if (state.account.refreshingObs) {
+                    state.account.refreshingObs.unsubscribe();
+                }
+                const refreshingObs = from(
+                    new Promise(async resolve => {
+                        await Promise.all([
+                            dispatchAction({ type: 'account/loadBalance' }),
+                            dispatchAction({ type: 'account/loadCosignatoryOf' }),
+                            dispatchAction({ type: 'harvesting/init' }),
+                        ]);
+                        resolve();
+                    })
+                ).subscribe(() => {
+                    commit({ type: 'account/setRefreshingObs', payload: false });
+                    commit({ type: 'account/setLoading', payload: false });
+                });
+                commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
+            } catch (e) {
+                console.log(e);
+            }
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNetwork);
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
-        },
-        loadTransactions: async store => {
-            store.state.account.transactionListManager.setStore(store, 'account').initialFetch();
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);

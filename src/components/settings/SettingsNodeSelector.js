@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Linking, View, CheckBox, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import translate from '@src/locales/i18n';
 import BottomModal from '@src/components/atoms/BottomModal/BottomModal';
-import NodeSelector from '@src/components/molecules/NodeSelector';
-import { Text } from '@src/components';
+import { Dropdown, Text } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import { getNodes } from '@src/config/environment';
 
 const styles = StyleSheet.create({
     container: {
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 
 class SettingsNodeSelector extends Component {
     state = {
+        nodeSelected: null,
         isModalOpen: false,
         error: '',
     };
@@ -45,6 +46,9 @@ class SettingsNodeSelector extends Component {
     };
 
     onSelectNode = node => {
+        this.setState({
+            error: 'Loading',
+        });
         store
             .dispatchAction({ type: 'network/changeNode', payload: node })
             .then(_ => {
@@ -61,8 +65,13 @@ class SettingsNodeSelector extends Component {
     };
 
     render() {
+        const nodes = {
+            mainnet: getNodes('mainnet').map(node => ({ value: node, label: node })),
+            testnet: getNodes('testnet').map(node => ({ value: node, label: node })),
+        };
+
         const { isModalOpen, error } = this.state;
-        const { network } = this.props;
+        const { selectedNode, selectedNetwork } = this.props;
 
         return (
             <View>
@@ -70,7 +79,7 @@ class SettingsNodeSelector extends Component {
                     title={translate('Settings.node.menuTitle')}
                     isSelector={true}
                     icon={require('@src/assets/icons/ic-mainnet.png')}
-                    itemValue={network.network}
+                    itemValue={selectedNetwork}
                     onPress={this.openModal}
                 />
                 <BottomModal isModalOpen={isModalOpen} onClose={this.closeModal}>
@@ -79,20 +88,22 @@ class SettingsNodeSelector extends Component {
                             Mainnet
                         </Text>
                     </View>
-                    <NodeSelector
-                        network={'mainnet'}
-                        selectedNode={'sad'}
-                        onNodeSelect={this.onSelectNode}
+                    <Dropdown
+                        list={nodes.mainnet}
+                        title={'Select mainnet node'}
+                        value={selectedNetwork === 'mainnet' ? selectedNode : null}
+                        onChange={v => this.onSelectNode(v)}
                     />
                     <View style={styles.checkboxContainer}>
                         <Text type="text" theme="light">
                             Testnet
                         </Text>
                     </View>
-                    <NodeSelector
-                        network={'testnet'}
-                        selectedNode={'ds'}
-                        onNodeSelect={this.onSelectNode}
+                    <Dropdown
+                        list={nodes.testnet}
+                        title={'Select testnet node'}
+                        value={selectedNetwork === 'testnet' ? selectedNode : null}
+                        onChange={v => this.onSelectNode(v)}
                     />
                     <Text type={'alert'} align={'left'} theme={'light'}>
                         {error}
@@ -104,5 +115,6 @@ class SettingsNodeSelector extends Component {
 }
 
 export default connect(state => ({
-    network: state.network,
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
+    selectedNetwork: state.network.selectedNetwork ? state.network.selectedNetwork.type : '',
 }))(SettingsNodeSelector);

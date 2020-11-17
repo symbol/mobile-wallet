@@ -23,7 +23,8 @@ type Props = {
 };
 
 const PopupModal = (props: Props) => {
-    const { children, isModalOpen, handleClose, showTopbar, title, showBack, onBack, showClose, onClose } = props;
+	const { children, isModalOpen, handleClose, showTopbar, title, showBack, onBack, showClose, onClose, noPadding } = props;
+	const contentStyle = noPadding ? {} : styles.contentBody;
     return (
         <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
@@ -45,7 +46,9 @@ const PopupModal = (props: Props) => {
                                 alignLeft
                             />
                         )}
-                        {children}
+						<View style={contentStyle}>
+							{children}
+						</View>
                     </View>
                 </Card>
             </View>

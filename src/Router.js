@@ -22,12 +22,17 @@ import Passcode from '@src/screens/Passcode';
 import Send from '@src/screens/Send';
 import ConfirmTransaction from '@src/screens/ConfirmTransaction';
 import Harvest from '@src/screens/Harvest';
+import AddressBook from '@src/screens/AddressBook';
+import AddContact from '@src/screens/AddContact';
+import ContactProfile from '@src/screens/ContactProfile';
 import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
+import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
+export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
 export const TERMS_AND_PRIVACY_SCREEN = `${BASE_SCREEN_NAME}.TERMS_AND_CONDITIONS`;
 export const CREATE_OR_IMPORT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_OR_IMPORT`;
 export const WALLET_NAME_SCREEN = `${BASE_SCREEN_NAME}.WALLET_NAME`;
@@ -44,10 +49,15 @@ export const SHOW_MNEMONICS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_MNEMONICS_SCREEN`
 export const WALLET_LOADING_SCREEN = `${BASE_SCREEN_NAME}.WALLET_LOADING_SCREEN`;
 export const SETTINGS_SCREEN = `${BASE_SCREEN_NAME}.SETTINGS_SCREEN`;
 export const PASSCODE_SCREEN = `${BASE_SCREEN_NAME}.PASSCODE_SCREEN`;
+export const START_HARVESTING_SCREEN = `${BASE_SCREEN_NAME}.START_HARVESTING_SCREEN`;
+export const CREATE_REMOTE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_REMOTE_ACCOUNT_SCREEN`;
 export const SEND_SCREEN = `${BASE_SCREEN_NAME}.SEND_SCREEN`;
 export const RECEIVE_SCREEN = `${BASE_SCREEN_NAME}.RECEIVE_SCREEN`;
 export const CONFIRM_TRANSACTION_SCREEN = `${BASE_SCREEN_NAME}.CONFIRM_TRANSACTION_SCREEN`;
 export const HARVEST_SCREEN = `${BASE_SCREEN_NAME}.HARVEST_SCREEN`;
+export const ADDRESS_BOOK_SCREEN = `${BASE_SCREEN_NAME}.ADDRESS_BOOK_SCREEN`;
+export const ADD_CONTACT_SCREEN = `${BASE_SCREEN_NAME}.ADD_CONTACT_SCREEN`;
+export const CONTACT_PROFILE_SCREEN = `${BASE_SCREEN_NAME}.CONTACT_PROFILE_SCREEN`;
 export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 
@@ -74,11 +84,16 @@ export class Router {
         [PASSCODE_SCREEN, Passcode],
         [WALLET_LOADING_SCREEN, WalletLoading],
         [SEND_SCREEN, Send],
+        [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
+        [HARVEST_SCREEN, Harvest],
+        [ADDRESS_BOOK_SCREEN, AddressBook],
+        [ADD_CONTACT_SCREEN, AddContact],
         [RECEIVE_SCREEN, Receive],
         [CONFIRM_TRANSACTION_SCREEN, ConfirmTransaction],
         [HARVEST_SCREEN, Harvest],
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
+        [CONTACT_PROFILE_SCREEN, ContactProfile],
     ];
 
     static registerScreens() {
@@ -94,8 +109,12 @@ export class Router {
         }
 
         this.screens.forEach(([key, ScreenComponent]) =>
-            Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
+            Navigation.registerComponent(key, () =>
+                WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent))
+            )
         );
+
+        Navigation.registerComponent(CUSTOM_FLASH_MESSAGE, () => CustomFlashMessage);
     }
 
     static goToTermsAndPrivacy(passProps, parentComponent?) {
@@ -155,9 +174,17 @@ export class Router {
     static goToCreateAccount(passProps, parentComponent?) {
         return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
-
     static scanQRCode(onRead, onClose) {
         showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose });
+    }
+    static goToAddressBook(passProps, parentComponent?) {
+        return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
+    }
+    static goToAddContact(passProps, parentComponent?) {
+        return this.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
+    }
+    static goToContactProfile(passProps, parentComponent?) {
+        return this.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
@@ -176,6 +203,8 @@ export class Router {
     static closeOverlay(componentId) {
         Navigation.dismissOverlay(componentId);
     }
+
+    static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
 }
 
 /**
@@ -255,7 +284,7 @@ const pushToStack = (parent, screen: string, passProps) => {
     return Navigation.push(parent, {
         component: {
             name: screen,
-            passProps,
+            passProps: passProps,
             options: {
                 bottomTabs: { visible: false, drawBehind: false, animate: true },
                 sideMenu: {
@@ -286,7 +315,7 @@ const goBack = component => {
  * @param passProps
  */
 const showOverlay = (screen, passProps) => {
-    Navigation.showOverlay({
+    return Navigation.showOverlay({
         component: {
             name: screen,
             passProps: { ...passProps },

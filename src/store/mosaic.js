@@ -30,6 +30,7 @@ export default {
 		isLoading: false,
 		isError: false,
 		ownedMosaics: [],
+		nativeMosaicId: '',
 		nativeMosaicNamespaceName: '',
 		nativeMosaicSubNamespaceName: '',
 		balance: 0
@@ -51,6 +52,7 @@ export default {
 		setNativeMosaic(state, payload) {
 			state.mosaic.nativeMosaicNamespaceName = payload.namespaceName;
 			state.mosaic.nativeMosaicSubNamespaceName = payload.subNamespaceName;
+			state.mosaic.nativeMosaicId = payload.mosaicId;
 			state.mosaic.balance = payload.amount;
 			return state;
 		},
@@ -76,6 +78,7 @@ export default {
 				commit({type: 'mosaic/setOwnedMosaics', payload: mosaics});
 				commit({type: 'mosaic/setNativeMosaic', payload: {
 					...ownedNativeMosaic,
+					...mosaicId,
 					namespaceName,
 					subNamespaceName,
 				}});

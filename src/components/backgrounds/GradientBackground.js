@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Container from '../Container';
-import { FadeView } from '@src/components';
-import GlobalStyles from '../../styles/GlobalStyles';
+import { Container, FadeView, LoadingAnimationFlexible, Col, Section, Text, Button, } from '@src/components';
+import GlobalStyles from '@src/styles/GlobalStyles';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
 	root: {
 		height: '100%'
+	},
+	loading: {
+		flexDirection: 'column',
+		flex: 1,
+		paddingBottom: 34
 	},
 	image: {
 		position: 'absolute',
@@ -40,8 +45,13 @@ export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, componentId } = this.props;
+		const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, onBack, componentId, titleBar } = this.props;
 		const {} = this.state;
+		const goBack = onBack 
+			? onBack
+			: componentId
+				? (() => Router.goBack(componentId))
+				: null;
 
 		let source;
 		const imageName = name + '_' + theme;
@@ -83,11 +93,12 @@ export default class GradientBackground extends Component<Props, State> {
 			]
 
 		const Content = () => { return (<>
+			{titleBar}
 			{!dataManager.isLoading && !dataManager.isError && 
 				children
 			}
 			{dataManager.isLoading && !dataManager.isError && 
-				<LoadingAnimation />
+				<View style={styles.loading}><LoadingAnimationFlexible isFade text={translate('LoadingText')}/></View>
 			}
 			{dataManager.isError && 
 				<Col justify="center" align="center" fullHeight>
@@ -96,11 +107,11 @@ export default class GradientBackground extends Component<Props, State> {
 						<Text type="bold" theme="light" align="center">{dataManager.errorMessage}</Text>
 						<Text type="regular" theme="light" align="center">{dataManager.errorDescription}</Text>
 					</Section>
-					<Section type="form-item">
-						<Button theme="light" text="Try again" onPress={() => dataManager.fetch()} />
-					</Section>
-					{componentId && <Section type="form-item">
-						<Button theme="light" text="Go back" onPress={() => Router.goBack(componentId)} />
+					{dataManager.fetch && <Section type="form-item">
+						<Button theme={theme} text="Try again" onPress={() => dataManager.fetch()} />
+					</Section>}
+					{goBack && <Section type="form-item">
+						<Button theme={theme} text="Go back" onPress={goBack} />
 					</Section>}
 				</Col>
 			}</>)}

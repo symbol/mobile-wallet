@@ -12,21 +12,26 @@ const styles = StyleSheet.create({
 		height: 72,
 		marginTop: 2,
 		//backgroundColor: '#f005',
-
 	},
 	iconLeft: {
 		//backgroundColor: '#f005',
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
+		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2)
+	},
+	iconLeftOld: {
 		marginLeft: - (GlobalStyles.section.title.paddingLeft / 2) -5
 	},
 	iconRight: {
 		height: '100%',
 		paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
 		paddingStart: GlobalStyles.section.title.paddingLeft / 2,
+		marginRight: - (GlobalStyles.section.title.paddingLeft / 2)
+	},
+	iconRightOld: {
 		marginRight: - (GlobalStyles.section.title.paddingLeft / 2) -5
-	}
+	},
 });
 
 type Theme = 'light'
@@ -34,6 +39,7 @@ type Theme = 'light'
 
 interface Props {
 	theme: Theme;
+	onOpenMenu: function;
 	onBack: function;
 	onSettings: function;
 	title: string;
@@ -52,47 +58,53 @@ export default class PluginList extends Component<Props, State> {
 		const {
 			style = {},
 			theme,
+			onOpenMenu,
 			onBack,
 			onSettings,
-			onReload,
 			title,
-			subtitle,
 			buttons
 		} = this.props;
-
 		const iconBackName = theme === 'light'
 			? 'back_light'
 			: 'back_dark';
 
 		const iconSettingsName = theme === 'light'
-			? 'settings_light'
+			? 'settings_filled_light'
 			: 'settings_dark';
 
-		const iconReloadName = theme === 'light'
-			? 'settings_light'
-			: 'settings_dark';
+		const iconMenuName = theme === 'light'
+			? 'wallet_filled_light'
+			: 'options_dark';
 
+		const leftIconStyle = onBack
+			? styles.iconLeftOld
+			: {};
+
+		const rightIconStyle = theme === 'dark'
+			? styles.iconRightOld
+			: {};
 
 		return (
 			<Section type="title" style={[style]}>
 				<Row justify="space-between" align="center" style={styles.root}>
 					<Row justify="start" align="center">
-						{!!onBack && <TouchableOpacity style={styles.iconLeft} onPress={onBack} >
+						{!!onOpenMenu && <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onOpenMenu} >
+							<Icon name={iconMenuName} size="small" />
+						</TouchableOpacity>}
+						{!!onBack && <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onBack} >
 							<Icon name={iconBackName} />
 						</TouchableOpacity>}
-						<Col>
-							<Text type='title' theme={theme}>{title}</Text>
-							{!!subtitle && <Text type='subtitle' theme={theme}>{subtitle}</Text>}
-						</Col>
+						{!onBack && !onOpenMenu && <Icon name="none" />}
 					</Row>
+					<Col style={{ flex: 1 }} align="center" justify="center">
+						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '70%'}}>{title}</Text>
+					</Col>
 					<Row justify="end" align="center">
 						{buttons}
-						{!!onSettings && <TouchableOpacity style={styles.iconRight} onPress={onSettings}>
-							<Icon name={iconSettingsName} />
+						{!!onSettings && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
+							<Icon name={iconSettingsName} size="small" />
 						</TouchableOpacity>}
-						{!!onReload && <TouchableOpacity style={styles.iconRight} onPress={onReload}>
-							<Icon name={iconReloadName} />
-						</TouchableOpacity>}
+						{!onSettings && !buttons && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>

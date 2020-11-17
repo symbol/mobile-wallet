@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { Section, GradientBackground, Text, Icon, Col, OptionsMenu, Row, SymbolGradientContainer, Trunc, Input, Button } from '@src/components';
+import { StyleSheet, View, TouchableOpacity, TouchableItem, Image } from 'react-native';
+import {
+    Section,
+    GradientBackground,
+    Text,
+    Icon,
+    Col,
+    OptionsMenu,
+    Row,
+    SymbolGradientContainer,
+    Trunc,
+    Input,
+    Button,
+    ManagerHandler,
+    TitleBar,
+    Container,
+} from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -10,6 +25,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 const styles = StyleSheet.create({
     root: {
+        flex: 1,
+        flexDirection: 'row',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -18,31 +35,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#0005',
     },
     menuContainer: {
-        width: '70%',
+        width: '80%',
         height: '100%',
-        paddingTop: 4,
         backgroundColor: GlobalStyles.color.DARKWHITE,
     },
     selectedAccountBox: {
-        width: null,
-        borderRadius: 5,
-        margin: 4,
-        marginHorizontal: 8,
-        paddingHorizontal: 17,
-        paddingVertical: 8,
+        width: '100%',
+        margin: 0,
+        padding: 0,
     },
-    selectedAccountName: {
-        fontSize: 1 * 12,
-        lineHeight: 1.75 * 12,
+    selectedAccountBoxContent: {
+        paddingBottom: 34,
     },
+    selectedAccountName: {},
     selectedAccountAddress: {
         fontSize: 1 * 12,
         lineHeight: 1.75 * 12,
-        marginBottom: 13,
+        marginBottom: 17,
     },
     selectedAccountMosaic: {
-        fontSize: 1.5 * 12,
-        lineHeight: 2.25 * 12,
+        fontSize: 1 * 12,
+        lineHeight: 1.75 * 12,
     },
     selectedAccountBalance: {
         fontSize: 2.5 * 12,
@@ -52,35 +65,38 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         right: 0,
-        width: '100%',
-        height: undefined,
+        width: null,
+        height: '100%',
         resizeMode: 'contain',
         aspectRatio: 1,
     },
     accountBox: {
-        backgroundColor: GlobalStyles.color.SECONDARY,
+        backgroundColor: GlobalStyles.color.WHITE,
         borderRadius: 5,
-        margin: 4,
-        marginHorizontal: 8,
-        paddingHorizontal: 17,
+        marginVertical: 8,
+        paddingHorizontal: 32,
         paddingVertical: 8,
     },
     optionsIcon: {
-        width: 30,
+        width: 34,
         height: 40,
         alignItems: 'flex-end',
         paddingTop: 4,
         paddingRight: 10,
-        marginRight: -16,
-    },
+		marginRight: -16
+	},
+	topOptinIcon: {
+		paddingTop: 11
+	},
     menuBottomContainer: {
-        borderTopWidth: 1,
+        //borderTopWidth: 1,
         borderColor: GlobalStyles.color.WHITE,
         paddingVertical: 8,
+        alignItems: 'flex-start',
     },
     menuItem: {
         margin: 4,
-        paddingHorizontal: 17,
+        paddingHorizontal: 30,
         paddingVertical: 8,
     },
     menuItemIcon: {
@@ -110,12 +126,16 @@ class Sidebar extends Component<Props, State> {
         store.dispatchAction({ type: 'wallet/loadAccount', payload: id });
     };
 
+    goToAddressBook = () => {
+        Router.goToAddressBook({}, this.props.componentId);
+    };
+
     handleDeleteAccount = id => {
         store.dispatchAction({ type: 'wallet/removeAccount', payload: id });
     };
 
-    handleOpenRenameAccountModal = (id, name) => {
-        this.setState({
+    handleOpenRenameAccountModal = async (id, name) => {
+        await this.setState({
             isNameModalOpen: true,
             editingAccountId: id,
             newName: name,
@@ -159,29 +179,52 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderSelectedAccountItem = () => {
-        const { address, selectedAccount, balance, nativeMosaicNamespace } = this.props;
+        const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading } = this.props;
+        const options = [
+            { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(selectedAccount.id, selectedAccount.name) },
+            // { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(selectedAccount.id) },
+            { iconName: 'wallet_filled_light', label: 'Details', onPress: () => this.handleAccountDetails() },
+        ];
+        const buttons = (
+            <OptionsMenu list={options} style={[styles.optionsIcon, styles.topOptinIcon]}>
+                <Icon name="options_dark" size="small" />
+            </OptionsMenu>
+        );
+
         return (
-            <TouchableOpacity onPress={() => this.handleAccountDetails()}>
-                <SymbolGradientContainer noPadding style={styles.selectedAccountBox}>
-                    <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-                    <Text style={styles.selectedAccountName} type="bold" theme="dark">
-                        {selectedAccount ? selectedAccount.name : ''}
-                    </Text>
-                    <Text style={styles.selectedAccountAddress} theme="dark">
-                        <Trunc type="address">{address}</Trunc>
-                    </Text>
-                    <Text style={styles.selectedAccountMosaic} theme="dark">
-                        {nativeMosaicNamespace}
-                    </Text>
-                    <Text style={styles.selectedAccountBalance} theme="dark">
-                        {balance}
-                    </Text>
+            <View onPress={() => this.handleAccountDetails()}>
+                <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
+                    <Container>
+						<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+							<ManagerHandler dataManager={{isLoading}}>
+
+								<TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
+								<Section type="form" style={styles.selectedAccountBoxContent}>
+
+								<Text style={styles.selectedAccountName} type="title-small" theme="dark">
+									{selectedAccount ? selectedAccount.name : ''}
+								</Text>
+								<Text style={styles.selectedAccountAddress} theme="dark">
+									<Trunc type="address">{address}</Trunc>
+								</Text>
+								<Row align="end" justify="space-between" fullWidth>
+									<Text style={styles.selectedAccountMosaic} theme="dark">
+										{nativeMosaicNamespace}
+									</Text>
+									<Text style={styles.selectedAccountBalance} theme="dark">
+										{balance}
+									</Text>
+								</Row>
+
+                        	</Section>
+						</ManagerHandler>
+                    </Container>
                 </SymbolGradientContainer>
-            </TouchableOpacity>
+            </View>
         );
     };
 
-    renderAccountSelectorItem = ({ name, balance, id, type, path }) => {
+    renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
         const options = [
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
             { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(id) },
@@ -190,14 +233,18 @@ class Sidebar extends Component<Props, State> {
         return (
             <TouchableOpacity style={styles.accountBox} onPress={() => this.handleSelectAccount(id)}>
                 <Row justify="space-between" fullWidth>
-                    <Text type="bold">{name}</Text>
+                    <Text type="bold" theme="light">
+                        {name}
+                    </Text>
                     <OptionsMenu list={options} style={styles.optionsIcon}>
-                        <Icon name="options_dark" size="small" />
+                        <Icon name="options_light" size="small" />
                     </OptionsMenu>
                 </Row>
-
-                <Text type="regular" align="right">
-                    {type === 'hd' ? `Seed account (${path})` : 'Private key account'}
+                <Text type="regular" align="left" theme="light">
+                    <Trunc type="address">{address}</Trunc>
+                </Text>
+                <Text type="regular" align="left" theme="light">
+                    {type === 'hd' ? `Seed account #` : 'Private key account'}
                 </Text>
             </TouchableOpacity>
         );
@@ -207,7 +254,7 @@ class Sidebar extends Component<Props, State> {
         return (
             <TouchableOpacity onPress={() => onPress()}>
                 <Row fullWidth style={styles.menuItem} align="center">
-                    <Icon name={iconName} style={styles.menuItemIcon} />
+                    <Icon name={iconName} style={styles.menuItemIcon} size="small" />
                     <Text theme="light" type="bold" style={styles.menuItemText}>
                         {text}
                     </Text>
@@ -217,10 +264,11 @@ class Sidebar extends Component<Props, State> {
     };
 
     render = () => {
-        const { accounts, selectedAccount, isVisible } = this.props;
+        const { accounts, selectedAccount, isVisible, isLoading } = this.props;
         const { isNameModalOpen, newName } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
+            { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
             { iconName: 'add_filled_light', text: 'Backup Accounts', onPress: () => this.handleBackupAccounts() },
         ];
 
@@ -228,25 +276,29 @@ class Sidebar extends Component<Props, State> {
 
         return (
             // TODO: restyle
-            <TouchableOpacity style={styles.root} onPress={() => this.props.onHide()}>
-                <GradientBackground theme="light" name="mesh" style={styles.menuContainer}>
-                    <TouchableOpacity onPress={() => {}}>
+            <View style={styles.root}>
+                <View style={styles.menuContainer}>
+                    <GradientBackground theme="light" name="mesh_small_2" style={{ width: '100%', height: '100%' }} noPadding>
                         <Col justify="space-between" fullHeight>
                             <Section isScrollable>
+                                {selectedAccount && this.renderSelectedAccountItem(selectedAccount)}
                                 {accounts.map(account => {
-                                    if (account.id === selectedAccount.id) return this.renderSelectedAccountItem();
-                                    else return this.renderAccountSelectorItem(account);
+                                    if (account.id !== selectedAccount.id) return this.renderAccountSelectorItem(account);
+                                    else return null;
                                 })}
                             </Section>
                             <Section style={styles.menuBottomContainer}>{menuItems.map(this.renderMenuItem)}</Section>
                         </Col>
-                    </TouchableOpacity>
-                    <PopupModal
-                        isModalOpen={isNameModalOpen}
-                        showTopbar={true}
-                        title={'Change name'}
-                        showClose={true}
-                        onClose={() => this.setState({ isNameModalOpen: false })}>
+                    </GradientBackground>
+                </View>
+                <TouchableOpacity justify="end" style={{ width: '100%', height: '100%' }} fullHeight onPress={() => this.props.onHide()} />
+                <PopupModal
+                    isModalOpen={isNameModalOpen}
+                    showTopbar={true}
+                    title={'Change name'}
+                    showClose={true}
+                    onClose={() => this.setState({ isNameModalOpen: false })}>
+                    <Section type="form">
                         <Section type="form-item">
                             <Input
                                 value={newName}
@@ -259,9 +311,9 @@ class Sidebar extends Component<Props, State> {
                         <Section type="form-bottom">
                             <Button text="Rename" theme="light" onPress={() => this.handleRenameAccount()} />
                         </Section>
-                    </PopupModal>
-                </GradientBackground>
-            </TouchableOpacity>
+                    </Section>
+                </PopupModal>
+            </View>
         );
     };
 }
@@ -270,6 +322,7 @@ export default connect(state => ({
     address: state.account.selectedAccountAddress,
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
-    nativeMosaicNamespace: 'XYM',
-    accounts: state.wallet.accounts,
+    nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
+	accounts: state.wallet.accounts,
+	isLoading: state.account.loading,
 }))(Sidebar);

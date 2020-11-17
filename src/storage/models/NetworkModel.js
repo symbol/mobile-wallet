@@ -8,4 +8,6 @@ export interface NetworkModel {
     generationHash: string;
     node: string;
     currencyMosaicId: string;
+    chainHeight: number;
+    blockGenerationTargetTime: number;
 }

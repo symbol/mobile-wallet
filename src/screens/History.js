@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, Text, Row, TitleBar, Dropdown } from '@src/components';
-import Transaction from '@src/components/organisms/transaction/Transaction';
+import { StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
-import store from '@src/store';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
+import store from '@src/store';
+import Transaction from '@src/components/organisms/transaction';
 
 const styles = StyleSheet.create({
     list: {
-        marginBottom: 70,
+        marginBottom: 10,
+    },
+    filter: {
+        flexGrow: 1,
+    },
+    filterRight: {
+        width: '50%',
+        marginLeft: 5,
+    },
+    loadingText: {
+        marginTop: 6,
     },
 });
 
@@ -18,22 +27,15 @@ type Props = {};
 type State = {};
 
 const allFilters = [
-    { value: 'all', label: 'All' },
-    { value: 'sent', label: 'Sent' },
-    { value: 'received', label: 'Received' },
+    { value: 'ALL', label: 'All' },
+    { value: 'SENT', label: 'Sent' },
+    { value: 'RECEIVED', label: 'Received' },
 ];
 
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
-        filterValue: 'all',
-        selectedMultisig: null,
     };
-
-    componentDidMount() {
-        store.dispatchAction({ type: 'account/loadTransactions' });
-        this.props.dataManager.reset();
-    }
 
     showDetails = index => {
         const { showingDetails } = this.state;
@@ -48,56 +50,92 @@ class History extends Component<Props, State> {
         }
     };
 
+    onRefresh = () => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
+    };
+
     onSelectFilter = filterValue => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: { directionFilter: filterValue } });
         this.setState({ filterValue });
     };
 
     onSelectMultisig = multisig => {
+        store.dispatchAction({ type: 'transaction/changeFilters', payload: { addressFilter: multisig } });
         this.setState({ selectedMultisig: multisig });
     };
 
-    render() {
-        const { dataManager, address, cosignatoryOf } = this.props;
-        const { showingDetails, filterValue, selectedMultisig } = this.state;
-        let transactions;
-        if (selectedMultisig) {
-            transactions = dataManager.data[selectedMultisig] || [];
-        } else {
-            transactions = dataManager.data[address] || [];
+    loadNextPage = () => {
+        const { isLastPage } = this.props;
+        if (!isLastPage) {
+            store.dispatchAction({ type: 'transaction/loadNextPage' });
         }
-        const filteredTransactions = transactions.filter((tx: TransactionModel) => {
-            switch (filterValue) {
-                case 'sent':
-                    return tx.signerAddress === address;
-                case 'received':
-                    return tx.signerAddress !== address;
-                default:
-                    return true;
-            }
-        });
+    };
+
+    renderTransactionItem = showingDetails => ({ item, index }) => {
+        return (
+            <ListItem onPress={() => this.showDetails(index)}>
+                <Transaction transaction={item} showDetails={showingDetails === index} />
+            </ListItem>
+        );
+    };
+
+    render() {
+        const { address, cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
+        const { showingDetails } = this.state;
 
         return (
-            <ImageBackground name="tanker" dataManager={dataManager}>
-                <TitleBar theme="light" title="Transactions" />
-                <Dropdown list={allFilters} title={'Filter'} value={filterValue} onChange={this.onSelectFilter} />
-                {cosignatoryOf.length > 0 && <MultisigFilter selected={selectedMultisig} onSelect={v => this.onSelectMultisig(v)} />}
-                <Section type="list" style={styles.list} isScrollable>
-                    {filteredTransactions &&
-                        filteredTransactions.map((tx, index) => {
-                            return (
-                                <TouchableOpacity onPress={() => this.showDetails(index)}>
-                                    <Transaction transaction={tx} showDetails={showingDetails === index} />
-                                </TouchableOpacity>
-                            );
-                        })}
+            // <ImageBackground name="tanker" dataManager={dataManager}>
+			<GradientBackground
+				name="connector_small"
+				theme="light"
+				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
+			>
+                <Section type="list">
+                    <Section type="form-item">
+                        <Row fullWidth>
+                            <Dropdown
+                                theme="light"
+                                style={styles.filter}
+                                list={allFilters}
+                                title={'Filter'}
+                                value={directionFilter}
+                                onChange={this.onSelectFilter}
+                            />
+                            {cosignatoryOf.length > 0 && (
+                                <MultisigFilter theme="light" style={styles.filterRight} selected={addressFilter} onSelect={v => this.onSelectMultisig(v)} />
+                            )}
+                        </Row>
+                    </Section>
                 </Section>
-            </ImageBackground>
+				<ListContainer style={styles.list} isScrollable={false}>
+					<FlatList
+						// style={{ height: '100%' }}
+						data={transactions}
+						renderItem={this.renderTransactionItem(showingDetails)}
+						onEndReachedThreshold={0.9}
+						onEndReached={this.loadNextPage}
+						keyExtractor={(item) => item.hash}
+						refreshControl={
+							<RefreshControl
+								//refresh control used for the Pull to Refresh
+								refreshing={loading}
+								onRefresh={this.onRefresh}
+							/>
+						}
+					/>
+				</ListContainer>
+            </GradientBackground>
+            // </ImageBackground>
         );
     }
 }
 
 export default connect(state => ({
-    dataManager: state.account.transactionListManager,
     address: state.account.selectedAccountAddress,
     cosignatoryOf: state.account.cosignatoryOf,
+    transactions: state.transaction.transactions,
+    isLastPage: state.transaction.isLastPage,
+    addressFilter: state.transaction.addressFilter,
+    directionFilter: state.transaction.directionFilter,
+    loading: state.transaction.loading,
 }))(History);

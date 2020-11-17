@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
-import { NavigationMenu } from '@src/components';
-import Home from '@src/screens/Home';
-import History from '@src/screens/History';
-import Harvest from '@src/screens/Harvest';
+import { NavigationMenu, GradientBackground } from '@src/components';
+import Home from './Home';
+import History from './History';
+import Harvest from './Harvest';
 import News from '@src/screens/News';
 import Mosaics from '@src/screens/Mosaics';
 import Sidebar from '@src/screens/Sidebar';
+import { Router } from '@src/Router';
+import store from '@src/store';
+import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
-    root: {
-        backgroundColor: '#000',
-    },
+    tabWrapper: {
+        paddingBottom: 56,
+	},
     contentContainer: {
         flex: 1,
-        marginBottom: 64,
+        marginBottom: 10,
     },
 });
 
@@ -25,18 +29,22 @@ type State = {
     currentTab: string,
 };
 
-export default class Dashboard extends Component<Props, State> {
+class Dashboard extends Component<Props, State> {
     state = {
-		currentTab: 'home',
-		isSidebarShown: false
+        currentTab: 'home',
+        isSidebarShown: false,
     };
+
+    componentDidMount() {
+        store.dispatchAction({ type: 'network/registerNodeCheckJob' });
+    }
 
     onTabChange = tabName => {
         this.setState({ currentTab: tabName });
     };
 
     render() {
-        const { componentId } = this.props;
+        const { componentId, isNodeUp } = this.props;
         const { currentTab } = this.state;
         let Tab;
 
@@ -53,17 +61,30 @@ export default class Dashboard extends Component<Props, State> {
                 break;
             case 'news':
                 Tab = News;
-				break;
-			case 'harvest':
-				Tab = Harvest;
-				break;
+                break;
+            case 'harvest':
+                Tab = Harvest;
+                break;
         }
         return (
-            <View style={styles.root}>
-                <Tab {...this.props} contentStyle={styles.contentContainer} componentId={componentId} onOpenMenu={()=>this.setState({isSidebarShown: true})}/>
+			<GradientBackground theme="light" noPadding>
+				<View style={styles.tabWrapper}>
+					<Tab
+						{...this.props}
+						contentStyle={styles.contentContainer}
+						onOpenMenu={() => this.setState({ isSidebarShown: true })}
+						onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
+						changeTab={this.onTabChange}
+					/>
+				</View>
                 <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
-				<Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={()=>this.setState({isSidebarShown: false})}/>
-            </View>
+                <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
+                {!isNodeUp && <NodeDownOverlay />}
+			</GradientBackground>
         );
     }
 }
+
+export default connect(state => ({
+    isNodeUp: state.network.isUp,
+}))(Dashboard);

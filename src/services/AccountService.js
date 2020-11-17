@@ -1,10 +1,11 @@
-import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp } from 'symbol-sdk';
+import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp, MosaicId, UInt64 } from 'symbol-sdk';
 import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
+import MosaicService from '@src/services/MosaicService';
 import { SymbolPaperWallet } from 'symbol-paper-wallets';
 
 export default class AccountService {
@@ -97,34 +98,40 @@ export default class AccountService {
     static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
             const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
-            let amount = 0;
+            let amount = 0,
+                hasCurrencyMosaic = false;
             const ownedMosaics: MosaicModel[] = [];
             for (let mosaic of accountInfo.mosaics) {
-                const mosaicModel = await this._getMosaicModelFromMosaicId(mosaic, network);
+                const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
+                    hasCurrencyMosaic = true;
                     amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
                 }
                 ownedMosaics.push(mosaicModel);
+            }
+            if (!hasCurrencyMosaic) {
+                const currencyMosaic = await this.getNativeMosaicModel(network);
+                ownedMosaics.push(currencyMosaic);
             }
             return {
                 balance: amount,
                 ownedMosaics: ownedMosaics,
             };
         } catch (e) {
-            return { balance: 0, ownedMosaics: [] };
+            const currencyMosaic = await this.getNativeMosaicModel(network);
+            return { balance: 0, ownedMosaics: [currencyMosaic] };
         }
     }
 
     /**
-     * Gets MosaicModel from a Mosaic
-     * @param mosaic
+     * Get native mosaic Id
      * @param network
-     * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
-     * @private
+     * @returns {Promise<{amount: string, mosaicId: string, mosaicName: (*|null), divisibility: *}>}
      */
-    static async _getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
+    static async getNativeMosaicModel(network: NetworkModel): Promise<MosaicModel> {
         let mosaicInfo = {},
             mosaicName = {};
+        const mosaic = new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(0));
         try {
             mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
             [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();

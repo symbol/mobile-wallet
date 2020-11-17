@@ -381,5 +381,48 @@
 		"send": "Send",
 		"receive": "Receive",
 		"more": "More"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Start",
+			"title": "Delegated Harvesting"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Create",
+			"title": "Create remote account"
+		}
+	},
+	"table": {
+		"type": "Type",
+		"recipientAddress": "Recipient Address",
+		"messageText": "Message / Memo",
+		"messageEncrypted": "Message encryption",
+		"fee": "Fee",
+		"accountName": "Account name",
+		"address": "Address",
+		"publicKey": "Public key",
+		"privateKey": "Private key",
+		"balance": "Balance",
+		"mosaics": "Mosaics",
+		"mosaic": "Mosaic",
+		"amount": "Amount",
+		"encrypted": "Encrypted",
+		"unencrypted": "Unencrypted",
+
+		"status": "Status",
+		"innerTxs": "Inner transactions",
+		"signerAddress": "Signer Address",
+		"deadline": "Deadline",
+		"hash": "Hash",
+		"transferType": "Transfer Type",
+		"hasCustomMosaic": "Number of Transfered Mosaics",
+		"undefined": "n/a",
+		"null": "n/a"
+	},
+	"transactionTypes": {
+		"unknown": "Type not supported yet",
+		"transfer": "Transfer",
+		"fundsLock": "Funds Lock",
+		"aggregate": "Aggregate"
 	}
 }
