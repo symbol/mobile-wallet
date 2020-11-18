@@ -12,9 +12,9 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
     popup: {
-		height: '60%',
-		flexGrow: 1,
-		flex: 1
+		height: '65%',
+		paddingBottom: 34,
+		//flex: 1
     },
     checkboxContainer: {
         flexDirection: 'row',
@@ -169,7 +169,7 @@ class SettingsNodeSelector extends Component {
 							</Row>
 							
 						</Section>
-						<ManagerHandler dataManager={{isLoading: !!loading}} noLoadingText>
+						<ManagerHandler dataManager={{isLoading: !!loading}} noLoadingText theme="light">
 							<Section type="form-item">
 								<FlatList
 									style={styles.list}
