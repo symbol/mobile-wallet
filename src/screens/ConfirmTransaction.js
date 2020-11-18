@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import {StyleSheet, ScrollView, Image} from 'react-native';
 import {
 	Section,
 	GradientBackground,
@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
         padding: 17,
         paddingTop: 8,
         backgroundColor: '#fff5',
+    },
+    globeIcon: {
+        width: 18,
+        height: 18,
     },
 });
 
@@ -112,7 +116,10 @@ class ConfirmTransaction extends Component<Props, State> {
 						
 						<Section type="form-item">
 							<Text type="bold" theme="light" align="center">
-								(GlobeIcon) Open Block Explorer
+								<Image
+                                style={styles.globeIcon}
+                                source={require('@src/assets/icons/globe_icon.png')}
+                            /> Open Block Explorer
 							</Text>
 						</Section>
 						
