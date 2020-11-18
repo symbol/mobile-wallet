@@ -66,6 +66,7 @@ class TableView extends Component<Props, State> {
 		return <Text type="regular" theme="light">{translate('table.' + (value ? 'encrypted' : 'unencrypted'))}</Text>;
 	};
 	render_amount = (value) => {
+		if (value === 0) return <Text type="regular" theme="light" style={styles.amount}>{value}</Text>
 		return <Text type="regular" theme="light" style={styles.amount}>-{value}</Text>
 	};
 	render_mosaics = (value) => {
