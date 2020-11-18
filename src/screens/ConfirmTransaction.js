@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, ScrollView, Image} from 'react-native';
+import {StyleSheet, ScrollView, Image, TouchableOpacity, Linking} from 'react-native';
 import {
 	Section,
 	GradientBackground,
@@ -12,6 +12,7 @@ import translate from "@src/locales/i18n";
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
+import { getExplorerURL } from '@src/config/environment';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -61,6 +62,11 @@ class ConfirmTransaction extends Component<Props, State> {
             finishAction();
         }
     };
+
+    openExplorer() {
+        const { transaction } = this.props;
+        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
+    }
 
     render = () => {
         const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
@@ -115,12 +121,14 @@ class ConfirmTransaction extends Component<Props, State> {
 						</Section>
 						
 						<Section type="form-item">
-							<Text type="bold" theme="light" align="center">
-								<Image
-                                style={styles.globeIcon}
-                                source={require('@src/assets/icons/globe_icon.png')}
-                            /> Open Block Explorer
-							</Text>
+                            <TouchableOpacity onPress={() => this.openExplorer()}>
+                                <Text type="bold" theme="light" align="center">
+                                    <Image
+                                    style={styles.globeIcon}
+                                    source={require('@src/assets/icons/globe_icon.png')}
+                                /> Open Block Explorer
+                                </Text>
+                            </TouchableOpacity>
 						</Section>
 						
 						<Section type="form-bottom">

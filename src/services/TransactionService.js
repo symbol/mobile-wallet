@@ -22,6 +22,7 @@ import {
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { TransactionQR } from 'symbol-qr-library';
 import NetworkService from '@src/services/NetworkService';
+import store from '@src/store';
 
 export default class TransactionService {
     /**
@@ -53,7 +54,7 @@ export default class TransactionService {
         const mosaics = [
             new Mosaic(
                 new MosaicId(transaction.mosaics[0].mosaicId),
-                UInt64.fromUint(transaction.mosaics[0].amount * Math.pow(10, transaction.mosaics[0].divisibility))
+                UInt64.fromUint(transaction.mosaics[0].amount)
             ),
         ];
         const fee = this._resolveFee(transaction.fee);
@@ -83,14 +84,14 @@ export default class TransactionService {
      * @param signer
      * @param network
      */
-    static _signAndBroadcast = (transaction: Transaction, signer: AccountModel, network: NetworkModel) => {
+    static async _signAndBroadcast(transaction: Transaction, signer: AccountModel, network: NetworkModel) {
         const networkType = network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
         const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
         const signedTransaction = signerAccount.sign(transaction, network.generationHash);
-
+        await store.dispatchAction({ type: 'transfer/setTransactionHash', payload: signedTransaction.hash });
         const transactionHttp = new TransactionHttp(network.node);
         return transactionHttp.announce(signedTransaction).toPromise();
-    };
+    }
 
     /**
      * Cosign and broadcast aggregate transactionModel

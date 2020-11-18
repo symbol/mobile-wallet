@@ -91,7 +91,7 @@ class Send extends Component<Props, State> {
     submit = () => {
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
-        mosaic.amount = parseFloat(this.state.amount)*Math.pow(10, mosaic.divisibility);
+        mosaic.amount = parseFloat(this.state.amount) * Math.pow(10, mosaic.divisibility);
 
         Store.dispatchAction({
             type: 'transfer/setTransaction',
