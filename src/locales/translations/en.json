@@ -421,7 +421,7 @@
 		"namespaceName": "Namespace name",
 		"mosaicId": "Mosaic ID",
 		"namespaceId": "Namespace ID",
-		"namespace": "Namespace"
+		"namespace": "Namespace",
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",

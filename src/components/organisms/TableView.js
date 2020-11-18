@@ -23,7 +23,7 @@ const renderTypeMap = {
 	amount: ['amount', 'fee'],
 	secret: ['privateKey'],
 	mosaics: ['mosaics'],
-	ecryption: ['messageEncrypted']
+	ecryption: ['messageEncrypted'],
 };
 const styles = StyleSheet.create({
 	amount: {
@@ -98,7 +98,6 @@ class TableView extends Component<Props, State> {
 
 	renderTable = (data) => {
 		let _data = data;
-
 		if(data === null || typeof data !== 'object')
 			return null;
 
@@ -109,7 +108,7 @@ class TableView extends Component<Props, State> {
 					key,
 					value: data[key]
 				}));
-
+		_data = _data.slice(0,5);
         return (
 			_data.map(el => <Section type="form-item" key={'table'+el.key+el.value}>
 				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>
