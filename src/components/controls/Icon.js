@@ -174,6 +174,30 @@ export default class C extends Component<Props, State> {
 			case 'mosaic_custom':
 				source = require('@src/assets/icons/mosaic_custom.png');
 				break;
+			case 'qr_light':
+				source = require('@src/assets/icons/qr_light.png');
+				break;
+			case 'explorer_filled_light':
+				source = require('@src/assets/icons/explorer_filled_light.png');
+				break;
+			case 'explorer_filled_primary':
+				source = require('@src/assets/icons/explorer_filled_primary.png');
+				break;
+			case 'explorer_filled_blue':
+				source = require('@src/assets/icons/explorer_filled_blue.png');
+				break;
+			case 'faucet_filled_light':
+				source = require('@src/assets/icons/faucet_filled_light.png');
+				break;
+			case 'faucet_filled_primary':
+				source = require('@src/assets/icons/faucet_filled_primary.png');
+				break;
+			case 'faucet_filled_blue':
+				source = require('@src/assets/icons/faucet_filled_blue.png');
+				break;
+			case 'success':
+				source = require('@src/assets/icons/success.png');
+				break;
 				
 
 			default:

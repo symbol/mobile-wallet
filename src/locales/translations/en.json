@@ -380,7 +380,8 @@
 	"plugin": {
 		"send": "Send",
 		"receive": "Receive",
-		"more": "More"
+		"more": "More",
+		"qr": "Scan QR"
 	},
 	"Harvest": {
 		"StartHarvesting": {
@@ -439,5 +440,14 @@
 		"friday": 	"Friday",
 		"saturday": "Saturday",
 		"sunday": "Sunday"
+	},
+	"link": {
+		"faucet": "Claim test mosaics in the Faucet",
+		"blockExplorer": "Open Block Explorer",
+		"blockExplorerBlock": "Show block in the Block Explorer",
+		"blockExplorerAccount": "Show account in the Block Explorer",
+		"blockExplorerTransaction": "Show in the Block Explorer",
+		"blockExplorerMosaic": "Show mosaic in the Block Explorer",
+		"blockExplorerNamespace": "Show namespace in the Block Explorer"
 	}
 }

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         height: 45,
         justifyContent: 'center',
-        alignItems: 'center',
+		alignItems: 'center'
     },
 });
 
@@ -65,8 +65,7 @@ class InputAccount extends Component<Props, State> {
     getIconPosition = (index, k, offset) => {
         return {
             right: index * k + offset,
-            paddingTop: 10,
-            width: k,
+			width: k
         };
     };
 
