@@ -84,11 +84,11 @@ class PluginList extends Component<Props, State> {
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
 			},
-			{
-                text: 'plugin.qr',
-                name: 'SCAN_QR_CODE_SCREEN',
-                iconName: 'qr_light',
-            },
+			// {
+            //     text: 'plugin.qr',
+            //     name: 'SCAN_QR_CODE_SCREEN',
+            //     iconName: 'qr_light',
+            // },
             // {
             //     text: 'plugin.more',
             //     name: 'DASHBOARD_SCREEN',
