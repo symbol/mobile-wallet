@@ -204,8 +204,8 @@ class Sidebar extends Component<Props, State> {
                 <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                     <Container>
                         <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+                        <TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
                         <ManagerHandler dataManager={{ isLoading }}>
-                            <TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
                             <Section type="form" style={styles.selectedAccountBoxContent}>
                                 <Text style={styles.selectedAccountName} type="title-small" theme="dark">
                                     {selectedAccount ? selectedAccount.name : ''}
