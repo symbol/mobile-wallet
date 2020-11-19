@@ -37,6 +37,10 @@ export default {
             state.transfer.isSuccessfullySent = payload;
             return state;
         },
+        setTransactionHash(state, payload) {
+            state.transfer.transaction.hash = payload;
+            return state;
+        },
         setTransaction(state, payload) {
             state.transfer.transaction = payload;
             return state;
@@ -63,6 +67,10 @@ export default {
                     fee: payload.fee,
                 },
             });
+        },
+
+        setTransactionHash: ({ commit }, payload) => {
+            commit({ type: 'transfer/setTransactionHash', payload: payload });
         },
 
         broadcastTransaction: async ({ commit, state, dispatchAction }, payload) => {
