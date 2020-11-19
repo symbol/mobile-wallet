@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 		marginRight: 32,
 		marginLeft: 32,
 		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
 	}
 });
 

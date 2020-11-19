@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		margin: 16,
 		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
 	},
 
 	pageContainer: {
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: '100',
 		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
 		flexWrap: 'wrap'
 	},
 
@@ -156,6 +158,7 @@ const styles = StyleSheet.create({
 		fontWeight: '100',
 		fontSize: 24,
 		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
 	},
 
 	titleTextNoIcon: {

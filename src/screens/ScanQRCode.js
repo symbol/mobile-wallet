@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 24,
         fontWeight: '100',
-        fontFamily: 'NotoSans-SemiBold',
+		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
         flexWrap: 'wrap',
     },
 
@@ -128,13 +129,15 @@ const styles = StyleSheet.create({
         width: '70%',
         fontWeight: '100',
         fontSize: 24,
-        fontFamily: 'NotoSans-SemiBold',
+		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
     },
 
     wrongPassword: {
         color: '#ee0000',
         fontSize: 16,
-        fontFamily: 'NotoSans-SemiBold',
+		fontFamily: 'NotoSans-SemiBold',
+		fontWeight: '600',
     },
 
     titleTextNoIcon: {

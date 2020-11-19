@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Modal, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal, FlatList, ActivityIndicator } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon, Row } from '@src/components';
+import { Icon, Row, Text as AdvancedText } from '@src/components';
 
 const styles = StyleSheet.create({
     root: {
@@ -248,7 +248,8 @@ export default class Dropdown extends Component<Props, State> {
                             <Row justify="center" style={styles.modalTitleContainer}>
                                 <Text style={styles.modalTitleText}>{title}</Text>
                             </Row>
-                            <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />
+                            {!!list.length && <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />}
+							{!list.length && <AdvancedText type="regular" align="center" theme="light">Nothing to show</AdvancedText>}
                         </View>
                     </View>
                 </Modal>

@@ -97,7 +97,7 @@ export default class PluginList extends Component<Props, State> {
 						{!onBack && !onOpenMenu && <Icon name="none" />}
 					</Row>
 					<Col style={{ flex: 1 }} align="center" justify="center">
-						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '70%'}}>{title}</Text>
+						<Text type='title-small' theme={theme} wrap align="center" style={{maxWidth: '80%'}}>{title}</Text>
 					</Col>
 					<Row justify="end" align="center">
 						{buttons}

@@ -83,6 +83,11 @@ class PluginList extends Component<Props, State> {
                 text: 'plugin.receive',
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
+			},
+			{
+                text: 'plugin.qr',
+                name: 'SCAN_QR_CODE_SCREEN',
+                iconName: 'qr_light',
             },
             // {
             //     text: 'plugin.more',
@@ -110,7 +115,9 @@ class PluginList extends Component<Props, State> {
 									</LinearGradient>
                                 {/* </Col> */}
                             </TouchableOpacity>
-                            <Text type="bold" theme={theme}>{translate(item.text)}</Text>
+                            <View style={{maxWidth: 100}}>
+								<Text type="bold" theme={theme} align="center">{translate(item.text)}</Text>
+							</View>
                         </Col>
                     ))}
                 </Row>
