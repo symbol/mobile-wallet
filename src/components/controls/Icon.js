@@ -120,6 +120,12 @@ export default class C extends Component<Props, State> {
 			case 'qr':
 				source = require('@src/assets/icons/qr.png');
 				break;
+			case 'address_book':
+				source = require('@src/assets/icons/address_book.png');
+				break;
+			case 'address_book_filled_light':
+				source = require('@src/assets/icons/address_book_filled_light.png');
+				break;
 			case 'expand':
 				source = require('@src/assets/icons/expand.png');
 				break;
