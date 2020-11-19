@@ -13,7 +13,8 @@ import {
     NamespaceHttp,
     Order,
     AccountHttp,
-    PublicAccount, RepositoryFactoryHttp,
+    PublicAccount,
+    RepositoryFactoryHttp,
 } from 'symbol-sdk';
 import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
@@ -200,7 +201,7 @@ export default class FetchTransactionService {
         return {
             ...transactionModel,
             type: 'transfer',
-            recipientAddress: transaction.recipientAddress.pretty(),
+            recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.pretty() : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type,
             mosaics: mosaicModels,
@@ -262,7 +263,9 @@ export default class FetchTransactionService {
                     transaction.transactionInfo.id,
                     transaction.isConfirmed()
                         ? TransactionGroup.Confirmed
-                        : (transaction.isUnconfirmed() ? TransactionGroup.Unconfirmed : TransactionGroup.Partial)
+                        : transaction.isUnconfirmed()
+                            ? TransactionGroup.Unconfirmed
+                            : TransactionGroup.Partial
                 )
                 .toPromise();
             innerTransactionModels = await Promise.all(
@@ -303,7 +306,6 @@ export default class FetchTransactionService {
         };
     }
 
-
     /**
      * Populates mosaicAlias transaction Model
      * @param transactionModel
@@ -329,7 +331,7 @@ export default class FetchTransactionService {
             type: 'mosaicAlias',
             aliasAction: aliasAction,
             namespaceId: namespaceId.toHex(),
-            namespaceName: namespaceInfo[0].name,
+            namespaceName: namespaceInfo[0] ? namespaceInfo[0].name : '',
             mosaicId: mosaicId.toHex(),
         };
     }

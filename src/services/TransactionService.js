@@ -60,7 +60,7 @@ export default class TransactionService {
         const fee = this._resolveFee(transaction.fee);
         if (!transaction.messageEncrypted) {
             const message = PlainMessage.create(transaction.messageText);
-            const transferTransaction = TransferTransaction.create(Deadline.create(network.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
+            const transferTransaction = TransferTransaction.create(Deadline.create(networkModel.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
             return this._signAndBroadcast(transferTransaction, signer, networkModel);
         } else {
             const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
@@ -69,7 +69,7 @@ export default class TransactionService {
             try {
                 const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
                 const message = signerAccount.encryptMessage(transaction.messageText, accountInfo);
-                const transferTransaction = TransferTransaction.create(Deadline.create(network.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
+                const transferTransaction = TransferTransaction.create(Deadline.create(networkModel.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
                 return this._signAndBroadcast(transferTransaction, signer, networkModel);
             } catch (e) {
                 throw Error('Recipient address has not a public key');
