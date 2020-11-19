@@ -23,14 +23,14 @@ class AccountDetails extends Component<Props, State> {
             address,
             publicKey,
             privateKey,
-            balance
+            balance,
         };
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
                 <Section type="form" style={styles.list} isScrollable>
-                    <TableView data={data} />
+                    <TableView componentId={componentId} data={data} />
                     <Section type="form-item">
                         <LinkExplorer type="account" value={this.props.address} />
                     </Section>

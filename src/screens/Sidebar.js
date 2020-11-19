@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableItem, Image, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TouchableItem, Image } from 'react-native';
 import {
     Section,
     GradientBackground,
@@ -26,6 +26,8 @@ import { downloadFile } from '@src/utils/donwload';
 
 const styles = StyleSheet.create({
     root: {
+        flex: 1,
+        flexDirection: 'row',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -39,14 +41,11 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.color.DARKWHITE,
     },
     selectedAccountBox: {
-		flex: 0,
-		width: '100%',
+        width: '100%',
         margin: 0,
-		padding: 0,
+        padding: 0,
     },
-    selectedAccountBoxContent: {
-
-    },
+    selectedAccountBoxContent: {},
     selectedAccountName: {},
     selectedAccountAddress: {
         fontSize: 1 * 12,
@@ -72,15 +71,15 @@ const styles = StyleSheet.create({
     },
     accountBox: {
         backgroundColor: GlobalStyles.color.WHITE,
-		borderRadius: 5,
-		marginTop: 8,
+        borderRadius: 5,
+        marginTop: 8,
         //marginBottom: 4,
         paddingHorizontal: 32,
         paddingVertical: 8,
-	},
-	accountType: {
-		marginTop: -15
-	},
+    },
+    accountType: {
+        marginTop: -15,
+    },
     optionsIcon: {
         width: 34,
         height: 40,
@@ -96,8 +95,8 @@ const styles = StyleSheet.create({
         //borderTopWidth: 1,
         borderColor: GlobalStyles.color.SECONDARY,
         paddingVertical: 8,
-		alignItems: 'flex-start',
-		//backgroundColor: GlobalStyles.color.WHITE,
+        alignItems: 'flex-start',
+        //backgroundColor: GlobalStyles.color.WHITE,
     },
     menuItem: {
         margin: 4,
@@ -201,28 +200,32 @@ class Sidebar extends Component<Props, State> {
         );
 
         return (
-			<SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
-					<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-					<ManagerHandler dataManager={{ isLoading }} theme="dark" noLoadingText allowContainer>
-						<TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
-						<Section type="form" style={styles.selectedAccountBoxContent}>
-							<Text style={styles.selectedAccountName} type="title-small" theme="dark">
-								{selectedAccount ? selectedAccount.name : ''}
-							</Text>
-							<Text style={styles.selectedAccountAddress} theme="dark">
-								<Trunc type="address">{address}</Trunc>
-							</Text>
-							<Row align="end" justify="space-between" fullWidth>
-								<Text style={styles.selectedAccountMosaic} theme="dark">
-									{nativeMosaicNamespace}
-								</Text>
-								<Text style={styles.selectedAccountBalance} theme="dark">
-									{balance}
-								</Text>
-							</Row>
-						</Section>
-					</ManagerHandler> 
-			</SymbolGradientContainer>
+            <View onPress={() => this.handleAccountDetails()}>
+                <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
+                    <Container>
+                        <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+                        <ManagerHandler dataManager={{ isLoading }}>
+                            <TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
+                            <Section type="form" style={styles.selectedAccountBoxContent}>
+                                <Text style={styles.selectedAccountName} type="title-small" theme="dark">
+                                    {selectedAccount ? selectedAccount.name : ''}
+                                </Text>
+                                <Text style={styles.selectedAccountAddress} theme="dark">
+                                    <Trunc type="address">{address}</Trunc>
+                                </Text>
+                                <Row align="end" justify="space-between" fullWidth>
+                                    <Text style={styles.selectedAccountMosaic} theme="dark">
+                                        {nativeMosaicNamespace}
+                                    </Text>
+                                    <Text style={styles.selectedAccountBalance} theme="dark">
+                                        {balance}
+                                    </Text>
+                                </Row>
+                            </Section>
+                        </ManagerHandler>
+                    </Container>
+                </SymbolGradientContainer>
+            </View>
         );
     };
 
@@ -274,12 +277,12 @@ class Sidebar extends Component<Props, State> {
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
             { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
-            // {
-            //     iconName: 'incoming_light',
-            //     text: savingPaperWallet ? 'Saving paper wallet...' : 'Backup Accounts',
-            //     onPress: () => this.handleBackupAccounts(),
-            //     disabled: savingPaperWallet,
-            // },
+            /*{
+                iconName: 'incoming_light',
+                text: savingPaperWallet ? 'Saving paper wallet...' : 'Backup Accounts',
+                onPress: () => this.handleBackupAccounts(),
+                disabled: savingPaperWallet,
+            },*/
         ];
 
         if (!isVisible) return null;
@@ -289,29 +292,18 @@ class Sidebar extends Component<Props, State> {
             <View style={styles.root}>
                 <View style={styles.menuContainer}>
                     <GradientBackground theme="light" name="mesh_small_2" style={{ width: '100%', height: '100%' }} noPadding>
-						<Col justify="space-between" style={{height: '100%'}}>
-							<View style={{flex: 1}}>
-								<View style={{ height: 235}}>
-									{selectedAccount && this.renderSelectedAccountItem(selectedAccount)}
-								</View>
-								<FlatList 
-								data={accounts}
-								keyExtractor={(item, index) => '' + index + 'accounts'}
-                                renderItem={account => {
-                                    if (account.item.id !== selectedAccount.id) return this.renderAccountSelectorItem(account.item);
+                        <Col justify="space-between" style={{ height: '100%' }}>
+                            <Section style={{ marginBottom: -130 }} isScrollable>
+                                <View style={{ height: '100%' }}>{selectedAccount && this.renderSelectedAccountItem(selectedAccount)}</View>
+                            </Section>
+                            <Section isScrollable>
+                                {accounts.map(account => {
+                                    if (account.id !== selectedAccount.id) return this.renderAccountSelectorItem(account);
                                     else return null;
-								}}
-							/>
-							</View>
-							
-							<View 
-								style={[styles.menuBottomContainer]}
-							>
-								{menuItems.map(this.renderMenuItem)}
-							</View>
-						</Col>
-							
-                 
+                                })}
+                            </Section>
+                            <Section style={styles.menuBottomContainer}>{menuItems.map(this.renderMenuItem)}</Section>
+                        </Col>
                     </GradientBackground>
                 </View>
                 <TouchableOpacity justify="end" style={{ width: '100%', height: '100%' }} fullHeight onPress={() => this.props.onHide()} />

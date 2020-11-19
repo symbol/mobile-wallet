@@ -31,7 +31,8 @@ class ShowQRCode extends Component {
             : { type: getDefaultNetworkType(), generationHash: 'no-chain-id' };
         this.setState({ isLoading: true });
         try {
-            const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, [], network);
+            const accounts = store.getState().wallet.accounts;
+            const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, accounts, network);
             const uniqueVal = new Date()
                 .getTime()
                 .toString()

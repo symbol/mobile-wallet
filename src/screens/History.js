@@ -74,17 +74,16 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetails => ({ item, index }) => {
         return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <Transaction transaction={item} showDetails={showingDetails === index} />
+                <Transaction transaction={item} showDetails={showingDetails === index} componentId={this.props.componentId} />
             </ListItem>
         );
     };
 
     render() {
-        const { address, cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
+        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
         const { showingDetails } = this.state;
 
         return (
-            // <ImageBackground name="tanker" dataManager={dataManager}>
 			<GradientBackground
 				name="connector_small"
 				theme="light"

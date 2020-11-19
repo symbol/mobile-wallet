@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Type = 'title' 
+type Type = 'title'
 	| 'subtitle'
 	| 'text'
 	| 'center'
@@ -34,40 +34,40 @@ export default class Text extends Component<Props, State> {
 		let globalStyle = {};
 
 		switch(type) {
-			case 'title': 
-				globalStyle = GlobalStyles.section.title; 
+			case 'title':
+				globalStyle = GlobalStyles.section.title;
 				break;
-			case 'subtitle': 
-				globalStyle = GlobalStyles.section.subtitle; 
+			case 'subtitle':
+				globalStyle = GlobalStyles.section.subtitle;
 				break;
-			case 'text': 
-				globalStyle = GlobalStyles.section.text; 
+			case 'text':
+				globalStyle = GlobalStyles.section.text;
 				break;
-			case 'center': 
-				globalStyle = GlobalStyles.section.center; 
+			case 'center':
+				globalStyle = GlobalStyles.section.center;
 				break;
-			case 'button': 
-				globalStyle = GlobalStyles.section.button; 
+			case 'button':
+				globalStyle = GlobalStyles.section.button;
 				break;
-			case 'list': 
-				globalStyle = GlobalStyles.section.list; 
+			case 'list':
+				globalStyle = GlobalStyles.section.list;
 				break;
-			case 'form': 
-				globalStyle = GlobalStyles.section.form; 
+			case 'form':
+				globalStyle = GlobalStyles.section.form;
 				break;
-			case 'form-item': 
-				globalStyle = GlobalStyles.section.formItem; 
+			case 'form-item':
+				globalStyle = GlobalStyles.section.formItem;
 				break;
-			case 'form-bottom': 
-				globalStyle = GlobalStyles.section.formBottom; 
+			case 'form-bottom':
+				globalStyle = GlobalStyles.section.formBottom;
 				break;
 		}
 
-        return (!isScrollable 
+        return (!isScrollable
 			? <View style={[globalStyle, style]}>
 				{children}
 			</View>
-			: <ScrollView 
+			: <ScrollView
 				style={[styles.scrollWrapper, style]}
 				contentContainerStyle={[styles.scrollContent]}
 			>

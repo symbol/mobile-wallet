@@ -6,6 +6,7 @@ import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { getExplorerURL } from '@src/config/environment';
+import {showPasscode} from "@src/utils/passcode";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -39,21 +40,7 @@ class ConfirmTransaction extends Component<Props, State> {
             });
         };
 
-        const { isPinSet } = this.props;
-        if (isPinSet) {
-            Router.showPasscode(
-                {
-                    resetPasscode: false,
-                    onSuccess: () => {
-                        Router.goBack(this.props.componentId);
-                        finishAction();
-                    },
-                },
-                this.props.componentId
-            );
-        } else {
-            finishAction();
-        }
+        showPasscode(this.props.componentId, finishAction);
     };
 
     openExplorer() {
