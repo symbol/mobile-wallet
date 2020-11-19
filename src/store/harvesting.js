@@ -1,7 +1,7 @@
 import { UInt64 } from 'symbol-sdk';
 import HarvestingService from '@src/services/HarvestingService';
 
-export type HarvestingStatus = 'ACTIVE' | 'INACTIVE' | 'INPROGRESS_ACTIVATION' | 'INPROGRESS_DEACTIVATION';
+export type HarvestingStatus = 'ACTIVE' | 'INACTIVE' | 'INPROGRESS_ACTIVATION' | 'INPROGRESS_DEACTIVATION' | 'KEYS_LINKED';
 
 export type HarvestedBlock = {
     blockNo: UInt64,
@@ -67,10 +67,10 @@ export default {
         },
         loadState: async ({ commit, state }) => {
             try {
-                const allKeys = await HarvestingService.getAccountKeys(state.wallet.selectedAccount, state.network.selectedNetwork);
-                const allKeysLinked = allKeys.linked && allKeys.node && allKeys.vrf;
-                commit({ type: 'harvesting/setStatus', payload: allKeysLinked ? 'ACTIVE' : 'INACTIVE' });
-            } catch {
+                const status = await HarvestingService.getAccountStatus(state.wallet.selectedAccount, state.network.selectedNetwork);
+                commit({ type: 'harvesting/setStatus', payload: status });
+            } catch(e) {
+                console.log(e);
                 commit({ type: 'harvesting/setStatus', payload: 'INACTIVE' });
             }
         },
@@ -81,16 +81,40 @@ export default {
         loadHarvestedBlocksStats: async ({ commit, state }) => {
             HarvestingService.getHarvestedBlocksStats(state.wallet.selectedAccount, state.network.selectedNetwork, commit);
         },
-        startHarvesting: async ({ state, dispatchAction }, nodePublicKey) => {
+        startHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             await HarvestingService.doHarvesting('START', state.wallet.selectedAccount, state.network.selectedNetwork, nodePublicKey);
+            await dispatchAction({
+                type: 'wallet/updateDelegatedHarvestingInfo',
+                payload: {
+                    id: state.wallet.selectedAccount.id,
+                    isPersistentDelReqSent: true,
+                    harvestingNode: harvestingNode,
+                },
+            });
             dispatchAction({ type: 'harvesting/init' });
         },
         stopHarvesting: async ({ state, dispatchAction }) => {
             await HarvestingService.doHarvesting('STOP', state.wallet.selectedAccount, state.network.selectedNetwork);
+            await dispatchAction({
+                type: 'wallet/updateDelegatedHarvestingInfo',
+                payload: {
+                    id: state.wallet.selectedAccount.id,
+                    isPersistentDelReqSent: false,
+                    harvestingNode: null,
+                },
+            });
             dispatchAction({ type: 'harvesting/init' });
         },
-        swapHarvesting: async ({ state, dispatchAction }, nodePublicKey) => {
+        swapHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             await HarvestingService.doHarvesting('SWAP', state.wallet.selectedAccount, state.network.selectedNetwork, nodePublicKey);
+            await dispatchAction({
+                type: 'wallet/updateDelegatedHarvestingInfo',
+                payload: {
+                    id: state.wallet.selectedAccount.id,
+                    isPersistentDelReqSent: true,
+                    harvestingNode: harvestingNode,
+                },
+            });
             dispatchAction({ type: 'harvesting/init' });
         },
     },

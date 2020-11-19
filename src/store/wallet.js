@@ -89,6 +89,12 @@ export default {
             commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
+        updateDelegatedHarvestingInfo: async ({ commit, dispatchAction, state }, { id, isPersistentDelReqSent, harvestingNode }) => {
+            const accounts = await AccountService.updateDelegatedHarvestingInfo(id, isPersistentDelReqSent, harvestingNode);
+            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id);
+            commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
+            commit({ type: 'wallet/setAccounts', payload: accounts });
+        },
         downloadPaperWallet: async ({ state }) => {
             const accounts = state.wallet.accounts || [];
             const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();

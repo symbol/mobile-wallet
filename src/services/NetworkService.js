@@ -33,6 +33,7 @@ export default class NetworkService {
             currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
             chainHeight: chainInfo.height.compact(),
             blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
+            epochAdjustment: parseInt(networkProps.network.epochAdjustment),
         };
     }
 

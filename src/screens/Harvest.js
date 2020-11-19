@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: GlobalStyles.color.GREEN,
         marginRight: 5,
-        marginBottom: 1
+        marginBottom: 1,
     },
     inactive: {
         height: 8,
@@ -37,7 +37,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: GlobalStyles.color.RED,
         marginRight: 5,
-        marginBottom: 1
+        marginBottom: 1,
+    },
+    activation: {
+        height: 8,
+        width: 8,
+        borderRadius: 4,
+        backgroundColor: GlobalStyles.color.ORANGE,
+        marginRight: 5,
+        marginBottom: 1,
     },
 });
 
@@ -47,8 +55,28 @@ type State = {};
 
 class Harvest extends Component<Props, State> {
     state = {
-        selectedNodePubKey: null,
+        selectedNode: null,
         isLoading: false,
+    };
+
+    componentDidMount() {
+        const { selectedAccount } = this.props;
+        if (selectedAccount.harvestingNode) {
+            const nodes = HarvestingService.getHarvestingNodeList();
+            for (let node of nodes) {
+                if (node.url === selectedAccount.harvestingNode) {
+                    this.setState({
+                        selectedNode: node.publicKey,
+                    });
+                }
+            }
+        }
+    }
+
+    getSelectedUrl = () => {
+        const { selectedNode } = this.state;
+        const nodeObj = HarvestingService.getHarvestingNodeList().find(node => node.publicKey === selectedNode);
+        return nodeObj ? nodeObj.url : null;
     };
 
     getHarvestingNodesDropDown = () => {
@@ -58,57 +86,72 @@ class Harvest extends Component<Props, State> {
         }));
     };
 
-    onSelectHarvestingNode = node => this.setState({ selectedNodePubKey: node });
+    onSelectHarvestingNode = node => this.setState({ selectedNode: node });
 
     startHarvesting = async _ => {
         const callBack = async () => {
-            const { selectedNodePubKey } = this.state;
+            const { selectedNode } = this.state;
             this.setState({ isLoading: true });
-            await store.dispatchAction({ type: 'harvesting/startHarvesting', payload: selectedNodePubKey });
+            await store.dispatchAction({
+                type: 'harvesting/startHarvesting',
+                payload: { nodePublicKey: selectedNode, harvestingNode: this.getSelectedUrl() },
+            });
             this.setState({ isLoading: false });
-        }
+        };
         showPasscode(this.props.componentId, callBack);
     };
 
     swapHarvesting = async _ => {
-		const callBack = async () => {
-			const { selectedNodePubKey } = this.state;
-			this.setState({ isLoading: true });
-			await store.dispatchAction({ type: 'harvesting/swapHarvesting', payload: selectedNodePubKey });
-			this.setState({ isLoading: false });
-		}
-		showPasscode(this.props.componentId, callBack);
+        const callBack = async () => {
+            const { selectedNode } = this.state;
+            this.setState({ isLoading: true });
+            await store.dispatchAction({
+                type: 'harvesting/swapHarvesting',
+                payload: { nodePublicKey: selectedNode, harvestingNode: this.getSelectedUrl() },
+            });
+            this.setState({ isLoading: false });
+        };
+        showPasscode(this.props.componentId, callBack);
     };
 
     stopHarvesting = async _ => {
-		const callBack = async () => {
-			this.setState({ isLoading: true });
-			await store.dispatchAction({ type: 'harvesting/stopHarvesting' });
-			this.setState({ isLoading: false });
-		}
-		showPasscode(this.props.componentId, callBack);
+        const callBack = async () => {
+            this.setState({ isLoading: true });
+            await store.dispatchAction({ type: 'harvesting/stopHarvesting' });
+            this.setState({ isLoading: false });
+        };
+        showPasscode(this.props.componentId, callBack);
     };
 
     render() {
         const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings } = this.props;
-        const { selectedNodePubKey, isLoading } = this.state;
-        const statusStyle = status === 'ACTIVE'
-            ? styles.active
-            : styles.inactive;
+        const { selectedNode, isLoading } = this.state;
+        let statusStyle;
+        switch (status) {
+            case 'ACTIVE':
+                statusStyle = styles.active;
+                break;
+            case 'INACTIVE':
+                statusStyle = styles.inactive;
+                break;
+            case 'INPROGRESS_ACTIVATION':
+                statusStyle = styles.activation;
+                break;
+            case 'INPROGRESS_DEACTIVATION':
+                statusStyle = styles.activation;
+                break;
+            case 'KEYS_LINKED':
+                statusStyle = styles.activation;
+                break;
+        }
 
         return (
-        //<ImageBackground name="harvest">
+            //<ImageBackground name="harvest">
             <GradientBackground
                 name="connector_small"
                 theme="light"
                 dataManager={{ isLoading }}
-                titleBar={<TitleBar
-                    theme="light"
-                    title="Harvest"
-                    onOpenMenu={() => onOpenMenu()}
-                    onSettings={() => onOpenSettings()}
-                />}
-            >
+                titleBar={<TitleBar theme="light" title="Harvest" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}>
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item" style={styles.card}>
                         <Row justify="space-between" fullWidth>
@@ -144,27 +187,39 @@ class Harvest extends Component<Props, State> {
                             theme="light"
                             list={this.getHarvestingNodesDropDown()}
                             title={'Select node'}
-                            value={selectedNodePubKey}
+                            value={selectedNode}
                             onChange={this.onSelectHarvestingNode}
                         />
                     </Section>
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {status === 'INACTIVE' &&
+                        {status === 'INACTIVE' && (
                             <Section type="form-item">
-						    <Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Start harvesting" theme="light" onPress={() => this.startHarvesting()} />
+                                <Button
+                                    isLoading={isLoading}
+                                    isDisabled={!selectedNode}
+                                    text="Start harvesting"
+                                    theme="light"
+                                    onPress={() => this.startHarvesting()}
+                                />
                             </Section>
-                        }
-                        {status === 'ACTIVE' &&
+                        )}
+                        {status !== 'INACTIVE' && (
                             <Section type="form-item">
-						    <Button isLoading={isLoading} isDisabled={!selectedNodePubKey} text="Change node" theme="light" onPress={() => this.swapHarvesting()} />
+                                <Button
+                                    isLoading={isLoading}
+                                    isDisabled={!selectedNode}
+                                    text="Change node"
+                                    theme="light"
+                                    onPress={() => this.swapHarvesting()}
+                                />
                             </Section>
-                        }
-                        {status === 'ACTIVE' &&
+                        )}
+                        {status !== 'INACTIVE' && (
                             <Section type="form-item">
                                 <Button isLoading={isLoading} isDisabled={false} text="Stop harvesting" theme="light" onPress={() => this.stopHarvesting()} />
                             </Section>
-                        }
+                        )}
                     </Section>
                 </Section>
             </GradientBackground>
@@ -174,6 +229,7 @@ class Harvest extends Component<Props, State> {
 }
 
 export default connect(state => ({
+    selectedAccount: state.wallet.selectedAccount,
     status: state.harvesting.status,
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,

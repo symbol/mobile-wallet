@@ -10,4 +10,5 @@ export interface NetworkModel {
     currencyMosaicId: string;
     chainHeight: number;
     blockGenerationTargetTime: number;
+    epochAdjustment: number;
 }

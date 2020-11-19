@@ -79,7 +79,7 @@ export default class New extends Component<Props> {
 					</Col>
 				</Row>
 				<Row justify="space-between" align="end" fullWidth>
-					<Col style={{flex: 1}}>
+					<Col style={{flex: 1, marginTop: 10}}>
 						<TouchableOpacity onPress={() => this.onPress()}>
 							<Text theme="light" align="right" style={styles.link}>
 								Read more
