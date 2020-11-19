@@ -3,8 +3,8 @@
  * @flow
  */
 import { hasUserSetPinCode, deleteUserPinCode } from '@haskkor/react-native-pincode';
-import store from "@src/store";
-import {Router} from "@src/Router";
+import store from '@src/store';
+import { Router } from '@src/Router';
 
 const getPasscodeStatus = (serviceName?: string): boolean => {
     return hasUserSetPinCode(serviceName);
@@ -12,6 +12,21 @@ const getPasscodeStatus = (serviceName?: string): boolean => {
 
 const deletePasscode = (serviceName?: string): boolean => {
     return deleteUserPinCode(serviceName);
+};
+
+const createPasscode = componentId => {
+    const setPasscode = () => {
+        store.dispatchAction({ type: 'settings/saveIsPasscodeSelected', payload: true }).then(_ => {
+            Router.goToWalletLoading({});
+        });
+    };
+    Router.showPasscode(
+        {
+            resetPasscode: false,
+            onSuccess: setPasscode,
+        },
+        componentId
+    );
 };
 
 const showPasscode = (componentId, callback) => {
@@ -32,4 +47,4 @@ const showPasscode = (componentId, callback) => {
     }
 };
 
-export { getPasscodeStatus, deletePasscode, showPasscode };
+export { getPasscodeStatus, deletePasscode, showPasscode, createPasscode };

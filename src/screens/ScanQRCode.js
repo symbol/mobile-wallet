@@ -15,6 +15,7 @@ import { Button, Title } from '@src/components';
 import SymbolPageView from '@src/components/organisms/SymbolPageView';
 import FadeView from '@src/components/organisms/FadeView';
 import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';
+import {createPasscode} from "@src/utils/passcode";
 
 type State = {
     showWarning: boolean,
@@ -239,7 +240,7 @@ class ScanQRCode extends Component<Props, State> {
             const mnemonicQR = MnemonicQR.fromJSON(mnemonicFixed);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
             store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonicQR.mnemonicPlainText });
-            Router.goToWalletLoading({}, this.props.componentId);
+            createPasscode(this.props.componentId);
         } catch (e) {
             if (e.message === 'Could not parse mnemonic pass phrase.') {
                 this.setState({ encryptedQR: mnemonicFixed, showPassword: true });
@@ -259,7 +260,7 @@ class ScanQRCode extends Component<Props, State> {
             const decryptedQR = MnemonicQR.fromJSON(encryptedQR, password);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
             store.dispatch({ type: 'wallet/setMnemonic', payload: decryptedQR.mnemonicPlainText });
-            Router.goToWalletLoading({}, this.props.componentId);
+            createPasscode(this.props.componentId);
         } catch {
             this.setState({ wrongPassword: true, password: '' });
         }

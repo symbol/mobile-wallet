@@ -15,6 +15,7 @@ import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import { Router } from '@src/Router';
 import store from '@src/store';
+import {createPasscode} from "@src/utils/passcode";
 
 const testIDs = {
     listItemVerifiedMnemonics: 'list-item-mnemonic',
@@ -50,7 +51,7 @@ class VerifyMnemonics extends Component {
         if (isBackup) {
             Router.goToDashboard({});
         } else {
-            Router.goToWalletLoading({});
+            createPasscode(this.props.componentId);
         }
     };
 

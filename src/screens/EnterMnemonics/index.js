@@ -18,6 +18,7 @@ import { Router } from '@src/Router';
 import TitleBar from '@src/components/atoms/TitleBar';
 import Card from '@src/components/atoms/Card';
 import store from '@src/store';
+import {createPasscode} from "@src/utils/passcode";
 
 const INITIAL_TEXT = ' ';
 const DEFAULT_LANGUAGE = 'english';
@@ -175,7 +176,7 @@ class EnterMnemonics extends Component {
         const { mnemonics } = this.state;
         store.dispatch({ type: 'wallet/setName', payload: 'Imported wallet' });
         store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonics.join(' ') });
-        Router.goToWalletLoading({}, this.props.componentId);
+        createPasscode(this.props.componentId);
         // Router go to pre-dashboard
     };
 

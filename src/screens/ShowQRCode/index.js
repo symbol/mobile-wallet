@@ -14,6 +14,7 @@ import store from '@src/store';
 import { downloadFile } from '@src/utils/donwload';
 import AccountService from '@src/services/AccountService';
 import { getDefaultNetworkType } from '@src/config/environment';
+import {createPasscode} from "@src/utils/passcode";
 
 class ShowQRCode extends Component {
     state = {
@@ -56,7 +57,7 @@ class ShowQRCode extends Component {
         if (isBackup) {
             Router.goToDashboard({});
         } else {
-            Router.goToWalletLoading({});
+            createPasscode(this.props.componentId);
         }
     };
 

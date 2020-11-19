@@ -36,7 +36,7 @@ export default class Settings extends Component {
 					<SettingsNodeSelector />
 					<SettingsBackup {...this.props} />
 					<SettingsAboutNem />
-					<SettingsLogout />
+					<SettingsLogout {...this.props} />
 				</View>
             </SymbolPageView>
         );
