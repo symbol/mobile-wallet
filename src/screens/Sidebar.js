@@ -233,7 +233,7 @@ class Sidebar extends Component<Props, State> {
         ];
         const startPath = "m/44'/4343'/0'/";
         const endPath = "'/0'";
-        const index = path.replace(startPath, '').replace(endPath, '');
+        const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
 
         return (
             <TouchableOpacity style={styles.accountBox} onPress={() => this.handleSelectAccount(id)}>
