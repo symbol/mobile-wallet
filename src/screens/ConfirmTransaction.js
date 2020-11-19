@@ -6,7 +6,11 @@ import {
 	TitleBar,
 	Text,
 	Button,
-	TableView
+	TableView,
+	LinkExplorer,
+	Icon,
+	Row,
+	Col
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -102,19 +106,26 @@ class ConfirmTransaction extends Component<Props, State> {
 				}
 				{isSuccessfullySent &&
 					<Section type="form">
-						<Section type="form-item">
-							<Section type="center">
-								<Text type="alert" theme="light">
-									Success!
-								</Text>
+						<Col justify="center" style={{marginTop: '15%'}}>
+							<Section type="form-item">
+								<Row justify="space-between" align="end">
+									<Text type="alert" theme="light" style={{paddingBottom: 0}}>
+										Success!
+									</Text>
+									<Icon name="success" size="big"/>
+								</Row>
 							</Section>
-						</Section>
+							<Section type="form-item">
+									<Text type="bold" theme="light">
+										Transaction succesfully sent. Pending to be confirmed by the network
+									</Text>
+							</Section>
+							
+							<Section type="form-item">
+								<LinkExplorer type="transaction" value={transaction.hash} />
+							</Section>
+						</Col>
 						
-						<Section type="form-item">
-							<Text type="bold" theme="light" align="center">
-								(GlobeIcon) Open Block Explorer
-							</Text>
-						</Section>
 						
 						<Section type="form-bottom">
 							<Button

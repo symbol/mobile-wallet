@@ -195,6 +195,9 @@ export default class C extends Component<Props, State> {
 			case 'faucet_filled_blue':
 				source = require('@src/assets/icons/faucet_filled_blue.png');
 				break;
+			case 'success':
+				source = require('@src/assets/icons/success.png');
+				break;
 				
 
 			default:
