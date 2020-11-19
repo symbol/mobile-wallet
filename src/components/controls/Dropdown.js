@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal, FlatList, ActivityIndicator } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row, Text as AdvancedText } from '@src/components';
+import TitleBar from '@src/components/atoms/TitleBar';
 
 const styles = StyleSheet.create({
     root: {
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
     modalTitleContainer: {
         borderBottomWidth: 1,
         borderColor: GlobalStyles.color.GREY4,
-        padding: 12,
     },
     modalTitleText: {
         color: GlobalStyles.color.onLight.TEXT,
@@ -241,15 +241,27 @@ export default class Dropdown extends Component<Props, State> {
 
                 <Modal animationType="fade" transparent visible={isSelectorOpen} onRequestClose={() => this.closeSelector()}>
                     <TouchableWithoutFeedback onPress={() => this.closeSelector()}>
-                        <View style={styles.modalOverlay}></View>
+                        <View style={styles.modalOverlay} />
                     </TouchableWithoutFeedback>
                     <View style={styles.modalWrapper}>
                         <View style={styles.modal}>
                             <Row justify="center" style={styles.modalTitleContainer}>
-                                <Text style={styles.modalTitleText}>{title}</Text>
+                                <TitleBar
+                                    style={styles.titleBar}
+                                    titleTextStyle={styles.titleText}
+                                    onClose={() => this.closeSelector()}
+                                    iconStyle={styles.backButton}
+                                    showClose={true}
+                                    title={title}
+                                    alignLeft
+                                />
                             </Row>
                             {!!list.length && <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />}
-							{!list.length && <AdvancedText type="regular" align="center" theme="light">Nothing to show</AdvancedText>}
+                            {!list.length && (
+                                <AdvancedText type="regular" align="center" theme="light">
+                                    Nothing to show
+                                </AdvancedText>
+                            )}
                         </View>
                     </View>
                 </Modal>
