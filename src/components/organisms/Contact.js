@@ -30,16 +30,16 @@ export default class Contact extends Component<Props> {
 
     render() {
         return (
-            <Card style={styles.root}>
-                <TouchableOpacity onPress={() => this.onPress(this.props)}>
-                    <Text theme="light" type="bold" style={styles.title}>
-                        {this.props.name}
-                    </Text>
-                    <Text theme="light" type="regular" align={'left'} style={styles.content}>
-                        {this.props.address}
-                    </Text>
-                </TouchableOpacity>
-            </Card>
+			<TouchableOpacity onPress={() => this.onPress(this.props)}>
+				<Card style={styles.root}>
+					<Text theme="light" type="bold" style={styles.title}>
+						{this.props.name}
+					</Text>
+					<Text theme="light" type="regular" align={'left'} style={styles.content}>
+						{this.props.address}
+					</Text>
+				</Card>
+			</TouchableOpacity> 
         );
     }
 }
