@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import {StyleSheet, ScrollView, Image, TouchableOpacity, Linking} from 'react-native';
-import {
-	Section,
-	GradientBackground,
-	TitleBar,
-	Text,
-	Button,
-	TableView
-} from '@src/components';
-import translate from "@src/locales/i18n";
+import { StyleSheet, ScrollView, Image, TouchableOpacity, Linking } from 'react-native';
+import { Section, GradientBackground, TitleBar, Text, Button, TableView, Icon } from '@src/components';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -70,16 +62,15 @@ class ConfirmTransaction extends Component<Props, State> {
 
     render = () => {
         const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
-		const {} = this.state;
-		
-		const hardCodedDataManager = {
-			isLoading,
-			isError,
-			errorMessage,
-		}
+        const {} = this.state;
 
-        const preview = Object.keys(transaction)
-            .map(key => ({ key, value: transaction[key] }));
+        const hardCodedDataManager = {
+            isLoading,
+            isError,
+            errorMessage,
+        };
+
+        const preview = Object.keys(transaction).map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
@@ -90,59 +81,40 @@ class ConfirmTransaction extends Component<Props, State> {
                 : () => Router.goBack(this.props.componentId);
 
         return (
-			<GradientBackground name="connector" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
-				<TitleBar
-					theme="light"
-					onBack={backFunction}
-					title="Confirm Transaction"
-				/>
-				{isPreviewShown &&
-					<Section type="form" style={styles.list} isScrollable>
-						<TableView data={preview} />
-						<Section type="form-bottom">
-							<Button
-								isLoading={false}
-								isDisabled={false}
-								text="Confirm"
-								theme="light"
-								onPress={() => this.submit()}
-							/>
-						</Section>
-					</Section>
-				}
-				{isSuccessfullySent &&
-					<Section type="form">
-						<Section type="form-item">
-							<Section type="center">
-								<Text type="alert" theme="light">
-									Success!
-								</Text>
-							</Section>
-						</Section>
-						
-						<Section type="form-item">
+            <GradientBackground name="connector" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
+                <TitleBar theme="light" onBack={backFunction} title="Confirm Transaction" />
+                {isPreviewShown && (
+                    <Section type="form" style={styles.list} isScrollable>
+                        <TableView data={preview} />
+                        <Section type="form-bottom">
+                            <Button isLoading={false} isDisabled={false} text="Confirm" theme="light" onPress={() => this.submit()} />
+                        </Section>
+                    </Section>
+                )}
+                {isSuccessfullySent && (
+                    <Section type="form">
+                        <Section type="form-item">
+                            <Section type="center">
+                                <Text type="alert" theme="light">
+                                    Success!
+                                </Text>
+                            </Section>
+                        </Section>
+
+                        <Section type="form-item">
                             <TouchableOpacity onPress={() => this.openExplorer()}>
                                 <Text type="bold" theme="light" align="center">
-                                    <Image
-                                    style={styles.globeIcon}
-                                    source={require('@src/assets/icons/globe_icon.png')}
-                                /> Open Block Explorer
+                                    <Icon name="explorer_light" size="small" /> Open Block Explorer
                                 </Text>
                             </TouchableOpacity>
-						</Section>
-						
-						<Section type="form-bottom">
-							<Button
-								isLoading={false}
-								isDisabled={false}
-								text="Go to dashboard"
-								theme="light"
-								onPress={() => Router.goToDashboard()}
-							/>
-						</Section>
-					</Section>
-				}
-			</GradientBackground>
+                        </Section>
+
+                        <Section type="form-bottom">
+                            <Button isLoading={false} isDisabled={false} text="Go to dashboard" theme="light" onPress={() => Router.goToDashboard()} />
+                        </Section>
+                    </Section>
+                )}
+            </GradientBackground>
         );
     };
 }
