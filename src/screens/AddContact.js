@@ -12,15 +12,16 @@ import {
 } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import GlobalStyles from '@src/styles/GlobalStyles';
 
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
 import { isAddressValid } from '@src/utils/validators';
 
 const styles = StyleSheet.create({
-    list: {
-        marginTop: 20,
-    },
+	warning: {
+		color: GlobalStyles.color.RED
+	}
 });
 
 type Props = {
@@ -95,13 +96,13 @@ class AddContact extends Component<Props, State> {
         let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
 
         return (
-            <GradientBackground name="connector_small" theme="light">
+            <GradientBackground name="mesh_small" theme="light">
                 {!this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Add Contact" />}
                 {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Update Contact" />}
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <Input value={name} placeholder="Name" theme="light" onChangeText={name => this.setState({ name })} />
-                        {name.length === 0 && <Text theme="light">Name is required</Text>}
+                        {name.length === 0 && <Text theme="light" style={styles.warning}>Name is required</Text>}
                     </Section>
                     <Section type="form-item">
                         <InputAddress
@@ -112,7 +113,7 @@ class AddContact extends Component<Props, State> {
                             onChangeText={address => this.onAddressChange(address)}
                             showAddressBook={false}
                         />
-                        {!isAddressValid && <Text theme="light">Invalid address</Text>}
+                        {!isAddressValid && <Text theme="light" style={styles.warning}>Invalid address</Text>}
                     </Section>
                     <Section type="form-item">
                         <Input value={phone} placeholder="Phone" theme="light" onChangeText={phone => this.setState({ phone })} />
@@ -132,9 +133,11 @@ class AddContact extends Component<Props, State> {
                         </Section>
                     )}
                     {this.state.update && (
-                        <Section>
-                            <Button text="Update Contact" theme="light" onPress={() => this.update(id)} disabled={!isAddressValid && name.length > 0} />
-                        </Section>
+                        <Section type="form-bottom">
+							<Section type="button">
+                            	<Button text="Update Contact" theme="light" onPress={() => this.update(id)} disabled={!isAddressValid && name.length > 0} />
+							</Section>
+						</Section>
                     )}
                 </Section>
             </GradientBackground>
