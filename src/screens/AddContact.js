@@ -129,7 +129,7 @@ class AddContact extends Component<Props, State> {
                     </Section>
                     {!this.state.update && (
                         <Section>
-                            <Button text="Confirm" theme="light" onPress={() => this.submit()} disabled={!isAddressValid && name.length > 0} />
+                            <Button text="Add" theme="light" onPress={() => this.submit()} disabled={!isAddressValid && name.length > 0} />
                         </Section>
                     )}
                     {this.state.update && (
