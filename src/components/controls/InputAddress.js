@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
 import { Router } from '@src/Router';
-import { ContactQR } from 'symbol-qr-library';
+import { ContactQR, AddressQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
-import store from '@src/store';
+import {PublicAccount} from "symbol-sdk";
+import NetworkService from "@src/services/NetworkService";
 
 const styles = StyleSheet.create({
     root: {
@@ -44,7 +45,16 @@ class InputAccount extends Component<Props, State> {
     onReadQRCode = res => {
         try {
             const contactQR = ContactQR.fromJSON(res.data);
-            this.props.onChangeText(contactQR.accountPublicKey.address.address);
+            const { network } = this.props;
+            const networkType = NetworkService.getNetworkTypeFromModel(network);
+            this.props.onChangeText(PublicAccount.createFromPublicKey(contactQR.accountPublicKey, networkType).address.pretty());
+            return;
+        } catch (e) {
+            console.log(e);
+        }
+        try {
+            const addressQR = AddressQR.fromJSON(res.data);
+            this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
             console.log(e);
             this.props.onChangeText('Invalid QR');
