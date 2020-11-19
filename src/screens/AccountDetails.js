@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, Text, TableView } from '@src/components';
+import { Section, GradientBackground, TitleBar, LinkExplorer, Text, TableView } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { getExplorerURL, getFaucetUrl } from '@src/config/environment';
@@ -17,10 +17,6 @@ type Props = {};
 type State = {};
 
 class AccountDetails extends Component<Props, State> {
-    openExplorer() {
-        const { address } = this.props;
-        Linking.openURL(`${getExplorerURL()}accounts/${address.replace(/-/g, '')}`);
-    }
     openFaucet() {
         const { address } = this.props;
         Linking.openURL(`${getFaucetUrl()}?recipient=${address.replace(/-/g, '')}`);
@@ -33,9 +29,7 @@ class AccountDetails extends Component<Props, State> {
             address,
             publicKey,
             privateKey,
-            balance,
-            componentId,
-            isPasscodeSelected,
+            balance
         };
 
         return (
@@ -44,11 +38,7 @@ class AccountDetails extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
                     <TableView data={data} />
                     <Section type="form-item">
-                        <TouchableOpacity onPress={() => this.openExplorer()}>
-                            <Text type="bold" theme="light" style={styles.textButton}>
-                                Reveal account in the Block Explorer
-                            </Text>
-                        </TouchableOpacity>
+                        <LinkExplorer type="account" value={this.props.address} />
                     </Section>
                     {networkType === 'testnet' && (
                         <Section type="form-item">

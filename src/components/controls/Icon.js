@@ -177,6 +177,12 @@ export default class C extends Component<Props, State> {
 			case 'qr_light':
 				source = require('@src/assets/icons/qr_light.png');
 				break;
+			case 'explorer_filled_light':
+				source = require('@src/assets/icons/explorer_filled_light.png');
+				break;
+			case 'faucet_filled_light':
+				source = require('@src/assets/icons/faucet_filled_light.png');
+				break;
 				
 
 			default:

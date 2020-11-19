@@ -440,5 +440,13 @@
 		"friday": 	"Friday",
 		"saturday": "Saturday",
 		"sunday": "Sunday"
+	},
+	"link": {
+		"blockExplorer": "Open Block Ecplorer",
+		"blockExplorerBlock": "Reveal block in the Block Explorer",
+		"blockExplorerAccount": "Reveal account in the Block Explorer",
+		"blockExplorerTransaction": "Show in the Block Explorer",
+		"blockExplorerMosaic": "Reveal mosaic in the Block Explorer",
+		"blockExplorerNamespace": "Reveal namespace in the Block Explorer"
 	}
 }
