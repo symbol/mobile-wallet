@@ -317,6 +317,7 @@ class ScanQRCode extends Component<Props, State> {
                     icon="import"
                     iconAlign="right"
                     separateButtons
+                    onBack={() => Router.goBack(this.props.componentId)}
                     isError={false}
                     buttons={[
                         {

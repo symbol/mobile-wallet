@@ -46,7 +46,7 @@ class GenerateBackup extends Component {
         ];
 
         return (
-            <SymbolPageView title={translate('CreateWallet.GenerateBackup.title')} buttons={buttons} separateButtons icon="security" theme="dark">
+            <SymbolPageView title={translate('CreateWallet.GenerateBackup.title')} buttons={buttons} onBack={() => Router.goBack(this.props.componentId)} separateButtons icon="security" theme="dark">
                 <Text style={styles.textContent}>{translate('CreateWallet.GenerateBackup.description')}</Text>
             </SymbolPageView>
         );
