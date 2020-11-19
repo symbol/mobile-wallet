@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
-import { Section, GradientBackground, TitleBar, LinkExplorer, Text, TableView } from '@src/components';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Section, GradientBackground, TitleBar, LinkFaucet, LinkExplorer, Text, TableView } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
-import { getExplorerURL, getFaucetUrl } from '@src/config/environment';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -17,11 +16,6 @@ type Props = {};
 type State = {};
 
 class AccountDetails extends Component<Props, State> {
-    openFaucet() {
-        const { address } = this.props;
-        Linking.openURL(`${getFaucetUrl()}?recipient=${address.replace(/-/g, '')}`);
-    }
-
     render = () => {
         const { accountName, address, publicKey, privateKey, balance, networkType, componentId, isPasscodeSelected } = this.props;
         const data = {
@@ -42,11 +36,7 @@ class AccountDetails extends Component<Props, State> {
                     </Section>
                     {networkType === 'testnet' && (
                         <Section type="form-item">
-                            <TouchableOpacity onPress={() => this.openFaucet(address)}>
-                                <Text type="bold" theme="light" style={styles.textButton}>
-                                    Claim testnet xym on the faucet
-                                </Text>
-                            </TouchableOpacity>
+                            <LinkFaucet value={this.props.address} />
                         </Section>
                     )}
                 </Section>

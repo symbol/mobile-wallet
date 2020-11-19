@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 		marginRight: 8
 	},
 	text: {
-		//color: GlobalStyles.color.PRIMARY
+		color: GlobalStyles.color.BLUE
 	}
 });
 
@@ -67,7 +67,7 @@ export default class LinkExplorer extends Component<Props, State> {
         return (
 			<TouchableOpacity onPress={() => this.onPress(route)}>
 				<Row style={styles.root} align="center">
-					<Icon name="explorer_filled_light" size="small" style={styles.icon}/>
+					<Icon name="explorer_filled_blue" size="small" style={styles.icon}/>
 					<Text type="bold" theme="light" style={styles.text}>
 						{text}
 					</Text>
