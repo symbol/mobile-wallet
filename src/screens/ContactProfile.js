@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {Button, ImageBackground, Text, Section, TitleBar, GradientBackground} from '@src/components';
+import {Button, ImageBackground, Text, Section, TitleBar, GradientBackground, TableView } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
@@ -10,18 +10,6 @@ import { SvgXml } from 'react-native-svg';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 
 const styles = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontSize: 12,
-    },
-    section: {
-        marginTop: 0,
-        marginRight: '3%',
-        marginLeft: '3%',
-    },
-    button: {
-        marginTop: 20,
-    },
     qr: {
         marginTop: 8,
         marginBottom: 8,
@@ -92,42 +80,34 @@ class ContactProfile extends Component<Props, State> {
     render() {
         const { selectedContact } = this.props;
         let { isRemoveModalOpen, contactQR } = this.state;
+		const list = {
+			address: selectedContact.address,
+			phone: selectedContact.phone,
+			email: selectedContact.email,
+			label: selectedContact.label,
+			notes: selectedContact.notes,
+		};
 
         return (
-            <GradientBackground name="connector_small" theme="light">
+            <GradientBackground name="mesh_small" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
-                <Section type="form" style={styles.section}>
+                <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Section type="center">
                             {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />}
                         </Section>
                     </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Address </Text>
-                        <Text type="text" theme="light"> {selectedContact.address} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Phone </Text>
-                        <Text type="text" theme="light"> {selectedContact.phone} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Email </Text>
-                        <Text type="text" theme="light"> {selectedContact.email} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Label </Text>
-                        <Text type="text" theme="light"> {selectedContact.label} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Notes </Text>
-                        <Text type="text" theme="light"> {selectedContact.notes} </Text>
-                    </Section>
-                    <Section>
-                        <Button style={styles.button} text="Edit Contact" theme="light" onPress={() => this.submit()} />
-                    </Section>
-                    <Section>
-                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove()} />
-                    </Section>
+					<Section>
+						<TableView data={list} />
+					</Section>
+					<Section type="form-bottom">
+						<Section type="form-item">
+							<Button text="Edit Contact" theme="light" onPress={() => this.submit()} />
+						</Section>
+						<Section type="button">
+							<Button text="Remove Contact" theme="dark" onPress={() => this.remove()} />
+						</Section>
+					</Section>
                 </Section>
                 <ConfirmModal
                     isModalOpen={isRemoveModalOpen}

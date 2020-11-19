@@ -99,7 +99,7 @@ class AddContact extends Component<Props, State> {
             <GradientBackground name="mesh_small" theme="light">
                 {!this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Add Contact" />}
                 {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Update Contact" />}
-                <Section type="form" style={styles.list} isScrollable>
+                <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Input value={name} placeholder="Name" theme="light" onChangeText={name => this.setState({ name })} />
                         {name.length === 0 && <Text theme="light" style={styles.warning}>Name is required</Text>}
