@@ -3,7 +3,7 @@ import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
 
-const REQUEST_TIMEOUT = 2500;
+const REQUEST_TIMEOUT = 5000;
 
 export default class NetworkService {
     /**
