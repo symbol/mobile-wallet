@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import translate from '@src/locales/i18n';
-import type { TransactionModel, TransferTransactionModel } from '@src/storage/models/TransactionModel';
-import { Button, Icon, Row, SecretView, Section, TableView, Text, Trunc } from '@src/components';
+import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
+import { Button, Icon, Section, TableView, Text, Trunc } from '@src/components';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { StyleSheet, View } from 'react-native';
-import { Account } from 'symbol-sdk';
-import NetworkService from '@src/services/NetworkService';
 import TransactionService from '@src/services/TransactionService';
+import { showPasscode } from '@src/utils/passcode';
 
 const styles = StyleSheet.create({
     amountOutgoing: {
@@ -100,10 +99,13 @@ class TransferTransaction extends BaseTransactionItem<Props> {
     };
 
     decryptMessage = async () => {
-        this.setState({ decrypting: true });
-        const { selectedAccount, network, transaction } = this.props;
-        const messageDecrypted = await TransactionService.decryptMessage(selectedAccount, network, transaction);
-        this.setState({ messageDecrypted: messageDecrypted, decrypting: false });
+        const callback = async () => {
+            this.setState({ decrypting: true });
+            const { selectedAccount, network, transaction } = this.props;
+            const messageDecrypted = await TransactionService.decryptMessage(selectedAccount, network, transaction);
+            this.setState({ messageDecrypted: messageDecrypted, decrypting: false });
+        };
+        showPasscode(this.props.componentId, callback);
     };
 
     renderDetails = () => {
@@ -127,9 +129,10 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                                 {messageDecrypted !== null ? messageDecrypted : 'Encrypted'}
                             </Text>
                         </Section>
-                        {messageDecrypted === null && transaction.recipientAddress === selectedAccountAddress && this.isIncoming() && (
-                            <Button theme="light" title="Decrypt" loading={decrypting} onPress={() => this.decryptMessage()} />
-                        )}
+                        {transaction.status !== 'unconfirmed' &&
+                            messageDecrypted === null &&
+                            transaction.recipientAddress === selectedAccountAddress &&
+                            this.isIncoming() && <Button theme="light" title="Decrypt" loading={decrypting} onPress={() => this.decryptMessage()} />}
                     </View>
                 )}
             </View>

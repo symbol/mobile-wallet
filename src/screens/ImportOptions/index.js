@@ -49,6 +49,7 @@ class ImportOptions extends Component<Props, State> {
 				icon="import"
 				iconAlign="right"
 				buttons={buttons}
+				onBack={() => Router.goBack(this.props.componentId)}
 				separateButtons
 				isError={!!error}
 				errorMessage={error}

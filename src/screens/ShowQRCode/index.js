@@ -14,6 +14,7 @@ import store from '@src/store';
 import { downloadFile } from '@src/utils/donwload';
 import AccountService from '@src/services/AccountService';
 import { getDefaultNetworkType } from '@src/config/environment';
+import {createPasscode} from "@src/utils/passcode";
 
 class ShowQRCode extends Component {
     state = {
@@ -31,7 +32,8 @@ class ShowQRCode extends Component {
             : { type: getDefaultNetworkType(), generationHash: 'no-chain-id' };
         this.setState({ isLoading: true });
         try {
-            const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, [], network);
+            const accounts = store.getState().wallet.accounts;
+            const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, accounts, network);
             const uniqueVal = new Date()
                 .getTime()
                 .toString()
@@ -55,7 +57,7 @@ class ShowQRCode extends Component {
         if (isBackup) {
             Router.goToDashboard({});
         } else {
-            Router.goToWalletLoading({});
+            createPasscode(this.props.componentId);
         }
     };
 

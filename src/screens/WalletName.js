@@ -232,7 +232,7 @@ class WalletName extends Component {
 		const title = translate('CreateWallet.WalletName.title');
 		const icon = "wallet";
 		const iconAlign = "left";
-		const onBack = null;
+		const onBack = () => Router.goBack(this.props.componentId);
 		const onSettings = null;
 		const footerTitle = null;
 
@@ -282,7 +282,7 @@ class WalletName extends Component {
 		const footerStyle = buttons && buttons.length === 1 && [styles.footer, styles.footerBigger]
 
 		return (
-			<SymbolGradientContainer 
+			<SymbolGradientContainer
 				noPadding
 				style={ styles.container }
 			>
@@ -293,7 +293,7 @@ class WalletName extends Component {
 			<FadeView style={ styles.pageContainer }>
 				<View style={styles.topBar}>
 					{onBack && <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
-						<Image style={styles.topButtons} source={iconBackSrc} resizeMode="center" />
+						<Image style={styles.topButtons} source={require('@src/assets/icons/ic-back-white.png')} resizeMode="center" />
 					</TouchableOpacity>}
 
 					{onSettings && <TouchableOpacity style={styles.topButtonContainer} onPress={onSettings}>

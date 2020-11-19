@@ -369,7 +369,7 @@ const WizardStepView = (props: Props) => {
 	const TopBar = (props) => {
 		const iconBackSrc = theme === 'light'
 			? require('@src/assets/icons/back_light.png')
-			: require('@src/assets/icons/back_dark.png');
+			: require('@src/assets/icons/ic-back-white.png');
 		const iconCloseSrc = theme === 'light'
 			? require('@src/assets/icons/close_light.png')
 			: require('@src/assets/icons/close_dark.png');
@@ -379,7 +379,7 @@ const WizardStepView = (props: Props) => {
 		return (
 			<View style={styles.topBar}>
 				{onBack && <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
-					<Image style={{height: 24, width: 24}} source={iconBackSrc} />
+					<Image style={{height: 18, width: 18}} source={iconBackSrc} />
 				</TouchableOpacity>}
 
 				{onClose && <TouchableOpacity style={styles.topButtonContainer} onPress={onClose}>

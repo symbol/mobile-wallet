@@ -35,10 +35,10 @@ export default class Transaction extends Component<Props> {
     }
 
     render() {
-        const { transaction, showDetails } = this.props;
+        const { transaction, showDetails, componentId } = this.props;
         switch (transaction.type) {
             case 'transfer':
-                return <TransferTransaction transaction={transaction} showDetails={showDetails} />;
+                return <TransferTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
             case 'fundsLock':
                 return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
             case 'aggregate':

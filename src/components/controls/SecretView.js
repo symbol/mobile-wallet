@@ -3,6 +3,7 @@ import { Text as NativeText, TouchableOpacity, StyleSheet, View } from 'react-na
 import { Row, Text, CopyView, FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { Router } from '@src/Router';
+import { showPasscode } from '@src/utils/passcode';
 
 const styles = StyleSheet.create({
     showButton: {
@@ -44,29 +45,10 @@ export default class SecretView extends Component<Props, State> {
 
     onShowClick = () => {
         const { passcode } = this.props;
-        if (passcode) {
-            Router.showPasscode(
-                {
-                    resetPasscode: false,
-                    onSuccess: () => {
-                        this.setState({ isSecretShown: true });
-                        this.setState({ counter: 10 });
-
-                        const timer = setInterval(() => {
-                            if (this.state.counter === 0) {
-                                clearInterval(timer);
-                                this.setState({ isSecretShown: false });
-                            }
-                            this.setState({ counter: this.state.counter - 1 });
-                        }, 1000);
-                        Router.goBack(this.props.component);
-                    },
-                },
-                this.props.component
-            );
-        } else {
+        const callBack = () => {
             this.setState({ isSecretShown: true });
             this.setState({ counter: 10 });
+
             const timer = setInterval(() => {
                 if (this.state.counter === 0) {
                     clearInterval(timer);
@@ -74,7 +56,8 @@ export default class SecretView extends Component<Props, State> {
                 }
                 this.setState({ counter: this.state.counter - 1 });
             }, 1000);
-        }
+        };
+        showPasscode(this.props.componentId, callBack);
     };
 
     render = () => {
