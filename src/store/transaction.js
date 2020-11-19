@@ -77,15 +77,18 @@ export default {
                     state.transaction.directionFilter,
                     state.network.selectedNetwork
                 )
-            ).subscribe(transactions => {
-                if (transactions.length === 0) {
-                    commit({ type: 'transaction/setIsLastPage', payload: true });
-                } else {
-                    commit({ type: 'transaction/addTransactions', payload: transactions });
-                }
-                commit({ type: 'transaction/setPage', payload: nextPage });
-                commit({ type: 'transaction/setLoading', payload: false });
-            });
+            ).subscribe(
+                transactions => {
+                    if (transactions.length === 0) {
+                        commit({ type: 'transaction/setIsLastPage', payload: true });
+                    } else {
+                        commit({ type: 'transaction/addTransactions', payload: transactions });
+                    }
+                    commit({ type: 'transaction/setPage', payload: nextPage });
+                    commit({ type: 'transaction/setLoading', payload: false });
+                },
+                error => console.log(error)
+            );
             commit({ type: 'transaction/setSubscription', payload: subscription });
         },
         changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, directionFilter }) => {

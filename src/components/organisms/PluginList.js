@@ -27,18 +27,18 @@ const styles = StyleSheet.create({
         borderRadius: 60 / 2,
         backgroundColor: GlobalStyles.color.DARKWHITE,
         shadowColor: '#000',
-		shadowOffset: { width: 0, height: 1 },
-		shadowOpacity: 0.2,
-		shadowRadius: 2,
-		elevation: 2
-	},
-	gradient: {
-		height: 60,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        elevation: 2,
+    },
+    gradient: {
+        height: 60,
         width: 60,
-		borderRadius: 60 / 2,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
+        borderRadius: 60 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     icon: {
         marginTop: 2,
         marginBottom: 2,
@@ -83,11 +83,10 @@ class PluginList extends Component<Props, State> {
                 text: 'plugin.receive',
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
-			},
-			// {
-            //     text: 'plugin.qr',
-            //     name: 'SCAN_QR_CODE_SCREEN',
-            //     iconName: 'qr_light',
+            // {
+            //    text: 'plugin.qr',
+            //    name: 'SCAN_QR_CODE_SCREEN',
+            //    iconName: 'qr_light',
             // },
             // {
             //     text: 'plugin.more',
@@ -103,21 +102,20 @@ class PluginList extends Component<Props, State> {
                         <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
                                 {/* <Col align="center" justify="center" > */}
-								<LinearGradient style={styles.gradient}
-									start={{x: 0, y: 0}}
-									end={{x: 1, y: 0}}
-									colors={[
-										GlobalStyles.color.WHITE,
-										GlobalStyles.color.DARKWHITE
-									]}
-								>
+                                <LinearGradient
+                                    style={styles.gradient}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    colors={[GlobalStyles.color.WHITE, GlobalStyles.color.DARKWHITE]}>
                                     <Icon name={item.iconName} size="small" style={styles.icon} />
-									</LinearGradient>
+                                </LinearGradient>
                                 {/* </Col> */}
                             </TouchableOpacity>
-                            <View style={{maxWidth: 100}}>
-								<Text type="bold" theme={theme} align="center">{translate(item.text)}</Text>
-							</View>
+                            <View style={{ maxWidth: 100 }}>
+                                <Text type="bold" theme={theme} align="center">
+                                    {translate(item.text)}
+                                </Text>
+                            </View>
                         </Col>
                     ))}
                 </Row>
