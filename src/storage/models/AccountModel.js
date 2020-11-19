@@ -12,4 +12,6 @@ export interface AccountModel {
     type: AccountOriginType;
     path?: string;
     privateKey: string;
+    isPersistentDelReqSent: boolean;
+    harvestingNode: string;
 }

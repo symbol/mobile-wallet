@@ -151,7 +151,7 @@ export default class FetchTransactionService {
             type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
             signerAddress: transaction.signer.address.pretty(),
-            deadline: formatTransactionLocalDateTime(transaction.deadline.value),
+            deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             hash: transaction.transactionInfo.hash,
             fee: transaction.maxFee.toString(),
         };

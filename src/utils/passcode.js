@@ -34,6 +34,7 @@ const showPasscode = (componentId, callback) => {
     if (isPin) {
         Router.showPasscode(
             {
+                showCancel: true,
                 resetPasscode: false,
                 onSuccess: () => {
                     Router.goBack(componentId);

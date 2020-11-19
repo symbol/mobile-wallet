@@ -27,17 +27,17 @@ class News extends Component<Props, State> {
 	refresh = () => {
 		store.dispatchAction({type: 'news/loadNews'});
 	}
-	
+
 	renderNewsItem = (item) => {
 		return <ListItem>
 			<New
-				title={item.item.title} 
+				title={item.item.title}
 				contentSnippet={item.item.contentSnippet}
-				body={item.item.content} 
-				url={item.item.link} 
-				publicationDate={item.item.pubDate} 
-				creator={item.item.creator} 
-			/> 
+				body={item.item.content.slice(0, 200) + '...'}
+				url={item.item.link}
+				publicationDate={item.item.pubDate}
+				creator={item.item.creator}
+			/>
 		</ListItem>
 	}
 
@@ -46,18 +46,18 @@ class News extends Component<Props, State> {
 		const dataManager = {isLoading};
 
         return (
-			<GradientBackground 
-				name="connector_small" 
-				theme="light" 
+			<GradientBackground
+				name="connector_small"
+				theme="light"
 				dataManager={dataManager}
-				titleBar={<TitleBar 
+				titleBar={<TitleBar
 					theme="light"
-					title="News" 
-					onOpenMenu={() => onOpenMenu()} 
+					title="News"
+					onOpenMenu={() => onOpenMenu()}
 					onSettings={() => onOpenSettings()}
 				/>}
 			>
-                
+
                 <ListContainer type="list" style={styles.list} isScrollable={false}>
 					<FlatList
 						// style={{ height: '100%' }}
@@ -73,7 +73,7 @@ class News extends Component<Props, State> {
 							/>
 						}
 					/>
-					
+
 					{/* <View style={styles.inner}>
 						{news.map(this.renderNewsItem)}
 					</View> */}

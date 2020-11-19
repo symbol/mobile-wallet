@@ -61,6 +61,21 @@ export default class AccountService {
     }
 
     /**
+     * Updates persistent del request sent
+     */
+    static async updateDelegatedHarvestingInfo(id: string, isPersistentDelReqSent: boolean, harvestingNode: string): string {
+        const allAccounts = await AccountSecureStorage.getAllAccounts();
+        allAccounts.forEach(account => {
+            if (account.id === id) {
+                account.isPersistentDelReqSent = isPersistentDelReqSent;
+                account.harvestingNode = harvestingNode;
+            }
+        });
+        await AccountSecureStorage.saveAccounts(allAccounts);
+        return allAccounts;
+    }
+
+    /**
      * Creates an account from a mnemonic
      * @param mnemonic
      * @param index

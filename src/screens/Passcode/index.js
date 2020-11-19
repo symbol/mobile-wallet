@@ -48,8 +48,9 @@ class Passcode extends Component<Props, State> {
     };
 
     handleCancel = async () => {
+        const { showCancel = false } = this.props;
         const { isPinSet } = this.state;
-        if (!isPinSet) {
+        if (!isPinSet || showCancel) {
             Router.goBack(this.props.componentId);
             return true;
         }
@@ -96,6 +97,7 @@ class Passcode extends Component<Props, State> {
 
     render() {
         const { isPinSet, isTouchIDEnabled, isLoading } = this.state;
+        const { showCancel = false } = this.props;
 
         const type = isPinSet ? 'enter' : 'choose';
 
@@ -152,7 +154,7 @@ class Passcode extends Component<Props, State> {
                             colorPassword="#ff00ff"
                             buttonDeleteText="Delete"
                             customBackSpaceIcon={this.renderCustomDeleteIcon}
-                            bottomLeftComponent={!isPinSet && this.renderCustomCancel()}
+                            bottomLeftComponent={(!isPinSet || showCancel) && this.renderCustomCancel()}
                             finishProcess={() => this.finish()}
                             touchIDDisabled={!isTouchIDEnabled}
                         />
