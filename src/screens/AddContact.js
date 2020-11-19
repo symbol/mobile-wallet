@@ -128,9 +128,11 @@ class AddContact extends Component<Props, State> {
                         <Input value={notes} placeholder="Notes" theme="light" onChangeText={notes => this.setState({ notes })} />
                     </Section>
                     {!this.state.update && (
-                        <Section>
-                            <Button text="Add" theme="light" onPress={() => this.submit()} disabled={!isAddressValid && name.length > 0} />
-                        </Section>
+                        <Section type="form-bottom">
+							<Section type="button">
+                            	<Button text="Add" theme="light" onPress={() => this.submit()} disabled={!isAddressValid && name.length > 0} />
+							</Section>
+						</Section>
                     )}
                     {this.state.update && (
                         <Section type="form-bottom">
