@@ -5,6 +5,7 @@
     <domain includeSubdomains="true">nemtech.network</domain>
     <domain includeSubdomains="true">rssmix.com</domain>
     <domain includeSubdomains="true">localhost</domain>
+    <domain includeSubdomains="true">nem.ninja</domain>
     <domain includeSubdomains="true">symboldev.network</domain>
   </domain-config>
 </network-security-config>
