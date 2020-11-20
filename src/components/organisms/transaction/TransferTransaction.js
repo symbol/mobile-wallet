@@ -7,16 +7,17 @@ import {Button, Icon, Row, SecretView, Section, TableView, Text, Trunc} from '@s
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { StyleSheet, View } from 'react-native';
 import TransactionService from '@src/services/TransactionService';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import { showPasscode } from '@src/utils/passcode';
 import {call} from "react-native-reanimated";
 
 const styles = StyleSheet.create({
     amountOutgoing: {
-        color: '#b30000',
+        color: GlobalStyles.color.RED,
     },
     amountIncoming: {
-        color: '#1bb300',
-    },
+        color: GlobalStyles.color.GREEN,
+	},
 });
 
 type Props = {
@@ -75,18 +76,20 @@ class TransferTransaction extends BaseTransactionItem<Props> {
         for (let value of values) {
             switch (value.type) {
                 case 'nativeMosaicIncoming':
-                    items.push(
-                        <Text type="bold" theme="light" style={[styles.amountIncoming, { marginLeft: 5 }]}>
-                            {value.value}
-                        </Text>
-                    );
+					if(value.value !== 0)
+						items.push(
+							<Text type="bold" theme="light" style={[styles.amountIncoming, styles.bold, { marginLeft: 5 }]}>
+								{value.value}
+							</Text>
+						);
                     break;
                 case 'nativeMosaicOutgoing':
-                    items.push(
-                        <Text type="bold" theme="light" style={[styles.amounteOutgoing, { marginLeft: 5 }]}>
-                            {'-' + value.value}
-                        </Text>
-                    );
+					if(value.value !== 0)
+						items.push(
+							<Text type="bold" theme="light" style={[styles.amountOutgoing, styles.bold, { marginLeft: 5 }]}>
+								{'-' + value.value}
+							</Text>
+						);
                     break;
                 case 'otherMosaics':
                     items.push(<Icon size="mini" name="mosaics_filled" style={{ marginLeft: 5 }} />);
@@ -129,7 +132,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                 {!!transaction.messageEncrypted && (
                     <View justify="space-between">
                         <Section type="form-item">
-                            <Text type="bold" theme="light">
+                            <Text type="bold" theme="light" style={styles.bold}>
                                 {translate('history.transaction.message')}:
                             </Text>
                             {this.canBeDecrypted() && (

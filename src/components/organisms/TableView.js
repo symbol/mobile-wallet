@@ -8,7 +8,8 @@ import {
 	CopyView,
 	SecretView,
 	View,
-	MosaicDisplay
+	MosaicDisplay,
+	Trunc
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -72,7 +73,7 @@ class TableView extends Component<Props, State> {
 			return mosaics.map((el, index) => (<Row justify="space-between" fullWidth style={styles.mosaic} key={'' + index + 'tv-mosaics'}>
 				<Row align="center">
 					<Icon name="mosaic_custom" size="small" style={{marginRight: 8}}/>
-					<Text type="regular" theme="light">{el.mosaicName}</Text>
+					<Text type="regular" theme="light"><Trunc type="namespaceName">{el.mosaicName}</Trunc></Text>
 				</Row>
 				{this.render_amount(el.amount / Math.pow(10, el.divisibility))}
 		</Row>));

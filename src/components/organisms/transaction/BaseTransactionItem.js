@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         // marginBottom: 8,
         // padding: 17,
         // paddingTop: 8,
-        backgroundColor: GlobalStyles.color.WHITE,
+		backgroundColor: GlobalStyles.color.WHITE,
     },
     date: {
         fontSize: 10,
@@ -25,11 +25,17 @@ const styles = StyleSheet.create({
         marginRight: 14,
     },
     amounteOutgoing: {
-        color: '#b30000',
+        color: GlobalStyles.color.RED,
     },
     amountIncoming: {
-        color: '#1bb300',
-    },
+        color: GlobalStyles.color.GREEN,
+	},
+	address: {
+		fontSize: 11
+	},
+	bold: {
+		fontSize: 11
+	}
 });
 
 type Props = {
@@ -83,7 +89,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
                             </Text>
                         </Row>
                         <Row justify="space-between" align="center">
-                            <Text type="bold" theme="light">
+                            <Text type="bold" theme="light" style={styles.address}>
                                 {this.renderAddress()}
                             </Text>
                             <Row style={styles.value} align="center">
@@ -93,17 +99,17 @@ export default class BaseTransactionItem extends Component<Props, State> {
                     </Col>
                 </Row>
                 {showDetails && (
-                    <View style={{ padding: 17 }}>
+                    <View style={{ paddingVertical: 16 }}>
                         {this.renderDetails()}
-                        <Row justify="space-between" style={{ paddingTop: 10, paddingBottom: 6 }}>
+                        <View justify="space-between" style={{ paddingBottom: 16 }}>
                             <Text type="bold" theme="light">
                                 {translate('history.transaction.hash')}:
                             </Text>
                             <Text type="regular" theme="light">
                                 {transaction.hash.slice(0, 24)}...
                             </Text>
-                        </Row>
-                        <Row justify="end" style={{ alignItems: 'flex-end' }}>
+                        </View>
+                        <Row justify="start" style={{ alignItems: 'flex-end' }}>
                             <LinkExplorer type="transaction" value={transaction.hash} />
                         </Row>
                     </View>

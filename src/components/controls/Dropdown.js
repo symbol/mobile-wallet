@@ -7,7 +7,10 @@ import TitleBar from '@src/components/atoms/TitleBar';
 const styles = StyleSheet.create({
     root: {
         //backgroundColor: '#f005',
-    },
+	},
+	titleBar: {
+		marginTop: 12
+	},
     fullWidth: {
         width: '100%',
     },

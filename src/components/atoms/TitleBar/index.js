@@ -85,6 +85,10 @@ function TitleBar(props: Props) {
 			onBack
 		);
 	}
+	else
+		backButton = <View style={styles.leftIconContainer}>
+			<View style={styles.icon} source={barTheme.backIconRes} resizeMode="center" />
+		</View>;
 
 	let closeButton = null;
 	if (showClose) {
