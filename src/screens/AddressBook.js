@@ -34,9 +34,9 @@ class AddressBookPage extends Component<Props, State> {
 
         return (
             <GradientBackground
-                name="connector_small"
+                name="mesh"
                 theme="light"
-                titleBar={<TitleBar theme="light" title="Address Book"/>}
+                titleBar={<TitleBar theme="light" title="Address Book" onBack={() => Router.goBack(this.props.componentId)}/>}
             >
                 <Section type="list" isScrollable>
                     {addressBook.getAllContacts().map(contact => {
@@ -54,8 +54,12 @@ class AddressBookPage extends Component<Props, State> {
                         );
                     })}
                 </Section>
-                <Section style={styles.button}>
-                    <Button text="Add Contact" theme="light" onPress={() => this.submit()} />
+                <Section type="form-bottom">
+					<Section type="list">
+						<Section type="form-item">
+							<Button text="Add Contact" theme="light" onPress={() => this.submit()} />
+						</Section>
+					</Section>
                 </Section>
             </GradientBackground>
         );

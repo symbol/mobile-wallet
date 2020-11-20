@@ -33,8 +33,8 @@ class Mosaics extends Component<Props, State> {
 				/>
                 <Section type="list" style={styles.list} isScrollable>
                     {ownedMosaics &&
-                        ownedMosaics.map(mosaic => {
-                            return <MosaicDisplay mosaic={mosaic} isNative={mosaic.mosaicName === nativeMosaicNamespaceName} />;
+                        ownedMosaics.map((mosaic, index) => {
+                            return <MosaicDisplay mosaic={mosaic} isNative={mosaic.mosaicName === nativeMosaicNamespaceName} key={'' + index + 'mosaics'} />;
                         })}
                 </Section>
 			</GradientBackground>

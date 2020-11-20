@@ -120,7 +120,7 @@ class InputAccount extends Component<Props, State> {
                         style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]}
                         list={addressBookList}
                         onChange={address => this.importWithAddressBook(address)}>
-                        <Icon name="paste" size={iconSize} />
+                        <Icon name="address_book" size={iconSize} />
                     </Dropdown>
                 )}
             </View>

@@ -7,7 +7,8 @@ import {
 	Row,
 	CopyView,
 	SecretView,
-	View
+	View,
+	MosaicDisplay
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import Store from '@src/store';
@@ -68,8 +69,11 @@ class TableView extends Component<Props, State> {
 	render_mosaics = (value) => {
 		const mosaics = Array.isArray(value) ? value : [];
 		if(mosaics.length)
-			return mosaics.map(el => (<Row justify="space-between" fullWidth style={styles.mosaic}>
-				<Text type="regular" theme="light">{el.mosaicName}</Text>
+			return mosaics.map((el, index) => (<Row justify="space-between" fullWidth style={styles.mosaic} key={'' + index + 'tv-mosaics'}>
+				<Row align="center">
+					<Icon name="mosaic_custom" size="small" style={{marginRight: 8}}/>
+					<Text type="regular" theme="light">{el.mosaicName}</Text>
+				</Row>
 				{this.render_amount(el.amount / Math.pow(10, el.divisibility))}
 		</Row>));
 		return <Text type="regular" theme="light">{translate('table.null')}</Text>
@@ -106,7 +110,7 @@ class TableView extends Component<Props, State> {
 				}));
 		_data = _data.slice(0,5);
         return (
-			_data.map(el => <Section type="form-item" key={'table'+el.key+el.value}>
+			_data.map((el, item) => <Section type="form-item" key={''+ item + 'table' + el.key}>
 				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>
 				{this.renderItem(el.key, el.value)}
 			</Section>)

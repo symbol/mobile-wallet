@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {Button, ImageBackground, Text, Section, TitleBar, GradientBackground} from '@src/components';
+import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {Button, Icon, Text, Section, TitleBar, GradientBackground, TableView } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
 import { AddressQR } from 'symbol-qr-library';
 import { SvgXml } from 'react-native-svg';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
+import Row from '@src/components/controls/Row';
 
 const styles = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontSize: 12,
-    },
-    section: {
-        marginTop: 0,
-        marginRight: '3%',
-        marginLeft: '3%',
-    },
-    button: {
-        marginTop: 20,
-    },
     qr: {
         marginTop: 8,
         marginBottom: 8,
@@ -92,42 +82,48 @@ class ContactProfile extends Component<Props, State> {
     render() {
         const { selectedContact } = this.props;
         let { isRemoveModalOpen, contactQR } = this.state;
+		const list = {
+			address: selectedContact.address,
+			phone: selectedContact.phone,
+			email: selectedContact.email,
+			label: selectedContact.label,
+			notes: selectedContact.notes,
+		};
 
         return (
-            <GradientBackground name="connector_small" theme="light">
+            <GradientBackground name="mesh_small" theme="light">
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
-                <Section type="form" style={styles.section}>
+                <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Section type="center">
                             {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />}
                         </Section>
                     </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Address </Text>
-                        <Text type="text" theme="light"> {selectedContact.address} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Phone </Text>
-                        <Text type="text" theme="light"> {selectedContact.phone} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Email </Text>
-                        <Text type="text" theme="light"> {selectedContact.email} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Label </Text>
-                        <Text type="text" theme="light"> {selectedContact.label} </Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Text type="text" style={styles.title} theme="light"> Notes </Text>
-                        <Text type="text" theme="light"> {selectedContact.notes} </Text>
-                    </Section>
-                    <Section>
-                        <Button style={styles.button} text="Edit Contact" theme="light" onPress={() => this.submit()} />
-                    </Section>
-                    <Section>
-                        <Button style={styles.button} text="Remove Contact" theme="dark" onPress={() => this.remove()} />
-                    </Section>
+					<Section>
+						<TableView data={list} />
+					</Section>
+					<Section type="form-bottom">
+						<Section type="form-item">
+							{/* <Button text="Edit Contact" theme="light" onPress={() => this.submit()} /> */}
+							<TouchableOpacity onPress={() => this.submit()}>
+								<Row align="center" justify="start">
+									<Icon name="edit_primary" size="small" style={{marginRight: 8}}/>
+									<Text style={{color: GlobalStyles.color.PRIMARY}} theme="light" type="bold" align="left">Edit Contact</Text>
+								</Row>
+							</TouchableOpacity>
+						</Section>
+						<Section type="button">
+							<TouchableOpacity onPress={() => this.remove()}>
+								<Row align="center" justify="start">
+									<Icon name="delete_primary" size="small" style={{marginRight: 8}} />
+									<Text style={{color: GlobalStyles.color.PRIMARY}} theme="light" type="bold" align="left">Remove Contact</Text>
+								</Row>	
+							</TouchableOpacity>
+						</Section>	
+						{/* <Section type="button">
+							<Button text="Remove Contact" theme="dark" onPress={() => this.remove()} />
+						</Section> */}
+					</Section>
                 </Section>
                 <ConfirmModal
                     isModalOpen={isRemoveModalOpen}

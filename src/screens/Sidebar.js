@@ -292,7 +292,7 @@ class Sidebar extends Component<Props, State> {
         const { isNameModalOpen, newName, savingPaperWallet, isRemoveModalOpen } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
-            { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
+            { iconName: 'address_book_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
             /*{
                 iconName: 'incoming_light',
                 text: savingPaperWallet ? 'Saving paper wallet...' : 'Backup Accounts',

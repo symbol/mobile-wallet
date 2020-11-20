@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Text } from '@src/components';
+import { Text, Trunc, Icon, Col, Row } from '@src/components';
 import Card from '@src/components/atoms/Card';
 import { Router } from '@src/Router';
 import store from '@src/store';
 
 const styles = StyleSheet.create({
     root: {
+		width: '100%',
+        height: 60,
+        borderRadius: 6,
+        marginTop: 4,
+        marginBottom: 4,
+        padding: 17,
+        paddingTop: 8,
         backgroundColor: '#fffe',
-        marginBottom: 10,
     },
 });
 
@@ -30,16 +36,21 @@ export default class Contact extends Component<Props> {
 
     render() {
         return (
-            <Card style={styles.root}>
-                <TouchableOpacity onPress={() => this.onPress(this.props)}>
-                    <Text theme="light" type="bold" style={styles.title}>
-                        {this.props.name}
-                    </Text>
-                    <Text theme="light" type="regular" align={'left'} style={styles.content}>
-                        {this.props.address}
-                    </Text>
-                </TouchableOpacity>
-            </Card>
+			<TouchableOpacity onPress={() => this.onPress(this.props)}>
+				<Card style={styles.root}>
+					<Row align="center">
+						<Icon name="contact_light" style={{marginRight: 16}} />
+						<Col grow>
+							<Text theme="light" type="bold" style={styles.title}>
+								{this.props.name}
+							</Text>
+							<Text theme="light" type="regular" align={'left'} style={styles.content}>
+								<Trunc type="address">{this.props.address}</Trunc>
+							</Text>
+						</Col>
+					</Row>
+				</Card>
+			</TouchableOpacity> 
         );
     }
 }

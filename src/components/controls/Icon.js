@@ -120,6 +120,12 @@ export default class C extends Component<Props, State> {
 			case 'qr':
 				source = require('@src/assets/icons/qr.png');
 				break;
+			case 'address_book':
+				source = require('@src/assets/icons/address_book.png');
+				break;
+			case 'address_book_filled_light':
+				source = require('@src/assets/icons/address_book_filled_light.png');
+				break;
 			case 'expand':
 				source = require('@src/assets/icons/expand.png');
 				break;
@@ -149,6 +155,12 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'edit_light':
 				source = require('@src/assets/icons/edit_light.png');
+				break;
+			case 'delete_primary':
+				source = require('@src/assets/icons/delete_primary.png');
+				break;
+			case 'edit_primary':
+				source = require('@src/assets/icons/edit_primary.png');
 				break;
 			case 'true_light':
 				source = require('@src/assets/icons/true_light.png');
@@ -197,6 +209,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'success':
 				source = require('@src/assets/icons/success.png');
+				break;
+			case 'contact_light':
+				source = require('@src/assets/icons/contact_light.png');
 				break;
 				
 
