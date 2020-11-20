@@ -32,6 +32,7 @@ import MosaicService from '@src/services/MosaicService';
 import type { DirectionFilter } from '@src/store/transaction';
 import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
+import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 
 export default class FetchTransactionService {
     /**
@@ -57,11 +58,44 @@ export default class FetchTransactionService {
             .toPromise();
         for (let transaction: Transaction of transactionsData.data) {
             if (transaction instanceof AggregateTransaction) {
-                if (!transaction.signedByAccount(publicAccount)) {
+                const txModel = await this._populateAggregateTransactionModel({}, transaction, network);
+                if (txModel.cosignaturePublicKeys.indexOf(publicAccount.publicKey) === -1 && txModel.status !== 'confirmed') {
                     return true;
                 }
             }
         }
+        return false;
+    }
+    /**
+     * Check for pending signatures
+     * @param address
+     * @param network
+     * @returns {Promise<void>}
+     */
+    static async hasAddressPendingSignatures2(address: string, network: NetworkModel) {
+        // FIXME: Workaround with bad performance
+        const accountHttp = new AccountHttp(network.node);
+        try {
+            let accountInfo;
+            try {
+                accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
+            } catch {
+                return false;
+            }
+            if (!accountInfo.publicKey) return false;
+            const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
+
+            const transactions = await this.getTransactionsFromAddress(address, 1, 'ALL', network);
+            for (let transaction of transactions) {
+                if (
+                    transaction.type === 'aggregate' &&
+                    transaction.cosignaturePublicKeys.indexOf(publicAccount.publicKey) === -1 &&
+                    transaction.status !== 'confirmed'
+                ) {
+                    return true;
+                }
+            }
+        } catch (e) {}
         return false;
     }
 
