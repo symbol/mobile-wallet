@@ -156,6 +156,12 @@ export default class C extends Component<Props, State> {
 			case 'edit_light':
 				source = require('@src/assets/icons/edit_light.png');
 				break;
+			case 'delete_primary':
+				source = require('@src/assets/icons/delete_primary.png');
+				break;
+			case 'edit_primary':
+				source = require('@src/assets/icons/edit_primary.png');
+				break;
 			case 'true_light':
 				source = require('@src/assets/icons/true_light.png');
 				break;
@@ -204,6 +210,7 @@ export default class C extends Component<Props, State> {
 			case 'success':
 				source = require('@src/assets/icons/success.png');
 				break;
+
 				
 
 			default:
