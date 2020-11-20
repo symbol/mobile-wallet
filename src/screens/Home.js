@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
-import { Section, GradientBackground, AccountBalanceWidget, Text, PluginList, Col, Row, Icon,TitleBar } from '@src/components';
+import {StyleSheet, ScrollView, TouchableOpacity, View, RefreshControl, FlatList} from 'react-native';
+import {
+	Section,
+	GradientBackground,
+	AccountBalanceWidget,
+	Text,
+	PluginList,
+	Col,
+	Row,
+	Icon,
+	TitleBar,
+	ListItem
+} from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import ListContainer from "@src/components/backgrounds/ListContainer";
+import GlobalStyles from "@src/styles/GlobalStyles";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -25,7 +38,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		width: '100%'
-	}
+	},
+	list: {
+		marginBottom: 10,
+		marginTop: 100,
+		flex: 1,
+	},
 });
 
 type Props = {
@@ -41,6 +59,26 @@ class Home extends Component<Props, State> {
         store.dispatchAction({ type: 'account/loadAllData' });
 	};
 
+	renderNotification = ({item, index}) => {
+		return (
+			<ListItem onPress={item.handler ? item.handler : () => {}}>
+				<Row justify="space-between">
+					<Text type="regular" theme="light">
+						{item.title}
+					</Text>
+					<Text type="regular" theme="light">
+						{/* DateTime */}
+					</Text>
+				</Row>
+				<Row justify="space-between">
+					<Text type="bold" theme="light">
+						{item.description}
+					</Text>
+				</Row>
+			</ListItem>
+		);
+	}
+
     render = () => {
         const {
 			pendingSignature,
@@ -53,6 +91,12 @@ class Home extends Component<Props, State> {
 			isLoading
 		} = this.props;
         const {} = this.state;
+
+        const notifications = [];
+        notifications.push({ title: 'Opt-in', description: 'Post launch Opt-in is coming soon...'});
+        if (pendingSignature) {
+			notifications.push({title: 'Signature', description: 'A transaction is waiting signature', handler: () => changeTab('history')});
+		}
 
         return (
 			<GradientBackground
@@ -71,46 +115,16 @@ class Home extends Component<Props, State> {
 					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
 							<AccountBalanceWidget />
-						</Section>
-						<Section type="list">
 							<PluginList componentId={componentId} theme="light"/>
 						</Section>
-						<Section type="list">
-							{/* Notifications Mockup */}
-							{pendingSignature && (
-								<TouchableOpacity style={styles.transactionPreview} onPress={() => changeTab('history')}>
-									<Row justify="space-between">
-										<Text type="regular" theme="light">
-											Multisig Transaction
-										</Text>
-										<Text type="regular" theme="light">
-											{/* DateTime */}
-										</Text>
-									</Row>
-									<Row justify="space-between">
-										<Text type="bold" theme="light">
-											Awaiting your signature
-										</Text>
-									</Row>
-								</TouchableOpacity>
-							)}
-							<View style={styles.transactionPreview}>
-								<Row justify="space-between">
-									<Text type="regular" theme="light">
-										Opt-in
-									</Text>
-									<Text type="regular" theme="light">
-										{/* DateTime */}
-									</Text>
-								</Row>
-								<Row justify="space-between">
-									<Text type="bold" theme="light">
-										Post launch Opt-in is coming soon..
-									</Text>
-								</Row>
-							</View> 
-						</Section>
 					</Col>
+					<ListContainer style={styles.list} isScrollable={false}>
+						<FlatList
+							// style={{ height: '100%' }}
+							data={notifications}
+							renderItem={this.renderNotification}
+						/>
+					</ListContainer>
 				</ScrollView>
             </GradientBackground>
         );

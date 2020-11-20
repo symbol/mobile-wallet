@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import {BackHandler, View} from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import { Dropdown } from '@src/components';
 import translate, { languageNames } from '@src/locales/i18n';
@@ -41,7 +41,7 @@ class SettingsLanguageSelector extends Component {
 
         return (
             <View>
-				<Dropdown 
+				<Dropdown
 					list={list}
 					title={translate('Settings.language.title')}
 					value={selectedLanguage}

@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     },
     item: {
         padding: 5,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 20,
+        marginRight: 20,
     },
     circle: {
         height: 60,
@@ -98,7 +98,7 @@ class PluginList extends Component<Props, State> {
 
         return (
             <View style={[styles.root, style]}>
-                <Row justify="space-around" align="center" wrap>
+                <Row justify="center" align="center" wrap>
                     {pluginList.map((item, index) => (
                         <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
@@ -108,7 +108,7 @@ class PluginList extends Component<Props, State> {
                                     start={{ x: 0, y: 0 }}
                                     end={{ x: 1, y: 0 }}
                                     colors={[GlobalStyles.color.WHITE, GlobalStyles.color.DARKWHITE]}>
-                                    <Icon name={item.iconName} size="small" style={styles.icon} />
+                                    <Icon name={item.iconName} size="medium" style={styles.icon} />
                                 </LinearGradient>
                                 {/* </Col> */}
                             </TouchableOpacity>

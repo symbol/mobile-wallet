@@ -423,6 +423,10 @@
 		"mosaicId": "Mosaic ID",
 		"namespaceId": "Namespace ID",
 		"namespace": "Namespace",
+		"phone": "Phone",
+		"email": "Email",
+		"label": "Label",
+		"notes": "Notes"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
