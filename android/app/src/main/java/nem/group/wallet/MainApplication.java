@@ -1,4 +1,4 @@
-package nem.group.wallet.testnet;
+package nem.group.wallet;
 
 import android.app.Application;
 import android.content.Context;
