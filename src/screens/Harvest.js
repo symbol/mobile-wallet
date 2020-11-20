@@ -124,7 +124,7 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings } = this.props;
+        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance } = this.props;
         const { selectedNode, isLoading } = this.state;
         let statusStyle;
         switch (status) {
@@ -197,7 +197,7 @@ class Harvest extends Component<Props, State> {
                             <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode}
+                                    isDisabled={!selectedNode || balance < 10000}
                                     text="Start harvesting"
                                     theme="light"
                                     onPress={() => this.startHarvesting()}
@@ -208,7 +208,7 @@ class Harvest extends Component<Props, State> {
                             <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode}
+                                    isDisabled={!selectedNode || balance < 10000}
                                     text="Change node"
                                     theme="light"
                                     onPress={() => this.swapHarvesting()}
@@ -230,6 +230,7 @@ class Harvest extends Component<Props, State> {
 
 export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
+    balance: state.account.balance,
     status: state.harvesting.status,
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
