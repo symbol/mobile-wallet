@@ -70,6 +70,7 @@ class Passcode extends Component<Props, State> {
         const { isPinSet } = this.state;
         if (isPinSet) {
             onSuccess();
+            Router.goBack(this.props.componentId);
         } else {
             this.updateSecurity(enableTouchID ? 'biometrics' : 'passcode', onSuccess);
         }
