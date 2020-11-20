@@ -66,38 +66,6 @@ export default class FetchTransactionService {
         }
         return false;
     }
-    /**
-     * Check for pending signatures
-     * @param address
-     * @param network
-     * @returns {Promise<void>}
-     */
-    static async hasAddressPendingSignatures2(address: string, network: NetworkModel) {
-        // FIXME: Workaround with bad performance
-        const accountHttp = new AccountHttp(network.node);
-        try {
-            let accountInfo;
-            try {
-                accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
-            } catch {
-                return false;
-            }
-            if (!accountInfo.publicKey) return false;
-            const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
-
-            const transactions = await this.getTransactionsFromAddress(address, 1, 'ALL', network);
-            for (let transaction of transactions) {
-                if (
-                    transaction.type === 'aggregate' &&
-                    transaction.cosignaturePublicKeys.indexOf(publicAccount.publicKey) === -1 &&
-                    transaction.status !== 'confirmed'
-                ) {
-                    return true;
-                }
-            }
-        } catch (e) {}
-        return false;
-    }
 
     /**
      * Returns balance from a given Address and a node
