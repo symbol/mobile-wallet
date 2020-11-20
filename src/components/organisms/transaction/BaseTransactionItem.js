@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         // marginBottom: 8,
         // padding: 17,
         // paddingTop: 8,
-        backgroundColor: GlobalStyles.color.WHITE,
+		backgroundColor: GlobalStyles.color.WHITE,
+		elevation: 2
     },
     date: {
         fontSize: 10,
