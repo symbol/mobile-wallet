@@ -17,8 +17,14 @@ class Transaction extends Component<Props> {
     };
 
     trunc = (text, cut, lengthFirst, lengthSecond) => {
-        if (cut === 'middle') return text.substring(0, lengthFirst) + '...' + text.substring(text.length - lengthSecond, text.length);
-        if (cut === 'end') return text.substring(0, lengthFirst) + '...';
+        if (cut === 'middle' && lengthFirst + lengthSecond < text.length) {
+			return text.substring(0, lengthFirst) + '...' + text.substring(text.length - lengthSecond, text.length);
+		}
+        if (cut === 'end' && lengthFirst < text.length) {
+			return text.substring(0, lengthFirst) + '...';
+		}
+
+		return text;
     };
 
     render = () => {
@@ -33,7 +39,7 @@ class Transaction extends Component<Props> {
             case 'mosaicId':
                 return this.trunc(children, 'middle', 6, 3);
             case 'namespaceName':
-                return this.trunc(children, 'middle', 6, 3);
+                return this.trunc(children, 'middle', 6, 6);
             default:
                 return this.trunc(children, 'end', 5);
         }
