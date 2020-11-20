@@ -369,6 +369,162 @@
 		"ImportErrorWrongOptedInAccount": "このアカウントはすでにオプトイン済です。ただし、このウォレット内のSymbolアカウントではありません。正しいSymbolアカウントをインポートするか、別のXEMアカウント用のプライベートキーを使用してください。",
 		"ErrorCreatingAccount": "アカウントを作成できませんでした",
 		"NamespaceUnavailable": "利用できません"
+	},
+	"menu": {
+		"news": "ニュース",
+		"mosaics": "モザイク",
+		"home": "ホーム",
+		"history": "履歴",
+		"harvest": "収集"
+	},
+	"plugin": {
+		"send": "送信",
+		"receive": "受信",
+		"more": "詳細",
+		"qr": "QRのスキャン"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "開始",
+			"title": "モザイク0"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "モザイク1",
+			"title": "モザイク2"
+		}
+	},
+	"table": {
+		"type": "モザイク3",
+		"recipientAddress": "モザイク4",
+		"messageText": "モザイク5",
+		"messageEncrypted": "モザイク6",
+		"fee": "モザイク7",
+		"accountName": "モザイク8",
+		"address": "モザイク9",
+		"publicKey": "ホーム0",
+		"privateKey": "ホーム1",
+		"balance": "ホーム2",
+		"mosaics": "モザイク",
+		"mosaic": "ホーム3",
+		"amount": "ホーム4",
+		"encrypted": "ホーム5",
+		"unencrypted": "ホーム6",
+		"status": "ホーム7",
+		"innerTxs": "ホーム8",
+		"signerAddress": "ホーム9",
+		"deadline": "履歴0",
+		"hash": "履歴1",
+		"transferType": "履歴2",
+		"hasCustomMosaic": "履歴3",
+		"undefined": "履歴4",
+		"null": "履歴4",
+		"namespaceName": "履歴5",
+		"mosaicId": "履歴6",
+		"namespaceId": "履歴7",
+		"namespace": "履歴8",
+		"phone": "履歴9",
+		"email": "収集0",
+		"label": "収集1",
+		"notes": "収集2"
+	},
+	"transactionTypes": {
+		"unknown": "収集3",
+		"transfer": "収集4",
+		"fundsLock": "収集5",
+		"aggregate": "収集6",
+		"namespace": "収集7",
+		"mosaicAlias": "収集8"
+	},
+	"date": {
+		"monday": "収集9",
+		"tuesday": "送信0",
+		"wednesday": "送信1",
+		"thursday": "送信2",
+		"friday": "送信3",
+		"saturday": "送信4",
+		"sunday": "送信5"
+	},
+	"link": {
+		"faucet": "送信6",
+		"blockExplorer": "送信7",
+		"blockExplorerBlock": "送信8",
+		"blockExplorerAccount": "送信9",
+		"blockExplorerTransaction": "受信0",
+		"blockExplorerMosaic": "受信1",
+		"blockExplorerNamespace": "受信2"
+	},
+	"home": {
+		"optInTitle": "オプトイン",
+		"optInDescription": "リリース後オプトインは近日公開予定...",
+		"pendingSignatureTitle": "署名待ち",
+		"pendingSignatureDescription": "署名待ちのトランザクションがあります"
+	},
+	"mosaics": {
+		"title": "モザイク"
+	},
+	"news": {
+		"title": "ニュース"
+	},
+	"all": "すべて",
+	"history": {
+		"title": "履歴",
+		"accountFilter": "アカウントの選択",
+		"mainAccount": "メインアカウント",
+		"filter": "リリース後オプトインは近日公開予定...0",
+		"all": "すべて",
+		"sent": "リリース後オプトインは近日公開予定...1",
+		"received": "リリース後オプトインは近日公開予定...2",
+		"transaction": {
+			"message": "リリース後オプトインは近日公開予定...3",
+			"encrypted": "リリース後オプトインは近日公開予定...4",
+			"decrypt": "リリース後オプトインは近日公開予定...5",
+			"hash": "リリース後オプトインは近日公開予定...6",
+			"amountLocked": "リリース後オプトインは近日公開予定...7",
+			"sign": "リリース後オプトインは近日公開予定...8",
+			"waitingSignature": "リリース後オプトインは近日公開予定...9"
+		}
+	},
+	"harvest": {
+		"title": "署名待ち0",
+		"status": "署名待ち1",
+		"blocksHarvested": "署名待ち2",
+		"feesEarned": "署名待ち3",
+		"selectNode": "署名待ち4",
+		"changeNode": "署名待ち5",
+		"stopHarvesting": "署名待ち6",
+		"startHarvesting": "署名待ち7",
+		"ACTIVE": "署名待ち8",
+		"INACTIVE": "署名待ち9",
+		"INPROGRESS_ACTIVATION": "署名待ちのトランザクションがあります0",
+		"INPROGRESS_DEACTIVATION": "署名待ちのトランザクションがあります1",
+		"KEYS_LINKED": "署名待ちのトランザクションがあります2"
+	},
+	"sidebar": {
+		"seed": "署名待ちのトランザクションがあります3",
+		"pk": "署名待ちのトランザクションがあります4",
+		"addAccount": "署名待ちのトランザクションがあります5",
+		"openAddressBook": "署名待ちのトランザクションがあります6",
+		"rename": "署名待ちのトランザクションがあります7",
+		"delete": "署名待ちのトランザクションがあります8",
+		"details": "署名待ちのトランザクションがあります9",
+		"removeAccount": "モザイク0",
+		"removeAccountText": "モザイク1"
+	},
+	"createAccount": {
+		"title": "モザイク2",
+		"name": "モザイク3",
+		"type": "モザイク4",
+		"seed": "モザイク5",
+		"fromSeed": "モザイク6",
+		"createSeed": "モザイク7",
+		"fromPk": "モザイク8",
+		"createPk": "モザイク9"
+	},
+	"settings": {
+		"logoutConfirmTitle": "ニュース0",
+		"logoutConfirmDesc": "ニュース1",
+		"logoutConfirm2Title": "ニュース2",
+		"logoutConfirm2Desc": "ニュース3"
 	}
 }
 

@@ -67,7 +67,8 @@ export const startApp = async () => {
     /* TODO: REGISTER CORRECT LANGUAGE
     const language = await SettingsHelper.getActiveLanguage();
     */
-    setI18nConfig(store.getState().settings.selectedLanguage);
+    const selectedLanguage = await AsyncCache.getSelectedLanguage();
+    setI18nConfig(selectedLanguage);
 
     const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
