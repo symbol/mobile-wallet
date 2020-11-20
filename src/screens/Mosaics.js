@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, } from 'react-native';
 import { Section, ImageBackground, GradientBackground, TitleBar, MosaicDisplay } from '@src/components';
 import { connect } from 'react-redux';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
 	list: {
@@ -25,10 +26,10 @@ class Mosaics extends Component<Props, State> {
         return (
             //<ImageBackground name="blue" fade={true}>
 			<GradientBackground name="connector_small" theme="light">
-                <TitleBar 
+                <TitleBar
 					theme="light"
-					title="Mosaics" 
-					onOpenMenu={() => onOpenMenu()} 
+					title={translate('mosaics.title')}
+					onOpenMenu={() => onOpenMenu()}
 					onSettings={() => onOpenSettings()}
 				/>
                 <Section type="list" style={styles.list} isScrollable>

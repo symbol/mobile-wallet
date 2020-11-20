@@ -8,6 +8,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import { AccountQR, ContactQR } from 'symbol-qr-library';
 import PopupModal from '@src/components/molecules/PopupModal';
 import PasswordModal from '@src/components/molecules/PasswordModal';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({});
 
@@ -88,19 +89,19 @@ export default class CreateAccount extends Component {
         const { name, privateKey, index, isIndexValid, isPkValid, isNameValid, loading, importMethod, showDecryptModal, error } = this.state;
         return (
             <GradientBackground dataManager={{ isLoading: loading }} name="mesh_small_2" theme="light">
-                <TitleBar theme="light" onBack={() => this.goBack()} title="Create Account" />
+                <TitleBar theme="light" onBack={() => this.goBack()} title={translate('createAccount.title')} />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
-                        <Input value={name} placeholder="New account name" theme="light" fullWidth onChangeText={val => this.handleNameChange(val)} />
+                        <Input value={name} placeholder={translate('createAccount.name')} theme="light" fullWidth onChangeText={val => this.handleNameChange(val)} />
                     </Section>
 					<Section type="form-item">
 						<Dropdown
 							theme="light"
-							title="Account type"
-							placeholder="Select"
+							title={translate('createAccount.type')}
+                            placeholder="Select"
 							list={[
-								{ label: 'Create from mnemonics seed', value: 0 },
-								{ label: 'Create from private key', value: 1 },
+								{ label: translate('createAccount.fromSeed') , value: 0 },
+								{ label: translate('createAccount.fromPk'), value: 1 },
 							]}
 							value={importMethod}
 							onChange={value => {
@@ -109,29 +110,29 @@ export default class CreateAccount extends Component {
 						/>
 					</Section>
                     {importMethod === 0 && (
-                      
+
                             <Section type="form-item">
                                 <Input
                                     value={index}
-                                    placeholder="Seed index (leave blank for automatic increase)"
+                                    placeholder={translate('createAccount.seed')}
                                     theme="light"
                                     fullWidth
                                     onChangeText={val => this.handleIndexChange(val)}
                                 />
                             </Section>
-                            
+
 
                     )}
 					{importMethod === 0 && <Section type="form-bottom">
 						<Button
-							text="Create seed account"
+							text={translate('createAccount.createSeed')}
 							theme="light"
 							disabled={!isNameValid || !isIndexValid}
 							onPress={() => this.createSeedAccount()}
 							loading={loading}
 						/>
 					</Section>}
-                    {importMethod === 1 && 
+                    {importMethod === 1 &&
                         <>
                             <Section type="form-item">
                                 <Input value={privateKey} placeholder="Private Key" theme="light" fullWidth onChangeText={val => this.handlePkChange(val)} />
@@ -149,13 +150,13 @@ export default class CreateAccount extends Component {
                                 <Button text="Import by QR" theme="light" disabled={!isNameValid} loading={loading} onPress={() => this.scanPrivateKeyQR()} />
                             </Section>
 							<Button
-								text="Create private key account"
+								text={translate('createAccount.createPk')}
 								theme="light"
 								disabled={!isNameValid || !isPkValid}
 								loading={loading}
 								onPress={() => this.createPrivateKeyAccount()}
 							/>
-						</Section> 
+						</Section>
                     }
                 </Section>
                 <PasswordModal

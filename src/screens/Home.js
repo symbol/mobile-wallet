@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -93,9 +94,9 @@ class Home extends Component<Props, State> {
         const {} = this.state;
 
         const notifications = [];
-        notifications.push({ title: 'Opt-in', description: 'Post launch Opt-in is coming soon...'});
+        notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
         if (pendingSignature) {
-			notifications.push({title: 'Signature', description: 'A transaction is waiting signature', handler: () => changeTab('history')});
+			notifications.push({title: translate('home.pendingSignatureTitle'), description: translate('home.pendingSignatureDescription'), handler: () => changeTab('history')});
 		}
 
         return (
