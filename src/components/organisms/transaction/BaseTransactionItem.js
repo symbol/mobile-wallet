@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Col, Row, Text, Trunc, Icon, TableView, Section } from '@src/components';
+import {Col, Row, Text, Trunc, Icon, TableView, Section, LinkExplorer} from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
@@ -93,9 +93,9 @@ export default class BaseTransactionItem extends Component<Props, State> {
                     </Col>
                 </Row>
                 {showDetails && (
-                    <View style={{ paddingTop: 17 }}>
+                    <View style={{ padding: 17 }}>
                         {this.renderDetails()}
-                        <Row justify="space-between">
+                        <Row justify="space-between" style={{ paddingTop: 10, paddingBottom: 6 }}>
                             <Text type="bold" theme="light">
                                 Hash:
                             </Text>
@@ -103,14 +103,9 @@ export default class BaseTransactionItem extends Component<Props, State> {
                                 {transaction.hash.slice(0, 24)}...
                             </Text>
                         </Row>
-
-                        <TouchableOpacity onPress={() => this.openExplorer()}>
-                            <Row justify="end">
-                                <Text type="regular" theme="light">
-                                    Open in the explorer
-                                </Text>
-                            </Row>
-                        </TouchableOpacity>
+                        <Row justify="end" style={{ alignItems: 'flex-end' }}>
+                            <LinkExplorer type="transaction" value={transaction.hash} />
+                        </Row>
                     </View>
                 )}
             </View>

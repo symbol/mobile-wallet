@@ -30,6 +30,7 @@ interface Props {
     type: Type;
     align: Align;
     theme: Theme;
+    preShowFn: () => Promise<any>;
 }
 
 type State = {
@@ -44,8 +45,9 @@ export default class SecretView extends Component<Props, State> {
     };
 
     onShowClick = () => {
-        const { passcode } = this.props;
-        const callBack = () => {
+        const { preShowFn } = this.props;
+        const callBack = async () => {
+            if (preShowFn) await preShowFn();
             this.setState({ isSecretShown: true });
             this.setState({ counter: 10 });
 

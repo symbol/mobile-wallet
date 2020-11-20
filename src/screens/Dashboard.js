@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     tabWrapper: {
-        paddingBottom: 56,
+        flex: 1,
 	},
     contentContainer: {
         flex: 1,

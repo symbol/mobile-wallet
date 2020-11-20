@@ -5,13 +5,11 @@ import { Row, Col, Icon, Text, PriceChart } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from "@src/locales/i18n";
 import { Router } from "@src/Router";
+import {isIphoneX} from "@src/utils/Device";
 
 
 const styles = StyleSheet.create({
 	root: {
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
 		width: '100%',
 		backgroundColor: GlobalStyles.color.WHITE
 	},
@@ -65,14 +63,13 @@ export default class NavigationMenu extends Component<Props, State> {
 		let extraPadding = {};
 		let itemStyle = styles.item;
 
-		if (Platform.OS == 'ios') {
+		if (isIphoneX()) {
 			extraPadding = {
 				paddingBottom: 32
 			};
-
-			itemStyle = styles.itemIos;
 		}
-		
+		itemStyle = styles.itemIos;
+
 		return (
 			<View style={[styles.root, extraPadding]}>
 				<Row justify="space-around" align="center">
@@ -81,7 +78,7 @@ export default class NavigationMenu extends Component<Props, State> {
 							<TouchableOpacity onPress={() => onChange(item.name)} key={'' + index + 'nav'}>
 								<Col align="center" justify="space-" style={[itemStyle, item.name === value && styles.activeItem]}>
 									<Icon name={item.iconName} size="small" style={styles.icon}/>
-									<Text 
+									<Text
 										theme="light"
 										style={{fontSize: 11}}
 										type={
@@ -91,7 +88,7 @@ export default class NavigationMenu extends Component<Props, State> {
 										}
 									>{translate(item.text)}</Text>
 								</Col>
-							</TouchableOpacity> 
+							</TouchableOpacity>
 						)
 					}
 				</Row>
