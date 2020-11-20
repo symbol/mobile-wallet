@@ -458,7 +458,7 @@
 		"optInTitle": "Opt-in",
 		"optInDescription": "Post launch Opt-in coming soon...",
 		"pendingSignatureTitle": "Pending signature",
-		"pendingSignatureDescription": "There is a transaction pending awaiting signature",
+		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
 	},
 	"mosaics": {
 		"title": "Mosaics"
@@ -482,7 +482,7 @@
 			"hash": "Hash",
 			"amountLocked": "Amount locked",
 			"sign": "Sign",
-			"waitingSignature": "Waiting your signature",
+			"waitingSignature": "Waiting your signature"
 		}
 	},
 	"harvest": {

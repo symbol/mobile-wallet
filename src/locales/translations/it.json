@@ -369,5 +369,161 @@
 		"ImportErrorWrongOptedInAccount": "L'account è già incluso nel processo di attivazione, ma questo portafoglio non dispone di un account Symbol. Importare l'account Symbol corretto o utilizzare una chiave privata dell'account XEM diverso",
 		"ErrorCreatingAccount": "Impossibile creare l'account",
 		"NamespaceUnavailable": "Non disponibile"
+	},
+	"menu": {
+		"news": "Notizie",
+		"mosaics": "Mosaici",
+		"home": "Home",
+		"history": "Storia",
+		"harvest": "Raccolta"
+	},
+	"plugin": {
+		"send": "Invia",
+		"receive": "Ricevi",
+		"more": "Altro",
+		"qr": "Scansiona QR"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Avvia",
+			"title": "Mosaici0"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Mosaici1",
+			"title": "Mosaici2"
+		}
+	},
+	"table": {
+		"type": "Mosaici3",
+		"recipientAddress": "Mosaici4",
+		"messageText": "Mosaici5",
+		"messageEncrypted": "Mosaici6",
+		"fee": "Mosaici7",
+		"accountName": "Mosaici8",
+		"address": "Mosaici9",
+		"publicKey": "Home0",
+		"privateKey": "Home1",
+		"balance": "Home2",
+		"mosaics": "Mosaici",
+		"mosaic": "Home3",
+		"amount": "Home4",
+		"encrypted": "Home5",
+		"unencrypted": "Home6",
+		"status": "Home7",
+		"innerTxs": "Home8",
+		"signerAddress": "Home9",
+		"deadline": "Storia0",
+		"hash": "Storia1",
+		"transferType": "Storia2",
+		"hasCustomMosaic": "Storia3",
+		"undefined": "Storia4",
+		"null": "Storia4",
+		"namespaceName": "Storia5",
+		"mosaicId": "Storia6",
+		"namespaceId": "Storia7",
+		"namespace": "Storia8",
+		"phone": "Storia9",
+		"email": "Raccolta0",
+		"label": "Raccolta1",
+		"notes": "Raccolta2"
+	},
+	"transactionTypes": {
+		"unknown": "Raccolta3",
+		"transfer": "Raccolta4",
+		"fundsLock": "Raccolta5",
+		"aggregate": "Raccolta6",
+		"namespace": "Raccolta7",
+		"mosaicAlias": "Raccolta8"
+	},
+	"date": {
+		"monday": "Raccolta9",
+		"tuesday": "Invia0",
+		"wednesday": "Invia1",
+		"thursday": "Invia2",
+		"friday": "Invia3",
+		"saturday": "Invia4",
+		"sunday": "Invia5"
+	},
+	"link": {
+		"faucet": "Invia6",
+		"blockExplorer": "Invia7",
+		"blockExplorerBlock": "Invia8",
+		"blockExplorerAccount": "Invia9",
+		"blockExplorerTransaction": "Ricevi0",
+		"blockExplorerMosaic": "Ricevi1",
+		"blockExplorerNamespace": "Ricevi2"
+	},
+	"home": {
+		"optInTitle": "Opt-in",
+		"optInDescription": "Opt-in post lancio in arrivo ...",
+		"pendingSignatureTitle": "Firma in sospeso",
+		"pendingSignatureDescription": "Transazione in attesa di firma"
+	},
+	"mosaics": {
+		"title": "Mosaici"
+	},
+	"news": {
+		"title": "Notizie"
+	},
+	"all": "Tutto",
+	"history": {
+		"title": "Cronologia",
+		"accountFilter": "Seleziona account",
+		"mainAccount": "Conto principale",
+		"filter": "Opt-in post lancio in arrivo ...0",
+		"all": "Tutto",
+		"sent": "Opt-in post lancio in arrivo ...1",
+		"received": "Opt-in post lancio in arrivo ...2",
+		"transaction": {
+			"message": "Opt-in post lancio in arrivo ...3",
+			"encrypted": "Opt-in post lancio in arrivo ...4",
+			"decrypt": "Opt-in post lancio in arrivo ...5",
+			"hash": "Opt-in post lancio in arrivo ...6",
+			"amountLocked": "Opt-in post lancio in arrivo ...7",
+			"sign": "Opt-in post lancio in arrivo ...8",
+			"waitingSignature": "Opt-in post lancio in arrivo ...9"
+		}
+	},
+	"harvest": {
+		"title": "Firma in sospeso0",
+		"status": "Firma in sospeso1",
+		"blocksHarvested": "Firma in sospeso2",
+		"feesEarned": "Firma in sospeso3",
+		"selectNode": "Firma in sospeso4",
+		"changeNode": "Firma in sospeso5",
+		"stopHarvesting": "Firma in sospeso6",
+		"startHarvesting": "Firma in sospeso7",
+		"ACTIVE": "Firma in sospeso8",
+		"INACTIVE": "Firma in sospeso9",
+		"INPROGRESS_ACTIVATION": "Transazione in attesa di firma0",
+		"INPROGRESS_DEACTIVATION": "Transazione in attesa di firma1",
+		"KEYS_LINKED": "Transazione in attesa di firma2"
+	},
+	"sidebar": {
+		"seed": "Transazione in attesa di firma3",
+		"pk": "Transazione in attesa di firma4",
+		"addAccount": "Transazione in attesa di firma5",
+		"openAddressBook": "Transazione in attesa di firma6",
+		"rename": "Transazione in attesa di firma7",
+		"delete": "Transazione in attesa di firma8",
+		"details": "Transazione in attesa di firma9",
+		"removeAccount": "Mosaici0",
+		"removeAccountText": "Mosaici1"
+	},
+	"createAccount": {
+		"title": "Mosaici2",
+		"name": "Mosaici3",
+		"type": "Mosaici4",
+		"seed": "Mosaici5",
+		"fromSeed": "Mosaici6",
+		"createSeed": "Mosaici7",
+		"fromPk": "Mosaici8",
+		"createPk": "Mosaici9"
+	},
+	"settings": {
+		"logoutConfirmTitle": "Notizie0",
+		"logoutConfirmDesc": "Notizie1",
+		"logoutConfirm2Title": "Notizie2",
+		"logoutConfirm2Desc": "Notizie3"
 	}
 }
