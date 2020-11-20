@@ -129,7 +129,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
         return (
             <View>
                 <TableView data={parsedData} />
-                {!!transaction.messageEncrypted && (
+                {!!transaction.messageEncrypted && transaction.messageText && transaction.messageText.length > 0 && (
                     <View justify="space-between">
                         <Section type="form-item">
                             <Text type="bold" theme="light" style={styles.bold}>
