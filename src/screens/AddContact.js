@@ -122,9 +122,6 @@ class AddContact extends Component<Props, State> {
                         <Input value={email} placeholder="Email" theme="light" onChangeText={email => this.setState({ email })} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={label} placeholder="Label" theme="light" onChangeText={label => this.setState({ label })} />
-                    </Section>
-                    <Section type="form-item">
                         <Input value={notes} placeholder="Notes" theme="light" onChangeText={notes => this.setState({ notes })} />
                     </Section>
                     {!this.state.update && (

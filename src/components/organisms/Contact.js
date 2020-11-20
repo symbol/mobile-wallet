@@ -45,12 +45,12 @@ export default class Contact extends Component<Props> {
 								{this.props.name}
 							</Text>
 							<Text theme="light" type="regular" align={'left'} style={styles.content}>
-								<Trunc type="address">{this.props.address}</Trunc>
+								<Trunc type="mosaicId">{this.props.address}</Trunc>
 							</Text>
 						</Col>
 					</Row>
 				</Card>
-			</TouchableOpacity> 
+			</TouchableOpacity>
         );
     }
 }

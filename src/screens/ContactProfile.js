@@ -86,7 +86,6 @@ class ContactProfile extends Component<Props, State> {
 			address: selectedContact.address,
 			phone: selectedContact.phone,
 			email: selectedContact.email,
-			label: selectedContact.label,
 			notes: selectedContact.notes,
 		};
 
@@ -117,9 +116,9 @@ class ContactProfile extends Component<Props, State> {
 								<Row align="center" justify="start">
 									<Icon name="delete_primary" size="small" style={{marginRight: 8}} />
 									<Text style={{color: GlobalStyles.color.PRIMARY}} theme="light" type="bold" align="left">Remove Contact</Text>
-								</Row>	
+								</Row>
 							</TouchableOpacity>
-						</Section>	
+						</Section>
 						{/* <Section type="button">
 							<Button text="Remove Contact" theme="dark" onPress={() => this.remove()} />
 						</Section> */}
