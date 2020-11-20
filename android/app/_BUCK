@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "foundation.nem.wallet",
+    package = "nem.group.wallet.testnet",
 )
 
 android_resource(
     name = "res",
-    package = "foundation.nem.wallet",
+    package = "nem.group.wallet.testnet",
     res = "src/main/res",
 )
 

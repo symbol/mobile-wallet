@@ -1,4 +1,4 @@
-package foundation.nem.wallet;
+package nem.group.wallet.testnet;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
