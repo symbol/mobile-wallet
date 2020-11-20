@@ -8,6 +8,7 @@ import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import store from '@src/store';
 import TableView from '@src/components/organisms/TableView';
 import {showPasscode} from "@src/utils/passcode";
+import translate from "@src/locales/i18n";
 
 type Props = {
     transaction: AggregateTransactionModel,
@@ -33,7 +34,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
         if (this.needsSignature()) {
             return (
                 <Text type="regular" theme="light">
-                    Waiting your signature
+                    {translate('history.transaction.waitingSignature')}
                 </Text>
             );
         }
@@ -50,7 +51,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 />
                 {this.needsSignature() && (
                     <Row justify="space-between">
-                        <Button style={{ padding: 0 }} isLoading={isLoading} isDisabled={false} text="Sign" theme="light" onPress={() => this.sign()} />
+                        <Button style={{ padding: 0 }} isLoading={isLoading} isDisabled={false} text={translate('history.transaction.sign')} theme="light" onPress={() => this.sign()} />
                     </Row>
                 )}
             </View>

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     list: {
@@ -151,23 +152,23 @@ class Harvest extends Component<Props, State> {
                 name="connector_small"
                 theme="light"
                 dataManager={{ isLoading }}
-                titleBar={<TitleBar theme="light" title="Harvest" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}>
+                titleBar={<TitleBar theme="light" title={translate('harvest.title')} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}>
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item" style={styles.card}>
                         <Row justify="space-between" fullWidth>
                             <Text type={'bold'} theme={'light'}>
-                                Status:
+                                {translate('harvest.status')}:
                             </Text>
                             <Row align="center">
                                 <View style={statusStyle} />
                                 <Text type={'regular'} theme={'light'}>
-                                    {status}
+                                    {translate(`harvest.${status}`)}
                                 </Text>
                             </Row>
                         </Row>
                         <Row justify="space-between" fullWidth>
                             <Text type={'bold'} theme={'light'}>
-                                Blocks harvested:
+                                {translate('harvest.blocksHarvested')}:
                             </Text>
                             <Text type={'regular'} theme={'light'}>
                                 {totalBlockCount}
@@ -175,7 +176,7 @@ class Harvest extends Component<Props, State> {
                         </Row>
                         <Row justify="space-between" fullWidth>
                             <Text type={'bold'} theme={'light'}>
-                                Fees earned:
+                                {translate('harvest.feesEarned')}:
                             </Text>
                             <Text type={'regular'} theme={'light'}>
                                 {totalFeesEarned.toString()}
@@ -186,7 +187,7 @@ class Harvest extends Component<Props, State> {
                         <Dropdown
                             theme="light"
                             list={this.getHarvestingNodesDropDown()}
-                            title={'Select node'}
+                            title={translate('harvest.selectNode')}
                             value={selectedNode}
                             onChange={this.onSelectHarvestingNode}
                         />
@@ -198,7 +199,7 @@ class Harvest extends Component<Props, State> {
                                 <Button
                                     isLoading={isLoading}
                                     isDisabled={!selectedNode || balance < 10000}
-                                    text="Start harvesting"
+                                    text={translate('harvest.startHarvesting')}
                                     theme="light"
                                     onPress={() => this.startHarvesting()}
                                 />
@@ -209,7 +210,7 @@ class Harvest extends Component<Props, State> {
                                 <Button
                                     isLoading={isLoading}
                                     isDisabled={!selectedNode || balance < 10000}
-                                    text="Change node"
+                                    text={translate('harvest.changeNode')}
                                     theme="light"
                                     onPress={() => this.swapHarvesting()}
                                 />
@@ -217,7 +218,7 @@ class Harvest extends Component<Props, State> {
                         )}
                         {status !== 'INACTIVE' && (
                             <Section type="form-item">
-                                <Button isLoading={isLoading} isDisabled={false} text="Stop harvesting" theme="light" onPress={() => this.stopHarvesting()} />
+                                <Button isLoading={isLoading} isDisabled={false} text={translate('harvest.stopHarvesting')} theme="light" onPress={() => this.stopHarvesting()} />
                             </Section>
                         )}
                     </Section>

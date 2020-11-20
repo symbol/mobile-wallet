@@ -423,6 +423,10 @@
 		"mosaicId": "Mosaic ID",
 		"namespaceId": "Namespace ID",
 		"namespace": "Namespace",
+		"phone": "Phone",
+		"email": "Email",
+		"label": "Label",
+		"notes": "Notes"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -449,5 +453,78 @@
 		"blockExplorerTransaction": "Show in the Block Explorer",
 		"blockExplorerMosaic": "Show mosaic in the Block Explorer",
 		"blockExplorerNamespace": "Show namespace in the Block Explorer"
+	},
+	"home": {
+		"optInTitle": "Opt-in",
+		"optInDescription": "Post launch Opt-in coming soon...",
+		"pendingSignatureTitle": "Pending signature",
+		"pendingSignatureDescription": "There is a transaction pending awaiting signature",
+	},
+	"mosaics": {
+		"title": "Mosaics"
+	},
+	"news": {
+		"title": "News"
+	},
+	"all": "All",
+	"history": {
+		"title": "History",
+		"accountFilter": "Select account",
+		"mainAccount": "Main account",
+		"filter": "Filter",
+		"all": "All",
+		"sent": "Sent",
+		"received": "Received",
+		"transaction": {
+			"message": "Message",
+			"encrypted": "Encrypted",
+			"decrypt": "Decrypt",
+			"hash": "Hash",
+			"amountLocked": "Amount locked",
+			"sign": "Sign",
+			"waitingSignature": "Waiting your signature",
+		}
+	},
+	"harvest": {
+		"title": "Harvesting",
+		"status": "Status",
+		"blocksHarvested": "Blocks harvested",
+		"feesEarned": "Fees earned",
+		"selectNode": "Select node",
+		"changeNode": "Change node",
+		"stopHarvesting": "Stop harvesting",
+		"startHarvesting": "Start harvesting",
+		"ACTIVE": "Active",
+		"INACTIVE": "Inactive",
+		"INPROGRESS_ACTIVATION": "Activation in progress",
+		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
+		"KEYS_LINKED": "Keys linked"
+	},
+	"sidebar": {
+		"seed": "Seed account",
+		"pk": "Private key account",
+		"addAccount": "Add Account",
+		"openAddressBook": "Open address book",
+		"rename": "Rename",
+		"delete": "Delete",
+		"details": "Details",
+		"removeAccount": "Remove account",
+		"removeAccountText": "Are you sure you want to remove the account from the local storage"
+	},
+	"createAccount": {
+		"title": "Create Account",
+		"name": "New account name",
+		"type": "Account type",
+		"seed": "Seed index (blank for automatic increase)",
+		"fromSeed": "Create from mnemonics seed",
+		"createSeed": "Create seed account",
+		"fromPk": "Create from private key",
+		"createPk": "Create private key account"
+	},
+	"settings": {
+		"logoutConfirmTitle": "Are you sure",
+		"logoutConfirmDesc": "By logging out the data on the device will be removed. You should have a back up before proceeding",
+		"logoutConfirm2Title": "Warning",
+		"logoutConfirm2Desc": "You won't be able to access again to your wallet unless you have a back up. Are you sure do you want to continue?"
 	}
 }

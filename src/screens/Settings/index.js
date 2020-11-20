@@ -29,9 +29,7 @@ export default class Settings extends Component {
 				onBack={() => {Router.goBack(this.props.componentId)}}
 			>
 				<View style={styles.listContainer}>
-					<SettingsCurrencySelector />
 					<SettingsLanguageSelector />
-					<SettingsNotificationSelector />
 					<SettingsPasscodeSelector {...this.props} />
 					<SettingsNodeSelector />
 					<SettingsBackup {...this.props} />

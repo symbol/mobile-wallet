@@ -133,13 +133,13 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                     <View justify="space-between">
                         <Section type="form-item">
                             <Text type="bold" theme="light" style={styles.bold}>
-                                Message:
+                                {translate('history.transaction.message')}:
                             </Text>
                             {this.canBeDecrypted() && (
-                                <SecretView componentId={this.props.componentId} preShowFn={() => this.decryptMessage()} title="Decrypt " theme="light">{messageDecrypted}</SecretView>
+                                <SecretView componentId={this.props.componentId} preShowFn={() => this.decryptMessage()} title={translate('history.transaction.decrypt')} theme="light">{messageDecrypted}</SecretView>
                             )}
                             {!this.canBeDecrypted() && (
-                                <Text type="regular" theme="light">{'Encrypted'}</Text>
+                                <Text type="regular" theme="light">{translate('history.transaction.encrypted')}</Text>
                             )}
                         </Section>
                     </View>

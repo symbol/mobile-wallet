@@ -67,8 +67,8 @@ export default class NavigationMenu extends Component<Props, State> {
 			extraPadding = {
 				paddingBottom: 32
 			};
-			itemStyle = styles.itemIos;
 		}
+		itemStyle = styles.itemIos;
 
 		return (
 			<View style={[styles.root, extraPadding]}>

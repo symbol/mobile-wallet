@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
 import Transaction from '@src/components/organisms/transaction';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     list: {
@@ -88,7 +89,7 @@ class History extends Component<Props, State> {
 			<GradientBackground
 				name="connector_small"
 				theme="light"
-				titleBar={<TitleBar theme="light" title="Transactions" onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
+				titleBar={<TitleBar theme="light" title={translate('history.title')} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}
 			>
                 <Section type="list">
                     <Section type="form-item">
@@ -97,7 +98,7 @@ class History extends Component<Props, State> {
                                 theme="light"
                                 style={styles.filter}
                                 list={allFilters}
-                                title={'Filter'}
+                                title={translate('history.filter')}
                                 value={directionFilter}
                                 onChange={this.onSelectFilter}
                             />

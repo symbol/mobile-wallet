@@ -103,7 +103,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
                         {this.renderDetails()}
                         <View justify="space-between" style={{ paddingBottom: 16 }}>
                             <Text type="bold" theme="light">
-                                Hash:
+                                {translate('history.transaction.hash')}:
                             </Text>
                             <Text type="regular" theme="light">
                                 {transaction.hash.slice(0, 24)}...

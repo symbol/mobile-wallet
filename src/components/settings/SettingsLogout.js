@@ -44,10 +44,8 @@ export default class SettingsLogout extends Component {
                 <ConfirmModal
                     isModalOpen={isConfirmModalOpen}
                     showTopbar={true}
-                    title={'Logout'}
-                    text={
-                        'Are you sure you want to logout? This will remove your profile and all the accounts from local storage! You will need a back up to recover them'
-                    }
+                    title={translate('settings.logoutConfirmTitle')}
+                    text={translate('settings.logoutConfirmDesc')}
                     showClose={false}
                     onClose={() => this.setState({ isConfirmModalOpen: false })}
                     onSuccess={() => this.show2confirmation()}
@@ -55,8 +53,8 @@ export default class SettingsLogout extends Component {
                 <ConfirmModal
                     isModalOpen={isConfirm2ModalOpen}
                     showTopbar={true}
-                    title={'Logout'}
-                    text={'IMPORTANT: This action will remove your profile from storage. Proceed only if you have a backup'}
+                    title={translate('settings.logoutConfirm2Title')}
+                    text={translate('settings.logoutConfirm2Desc')}
                     showClose={false}
                     onClose={() => this.setState({ isConfirm2ModalOpen: false })}
                     onSuccess={() => this.doLogout()}
