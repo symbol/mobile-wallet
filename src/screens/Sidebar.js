@@ -250,8 +250,8 @@ class Sidebar extends Component<Props, State> {
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
             { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleOpenRemoveAccountModal(id) },
         ];
-        const startPath = "m/44'/4343'/0'/";
-        const endPath = "'/0'";
+        const startPath = "m/44'/4343'/";
+        const endPath = "'/0'/0'";
         const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
 
         return (
