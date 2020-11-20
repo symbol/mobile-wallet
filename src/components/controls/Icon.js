@@ -210,7 +210,9 @@ export default class C extends Component<Props, State> {
 			case 'success':
 				source = require('@src/assets/icons/success.png');
 				break;
-
+			case 'contact_light':
+				source = require('@src/assets/icons/contact_light.png');
+				break;
 				
 
 			default:

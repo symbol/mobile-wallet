@@ -39,7 +39,7 @@ export default class Contact extends Component<Props> {
 			<TouchableOpacity onPress={() => this.onPress(this.props)}>
 				<Card style={styles.root}>
 					<Row align="center">
-						<Icon name="wallet_filled_light" style={{marginRight: 17}}/>
+						<Icon name="contact_light" style={{marginRight: 16}} />
 						<Col grow>
 							<Text theme="light" type="bold" style={styles.title}>
 								{this.props.name}
@@ -49,7 +49,6 @@ export default class Contact extends Component<Props> {
 							</Text>
 						</Col>
 					</Row>
-					
 				</Card>
 			</TouchableOpacity> 
         );
