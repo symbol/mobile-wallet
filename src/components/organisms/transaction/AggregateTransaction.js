@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import store from '@src/store';
 import TableView from '@src/components/organisms/TableView';
+import {showPasscode} from "@src/utils/passcode";
 
 type Props = {
     transaction: AggregateTransactionModel,
@@ -14,9 +15,11 @@ type Props = {
 
 class AggregateTransaction extends BaseTransactionItem<Props> {
     sign() {
-        const { transaction } = this.props;
-        store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
-            store.dispatchAction({ type: 'account/loadAllData' });
+        showPasscode(this.props.componentId, () => {
+            const { transaction } = this.props;
+            store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
+                store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
+            });
         });
     }
 
@@ -47,7 +50,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 />
                 {this.needsSignature() && (
                     <Row justify="space-between">
-                        <Button isLoading={isLoading} isDisabled={false} text="Sign" theme="light" onPress={() => this.sign()} />
+                        <Button style={{ padding: 0 }} isLoading={isLoading} isDisabled={false} text="Sign" theme="light" onPress={() => this.sign()} />
                     </Row>
                 )}
             </View>

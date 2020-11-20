@@ -27,7 +27,8 @@ class SettingsPasscodeSelector extends Component {
             Router.showPasscode(
                 {
                     disablePasscode: true,
-                    resetPasscode: true,
+                    showCancel: true,
+                    resetPasscode: false,
                     onSuccess: setPasscode,
                 },
                 this.props.componentId

@@ -87,7 +87,7 @@ export default class AccountService {
         const seed = mnemonicPassPhrase.toSeed().toString('hex');
         const extKey = ExtendedKey.createFromSeed(seed);
         const wallet = new Wallet(extKey);
-        const path = `m/44'/4343'/0'/${index}'/0'`;
+        const path = `m/44'/4343'/${index}'/0'/0'`;
         const privateKey = wallet.getChildAccountPrivateKey(path);
         const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
         return this.symbolAccountToAccountModel(symbolAccount, name, 'hd', path);

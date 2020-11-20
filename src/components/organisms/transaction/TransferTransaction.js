@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import translate from '@src/locales/i18n';
 import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
-import { Button, Icon, Section, TableView, Text, Trunc } from '@src/components';
+import {Button, Icon, Row, SecretView, Section, TableView, Text, Trunc} from '@src/components';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { StyleSheet, View } from 'react-native';
 import TransactionService from '@src/services/TransactionService';
 import { showPasscode } from '@src/utils/passcode';
+import {call} from "react-native-reanimated";
 
 const styles = StyleSheet.create({
     amountOutgoing: {
@@ -105,7 +106,13 @@ class TransferTransaction extends BaseTransactionItem<Props> {
             const messageDecrypted = await TransactionService.decryptMessage(selectedAccount, network, transaction);
             this.setState({ messageDecrypted: messageDecrypted, decrypting: false });
         };
-        showPasscode(this.props.componentId, callback);
+        callback();
+        //showPasscode(this.props.componentId, callback);
+    };
+
+    canBeDecrypted = () => {
+        const { transaction, selectedAccountAddress } = this.props;
+        return transaction.recipientAddress === selectedAccountAddress;
     };
 
     renderDetails = () => {
@@ -125,14 +132,13 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                             <Text type="bold" theme="light">
                                 Message:
                             </Text>
-                            <Text type="regular" theme="light">
-                                {messageDecrypted !== null ? messageDecrypted : 'Encrypted'}
-                            </Text>
+                            {this.canBeDecrypted() && (
+                                <SecretView componentId={this.props.componentId} preShowFn={() => this.decryptMessage()} title="Decrypt " theme="light">{messageDecrypted}</SecretView>
+                            )}
+                            {!this.canBeDecrypted() && (
+                                <Text type="regular" theme="light">{'Encrypted'}</Text>
+                            )}
                         </Section>
-                        {transaction.status !== 'unconfirmed' &&
-                            messageDecrypted === null &&
-                            transaction.recipientAddress === selectedAccountAddress &&
-                            this.isIncoming() && <Button theme="light" title="Decrypt" loading={decrypting} onPress={() => this.decryptMessage()} />}
                     </View>
                 )}
             </View>

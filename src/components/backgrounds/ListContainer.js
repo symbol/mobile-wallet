@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 0,
         marginBottom: 8,
-        backgroundColor: GlobalStyles.color.WHITE
+        backgroundColor: GlobalStyles.color.WHITE,
+		flex: 1,
 	},
 	section: {
 		flex: 1

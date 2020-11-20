@@ -9,6 +9,7 @@ import Transaction from '@src/components/organisms/transaction';
 const styles = StyleSheet.create({
     list: {
         marginBottom: 10,
+        flex: 1,
     },
     filter: {
         flexGrow: 1,

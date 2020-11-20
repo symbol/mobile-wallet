@@ -32,6 +32,7 @@ import MosaicService from '@src/services/MosaicService';
 import type { DirectionFilter } from '@src/store/transaction';
 import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
+import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 
 export default class FetchTransactionService {
     /**
@@ -57,7 +58,8 @@ export default class FetchTransactionService {
             .toPromise();
         for (let transaction: Transaction of transactionsData.data) {
             if (transaction instanceof AggregateTransaction) {
-                if (!transaction.signedByAccount(publicAccount)) {
+                const txModel = await this._populateAggregateTransactionModel({}, transaction, network);
+                if (txModel.cosignaturePublicKeys.indexOf(publicAccount.publicKey) === -1 && txModel.status !== 'confirmed') {
                     return true;
                 }
             }

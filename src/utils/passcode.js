@@ -36,9 +36,9 @@ const showPasscode = (componentId, callback) => {
             {
                 showCancel: true,
                 resetPasscode: false,
-                onSuccess: () => {
-                    Router.goBack(componentId);
+                onSuccess: async () => {
                     callback();
+                    //Router.goBack(componentId);
                 },
             },
             componentId

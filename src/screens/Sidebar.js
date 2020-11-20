@@ -23,6 +23,8 @@ import store from '@src/store';
 import PopupModal from '@src/components/molecules/PopupModal';
 import RNFetchBlob from 'rn-fetch-blob';
 import { downloadFile } from '@src/utils/donwload';
+import ConfirmModal from "@src/components/molecules/ConfirmModal";
+import {showPasscode} from "@src/utils/passcode";
 
 const styles = StyleSheet.create({
     root: {
@@ -126,6 +128,7 @@ type State = {
 class Sidebar extends Component<Props, State> {
     state = {
         isNameModalOpen: false,
+        isRemoveModalOpen: false,
         editingAccountId: '',
         newName: '',
     };
@@ -138,8 +141,21 @@ class Sidebar extends Component<Props, State> {
         Router.goToAddressBook({}, this.props.componentId);
     };
 
-    handleDeleteAccount = id => {
-        store.dispatchAction({ type: 'wallet/removeAccount', payload: id });
+    handleDeleteAccount = () => {
+        const { editingAccountId } = this.state;
+        store.dispatchAction({ type: 'wallet/removeAccount', payload: editingAccountId });
+        this.setState({
+            isRemoveModalOpen: false,
+        });
+    };
+
+    handleOpenRemoveAccountModal = async id => {
+        showPasscode(this.props.componentId, () => {
+            this.setState({
+                isRemoveModalOpen: true,
+                editingAccountId: id,
+            });
+        });
     };
 
     handleOpenRenameAccountModal = async (id, name) => {
@@ -232,10 +248,10 @@ class Sidebar extends Component<Props, State> {
     renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
         const options = [
             { iconName: 'edit_light', label: 'Rename', onPress: () => this.handleOpenRenameAccountModal(id, name) },
-            { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(id) },
+            { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleOpenRemoveAccountModal(id) },
         ];
-        const startPath = "m/44'/4343'/0'/";
-        const endPath = "'/0'";
+        const startPath = "m/44'/4343'/";
+        const endPath = "'/0'/0'";
         const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
 
         return (
@@ -273,7 +289,7 @@ class Sidebar extends Component<Props, State> {
 
     render = () => {
         const { accounts, selectedAccount, isVisible, isLoading } = this.props;
-        const { isNameModalOpen, newName, savingPaperWallet } = this.state;
+        const { isNameModalOpen, newName, savingPaperWallet, isRemoveModalOpen } = this.state;
         const menuItems = [
             { iconName: 'add_filled_light', text: 'Add Account', onPress: () => this.handleAddAccount() },
             { iconName: 'wallet_filled_light', text: 'Open address book', onPress: () => this.goToAddressBook() },
@@ -328,6 +344,14 @@ class Sidebar extends Component<Props, State> {
                         </Section>
                     </Section>
                 </PopupModal>
+                <ConfirmModal
+                    isModalOpen={isRemoveModalOpen}
+                    showTopbar={true}
+                    title={'Remove account'}
+                    text={'Are you sure you want to remove the account from the local storage?'}
+                    showClose={false}
+                    onClose={() => this.setState({ isRemoveModalOpen: false })}
+                    onSuccess={() => this.handleDeleteAccount()} />
             </View>
         );
     };

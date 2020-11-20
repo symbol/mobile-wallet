@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         margin: 8,
 	},
 	tabs: {
-		borderBottomWidth: 2, 
+		borderBottomWidth: 2,
 		borderColor: GlobalStyles.color.WHITE
 	},
 	tab: {
@@ -139,9 +139,9 @@ class SettingsNodeSelector extends Component {
                     itemValue={selectedNetwork}
                     onPress={this.openModal}
                 />
-				<PopupModal 
+				<PopupModal
 					containerStyle={styles.popup}
-					isModalOpen={isModalOpen} 
+					isModalOpen={isModalOpen}
 					onClose={() => this.closeModal()}
 					showTopbar={true}
                     title={'Select a node'}
@@ -150,7 +150,7 @@ class SettingsNodeSelector extends Component {
 					<Section type="form">
 						<Section type="form-item">
 							<Row style={styles.tabs}>
-								<TouchableOpacity 
+								<TouchableOpacity
 									style={[{marginRight: 16}, styles.tab, selectedTab === 'mainnet' && styles.activeTab]}
 									onPress={() => this.setState({selectedTab: 'mainnet'})}
 								>
@@ -158,7 +158,7 @@ class SettingsNodeSelector extends Component {
 										Mainnet
 									</Text>
 								</TouchableOpacity>
-								<TouchableOpacity 
+								<TouchableOpacity
 									style={styles.tab, selectedTab === 'testnet' && styles.activeTab}
 									onPress={() => this.setState({selectedTab: 'testnet'})}
 								>
@@ -167,9 +167,14 @@ class SettingsNodeSelector extends Component {
 									</Text>
 								</TouchableOpacity>
 							</Row>
-							
+
 						</Section>
-						<ManagerHandler dataManager={{isLoading: !!loading}} noLoadingText theme="light">
+						{ loading &&
+							<ManagerHandler dataManager={{isLoading: !!loading}} noLoadingText theme="light">
+								<Section type="form-item" style={{ height: '100%' }}/>
+							</ManagerHandler>
+						}
+						{!loading &&
 							<Section type="form-item">
 								<FlatList
 									style={styles.list}
@@ -178,12 +183,12 @@ class SettingsNodeSelector extends Component {
 									keyExtractor={(item, index) => '' + index + 'nodes'}
 								/>
 							</Section>
-						</ManagerHandler>  
+						}
 						<Section type="form-item">
 							{error && <Text type={'regular'} align={'center'} theme={'light'} style={styles.error}>
 								{error}
 							</Text>}
-						</Section>   
+						</Section>
 					</Section>
                     {/* <View style={styles.checkboxContainer}>
                         <Text type="text" theme="light">
@@ -207,7 +212,7 @@ class SettingsNodeSelector extends Component {
                         value={selectedNetwork === 'testnet' ? selectedNode : null}
                         onChange={v => this.onSelectNode(v)}
                     /> */}
-      
+
                 </PopupModal>
             </View>
         );

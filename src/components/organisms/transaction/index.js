@@ -42,7 +42,7 @@ export default class Transaction extends Component<Props> {
             case 'fundsLock':
                 return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
             case 'aggregate':
-                return <AggregateTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+                return <AggregateTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
             case 'namespace':
                 return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
             case 'mosaicAlias':
