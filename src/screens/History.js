@@ -29,9 +29,9 @@ type Props = {};
 type State = {};
 
 const allFilters = [
-    { value: 'ALL', label: translate('history.all') },
-    { value: 'SENT', label: translate('history.sent') },
-    { value: 'RECEIVED', label: translate('history.received') },
+    { value: 'ALL', label: 'All' },
+    { value: 'SENT', label: 'Sent' },
+    { value: 'RECEIVED', label: 'Received' },
 ];
 
 class History extends Component<Props, State> {
