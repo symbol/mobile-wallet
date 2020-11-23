@@ -6,7 +6,8 @@ export type DirectionFilter = 'SENT' | 'RECEIVED' | 'ALL';
 export default {
     namespace: 'transaction',
     state: {
-        loading: false,
+		loading: false,
+		isNextLoading: false,
         subscription: null,
         addressFilter: '',
         directionFilter: 'ALL',
@@ -19,7 +20,11 @@ export default {
         setLoading(state, payload) {
             state.transaction.loading = payload;
             return state;
-        },
+		},
+		setLoadingNext(state, payload) {
+			state.transaction.isNextLoading = payload;
+            return state;
+		},
         setSubscription(state, payload) {
             state.transaction.subscription = payload;
             return state;
@@ -67,8 +72,11 @@ export default {
             commit({ type: 'transaction/setTransactions', payload: [] });
         },
         loadNextPage: async ({ commit, state }) => {
-            if (state.transaction.loading) return;
-            commit({ type: 'transaction/setLoading', payload: true });
+			if (state.transaction.loading) return;
+			commit({ type: 'transaction/setLoading', payload: true });
+            setTimeout(() => {
+				commit({ type: 'transaction/setLoadingNext', payload: true });
+			});
             const nextPage = state.transaction.page + 1;
             const subscription = from(
                 FetchTransactionService.getTransactionsFromAddress(
@@ -85,9 +93,13 @@ export default {
                         commit({ type: 'transaction/addTransactions', payload: transactions });
                     }
                     commit({ type: 'transaction/setPage', payload: nextPage });
-                    commit({ type: 'transaction/setLoading', payload: false });
+					commit({ type: 'transaction/setLoading', payload: false });
+					commit({ type: 'transaction/setLoadingNext', payload: false })
                 },
-                error => console.log(error)
+                error => {
+					console.log(error);
+					commit({ type: 'transaction/setLoadingNext', payload: false })
+				}
             );
             commit({ type: 'transaction/setSubscription', payload: subscription });
         },
