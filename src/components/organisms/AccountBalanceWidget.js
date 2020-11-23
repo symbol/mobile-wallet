@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Row, CopyView, Text, Section, SymbolGradientContainer } from '@src/components';
+import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
+import { Row, Col, CopyView, Text, SymbolGradientContainer } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
+import store from '@src/store';
 import { connect } from 'react-redux';
 
 // TODO: Remove font styles. Use <Text type={} /> instead
@@ -14,8 +15,16 @@ const styles = StyleSheet.create({
         marginTop: 4,
         marginBottom: 17,
         padding: 17,
-        paddingTop: 8,
-    },
+		paddingTop: 8,
+		minHeight: 142
+	},
+	scrollView: {
+
+	},
+	scrollViewContent: {
+		flex: 1,
+		justifyContent: "space-between"
+	},
 	address: {
 		marginRight: -5,
 		opacity: 0.7,
@@ -57,26 +66,27 @@ type State = {
 };
 
 class BalanceWidget extends Component<Props, State> {
-    // TODO: Replace with data from Store
-    state = {
-        currency: 'XYM',
-        balance: '12000',
-        fiat: '68,148 USD',
-        priceChange: '+1.20%',
-    };
+	reload = () => {
+        store.dispatchAction({ type: 'account/loadAllData' });
+	};
 
-    render() {
-        const { showChart = true } = this.props;
-        const { currency, fiat, priceChange } = this.state;
+    render = () => {
 		const { 
 			address,
 			nativeMosaicNamespaceName,
-			balance 
+			balance,
+			isLoading
 		} = this.props;
 
         return (
-            <SymbolGradientContainer style={styles.root} noPadding>
-                <View style={styles.content}>
+            <SymbolGradientContainer style={styles.root} noPadding noScroll>
+				<ScrollView
+					style={styles.scrollView}
+					contentContainerStyle={styles.scrollViewContent}
+					refreshControl={
+						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
+					}
+				>
 					<CopyView style={styles.address} theme="dark">
 						{address}
 					</CopyView>
@@ -91,10 +101,9 @@ class BalanceWidget extends Component<Props, State> {
 							{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
 								.{(''+balance).split('.')[1]}
 							</Text>}
-						</Row>
-						
+						</Row>	
 					</Row>	
-				</View>
+				</ScrollView>
             </SymbolGradientContainer>
         );
     }
@@ -104,5 +113,6 @@ export default connect(state => ({
 	address: state.account.selectedAccountAddress,
 	nativeMosaicNamespaceName: 'XYM', //TODO: remove hardcode
 	balance: state.account.balance,
+	isLoading: state.account.loading,
 }))(BalanceWidget);
 
