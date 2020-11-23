@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
-import { Row, Col, CopyView, Text, SymbolGradientContainer } from '@src/components';
+import { Row, Col, CopyView, Text, SymbolGradientContainer, FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
+import Video from "react-native-video";
 import store from '@src/store';
 import { connect } from 'react-redux';
 
@@ -50,6 +51,23 @@ const styles = StyleSheet.create({
 		lineHeight: 3.25 * 12,
 		marginTop: 20,
 		opacity: 0.6
+	},
+	noPadding: {
+		padding: 0,
+		paddingTop: 0
+	},
+	video: {
+		bottom: 0,
+		left: 0,
+		position: 'absolute',
+		height: '100%',
+		width: '100%',
+		flex: 1,
+		resizeMode: 'cover',
+		borderRadius: 6
+	},
+	fade: {
+		opacity: 0.5
 	}
 });
 
@@ -79,7 +97,7 @@ class BalanceWidget extends Component<Props, State> {
 		} = this.props;
 
         return (
-            <SymbolGradientContainer style={styles.root} noPadding noScroll>
+            <SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
 				<ScrollView
 					style={styles.scrollView}
 					contentContainerStyle={styles.scrollViewContent}
@@ -87,10 +105,10 @@ class BalanceWidget extends Component<Props, State> {
 						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
 					}
 				>
-					<CopyView style={styles.address} theme="dark">
+					{!isLoading && <CopyView style={styles.address} theme="dark">
 						{address}
-					</CopyView>
-					<Row align="end" justify="space-between" fullWidth>
+					</CopyView>}
+					{!isLoading && <Row align="end" justify="space-between" fullWidth>
 						<Text style={styles.mosaic} theme="dark">
 						{nativeMosaicNamespaceName}
 						</Text>
@@ -102,8 +120,20 @@ class BalanceWidget extends Component<Props, State> {
 								.{(''+balance).split('.')[1]}
 							</Text>}
 						</Row>	
-					</Row>	
+					</Row>}
+					{isLoading && <FadeView style={styles.video} duration={1000}><Video
+						source={require('@src/assets/videos/mesh.mp4')}
+						style={[styles.video, styles.fade]}
+						muted={true}
+						repeat={true}
+						resizeMode={"cover"}
+						rate={1.0}
+						ignoreSilentSwitch={"obey"}
+						blurRadius={10}
+					/></FadeView>}	
+					
 				</ScrollView>
+				
             </SymbolGradientContainer>
         );
     }
