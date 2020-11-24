@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableItem, Image, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, StatusBar, Image, FlatList } from 'react-native';
 import {
     Section,
     GradientBackground,
@@ -49,7 +49,10 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
     },
-    selectedAccountBoxContent: {},
+	selectedAccountBoxContent: {},
+	titleBar: {
+		marginTop: StatusBar.currentHeight,
+	},
     selectedAccountName: {},
     selectedAccountAddress: {
         fontSize: 1 * 12,
@@ -63,6 +66,11 @@ const styles = StyleSheet.create({
     selectedAccountBalance: {
         fontSize: 2.5 * 12,
         lineHeight: 3.25 * 12,
+	},
+	selectedAccountBalanceLight: {
+        fontSize: 2.5 * 12,
+		lineHeight: 3.25 * 12,
+		opacity: 0.6
     },
     connectorImage: {
         position: 'absolute',
@@ -215,30 +223,44 @@ class Sidebar extends Component<Props, State> {
             <OptionsMenu list={options} style={[styles.optionsIcon, styles.topOptinIcon]}>
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
-        );
+		);
+		
+		const intBalance = (''+(balance)).split('.')[0];
+		const decimalBalance = (''+balance).split('.')[1];
+		const truncatedDecimalBalance = intBalance.length < 9 
+			? (intBalance.length > 4
+				? decimalBalance.slice(0, decimalBalance.length - (intBalance.length - 2)) + '...'
+				: decimalBalance)
+			: '..';
+
 
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                 <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-                <TitleBar onBack={() => this.props.onHide()} buttons={buttons} />
-                <ManagerHandler dataManager={{ isLoading }} theme="dark" noLoadingText allowContainer>
-                    <Section type="form" style={styles.selectedAccountBoxContent}>
-                        <Text style={styles.selectedAccountName} type="title-small" theme="dark">
-                            {selectedAccount ? selectedAccount.name : ''}
-                        </Text>
-                        <Text style={styles.selectedAccountAddress} theme="dark">
-                            <Trunc type="address">{address}</Trunc>
-                        </Text>
-                        <Row align="end" justify="space-between" fullWidth>
-                            <Text style={styles.selectedAccountMosaic} theme="dark">
-                                {nativeMosaicNamespace}
-                            </Text>
-                            <Text style={styles.selectedAccountBalance} theme="dark">
-                                {balance}
-                            </Text>
-                        </Row>
-                    </Section>
-                </ManagerHandler>
+                <TitleBar onBack={() => this.props.onHide()} buttons={buttons} style={styles.titleBar}/>
+                <Section type="form" style={styles.selectedAccountBoxContent}>
+					<ManagerHandler dataManager={{ isLoading }} theme="dark" noLoadingText>
+						<Text style={styles.selectedAccountName} type="title-small" theme="dark">
+							{selectedAccount ? selectedAccount.name : ''}
+						</Text>
+						<Text style={styles.selectedAccountAddress} theme="dark">
+							<Trunc type="address">{address}</Trunc>
+						</Text>
+						<Row align="end" justify="space-between">
+							<Text style={styles.selectedAccountMosaic} theme="dark">
+								{nativeMosaicNamespace}
+							</Text>
+							<Row>
+								<Text style={styles.selectedAccountBalance} theme="dark">
+									{intBalance}
+								</Text>
+								{decimalBalance && <Text style={styles.selectedAccountBalanceLight} theme="dark">
+									.{truncatedDecimalBalance}
+								</Text>}
+							</Row>
+						</Row>
+					</ManagerHandler>
+                </Section>
             </SymbolGradientContainer>
         );
     };

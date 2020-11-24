@@ -19,7 +19,7 @@ class CustomFlashMessage extends Component<Props> {
 				<FlashMessage 
 					position="top" 
 					animationDuration={200}
-					floating="true"
+					floating={true}
 					position={{top: StatusBar.currentHeight}}
 				/>
             </View>
