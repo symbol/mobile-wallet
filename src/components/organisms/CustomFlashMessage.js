@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { Router } from '@src/Router';
 
@@ -16,7 +16,12 @@ class CustomFlashMessage extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <FlashMessage position="top" animationDuration={180} />
+				<FlashMessage 
+					position="top" 
+					animationDuration={200}
+					floating="true"
+					position={{top: StatusBar.currentHeight}}
+				/>
             </View>
         );
     }
