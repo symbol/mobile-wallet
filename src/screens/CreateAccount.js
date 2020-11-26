@@ -31,7 +31,8 @@ class CreateAccount extends Component {
         importMethod: 0,
         scannedAccountQR: null,
 		showDecryptModal: false,
-		isNameAlreadyExists: false
+		isNameAlreadyExists: false,
+		isPrivateKeyAlreadyExists: false
     };
 
     goBack = () => {
@@ -44,12 +45,21 @@ class CreateAccount extends Component {
 	};
 
     handlePkChange = val => {
-        this.setState({ privateKey: val, isPkValid: isPrivateKeyValid(val) });
+		this.setState({ privateKey: val, isPkValid: isPrivateKeyValid(val) });
+		this.checkPrivateKeyIsNotImported(val);
     };
 
     handleIndexChange = val => {
         const parsedVal = parseInt(val);
         this.setState({ index: parsedVal, isIndexValid: val === '' || (!isNaN(parsedVal) && parsedVal >= 0) });
+	};
+
+	checkPrivateKeyIsNotImported = (val) => {
+		const { accounts } = this.props;
+		const { privateKey } = this.state;
+		const _privateKey = val || privateKey;
+
+		this.setState({isPrivateKeyAlreadyExists: !!accounts.find(account => account.privateKey === _privateKey)});
 	};
 
 	checkNameIsAvailable = (val) => {
@@ -109,7 +119,20 @@ class CreateAccount extends Component {
     };
 
     render = () => {
-        const { name, privateKey, index, isIndexValid, isPkValid, isNameValid, loading, importMethod, showDecryptModal, error, isNameAlreadyExists } = this.state;
+		const { name, 
+			privateKey, 
+			index, 
+			isIndexValid, 
+			isPkValid, 
+			isNameValid, 
+			loading, 
+			importMethod, 
+			showDecryptModal, 
+			error, 
+			isNameAlreadyExists, 
+			isPrivateKeyAlreadyExists 
+		} = this.state;
+
         return (
             <GradientBackground dataManager={{ isLoading: loading }} name="mesh_small_2" theme="light">
                 <TitleBar theme="light" onBack={() => this.goBack()} title={translate('createAccount.title')} />
@@ -134,18 +157,15 @@ class CreateAccount extends Component {
 						/>
 					</Section>
                     {importMethod === 0 && (
-
-                            <Section type="form-item">
-                                <Input
-                                    value={index}
-                                    placeholder={translate('createAccount.seed')}
-                                    theme="light"
-                                    fullWidth
-                                    onChangeText={val => this.handleIndexChange(val)}
-                                />
-                            </Section>
-
-
+						<Section type="form-item">
+							<Input
+								value={index}
+								placeholder={translate('createAccount.seed')}
+								theme="light"
+								fullWidth
+								onChangeText={val => this.handleIndexChange(val)}
+							/>
+						</Section>
                     )}
 					{importMethod === 0 && <Section type="form-bottom">
 						<Button
@@ -160,7 +180,9 @@ class CreateAccount extends Component {
                         <>
                             <Section type="form-item">
                                 <Input value={privateKey} placeholder="Private Key" theme="light" fullWidth onChangeText={val => this.handlePkChange(val)} />
-                            </Section>
+								{isPrivateKeyAlreadyExists && <Text theme="light" style={styles.warning}>{translate('createAccount.errorPrivateKeyExist')}</Text>}
+								{!isPkValid && privateKey.length > 0 && <Text theme="light" style={styles.warning}>{translate('createAccount.errorInvalidPrivateKey')}</Text>}
+							</Section>
                             {!!error && <Section type="form-item">
                                 <Text theme="light" type="alert">
                                     {error}
@@ -176,7 +198,7 @@ class CreateAccount extends Component {
 							<Button
 								text={translate('createAccount.createPk')}
 								theme="light"
-								disabled={!isNameValid || isNameAlreadyExists || !isPkValid}
+								disabled={!isNameValid || isNameAlreadyExists || isPrivateKeyAlreadyExists || !isPkValid}
 								loading={loading}
 								onPress={() => this.createPrivateKeyAccount()}
 							/>
