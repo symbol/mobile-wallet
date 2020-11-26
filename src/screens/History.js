@@ -74,7 +74,7 @@ class History extends Component<Props, State> {
     };
 
     renderTransactionItem = showingDetails => ({ item, index }) => {
-        return (
+		return (
             <ListItem onPress={() => this.showDetails(index)}>
                 <Transaction transaction={item} showDetails={showingDetails === index} componentId={this.props.componentId} />
             </ListItem>
@@ -82,7 +82,7 @@ class History extends Component<Props, State> {
     };
 
     render() {
-        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter } = this.props;
+        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter, isNextLoading } = this.props;
         const { showingDetails } = this.state;
 
         return (
@@ -108,7 +108,7 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-				<ListContainer style={styles.list} isScrollable={false}>
+				<ListContainer style={styles.list} isScrollable={false} isLoading={isNextLoading || loading}>
 					<FlatList
 						// style={{ height: '100%' }}
 						data={transactions}
@@ -119,7 +119,7 @@ class History extends Component<Props, State> {
 						refreshControl={
 							<RefreshControl
 								//refresh control used for the Pull to Refresh
-								refreshing={loading}
+								refreshing={false}
 								onRefresh={this.onRefresh}
 							/>
 						}
@@ -138,5 +138,6 @@ export default connect(state => ({
     isLastPage: state.transaction.isLastPage,
     addressFilter: state.transaction.addressFilter,
     directionFilter: state.transaction.directionFilter,
-    loading: state.transaction.loading,
+	loading: state.transaction.loading,
+	isNextLoading: state.transaction.isNextLoading
 }))(History);

@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-        paddingVertical: 17,
+		paddingTop: 17,
+		paddingBottom: 17,
+		//backgroundColor: '#f005',
         //backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
         //borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
         //borderTopWidth: 1
