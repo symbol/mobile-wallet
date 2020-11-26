@@ -52,9 +52,9 @@ class Receive extends Component<Props, State> {
 
     updateImgQR = async () => {
         const { network } = this.props;
-        const { recipientAddress, message } = this.state;
+        const { recipientAddress, message, amount } = this.state;
         try {
-            const imgData = await TransactionService.getReceiveSvgQRData(recipientAddress, network, message);
+            const imgData = await TransactionService.getReceiveSvgQRData(recipientAddress, amount, network, message);
             this.setState({ imgData });
         } catch (e) {
             this.setState({ imgData: null });
