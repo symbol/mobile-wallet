@@ -519,7 +519,8 @@
 		"fromSeed": "Create from mnemonics seed",
 		"createSeed": "Create seed account",
 		"fromPk": "Create from private key",
-		"createPk": "Create private key account"
+		"createPk": "Create private key account",
+		"errorAccountNameExist": "Account with such name already exists"
 	},
 	"settings": {
 		"logoutConfirmTitle": "Are you sure",
