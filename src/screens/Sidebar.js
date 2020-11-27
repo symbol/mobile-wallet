@@ -138,7 +138,9 @@ type State = {
 class Sidebar extends Component<Props, State> {
     state = {
         isNameModalOpen: false,
-        isRemoveModalOpen: false,
+		isRemoveModalOpen: false,
+		removeModalTitle: '',
+		removeModalDescription: '',
         editingAccountId: '',
         newName: '',
     };
@@ -159,10 +161,12 @@ class Sidebar extends Component<Props, State> {
         });
     };
 
-    handleOpenRemoveAccountModal = async id => {
+    handleOpenRemoveAccountModal = async (id, removeModalTitle, removeModalDescription) => {
         showPasscode(this.props.componentId, () => {
             this.setState({
-                isRemoveModalOpen: true,
+				isRemoveModalOpen: true,
+				removeModalTitle, 
+				removeModalDescription,
                 editingAccountId: id,
             });
         });
@@ -266,9 +270,21 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
+		const deleteText = type === 'hd'
+			? translate('sidebar.hide')
+			: translate('sidebar.remove');
+
+		const deleteModalTitle = type === 'hd'
+			? translate('sidebar.hideAccountTitle')
+			: translate('sidebar.removeAccountTitle');
+		
+		const deleteModalDescription = type === 'hd'
+			? translate('sidebar.hideAccountDescription')
+			: translate('sidebar.removeAccountDescription');
+
         const options = [
             { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },
-            { iconName: 'delete_light', label: translate('sidebar.delete'), onPress: () => this.handleOpenRemoveAccountModal(id) },
+            { iconName: 'delete_light', label: deleteText, onPress: () => this.handleOpenRemoveAccountModal(id, deleteModalTitle, deleteModalDescription) },
         ];
         const startPath = "m/44'/4343'/";
         const endPath = "'/0'/0'";
@@ -372,8 +388,8 @@ class Sidebar extends Component<Props, State> {
                 <ConfirmModal
                     isModalOpen={isRemoveModalOpen}
                     showTopbar={true}
-                    title={translate('sidebar.removeAccount')}
-                    text={translate('sidebar.removeAccountText')}
+                    title={this.state.removeModalTitle}
+                    text={this.state.removeModalDescription}
                     showClose={false}
                     onClose={() => this.setState({ isRemoveModalOpen: false })}
                     onSuccess={() => this.handleDeleteAccount()}

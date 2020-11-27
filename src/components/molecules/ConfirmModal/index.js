@@ -49,12 +49,12 @@ const ConfirmModal = (props: Props) => {
                                 alignLeft
                             />
                         )}
-						<Section type="form">
+						<Section type="form" style={{flex: null}}>
 							<Section type="form-item">
 								<Text type="regular" theme="light" align="center" wrap> {text} </Text>
 							</Section>
 							
-							<Section type="form-bottom">
+							
 								<Section type="form-item">
 									<Button style={styles.button} title="Confirm" theme="light" fullWidth={false} onPress={onSuccess} />
 								</Section>
@@ -63,7 +63,7 @@ const ConfirmModal = (props: Props) => {
 										<Text style={{color: GlobalStyles.color.PRIMARY}} theme="light" type="bold" align="center">Cancel</Text>
 									</TouchableOpacity>
 								</Section>	
-							</Section>
+							
                         <View style={contentStyle}>{children}</View>
 						</Section>
                         

@@ -503,13 +503,19 @@
 	"sidebar": {
 		"seed": "Seed account",
 		"pk": "Private key account",
-		"addAccount": "Add Account",
+		"addAccount": "Add account",
 		"openAddressBook": "Open address book",
 		"rename": "Rename",
 		"delete": "Delete",
+		"hide": "Hide",
+		"remove": "Remove",
 		"details": "Details",
 		"removeAccount": "Remove account",
-		"removeAccountText": "Are you sure you want to remove the account from the local storage"
+		"removeAccountText": "Are you sure you want to remove the account from the local storage",
+		"hideAccountTitle": "Hide Account",
+		"removeAccountTitle": "Remove Account",
+		"hideAccountDescription": "Are you sure you want to hide this account? It is a mnemonic seed account and you can restore it back anytime using the \"Add account\" button. No funds will be lost.",
+		"removeAccountDescription": "Are you sure you want to remove this account from the wallet? This is not a mnemonic seed account. Make sure you have the private key of this account otherwise you may lose access and funds"
 	},
 	"createAccount": {
 		"title": "Create Account",
