@@ -1,6 +1,9 @@
 import { UInt64 } from 'symbol-sdk';
 import HarvestingService from '@src/services/HarvestingService';
 
+const MIN_REQUIRED_BALANCE = 10000;
+
+
 export type HarvestingStatus = 'ACTIVE' | 'INACTIVE' | 'INPROGRESS_ACTIVATION' | 'INPROGRESS_DEACTIVATION' | 'KEYS_LINKED';
 
 export type HarvestedBlock = {
@@ -25,7 +28,8 @@ export default {
             totalBlockCount: 0,
             totalFeesEarned: UInt64.fromUint(0),
         },
-        isFetchingHarvestedBlockStats: false,
+		isFetchingHarvestedBlockStats: false,
+		minRequiredBalance: MIN_REQUIRED_BALANCE
     },
     mutations: {
         setInitialized(state, payload) {

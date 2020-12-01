@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
+import { 
+	Section, 
+	ImageBackground, 
+	GradientBackground, 
+	Text, 
+	TitleBar, 
+	Dropdown, 
+	Button, 
+	Col, 
+	Row 
+} from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
@@ -125,8 +135,9 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance } = this.props;
-        const { selectedNode, isLoading } = this.state;
+        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance } = this.props;
+		const { selectedNode, isLoading } = this.state;
+		const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
         switch (status) {
             case 'ACTIVE':
@@ -153,7 +164,7 @@ class Harvest extends Component<Props, State> {
                 theme="light"
                 dataManager={{ isLoading }}
                 titleBar={<TitleBar theme="light" title={translate('harvest.title')} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />}>
-                <Section type="form" style={styles.list} isScrollable>
+                {!notEnoughBalance && <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item" style={styles.card}>
                         <Row justify="space-between" fullWidth>
                             <Text type={'bold'} theme={'light'}>
@@ -198,7 +209,7 @@ class Harvest extends Component<Props, State> {
                             <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode || balance < 10000}
+                                    isDisabled={!selectedNode || notEnoughBalance}
                                     text={translate('harvest.startHarvesting')}
                                     theme="light"
                                     onPress={() => this.startHarvesting()}
@@ -209,7 +220,7 @@ class Harvest extends Component<Props, State> {
                             <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode || balance < 10000}
+                                    isDisabled={!selectedNode || notEnoughBalance}
                                     text={translate('harvest.changeNode')}
                                     theme="light"
                                     onPress={() => this.swapHarvesting()}
@@ -222,7 +233,21 @@ class Harvest extends Component<Props, State> {
                             </Section>
                         )}
                     </Section>
-                </Section>
+                </Section>}
+				{notEnoughBalance && <Section type="form" style={styles.list}>
+					<ImageBackground name="harvest" imageStyle={styles.card} style={{height: '100%'}}>
+						<Section type="form">
+							<Col fullHeight justify="space-between" align="start" style={{paddingBottom: 0}}>
+								<Section type="form-item">
+									<Text theme="light" align="left" type="title" style={GlobalStyles.text.shadow1}>Start harvesting to earn a block rewards</Text>
+								</Section>
+								<Section type="form-item">
+									<Text theme="dark" align="left" type="regular" style={[{opacity: 1}, GlobalStyles.text.shadow]}>To harvest, the account needs a vested balance of at least {minRequiredBalance} XYM</Text>
+								</Section>
+							</Col>
+						</Section>
+					</ImageBackground>
+				</Section>}
             </GradientBackground>
             //</ImageBackground>
         );
@@ -231,7 +256,8 @@ class Harvest extends Component<Props, State> {
 
 export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
-    balance: state.account.balance,
+	balance: state.account.balance,
+	minRequiredBalance: state.harvesting.minRequiredBalance,
     status: state.harvesting.status,
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
