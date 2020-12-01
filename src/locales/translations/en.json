@@ -498,6 +498,8 @@
 		"INACTIVE": "Inactive",
 		"INPROGRESS_ACTIVATION": "Activation in progress",
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
+		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
+		"minBalanceRequirement": "To harvest, the account needs a vested balance of at least %{balance}",
 		"KEYS_LINKED": "Keys linked"
 	},
 	"sidebar": {

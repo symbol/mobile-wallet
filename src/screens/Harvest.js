@@ -135,7 +135,16 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance } = this.props;
+        const { 
+			status, 
+			totalBlockCount, 
+			totalFeesEarned, 
+			onOpenMenu, 
+			onOpenSettings, 
+			balance, 
+			minRequiredBalance,
+			nativeMosaicNamespace 
+		} = this.props;
 		const { selectedNode, isLoading } = this.state;
 		const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
@@ -239,10 +248,24 @@ class Harvest extends Component<Props, State> {
 						<Section type="form">
 							<Col fullHeight justify="space-between" align="start" style={{paddingBottom: 0}}>
 								<Section type="form-item">
-									<Text theme="light" align="left" type="title" style={GlobalStyles.text.shadow1}>Start harvesting to earn a block rewards</Text>
+									<Text 
+										theme="light" 
+										align="left" 
+										type="title" 
+										style={GlobalStyles.text.shadow1}
+									>
+										{translate('harvest.harvetingIntroTitle')}
+									</Text>
 								</Section>
 								<Section type="form-item">
-									<Text theme="dark" align="left" type="regular" style={[{opacity: 1}, GlobalStyles.text.shadow]}>To harvest, the account needs a vested balance of at least {minRequiredBalance} XYM</Text>
+									<Text 
+										theme="dark" 
+										align="left" 
+										type="regular" 
+										style={[{opacity: 1}, GlobalStyles.text.shadow]}
+									>
+										{translate('harvest.minBalanceRequirement', {balance: minRequiredBalance + ' ' + nativeMosaicNamespace})}
+									</Text>
 								</Section>
 							</Col>
 						</Section>
@@ -257,6 +280,7 @@ class Harvest extends Component<Props, State> {
 export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
 	balance: state.account.balance,
+	nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
 	minRequiredBalance: state.harvesting.minRequiredBalance,
     status: state.harvesting.status,
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
