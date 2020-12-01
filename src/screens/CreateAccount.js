@@ -72,7 +72,7 @@ export default class CreateAccount extends Component {
         try {
             const accountQR = AccountQR.fromJSON(res.data);
             await this.handlePkChange(accountQR.accountPrivateKey);
-            return this.createPrivateKeyAccount();
+            //return this.createPrivateKeyAccount();
         } catch (e) {
             if (e.message === 'Could not parse account information.') {
                 this.setState({ scannedAccountQR: res.data, showDecryptModal: true });

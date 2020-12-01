@@ -59,10 +59,21 @@ class InputAccount extends Component<Props, State> {
             console.log(e);
             this.props.onChangeText('Invalid QR');
         }
-    };
+	};
+	
+	onReadPkQRCode = res => {
+        try {
+            const accountQR = AccountQR.fromJSON(res.data);
+            this.props.onChangeText(accountQR.accountPrivateKey);
+            return;
+        } catch (e) {
+			console.log(e);
+			this.props.onChangeText('Invalid QR');
+        }
+	};
 
-    importWithQR = () => {
-        Router.scanQRCode(this.onReadQRCode, () => {});
+    importWithQR = (callback) => {
+        Router.scanQRCode(callback, () => {});
     };
 
     importWithClipboard = async () => {
@@ -86,7 +97,7 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, fullWidth, showAddressBook = true, ...rest } = this.props;
+        const { style = {}, fullWidth, showAddressBook = true, hideQR = false, qrType = 'address', ...rest } = this.props;
         let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
@@ -97,7 +108,11 @@ class InputAccount extends Component<Props, State> {
         addressBook.getAllContacts().map(item => {
             addressBookList.push({ value: item.address, label: item.name + ': ' + item.address.slice(0, 9) + '...' });
         });
-        if (fullWidth) rootStyle.push(styles.fullWidth);
+		if (fullWidth) rootStyle.push(styles.fullWidth);
+		
+		let qrCallback = this.onReadQRCode;
+		if(qrType === 'privateKey')
+			qrCallback = this.onReadPkQRCode;
 
         return (
             <View style={rootStyle}>
@@ -108,11 +123,11 @@ class InputAccount extends Component<Props, State> {
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
-                <TouchableOpacity
+                {!hideQR && <TouchableOpacity
                     style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset)]}
-                    onPress={() => this.importWithQR()}>
+                    onPress={() => this.importWithQR(qrCallback)}>
                     <Icon name="qr" size={iconSize} />
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 {showAddressBook && (
                     <Dropdown
                         title="Select Contact"
