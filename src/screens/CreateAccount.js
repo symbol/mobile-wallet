@@ -71,7 +71,7 @@ export default class CreateAccount extends Component {
     onReadQRCode = async res => {
         try {
             const accountQR = AccountQR.fromJSON(res.data);
-            await this.setState({ privateKey: accountQR.accountPrivateKey });
+            await this.handlePkChange(accountQR.accountPrivateKey);
             return this.createPrivateKeyAccount();
         } catch (e) {
             if (e.message === 'Could not parse account information.') {
