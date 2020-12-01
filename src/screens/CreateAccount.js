@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Dropdown, Section, GradientBackground, TitleBar, Input, Text, Button } from '@src/components';
+import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, Text, Button } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
@@ -135,7 +135,15 @@ export default class CreateAccount extends Component {
                     {importMethod === 1 &&
                         <>
                             <Section type="form-item">
-                                <Input value={privateKey} placeholder="Private Key" theme="light" fullWidth onChangeText={val => this.handlePkChange(val)} />
+								<InputAddress 
+									value={privateKey} 
+									placeholder="Private Key" 
+									theme="light" 
+									fullWidth 
+									qrType="privateKey"
+									showAddressBook={false}
+									onChangeText={val => this.handlePkChange(val)} 
+								/>
                             </Section>
                             {!!error && <Section type="form-item">
                                 <Text theme="light" type="alert">
@@ -146,9 +154,6 @@ export default class CreateAccount extends Component {
 					}
 					{importMethod === 1 &&
 						<Section type="form-bottom">
-							<Section type="form-item">
-                                <Button text="Import by QR" theme="light" disabled={!isNameValid} loading={loading} onPress={() => this.scanPrivateKeyQR()} />
-                            </Section>
 							<Button
 								text={translate('createAccount.createPk')}
 								theme="light"

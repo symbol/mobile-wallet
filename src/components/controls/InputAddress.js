@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
 import { Router } from '@src/Router';
-import { ContactQR, AddressQR } from 'symbol-qr-library';
+import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
@@ -57,7 +57,7 @@ class InputAccount extends Component<Props, State> {
             this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
             console.log(e);
-            this.props.onChangeText('Invalid QR');
+            this.props.onChangeText('Invalid address QR');
         }
 	};
 	
@@ -68,7 +68,7 @@ class InputAccount extends Component<Props, State> {
             return;
         } catch (e) {
 			console.log(e);
-			this.props.onChangeText('Invalid QR');
+			this.props.onChangeText('Invalid private key QR');
         }
 	};
 
@@ -97,7 +97,7 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, fullWidth, showAddressBook = true, hideQR = false, qrType = 'address', ...rest } = this.props;
+        const { style = {}, fullWidth, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
         let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
@@ -123,7 +123,7 @@ class InputAccount extends Component<Props, State> {
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
-                {!hideQR && <TouchableOpacity
+                {showQR && <TouchableOpacity
                     style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset)]}
                     onPress={() => this.importWithQR(qrCallback)}>
                     <Icon name="qr" size={iconSize} />
