@@ -527,7 +527,10 @@
 		"fromSeed": "Create from mnemonics seed",
 		"createSeed": "Create seed account",
 		"fromPk": "Create from private key",
-		"createPk": "Create private key account"
+		"createPk": "Create private key account",
+		"errorAccountNameExist": "Account with such name already exists",
+		"errorPrivateKeyExist": "This account already in the wallet",
+		"errorInvalidPrivateKey": "Invalid private key"
 	},
 	"settings": {
 		"logoutConfirmTitle": "Are you sure",
