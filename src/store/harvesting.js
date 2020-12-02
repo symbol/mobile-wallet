@@ -10,7 +10,7 @@ export type HarvestedBlock = {
 
 export type HarvestedBlockStats = {
     totalBlockCount: number,
-    totalFeesEarned: UInt64,
+    totalFeesEarned: number,
 };
 
 export default {
@@ -23,7 +23,7 @@ export default {
         status: 'INACTIVE',
         harvestedBlockStats: {
             totalBlockCount: 0,
-            totalFeesEarned: UInt64.fromUint(0),
+            totalFeesEarned: 0,UInt64
         },
         isFetchingHarvestedBlockStats: false,
     },
