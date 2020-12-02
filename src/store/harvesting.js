@@ -23,7 +23,7 @@ export default {
         status: 'INACTIVE',
         harvestedBlockStats: {
             totalBlockCount: 0,
-            totalFeesEarned: 0,UInt64
+            totalFeesEarned: 0,
         },
         isFetchingHarvestedBlockStats: false,
     },
