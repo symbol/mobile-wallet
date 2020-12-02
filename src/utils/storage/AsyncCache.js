@@ -7,12 +7,23 @@ import {
 } from '@src/config/environment';
 
 export class AsyncCache {
+    static DATA_SCHEMA_VERSION = 'dataSchemaVersion';
     static SELECTED_NETWORK_KEY = 'selectedNetwork';
     static SELECTED_CURRENCY_KEY = 'selectedCurrency';
     static SELECTED_LANGUAGE_KEY = 'selectedLanguage';
     static SELECTED_NOTIFICATION_KEY = 'selectedNotification';
     static SELECTED_PASSCODE_KEY = 'isPasscodeSelected';
     static SELECTED_NODE_KEY = 'selectedNode';
+
+    static getDataSchemaVersion = async (): number => {
+        const rawVersion = await this.get(this.DATA_SCHEMA_VERSION);
+        const version = parseInt(rawVersion);
+        return version || 0;
+    };
+
+    static setDataSchemaVersion = async version => {
+        return this.set(this.DATA_SCHEMA_VERSION, version.toString());
+    };
 
     static getSelectedNetwork = async () => {
         const selected = await this.get(this.SELECTED_NETWORK_KEY);
