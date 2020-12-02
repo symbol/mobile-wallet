@@ -520,14 +520,14 @@
 		"removeAccountDescription": "Are you sure you want to remove this account from the wallet? This is not a mnemonic seed account. Make sure you have the private key of this account otherwise you may lose access and funds"
 	},
 	"createAccount": {
-		"title": "Create Account",
-		"name": "New account name",
+		"title": "Add Account",
+		"name": "Account name",
 		"type": "Account type",
 		"seed": "Seed index (blank for automatic increase)",
-		"fromSeed": "Create from mnemonics seed",
-		"createSeed": "Create seed account",
-		"fromPk": "Create from private key",
-		"createPk": "Create private key account",
+		"fromSeed": "Add seed account from mnemonics",
+		"createSeed": "Add account",
+		"fromPk": "Import account by private key",
+		"createPk": "Import",
 		"errorAccountNameExist": "Account with such name already exists",
 		"errorPrivateKeyExist": "This account already in the wallet",
 		"errorInvalidPrivateKey": "Invalid private key"

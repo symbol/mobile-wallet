@@ -14,7 +14,8 @@ import {
     Button,
     ManagerHandler,
     TitleBar,
-    Container,
+	Container,
+	FadeView
 } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from '@src/Router';
@@ -80,7 +81,15 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'contain',
         aspectRatio: 1,
-    },
+	},
+	selectedIndex: {
+		position: 'absolute',
+        bottom: -45,
+        left: 30,
+		fontSize: 120,
+		lineHeight: null,
+		opacity: 0.07
+	},
     accountBox: {
         backgroundColor: GlobalStyles.color.WHITE,
         borderRadius: 5,
@@ -237,11 +246,18 @@ class Sidebar extends Component<Props, State> {
 				: decimalBalance)
 			: '..';
 
+		const path = selectedAccount.path;
+		const startPath = "m/44'/4343'/";
+		const endPath = "'/0'/0'";
+		const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
 
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
-                <Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
-                <TitleBar onBack={() => this.props.onHide()} buttons={buttons} style={styles.titleBar}/>
+                {/* <Text type="bold" style={styles.selectedIndex}>
+					{selectedAccount.type === 'hd' ? '' + index : '⚷'}
+				</Text> */}
+				<Image source={require('@src/assets/backgrounds/connector.png')} style={styles.connectorImage} />
+				<TitleBar onBack={() => this.props.onHide()} buttons={buttons} style={styles.titleBar}/>
                 <Section type="form" style={styles.selectedAccountBoxContent}>
 					<ManagerHandler dataManager={{ isLoading }} theme="dark" noLoadingText>
 						<Text style={styles.selectedAccountName} type="title-small" theme="dark">
@@ -348,14 +364,14 @@ class Sidebar extends Component<Props, State> {
                             <Col justify="space-between" style={{ height: '100%' }}>
                                 <View style={{ flex: 1 }}>
                                     <View style={{ height: 235 }}>{selectedAccount && this.renderSelectedAccountItem(selectedAccount)}</View>
-                                    <FlatList
+                                    {!isLoading && <FlatList
                                         data={accounts}
                                         keyExtractor={(item, index) => '' + index + 'accounts'}
                                         renderItem={account => {
                                             if (account.item.id !== selectedAccount.id) return this.renderAccountSelectorItem(account.item);
                                             else return null;
                                         }}
-                                    />
+                                    />}
                                 </View>
 
                                 <View style={[styles.menuBottomContainer]}>{menuItems.map(this.renderMenuItem)}</View>
