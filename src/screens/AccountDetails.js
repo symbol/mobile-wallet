@@ -15,6 +15,7 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
+
 const styles = StyleSheet.create({
     textButton: {
         color: GlobalStyles.color.PRIMARY,

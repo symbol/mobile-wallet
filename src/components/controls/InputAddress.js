@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
 import NetworkService from "@src/services/NetworkService";
+import { showMessage } from 'react-native-flash-message';
 
 const styles = StyleSheet.create({
     root: {
@@ -63,8 +64,13 @@ class InputAccount extends Component<Props, State> {
             const addressQR = AddressQR.fromJSON(res.data);
             this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
-            console.log(e);
-            this.props.onChangeText('Invalid address QR');
+			console.log(e);
+			Router.showFlashMessageOverlay().then(() => {
+				showMessage({
+					message: `Invalid address QR!`,
+					type: 'danger',
+				});
+			});
         }
 	};
 	
@@ -80,7 +86,12 @@ class InputAccount extends Component<Props, State> {
             this.props.onChangeText(accountQR.accountPrivateKey);
         } catch (e) {
 			console.log(e);
-			this.props.onChangeText('Invalid QR or password');
+			Router.showFlashMessageOverlay().then(() => {
+				showMessage({
+					message: `Invalid private key QR or password!`,
+					type: 'danger',
+				});
+			});
 		}
 		this.setState({ pkQRData: null });
 	};

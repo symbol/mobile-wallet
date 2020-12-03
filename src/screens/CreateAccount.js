@@ -4,14 +4,10 @@ import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, T
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
-import RadioForm from 'react-native-simple-radio-button';
-import { AccountQR, ContactQR } from 'symbol-qr-library';
-import PopupModal from '@src/components/molecules/PopupModal';
-import PasswordModal from '@src/components/molecules/PasswordModal';
 import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { showMessage } from 'react-native-flash-message';
+
 
 const styles = StyleSheet.create({
 	warning: {
@@ -90,34 +86,6 @@ class CreateAccount extends Component {
 		this.setState({ loading: false });
     };
 
-    onDecryptQR = async password => {
-        const { scannedAccountQR } = this.state;
-        try {
-            const decrypted = new AccountQR.fromJSON(scannedAccountQR, password);
-            await this.setState({ privateKey: decrypted.accountPrivateKey });
-            return this.createPrivateKeyAccount();
-        } catch {
-            this.setState({ error: 'Invalid password provided' });
-        }
-    };
-
-    onReadQRCode = async res => {
-        try {
-            const accountQR = AccountQR.fromJSON(res.data);
-            await this.handlePkChange(accountQR.accountPrivateKey);
-            //return this.createPrivateKeyAccount();
-        } catch (e) {
-            if (e.message === 'Could not parse account information.') {
-                this.setState({ scannedAccountQR: res.data, showDecryptModal: true });
-            }
-            this.setState({ error: 'Invalid QR' });
-        }
-    };
-
-    scanPrivateKeyQR = async () => {
-        Router.scanQRCode(this.onReadQRCode, () => {});
-    };
-
     render = () => {
 		const { name, 
 			privateKey, 
@@ -127,7 +95,6 @@ class CreateAccount extends Component {
 			isNameValid, 
 			loading, 
 			importMethod, 
-			showDecryptModal, 
 			error, 
 			isNameAlreadyExists, 
 			isPrivateKeyAlreadyExists 
@@ -210,12 +177,6 @@ class CreateAccount extends Component {
 						</Section>
                     }
                 </Section>
-                <PasswordModal
-                    showModal={showDecryptModal}
-                    title={'Decrypt QR Code'}
-                    onSubmit={this.onDecryptQR}
-                    onClose={() => this.setState({ showDecryptModal: false })}
-                />
             </GradientBackground>
         );
     };
