@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Section, Text, Row, Col } from '@src/components';
+import { 
+	StyleSheet, 
+	View, 
+	Image,
+	TouchableOpacity,
+	Text as NativeText
+} from 'react-native';
+import { 
+	Section, 
+	Text, 
+	Row, 
+	Col, 
+	ManagerHandler 
+} from '@src/components';
+import { showPasscode } from '@src/utils/passcode';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
@@ -16,7 +29,16 @@ const styles = StyleSheet.create({
 	qr: {
         width: 120,
         height: 120,
-    }
+	},
+	showButton: {
+		width: '80%',
+        borderRadius: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        //borderWidth: 1,
+        borderColor: GlobalStyles.color.PRIMARY,
+        color: GlobalStyles.color.PRIMARY,
+    },
 });
 
 type Props = {};
@@ -27,7 +49,9 @@ class QRImage extends Component<Props, State> {
 	state = {
 		isLoading: false,
 		image: null,
-		title: ''
+		title: '',
+		isSecretShown: false,
+        counter: 10,
 	};
 
 	componentDidMount = async () => {
@@ -42,7 +66,7 @@ class QRImage extends Component<Props, State> {
 		} = this.props;
 
 		let image;
-		let title;
+		let title = '';
 
 		this.setState({isLoading: true});
 
@@ -52,10 +76,13 @@ class QRImage extends Component<Props, State> {
 				title = 'Address';
 				break;
 			case 'transaction':
-				// TODO
+				title = 'Invoice';
 				break;
 			case 'mnemonic':
-				// TODO
+				title = 'Mnemonic';
+				break;
+			case 'privateKey':
+				title = 'Private Key';
 				break;
 		};
 
@@ -81,18 +108,63 @@ class QRImage extends Component<Props, State> {
 		}
 		catch(e) { console.error(e); };
 	};
+
+	onShowClick = () => {
+        const { preShowFn } = this.props;
+        const callBack = async () => {
+            if (preShowFn) await preShowFn();
+            this.setState({ isSecretShown: true });
+            this.setState({ counter: 10 });
+
+            const timer = setInterval(() => {
+                if (this.state.counter === 0) {
+                    clearInterval(timer);
+                    this.setState({ isSecretShown: false });
+                }
+                this.setState({ counter: this.state.counter - 1 });
+            }, 1000);
+        };
+        showPasscode(this.props.componentId, callBack);
+    };
 	
     render = () => {
-        const { style = {} } = this.props;
+        const { 
+			style = {}, 
+			type 
+		} = this.props;
 		const { 
 			isLoading, 
 			image, 
 			title,
+			isSecretShown
 		} = this.state;
 		
+		const QR = (
+			<>
+				{image && <Image style={styles.qr} source={{ uri: image }} />}
+				{!image && <View style={styles.qr} />}
+			</>
+		);
+
+		const ShowButton = (
+			<TouchableOpacity style={styles.qr} onPress={() => this.onShowClick()}>
+				<Col justify="center" align="center" fullHeight>
+					<Text type="bold" style={styles.showButton} align="center">
+						Show
+					</Text>
+				</Col>
+			</TouchableOpacity>
+		);
+
+		const Content = type !== 'privateKey' || isSecretShown
+			? QR
+			: ShowButton;
+
         return (
 			<Col justify="center" alighn="center" style={[styles.root, style]}>
-				{image && <Image style={styles.qr} source={{ uri: image }} />}
+				<ManagerHandler dataManager={{isLoading}} theme="light">
+					{ Content }
+				</ManagerHandler>
 				<Text theme="light" type="bold" align="center">{title.toUpperCase()}</Text>
 			</Col>       
         );

@@ -8,7 +8,8 @@ import {
 	LinkExplorer, 
 	Text, 
 	TableView,
-	QRImage
+	QRImage,
+	Row
 } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -60,14 +61,18 @@ class AccountDetails extends Component<Props, State> {
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
-                        <Section type="center">
-                            {/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
+						{/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
+						<Row justify="space-between">
 							<QRImage 
 								type="address" 
 								accountName={accountName}
 								address={address}
 							/>
-						</Section>
+							<QRImage 
+								type="privateKey" 
+								privateKey={privateKey}
+							/>
+						</Row>
                     </Section>
                     <TableView componentId={componentId} data={data} />
                     <Section type="form-item">
