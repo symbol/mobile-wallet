@@ -10,11 +10,12 @@ import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
 import { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
-import { AsyncCache } from './utils/storage/AsyncCache';
+import {AsyncCache} from './utils/storage/AsyncCache';
 import store from '@src/store';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { deletePasscode } from '@src/utils/passcode';
+import {CURRENT_DATA_SCHEMA, migrateDataSchema} from "@src/utils/DataSchemaMigrations";
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -61,6 +62,9 @@ const initStore = async () => {
 
 export const startApp = async () => {
     setGlobalCustomFont();
+
+    const dataSchemaVersion = await AsyncCache.getDataSchemaVersion();
+    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) await migrateDataSchema(dataSchemaVersion);
 
     await initStore();
 

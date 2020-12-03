@@ -4,8 +4,9 @@ import SettingsListItem from '@src/components/settings/SettingsListItem';
 import { Dropdown } from '@src/components';
 import translate, { languageNames } from '@src/locales/i18n';
 import store from '@src/store';
-import { getDropdownListFromObjct } from '@src/utils'
+import { getDropdownListFromObjct } from '@src/utils';
 import { connect } from 'react-redux';
+import {Router} from "@src/Router";
 
 class SettingsLanguageSelector extends Component {
     constructor(props) {
@@ -31,7 +32,10 @@ class SettingsLanguageSelector extends Component {
     onSelectLanguage = language => {
         store
             .dispatchAction({ type: 'settings/saveSelectedLanguage', payload: language })
-            .then(_ => this.closeModal());
+            .then(_ => {
+                this.closeModal();
+                Router.goToDashboard({});
+            });
     };
 
     render() {
