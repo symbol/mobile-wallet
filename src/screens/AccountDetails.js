@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Section, GradientBackground, TitleBar, LinkFaucet, LinkExplorer, Text, TableView } from '@src/components';
+import { 
+	Section, 
+	GradientBackground, 
+	TitleBar, 
+	LinkFaucet, 
+	LinkExplorer, 
+	Text, 
+	TableView,
+	QRImage
+} from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
-import { AddressQR } from 'symbol-qr-library';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -25,37 +33,20 @@ type State = {};
 
 class AccountDetails extends Component<Props, State> {
 	state = {
-        isLoading: false,
-        contactQR: null,
+        isLoading: false
 	};
-	
-	componentDidMount = async () => {
-		const { 
-			networkType,
-			generationHash,
-			accountName,
-			address 
-		} = this.props;
 
-		this.setState({isLoading: true});
-
-		try {
-			
-			const addressQR = new AddressQR(accountName, address, networkType, generationHash);
-			const addressQRsvg = await addressQR.toBase64().toPromise();
-			this.setState({
-				contactQR: addressQRsvg,
-			});
-		}
-		catch(e) {
-			console.error(e)
-		};
-
-		this.setState({isLoading: false});
-	}
-	
     render = () => {
-        const { accountName, address, publicKey, privateKey, balance, networkType, componentId, isPasscodeSelected } = this.props;
+        const { 
+			accountName, 
+			address, 
+			publicKey, 
+			privateKey, 
+			balance, 
+			networkType, 
+			componentId, 
+			isPasscodeSelected 
+		} = this.props;
 		const { contactQR, isLoading } = this.state;
 		const data = {
             accountName,
@@ -70,8 +61,13 @@ class AccountDetails extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
                         <Section type="center">
-                            {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />}
-                        </Section>
+                            {/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
+							<QRImage 
+								type="address" 
+								accountName={accountName}
+								address={address}
+							/>
+						</Section>
                     </Section>
                     <TableView componentId={componentId} data={data} />
                     <Section type="form-item">
