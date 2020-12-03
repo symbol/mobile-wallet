@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
+import PasswordModal from '@src/components/molecules/PasswordModal';
 import { Router } from '@src/Router';
 import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
@@ -36,6 +37,12 @@ type State = {};
 let addressBookList = [];
 
 class InputAccount extends Component<Props, State> {
+	state = {
+		password: '',
+		showPasswordModal: false,
+		pkQRData: null
+	}
+
     importWithAddressBook = address => {
         setTimeout(() => {
             if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
@@ -62,14 +69,25 @@ class InputAccount extends Component<Props, State> {
 	};
 	
 	onReadPkQRCode = res => {
+		this.setState({pkQRData: res.data, showPasswordModal: true});
+	};
+
+	encryptPkQRCode = (password) => {
+		const { pkQRData } = this.state;
+
         try {
-            const accountQR = AccountQR.fromJSON(res.data);
+            const accountQR = AccountQR.fromJSON(pkQRData, password);
             this.props.onChangeText(accountQR.accountPrivateKey);
-            return;
         } catch (e) {
 			console.log(e);
-			this.props.onChangeText('Invalid private key QR');
-        }
+			this.props.onChangeText('Invalid QR or password');
+		}
+		this.setState({ pkQRData: null });
+	};
+
+	onSetPassword = (password) => {
+		this.setState({ showPasswordModal: false});
+		this.encryptPkQRCode(password);
 	};
 
     importWithQR = (callback) => {
@@ -98,7 +116,9 @@ class InputAccount extends Component<Props, State> {
 
     render = () => {
         const { style = {}, fullWidth, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
-        let rootStyle = [styles.root, style];
+		const { showPasswordModal } = this.state;
+
+		let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
         const iconOffset = 8;
@@ -138,6 +158,12 @@ class InputAccount extends Component<Props, State> {
                         <Icon name="address_book" size={iconSize} />
                     </Dropdown>
                 )}
+				<PasswordModal
+					showModal={showPasswordModal}
+					title={'Decrypt QR'}
+					onSubmit={this.onSetPassword}
+					onClose={() => this.setState({ showPasswordModal: false })}
+				/>  
             </View>
         );
     };

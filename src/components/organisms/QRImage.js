@@ -13,6 +13,7 @@ import {
 	Col, 
 	ManagerHandler 
 } from '@src/components';
+import PasswordModal from '@src/components/molecules/PasswordModal';
 import { showPasscode } from '@src/utils/passcode';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -23,12 +24,16 @@ const styles = StyleSheet.create({
     root: {
 		backgroundColor: GlobalStyles.color.WHITE,
 		padding: 8,
+		paddingBottom: 6,
 		minHeight: 158,
 		minWidth: 136
 	},
 	qr: {
         width: 120,
         height: 120,
+	},
+	hiddenQR: {
+		backgroundColor: GlobalStyles.color.GREY5
 	},
 	showButton: {
 		width: '80%',
@@ -38,6 +43,13 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
         borderColor: GlobalStyles.color.PRIMARY,
         color: GlobalStyles.color.PRIMARY,
+	},
+	progressBar: {
+        width: '100%',
+    },
+    progressBarInner: {
+        height: 2,
+        backgroundColor: GlobalStyles.color.GREEN,
     },
 });
 
@@ -51,7 +63,8 @@ class QRImage extends Component<Props, State> {
 		image: null,
 		title: '',
 		isSecretShown: false,
-        counter: 10,
+		counter: 10,
+		showPasswordModal: false
 	};
 
 	componentDidMount = async () => {
@@ -102,11 +115,28 @@ class QRImage extends Component<Props, State> {
 	};
 
 	getPrivateKeyQR = async (privateKey, password, networkType, generationHash) => {
+		console.log({privateKey, password, networkType, generationHash})
 		try {
-			const privateKeyQR = new AccountQR(privateKey, password, networkType, generationHash);
+			const privateKeyQR = new AccountQR(privateKey, networkType, generationHash, password);
 			return privateKeyQR.toBase64().toPromise();
 		}
 		catch(e) { console.error(e); };
+	};
+
+	onSetPassword = async (password) => {
+		const { 
+			networkType,
+			generationHash,
+			privateKey
+		} = this.props;
+		this.setState({ isLoading: true, showPasswordModal: false, isSecretShown: true });
+		this.setState({ counter: 0 });
+		setTimeout(async () => {
+			const image = await this.getPrivateKeyQR(privateKey, password, networkType, generationHash);
+			this.setState({image});
+			this.onShowClick();
+			this.setState({isLoading: false});
+		}, 100);
 	};
 
 	onShowClick = () => {
@@ -136,7 +166,9 @@ class QRImage extends Component<Props, State> {
 			isLoading, 
 			image, 
 			title,
-			isSecretShown
+			isSecretShown,
+			counter,
+			showPasswordModal
 		} = this.state;
 		
 		const QR = (
@@ -147,8 +179,8 @@ class QRImage extends Component<Props, State> {
 		);
 
 		const ShowButton = (
-			<TouchableOpacity style={styles.qr} onPress={() => this.onShowClick()}>
-				<Col justify="center" align="center" fullHeight>
+			<TouchableOpacity style={[styles.qr, { padding: 7 }]} onPress={() => this.setState({ showPasswordModal: true })}>
+				<Col justify="center" align="center" fullHeight style={styles.hiddenQR}>
 					<Text type="bold" style={styles.showButton} align="center">
 						Show
 					</Text>
@@ -160,14 +192,27 @@ class QRImage extends Component<Props, State> {
 			? QR
 			: ShowButton;
 
-        return (
+        return (<>
 			<Col justify="center" alighn="center" style={[styles.root, style]}>
-				<ManagerHandler dataManager={{isLoading}} theme="light">
+				<ManagerHandler dataManager={{isLoading}} theme="light" noLoadingText>
 					{ Content }
 				</ManagerHandler>
 				<Text theme="light" type="bold" align="center">{title.toUpperCase()}</Text>
-			</Col>       
-        );
+				<View 
+					style={[
+						{ width: counter * 10 + '%' }, 
+						styles.progressBarInner, 
+						!(type === 'privateKey' && isSecretShown) && { opacity: 0 }
+					]}
+				/>
+			</Col>   
+			<PasswordModal
+				showModal={showPasswordModal}
+				title={'Encrypt QR'}
+				onSubmit={this.onSetPassword}
+				onClose={() => this.setState({ showPasswordModal: false })}
+			/>  
+        </>);
     };
 }
 
