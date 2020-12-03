@@ -25,7 +25,7 @@ export default class C extends Component<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, name, dataManager = {}, onBack, componentId } = this.props;
+		const { children, style = {}, imageStyle, name, dataManager = {}, onBack, componentId } = this.props;
 		const {} = this.state;
 		const goBack = onBack 
 			? onBack
@@ -57,6 +57,7 @@ export default class C extends Component<Props, State> {
 				<ImageBackground
 					source={source}
 					style={[styles.root, style]}
+					imageStyle={imageStyle}
 				>
 					{!dataManager.isLoading && !dataManager.isError && 
 						<Container>{children}</Container>

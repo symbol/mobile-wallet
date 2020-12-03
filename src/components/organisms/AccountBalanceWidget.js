@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
 import { Row, Col, CopyView, Text, SymbolGradientContainer, FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import Video from "react-native-video";
+import TextTicker from 'react-native-text-ticker'
 import store from '@src/store';
 import { connect } from 'react-redux';
 
@@ -43,14 +44,16 @@ const styles = StyleSheet.create({
 		fontFamily: 'NotoSans-Light',
 		fontSize: 2.5 * 12,
 		lineHeight: 3.25 * 12,
-		marginTop: 20
+		marginTop: 20,
+		color: GlobalStyles.color.WHITE,
 	},
 	balanceLight: {
 		fontFamily: 'NotoSans-Light',
 		fontSize: 2.5 * 12,
 		lineHeight: 3.25 * 12,
 		marginTop: 20,
-		opacity: 0.6
+		opacity: 0.6,
+		color: GlobalStyles.color.WHITE,
 	},
 	noPadding: {
 		padding: 0,
@@ -95,6 +98,8 @@ class BalanceWidget extends Component<Props, State> {
 			balance,
 			isLoading
 		} = this.props;
+		const isBalanceHuge = balance.toString().length > 12;
+		const BalanceContainer = isBalanceHuge ? ScrollView : Row;
 
         return (
             <SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
@@ -112,14 +117,16 @@ class BalanceWidget extends Component<Props, State> {
 						<Text style={styles.mosaic} theme="dark">
 						{nativeMosaicNamespaceName}
 						</Text>
-						<Row>
-							<Text style={styles.balance} theme="dark">
-								{(''+balance).split('.')[0]}
-							</Text>
-							{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
-								.{(''+balance).split('.')[1]}
-							</Text>}
-						</Row>	
+						{<BalanceContainer horizontal={true} style={{marginLeft: 16}}>
+							<Row>
+								<Text style={styles.balance} theme="dark">
+									{(''+balance).split('.')[0]}
+								</Text>
+								{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
+									.{(''+balance).split('.')[1]}
+								</Text>}
+							</Row>
+						</BalanceContainer>}
 					</Row>}
 					{isLoading && <FadeView style={styles.video} duration={1000}><Video
 						source={require('@src/assets/videos/mesh.mp4')}

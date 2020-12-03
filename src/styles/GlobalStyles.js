@@ -111,6 +111,12 @@ export default {
 			paddingBottom: 8,
 			paddingTop: 16,
 		},
+
+		shadow: {
+			textShadowColor: 'rgba(0, 0, 0, 0.85)',
+			textShadowOffset: { width: 1, height: 1 },
+			textShadowRadius: 10,
+		}
 	},
 
 	section: {

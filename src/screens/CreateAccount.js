@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Dropdown, Section, GradientBackground, TitleBar, Input, Text, Button } from '@src/components';
+import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, Text, Button } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
@@ -104,8 +104,8 @@ class CreateAccount extends Component {
     onReadQRCode = async res => {
         try {
             const accountQR = AccountQR.fromJSON(res.data);
-            await this.setState({ privateKey: accountQR.accountPrivateKey });
-            return this.createPrivateKeyAccount();
+            await this.handlePkChange(accountQR.accountPrivateKey);
+            //return this.createPrivateKeyAccount();
         } catch (e) {
             if (e.message === 'Could not parse account information.') {
                 this.setState({ scannedAccountQR: res.data, showDecryptModal: true });
@@ -179,9 +179,17 @@ class CreateAccount extends Component {
                     {importMethod === 1 &&
                         <>
                             <Section type="form-item">
-                                <Input value={privateKey} placeholder="Private Key" theme="light" fullWidth onChangeText={val => this.handlePkChange(val)} />
-								{isPrivateKeyAlreadyExists && <Text theme="light" style={styles.warning}>{translate('createAccount.errorPrivateKeyExist')}</Text>}
-								{!isPkValid && privateKey.length > 0 && <Text theme="light" style={styles.warning}>{translate('createAccount.errorInvalidPrivateKey')}</Text>}
+								<InputAddress 
+									value={privateKey} 
+									placeholder="Private Key" 
+									theme="light" 
+									fullWidth 
+									qrType="privateKey"
+									showAddressBook={false}
+									onChangeText={val => this.handlePkChange(val)} 
+								/>
+									{isPrivateKeyAlreadyExists && <Text theme="light" style={styles.warning}>{translate('createAccount.errorPrivateKeyExist')}</Text>}
+									{!isPkValid && privateKey.length > 0 && <Text theme="light" style={styles.warning}>{translate('createAccount.errorInvalidPrivateKey')}</Text>}
 							</Section>
                             {!!error && <Section type="form-item">
                                 <Text theme="light" type="alert">
@@ -192,9 +200,6 @@ class CreateAccount extends Component {
 					}
 					{importMethod === 1 &&
 						<Section type="form-bottom">
-							<Section type="form-item">
-                                <Button text="Import by QR" theme="light" disabled={!isNameValid || isNameAlreadyExists} loading={loading} onPress={() => this.scanPrivateKeyQR()} />
-                            </Section>
 							<Button
 								text={translate('createAccount.createPk')}
 								theme="light"
