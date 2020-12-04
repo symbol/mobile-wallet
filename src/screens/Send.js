@@ -42,7 +42,17 @@ class Send extends Component<Props, State> {
     };
 
     componentDidMount = () => {
-        Store.dispatchAction({ type: 'transfer/clear' });
+		Store.dispatchAction({ type: 'transfer/clear' });
+		const { recipientAddress, amount, mosaicName, message } = this.props;
+
+		if(recipientAddress)
+			this.onAddressChange(recipientAddress);
+		if(mosaicName)
+			this.onMosaicChange(mosaicName);
+		if(amount)
+			this.onAmountChange(amount);
+		if(message)
+			this.onMessageChange(message);
     };
 
     verify = () => {

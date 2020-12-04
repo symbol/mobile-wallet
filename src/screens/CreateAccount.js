@@ -8,6 +8,10 @@ import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
+const IMPORT_METHOD_MAP = {
+	seed: 0,
+	privateKey: 1
+};
 
 const styles = StyleSheet.create({
 	warning: {
@@ -29,7 +33,12 @@ class CreateAccount extends Component {
 		showDecryptModal: false,
 		isNameAlreadyExists: false,
 		isPrivateKeyAlreadyExists: false
-    };
+	};
+	
+	componentDidMount = () => {
+		if(this.props.importMethod)
+			this.setState({ importMethod: IMPORT_METHOD_MAP[this.props.importMethod]});
+	};
 
     goBack = () => {
         Router.goBack(this.props.componentId);
