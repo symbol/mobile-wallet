@@ -19,6 +19,8 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import TransactionService from '@src/services/TransactionService';
+
 
 const styles = StyleSheet.create({
     root: {
@@ -67,21 +69,34 @@ class QRImage extends Component<Props, State> {
 		showPasswordModal: false
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
+		const { childRef = () => {} } = this.props;
+    	childRef(this);
+		this.updateQR();
+	};
+
+	componentWillUnmount= () => {
+		const { childRef = () => {} } = this.props;
+    	childRef(undefined);
+	};
+
+	updateQR = async () => {
 		const { 
 			networkType,
 			generationHash,
 			accountName = 'Account',
 			address,
-			privateKey,
-			transaction,
+			network,
+			recipientAddress, 
+			message, 
+			amount,
 			type = 'address'
 		} = this.props;
 
 		let image;
 		let title = '';
 
-		this.setState({isLoading: true});
+		setTimeout(() => this.setState({image: null, isLoading: true}), 0);
 
 		switch(type) {
 			case 'address':
@@ -89,7 +104,8 @@ class QRImage extends Component<Props, State> {
 				title = 'Address';
 				break;
 			case 'transaction':
-				title = 'Invoice';
+				title = 'Transaction';
+				image = await this.getTransactionQR(recipientAddress, amount, network, message);
 				break;
 			case 'mnemonic':
 				title = 'Mnemonic';
@@ -98,12 +114,13 @@ class QRImage extends Component<Props, State> {
 				title = 'Private Key';
 				break;
 		};
-
+		setTimeout(() => {
 		this.setState({
 			image,
 			title,
 			isLoading: false
 		});
+	}, 5000);
 	};
 	
 	getAddressQR = async (accountName, address, networkType, generationHash) => {
@@ -115,10 +132,16 @@ class QRImage extends Component<Props, State> {
 	};
 
 	getPrivateKeyQR = async (privateKey, password, networkType, generationHash) => {
-		console.log({privateKey, password, networkType, generationHash})
 		try {
 			const privateKeyQR = new AccountQR(privateKey, networkType, generationHash, password);
 			return privateKeyQR.toBase64().toPromise();
+		}
+		catch(e) { console.error(e); };
+	};
+
+	getTransactionQR = async (recipientAddress, amount, network, message) => {
+		try {
+			return TransactionService.getReceiveSvgQRData(recipientAddress, amount, network, message);
 		}
 		catch(e) { console.error(e); };
 	};
@@ -217,6 +240,7 @@ class QRImage extends Component<Props, State> {
 }
 
 export default connect(state => ({
+	network: state.network.selectedNetwork,
 	networkType: state.network.selectedNetwork.type,
 	generationHash: state.network.generationHash,
 }))(QRImage);

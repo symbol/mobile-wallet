@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import {Image, StyleSheet} from 'react-native';
-import { Section, GradientBackground, TitleBar, Input, InputAddress, CopyView } from '@src/components';
+import { 
+	Section, 
+	GradientBackground, 
+	TitleBar, 
+	Input, 
+	InputAddress, 
+	CopyView,
+	QRImage
+} from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { SvgXml } from 'react-native-svg';
@@ -29,7 +37,9 @@ class Receive extends Component<Props, State> {
         amount: '0',
         message: '',
         imgData: null,
-    };
+	};
+	
+	qrImageRef = {};
 
     componentDidMount() {
         this.updateImgQR();
@@ -51,18 +61,12 @@ class Receive extends Component<Props, State> {
     };
 
     updateImgQR = async () => {
-        const { network } = this.props;
-        const { recipientAddress, message, amount } = this.state;
-        try {
-            const imgData = await TransactionService.getReceiveSvgQRData(recipientAddress, amount, network, message);
-            this.setState({ imgData });
-        } catch (e) {
-            this.setState({ imgData: null });
-        }
+		if(typeof this.qrImageRef.updateQR === 'function')
+        	this.qrImageRef.updateQR();
     };
 
     render = () => {
-        const { recipientAddress, amount, message, imgData } = this.state;
+        const { recipientAddress, amount, message } = this.state;
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
@@ -70,7 +74,13 @@ class Receive extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
 						<Section type="center">
-							{imgData && <Image style={{ height: 170, width: 170 }} source={{ uri: imgData }} />}
+							<QRImage
+								childRef={r => this.qrImageRef = r} 
+								type="transaction" 
+								recipientAddress={recipientAddress}
+								amount={amount}
+								message={message}
+							/>
 						</Section>
 					</Section>
                     <Section type="form-item">
