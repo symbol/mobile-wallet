@@ -4,6 +4,7 @@ import {
     getDefaultSyncInterval,
 } from '@src/config/environment';
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
+import {setI18nConfig} from "@src/locales/i18n";
 
 export default {
     namespace: 'settings',
@@ -48,7 +49,7 @@ export default {
         },
         saveSelectedLanguage: async ({ commit, state }, payload) => {
             await AsyncCache.setSelectedLanguage(payload);
-
+            await setI18nConfig(payload);
             commit({ type: 'settings/setSelectedLanguage', payload: payload });
         },
         saveSelectedSyncInterval: async ({ commit, state }, payload) => {

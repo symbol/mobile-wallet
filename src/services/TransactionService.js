@@ -123,19 +123,20 @@ export default class TransactionService {
     /**
      * Receive QR Data
      * @param recipientAddress
+     * @param amount
      * @param network
      * @param message
      * @returns {Promise<void>}
      */
-    static getReceiveSvgQRData = async (recipientAddress, network, message) => {
+    static getReceiveSvgQRData = async (recipientAddress, amount, network, message) => {
         const netwrokType = network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
         const transferTransaction = TransferTransaction.create(
             Deadline.create(network.epochAdjustment, 2),
             Address.createFromRawAddress(recipientAddress),
-            [new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(10 * Math.pow(10, 6)))],
+            [new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(amount * Math.pow(10, 6)))],
             PlainMessage.create(message),
             netwrokType,
-            UInt64.fromUint(2000000)
+            UInt64.fromUint(1000000)
         );
         const txQR = new TransactionQR(transferTransaction, netwrokType, network.generationHash);
         return txQR.toBase64().toPromise();
