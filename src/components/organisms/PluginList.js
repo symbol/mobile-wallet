@@ -89,7 +89,7 @@ class PluginList extends Component<Props, State> {
             {
                text: 'plugin.qr',
                name: 'QR_SCANNER_SCREEN',
-               iconName: 'qr_light',
+               iconName: 'qr_scanner',
             },
             // {
             //     text: 'plugin.more',
