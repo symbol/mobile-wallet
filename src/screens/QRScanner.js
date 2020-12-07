@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, Text, Button } from '@src/components';
 import { Router } from '@src/Router';
-import { ContactQR, AddressQR, AccountQR, TransactionQR } from 'symbol-qr-library';
+import { ContactQR, AddressQR, AccountQR, TransactionQR, QRCodeGenerator } from 'symbol-qr-library';
+import { TransactionMapping, TransferTransaction } from "symbol-sdk";
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
 import translate from "@src/locales/i18n";
@@ -54,23 +55,30 @@ class CreateAccount extends Component {
 		this.setState({isLoading: true });
 
 		try {
-			console.log(res)
+			console.log('res ==>', res)
 			const data = JSON.parse(res.data);
 			const type = data.type;
 			
 			switch(type) {
 				case QR_TYPES.ADDRESS:
 					payload = { recipientAddress: data.data.address, accountName: data.data.name };
-					text = `This is  the Symbol Account Address QR code. The account name is: "${payload.accountName}". The address is: "${payload.recipientAddress}". Please selct an action bellow.`
+					text = `This is  the Symbol Account Address QR code. The account name is: "${payload.accountName}". The address is: "${payload.recipientAddress}". Please select an action bellow.`
 					buttonCaption = 'Send transfer';
 					hardcodedButtonCaption = 'Add contact'
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
 				case QR_TYPES.TRANSACTION:
-					const parsed = TransactionQR.fromJSON(res.data);
-					console.log(parsed)
-					payload = { ...data };
-					text = `This is the Transaction (Invoice) QR code. The recipient address is "${data.recipientAddress}". Please selct an action bellow.`
+					//const parsed = TransactionQR.fromJSON(data, TransactionMapping.createFromPayload);
+					const transaction: Transaction = TransactionMapping.createFromPayload(data.data.payload);
+					const payload = {
+						recipientAddress: transaction.recipientAddress.plain(),
+						message: transaction.message.payload,
+						mosaicName: transaction.mosaics[0].id.id.toHex(),
+						amount: transaction.mosaics[0].amount.toString()
+					};
+
+					console.log('parsed ==>', payload)
+					text = `This is the Transaction (Invoice) QR code. The recipient address is "${payload.recipientAddress}". Please select an action bellow.`
 					buttonCaption = 'Send';
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
