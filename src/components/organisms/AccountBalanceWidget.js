@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, RefreshControl, View } from 'react-native';
-import { Row, Col, CopyView, Text, SymbolGradientContainer, FadeView } from '@src/components';
+import { 
+	StyleSheet, 
+	ScrollView, 
+	RefreshControl, 
+	View,
+	TouchableOpacity,
+} from 'react-native';
+import { 
+	Row, 
+	Col, 
+	CopyView, 
+	Text, 
+	SymbolGradientContainer, 
+	FadeView 
+} from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import Video from "react-native-video";
+import { Router } from '@src/Router';
 import TextTicker from 'react-native-text-ticker'
 import store from '@src/store';
 import { connect } from 'react-redux';
@@ -91,6 +105,10 @@ class BalanceWidget extends Component<Props, State> {
         store.dispatchAction({ type: 'account/loadAllData' });
 	};
 
+	onWidgetPress = () => {
+		Router.goToAccountDetails({}, this.props.componentId);
+	};
+
     render = () => {
 		const { 
 			address,
@@ -100,9 +118,12 @@ class BalanceWidget extends Component<Props, State> {
 		} = this.props;
 		const isBalanceHuge = balance.toString().length > 12;
 		const BalanceContainer = isBalanceHuge ? ScrollView : Row;
+		const Container = isLoading === true
+			? View
+			: TouchableOpacity;
 
         return (
-            <SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
+			<SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
 				<ScrollView
 					style={styles.scrollView}
 					contentContainerStyle={styles.scrollViewContent}
@@ -110,24 +131,31 @@ class BalanceWidget extends Component<Props, State> {
 						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
 					}
 				>
-					{!isLoading && <CopyView style={styles.address} theme="dark">
-						{address}
-					</CopyView>}
-					{!isLoading && <Row align="end" justify="space-between" fullWidth>
-						<Text style={styles.mosaic} theme="dark">
-						{nativeMosaicNamespaceName}
-						</Text>
-						{<BalanceContainer horizontal={true} style={{marginLeft: 16}}>
-							<Row>
-								<Text style={styles.balance} theme="dark">
-									{(''+balance).split('.')[0]}
+					<Container 
+						activeOpacity={0.9}
+						onPress={() => this.onWidgetPress()}
+					>
+						{!isLoading && <View>
+							<CopyView style={styles.address} theme="dark">
+								{address}
+							</CopyView>
+							<Row align="end" justify="space-between" fullWidth>
+								<Text style={styles.mosaic} theme="dark">
+								{nativeMosaicNamespaceName}
 								</Text>
-								{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
-									.{(''+balance).split('.')[1]}
-								</Text>}
+								{<BalanceContainer horizontal={true} style={{marginLeft: 16}}>
+									<Row>
+										<Text style={styles.balance} theme="dark">
+											{(''+balance).split('.')[0]}
+										</Text>
+										{(''+balance).split('.')[1] && <Text style={styles.balanceLight} theme="dark">
+											.{(''+balance).split('.')[1]}
+										</Text>}
+									</Row>
+								</BalanceContainer>}
 							</Row>
-						</BalanceContainer>}
-					</Row>}
+						</View>}
+					</Container>
 					{isLoading && <FadeView style={styles.video} duration={1000}><Video
 						source={require('@src/assets/videos/mesh.mp4')}
 						style={[styles.video, styles.fade]}
@@ -138,10 +166,8 @@ class BalanceWidget extends Component<Props, State> {
 						ignoreSilentSwitch={"obey"}
 						blurRadius={10}
 					/></FadeView>}	
-					
 				</ScrollView>
-				
-            </SymbolGradientContainer>
+			</SymbolGradientContainer>
         );
     }
 }
