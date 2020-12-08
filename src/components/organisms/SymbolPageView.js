@@ -419,6 +419,9 @@ const WizardStepView = (props: Props) => {
 			case 'settings':
 				iconSrc = require('@src/assets/icons/settings.png');
 				break;
+			case 'qr_scanner':
+				iconSrc = require('@src/assets/icons/qr_scanner_light.png');
+				break;
 			case 'wallet':
 				iconSrc = require('@src/assets/icons/wallet.png');
 				iconSize.width = 55;

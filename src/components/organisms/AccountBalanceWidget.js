@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
 		height: '100%',
 		width: '100%',
 		flex: 1,
-		resizeMode: 'cover',
 		borderRadius: 6
 	},
 	fade: {

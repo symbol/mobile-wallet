@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, Text, Button } from '@src/components';
+import { 
+	Dropdown, 
+	Section, 
+	GradientBackground, 
+	TitleBar, 
+	Input, 
+	InputAddress, 
+	Text, 
+	Button,
+	SymbolPageView
+} from '@src/components';
 import { Router } from '@src/Router';
 import { ContactQR, AddressQR, AccountQR, TransactionQR, QRCodeGenerator } from 'symbol-qr-library';
 import { TransactionMapping, TransferTransaction } from "symbol-sdk";
@@ -148,13 +158,23 @@ class CreateAccount extends Component {
 
 
         return (
-			<GradientBackground 
-				dataManager={{ isLoading, isError, errorMessage }} 
-				name="mesh_small_2" 
+			// <GradientBackground 
+			// 	dataManager={{ isLoading, isError, errorMessage }} 
+			// 	name="mesh_small_2" 
+			// 	theme="dark"
+			// 	titleBar={<TitleBar theme="dark" onBack={() => this.goBack()} title={'Scann QR'} />}
+			// >
+			<SymbolPageView
 				theme="dark"
-				titleBar={<TitleBar theme="dark" onBack={() => this.goBack()} title={'Scann QR'} />}
+				isFade
+				isLoading={isLoading}
+				title={ 'Invoice QR' }
+				icon="qr_scanner"
+				onBack={() => this.goBack()}
+				noScroll
+
 			>
-                <Section type="form">
+                <Section type="form" style={{padding: 0}}>
                     <Section type="form-item">
 						<Text theme="dark" type="regular">{text}</Text>
 					</Section>
@@ -178,8 +198,9 @@ class CreateAccount extends Component {
 					title={'Decrypt QR'}
 					onSubmit={this.onSetPassword}
 					onClose={() => this.goBack()}
-				/>  
-            </GradientBackground>
+				/> 
+			</SymbolPageView> 
+            // </GradientBackground>
         );
     };
 }
