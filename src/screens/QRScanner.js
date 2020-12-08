@@ -98,7 +98,7 @@ class CreateAccount extends Component {
 						amount: '' + data.amount
 					};
 					console.log('transaction ==>', payload)
-					text = `This is the Transaction (Invoice) QR code. Do you want to send ${payload.amount} ${payload.mosaicName} to an address"${payload.recipientAddress}"?`
+					text = `This is the Transaction (Invoice) QR code. Do you want to send ${payload.amount} ${payload.mosaicName} to an address "${payload.recipientAddress}"?`
 					buttonCaption = 'Send';
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;

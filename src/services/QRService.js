@@ -43,7 +43,10 @@ export default class {
 					if(typeof password !== 'string') 
 						return {type: 'error', error: 'No password'};
 					try {
-						return AccountQR.fromJSON(res.data, password);
+						const accountQR = AccountQR.fromJSON(res.data, password);
+						return {
+							privateKey: accountQR.accountPrivateKey
+						};
 					}
 					catch(e) {
 						return {type: 'error', error: 'Invalid password'};
@@ -53,7 +56,7 @@ export default class {
 					const formatedTransaction = {
 						recipientAddress: transaction.recipientAddress.plain(),
 						message: transaction.message.payload,
-						mosaicName: transaction.mosaics[0].id.id.toHex(),
+						mosaicName: await this.getMosaicName(transaction.mosaics[0], network),
 						amount: await this.resolveAmount(transaction.mosaics[0], network)
 					};
 					return formatedTransaction;
@@ -74,5 +77,11 @@ export default class {
 		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
 
 		return mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
+	}
+
+	static getMosaicName = async(mosaic, network) => {
+		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
+
+		return mosaicModel.mosaicName;
 	}
 }

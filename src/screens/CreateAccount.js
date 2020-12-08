@@ -38,6 +38,8 @@ class CreateAccount extends Component {
 	componentDidMount = () => {
 		if(this.props.importMethod)
 			this.setState({ importMethod: IMPORT_METHOD_MAP[this.props.importMethod]});
+		if(this.props.privateKey)
+			this.handlePkChange(this.props.privateKey);
 	};
 
     goBack = () => {
