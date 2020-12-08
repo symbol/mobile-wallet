@@ -53,12 +53,14 @@ export default class {
 					}
 				case QRCodeType.RequestTransaction:
 					const transaction = TransactionMapping.createFromPayload(data.data.payload);
+					const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
 					const formatedTransaction = {
 						recipientAddress: transaction.recipientAddress.plain(),
 						message: transaction.message.payload,
-						mosaicName: await this.getMosaicName(transaction.mosaics[0], network),
-						amount: await this.resolveAmount(transaction.mosaics[0], network)
+						mosaicName: formattedMosaic.mosaicName,
+						amount: formattedMosaic.amount
 					};
+
 					return formatedTransaction;
 				default: 
 					return data.data
@@ -73,15 +75,13 @@ export default class {
 		return VALID_QR_TYPES.includes(type);
 	}
 
-	static resolveAmount = async(mosaic, network) => {
+	static formatMosaic = async(mosaic, network) => {
 		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
+		const formattedMosaic = {
+			amount: mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility),
+			mosaicName: mosaicModel.mosaicName
+		};
 
-		return mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
-	}
-
-	static getMosaicName = async(mosaic, network) => {
-		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
-
-		return mosaicModel.mosaicName;
+		return formattedMosaic;
 	}
 }
