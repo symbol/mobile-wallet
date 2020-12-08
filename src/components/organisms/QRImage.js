@@ -17,6 +17,7 @@ import PasswordModal from '@src/components/molecules/PasswordModal';
 import { showPasscode } from '@src/utils/passcode';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
+import NetworkService from '@src/services/NetworkService';
 import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import TransactionService from '@src/services/TransactionService';
@@ -241,6 +242,6 @@ class QRImage extends Component<Props, State> {
 
 export default connect(state => ({
 	network: state.network.selectedNetwork,
-	networkType: state.network.selectedNetwork.type,
+	networkType: NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork),
 	generationHash: state.network.generationHash,
 }))(QRImage);
