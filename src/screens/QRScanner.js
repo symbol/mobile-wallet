@@ -4,6 +4,7 @@ import { Dropdown, Section, GradientBackground, TitleBar, Input, InputAddress, T
 import { Router } from '@src/Router';
 import { ContactQR, AddressQR, AccountQR, TransactionQR, QRCodeGenerator } from 'symbol-qr-library';
 import { TransactionMapping, TransferTransaction } from "symbol-sdk";
+import QRService from '@src/services/QRService';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
 import translate from "@src/locales/i18n";
@@ -45,7 +46,7 @@ class CreateAccount extends Component {
 		Router.scanQRCode(this.parseScannedQR, () => { Router.goBack(this.props.componentId); });
 	};
 
-	parseScannedQR = res => {
+	parseScannedQR = async res => {
 		let text;
 		let payload = {};
 		let buttonCaption = '';
@@ -55,41 +56,39 @@ class CreateAccount extends Component {
 		this.setState({isLoading: true });
 
 		try {
-			console.log('res ==>', res)
-			const data = JSON.parse(res.data);
-			const type = data.type;
-			
+			const type = QRService.getQrType(res);
+			const data = await QRService.parseQrJson(res, this.props.network);
+			console.log(data)
 			switch(type) {
-				case QR_TYPES.ADDRESS:
-					payload = { recipientAddress: data.data.address, accountName: data.data.name };
+				case QRService.QRCodeType.AddContact:
+				case QRService.QRCodeType.ExportAddress:
+					payload = { 
+						recipientAddress: data.address, 
+						accountName: data.name 
+					};
 					text = `This is  the Symbol Account Address QR code. The account name is: "${payload.accountName}". The address is: "${payload.recipientAddress}". Please select an action bellow.`
 					buttonCaption = 'Send transfer';
 					hardcodedButtonCaption = 'Add contact'
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
-				case QR_TYPES.TRANSACTION:
-					//const parsed = TransactionQR.fromJSON(data, TransactionMapping.createFromPayload);
-					const transaction: Transaction = TransactionMapping.createFromPayload(data.data.payload);
-					const payload = {
-						recipientAddress: transaction.recipientAddress.plain(),
-						message: transaction.message.payload,
-						mosaicName: transaction.mosaics[0].id.id.toHex(),
-						amount: transaction.mosaics[0].amount.toString()
+				case QRService.QRCodeType.RequestTransaction:
+					payload = {
+						...data,
+						amount: '' + data.amount
 					};
-
-					console.log('parsed ==>', payload)
+					console.log('transaction ==>', payload)
 					text = `This is the Transaction (Invoice) QR code. The recipient address is "${payload.recipientAddress}". Please select an action bellow.`
-					buttonCaption = 'Send';
+					buttonCaption = 'Send transfer';
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
-				case QR_TYPES.PRIVAE_KEY:
+				case QRService.QRCodeType.ExportAddress:
 					payload = { ...data, importMethod: 'privateKey' };
 					text = `This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.`
 					buttonCaption = 'Open Form';
 					buttonAction = () => { Router.goToCreateAccount(payload, this.props.componentId) };
 				break;
 				default: 
-					text = 'Invalid QR code';
+					text = 'Unsupported QR code';
 					buttonCaption = 'Go Back';
 					buttonAction = () => { Router.goBack(this.props.componentId) };
 			};
@@ -150,5 +149,6 @@ class CreateAccount extends Component {
 }
 
 export default connect(state => ({
-    accounts: state.wallet.accounts,
+	accounts: state.wallet.accounts,
+	network: state.network.selectedNetwork,
 }))(CreateAccount);
