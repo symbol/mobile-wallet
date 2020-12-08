@@ -270,6 +270,7 @@ const WizardStepView = (props: Props) => {
 		errorMessage,
 		theme,
 		isFade,
+		style = {},
 
 		title,
 		icon,
@@ -435,7 +436,7 @@ const WizardStepView = (props: Props) => {
 		}
 
 		return (
-			title && <View style={titleContainertStyle}>
+			<View style={titleContainertStyle}>
 				{iconSrc && iconAlign === 'left' && <Image style={[styles.icon, styles.iconAlignLeft, iconSize]} source={iconSrc} />}
 				<Text style={[
 					titleTextStyle,
@@ -463,7 +464,7 @@ const WizardStepView = (props: Props) => {
 			<Background />
 			<View style={ styles.pageContainer }>
 				<TopBar/>
-				{!noScroll && <ScrollView style={styles.scrollView} persistentScrollbar={true}>
+				{!noScroll && <ScrollView style={[styles.scrollView, style]} persistentScrollbar={true}>
 					<Title/>
 					<View style={ styles.titleContainer }>
 						{/* Title */}
@@ -480,7 +481,7 @@ const WizardStepView = (props: Props) => {
 					</View>
 				</ScrollView>}
 
-				{noScroll && <View style={styles.simpleView}>
+				{noScroll && <View style={[styles.simpleView, style]}>
 					<Title/>
 					<View style={ styles.titleContainer }>
 						{/* Title */}

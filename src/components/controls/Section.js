@@ -18,6 +18,7 @@ type Type = 'title'
 	| 'center'
 	| 'button'
 	| 'form'
+	| 'form-without-padding'
 	| 'form-item';
 
 interface Props {
@@ -54,6 +55,9 @@ export default class Text extends Component<Props, State> {
 				break;
 			case 'form':
 				globalStyle = GlobalStyles.section.form;
+				break;
+			case 'form-without-padding':
+				globalStyle = GlobalStyles.section.formWithoutPaddings;
 				break;
 			case 'form-item':
 				globalStyle = GlobalStyles.section.formItem;

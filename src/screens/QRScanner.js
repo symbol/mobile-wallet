@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { 
 	Dropdown, 
 	Section, 
 	GradientBackground, 
 	TitleBar, 
+	Icon,
 	Input, 
 	InputAddress, 
 	Text, 
 	Button,
-	SymbolPageView
+	SymbolPageView,
+	Row
 } from '@src/components';
 import { Router } from '@src/Router';
-import { ContactQR, AddressQR, AccountQR, TransactionQR, QRCodeGenerator } from 'symbol-qr-library';
-import { TransactionMapping, TransferTransaction } from "symbol-sdk";
 import QRService from '@src/services/QRService';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
@@ -32,11 +32,46 @@ const QR_TYPES = {
 const styles = StyleSheet.create({
 	warning: {
 		color: GlobalStyles.color.RED
+	},
+
+	buttonWrapper: {
+		width: '45%',
+	},
+
+	buttonWrapperLarger: {
+		width: '60%',
+	},
+
+	button: {
+		paddingVertical: 8,
+		paddingHorizontal: 16,
+		borderRadius: 6,
+		backgroundColor: GlobalStyles.color.DARKWHITE,
+		flexDirection: 'row',
+		//marginHorizontal: 8,
+		backgroundColor: GlobalStyles.color.DARKWHITE,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+		elevation: 2,
+		alignItems: 'center'
+	},
+	buttonContent: {
+		height: 40, 
+	},
+	buttonText: {
+		lineHeight: 14,
+		width: '80%'
+	},
+	buttonIcon: {
+		marginRight: 12,
 	}
 });
 
 class CreateAccount extends Component {
     state = {
+		title: translate('qr.scannerTitle'),
         isLoading: false,
 		isError: false,
 		errorMessage: '',
@@ -45,7 +80,9 @@ class CreateAccount extends Component {
 		buttonAction: () => {},
 		hardcodedButtonCaption: '',
 		showPasswordModal: false,
-		res: null
+		res: null,
+		buttons: [],
+		payload: {}
 	};
 	
 	componentDidMount = () => {
@@ -74,18 +111,55 @@ class CreateAccount extends Component {
 		this.parseScannedQR(this.state.res, password);
 	};
 
+	renderButton = (buttonName, payload, i, count) => {
+		let text = '';
+		let action = () => {};
+		let icon;
+
+		switch(buttonName) {
+			case 'send':
+				action = () => Router.goToSend(payload, this.props.componentId);
+				text = 'Send Transfer';
+				icon = 'history';
+				break;
+			case 'addAccount':
+				action = () => Router.goToCreateAccount(payload, this.props.componentId);
+				text = 'Add Account';
+				icon = 'wallet_filled_light';
+				break;
+			case 'addContact':
+				action = () => Router.goToAddContact(payload, this.props.componentId);
+				text = 'Add Contact';
+				icon = 'contact_light';
+				break;
+		}
+
+		return (
+			<Section type="form-item" style={count > 1 ? styles.buttonWrapper : styles.buttonWrapperLarger}>
+				<TouchableOpacity style={styles.button} onPress={() => action()} activeOpacity={0.5}>
+					<Row align="center" style={styles.buttonContent}>
+						<Icon size="small" name={icon} style={styles.buttonIcon}/>
+						<Text type="bold" theme="light" style={styles.buttonText} wrap>
+							{text.toUpperCase()}
+						</Text>
+					</Row>
+					
+				</TouchableOpacity>
+			</Section>
+		)
+	};
+
 	parseScannedQR = async (res, password) => {
 		let text;
+		let title = translate('qr.scannerTitle');
 		let payload = {};
-		let buttonCaption = '';
-		let buttonAction;
-		let hardcodedButtonCaption = '';
+		let buttons = [];
 
 		this.setState({isLoading: true });
 
 		try {
 			const type = QRService.getQrType(res);
-			console.log('start', type, QRService.QRCodeType.ExportAccount)
+			console.log('QR response',res)
 			const data = await QRService.parseQrJson(res, this.props.network, password);
 			console.log(data);
 			if(data.type === 'error')
@@ -94,29 +168,29 @@ class CreateAccount extends Component {
 				case QRService.QRCodeType.AddContact:
 				case QRService.QRCodeType.ExportAddress:
 					payload = { 
+						...data,
 						recipientAddress: data.address, 
 						accountName: data.name 
 					};
+					title = translate('qr.addressQr');
 					text = `This is  the Symbol Account Address QR code. The account name is: "${payload.accountName}". The address is: "${payload.recipientAddress}". Please select an action bellow.`
-					buttonCaption = 'Send transfer';
-					hardcodedButtonCaption = 'Add contact'
-					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
+					buttons = ['send', 'addContact'];
 				break;
 				case QRService.QRCodeType.RequestTransaction:
 					payload = {
 						...data,
-						amount: '' + data.amount
+						amount: '' + data.amount,
+						mosaicName: data.mosaicId
 					};
-					console.log('transaction ==>', payload)
-					text = `This is the Transaction (Invoice) QR code. Do you want to send ${payload.amount} ${payload.mosaicName} to an address "${payload.recipientAddress}"?`
-					buttonCaption = 'Send';
-					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
+					title = translate('qr.transactionQr');
+					text = `This is the Transaction (Invoice) QR code. Do you want to send ${data.amount} ${data.mosaicName} to an address "${payload.recipientAddress}"?`
+					buttons = ['send'];
 				break;
 				case QRService.QRCodeType.ExportAccount:
 					payload = { ...data, importMethod: 'privateKey' };
+					title = translate('qr.privateKeyQr')
 					text = `This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.`
-					buttonCaption = 'Open Form';
-					buttonAction = () => { Router.goToCreateAccount(payload, this.props.componentId) };
+					buttons = ['addAccount'];
 				break;
 				default: 
 					text = 'Unsupported QR code';
@@ -137,25 +211,25 @@ class CreateAccount extends Component {
 		}
 		this.setState({
 			isLoading: false,
-			buttonCaption,
-			buttonAction,
-			hardcodedButtonCaption,
+			title,
 			text,
+			buttons,
+			payload
 		});
 	};
 
     render = () => {
 		const {  
+			title,
 			isLoading,
 			isError,
 			errorMessage,
 			text,
-			buttonCaption,
-			buttonAction,
-			hardcodedButtonCaption,
-			showPasswordModal
+			showPasswordModal,
+			buttons,
+			payload
 		} = this.state;
-
+		const buttonsJustify = buttons.length > 1 ? 'space-between' : 'center';
 
         return (
 			// <GradientBackground 
@@ -168,29 +242,21 @@ class CreateAccount extends Component {
 				theme="dark"
 				isFade
 				isLoading={isLoading}
-				title={ 'Invoice QR' }
+				isError={isError}
+				errorMessage={errorMessage}
+				title={title}
 				icon="qr_scanner"
 				onBack={() => this.goBack()}
 				noScroll
-
 			>
-                <Section type="form" style={{padding: 0}}>
+                <Section type="form-without-padding" isScrollable>
                     <Section type="form-item">
 						<Text theme="dark" type="regular">{text}</Text>
 					</Section>
 					<Section type="form-bottom">
-						{!!hardcodedButtonCaption && <Section type="form-item">
-							<Button
-								text={hardcodedButtonCaption}
-								theme="dark"
-								isDisabled={true}
-							/>
-						</Section>}
-						<Button
-							text={buttonCaption}
-							theme="dark"
-							onPress={() => buttonAction()}
-						/>
+						<Row wrap justify={buttonsJustify}>
+							{buttons.map((button, index) => this.renderButton(button, payload, index, buttons.length))}
+						</Row>
 					</Section>
                 </Section>
 				<PasswordModal
