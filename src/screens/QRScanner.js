@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		backgroundColor: GlobalStyles.color.DARKWHITE,
 		flexDirection: 'row',
-		//marginHorizontal: 8,
 		backgroundColor: GlobalStyles.color.DARKWHITE,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -62,7 +61,12 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		lineHeight: 14,
-		width: '80%'
+		flexShrink: 1,
+		flexWrap: 'wrap',
+		backgroundColor: '#0f05'
+	},
+	buttonTextSmaller: {
+		marginRight: 17
 	},
 	buttonIcon: {
 		marginRight: 12,
@@ -112,6 +116,7 @@ class CreateAccount extends Component {
 	};
 
 	renderButton = (buttonName, payload, i, count) => {
+		const buttonJustify = count === 1 ? 'center' : 'start';
 		let text = '';
 		let action = () => {};
 		let icon;
@@ -135,11 +140,33 @@ class CreateAccount extends Component {
 		}
 
 		return (
-			<Section type="form-item" style={count > 1 ? styles.buttonWrapper : styles.buttonWrapperLarger}>
-				<TouchableOpacity style={styles.button} onPress={() => action()} activeOpacity={0.5}>
-					<Row align="center" style={styles.buttonContent}>
-						<Icon size="small" name={icon} style={styles.buttonIcon}/>
-						<Text type="bold" theme="light" style={styles.buttonText} wrap>
+			<Section 
+				type="form-item" 
+				style={count > 1 ? styles.buttonWrapper : styles.buttonWrapperLarger}
+			>
+				<TouchableOpacity 
+					style={styles.button} 
+					onPress={() => action()} 
+					activeOpacity={0.5}
+				>
+					<Row 
+						align="center" 
+						justify={buttonJustify} 
+						style={styles.buttonContent} 
+						fullWidth={count === 1}
+					>
+						<Icon 
+							size="small" 
+							name={icon} 
+							style={styles.buttonIcon}
+						/>
+						<Text 
+							type="bold" 
+							theme="light" 
+							style={[styles.buttonText, count > 1 && styles.buttonTextSmaller]} 
+							align={count === 1 ? 'center' : 'left'}
+							wrap
+						>
 							{text.toUpperCase()}
 						</Text>
 					</Row>
