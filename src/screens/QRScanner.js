@@ -11,6 +11,7 @@ import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import PasswordModal from '@src/components/molecules/PasswordModal';
+import { showMessage } from 'react-native-flash-message';
 
 const QR_TYPES = {
 	PRIVAE_KEY: 2,
@@ -47,6 +48,15 @@ class CreateAccount extends Component {
 
 	startScanner = () => {
 		Router.scanQRCode(this.parseScannedQR, () => { Router.goBack(this.props.componentId); });
+	};
+
+	showDecryptErrorMessage = () => {
+		Router.showFlashMessageOverlay().then(() => {
+			showMessage({
+				message: `Invalid private key QR or password!`,
+				type: 'danger',
+			});
+		});
 	};
 
 	onSetPassword = (password) => {
@@ -88,8 +98,8 @@ class CreateAccount extends Component {
 						amount: '' + data.amount
 					};
 					console.log('transaction ==>', payload)
-					text = `This is the Transaction (Invoice) QR code. The recipient address is "${payload.recipientAddress}". Please select an action bellow.`
-					buttonCaption = 'Send transfer';
+					text = `This is the Transaction (Invoice) QR code. Do you want to send ${payload.amount} ${payload.mosaicName} to an address"${payload.recipientAddress}"?`
+					buttonCaption = 'Send';
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
 				case QRService.QRCodeType.ExportAccount:
@@ -107,6 +117,11 @@ class CreateAccount extends Component {
 		} catch(e) {
 			if(e.message === 'No password')
 				this.setState({showPasswordModal: true, res});
+			else
+			if(e.message === 'Invalid password') {
+				this.setState({showPasswordModal: true, res});
+				this.showDecryptErrorMessage();
+			}
 			else
 				this.setState({isError: true, errorMessage: e.message});
 		}

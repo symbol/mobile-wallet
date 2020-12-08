@@ -32,6 +32,9 @@ export default class {
 			const data = JSON.parse(res.data);
 			const type = data.type;
 
+			if(data === undefined || data === null)
+				throw Error('Invalid QR');
+
 			if(!this.checkValidType(type))
 				throw Error('This Symbol QR is not supported yet');
 
@@ -39,7 +42,12 @@ export default class {
 				case QRCodeType.ExportAccount: 
 					if(typeof password !== 'string') 
 						return {type: 'error', error: 'No password'};
-					return {publicKey: 'test'}
+					try {
+						return AccountQR.fromJSON(res.data, password);
+					}
+					catch(e) {
+						return {type: 'error', error: 'Invalid password'};
+					}
 				case QRCodeType.RequestTransaction:
 					const transaction = TransactionMapping.createFromPayload(data.data.payload);
 					const formatedTransaction = {

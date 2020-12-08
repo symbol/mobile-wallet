@@ -35,8 +35,8 @@ export default class PasswordModal extends Component<Props> {
 
         return (
             <PopupModal isModalOpen={showModal} showTopbar={true} title={title} showClose={true} onClose={() => {
-				this.setState({ showDecryptModal: false })
 				typeof this.props.onClose === 'function' && this.props.onClose()
+				this.setState({ showDecryptModal: false })
 			}}>
                 <Section type="form">
 				<Section type="form-item">
