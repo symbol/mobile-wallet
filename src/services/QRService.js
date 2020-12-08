@@ -48,7 +48,7 @@ export default class {
 				case QRCodeType.ExportAccount: 
 					return this.parseExportAccountQR(res, password);
 				case QRCodeType.RequestTransaction:
-					return this.parseRequestTransaction(data);
+					return this.parseRequestTransaction(data, network);
 				default: 
 					return data.data
 			};
@@ -56,7 +56,7 @@ export default class {
 		catch(e) { throw Error('Failed to parse QR. ' + e.message)};
 	}
 
-	static parseRequestTransaction = async (data) => {
+	static parseRequestTransaction = async (data, network) => {
 		const transaction = TransactionMapping.createFromPayload(data.data.payload);
 		const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
 		const formatedTransaction = {

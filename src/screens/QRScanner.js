@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
 		lineHeight: 14,
 		flexShrink: 1,
 		flexWrap: 'wrap',
-		backgroundColor: '#0f05'
 	},
 	buttonTextSmaller: {
 		marginRight: 17
