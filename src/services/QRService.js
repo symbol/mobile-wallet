@@ -27,7 +27,7 @@ export default class {
 		return type;
 	};
 
-	static parseQrJson = async (res: string, network) => {
+	static parseQrJson = async (res: string, network, password) => {
 		try {
 			const data = JSON.parse(res.data);
 			const type = data.type;
@@ -36,6 +36,10 @@ export default class {
 				throw Error('This Symbol QR is not supported yet');
 
 			switch(type) {
+				case QRCodeType.ExportAccount: 
+					if(typeof password !== 'string') 
+						return {type: 'error', error: 'No password'};
+					return {publicKey: 'test'}
 				case QRCodeType.RequestTransaction:
 					const transaction = TransactionMapping.createFromPayload(data.data.payload);
 					const formatedTransaction = {
@@ -51,7 +55,7 @@ export default class {
 			};
 
 		} 
-		catch(e) { throw Error('Failed to parse QR. ' + e.message)};
+		catch(e) { throw Error('Failed to parse QR. ' + e)};
 	}
 
 	static checkValidType = (type: string): boolean => {

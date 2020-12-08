@@ -10,6 +10,7 @@ import { isPrivateKeyValid } from '@src/utils/account';
 import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import PasswordModal from '@src/components/molecules/PasswordModal';
 
 const QR_TYPES = {
 	PRIVAE_KEY: 2,
@@ -31,7 +32,9 @@ class CreateAccount extends Component {
 		text: '',
 		buttonCaption: '',
 		buttonAction: () => {},
-		hardcodedButtonCaption: ''
+		hardcodedButtonCaption: '',
+		showPasswordModal: false,
+		res: null
 	};
 	
 	componentDidMount = () => {
@@ -46,7 +49,12 @@ class CreateAccount extends Component {
 		Router.scanQRCode(this.parseScannedQR, () => { Router.goBack(this.props.componentId); });
 	};
 
-	parseScannedQR = async res => {
+	onSetPassword = (password) => {
+		this.setState({showPasswordModal: false});
+		this.parseScannedQR(this.state.res, password);
+	};
+
+	parseScannedQR = async (res, password) => {
 		let text;
 		let payload = {};
 		let buttonCaption = '';
@@ -57,8 +65,11 @@ class CreateAccount extends Component {
 
 		try {
 			const type = QRService.getQrType(res);
-			const data = await QRService.parseQrJson(res, this.props.network);
-			console.log(data)
+			console.log('start', type, QRService.QRCodeType.ExportAccount)
+			const data = await QRService.parseQrJson(res, this.props.network, password);
+			console.log(data);
+			if(data.type === 'error')
+				throw Error(data.error)
 			switch(type) {
 				case QRService.QRCodeType.AddContact:
 				case QRService.QRCodeType.ExportAddress:
@@ -81,7 +92,7 @@ class CreateAccount extends Component {
 					buttonCaption = 'Send transfer';
 					buttonAction = () => { Router.goToSend(payload, this.props.componentId) };
 				break;
-				case QRService.QRCodeType.ExportAddress:
+				case QRService.QRCodeType.ExportAccount:
 					payload = { ...data, importMethod: 'privateKey' };
 					text = `This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.`
 					buttonCaption = 'Open Form';
@@ -90,11 +101,14 @@ class CreateAccount extends Component {
 				default: 
 					text = 'Unsupported QR code';
 					buttonCaption = 'Go Back';
-					buttonAction = () => { Router.goBack(this.props.componentId) };
+					buttonAction = () => { this.goBack() };
 			};
 
 		} catch(e) {
-			this.setState({isError: true, errorMessage: e.message});
+			if(e.message === 'No password')
+				this.setState({showPasswordModal: true, res});
+			else
+				this.setState({isError: true, errorMessage: e.message});
 		}
 		this.setState({
 			isLoading: false,
@@ -113,7 +127,8 @@ class CreateAccount extends Component {
 			text,
 			buttonCaption,
 			buttonAction,
-			hardcodedButtonCaption
+			hardcodedButtonCaption,
+			showPasswordModal
 		} = this.state;
 
 
@@ -143,6 +158,12 @@ class CreateAccount extends Component {
 						/>
 					</Section>
                 </Section>
+				<PasswordModal
+					showModal={showPasswordModal}
+					title={'Decrypt QR'}
+					onSubmit={this.onSetPassword}
+					onClose={() => this.goBack()}
+				/>  
             </GradientBackground>
         );
     };
