@@ -41,7 +41,14 @@ class AddContact extends Component<Props, State> {
         notes: '',
         update: false,
         isAddressValid: false,
-    };
+	};
+	
+	componentDidMount = () => {
+		if(this.props.address)
+			this.onAddressChange(this.props.address);
+		if(this.props.name)
+			this.setState({ name: this.props.name });
+	};
 
     submit = () => {
         const contact = {
