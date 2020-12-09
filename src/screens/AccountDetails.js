@@ -63,16 +63,16 @@ class AccountDetails extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
 						{/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
-						<Row justify="space-between">
+						<Row justify="center">
 							<QRImage 
 								type="address" 
 								accountName={accountName}
 								address={address}
 							/>
-							<QRImage 
+							{/* <QRImage 
 								type="privateKey" 
 								privateKey={privateKey}
-							/>
+							/> */}
 						</Row>
                     </Section>
                     <TableView componentId={componentId} data={data} />
