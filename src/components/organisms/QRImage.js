@@ -81,6 +81,11 @@ class QRImage extends Component<Props, State> {
     	childRef(undefined);
 	};
 
+	onReady = () => {
+		if(typeof this.props.onReady === 'function')
+			this.props.onReady()
+	};
+
 	updateQR = async () => {
 		const { 
 			networkType,
@@ -121,7 +126,8 @@ class QRImage extends Component<Props, State> {
 			title,
 			isLoading: false
 		});
-	}, 5000);
+		this.onReady();
+	}, 1000);
 	};
 	
 	getAddressQR = async (accountName, address, networkType, generationHash) => {
@@ -160,6 +166,7 @@ class QRImage extends Component<Props, State> {
 			this.setState({image});
 			this.onShowClick();
 			this.setState({isLoading: false});
+			this.onReady();
 		}, 100);
 	};
 
@@ -184,7 +191,8 @@ class QRImage extends Component<Props, State> {
     render = () => {
         const { 
 			style = {}, 
-			type 
+			type,
+			isQrVisible = true
 		} = this.props;
 		const { 
 			isLoading, 
@@ -197,8 +205,9 @@ class QRImage extends Component<Props, State> {
 		
 		const QR = (
 			<>
-				{image && <Image style={styles.qr} source={{ uri: image }} />}
-				{!image && <View style={styles.qr} />}
+				{!!image && isQrVisible && <Image style={styles.qr} source={{ uri: image }} />}
+				{!image && isQrVisible && <View style={styles.qr} />}
+				{!isQrVisible && <Col justify="center" align="center" fullHeight style={[styles.qr, styles.hiddenQR]}/>}
 			</>
 		);
 

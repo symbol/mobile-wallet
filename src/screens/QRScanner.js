@@ -1,33 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { 
-	Dropdown, 
-	Section, 
-	GradientBackground, 
-	TitleBar, 
-	Icon,
-	Input, 
-	InputAddress, 
+	Section,  
+	Icon, 
 	Text, 
-	Button,
 	SymbolPageView,
 	Row
 } from '@src/components';
 import { Router } from '@src/Router';
 import QRService from '@src/services/QRService';
-import store from '@src/store';
-import { isPrivateKeyValid } from '@src/utils/account';
 import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import PasswordModal from '@src/components/molecules/PasswordModal';
 import { showMessage } from 'react-native-flash-message';
 
-const QR_TYPES = {
-	PRIVAE_KEY: 2,
-	TRANSACTION: 3,
-	ADDRESS: 7
-};
 
 const styles = StyleSheet.create({
 	warning: {
@@ -258,12 +245,6 @@ class CreateAccount extends Component {
 		const buttonsJustify = buttons.length > 1 ? 'space-between' : 'center';
 
         return (
-			// <GradientBackground 
-			// 	dataManager={{ isLoading, isError, errorMessage }} 
-			// 	name="mesh_small_2" 
-			// 	theme="dark"
-			// 	titleBar={<TitleBar theme="dark" onBack={() => this.goBack()} title={'Scann QR'} />}
-			// >
 			<SymbolPageView
 				theme="dark"
 				isFade
@@ -292,7 +273,6 @@ class CreateAccount extends Component {
 					onClose={() => this.goBack()}
 				/> 
 			</SymbolPageView> 
-            // </GradientBackground>
         );
     };
 }

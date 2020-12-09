@@ -60,7 +60,7 @@ export default class {
 		const transaction = TransactionMapping.createFromPayload(data.data.payload);
 		const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
 		const formatedTransaction = {
-			recipientAddress: transaction.recipientAddress.plain(),
+			recipientAddress: transaction.recipientAddress.pretty(),
 			message: transaction.message.payload,
 			mosaicName: formattedMosaic.mosaicName,
 			mosaicId: formattedMosaic.mosaicId,
