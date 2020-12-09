@@ -6,7 +6,7 @@ import {
 	QRCodeGenerator,
 	QRCodeType
 } from 'symbol-qr-library';
-import { TransactionMapping, Account, Address } from 'symbol-sdk';
+import { TransactionMapping, TransactionType, Address } from 'symbol-sdk';
 import MosaicService from './MosaicService';
 import NetworkService from './NetworkService';
 
@@ -58,6 +58,9 @@ export default class {
 
 	static parseRequestTransaction = async (data, network) => {
 		const transaction = TransactionMapping.createFromPayload(data.data.payload);
+		if(transaction.type !== TransactionType.TRANSFER)
+			throw Error('Transaction type is not a transfer');
+
 		const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
 		const formatedTransaction = {
 			recipientAddress: transaction.recipientAddress.pretty(),
