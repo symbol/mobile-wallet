@@ -44,6 +44,10 @@ class InputAccount extends Component<Props, State> {
 		pkQRData: null
 	}
 
+	componentDidMount = () => {
+		this.setState({ pkQRData: null });
+	};
+
     importWithAddressBook = address => {
         setTimeout(() => {
             if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
@@ -65,6 +69,7 @@ class InputAccount extends Component<Props, State> {
             this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
 			console.log(e);
+			this.props.onChangeText('');
 			Router.showFlashMessageOverlay().then(() => {
 				showMessage({
 					message: `Invalid address QR!`,
@@ -75,25 +80,45 @@ class InputAccount extends Component<Props, State> {
 	};
 	
 	onReadPkQRCode = res => {
-		this.setState({pkQRData: res.data, showPasswordModal: true});
+		this.setState({pkQRData: res.data});
+		setTimeout(() => { this.encryptPkQRCode(null);});
 	};
 
 	encryptPkQRCode = (password) => {
 		const { pkQRData } = this.state;
-
+		console.log('pkQRData === >', pkQRData)
         try {
             const accountQR = AccountQR.fromJSON(pkQRData, password);
-            this.props.onChangeText(accountQR.accountPrivateKey);
+			this.props.onChangeText(accountQR.accountPrivateKey);
+			this.setState({ pkQRData: null });
         } catch (e) {
 			console.log(e);
-			Router.showFlashMessageOverlay().then(() => {
-				showMessage({
-					message: `Invalid private key QR or password!`,
-					type: 'danger',
+			if(e.message === 'Could not parse account information.' && typeof password !== 'string') {
+				this.props.onChangeText('');
+				this.setState({showPasswordModal: true});
+			}	
+			else
+			if(e.message === 'Could not parse account information.'){
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: `Invalid password!`,
+						type: 'danger',
+					});
 				});
-			});
+				this.setState({ pkQRData: null });
+			}
+			else {
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: `Invalid private key QR!`,
+						type: 'danger',
+					});
+				});	
+				this.setState({ pkQRData: null });
+			}
 		}
-		this.setState({ pkQRData: null });
 	};
 
 	onSetPassword = (password) => {
@@ -102,7 +127,7 @@ class InputAccount extends Component<Props, State> {
 	};
 
     importWithQR = (callback) => {
-        Router.scanQRCode(callback, () => {});
+        Router.scanQRCode(callback, () => {this.setState({ pkQRData: null });});
     };
 
     importWithClipboard = async () => {

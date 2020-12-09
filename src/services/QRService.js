@@ -74,8 +74,6 @@ export default class {
 	}
 
 	static parseExportAccountQR = (res, password) => {
-		if(typeof password !== 'string') 
-			return {type: 'error', error: 'No password'};
 		try {
 			const accountQR = AccountQR.fromJSON(res.data, password);
 			return {
@@ -83,6 +81,8 @@ export default class {
 			};
 		}
 		catch(e) {
+			if(typeof password !== 'string')
+				return {type: 'error', error: 'No password'};
 			return {type: 'error', error: 'Invalid password'};
 		}
 	}
