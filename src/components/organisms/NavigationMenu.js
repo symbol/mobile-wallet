@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		backgroundColor: GlobalStyles.color.WHITE
 	},
-	item: {
+	itemBottomLine: {
 		padding: 5,
 		paddingBottom: 3,
 		width: 65,
@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
 	itemIos: {
 		padding: 5,
 		paddingBottom: 0,
+		width: 65,
+		borderColor: '#fff0',
+		borderTopWidth: 2
+	},
+	itemTopLine: {
+		padding: 3,
+		paddingBottom: 3,
 		width: 65,
 		borderColor: '#fff0',
 		borderTopWidth: 2
@@ -67,8 +74,10 @@ export default class NavigationMenu extends Component<Props, State> {
 			extraPadding = {
 				paddingBottom: 32
 			};
+			itemStyle = styles.itemIos;
 		}
-		itemStyle = styles.itemIos;
+		else
+		itemStyle = styles.itemTopLine;
 
 		return (
 			<View style={[styles.root, extraPadding]}>
