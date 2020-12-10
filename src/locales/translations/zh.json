@@ -369,6 +369,179 @@
 		"ImportErrorWrongOptedInAccount": "该帐户已选择加入，但该 Symbol帐户不是此钱包中的帐户。请导入正确的 Symbol帐户或使用另一个 XEM 帐户私钥",
 		"ErrorCreatingAccount": "创建帐户失败",
 		"NamespaceUnavailable": "不可用"
+	},
+	"menu": {
+		"news": "新闻",
+		"mosaics": "马赛克",
+		"home": "家",
+		"history": "历史",
+		"harvest": "收成"
+	},
+	"plugin": {
+		"send": "发送",
+		"receive": "接收",
+		"more": "更多",
+		"qr": "扫瞄 QR"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "开始",
+			"title": "委托收获"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "创建",
+			"title": "创建远程帐户"
+		}
+	},
+	"table": {
+		"type": "类型",
+		"recipientAddress": "收件人地址",
+		"messageText": "信息",
+		"messageEncrypted": "讯息加密",
+		"fee": "费用",
+		"accountName": "用户名",
+		"address": "地址",
+		"publicKey": "公钥",
+		"privateKey": "私钥",
+		"balance": "平衡",
+		"mosaics": "马赛克",
+		"mosaic": "镶嵌",
+		"amount": "量",
+		"encrypted": "加密的",
+		"unencrypted": "未加密",
+		"status": "状态",
+		"innerTxs": "内部交易",
+		"signerAddress": "签名人地址",
+		"deadline": "最后期限",
+		"hash": "杂凑",
+		"transferType": "转移类型",
+		"hasCustomMosaic": "镶嵌数",
+		"undefined": "n/a",
+		"null": "n/a",
+		"namespaceName": "命名空间名称",
+		"mosaicId": "镶嵌标识符",
+		"namespaceId": "命名空间标识符",
+		"namespace": "命名空间",
+		"phone": "电话",
+		"email": "电子邮件",
+		"label": "标签",
+		"notes": "笔记"
+	},
+	"transactionTypes": {
+		"unknown": "类型尚不支持",
+		"transfer": "转让",
+		"fundsLock": "资金锁定",
+		"aggregate": "骨料",
+		"namespace": "命名空间注册",
+		"mosaicAlias": "镶嵌别名"
+	},
+	"date": {
+		"monday": "星期一",
+		"tuesday": "星期二",
+		"wednesday": "星期三",
+		"thursday": "星期四",
+		"friday": "星期五",
+		"saturday": "星期六",
+		"sunday": "星期日"
+	},
+	"link": {
+		"faucet": "在水龙头中声明测试马赛克",
+		"blockExplorer": "打开块资源管理器",
+		"blockExplorerBlock": "在块浏览器中显示块",
+		"blockExplorerAccount": "在区块浏览器中显示帐户",
+		"blockExplorerTransaction": "在块浏览器中显示",
+		"blockExplorerMosaic": "在块浏览器中显示马赛克",
+		"blockExplorerNamespace": "在块浏览器中显示名称空间"
+	},
+	"home": {
+		"optInTitle": "选择参加",
+		"optInDescription": "即将启用发布后加入",
+		"pendingSignatureTitle": "等待签名",
+		"pendingSignatureDescription": "有一笔交易正在等待签名"
+	},
+	"mosaics": {
+		"title": "马赛克"
+	},
+	"news": {
+		"title": "新闻"
+	},
+	"all": "所有",
+	"history": {
+		"title": "历史",
+		"accountFilter": "选择帐户",
+		"mainAccount": "主要帐户",
+		"filter": "过滤器",
+		"all": "全部",
+		"sent": "已发送",
+		"received": "已收到",
+		"transaction": {
+			"message": "消息",
+			"encrypted": "已加密",
+			"decrypt": "解密",
+			"hash": "哈希",
+			"amountLocked": "金额锁定",
+			"sign": "标志",
+			"waitingSignature": "等待您的签名"
+		}
+	},
+	"harvest": {
+		"title": "收获",
+		"status": "状态",
+		"blocksHarvested": "收获的块",
+		"feesEarned": "获得的费用",
+		"selectNode": "选择节点",
+		"changeNode": "变更节点",
+		"stopHarvesting": "停止收获",
+		"startHarvesting": "开始收获",
+		"ACTIVE": "活性",
+		"INACTIVE": "不活跃",
+		"INPROGRESS_ACTIVATION": "激活中",
+		"INPROGRESS_DEACTIVATION": "正在停用",
+		"harvetingIntroTitle": "开始收获以获得块状奖励",
+		"minBalanceRequirement": "要收获，该帐户需要至少有％{balance}的既得余额",
+		"KEYS_LINKED": "键链接"
+	},
+	"sidebar": {
+		"seed": "种子账户",
+		"pk": "私钥帐户",
+		"addAccount": "新增帐户",
+		"openAddressBook": "打开通讯录",
+		"rename": "改名",
+		"delete": "删除",
+		"hide": "隐藏",
+		"remove": "去掉",
+		"details": "细节",
+		"removeAccount": "删除帐户",
+		"removeAccountText": "您确定要从本地存储中删除该帐户吗",
+		"hideAccountTitle": "隐藏账户",
+		"removeAccountTitle": "删除帐户",
+		"hideAccountDescription": "您确定要隐藏此帐户吗？这是一个助记符种子帐户，您可以随时使用“添加帐户”按钮将其还原。不会丢失任何资金。",
+		"removeAccountDescription": "您确定要从钱包中删除此帐户吗？这不是助记符种子帐户。确保您拥有此帐户的私钥，否则可能会失去访问权限和资金"
+	},
+	"createAccount": {
+		"title": "新增帐户",
+		"name": "用户名",
+		"type": "帐户类型",
+		"seed": "种子索引（自动增加空白",
+		"fromSeed": "从助记符添加种子帐户",
+		"createSeed": "新增帐户",
+		"fromPk": "通过私钥导入帐户",
+		"createPk": "进口",
+		"errorAccountNameExist": "具有该名称的帐户已存在",
+		"errorPrivateKeyExist": "此帐户已在钱包中",
+		"errorInvalidPrivateKey": "私钥无效"
+	},
+	"settings": {
+		"logoutConfirmTitle": "你确定吗",
+		"logoutConfirmDesc": "通过注销，设备上的数据将被删除。您应该先备份一下，然后再继续",
+		"logoutConfirm2Title": "警告",
+		"logoutConfirm2Desc": "除非您有备份，否则您将无法再次访问您的钱包。您确定要继续吗？"
+	},
+	"qr": {
+		"scannerTitle": "Symbol QR 扫描仪",
+		"transactionQr": "交易 QR",
+		"addressQr": "地址 QR",
+		"privateKeyQr": "私钥 QR"
 	}
 }
 

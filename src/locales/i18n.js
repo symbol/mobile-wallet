@@ -51,8 +51,10 @@ const setActiveLocalelanguage = (languageTag, isRTL) => {
   I18nManager.forceRTL(isRTL);
 
   // set i18n-js config
-  i18n.translations = { [languageTag]: translationGetters[languageTag]() };
+  i18n.translations = { [languageTag]: translationGetters[languageTag](), en: translationGetters['en']() };
+  i18n.defaultLocale = 'en';
   i18n.locale = languageTag;
+  i18n.fallbacks = true;
 };
 
 const getLocaleLanguage = (languageCode: ?string): { languageTag: string, isRTL: boolean } => {
