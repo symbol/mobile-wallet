@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 		//marginBottom: 10,
 		//marginTop: 100,
 		//flex: 1,
-		maxHeight: 180,
+		maxHeight: '50%',
 		height: null,
 		flexShrink: 1,
 	},
