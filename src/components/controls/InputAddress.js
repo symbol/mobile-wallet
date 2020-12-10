@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
+import PasswordModal from '@src/components/molecules/PasswordModal';
 import { Router } from '@src/Router';
 import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
 import NetworkService from "@src/services/NetworkService";
+import { showMessage } from 'react-native-flash-message';
 
 const styles = StyleSheet.create({
     root: {
@@ -36,6 +38,16 @@ type State = {};
 let addressBookList = [];
 
 class InputAccount extends Component<Props, State> {
+	state = {
+		password: '',
+		showPasswordModal: false,
+		pkQRData: null
+	}
+
+	componentDidMount = () => {
+		this.setState({ pkQRData: null });
+	};
+
     importWithAddressBook = address => {
         setTimeout(() => {
             if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
@@ -56,24 +68,66 @@ class InputAccount extends Component<Props, State> {
             const addressQR = AddressQR.fromJSON(res.data);
             this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
-            console.log(e);
-            this.props.onChangeText('Invalid address QR');
+			console.log(e);
+			this.props.onChangeText('');
+			Router.showFlashMessageOverlay().then(() => {
+				showMessage({
+					message: `Invalid address QR!`,
+					type: 'danger',
+				});
+			});
         }
 	};
 	
 	onReadPkQRCode = res => {
+		this.setState({pkQRData: res.data});
+		setTimeout(() => { this.encryptPkQRCode(null);});
+	};
+
+	encryptPkQRCode = (password) => {
+		const { pkQRData } = this.state;
+		console.log('pkQRData === >', pkQRData)
         try {
-            const accountQR = AccountQR.fromJSON(res.data);
-            this.props.onChangeText(accountQR.accountPrivateKey);
-            return;
+            const accountQR = AccountQR.fromJSON(pkQRData, password);
+			this.props.onChangeText(accountQR.accountPrivateKey);
+			this.setState({ pkQRData: null });
         } catch (e) {
 			console.log(e);
-			this.props.onChangeText('Invalid private key QR');
-        }
+			if(e.message === 'Could not parse account information.' && typeof password !== 'string') {
+				this.props.onChangeText('');
+				this.setState({showPasswordModal: true});
+			}	
+			else
+			if(e.message === 'Could not parse account information.'){
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: `Invalid password!`,
+						type: 'danger',
+					});
+				});
+				this.setState({ pkQRData: null });
+			}
+			else {
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: `Invalid private key QR!`,
+						type: 'danger',
+					});
+				});	
+				this.setState({ pkQRData: null });
+			}
+		}
+	};
+
+	onSetPassword = (password) => {
+		this.setState({ showPasswordModal: false});
+		this.encryptPkQRCode(password);
 	};
 
     importWithQR = (callback) => {
-        Router.scanQRCode(callback, () => {});
+        Router.scanQRCode(callback, () => {this.setState({ pkQRData: null });});
     };
 
     importWithClipboard = async () => {
@@ -98,7 +152,9 @@ class InputAccount extends Component<Props, State> {
 
     render = () => {
         const { style = {}, fullWidth, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
-        let rootStyle = [styles.root, style];
+		const { showPasswordModal } = this.state;
+
+		let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
         const iconOffset = 8;
@@ -138,6 +194,12 @@ class InputAccount extends Component<Props, State> {
                         <Icon name="address_book" size={iconSize} />
                     </Dropdown>
                 )}
+				<PasswordModal
+					showModal={showPasswordModal}
+					title={'Decrypt QR'}
+					onSubmit={this.onSetPassword}
+					onClose={() => this.setState({ showPasswordModal: false })}
+				/>  
             </View>
         );
     };

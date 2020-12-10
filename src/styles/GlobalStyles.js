@@ -149,6 +149,11 @@ export default {
 			flexDirection: 'column'
 		},
 
+		formWithoutPaddings: {
+			flex: 1,
+			flexDirection: 'column'
+		},
+
 		formItem: {
 			paddingBottom: 17
 		},

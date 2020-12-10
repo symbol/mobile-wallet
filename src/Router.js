@@ -27,8 +27,10 @@ import ContactProfile from '@src/screens/ContactProfile';
 import AccountDetails from '@src/screens/AccountDetails';
 import CreateAccount from '@src/screens/CreateAccount';
 import Receive from '@src/screens/Receive';
+import QRScanner from '@src/screens/QRScanner';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
+
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
@@ -59,6 +61,7 @@ export const ADD_CONTACT_SCREEN = `${BASE_SCREEN_NAME}.ADD_CONTACT_SCREEN`;
 export const CONTACT_PROFILE_SCREEN = `${BASE_SCREEN_NAME}.CONTACT_PROFILE_SCREEN`;
 export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
+export const QR_SCANNER_SCREEN = `${BASE_SCREEN_NAME}.QR_SCANNER_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -91,7 +94,8 @@ export class Router {
         [HARVEST_SCREEN, Harvest],
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
-        [CONTACT_PROFILE_SCREEN, ContactProfile],
+		[CONTACT_PROFILE_SCREEN, ContactProfile],
+		[QR_SCANNER_SCREEN, QRScanner]
     ];
 
     static registerScreens() {
@@ -180,6 +184,9 @@ export class Router {
     }
     static goToContactProfile(passProps, parentComponent?) {
         return this.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
+	}
+	static goToSend(passProps, parentComponent?) {
+        return this.goToScreen(SEND_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {

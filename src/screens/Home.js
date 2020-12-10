@@ -116,7 +116,7 @@ class Home extends Component<Props, State> {
 				
 					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
-							<AccountBalanceWidget />
+							<AccountBalanceWidget componentId={componentId}/>
 						</Section>
 						
 						<PluginList componentId={componentId} theme="light" style={styles.pluginList}/>
