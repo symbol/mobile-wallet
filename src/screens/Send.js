@@ -10,6 +10,7 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AddressBook } from 'symbol-address-book';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
+import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -22,6 +23,9 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         backgroundColor: '#fff5',
     },
+    warning: {
+		color: GlobalStyles.color.RED
+	}
 });
 
 type Props = {};
@@ -236,7 +240,7 @@ class Send extends Component<Props, State> {
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
                         />
-                        {amount.length > 0 && showAmountError && <Text theme="light">Not enough funds</Text>}
+                        {amount.length > 0 && showAmountError && <Text theme="light" style={styles.warning}>Not enough funds</Text>}
                     </Section>
                     <Section type="form-item">
                         <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.onMessageChange(message)} />
