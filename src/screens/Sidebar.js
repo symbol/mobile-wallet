@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, StatusBar, Image, FlatList } from 'react-native';
+import {StyleSheet, View, TouchableOpacity, StatusBar, Image, FlatList, Platform} from 'react-native';
 import {
     Section,
     GradientBackground,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 	selectedAccountBoxContent: {},
 	titleBar: {
-		marginTop: StatusBar.currentHeight,
+		marginTop: StatusBar.currentHeight + (Platform.OS === 'ios' ? 15: 0),
 	},
     selectedAccountName: {},
     selectedAccountAddress: {
@@ -174,7 +174,7 @@ class Sidebar extends Component<Props, State> {
         showPasscode(this.props.componentId, () => {
             this.setState({
 				isRemoveModalOpen: true,
-				removeModalTitle, 
+				removeModalTitle,
 				removeModalDescription,
                 editingAccountId: id,
             });
@@ -237,10 +237,10 @@ class Sidebar extends Component<Props, State> {
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
 		);
-		
+
 		const intBalance = (''+(balance)).split('.')[0];
 		const decimalBalance = (''+balance).split('.')[1];
-		const truncatedDecimalBalance = intBalance.length < 9 
+		const truncatedDecimalBalance = intBalance.length < 9
 			? (intBalance.length > 4
 				? decimalBalance.slice(0, decimalBalance.length - (intBalance.length - 2)) + '...'
 				: decimalBalance)
@@ -293,7 +293,7 @@ class Sidebar extends Component<Props, State> {
 		const deleteModalTitle = type === 'hd'
 			? translate('sidebar.hideAccountTitle')
 			: translate('sidebar.removeAccountTitle');
-		
+
 		const deleteModalDescription = type === 'hd'
 			? translate('sidebar.hideAccountDescription')
 			: translate('sidebar.removeAccountDescription');
