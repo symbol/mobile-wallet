@@ -373,70 +373,70 @@
 	"menu": {
 		"news": "ニュース",
 		"mosaics": "モザイク",
-		"home": "家",
-		"history": "歴史",
-		"harvest": "収穫"
+		"home": "ホーム",
+		"history": "履歴",
+		"harvest": "ハーベスト"
 	},
 	"plugin": {
 		"send": "送信",
-		"receive": "受け取る",
-		"more": "もっと",
-		"qr": "スキャン QR"
+		"receive": "受取",
+		"more": "もっとみる",
+		"qr": "QRスキャン"
 	},
 	"Harvest": {
 		"StartHarvesting": {
 			"submitButton": "開始",
-			"title": "委任された収穫"
+			"title": "委任ハーベスティング"
 		},
 		"CreateRemoteAccount": {
-			"submitButton": "作成する",
-			"title": "リモートアカウントを作成する"
+			"submitButton": "作成",
+			"title": "リモートアカウントの作成"
 		}
 	},
 	"table": {
 		"type": "タイプ",
-		"recipientAddress": "受取人の住所",
-		"messageText": "メッセージ",
+		"recipientAddress": "受け取りアドレス",
+		"messageText": "メッセージ/メモ",
 		"messageEncrypted": "メッセージの暗号化",
-		"fee": "費用",
+		"fee": "手数料",
 		"accountName": "アカウント名",
-		"address": "住所",
+		"address": "アドレス",
 		"publicKey": "公開鍵",
 		"privateKey": "秘密鍵",
 		"balance": "残高",
 		"mosaics": "モザイク",
 		"mosaic": "モザイク",
-		"amount": "量",
+		"amount": "数量",
 		"encrypted": "暗号化",
-		"unencrypted": "暗号化されていない",
+		"unencrypted": "復号化",
 		"status": "状態",
 		"innerTxs": "内部取引",
-		"signerAddress": "署名者の住所",
-		"deadline": "締め切り",
+		"signerAddress": "署名アドレス",
+		"deadline": "期日",
 		"hash": "ハッシュ",
-		"transferType": "転送タイプ",
-		"hasCustomMosaic": "転送されたモザイクの数",
-		"undefined": "n/a",
-		"null": "n/a",
-		"namespaceName": "名前空間名",
-		"mosaicId": "モザイク識別子",
-		"namespaceId": "名前空間識別子",
-		"namespace": "名前空間",
-		"phone": "電話",
-		"email": "Eメール",
+		"transferType": "送金タイプ",
+		"hasCustomMosaic": "送金されたモザイクの数",
+		"undefined": "該当なし",
+		"null": "該当なし",
+		"namespaceName": "ネームスペース名",
+		"mosaicId": "モザイクID",
+		"namespaceId": "ネームスペースID",
+		"namespace": "ネームスペース",
+		"phone": "電話番号",
+		"email": "メールアドレス",
 		"label": "ラベル",
-		"notes": "ノート"
+		"notes": "メモ"
 	},
 	"transactionTypes": {
-		"unknown": "タイプはまだサポートされていません",
-		"transfer": "転送",
-		"fundsLock": "ファンドロック",
-		"aggregate": "集計",
-		"namespace": "名前空間の登録",
-		"mosaicAlias": "モザイクエイリアス"
+		"unknown": "サポートされていないタイプ",
+		"transfer": "送金",
+		"fundsLock": "資金ロック",
+		"aggregate": "アグリゲート",
+		"namespace": "ネームスペースの登録",
+		"mosaicAlias": "モザイクの別名"
 	},
 	"date": {
-		"monday": "月曜",
+		"monday": "月曜日",
 		"tuesday": "火曜日",
 		"wednesday": "水曜日",
 		"thursday": "木曜日",
@@ -445,19 +445,19 @@
 		"sunday": "日曜日"
 	},
 	"link": {
-		"faucet": "蛇口のテストモザイクを要求する",
-		"blockExplorer": "ブロックエクスプローラーを開く",
-		"blockExplorerBlock": "ブロックエクスプローラーでブロックを表示",
-		"blockExplorerAccount": "ブロックエクスプローラーでアカウントを表示する",
-		"blockExplorerTransaction": "ブロックエクスプローラーに表示",
-		"blockExplorerMosaic": "ブロックエクスプローラーでモザイクを表示する",
-		"blockExplorerNamespace": "ブロックエクスプローラーで名前空間を表示する"
+		"faucet": "フォーセットでテストモザイクを受け取る",
+		"blockExplorer": "ブロックエクスプローラを起動",
+		"blockExplorerBlock": "ブロックエクスプローラでブロックを表示",
+		"blockExplorerAccount": "ブロックエクスプローラでアカウントを表示",
+		"blockExplorerTransaction": "ブロックエクスプローラで表示",
+		"blockExplorerMosaic": "ブロックエクスプローラでモザイクを表示",
+		"blockExplorerNamespace": "ブロックエクスプローラでネームスペースを表示"
 	},
 	"home": {
 		"optInTitle": "オプトイン",
-		"optInDescription": "発売後オプトインは近日公開予定...",
-		"pendingSignatureTitle": "保留中の署名",
-		"pendingSignatureDescription": "署名待ちのトランザクションがあります"
+		"optInDescription": "ローンチ後のオプトインは近日公開予定です...",
+		"pendingSignatureTitle": "ペンディング署名",
+		"pendingSignatureDescription": "署名待ちのペンディングトランザクションがあります"
 	},
 	"mosaics": {
 		"title": "モザイク"
@@ -465,82 +465,82 @@
 	"news": {
 		"title": "ニュース"
 	},
-	"all": "すべて",
+	"all": "全て",
 	"history": {
-		"title": "歴史",
-		"accountFilter": "アカウントを選択",
+		"title": "履歴",
+		"accountFilter": "アカウント選択",
 		"mainAccount": "メインアカウント",
-		"filter": "フィルタ",
-		"all": "すべて",
-		"sent": "送信済み",
-		"received": "受け取りました",
+		"filter": "フィルター",
+		"all": "全て",
+		"sent": "送信",
+		"received": "受信",
 		"transaction": {
 			"message": "メッセージ",
 			"encrypted": "暗号化",
-			"decrypt": "復号化",
+			"decrypt": "復号",
 			"hash": "ハッシュ",
-			"amountLocked": "ロックされた金額",
-			"sign": "符号",
+			"amountLocked": "ロックされた数量",
+			"sign": "署名",
 			"waitingSignature": "あなたの署名を待っています"
 		}
 	},
 	"harvest": {
-		"title": "収穫",
+		"title": "ハーベスティング",
 		"status": "状態",
-		"blocksHarvested": "収穫されたブロック",
-		"feesEarned": "獲得した報酬",
+		"blocksHarvested": "ハーベストされたブロック",
+		"feesEarned": "獲得した手数料",
 		"selectNode": "ノードを選択",
-		"changeNode": "ノードを変更します",
-		"stopHarvesting": "収穫をやめる",
-		"startHarvesting": "収穫を開始します",
-		"ACTIVE": "アクティブ",
-		"INACTIVE": "非活性",
-		"INPROGRESS_ACTIVATION": "アクティベーションが進行中です",
-		"INPROGRESS_DEACTIVATION": "非アクティブ化が進行中です",
-		"harvetingIntroTitle": "ブロック報酬を獲得するために収穫を開始します",
-		"minBalanceRequirement": "収穫するには、アカウントには少なくともの既得残高が必要です %{balance}",
-		"KEYS_LINKED": "リンクされたキー"
+		"changeNode": "ノードを変更",
+		"stopHarvesting": "ハーベスティング停止",
+		"startHarvesting": "ハーベスティング開始",
+		"ACTIVE": "有効",
+		"INACTIVE": "無効",
+		"INPROGRESS_ACTIVATION": "有効化(進行中)",
+		"INPROGRESS_DEACTIVATION": "無効化(進行中)",
+		"harvetingIntroTitle": "ブロック報酬を獲得するためハーベストを開始",
+		"minBalanceRequirement": "ハーベストするためには、このアカウントには少なくとも %{balance} の残高が必要です",
+		"KEYS_LINKED": "リンクされた鍵"
 	},
 	"sidebar": {
 		"seed": "シードアカウント",
 		"pk": "秘密鍵アカウント",
-		"addAccount": "アカウントを追加する",
+		"addAccount": "アカウントを追加",
 		"openAddressBook": "アドレス帳を開く",
-		"rename": "名前を変更する",
+		"rename": "名前変更",
 		"delete": "削除",
 		"hide": "隠す",
-		"remove": "削除する",
+		"remove": "削除",
 		"details": "詳細",
-		"removeAccount": "アカウントを削除",
-		"removeAccountText": "アカウントをローカルストレージから削除してもよろしいですか",
-		"hideAccountTitle": "アカウントを非表示",
-		"removeAccountTitle": "アカウントを削除",
-		"hideAccountDescription": "このアカウントを非表示にしますか？これはニーモニックシードアカウントであり、 \"Add account\" ボタンを使用していつでも元に戻すことができます。資金が失われることはありません。",
-		"removeAccountDescription": "このアカウントをウォレットから削除してもよろしいですか？これはニーモニックシードアカウントではありません。このアカウントの秘密鍵を持っていることを確認してください。持っていない場合、アクセスと資金を失う可能性があります"
+		"removeAccount": "アカウント削除",
+		"removeAccountText": "このアカウントをローカルストレージから削除してもよろしいですか？",
+		"hideAccountTitle": "アカウントを隠す",
+		"removeAccountTitle": "アカウント削除",
+		"hideAccountDescription": "このアカウントを非表示にしますか？ これはニーモニックシードアカウントであり、[アカウントの追加]ボタンを使用していつでも元に戻すことができます。 資金が失われることはありません。",
+		"removeAccountDescription": "このアカウントをウォレットから削除してもよろしいですか？これはニーモニックシードアカウントではありません。このアカウントの秘密鍵を持っていることを確認してください。そうしないとがアクセス出来なくなり資金を失ってしまいます。"
 	},
 	"createAccount": {
-		"title": "アカウントを追加する",
+		"title": "アカウント追加",
 		"name": "アカウント名",
-		"type": "タイプ",
-		"seed": "シードインデックス（自動増加の場合は空白）",
-		"fromSeed": "ニーモニックからシードアカウントを追加する",
-		"createSeed": "アカウントを追加する",
-		"fromPk": "秘密鍵でアカウントをインポートする",
-		"createPk": "インポート",
-		"errorAccountNameExist": "そのような名前のアカウントはすでに存在します",
+		"type": "アカウントタイプ",
+		"seed": "シードインデックス(自動追加の際は空白)",
+		"fromSeed": "ニーモニックからアカウント追加",
+		"createSeed": "アカウント追加",
+		"fromPk": "秘密鍵からアカウントをインポート",
+		"createPk": "インポートする",
+		"errorAccountNameExist": "その名前のアカウントは既に存在します",
 		"errorPrivateKeyExist": "このアカウントはすでにウォレットにあります",
-		"errorInvalidPrivateKey": "無効な秘密鍵"
+		"errorInvalidPrivateKey": "無効な秘密鍵です"
 	},
 	"settings": {
-		"logoutConfirmTitle": "本気ですか",
+		"logoutConfirmTitle": "よろしいですか？",
 		"logoutConfirmDesc": "ログアウトすると、デバイス上のデータが削除されます。続行する前にバックアップが必要です",
 		"logoutConfirm2Title": "警告",
-		"logoutConfirm2Desc": "バックアップがない限り、ウォレットに再度アクセスすることはできません。続行してもよろしいですか？"
+		"logoutConfirm2Desc": "バックアップがないとウォレットに二度とアクセスすることはできなくなるかもしれません。ほんとうに、続行してもよろしいですか？"
 	},
 	"qr": {
-		"scannerTitle": "シンボルQRスキャナー",
+		"scannerTitle": "QRスキャン",
 		"transactionQr": "トランザクションQR",
-		"addressQr": "住所QR",
+		"addressQr": "アドレスQR",
 		"privateKeyQr": "秘密鍵QR"
 	}
 }
