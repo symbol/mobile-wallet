@@ -4,6 +4,7 @@ import { Text, Row, Col, } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import TextLink from '@src/components/atoms/TextLink';
 import Card from '@src/components/atoms/Card';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
 	root: {
@@ -82,7 +83,7 @@ export default class New extends Component<Props> {
 					<Col style={{flex: 1, marginTop: 10}}>
 						<TouchableOpacity onPress={() => this.onPress()}>
 							<Text theme="light" align="right" style={styles.link}>
-								Read more
+								{translate('news.readMore')}
 							</Text>
 						</TouchableOpacity>
 					</Col>

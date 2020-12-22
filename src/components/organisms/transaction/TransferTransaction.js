@@ -46,8 +46,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
     };
 
     title = () => {
-        const title = translate('transactionTypes.' + this.props.transaction.type);
-        return title + (this.isIncoming() ? ' from' : ' to');
+        return translate('transactionTypes.' + this.props.transaction.type + (this.isIncoming() ? 'From' : 'To'));
     };
 
     renderAddress = () => {

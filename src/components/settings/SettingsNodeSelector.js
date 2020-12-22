@@ -144,7 +144,7 @@ class SettingsNodeSelector extends Component {
 					isModalOpen={isModalOpen}
 					onClose={() => this.closeModal()}
 					showTopbar={true}
-                    title={'Select a node'}
+                    title={translate('Settings.node.pageTitle')}
                     showClose={true}
 				>
 					<Section type="form">

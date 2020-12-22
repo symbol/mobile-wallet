@@ -28,12 +28,6 @@ type Props = {};
 
 type State = {};
 
-const allFilters = [
-    { value: 'ALL', label: 'All' },
-    { value: 'SENT', label: 'Sent' },
-    { value: 'RECEIVED', label: 'Received' },
-];
-
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
@@ -84,6 +78,12 @@ class History extends Component<Props, State> {
     render() {
         const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter, isNextLoading } = this.props;
         const { showingDetails } = this.state;
+
+        const allFilters = [
+            { value: 'ALL', label: translate('all') },
+            { value: 'SENT', label: translate('history.sent') },
+            { value: 'RECEIVED', label: translate('history.received') },
+        ];
 
         return (
 			<GradientBackground

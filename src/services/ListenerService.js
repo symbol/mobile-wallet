@@ -5,6 +5,7 @@ import AccountService from '@src/services/AccountService';
 import { showMessage } from 'react-native-flash-message';
 import { Router } from '@src/Router';
 import store from '@src/store';
+import translate from "@src/locales/i18n";
 
 export default class ListenerService {
     network: NetworkModel;
@@ -35,7 +36,7 @@ export default class ListenerService {
                 .confirmed(address)
                 //.pipe(filter(transaction => transaction.transactionInfo !== undefined))
                 .subscribe(() => {
-                    this.showMessage('New confirmed transaction!', 'success');
+                    this.showMessage(translate('notification.newConfirmed'), 'success');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
 
@@ -43,7 +44,7 @@ export default class ListenerService {
                 .unconfirmedAdded(address)
                 //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
                 .subscribe(() => {
-                    this.showMessage('New unconfirmed transaction!', 'warning');
+                    this.showMessage(translate('notification.newUnconfirmed'), 'warning');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
 
@@ -51,7 +52,7 @@ export default class ListenerService {
                 .aggregateBondedAdded(address)
                 //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
                 .subscribe(() => {
-                    this.showMessage('New aggregate transaction!', 'success');
+                    this.showMessage(translate('notification.newAggregate'), 'success');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
 

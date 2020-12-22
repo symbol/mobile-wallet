@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {Image, StyleSheet} from 'react-native';
-import { 
-	Section, 
-	GradientBackground, 
-	TitleBar, 
-	Input,  
+import {
+	Section,
+	GradientBackground,
+	TitleBar,
+	Input,
 	CopyView,
 	Button,
 	QRImage
 } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -38,7 +39,7 @@ class Receive extends Component<Props, State> {
 		isQrVisible: true,
 		isLoading: false
 	};
-	
+
 	qrImageRef = {};
 
     componentDidMount() {
@@ -61,25 +62,25 @@ class Receive extends Component<Props, State> {
 		if(typeof this.qrImageRef.updateQR === 'function') {
 			this.setState({ isQrVisible: true, isLoading: true });
 			this.qrImageRef.updateQR();
-		}	
+		}
     };
 
     render = () => {
 		const { recipientAddress, amount, message, isQrVisible, isLoading } = this.state;
-		
+
 		const onQrReady = () => {
 			this.setState({ isQrVisible: true, isLoading: false });
 		};
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
-                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Receive" />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('plugin.receive')} />
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
 						<Section type="center">
 							<QRImage
-								childRef={r => this.qrImageRef = r} 
-								type="transaction" 
+								childRef={r => this.qrImageRef = r}
+								type="transaction"
 								recipientAddress={recipientAddress}
 								amount={amount}
 								message={message}
@@ -89,16 +90,16 @@ class Receive extends Component<Props, State> {
 						</Section>
 					</Section>
                     <Section type="form-item">
-						<CopyView theme="light" placeholder="Address" fullWidth>{recipientAddress}</CopyView>
+						<CopyView theme="light" placeholder={translate('table.address')} fullWidth>{recipientAddress}</CopyView>
                     </Section>
                     <Section type="form-item">
-                        <Input value={amount} placeholder="Amount" theme="light" onChangeText={this.handleAmountChange} />
+                        <Input value={amount} placeholder={translate('plugin.amount')} theme="light" onChangeText={this.handleAmountChange} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={this.handleMessageChange} />
+                        <Input value={message} placeholder={translate('plugin.messageText')} theme="light" onChangeText={this.handleMessageChange} />
                     </Section>
 					<Section type="form-item">
-                        <Button text="Create QR" isLoading={isLoading} theme="light" onPress={() => this.updateImgQR()} />
+                        <Button text={translate('CreateWallet.SetPassword.submitButton')} isLoading={isLoading} theme="light" onPress={() => this.updateImgQR()} />
                     </Section>
                 </Section>
             </GradientBackground>

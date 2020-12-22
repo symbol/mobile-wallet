@@ -4,6 +4,7 @@ import { Row, Text, CopyView, FadeView } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { Router } from '@src/Router';
 import { showPasscode } from '@src/utils/passcode';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     showButton: {
@@ -41,7 +42,7 @@ export default class SecretView extends Component<Props, State> {
     state = {
         isSecretShown: false,
         counter: 10,
-        title: 'Show',
+        title: translate('table.show'),
     };
 
     onShowClick = () => {
