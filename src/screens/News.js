@@ -5,6 +5,7 @@ import New from '@src/components/organisms/New';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import store from '@src/store';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     list: {
@@ -52,7 +53,7 @@ class News extends Component<Props, State> {
 				dataManager={dataManager}
 				titleBar={<TitleBar
 					theme="light"
-					title="News"
+					title={translate('news.title')}
 					onOpenMenu={() => onOpenMenu()}
 					onSettings={() => onOpenSettings()}
 				/>}

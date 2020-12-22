@@ -11,6 +11,7 @@ import { AddressBook } from 'symbol-address-book';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -214,7 +215,7 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <InputAddress
                             value={recipientAddress}
-                            placeholder="Recipient Address"
+                            placeholder={translate('table.recipientAddress')}
                             theme="light"
                             fullWidth
                             onChangeText={val => this.onAddressChange(val)}
@@ -224,7 +225,7 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <MosaicDropdown
                             value={mosaicName}
-                            title="Mosaic"
+                            title={translate('table.mosaic')}
                             theme="light"
                             editable={true}
                             isLoading={isOwnedMosaicsLoading}
@@ -236,29 +237,29 @@ class Send extends Component<Props, State> {
                         <Input
                             value={amount}
                             keyboardType="decimal-pad"
-                            placeholder="Amount"
+                            placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
                         />
                         {amount.length > 0 && showAmountError && <Text theme="light" style={styles.warning}>Not enough funds</Text>}
                     </Section>
                     <Section type="form-item">
-                        <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.onMessageChange(message)} />
+                        <Input value={message} placeholder={translate('table.messageText')} theme="light" onChangeText={message => this.onMessageChange(message)} />
                     </Section>
                     <Section type="form-item">
                         <Checkbox
                             disabled={message.length === 0}
                             value={isEncrypted}
-                            title="Encrypted message"
+                            title={translate('table.encrypted')}
                             theme="light"
                             onChange={isEncrypted => this.setState({ isEncrypted })}
                         />
                     </Section>
                     <Section type="form-item">
-                        <Dropdown value={fee} title="Fee" theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
+                        <Dropdown value={fee} title={translate('table.fee')} theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
                     </Section>
                     <Section type="form-bottom">
-                        <Button isLoading={false} isDisabled={!validForm} text="Send" theme="light" onPress={() => this.submit()} />
+                        <Button isLoading={false} isDisabled={!validForm} text={translate('plugin.send')} theme="light" onPress={() => this.submit()} />
                     </Section>
                 </Section>
             </GradientBackground>

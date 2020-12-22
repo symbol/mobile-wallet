@@ -426,11 +426,15 @@
 		"phone": "Phone",
 		"email": "Email",
 		"label": "Label",
-		"notes": "Notes"
+		"notes": "Notes",
+		"show": "Show",
+		"name": "Name"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
 		"transfer": "Transfer",
+		"transferFrom": "Transfer from",
+		"transferTo": "Transfer to",
 		"fundsLock": "Funds Lock",
 		"aggregate": "Aggregate",
 		"namespace": "Namespace registration",
@@ -464,7 +468,8 @@
 		"title": "Mosaics"
 	},
 	"news": {
-		"title": "News"
+		"title": "News",
+		"readMore": "Read more"
 	},
 	"all": "All",
 	"history": {
@@ -543,5 +548,17 @@
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
 		"privateKeyQr": "Private Key QR"
+	},
+	"notification": {
+		"newUnconfirmed": "New unconfirmed transaction!",
+		"newConfirmed": "New confirmed transaction!",
+		"newAggregate": "New aggregate transaction!"
+	},
+	"addressBook": {
+		"title": "Address book",
+		"addContact": "Add contact",
+		"updateContact": "Update contact",
+		"nameWarning": "Name is required",
+		"addressWarning": "Invalid address"
 	}
 }

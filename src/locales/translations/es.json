@@ -371,11 +371,11 @@
 		"NamespaceUnavailable": "No disponible"
 	},
 	"menu": {
-		"news": "Notícias",
+		"news": "Noticias",
 		"mosaics": "Mosaics",
-		"home": "Home",
+		"home": "Inicio",
 		"history": "Historial",
-		"harvest": "Cosechar"
+		"harvest": "Cosecha"
 	},
 	"plugin": {
 		"send": "Enviar",
@@ -385,8 +385,8 @@
 	},
 	"Harvest": {
 		"StartHarvesting": {
-			"submitButton": "Empezar",
-			"title": "Cosecha delegada",
+			"submitButton": "Iniciar",
+			"title": "Cosecha Delegada"
 		},
 		"CreateRemoteAccount": {
 			"submitButton": "Crear",
@@ -395,32 +395,32 @@
 	},
 	"table": {
 		"type": "Tipo",
-		"recipientAddress": "Dirección del destinatario",
+		"recipientAddress": "Dirección de recepción",
 		"messageText": "Mensaje / Memo",
-		"messageEncrypted": "Cifrar mensaje",
-		"fee": "Comisión",
-		"accountName": "Nombre de la cuenta",
+		"messageEncrypted": "Encriptado de Mensaje",
+		"fee": "Cuota",
+		"accountName": "Nombre de cuenta",
 		"address": "Dirección",
-		"publicKey": "Clave pública",
-		"privateKey": "Clave privada",
+		"publicKey": "Llave pública",
+		"privateKey": "Llave privada",
 		"balance": "Balance",
-		"mosaics": "Mosaicos",
-		"mosaic": "Mosaico",
-		"amount": "Cantidad",
-		"encrypted": "Cifrado",
-		"unencrypted": "Sin cifrar",
-		"status": "Estado",
+		"mosaics": "Mosaics",
+		"mosaic": "Mosaic",
+		"amount": "Monto",
+		"encrypted": "Encriptado",
+		"unencrypted": "Desencriptado",
+		"status": "Estatus",
 		"innerTxs": "Transacciones internas",
-		"signerAddress": "Dirección del firmante",
+		"signerAddress": "Dirección signataria",
 		"deadline": "Fecha límite",
 		"hash": "Hash",
 		"transferType": "Tipo de transferencia",
-		"hasCustomMosaic": "Número de mosaicos transferidos",
-		"undefined": "n/a",
-		"null": "n/a",
-		"namespaceName": "Namespace nombre",
-		"mosaicId": "Mosaico ID",
-		"namespaceId": "Namespace ID",
+		"hasCustomMosaic": "Número de Mosaics transferidos",
+		"undefined": "n/d",
+		"null": "n/d",
+		"namespaceName": "Nombre del Namespace",
+		"mosaicId": "ID del Mosaic",
+		"namespaceId": "ID del Namespace",
 		"namespace": "Namespace",
 		"phone": "Teléfono",
 		"email": "Email",
@@ -428,12 +428,12 @@
 		"notes": "Notas"
 	},
 	"transactionTypes": {
-		"unknown": "Tipo no admitido todavía",
+		"unknown": "Tipo no admitido aún",
 		"transfer": "Transferencia",
 		"fundsLock": "Bloqueo de fondos",
 		"aggregate": "Agregada",
-		"namespace": "Registro de namespace",
-		"mosaicAlias": "Alias de mosaico"
+		"namespace": "Registro de Namespace",
+		"mosaicAlias": "Alias de mosaic "
 	},
 	"date": {
 		"monday": "Lunes",
@@ -445,103 +445,102 @@
 		"sunday": "Domingo"
 	},
 	"link": {
-		"faucet": "Reclamar mosaicos de prueba en el Faucet",
-		"blockExplorer": "Abrir Block Explorer",
-		"blockExplorerBlock": "Mostrar bloque en el Block Explorer",
-		"blockExplorerAccount": "Mostrar cuenta en el Block Explorer",
-		"blockExplorerTransaction": "Mostrar en el Block Explorer",
-		"blockExplorerMosaic": "Mostrar mosaico en el Block Explorer",
-		"blockExplorerNamespace": "Mostrar namespace en el Block Explorer"
+		"faucet": "Reclamar mosaics de prueba en el faucet",
+		"blockExplorer": "Abrir el Explorador de bloques",
+		"blockExplorerBlock": "Mostrar bloque en el Explorador de bloques",
+		"blockExplorerAccount": "Mostrar cuenta en el Explorador de bloques",
+		"blockExplorerTransaction": "Mostrar en el Explorador de bloques",
+		"blockExplorerMosaic": "Mostrar mosaic en el Explorador de bloques",
+		"blockExplorerNamespace": "Mostrar namespace en el Explorador de bloques"
 	},
 	"home": {
 		"optInTitle": "Opt-in",
-		"optInDescription": "Opt-in posterior al lanzamiento próximamente...",
+		"optInDescription": " Opt-in después del lanzamiento muy pronto...",
 		"pendingSignatureTitle": "Firma pendiente",
-		"pendingSignatureDescription": "Hay una transacción pendiente de firma"
+		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
 	},
 	"mosaics": {
-		"title": "Mosaicos"
+		"title": "Mosaics"
 	},
 	"news": {
-		"title": "Notícias"
+		"title": "Noticias"
 	},
-	"all": "Todo",
+	"all": "Todas",
 	"history": {
 		"title": "Historial",
-		"accountFilter": "Cuenta seleccionada",
+		"accountFilter": "Seleccionar cuenta",
 		"mainAccount": "Cuenta principal",
 		"filter": "Filtro",
-		"all": "Todo",
-		"sent": "Enviadas",
-		"received": "Recibidas",
+		"all": "Todas",
+		"sent": "Enviado",
+		"received": "Recibido",
 		"transaction": {
 			"message": "Mensaje",
-			"encrypted": "Cifrado",
-			"decrypt": "Descifrar",
+			"encrypted": "Encriptado",
+			"decrypt": "Desencriptado",
 			"hash": "Hash",
-			"amountLocked": "Bloqueo de fondos",
-			"sign": "Firma",
-			"waitingSignature": "Esperando su firma"
+			"amountLocked": "Monto bloqueado",
+			"sign": "Sign",
+			"waitingSignature": "Esperando por firma"
 		}
 	},
 	"harvest": {
 		"title": "Cosecha",
-		"status": "Estado",
+		"status": "Estatus",
 		"blocksHarvested": "Bloques cosechados",
-		"feesEarned": "Comisiones ganadas",
+		"feesEarned": "Tarifas ganadas",
 		"selectNode": "Seleccionar nodo",
 		"changeNode": "Cambiar nodo",
-		"stopHarvesting": "Parar de cosechar",
+		"stopHarvesting": "Dejar de cosechar",
 		"startHarvesting": "Empezar a cosechar",
 		"ACTIVE": "Activo",
 		"INACTIVE": "Inactivo",
-		"INPROGRESS_ACTIVATION": "Activación en progresso",
-		"INPROGRESS_DEACTIVATION": "Desactivación en progresso",
-		"harvetingIntroTitle": "Empieza a cosechar para ganar recompensas de bloque",
-		"minBalanceRequirement": "Para cosechar, la cuenta necesita un saldo con derechos adquiridos de al menos %{balance}",
-		"KEYS_LINKED": "Claves vinculadas"
+		"INPROGRESS_ACTIVATION": "Activación en curso",
+		"INPROGRESS_DEACTIVATION": "Desactivación en curso",
+		"harvetingIntroTitle": "Comienza a cosechar para ganar recompensas en bloque",
+		"minBalanceRequirement": "Para cosechar, la cuenta necesita un saldo de por lo menos %{balance}",
+		"KEYS_LINKED": "Llaves enlazadas"
 	},
 	"sidebar": {
-		"seed": "Cuenta semilla",
-		"pk": "Cuenta de clave privada",
+		"seed": "Cuenta semillero",
+		"pk": "Cuenta de llave privada",
 		"addAccount": "Añadir cuenta",
-		"openAddressBook": "Abrir libreta de direcciones",
-		"rename": "Cambiar nombre",
-		"delete": "Eliminar",
+		"openAddressBook": "Abrir libro de direcciones",
+		"rename": "Renombrar",
+		"delete": "Borrar",
 		"hide": "Ocultar",
-		"remove": "Eliminar",
+		"remove": "Remover",
 		"details": "Detalles",
-		"removeAccount": "Eliminar cuenta",
-		"removeAccountText": "¿Está seguro de que desea eliminar la cuenta del almacenamiento local",
+		"removeAccount": "Remover cuenta",
+		"removeAccountText": "¿Estás seguro de querer eliminar la cuenta del almacenamiento local?",
 		"hideAccountTitle": "Ocultar cuenta",
 		"removeAccountTitle": "Eliminar cuenta",
-		"hideAccountDescription": "¿Está seguro de que desea ocultar esta cuenta? Es una cuenta semilla mnemotécnica y puede restaurarla en cualquier momento usando el botón \"Add account\". No se perderán fondos.",
-		"removeAccountDescription": "¿Está seguro de que desea eliminar esta cuenta de la billetera? Esta no es una cuenta semilla mnemotécnica. Asegúrese de tener la clave privada de esta cuenta, de lo contrario podría perder el acceso y los fondos"
-
+		"hideAccountDescription": "¿Estás seguro de querer ocultar esta cuenta? Es una cuenta semillero mnemotécnica y se puede restaurar en cualquier momento utilizando el botón \"Agregar cuenta\". No se perderán fondos.",
+		"removeAccountDescription": "¿Estás seguro de querer eliminar esta cuenta de la cartera? No es una cuenta semillero mnemotécnica. Asegúrate de tener la clave privada de esta cuenta, de lo contrario puedes perder el acceso y los fondos"
 	},
 	"createAccount": {
 		"title": "Añadir cuenta",
-		"name": "Nombre de l cuenta",
+		"name": "Nombre de la cuenta",
 		"type": "Tipo de cuenta",
-		"seed": "Índice de la semilla (en blanco para aumento automático)",
-		"fromSeed": "Agregar cuenta semilla de mnemónicos",
+		"seed": "Índice semillero (en blanco para incremento automático)",
+		"fromSeed": "Añadir cuenta semillero mnemotécnica",
 		"createSeed": "Añadir cuenta",
-		"fromPk": "Importar cuenta por clave privada",
+		"fromPk": "Importar cuenta por llave privada",
 		"createPk": "Importar",
-		"errorAccountNameExist": "La cuenta con ese nombre ya existe",
-		"errorPrivateKeyExist": "Esta cuenta ya está en la billetera",
-		"errorInvalidPrivateKey": "Clave privada no válida"
+		"errorAccountNameExist": "Ya existe una cuenta con dicho nombre",
+		"errorPrivateKeyExist": "Esta cuenta ya está en la Wallet",
+		"errorInvalidPrivateKey": "Llave privada no válida"
 	},
 	"settings": {
 		"logoutConfirmTitle": "¿Estás seguro?",
-		"logoutConfirmDesc": "Al cerrar la sesión, los datos del dispositivo se eliminarán. Debería tener una copia de seguridad antes de continuar",
+		"logoutConfirmDesc": "Al cerrar la sesión, los datos en el dispositivo se eliminarán. Debes tener una copia de seguridad antes de proceder",
 		"logoutConfirm2Title": "Advertencia",
-		"logoutConfirm2Desc": "No podrá volver a acceder a su billetera a menos que tenga una copia de seguridad. ¿Está seguro de que desea continuar?"
+		"logoutConfirm2Desc": "No podrás acceder de nuevo a tu Wallet a menos que tengas una copia de seguridad. ¿Estás seguro de querer continuar?"
 	},
 	"qr": {
-		"scannerTitle": "Escaner Symbol de QR",
-		"transactionQr": "Transaccción QR",
-		"addressQr": "Dirección QR",
-		"privateKeyQr": "Clave Privada QR"
+		"scannerTitle": "Escáner Symbol de QR ",
+		"transactionQr": "Transacción de QR",
+		"addressQr": "Dirección de QR",
+		"privateKeyQr": "QR de Llave privada"
 	}
 }

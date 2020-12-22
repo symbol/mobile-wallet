@@ -369,5 +369,178 @@
 		"ImportErrorWrongOptedInAccount": "Аккаунт уже включен в процесс Опт-ин, но он связан с другим кошельком Symbol. Войдите в правильный кошелёк Symbol или используйте другой приватный ключ аккаунта XEM",
 		"ErrorCreatingAccount": "Не удалось создать аккаунт",
 		"NamespaceUnavailable": "Недоступно"
+	},
+	"menu": {
+		"news": "Новости",
+		"mosaics": "Мозаики",
+		"home": "Главная",
+		"history": "История",
+		"harvest": "Харвестинг"
+	},
+	"plugin": {
+		"send": "Отправить",
+		"receive": "Получатель",
+		"more": "Больше",
+		"qr": "Сканировать QR код"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Старт",
+			"title": "Делегированный Харвестинг"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Создать",
+			"title": "Создать удаленный аккаунт"
+		}
+	},
+	"table": {
+		"type": "Тип",
+		"recipientAddress": "Адрес получателя",
+		"messageText": "Сообщение / Памятка",
+		"messageEncrypted": "Зашифрованное сообщение",
+		"fee": "Комиссия",
+		"accountName": "Имя аккаунта",
+		"address": "Адрес",
+		"publicKey": "Публичный ключ",
+		"privateKey": "Приватный ключ",
+		"balance": "Баланс",
+		"mosaics": "Мозаики",
+		"mosaic": "Мозаика",
+		"amount": "Количество",
+		"encrypted": "Зашифровать",
+		"unencrypted": "Расшифровать",
+		"status": "Статус",
+		"innerTxs": "Внутренние транзакции",
+		"signerAddress": "Адрес подписывающей стороны",
+		"deadline": "Дедлайн",
+		"hash": "Хеш",
+		"transferType": "Тип передачи",
+		"hasCustomMosaic": "Количество переданных мозаик",
+		"undefined": "n/a",
+		"null": "n/a",
+		"namespaceName": "Имя пространства имен",
+		"mosaicId": "Идентификатор Мозаики",
+		"namespaceId": "Идентификатор Пространств имен",
+		"namespace": "Пространство имен",
+		"phone": "Телефон",
+		"email": "Email",
+		"label": "Лейбл",
+		"notes": "Заметка"
+	},
+	"transactionTypes": {
+		"unknown": "Тип еще не поддерживается",
+		"transfer": "Трансфер",
+		"fundsLock": "Блокировка средств",
+		"aggregate": "Агрегированные",
+		"namespace": "Регистрация пространства имен",
+		"mosaicAlias": "Псевдоним Мозаики"
+	},
+	"date": {
+		"monday": "Понедельник",
+		"tuesday": "Вторник",
+		"wednesday": "Среда",
+		"thursday": "Четверг",
+		"friday": "Пятница",
+		"saturday": "Суббота",
+		"sunday": "Воскресенье"
+	},
+	"link": {
+		"faucet": "Потребовать тестовые мозаики, через кран",
+		"blockExplorer": "Открыть Блокчейн Эксплорер",
+		"blockExplorerBlock": "Показать блоки в Блокчейн Эксплорере",
+		"blockExplorerAccount": "Показать аккаунт в Блокчейн Эксплорерe",
+		"blockExplorerTransaction": "Показать Блокчейн Эксплорер",
+		"blockExplorerMosaic": "Показать мозаики в Блокчейн Эксплорере",
+		"blockExplorerNamespace": "Показать пространство имен в Блокчейн Эксплорере"
+	},
+	"home": {
+		"optInTitle": "Опт-ин",
+		"optInDescription": "Пост лаунч на опти-ин подписку...",
+		"pendingSignatureTitle": "Ожидает подписания",
+		"pendingSignatureDescription": "Имеется транзакция, которая ожидает подписи"
+	},
+	"mosaics": {
+		"title": "Мозаика"
+	},
+	"news": {
+		"title": "Новости"
+	},
+	"all": "All",
+	"history": {
+		"title": "История",
+		"accountFilter": "Выберите аккаунт",
+		"mainAccount": "Основной аккаунт",
+		"filter": "Фильтр",
+		"all": "Все",
+		"sent": "Отправить",
+		"received": "Получено",
+		"transaction": {
+			"message": "Сообщение",
+			"encrypted": "Зашифровать",
+			"decrypt": "Расшифровать",
+			"hash": "Хеш",
+			"amountLocked": "Сумма заблокирована",
+			"sign": "Подписать",
+			"waitingSignature": "Ожидание вашей подписи"
+		}
+	},
+	"harvest": {
+		"title": "Харвестинг",
+		"status": "Статус",
+		"blocksHarvested": "Харвестинг Блоки",
+		"feesEarned": "Заработанные комиссии",
+		"selectNode": "Выбрать ноду",
+		"changeNode": "Изменить ноду",
+		"stopHarvesting": "Приостановить Харвестинг",
+		"startHarvesting": "Начать Харвестинг",
+		"ACTIVE": "Активный",
+		"INACTIVE": "Неактивный",
+		"INPROGRESS_ACTIVATION": "Активация в процессе",
+		"INPROGRESS_DEACTIVATION": "Деактивация в процессе",
+		"harvetingIntroTitle": "Начните производить харвестинг, чтобы заработать награды за блок",
+		"minBalanceRequirement": "Для реализации харвестинга на аккаунте должен быть гарантированный баланс не менее %{баланс}",
+		"KEYS_LINKED": "Связанные Ключи"
+	},
+	"sidebar": {
+		"seed": "Cид-фраза аккаунта",
+		"pk": "Приватный ключ аккаунта",
+		"addAccount": "Добавить аккаунт",
+		"openAddressBook": "Открыть контакты",
+		"rename": "Переименовать",
+		"delete": "Удалить",
+		"hide": "Спрятать",
+		"remove": "Удалить",
+		"details": "Детали",
+		"removeAccount": "Удалить аккаунт",
+		"removeAccountText": "Вы действительно хотите удалить свой аккаунт из локального хранилища?",
+		"hideAccountTitle": "Скрыть аккаунт",
+		"removeAccountTitle": "Удалить аккаунт",
+		"hideAccountDescription": "Вы уверены, что хотите скрыть этот аккаунт? Это мнемоническая сид фраза аккаунта, и вы можете восстановить ее в любое время, используя кнопку \"Добавить аккаунт\". Никакие средства не будут потеряны.",
+		"removeAccountDescription": "Вы уверены, что хотите удалить аккаунт из кошелька? Это не мнемоническая сид фраза аккаунта. Убедитесь, что у вас есть приватный ключ от этого аккаунта, иначе вы можете потерять доступ к своим средствам и кошельку"
+	},
+	"createAccount": {
+		"title": "Добавить аккаунт",
+		"name": "Имя аккаунта",
+		"type": "Тип аккаунта",
+		"seed": "Сид Индекс",
+		"fromSeed": "Добавить сид аккаунт из мнемоники",
+		"createSeed": "Добавить аккаунт",
+		"fromPk": "Импортировать аккаунт с помощью приватного ключа",
+		"createPk": "Импортировать",
+		"errorAccountNameExist": "Аккаунт с таким именем уже существует",
+		"errorPrivateKeyExist": "Этот счет уже в кошельке",
+		"errorInvalidPrivateKey": "Неверный приватный ключ"
+	},
+	"settings": {
+		"logoutConfirmTitle": "Вы уверены?",
+		"logoutConfirmDesc": "При выходе данные на устройстве будут удалены. Прежде чем продолжить, у вас должна быть резервная копия",
+		"logoutConfirm2Title": "Предупреждение",
+		"logoutConfirm2Desc": "Вы не сможете снова получить доступ к своему кошельку, если у вас нет резервной копии. Вы уверены, что хотите продолжить?"
+	},
+	"qr": {
+		"scannerTitle": "QR-сканер Symbol",
+		"transactionQr": "QR Транзакция",
+		"addressQr": "QR Адрес",
+		"privateKeyQr": "Приватный QR ключ"
 	}
 }

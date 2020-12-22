@@ -79,7 +79,7 @@
 			"dashboardButton": "バックアップをスキップ"
 		},
 		"ShowMnemonics": {
-			"title": "ニーモニックによるパスフレーズ",
+			"title": "ニーモニックフレーズ",
 			"description": "24語のパスフレーズ（ニーモニック）をバックアップ用にメモして、安全な場所に保管してください。そうすれば、いつでもウォレットを復元することができます。",
 			"submitButton": "次へ"
 		},
@@ -96,7 +96,7 @@
 			"errorPasswordTooShort": "パスワードには、最低8文字必要です"
 		},
 		"VerifyMnemonics": {
-			"title": "パスフレーズの照合",
+			"title": "ニーモニックフレーズ",
 			"description": "正しい順番で単語を選択して、ニーモニックのパスフレーズが正しいことを確認してください。",
 			"submitButton": {
 				"title": "終了"
@@ -425,11 +425,15 @@
 		"phone": "電話番号",
 		"email": "メールアドレス",
 		"label": "ラベル",
-		"notes": "メモ"
+		"notes": "メモ",
+		"show": "表示する",
+		"name": "名前"
 	},
 	"transactionTypes": {
 		"unknown": "サポートされていないタイプ",
 		"transfer": "送金",
+		"transferFrom": "送信",
+		"transferTo": "受信",
 		"fundsLock": "資金ロック",
 		"aggregate": "アグリゲート",
 		"namespace": "ネームスペースの登録",
@@ -463,7 +467,8 @@
 		"title": "モザイク"
 	},
 	"news": {
-		"title": "ニュース"
+		"title": "ニュース",
+		"readMore": "続きを読む"
 	},
 	"all": "全て",
 	"history": {
@@ -542,5 +547,17 @@
 		"transactionQr": "トランザクションQR",
 		"addressQr": "アドレスQR",
 		"privateKeyQr": "秘密鍵QR"
+	},
+	"notification": {
+		"newUnconfirmed": "新しい未承認トランザクションがあります！",
+		"newConfirmed": "New confirmed transaction!",
+		"newAggregate": "New aggregate transaction!"
+	},
+	"addressBook": {
+		"title": "アドレス帳",
+		"addContact": "連絡先追加",
+		"updateContact": "Update contact",
+		"nameWarning": "名前は必須項目です",
+		"addressWarning": "無効なアドレスです"
 	}
 }

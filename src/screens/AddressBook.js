@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 import Contact from '@src/components/organisms/Contact';
 import store from '@src/store';
+import translate from "@src/locales/i18n";
 
 type Props = {
     componentId: string,
@@ -36,7 +37,7 @@ class AddressBookPage extends Component<Props, State> {
             <GradientBackground
                 name="mesh"
                 theme="light"
-                titleBar={<TitleBar theme="light" title="Address Book" onBack={() => Router.goBack(this.props.componentId)}/>}
+                titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)}/>}
             >
                 <Section type="list" isScrollable>
                     {addressBook.getAllContacts().map(contact => {
@@ -57,7 +58,7 @@ class AddressBookPage extends Component<Props, State> {
                 <Section type="form-bottom">
 					<Section type="list">
 						<Section type="form-item">
-							<Button text="Add Contact" theme="light" onPress={() => this.submit()} />
+							<Button text={translate('addressBook.addContact')} theme="light" onPress={() => this.submit()} />
 						</Section>
 					</Section>
                 </Section>
