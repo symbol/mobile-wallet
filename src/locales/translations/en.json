@@ -428,7 +428,8 @@
 		"label": "Label",
 		"notes": "Notes",
 		"show": "Show",
-		"name": "Name"
+		"name": "Name",
+		"seedIndex": "Account Seed Index"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",

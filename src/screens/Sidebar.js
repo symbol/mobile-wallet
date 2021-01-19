@@ -237,11 +237,10 @@ class Sidebar extends Component<Props, State> {
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
 		);
-
 		const intBalance = (''+(balance)).split('.')[0];
 		const decimalBalance = (''+balance).split('.')[1];
 		const truncatedDecimalBalance = intBalance.length < 9
-			? (intBalance.length > 4
+			? (intBalance.length > 4 && decimalBalance
 				? decimalBalance.slice(0, decimalBalance.length - (intBalance.length - 2)) + '...'
 				: decimalBalance)
 			: '..';
