@@ -38,7 +38,7 @@ class Send extends Component<Props, State> {
     state = {
         recipientAddress: '',
         mosaicName: this.props.network.currencyMosaicId,
-        amount: '0',
+        amount: '',
         message: '',
         isEncrypted: false,
         fee: defaultFeesConfig.normal,
@@ -242,6 +242,7 @@ class Send extends Component<Props, State> {
                         <Input
                             value={amount}
                             keyboardType="decimal-pad"
+                            nativePlaceholder="0"
                             placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
