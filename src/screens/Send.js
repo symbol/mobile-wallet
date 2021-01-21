@@ -204,9 +204,9 @@ class Send extends Component<Props, State> {
             }));
 
         const feeList = [
-            { value: defaultFeesConfig.slow, label: 'Slow' },
-            { value: defaultFeesConfig.normal, label: 'Recommended' },
-            { value: defaultFeesConfig.fast, label: 'Fast' },
+            { value: defaultFeesConfig.slow, label: translate('fees.slow') },
+            { value: defaultFeesConfig.normal, label: translate('fees.recommended') },
+            { value: defaultFeesConfig.fast, label: translate('fees.fast') },
         ];
 
         const validForm = this.isFormValid();

@@ -30,7 +30,7 @@ export default class NetworkService {
             .getTransactionFees()
             .pipe(timeout(REQUEST_TIMEOUT))
             .toPromise();
-        console.log(networkProps.network.epochAdjustment);
+
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
             generationHash: networkProps.network.generationHashSeed,

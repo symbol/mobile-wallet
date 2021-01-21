@@ -100,7 +100,7 @@ class TableView extends Component<Props, State> {
 		let _data = data;
 		if(data === null || typeof data !== 'object')
 			return null;
-		console.log(data);
+
 		if(!Array.isArray(data))
 			_data = Object
 				.keys(data)
