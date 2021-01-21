@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { 
-	Section, 
-	GradientBackground, 
-	TitleBar, 
-	LinkFaucet, 
-	LinkExplorer, 
-	Text, 
+import {
+	Section,
+	GradientBackground,
+	TitleBar,
+	LinkFaucet,
+	LinkExplorer,
+	Text,
 	TableView,
 	QRImage,
 	Row
@@ -39,22 +39,28 @@ class AccountDetails extends Component<Props, State> {
 	};
 
     render = () => {
-        const { 
-			accountName, 
-			address, 
-			publicKey, 
-			privateKey, 
-			balance, 
-			networkType, 
-			componentId, 
-			isPasscodeSelected 
+        const {
+			accountName,
+			address,
+			publicKey,
+			privateKey,
+			balance,
+			networkType,
+			componentId,
+            path,
+			isPasscodeSelected
 		} = this.props;
 		const { contactQR, isLoading } = this.state;
+        const startPath = "m/44'/4343'/";
+        const endPath = "'/0'/0'";
+        const seedIndex = path ? path.replace(startPath, '').replace(endPath, '') : null;
 		const data = {
             accountName,
+            seedIndex,
             address,
             publicKey,
             privateKey,
+            ...(seedIndex ? { seedIndex } : null),
             balance,
         };
         return (
@@ -64,13 +70,13 @@ class AccountDetails extends Component<Props, State> {
 					<Section type="form-item">
 						{/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
 						<Row justify="center">
-							<QRImage 
-								type="address" 
+							<QRImage
+								type="address"
 								accountName={accountName}
 								address={address}
 							/>
-							{/* <QRImage 
-								type="privateKey" 
+							{/* <QRImage
+								type="privateKey"
 								privateKey={privateKey}
 							/> */}
 						</Row>
@@ -96,7 +102,8 @@ export default connect(state => ({
     publicKey: state.wallet.selectedAccount.id,
     privateKey: state.wallet.selectedAccount.privateKey,
     balance: '' + state.account.balance,
+    path: state.wallet.selectedAccount.path,
 	networkType: state.network.selectedNetwork.type,
-	generationHash: state.network.generationHash, 
+	generationHash: state.network.generationHash,
     isPasscodeSelected: state.settings.isPasscodeSelected,
 }))(AccountDetails);

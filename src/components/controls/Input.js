@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Theme = 'light' 
+type Theme = 'light'
 	| 'dark';
 
 interface Props {
@@ -63,10 +63,10 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, ...rest } = this.props;
+		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, nativePlaceholder, ...rest } = this.props;
 		let _inputStyle = {};
 		let placeholderTextColor;
-		let nativePlaceholder;
+		let nativePlaceholderSet;
 		let placeholderStyle;
 		let rootStyle = [styles.root, style];
 
@@ -81,13 +81,13 @@ export default class Input extends Component<Props, State> {
 			placeholderTextColor = GlobalStyles.color.PRIMARY,
 			_inputStyle = styles.inputLight;
 			placeholderStyle = styles.placeholderLight;
-			nativePlaceholder = '';
-		}	
+			nativePlaceholderSet = nativePlaceholder ? nativePlaceholder : '';
+		}
 		else {
 			placeholderTextColor = GlobalStyles.color.PINK
 			_inputStyle = styles.inputDark;
 			placeholderStyle = styles.placeholderDark;
-			nativePlaceholder = placeholder;
+			nativePlaceholderSet = placeholder;
 			rootStyle.push(styles.rootDark);
 		}
 
@@ -98,7 +98,7 @@ export default class Input extends Component<Props, State> {
 					{...rest}
 					value={value}
 					style={[_inputStyle, inputStyle]}
-					placeholder={nativePlaceholder}
+					placeholder={nativePlaceholderSet}
 					placeholderTextColor={placeholderTextColor}
 					autoCapitalize="none"
 					underlineColorAndroid="transparent"

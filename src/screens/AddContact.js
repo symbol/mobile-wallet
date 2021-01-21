@@ -44,13 +44,6 @@ class AddContact extends Component<Props, State> {
         isAddressValid: false,
 	};
 
-	componentDidMount = () => {
-		if(this.props.address)
-			this.onAddressChange(this.props.address);
-		if(this.props.name)
-			this.setState({ name: this.props.name });
-	};
-
     submit = () => {
         const contact = {
             address: this.state.address,
@@ -80,6 +73,7 @@ class AddContact extends Component<Props, State> {
 
     componentDidMount() {
         const { selectedContact } = this.props;
+
         if (selectedContact) {
             this.state.update = true;
             this.state.isAddressValid = true;

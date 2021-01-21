@@ -26,6 +26,11 @@ export default class NetworkService {
             .getChainInfo()
             .pipe(timeout(REQUEST_TIMEOUT))
             .toPromise();
+        const transactionFees = await networkHttp
+            .getTransactionFees()
+            .pipe(timeout(REQUEST_TIMEOUT))
+            .toPromise();
+
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
             generationHash: networkProps.network.generationHashSeed,
@@ -34,6 +39,8 @@ export default class NetworkService {
             chainHeight: chainInfo.height.compact(),
             blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
+            transactionFees: transactionFees,
+            defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
         };
     }
 

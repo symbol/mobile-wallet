@@ -12,6 +12,7 @@ import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from "@src/locales/i18n";
+import {defaultFeesConfig} from "@src/config/fees";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -37,10 +38,10 @@ class Send extends Component<Props, State> {
     state = {
         recipientAddress: '',
         mosaicName: this.props.network.currencyMosaicId,
-        amount: '0',
+        amount: '',
         message: '',
         isEncrypted: false,
-        fee: 0.5,
+        fee: defaultFeesConfig.normal,
         isConfirmShown: false,
         showAddressError: false,
         showAmountError: false,
@@ -103,12 +104,16 @@ class Send extends Component<Props, State> {
         return !(selectedMosaic.mosaicId === network.currencyMosaicId && parsedAmount < sendingAmount + fee);
     };
 
-    submit = () => {
+    submit = async () => {
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
         mosaic.amount = parseFloat(this.state.amount) * Math.pow(10, mosaic.divisibility);
 
-        Store.dispatchAction({
+        this.setState({
+            isLoading: true,
+            isConfirmShown: true,
+        });
+        await Store.dispatchAction({
             type: 'transfer/setTransaction',
             payload: {
                 recipientAddress: this.state.recipientAddress,
@@ -119,7 +124,7 @@ class Send extends Component<Props, State> {
             },
         });
         this.setState({
-            isConfirmShown: true,
+            isLoading: false,
         });
     };
 
@@ -199,9 +204,9 @@ class Send extends Component<Props, State> {
             }));
 
         const feeList = [
-            { value: 0.1, label: '0.1 XEM - slow' },
-            { value: 0.5, label: '0.5 XEM - normal' },
-            { value: 1, label: '1 XEM - fast' },
+            { value: defaultFeesConfig.slow, label: translate('fees.slow') },
+            { value: defaultFeesConfig.normal, label: translate('fees.recommended') },
+            { value: defaultFeesConfig.fast, label: translate('fees.fast') },
         ];
 
         const validForm = this.isFormValid();
@@ -237,6 +242,7 @@ class Send extends Component<Props, State> {
                         <Input
                             value={amount}
                             keyboardType="decimal-pad"
+                            nativePlaceholder="0"
                             placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}

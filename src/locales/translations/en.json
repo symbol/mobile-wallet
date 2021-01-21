@@ -428,7 +428,8 @@
 		"label": "Label",
 		"notes": "Notes",
 		"show": "Show",
-		"name": "Name"
+		"name": "Name",
+		"seedIndex": "Account Seed Index"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -560,5 +561,10 @@
 		"updateContact": "Update contact",
 		"nameWarning": "Name is required",
 		"addressWarning": "Invalid address"
+	},
+	"fees": {
+		"slow": "Slow",
+		"recommended": "Recommended",
+		"fees": "Fast"
 	}
 }
