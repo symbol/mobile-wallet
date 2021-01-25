@@ -10,9 +10,11 @@ import styles from '../ConfirmModal/confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import Button from '@src/components/controls/Button';
-import { Text, Col, Section } from '@src/components';
+import {Text, Col, Section, Checkbox} from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import {testIDs} from "@src/components/molecules/CheckableTextLink";
+import { testIDs } from '@src/components/molecules/CheckableTextLink';
+import CheckBox from "react-native-check-box";
+import translate from "@src/locales/i18n";
 
 type Props = {
     children: Node,
@@ -23,11 +25,12 @@ type Props = {
     showBack: boolean,
     onBack: () => ?any,
     showClose: boolean,
+    confirmDisabled?: boolean,
     onClose: () => ?any,
 };
 
 const ConfirmModal = (props: Props) => {
-    const { children, isModalOpen, handleClose, onSuccess, showTopbar, title, text, showBack, onBack, showClose, onClose, noPadding } = props;
+    const { children, isModalOpen, handleClose, onSuccess, showTopbar, title, text, showBack, onBack, showClose, onClose, noPadding, confirmDisabled } = props;
     const contentStyle = noPadding ? {} : styles.contentBody;
     return (
         <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
@@ -49,24 +52,24 @@ const ConfirmModal = (props: Props) => {
                                 alignLeft
                             />
                         )}
-						<Section type="form" style={{flex: null}}>
-							<Section type="form-item">
-								<Text type="regular" theme="light" align="center" wrap> {text} </Text>
-							</Section>
-							
-							
-								<Section type="form-item">
-									<Button style={styles.button} title="Confirm" theme="light" fullWidth={false} onPress={onSuccess} />
-								</Section>
-								<Section type="button">
-									<TouchableOpacity onPress={onClose}>
-										<Text style={{color: GlobalStyles.color.PRIMARY}} theme="light" type="bold" align="center">Cancel</Text>
-									</TouchableOpacity>
-								</Section>	
-							
-                        <View style={contentStyle}>{children}</View>
-						</Section>
-                        
+                        <Section type="form" style={{ flex: null }}>
+                            <Section type="form-item">
+                                <Text type="regular" theme="light" align="center" wrap>
+                                    {text}
+                                </Text>
+                            </Section>
+                            {children}
+                            <Section type="form-item">
+                                <Button style={styles.button} title="Confirm" theme="light" fullWidth={false} disabled={confirmDisabled} onPress={onSuccess} />
+                            </Section>
+                            <Section type="button">
+                                <TouchableOpacity onPress={onClose}>
+                                    <Text style={{ color: GlobalStyles.color.PRIMARY }} theme="light" type="bold" align="center">
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                            </Section>
+                        </Section>
                     </View>
                 </Card>
             </View>

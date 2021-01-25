@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
         //color: GlobalStyles.color.PRIMARY,
         //fontFamily: 'NotoSans-SemiBold'
     },
+    titleRegular: {
+        color: GlobalStyles.color.SECONDARY,
+        fontFamily: 'NotoSans-Regular',
+        textAlign: 'center',
+        fontSize: 12
+    },
     titleDark: {
         color: GlobalStyles.color.WHITE,
     },
@@ -72,6 +78,7 @@ export default class Dropdown extends Component<Props, State> {
         if (fullWidth) rootStyle.push(styles.fullWidth);
 
         if (theme === 'light') titleStyle = styles.titleLight;
+        else if (theme === 'regular') titleStyle = styles.titleRegular;
         else titleStyle = styles.titleDark;
 
         if (!value) checkboxStyles.push(styles.unchecked);
