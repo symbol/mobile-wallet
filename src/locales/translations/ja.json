@@ -145,7 +145,7 @@
 				"title": "パスコードの入力"
 			},
 			"enterBiometrics": {
-				"title": "パスコードまたはTouch ID（指紋認証）の入力"
+				"title": "パスコードまたはTouch IDの入力"
 			},
 			"promptTitle": "パスコードを有効にします",
 			"promptMessage": "まだパスコードを設定していません。今から作成しますか？",
