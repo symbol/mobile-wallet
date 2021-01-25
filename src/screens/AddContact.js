@@ -94,6 +94,14 @@ class AddContact extends Component<Props, State> {
         this.setState({ address: address, isAddressValid: isAddressValid(address, network) });
     };
 
+    onChangeField = fieldName => newValue => {
+        if (newValue.length < 30) {
+            this.setState({
+                [fieldName]: newValue,
+            });
+        }
+    };
+
     render() {
         let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
 
@@ -103,7 +111,7 @@ class AddContact extends Component<Props, State> {
                 {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('addressBook.updateContact')} />}
                 <Section type="form" isScrollable>
                     <Section type="form-item">
-                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={name => this.setState({ name })} />
+                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={this.onChangeField('name')} />
                         {name.length === 0 && <Text theme="light" style={styles.warning}>{translate('addressBook.nameWarning')}</Text>}
                     </Section>
                     <Section type="form-item">
@@ -118,7 +126,7 @@ class AddContact extends Component<Props, State> {
                         {!isAddressValid && <Text theme="light" style={styles.warning}>{translate('addressBook.addressWarning')}</Text>}
                     </Section>
                     <Section type="form-item">
-                        <Input value={phone} placeholder={translate('table.phone')} theme="light" onChangeText={phone => this.setState({ phone })} />
+                        <Input value={phone} placeholder={translate('table.phone')} theme="light" onChangeText={this.onChangeField('phone')} />
                     </Section>
                     <Section type="form-item">
                         <Input value={email} placeholder={translate('table.email')} theme="light" onChangeText={email => this.setState({ email })} />
