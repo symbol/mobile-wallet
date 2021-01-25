@@ -5,7 +5,7 @@ import AccountService from '@src/services/AccountService';
 import { showMessage } from 'react-native-flash-message';
 import { Router } from '@src/Router';
 import store from '@src/store';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 
 export default class ListenerService {
     network: NetworkModel;
@@ -42,6 +42,11 @@ export default class ListenerService {
                     this.showMessage(translate('notification.newAggregate'), 'success');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
+
+            this.listener.status(address).subscribe(error => {
+                this.showMessage(error.code, 'danger');
+                store.dispatchAction({ type: 'account/loadAllData' });
+            });
 
             this.listener.newBlock().subscribe(block => {
                 store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
