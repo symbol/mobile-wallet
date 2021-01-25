@@ -9,6 +9,7 @@ export default {
         selectedAccountAddress: '',
         loading: true,
         balance: 0,
+        isMultisig: false,
         ownedMosaics: [],
         accounts: [],
         cosignatoryOf: [],
@@ -29,6 +30,10 @@ export default {
         },
         setBalance(state, payload) {
             state.account.balance = payload;
+            return state;
+        },
+        setIsMultisig(state, payload) {
+            state.account.isMultisig = payload;
             return state;
         },
         setOwnedMosaics(state, payload) {
@@ -80,8 +85,9 @@ export default {
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            const cosignatoryOf = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
-            commit({ type: 'account/setCosignatoryOf', payload: cosignatoryOf });
+            const msigInfo = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
+            commit({ type: 'account/setCosignatoryOf', payload: msigInfo.cosignatoryOf });
+            commit({ type: 'account/setIsMultisig', payload: msigInfo.isMultisig });
         },
     },
 };

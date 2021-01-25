@@ -95,14 +95,15 @@ class Home extends Component<Props, State> {
 			onOpenMenu,
 			onOpenSettings,
 			changeTab,
-			isLoading
+			isLoading,
+			isMultisig
 		} = this.props;
         const {} = this.state;
 
         const notifications = [];
 		notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
 		//notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
-        if (pendingSignature) {
+        if (pendingSignature && !isMultisig) {
 			notifications.push({title: translate('home.pendingSignatureTitle'), description: translate('home.pendingSignatureDescription'), handler: () => changeTab('history')});
 		}
 
@@ -113,14 +114,14 @@ class Home extends Component<Props, State> {
 				fade={true}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
-				
+
 					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
 							<AccountBalanceWidget componentId={componentId}/>
 						</Section>
-						
+
 						<PluginList componentId={componentId} theme="light" style={styles.pluginList}/>
-						
+
 						<ListContainer style={styles.notifications} isScrollable={false}>
 							<FlatList
 								// style={{ height: '100%' }}
@@ -140,4 +141,5 @@ export default connect(state => ({
     accountName: state.wallet.selectedAccount.name,
     pendingSignature: state.transaction.pendingSignature,
     address: state.account.selectedAccountAddress,
+	isMultisig: state.account.isMultisig
 }))(Home);
