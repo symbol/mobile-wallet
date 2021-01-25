@@ -23,30 +23,17 @@ export default class ListenerService {
         this.listener = this.repositoryFactory.createListener();
     };
 
-    listen = (account: AccountModel) => {
+    listen = (rawAddress: string) => {
         if (this.listener) {
             this.listener.close();
         }
         this.listener = this.repositoryFactory.createListener();
-        const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, this.network.type);
         const address = Address.createFromRawAddress(rawAddress);
-        this.listener.open().then(() => {
+        return this.listener.open().then(() => {
             console.log('Listening ' + address.pretty());
-            this.listener
-                .confirmed(address)
-                //.pipe(filter(transaction => transaction.transactionInfo !== undefined))
-                .subscribe(() => {
-                    this.showMessage(translate('notification.newConfirmed'), 'success');
-                    store.dispatchAction({ type: 'account/loadAllData' });
-                });
 
-            this.listener
-                .unconfirmedAdded(address)
-                //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
-                .subscribe(() => {
-                    this.showMessage(translate('notification.newUnconfirmed'), 'warning');
-                    store.dispatchAction({ type: 'account/loadAllData' });
-                });
+            this.addConfirmed(rawAddress);
+            this.addUnconfirmed(rawAddress);
 
             this.listener
                 .aggregateBondedAdded(address)
@@ -60,6 +47,30 @@ export default class ListenerService {
                 store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
             });
         });
+    };
+
+    addConfirmed = (rawAddress: string) => {
+        console.log('Adding confirmed listener: ' + rawAddress);
+        const address = Address.createFromRawAddress(rawAddress);
+        this.listener
+            .confirmed(address)
+            //.pipe(filter(transaction => transaction.transactionInfo !== undefined))
+            .subscribe(() => {
+                this.showMessage(translate('notification.newConfirmed'), 'success');
+                store.dispatchAction({ type: 'account/loadAllData' });
+            });
+    };
+
+    addUnconfirmed = (rawAddress: string) => {
+        console.log('Adding unconfirmed listener: ' + rawAddress);
+        const address = Address.createFromRawAddress(rawAddress);
+        this.listener
+            .unconfirmedAdded(address)
+            //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
+            .subscribe(() => {
+                this.showMessage(translate('notification.newUnconfirmed'), 'warning');
+                store.dispatchAction({ type: 'account/loadAllData' });
+            });
     };
 
     showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {

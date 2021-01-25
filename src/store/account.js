@@ -1,5 +1,6 @@
 import AccountService from '@src/services/AccountService';
 import { from } from 'rxjs';
+import {GlobalListener} from "@src/store/index";
 
 export default {
     namespace: 'account',
@@ -86,6 +87,11 @@ export default {
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
             const msigInfo = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
+
+            for (let cosignatoryOf of msigInfo.cosignatoryOf) {
+                GlobalListener.addConfirmed(cosignatoryOf);
+                GlobalListener.addUnconfirmed(cosignatoryOf);
+            }
             commit({ type: 'account/setCosignatoryOf', payload: msigInfo.cosignatoryOf });
             commit({ type: 'account/setIsMultisig', payload: msigInfo.isMultisig });
         },
