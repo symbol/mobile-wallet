@@ -72,6 +72,7 @@ export default {
                 type: 'transfer/setTransaction',
                 payload: {
                     ...transactionModel,
+                    displayFee: ttxWithFee.maxFee.compact() / Math.pow(10, 6),
                     fee: ttxWithFee.maxFee.compact(),
                 },
             });

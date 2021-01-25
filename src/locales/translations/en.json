@@ -399,6 +399,7 @@
 		"messageText": "Message / Memo",
 		"messageEncrypted": "Message encryption",
 		"fee": "Fee",
+		"displayFee": "Fee",
 		"accountName": "Account name",
 		"address": "Address",
 		"publicKey": "Public key",
@@ -566,6 +567,6 @@
 	"fees": {
 		"slow": "Slow",
 		"recommended": "Recommended",
-		"fees": "Fast"
+		"fast": "Fast"
 	}
 }

@@ -202,25 +202,28 @@ export default class TransactionService {
 
     /**
      * Decrypt message
-     * @param recipientAccount
+     * @param current
      * @param network
      * @param transaction
      * @returns {Promise<void>}
      */
-    static decryptMessage = async (recipientAccount: AccountModel, network: NetworkModel, transaction: TransferTransactionModel) => {
+    static decryptMessage = async (current: AccountModel, network: NetworkModel, transaction: TransferTransactionModel) => {
         try {
-            const networkType = NetworkService.getNetworkTypeFromModel(network);
-            const account = Account.createFromPrivateKey(recipientAccount.privateKey, networkType);
-            const signerAddress = Address.createFromRawAddress(transaction.signerAddress);
-            const repositoryFactory = new RepositoryFactoryHttp(network.node);
-            const accountHttp = repositoryFactory.createAccountRepository();
-            const transactionHttp = repositoryFactory.createTransactionRepository();
-            const accountInfo = await accountHttp.getAccountInfo(signerAddress).toPromise();
-            const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
             const transactionHash = transaction.hash;
+            const repositoryFactory = new RepositoryFactoryHttp(network.node);
+            const transactionHttp = repositoryFactory.createTransactionRepository();
             const tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
-            if (tx.message.type === 1) {
-                return account.decryptMessage(tx.message, alicePublicAccount).payload;
+            if (tx instanceof TransferTransaction && tx.message.type === 1) {
+                const networkType = NetworkService.getNetworkTypeFromModel(network);
+                const currentAccount = Account.createFromPrivateKey(current.privateKey, networkType);
+                if (tx.recipientAddress.plain() === currentAccount.address.plain()) {
+                    return EncryptedMessage.decrypt(tx.message, current.privateKey, tx.signer).payload;
+                } else {
+                    const accountHttp = repositoryFactory.createAccountRepository();
+                    const recipientAccountInfo = await accountHttp.getAccountInfo(tx.recipientAddress).toPromise();
+                    const recipientAccount = PublicAccount.createFromPublicKey(recipientAccountInfo.publicKey, networkType);
+                    return EncryptedMessage.decrypt(tx.message, current.privateKey, recipientAccount).payload;
+                }
             } else {
                 return '';
             }
