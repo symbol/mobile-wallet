@@ -89,7 +89,7 @@ class AddContact extends Component<Props, State> {
     };
 
     onChangeField = fieldName => newValue => {
-        if (newValue.length < 30) {
+        if (newValue.length < 28) {
             this.setState({
                 [fieldName]: newValue,
             });
