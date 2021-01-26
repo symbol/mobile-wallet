@@ -506,7 +506,7 @@
 		"INPROGRESS_ACTIVATION": "Activation in progress",
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
 		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
-		"minBalanceRequirement": "To harvest, the account needs a vested balance of at least %{balance}",
+		"minBalanceRequirement": "Insufficient balance, the account needs to hold at least %{balance} XYMs to start delegated harvesting.",
 		"KEYS_LINKED": "Keys linked"
 	},
 	"sidebar": {
