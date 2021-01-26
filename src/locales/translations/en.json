@@ -111,7 +111,7 @@
 		},
 		"ShowQRCode": {
 			"title": "Wallet Backup",
-			"description": "You can later import the wallet again by scanning the QR code or providing the mnemonic in the paper wallet",
+			"description": "The Symbol Paper Wallet contains the information to recover all the accounts under this profile. You must keep this file into a safe and secure place. Anyone that reads the paper wallet file will be able to access to all your funds.",
 			"downloadButton": "Download Paper wallet",
 			"dashboardButton": "Go to Dashboard",
 			"permissionTitle": "Symbol Wallet Permission",

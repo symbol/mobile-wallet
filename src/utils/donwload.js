@@ -56,6 +56,9 @@ const saveFile = (data, filename, platform, encoding) => {
     return RNFetchBlob.fs
         .writeFile(`${platform === 'ios' ? dirs.DocumentDir : dirs.DownloadDir}/${filename}`, data, encoding)
         .then(() => {
+            if (platform === 'ios') {
+                RNFetchBlob.ios.previewDocument(`${dirs.DocumentDir}/${filename}`);
+            }
             Router.showFlashMessageOverlay().then(() => {
                 showMessage({
                     message: `File saved successfully, please check ${platform === 'ios' ? 'Documents' : 'Downloads'} folder`,
