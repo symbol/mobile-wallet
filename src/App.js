@@ -123,9 +123,11 @@ export const setGlobalCustomFont = () => {
 
     Text.defaultProps = Text.defaultProps || {};
     Text.defaultProps.maxFontSizeMultiplier = 1.3;
+    Text.defaultProps.allowFontScaling = false;
 
     TextInput.defaultProps = TextInput.defaultProps || {};
     TextInput.defaultProps.maxFontSizeMultiplier = 1.3;
+    TextInput.defaultProps.allowFontScaling = false;
 };
 
 export const logout = async () => {

@@ -18,6 +18,7 @@ import {createPasscode} from "@src/utils/passcode";
 
 class ShowQRCode extends Component {
     state = {
+        downloaded: false,
         base64QRData: '',
         showWarning: false,
         warningMessage: '',
@@ -40,8 +41,7 @@ class ShowQRCode extends Component {
                 .slice(9);
             downloadFile(paperWallet, `symbol-wallet-${uniqueVal}.pdf`, 'base64')
                 .then(() => {
-                    this.setState({ isLoading: false });
-                    this.handleSubmit();
+                    this.setState({ isLoading: false, downloaded: true });
                 })
                 .catch(() => {
                     this.setState({ isLoading: false });
@@ -78,18 +78,24 @@ class ShowQRCode extends Component {
     };
 
     render() {
-        const { isLoading, showErrorView } = this.state;
+        const { isLoading, showErrorView, downloaded } = this.state;
         const buttons = [
             {
                 title: translate('CreateWallet.ShowQRCode.downloadButton'),
                 style: styles.button,
                 onPress: this.handleDownloadPaperWallet,
-                loading: isLoading,
                 disabled: isLoading,
+                isLoading: isLoading,
+            },
+            {
+                title: translate('CreateWallet.GenerateKey.submitButton'),
+                style: styles.button,
+                onPress: this.handleSubmit,
+                disabled: !downloaded || isLoading,
             },
         ];
         return (
-            <WizardStepView title={translate('CreateWallet.ShowQRCode.title')} buttons={buttons} onBack={() => Router.goBack(this.props.componentId)}>
+            <WizardStepView title={translate('CreateWallet.ShowQRCode.title')} buttons={buttons} separateButtons={true} onBack={() => Router.goBack(this.props.componentId)}>
                 <Text theme="dark" type="regular" align="center">
                     {translate('CreateWallet.ShowQRCode.description')}
                 </Text>

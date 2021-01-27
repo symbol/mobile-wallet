@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 	selectedAccountBoxContent: {},
 	titleBar: {
-		marginTop: StatusBar.currentHeight + (Platform.OS === 'ios' ? 15: 0),
+		marginTop: (StatusBar.currentHeight || 0) + (Platform.OS === 'ios' ? 20: 0),
 	},
     selectedAccountName: {},
     selectedAccountAddress: {
@@ -249,7 +249,6 @@ class Sidebar extends Component<Props, State> {
 		const startPath = "m/44'/4343'/";
 		const endPath = "'/0'/0'";
 		const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
-
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                 {/* <Text type="bold" style={styles.selectedIndex}>
