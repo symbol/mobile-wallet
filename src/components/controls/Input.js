@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		//borderWidth: 1,
 		borderRadius: 5,
+		height: 46,
 		borderColor: GlobalStyles.color.WHITE,
 		color: GlobalStyles.color.GREY1,
 		backgroundColor: GlobalStyles.color.WHITE,
