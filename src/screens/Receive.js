@@ -93,10 +93,10 @@ class Receive extends Component<Props, State> {
 						<CopyView theme="light" placeholder={translate('table.address')} fullWidth>{recipientAddress}</CopyView>
                     </Section>
                     <Section type="form-item">
-                        <Input value={amount} placeholder={translate('plugin.amount')} theme="light" onChangeText={this.handleAmountChange} />
+                        <Input value={amount} placeholder={translate('table.amount')} theme="light" onChangeText={this.handleAmountChange} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={message} placeholder={translate('plugin.messageText')} theme="light" onChangeText={this.handleMessageChange} />
+                        <Input value={message} placeholder={translate('table.messageText')} theme="light" onChangeText={this.handleMessageChange} />
                     </Section>
 					<Section type="form-item">
                         <Button text={translate('CreateWallet.SetPassword.submitButton')} isLoading={isLoading} theme="light" onPress={() => this.updateImgQR()} />

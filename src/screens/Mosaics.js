@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, } from 'react-native';
-import { Section, ImageBackground, GradientBackground, TitleBar, MosaicDisplay } from '@src/components';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { GradientBackground, TitleBar, MosaicDisplay, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
+import store from '@src/store';
 
 const styles = StyleSheet.create({
-	list: {
+    list: {
         marginBottom: 10,
-    }
+    },
 });
 
 type Props = {
@@ -19,32 +20,50 @@ type State = {};
 class Mosaics extends Component<Props, State> {
     state = {};
 
+    renderMosaicItem = ({ item, index }) => {
+        const { nativeMosaicNamespaceName } = this.props;
+        return (
+            <ListItem>
+                <MosaicDisplay mosaic={item} isNative={item.mosaicName === nativeMosaicNamespaceName} key={'' + index + 'mosaics'} />
+            </ListItem>
+        );
+    };
+
+    refresh = () => {
+        store.dispatchAction({ type: 'account/loadBalance' });
+    };
+
     render() {
-        const { ownedMosaics, nativeMosaicNamespaceName, onOpenMenu, onOpenSettings  } = this.props;
+        const { ownedMosaics, nativeMosaicNamespaceName, onOpenMenu, onOpenSettings, isLoading } = this.props;
+        const dataManager = { isLoading };
         const {} = this.state;
 
         return (
-            //<ImageBackground name="blue" fade={true}>
-			<GradientBackground name="connector_small" theme="light">
-                <TitleBar
-					theme="light"
-					title={translate('mosaics.title')}
-					onOpenMenu={() => onOpenMenu()}
-					onSettings={() => onOpenSettings()}
-				/>
-                <Section type="list" style={styles.list} isScrollable>
-                    {ownedMosaics &&
-                        ownedMosaics.map((mosaic, index) => {
-                            return <MosaicDisplay mosaic={mosaic} isNative={mosaic.mosaicName === nativeMosaicNamespaceName} key={'' + index + 'mosaics'} />;
-                        })}
-                </Section>
-			</GradientBackground>
-			//</ImageBackground>
+            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+                <TitleBar theme="light" title={translate('mosaics.title')} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+                <ListContainer type="list" style={styles.list} isScrollable={true}>
+                    <FlatList
+                        data={ownedMosaics}
+                        renderItem={this.renderMosaicItem}
+                        onEndReachedThreshold={0.9}
+                        keyExtractor={(item, index) => '' + index + 'mosaics'}
+                        refreshControl={
+                            <RefreshControl
+                                //refresh control used for the Pull to Refresh
+                                refreshing={isLoading}
+                                onRefresh={() => this.refresh()}
+                            />
+                        }
+                    />
+                </ListContainer>
+            </GradientBackground>
+            //</ImageBackground>
         );
     }
 }
 
 export default connect(state => ({
-	ownedMosaics: state.account.ownedMosaics,
-	nativeMosaicNamespaceName: 'symbol.xym' //TODO: remove hardcode
+    ownedMosaics: state.account.ownedMosaics,
+    isLoading: state.account.loading,
+    nativeMosaicNamespaceName: 'symbol.xym', //TODO: remove hardcode
 }))(Mosaics);
