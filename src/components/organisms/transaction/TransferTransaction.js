@@ -114,7 +114,8 @@ class TransferTransaction extends BaseTransactionItem<Props> {
 
     canBeDecrypted = () => {
         const { transaction, selectedAccountAddress } = this.props;
-        return transaction.recipientAddress === selectedAccountAddress;
+        //TODO: Check msig
+        return true || transaction.recipientAddress === selectedAccountAddress;
     };
 
     renderDetails = () => {

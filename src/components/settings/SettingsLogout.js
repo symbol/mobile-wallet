@@ -7,11 +7,13 @@ import { Router } from '@src/Router';
 import { logout } from '@src/App';
 import { showPasscode } from '@src/utils/passcode';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
+import {Checkbox, Section} from "@src/components";
 
 export default class SettingsLogout extends Component {
     state = {
         isConfirmModalOpen: false,
         isConfirm2ModalOpen: false,
+        isBackUpConfirmed: false,
     };
 
     doLogout = () => {
@@ -26,13 +28,13 @@ export default class SettingsLogout extends Component {
 
     onPress = () => {
         const callback = () => {
-            this.setState({ isConfirmModalOpen: true });
+            this.setState({ isConfirmModalOpen: true, isBackUpConfirmed: false });
         };
         showPasscode(this.props.componentId, callback);
     };
 
     render() {
-        const { isConfirmModalOpen, isConfirm2ModalOpen } = this.state;
+        const { isConfirmModalOpen, isConfirm2ModalOpen, isBackUpConfirmed } = this.state;
         return (
             <View>
                 <SettingsListItem
@@ -46,10 +48,20 @@ export default class SettingsLogout extends Component {
                     showTopbar={true}
                     title={translate('settings.logoutConfirmTitle')}
                     text={translate('settings.logoutConfirmDesc')}
+                    confirmDisabled={!isBackUpConfirmed}
                     showClose={false}
                     onClose={() => this.setState({ isConfirmModalOpen: false })}
                     onSuccess={() => this.show2confirmation()}
-                />
+                >
+                    <Section type="form-item" style={{ width: '85%' }}>
+                        <Checkbox
+                            value={isBackUpConfirmed}
+                            title={translate('settings.logoutConfirmCheck')}
+                            theme="regular"
+                            onChange={isBackUpConfirmed => this.setState({ isBackUpConfirmed })}
+                        />
+                    </Section>
+                </ConfirmModal>
                 <ConfirmModal
                     isModalOpen={isConfirm2ModalOpen}
                     showTopbar={true}

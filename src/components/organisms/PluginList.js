@@ -73,13 +73,14 @@ class PluginList extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, isNodeUp, theme } = this.props;
+        const { style = {}, isNodeUp, theme, isMultisig } = this.props;
         const {} = this.state;
         const pluginList = [
             {
                 text: 'plugin.send',
                 name: 'SEND_SCREEN',
                 iconName: 'send',
+                disabled: isMultisig,
             },
             {
                 text: 'plugin.receive',
@@ -103,7 +104,7 @@ class PluginList extends Component<Props, State> {
                 <Row justify="center" align="center" wrap>
                     {pluginList.map((item, index) => (
                         <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
-                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
+                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp || item.disabled }>
                                 {/* <Col align="center" justify="center" > */}
                                 <LinearGradient
                                     style={styles.gradient}
@@ -129,4 +130,5 @@ class PluginList extends Component<Props, State> {
 
 export default connect(state => ({
     isNodeUp: state.network.isUp,
+    isMultisig: state.account.isMultisig,
 }))(PluginList);

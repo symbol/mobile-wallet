@@ -59,8 +59,9 @@ export default {
                 accountModel = (await AccountSecureStorage.getAllAccounts())[0];
             }
             await commit({ type: 'wallet/setSelectedAccount', payload: accountModel });
+            const rawAddress = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
+            await GlobalListener.listen(rawAddress);
             await dispatchAction({ type: 'account/loadAllData', payload: true });
-            GlobalListener.listen(accountModel);
         },
         createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();

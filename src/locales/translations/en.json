@@ -203,7 +203,7 @@
 		"backup": "Backup",
 		"giveFeedback": "Give Feedback",
 		"aboutNem": "About Symbol",
-		"logout": "Logout"
+		"logout": "Delete all accounts"
 	},
 	"AccountDetails": {
 		"title": "Account Details",
@@ -399,6 +399,7 @@
 		"messageText": "Message / Memo",
 		"messageEncrypted": "Message encryption",
 		"fee": "Fee",
+		"displayFee": "Fee",
 		"accountName": "Account name",
 		"address": "Address",
 		"publicKey": "Public key",
@@ -505,7 +506,7 @@
 		"INPROGRESS_ACTIVATION": "Activation in progress",
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
 		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
-		"minBalanceRequirement": "To harvest, the account needs a vested balance of at least %{balance}",
+		"minBalanceRequirement": "Insufficient balance, the account needs to hold at least %{balance} to start delegated harvesting.",
 		"KEYS_LINKED": "Keys linked"
 	},
 	"sidebar": {
@@ -541,6 +542,7 @@
 	"settings": {
 		"logoutConfirmTitle": "Are you sure",
 		"logoutConfirmDesc": "By logging out the data on the device will be removed. You should have a back up before proceeding",
+		"logoutConfirmCheck": "I have backed up all the accounts under this profile",
 		"logoutConfirm2Title": "Warning",
 		"logoutConfirm2Desc": "You won't be able to access again to your wallet unless you have a back up. Are you sure do you want to continue?"
 	},
@@ -565,6 +567,6 @@
 	"fees": {
 		"slow": "Slow",
 		"recommended": "Recommended",
-		"fees": "Fast"
+		"fast": "Fast"
 	}
 }
