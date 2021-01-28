@@ -1,5 +1,6 @@
 import { UInt64 } from 'symbol-sdk';
 import HarvestingService from '@src/services/HarvestingService';
+import {HarvestingSecureStorage} from "@src/storage/persistence/HarvestingSecureStorage";
 
 const MIN_REQUIRED_BALANCE = 10000;
 
@@ -29,7 +30,8 @@ export default {
             totalFeesEarned: 0,
         },
 		isFetchingHarvestedBlockStats: false,
-		minRequiredBalance: MIN_REQUIRED_BALANCE
+		minRequiredBalance: MIN_REQUIRED_BALANCE,
+        harvestingModel: null,
     },
     mutations: {
         setInitialized(state, payload) {
@@ -60,6 +62,10 @@ export default {
             state.harvesting.isFetchingHarvestedBlockStats = payload;
             return state;
         },
+        setHarvestingModel(state, payload) {
+            state.harvesting.harvestingModel = payload;
+            return state;
+        },
     },
     actions: {
         init: async ({ dispatchAction }) => {
@@ -67,6 +73,7 @@ export default {
                 dispatchAction({ type: 'harvesting/loadState' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocks' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
+                dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
             ]);
         },
         loadState: async ({ commit, state }) => {
@@ -78,6 +85,10 @@ export default {
                 commit({ type: 'harvesting/setStatus', payload: 'INACTIVE' });
             }
         },
+        loadHarvestingModel: async ({ commit, state }) => {
+            const harvestingModel = await HarvestingSecureStorage.getHarvestingModel();
+            commit({ type: 'harvesting/setHarvestingModel', payload: harvestingModel });
+        },
         loadHarvestedBlocks: async ({ commit, state }) => {
             const harvestedBlocks = await HarvestingService.getHarvestedBlocks(state.wallet.selectedAccount, state.network.selectedNetwork);
             commit({ type: 'harvesting/setHarvestedBlocks', payload: harvestedBlocks });
@@ -87,12 +98,12 @@ export default {
         },
         startHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             try {
-                await HarvestingService.doHarvesting('START', state.wallet.selectedAccount, state.network.selectedNetwork, nodePublicKey);
+                await HarvestingService.createAndLinkKeys(state.wallet.selectedAccount, nodePublicKey, state.network.selectedNetwork);
                 await dispatchAction({
                     type: 'wallet/updateDelegatedHarvestingInfo',
                     payload: {
                         id: state.wallet.selectedAccount.id,
-                        isPersistentDelReqSent: true,
+                        isPersistentDelReqSent: false,
                         harvestingNode: harvestingNode,
                     },
                 });
@@ -101,7 +112,7 @@ export default {
         },
         stopHarvesting: async ({ state, dispatchAction }) => {
             try {
-                await HarvestingService.doHarvesting('STOP', state.wallet.selectedAccount, state.network.selectedNetwork);
+                await HarvestingService.unlinkAllKeys(state.wallet.selectedAccount, state.network.selectedNetwork);
                 await dispatchAction({
                     type: 'wallet/updateDelegatedHarvestingInfo',
                     payload: {
@@ -110,12 +121,19 @@ export default {
                         harvestingNode: null,
                     },
                 });
-            } catch {}
+            } catch(e) {
+                console.log(e);
+            }
             dispatchAction({ type: 'harvesting/init' });
         },
-        swapHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
+        activateHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             try {
-                await HarvestingService.doHarvesting('SWAP', state.wallet.selectedAccount, state.network.selectedNetwork, nodePublicKey);
+                const harvestingModel = await HarvestingSecureStorage.getHarvestingModel();
+                if (!harvestingModel) {
+                    console.log('Harvesting model not model saved');
+                    return;
+                }
+                await HarvestingService.sendPersistentHarvestingRequest(harvestingModel, state.wallet.selectedAccount, state.network.selectedNetwork);
                 await dispatchAction({
                     type: 'wallet/updateDelegatedHarvestingInfo',
                     payload: {

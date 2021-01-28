@@ -29,6 +29,8 @@ import type { HarvestedBlock, HarvestedBlockStats, HarvestingStatus } from '@src
 import { map, reduce } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
+import {HarvestingSecureStorage} from "@src/storage/persistence/HarvestingSecureStorage";
+import type {HarvestingModel} from "@src/storage/models/HarvestingModel";
 
 export default class HarvestingService {
     /**
@@ -185,6 +187,101 @@ export default class HarvestingService {
                 url: 'beacon-01.us-east-1.0.10.0.x.symboldev.network',
             },
         ];
+    }
+
+    /**
+     * Creates and links the keys
+     *
+     * @param accountModel
+     * @param nodePublicKey
+     * @param network
+     */
+    static async createAndLinkKeys(accountModel: AccountModel, nodePublicKey: string, network: NetworkModel) {
+        const networkType = NetworkService.getNetworkTypeFromModel(network);
+        const vrfAccount = Account.generateNewAccount(networkType);
+        const remoteAccount = Account.generateNewAccount(networkType);
+
+        const maxFee = UInt64.fromUint(1000000);
+        const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), vrfAccount.publicKey, LinkAction.Link, networkType, maxFee);
+        const remoteTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), remoteAccount.publicKey, LinkAction.Link, networkType, maxFee);
+        const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), nodePublicKey, LinkAction.Link, networkType, maxFee);
+
+        const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
+        const currentSigner = account.publicAccount;
+        const aggregateTx = AggregateTransaction.createComplete(
+            Deadline.create(network.epochAdjustment, 2),
+            [vrfTx.toAggregate(currentSigner), remoteTx.toAggregate(currentSigner), nodeTx.toAggregate(currentSigner)],
+            networkType,
+            [],
+            maxFee
+        );
+        const signedTx = account.sign(aggregateTx, network.generationHash);
+        const transactionHttp = new TransactionHttp(network.node);
+        transactionHttp.announce(signedTx);
+
+        await HarvestingSecureStorage.saveHarvestingModel({
+            vrfPrivateKey: vrfAccount.privateKey,
+            remotePrivateKey: remoteAccount.privateKey,
+            nodePublicKey: nodePublicKey,
+        });
+    }
+
+    /**
+     * Unlinks all keys
+     *
+     * @param accountModel
+     * @param network
+     */
+    static async unlinkAllKeys(accountModel: AccountModel, network: NetworkModel) {
+        const networkType = NetworkService.getNetworkTypeFromModel(network);
+        const keys = await this.getAccountKeys(accountModel, network);
+
+        const maxFee = UInt64.fromUint(1000000);
+        console.log(keys);
+        const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.vrf.publicKey, LinkAction.Unlink, networkType, maxFee);
+        const remoteTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.linked.publicKey, LinkAction.Unlink, networkType, maxFee);
+        const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.node.publicKey, LinkAction.Unlink, networkType, maxFee);
+
+        const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
+        const currentSigner = account.publicAccount;
+        const aggregateTx = AggregateTransaction.createComplete(
+            Deadline.create(network.epochAdjustment, 2),
+            [vrfTx.toAggregate(currentSigner), remoteTx.toAggregate(currentSigner), nodeTx.toAggregate(currentSigner)],
+            networkType,
+            [],
+            maxFee
+        );
+        const signedTx = account.sign(aggregateTx, network.generationHash);
+        const transactionHttp = new TransactionHttp(network.node);
+        transactionHttp.announce(signedTx);
+
+        await HarvestingSecureStorage.clear();
+    }
+
+    /**
+     * Sends Persistent harvesting request
+     * @param harvestingModel
+     * @param accountModel
+     * @param network
+     */
+    static async sendPersistentHarvestingRequest(harvestingModel: HarvestingModel, accountModel: AccountModel, network: NetworkModel) {
+        const maxFee = UInt64.fromUint(1000000); // TODO: UInt64.fromUint(feesConfig.highest); // fixed to the Highest, txs must get confirmed
+        const networkType = NetworkService.getNetworkTypeFromModel(network);
+
+        const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
+
+        const tx = PersistentDelegationRequestTransaction.createPersistentDelegationRequestTransaction(
+            Deadline.create(network.epochAdjustment, 2),
+            harvestingModel.remotePrivateKey,
+            harvestingModel.vrfPrivateKey,
+            harvestingModel.nodePublicKey,
+            networkType,
+            maxFee
+        );
+
+        const signedTx = account.sign(tx, network.generationHash);
+        const transactionHttp = new TransactionHttp(network.node);
+        return transactionHttp.announce(signedTx);
     }
 
     /**

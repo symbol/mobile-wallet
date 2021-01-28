@@ -499,6 +499,7 @@
 		"feesEarned": "Fees earned",
 		"selectNode": "Select node",
 		"changeNode": "Change node",
+		"activate": "Activate",
 		"stopHarvesting": "Stop harvesting",
 		"startHarvesting": "Start harvesting",
 		"ACTIVE": "Active",
