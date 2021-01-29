@@ -204,7 +204,7 @@ class Harvest extends Component<Props, State> {
                             <TouchableOpacity onPress={() => this.onViewLinkedKeysClick()} style={{ textAlign: 'right', width: '100%' }}>
                                 <NativeText style={{ textAlign: 'right', width: '100%' }}>
                                     <Text type="bold" style={styles.showButton}>
-                                        View Linked Keys
+                                        {translate('harvest.viewLinkedKeys')}
                                     </Text>
                                 </NativeText>
                             </TouchableOpacity>
@@ -215,7 +215,7 @@ class Harvest extends Component<Props, State> {
                         <Section type="form-item" style={styles.card}>
                             <Row justify="space-between" fullWidth>
                                 <Text type={'bold'} theme={'light'}>
-                                    Linked Node:
+                                    {translate('harvest.linkedNode')}:
                                 </Text>
                             </Row>
                             <Row align="center">
