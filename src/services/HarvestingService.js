@@ -22,15 +22,15 @@ import {
     UInt64,
     VrfKeyLinkTransaction,
 } from 'symbol-sdk';
-import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import type { AccountModel } from '@src/storage/models/AccountModel';
+import type {NetworkModel} from '@src/storage/models/NetworkModel';
+import type {AccountModel} from '@src/storage/models/AccountModel';
 import AccountService from '@src/services/AccountService';
-import type { HarvestedBlock, HarvestedBlockStats, HarvestingStatus } from '@src/store/harvesting';
-import { map, reduce } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import type {HarvestedBlock, HarvestedBlockStats, HarvestingStatus} from '@src/store/harvesting';
+import {map, reduce} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
-import {HarvestingSecureStorage} from "@src/storage/persistence/HarvestingSecureStorage";
-import type {HarvestingModel} from "@src/storage/models/HarvestingModel";
+import {HarvestingSecureStorage} from '@src/storage/persistence/HarvestingSecureStorage';
+import type {HarvestingModel} from '@src/storage/models/HarvestingModel';
 
 export default class HarvestingService {
     /**
@@ -72,6 +72,13 @@ export default class HarvestingService {
         }
         const accountUnlocked = keys.linked && unlockedAccounts.some(publicKey => publicKey === keys.linked.publicKey);
 
+        if (allKeysLinked && accountUnlocked) {
+            return 'ACTIVE';
+        }
+        const harvestedBlocks = await this.getHarvestedBlocks(account, network);
+        if (harvestedBlocks.length > 0) {
+            return 'ACTIVE';
+        }
         let status: HarvestingStatus;
         if (allKeysLinked) {
             status = accountUnlocked ? 'ACTIVE' : account.isPersistentDelReqSent ? 'INPROGRESS_ACTIVATION' : 'KEYS_LINKED';
@@ -153,6 +160,21 @@ export default class HarvestingService {
             });
     }
 
+    static async getPeerNodes(network: NetworkModel): { publicKey: string, url: string }[] {
+        const repositoryFactory = new RepositoryFactoryHttp(network.node);
+        const nodeRepository = repositoryFactory.createNodeRepository();
+
+        const peerNodes = await nodeRepository.getNodePeers().toPromise();
+        return [
+            ...this.getHarvestingNodeList(),
+            ...peerNodes
+                .sort((a, b) => a.host.localeCompare(b.host))
+                .map(node => {
+                    return { publicKey: node.publicKey, url: node.host };
+                }),
+        ];
+    }
+
     /**
      * Static list for the time being - until the dynamic solution
      */
@@ -203,7 +225,13 @@ export default class HarvestingService {
 
         const maxFee = UInt64.fromUint(1000000);
         const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), vrfAccount.publicKey, LinkAction.Link, networkType, maxFee);
-        const remoteTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), remoteAccount.publicKey, LinkAction.Link, networkType, maxFee);
+        const remoteTx = AccountKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            remoteAccount.publicKey,
+            LinkAction.Link,
+            networkType,
+            maxFee
+        );
         const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), nodePublicKey, LinkAction.Link, networkType, maxFee);
 
         const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
@@ -219,7 +247,7 @@ export default class HarvestingService {
         const transactionHttp = new TransactionHttp(network.node);
         transactionHttp.announce(signedTx);
 
-        await HarvestingSecureStorage.saveHarvestingModel({
+        await HarvestingSecureStorage.saveHarvestingModel(accountModel.id, {
             vrfPrivateKey: vrfAccount.privateKey,
             remotePrivateKey: remoteAccount.privateKey,
             nodePublicKey: nodePublicKey,
@@ -239,7 +267,13 @@ export default class HarvestingService {
         const maxFee = UInt64.fromUint(1000000);
         console.log(keys);
         const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.vrf.publicKey, LinkAction.Unlink, networkType, maxFee);
-        const remoteTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.linked.publicKey, LinkAction.Unlink, networkType, maxFee);
+        const remoteTx = AccountKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            keys.linked.publicKey,
+            LinkAction.Unlink,
+            networkType,
+            maxFee
+        );
         const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.node.publicKey, LinkAction.Unlink, networkType, maxFee);
 
         const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
@@ -329,17 +363,35 @@ export default class HarvestingService {
         const networkType = NetworkService.getNetworkTypeFromModel(network);
 
         if (keys.linked) {
-            const accountKeyUnLinkTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.linked.publicKey, LinkAction.Unlink, networkType, maxFee);
+            const accountKeyUnLinkTx = AccountKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                keys.linked.publicKey,
+                LinkAction.Unlink,
+                networkType,
+                maxFee
+            );
             txsToBeAggregated.push(accountKeyUnLinkTx);
         }
 
         if (keys.vrf) {
-            const vrfKeyUnLinkTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.vrf.publicKey, LinkAction.Unlink, networkType, maxFee);
+            const vrfKeyUnLinkTx = VrfKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                keys.vrf.publicKey,
+                LinkAction.Unlink,
+                networkType,
+                maxFee
+            );
             txsToBeAggregated.push(vrfKeyUnLinkTx);
         }
 
         if (keys.node) {
-            const nodeUnLinkTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.node.publicKey, LinkAction.Unlink, networkType, maxFee);
+            const nodeUnLinkTx = NodeKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                keys.node.publicKey,
+                LinkAction.Unlink,
+                networkType,
+                maxFee
+            );
             txsToBeAggregated.push(nodeUnLinkTx);
         }
 
@@ -347,8 +399,20 @@ export default class HarvestingService {
         const newVrfAccount = Account.generateNewAccount(networkType);
 
         if (action !== 'STOP') {
-            const accountKeyLinkTx = AccountKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), newRemoteAccount.publicKey, LinkAction.Link, networkType, maxFee);
-            const vrfKeyLinkTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), newVrfAccount.publicKey, LinkAction.Link, networkType, maxFee);
+            const accountKeyLinkTx = AccountKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                newRemoteAccount.publicKey,
+                LinkAction.Link,
+                networkType,
+                maxFee
+            );
+            const vrfKeyLinkTx = VrfKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                newVrfAccount.publicKey,
+                LinkAction.Link,
+                networkType,
+                maxFee
+            );
             const nodeLinkTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), nodePublicKey, LinkAction.Link, networkType, maxFee);
             txsToBeAggregated.push(accountKeyLinkTx, vrfKeyLinkTx, nodeLinkTx);
         }

@@ -430,7 +430,13 @@
 		"notes": "Notes",
 		"show": "Show",
 		"name": "Name",
-		"seedIndex": "Account Seed Index"
+		"seedIndex": "Account Seed Index",
+
+		"vrfPublicKey": "Linked Vrf public key",
+		"vrfPrivateKey": "Linked Vrf private key",
+		"remotePublicKey": "Linked Remote public key",
+		"remotePrivateKey": "Linked Remote private key",
+		"nodePublicKey": "Linked Node public key"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",

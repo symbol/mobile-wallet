@@ -62,20 +62,21 @@ class LinkedKeysDetails extends Component<Props, State> {
         const networkType = NetworkService.getNetworkTypeFromModel(selectedNetwork);
 
         const vrfPrivateKey = harvestingModel ? harvestingModel.vrfPrivateKey : null;
-        const vrfPublicKey = vrfPrivateKey ? Account.createFromPrivateKey(vrfPrivateKey, networkType) : networkKeys.vrf;
+        const vrfPublicKey = vrfPrivateKey ? Account.createFromPrivateKey(vrfPrivateKey, networkType).publicKey : networkKeys.vrf;
 
         const remotePrivateKey = harvestingModel ? harvestingModel.remotePrivateKey : null;
-        const remotePublicKey = remotePrivateKey ? Account.createFromPrivateKey(remotePrivateKey, networkType) : networkKeys.linked;
+        const remotePublicKey = remotePrivateKey ? Account.createFromPrivateKey(remotePrivateKey, networkType).publicKey : networkKeys.linked;
 
         const nodePublicKey = harvestingModel ? harvestingModel.nodePublicKey : networkKeys.node;
 
         const data = {
             vrfPublicKey,
             vrfPrivateKey,
-            remotePrivateKey,
             remotePublicKey,
+            remotePrivateKey,
             nodePublicKey,
         };
+
         return (
             <GradientBackground name="mesh_small_2" theme="light" dataManager={{ isLoading }}>
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Linked Keys Details" />

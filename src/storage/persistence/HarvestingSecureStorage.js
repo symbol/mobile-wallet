@@ -9,21 +9,31 @@ export class HarvestingSecureStorage extends BaseSecureStorage {
     /**
      * Creates a new harvesting model
      * @returns {Promise<any>}
+     * @param id
      * @param model
      */
-    static async saveHarvestingModel(model: HarvestingModel): Promise<any> {
-        return this.secureSaveAsync(this.HARVESTING_KEY, JSON.stringify(model));
+    static async saveHarvestingModel(id: string, model: HarvestingModel): Promise<any> {
+        const harvestingString = await this.secureRetrieveAsync(this.HARVESTING_KEY);
+        let harvestingModelsPerAccount;
+        try {
+            harvestingModelsPerAccount = JSON.parse(harvestingString) || {};
+        } catch (e) {
+            harvestingModelsPerAccount = {};
+        }
+        harvestingModelsPerAccount[id] = model;
+        return this.secureSaveAsync(this.HARVESTING_KEY, JSON.stringify(harvestingModelsPerAccount));
     }
 
     /**
      * Get harvesting model
      * @returns {Promise<AccountModel[]>}
      */
-    static async getHarvestingModel(): Promise<HarvestingModel | null> {
+    static async getHarvestingModel(id: string): Promise<HarvestingModel | null> {
         const harvestingString = await this.secureRetrieveAsync(this.HARVESTING_KEY);
         let harvestingModel;
         try {
-            harvestingModel = JSON.parse(harvestingString) || null;
+            const harvestingModelsPerAccount = JSON.parse(harvestingString) || {};
+            harvestingModel = harvestingModelsPerAccount[id] || null;
         } catch (e) {
             return null;
         }

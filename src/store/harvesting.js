@@ -32,6 +32,7 @@ export default {
 		isFetchingHarvestedBlockStats: false,
 		minRequiredBalance: MIN_REQUIRED_BALANCE,
         harvestingModel: null,
+        nodes: HarvestingService.getHarvestingNodeList(),
     },
     mutations: {
         setInitialized(state, payload) {
@@ -66,6 +67,10 @@ export default {
             state.harvesting.harvestingModel = payload;
             return state;
         },
+        setNodes(state, payload) {
+            state.harvesting.nodes = payload;
+            return state;
+        },
     },
     actions: {
         init: async ({ dispatchAction }) => {
@@ -74,6 +79,7 @@ export default {
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocks' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
+                dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
             ]);
         },
         loadState: async ({ commit, state }) => {
@@ -85,8 +91,17 @@ export default {
                 commit({ type: 'harvesting/setStatus', payload: 'INACTIVE' });
             }
         },
+        loadHarvestingNodes: async ({ commit, state }) => {
+            try {
+                const nodes = await HarvestingService.getPeerNodes(state.network.selectedNetwork);
+                commit({ type: 'harvesting/setNodes', payload: nodes });
+            } catch(e) {
+                console.log(e);
+                commit({ type: 'harvesting/setNodes', payload: HarvestingService.getHarvestingNodeList() });
+            }
+        },
         loadHarvestingModel: async ({ commit, state }) => {
-            const harvestingModel = await HarvestingSecureStorage.getHarvestingModel();
+            const harvestingModel = await HarvestingSecureStorage.getHarvestingModel(state.wallet.selectedAccount.id);
             commit({ type: 'harvesting/setHarvestingModel', payload: harvestingModel });
         },
         loadHarvestedBlocks: async ({ commit, state }) => {
@@ -128,7 +143,7 @@ export default {
         },
         activateHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             try {
-                const harvestingModel = await HarvestingSecureStorage.getHarvestingModel();
+                const harvestingModel = await HarvestingSecureStorage.getHarvestingModel(state.wallet.selectedAccount.id);
                 if (!harvestingModel) {
                     console.log('Harvesting model not model saved');
                     return;

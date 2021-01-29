@@ -19,10 +19,10 @@ import { connect } from 'react-redux';
 
 const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
-	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey'],
+	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey', 'vrfPublicKey', 'remotePublicKey', 'linkedPublicKey', 'nodePublicKey'],
 	boolean: [],
 	amount: ['amount', 'displayFee'],
-	secret: ['privateKey'],
+	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
 	ecryption: ['messageEncrypted'],
 };

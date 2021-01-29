@@ -8,6 +8,7 @@ import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import Trunc from '@src/components/organisms/Trunc';
+import {Router} from "@src/Router";
 
 const styles = StyleSheet.create({
     showButton: {
@@ -72,9 +73,8 @@ class Harvest extends Component<Props, State> {
     };
 
     componentDidMount() {
-        const { selectedAccount } = this.props;
+        const { selectedAccount, nodes } = this.props;
         if (selectedAccount.harvestingNode) {
-            const nodes = HarvestingService.getHarvestingNodeList();
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
                     this.setState({
@@ -86,13 +86,15 @@ class Harvest extends Component<Props, State> {
     }
 
     getSelectedUrl = () => {
+        const { nodes } = this.props;
         const { selectedNode } = this.state;
-        const nodeObj = HarvestingService.getHarvestingNodeList().find(node => node.publicKey === selectedNode);
+        const nodeObj = nodes.find(node => node.publicKey === selectedNode);
         return nodeObj ? nodeObj.url : null;
     };
 
     getHarvestingNodesDropDown = () => {
-        return HarvestingService.getHarvestingNodeList().map(node => ({
+        const { nodes } = this.props;
+        return nodes.map(node => ({
             value: node.publicKey,
             label: node.url,
         }));
@@ -133,6 +135,10 @@ class Harvest extends Component<Props, State> {
             this.setState({ isLoading: false });
         };
         showPasscode(this.props.componentId, callBack);
+    };
+
+    onViewLinkedKeysClick = async _ => {
+        Router.goToShowLinkedKeys({}, this.props.componentId);
     };
 
     render() {
@@ -195,7 +201,7 @@ class Harvest extends Component<Props, State> {
                             </Text>
                         </Row>
                         {status !== 'INACTIVE' && (
-                            <TouchableOpacity onPress={() => this.onShowClick()} style={{ textAlign: 'right', width: '100%' }}>
+                            <TouchableOpacity onPress={() => this.onViewLinkedKeysClick()} style={{ textAlign: 'right', width: '100%' }}>
                                 <NativeText style={{ textAlign: 'right', width: '100%' }}>
                                     <Text type="bold" style={styles.showButton}>
                                         View Linked Keys
@@ -285,4 +291,5 @@ export default connect(state => ({
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
     harvestingModel: state.harvesting.harvestingModel,
+    nodes: state.harvesting.nodes,
 }))(Harvest);
