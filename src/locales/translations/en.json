@@ -111,7 +111,7 @@
 		},
 		"ShowQRCode": {
 			"title": "Wallet Backup",
-			"description": "You can later import the wallet again by scanning the QR code or providing the mnemonic in the paper wallet",
+			"description": "The Symbol Paper Wallet contains the information to recover all the accounts under this profile. You must keep this file into a safe and secure place. Anyone that reads the paper wallet file will be able to access to all your funds.",
 			"downloadButton": "Download Paper wallet",
 			"dashboardButton": "Go to Dashboard",
 			"permissionTitle": "Symbol Wallet Permission",
@@ -203,7 +203,7 @@
 		"backup": "Backup",
 		"giveFeedback": "Give Feedback",
 		"aboutNem": "About Symbol",
-		"logout": "Logout"
+		"logout": "Delete all accounts"
 	},
 	"AccountDetails": {
 		"title": "Account Details",
@@ -399,6 +399,7 @@
 		"messageText": "Message / Memo",
 		"messageEncrypted": "Message encryption",
 		"fee": "Fee",
+		"displayFee": "Fee",
 		"accountName": "Account name",
 		"address": "Address",
 		"publicKey": "Public key",
@@ -426,11 +427,16 @@
 		"phone": "Phone",
 		"email": "Email",
 		"label": "Label",
-		"notes": "Notes"
+		"notes": "Notes",
+		"show": "Show",
+		"name": "Name",
+		"seedIndex": "Account Seed Index"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
 		"transfer": "Transfer",
+		"transferFrom": "Transfer from",
+		"transferTo": "Transfer to",
 		"fundsLock": "Funds Lock",
 		"aggregate": "Aggregate",
 		"namespace": "Namespace registration",
@@ -464,7 +470,8 @@
 		"title": "Mosaics"
 	},
 	"news": {
-		"title": "News"
+		"title": "News",
+		"readMore": "Read more"
 	},
 	"all": "All",
 	"history": {
@@ -499,7 +506,7 @@
 		"INPROGRESS_ACTIVATION": "Activation in progress",
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
 		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
-		"minBalanceRequirement": "To harvest, the account needs a vested balance of at least %{balance}",
+		"minBalanceRequirement": "Insufficient balance, the account needs to hold at least %{balance} to start delegated harvesting.",
 		"KEYS_LINKED": "Keys linked"
 	},
 	"sidebar": {
@@ -535,6 +542,7 @@
 	"settings": {
 		"logoutConfirmTitle": "Are you sure",
 		"logoutConfirmDesc": "By logging out the data on the device will be removed. You should have a back up before proceeding",
+		"logoutConfirmCheck": "I have backed up all the accounts under this profile",
 		"logoutConfirm2Title": "Warning",
 		"logoutConfirm2Desc": "You won't be able to access again to your wallet unless you have a back up. Are you sure do you want to continue?"
 	},
@@ -543,5 +551,22 @@
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
 		"privateKeyQr": "Private Key QR"
+	},
+	"notification": {
+		"newUnconfirmed": "New unconfirmed transaction!",
+		"newConfirmed": "New confirmed transaction!",
+		"newAggregate": "New aggregate transaction!"
+	},
+	"addressBook": {
+		"title": "Address book",
+		"addContact": "Add contact",
+		"updateContact": "Update contact",
+		"nameWarning": "Name is required",
+		"addressWarning": "Invalid address"
+	},
+	"fees": {
+		"slow": "Slow",
+		"recommended": "Recommended",
+		"fast": "Fast"
 	}
 }

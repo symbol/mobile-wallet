@@ -185,12 +185,15 @@ export default class AccountService {
      * @param network
      * @returns {Promise<*[]>}
      */
-    static async getCosignatoryOfByAddress(address: string, network: NetworkModel): Promise<string[]> {
+    static async getCosignatoryOfByAddress(address: string, network: NetworkModel): Promise<{ cosignatoryOf: string[], isMultisig: boolean }> {
         try {
             const multisigInfo = await new MultisigHttp(network.node).getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise();
-            return multisigInfo.multisigAddresses.map(address => address.pretty());
+            return {
+                cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.pretty()),
+                isMultisig: multisigInfo.cosignatoryAddresses.length > 0,
+            };
         } catch (e) {
-            return [];
+            return { cosignatoryOf: [], isMultisig: false };
         }
     }
     /**

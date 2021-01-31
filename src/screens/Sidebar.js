@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, StatusBar, Image, FlatList } from 'react-native';
+import {StyleSheet, View, TouchableOpacity, StatusBar, Image, FlatList, Platform} from 'react-native';
 import {
     Section,
     GradientBackground,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 	selectedAccountBoxContent: {},
 	titleBar: {
-		marginTop: StatusBar.currentHeight,
+		marginTop: (StatusBar.currentHeight || 0) + (Platform.OS === 'ios' ? 20: 0),
 	},
     selectedAccountName: {},
     selectedAccountAddress: {
@@ -174,7 +174,7 @@ class Sidebar extends Component<Props, State> {
         showPasscode(this.props.componentId, () => {
             this.setState({
 				isRemoveModalOpen: true,
-				removeModalTitle, 
+				removeModalTitle,
 				removeModalDescription,
                 editingAccountId: id,
             });
@@ -237,11 +237,10 @@ class Sidebar extends Component<Props, State> {
                 <Icon name="options_dark" size="small" />
             </OptionsMenu>
 		);
-		
 		const intBalance = (''+(balance)).split('.')[0];
 		const decimalBalance = (''+balance).split('.')[1];
-		const truncatedDecimalBalance = intBalance.length < 9 
-			? (intBalance.length > 4
+		const truncatedDecimalBalance = intBalance.length < 9
+			? (intBalance.length > 4 && decimalBalance
 				? decimalBalance.slice(0, decimalBalance.length - (intBalance.length - 2)) + '...'
 				: decimalBalance)
 			: '..';
@@ -250,7 +249,6 @@ class Sidebar extends Component<Props, State> {
 		const startPath = "m/44'/4343'/";
 		const endPath = "'/0'/0'";
 		const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
-
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                 {/* <Text type="bold" style={styles.selectedIndex}>
@@ -293,18 +291,24 @@ class Sidebar extends Component<Props, State> {
 		const deleteModalTitle = type === 'hd'
 			? translate('sidebar.hideAccountTitle')
 			: translate('sidebar.removeAccountTitle');
-		
+
 		const deleteModalDescription = type === 'hd'
 			? translate('sidebar.hideAccountDescription')
 			: translate('sidebar.removeAccountDescription');
 
-        const options = [
-            { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },
-            { iconName: 'delete_light', label: deleteText, onPress: () => this.handleOpenRemoveAccountModal(id, deleteModalTitle, deleteModalDescription) },
-        ];
         const startPath = "m/44'/4343'/";
         const endPath = "'/0'/0'";
         const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
+
+        const options = [
+            { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },
+        ];
+
+        if (parseInt(index) !== 0) {
+            options.push(
+                { iconName: 'delete_light', label: deleteText, onPress: () => this.handleOpenRemoveAccountModal(id, deleteModalTitle, deleteModalDescription) },
+            )
+        }
 
         return (
             <TouchableOpacity style={styles.accountBox} onPress={() => this.handleSelectAccount(id)}>

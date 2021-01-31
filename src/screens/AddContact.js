@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    GradientBackground,
-    ImageBackground,
-    Input,
-    InputAddress,
-    Section,
-    Text,
-    TitleBar
-} from '@src/components';
+import { Button, GradientBackground, ImageBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -17,11 +8,12 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
 import { isAddressValid } from '@src/utils/validators';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
-	warning: {
-		color: GlobalStyles.color.RED
-	}
+    warning: {
+        color: GlobalStyles.color.RED,
+    },
 });
 
 type Props = {
@@ -41,14 +33,7 @@ class AddContact extends Component<Props, State> {
         notes: '',
         update: false,
         isAddressValid: false,
-	};
-	
-	componentDidMount = () => {
-		if(this.props.address)
-			this.onAddressChange(this.props.address);
-		if(this.props.name)
-			this.setState({ name: this.props.name });
-	};
+    };
 
     submit = () => {
         const contact = {
@@ -78,8 +63,12 @@ class AddContact extends Component<Props, State> {
     };
 
     componentDidMount() {
-        const { selectedContact } = this.props;
-        if (selectedContact) {
+        const { selectedContact, address, name } = this.props;
+
+        if (address && name) {
+            this.onAddressChange(address);
+            this.setState({ name });
+        } else if (selectedContact) {
             this.state.update = true;
             this.state.isAddressValid = true;
             this.setState({
@@ -99,61 +88,81 @@ class AddContact extends Component<Props, State> {
         this.setState({ address: address, isAddressValid: isAddressValid(address, network) });
     };
 
+    onChangeField = fieldName => newValue => {
+        if (newValue.length < 28) {
+            this.setState({
+                [fieldName]: newValue,
+            });
+        }
+    };
+
     render() {
         let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
 
         return (
             <GradientBackground name="mesh_small" theme="light">
-                {!this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Add Contact" />}
-                {this.state.update && <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Update Contact" />}
+                {!this.state.update && (
+                    <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('addressBook.addContact')} />
+                )}
+                {this.state.update && (
+                    <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('addressBook.updateContact')} />
+                )}
                 <Section type="form" isScrollable>
                     <Section type="form-item">
-                        <Input value={name} placeholder="Name" theme="light" onChangeText={name => this.setState({ name })} />
-                        {name.length === 0 && <Text theme="light" style={styles.warning}>Name is required</Text>}
+                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={this.onChangeField('name')} />
+                        {name.length === 0 && (
+                            <Text theme="light" style={styles.warning}>
+                                {translate('addressBook.nameWarning')}
+                            </Text>
+                        )}
                     </Section>
                     <Section type="form-item">
                         <InputAddress
                             value={address}
-                            placeholder="Address"
+                            placeholder={translate('table.address')}
                             theme="light"
                             fullWidth
                             onChangeText={address => this.onAddressChange(address)}
                             showAddressBook={false}
                         />
-                        {!isAddressValid && <Text theme="light" style={styles.warning}>Invalid address</Text>}
+                        {!isAddressValid && (
+                            <Text theme="light" style={styles.warning}>
+                                {translate('addressBook.addressWarning')}
+                            </Text>
+                        )}
                     </Section>
                     <Section type="form-item">
-                        <Input value={phone} placeholder="Phone" theme="light" onChangeText={phone => this.setState({ phone })} />
+                        <Input value={phone} placeholder={translate('table.phone')} theme="light" onChangeText={this.onChangeField('phone')} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={email} placeholder="Email" theme="light" onChangeText={email => this.setState({ email })} />
+                        <Input value={email} placeholder={translate('table.email')} theme="light" onChangeText={email => this.setState({ email })} />
                     </Section>
                     <Section type="form-item">
-                        <Input value={notes} placeholder="Notes" theme="light" onChangeText={notes => this.setState({ notes })} />
+                        <Input value={notes} placeholder={translate('table.notes')} theme="light" onChangeText={notes => this.setState({ notes })} />
                     </Section>
                     {!this.state.update && (
                         <Section type="form-bottom">
-							<Section type="button">
-								<Button 
-									text="Add" 
-									theme="light" 
-									onPress={() => this.submit()} 
-									isDisabled={!isAddressValid || name.length < 1} 
-								/>
-							</Section>
-						</Section>
+                            <Section type="button">
+                                <Button
+                                    text={translate('CreateNewAccount.submitButton')}
+                                    theme="light"
+                                    onPress={() => this.submit()}
+                                    isDisabled={!isAddressValid || name.length < 1}
+                                />
+                            </Section>
+                        </Section>
                     )}
                     {this.state.update && (
                         <Section type="form-bottom">
-							<Section type="button">
-								<Button 
-									text="Update Contact" 
-									theme="light" 
-									onPress={() => this.update(id)} 
-									isDisabled={!isAddressValid || name.length < 1} 
-								/>
-							</Section>
-						</Section>
+                            <Section type="button">
+                                <Button
+                                    text={translate('addressBook.updateContact')}
+                                    theme="light"
+                                    onPress={() => this.update(id)}
+                                    isDisabled={!isAddressValid || name.length < 1}
+                                />
+                            </Section>
+                        </Section>
                     )}
                 </Section>
             </GradientBackground>

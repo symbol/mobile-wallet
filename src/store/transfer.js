@@ -1,6 +1,6 @@
-import type { TransactionStatus, TransactionType } from '@src/storage/models/TransactionModel';
 import TransactionService from '@src/services/TransactionService';
-import AccountService from '@src/services/AccountService';
+import NetworkService from '@src/services/NetworkService';
+import { Account } from 'symbol-sdk';
 
 class ErrorHandler {
     static getMessage(e) {
@@ -55,16 +55,25 @@ export default {
             commit({ type: 'transfer/setTransaction', payload: {} });
         },
 
-        setTransaction: ({ commit }, payload) => {
+        setTransaction: async ({ commit, state }, payload) => {
+            const networkType = NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork);
+            const dummyAccount = Account.generateNewAccount(networkType);
+            const transactionModel = {
+                type: 'transfer',
+                recipientAddress: payload.recipientAddress,
+                messageText: payload.message,
+                messageEncrypted: payload.messageEncrypted,
+                mosaics: payload.mosaics,
+                fee: payload.fee,
+            };
+            const ttx = await TransactionService.transactionModelToTransactionObject(transactionModel, dummyAccount, state.network.selectedNetwork);
+            const ttxWithFee = TransactionService.calculateMaxFee(ttx, state.network.selectedNetwork, transactionModel.fee);
             commit({
                 type: 'transfer/setTransaction',
                 payload: {
-                    type: 'transfer',
-                    recipientAddress: payload.recipientAddress,
-                    messageText: payload.message,
-                    messageEncrypted: payload.messageEncrypted,
-                    mosaics: payload.mosaics,
-                    fee: payload.fee,
+                    ...transactionModel,
+                    displayFee: ttxWithFee.maxFee.compact() / Math.pow(10, 6),
+                    fee: ttxWithFee.maxFee.compact(),
                 },
             });
         },

@@ -168,14 +168,14 @@ const WizardStepView = (props: Props) => {
 
 	const TitleComponent = (props) => {
 		return <TitleBar {...props}/>
-	} 
+	}
 
 	return (
 		<Container>
 			{lightTheme &&<Image style={styles.mesh} source={require('../../assets/mesh.png')} />}
-	
 
-			<View style={ styles.pageContainer }>	
+
+			<View style={ styles.pageContainer }>
 				<View style={ styles.titleContainer }>
 					{/* Title */}
 					<TitleComponent
@@ -226,6 +226,7 @@ const WizardStepView = (props: Props) => {
 							testID={ buttons[0].testID }
 							icon={ buttons[0].icon }
 							onPress={ buttons[0].onPress }
+							isLoading={ buttons[0].isLoading }
 						/>
 						<GradientButton
 							style={ styles.button }
@@ -234,6 +235,7 @@ const WizardStepView = (props: Props) => {
 							testID={ buttons[1].testID }
 							icon={ buttons[1].icon }
 							onPress={ buttons[1].onPress }
+							isLoading={ buttons[1].isLoading }
 						/>
 					</View>}
 

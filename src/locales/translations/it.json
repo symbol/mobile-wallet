@@ -369,5 +369,177 @@
 		"ImportErrorWrongOptedInAccount": "L'account è già incluso nel processo di attivazione, ma questo portafoglio non dispone di un account Symbol. Importare l'account Symbol corretto o utilizzare una chiave privata dell'account XEM diverso",
 		"ErrorCreatingAccount": "Impossibile creare l'account",
 		"NamespaceUnavailable": "Non disponibile"
+	},
+	"menu": {
+		"news": "Notizia",
+		"mosaics": "Mosaici",
+		"home": "Pagina Iniziale",
+		"history": "Storia delle transazioni",
+		"harvest": "Harvesting"
+	},
+	"plugin": {
+		"send": "Invia messaggio",
+		"receive": "Ricevitore ",
+		"more": "Maggiori informazioni",
+		"qr": "Scansiona il codice QR"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Inizio",
+			"title": "Delegated Harvesting"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Creare un",
+			"title": "Crea un account remoto"
+		}
+	},
+	"table": {
+		"type": "Type",
+		"recipientAddress": "Indirizzo del destinatario",
+		"messageText": "Messaggio",
+		"messageEncrypted": "Messaggio crittografato",
+		"fee": "Commissione di Transazione",
+		"accountName": "Nome utente",
+		"address": "Address",
+		"publicKey": "Chiave pubblica",
+		"privateKey": "Chiave privata",
+		"balance": "Equilibrio",
+		"mosaics": "Diversi mosaici",
+		"mosaic": "Mosaico",
+		"amount": "numero",
+		"encrypted": "Criptato",
+		"unencrypted": "Decrypt",
+		"status": "Stato",
+		"innerTxs": "Transazioni interne",
+		"signerAddress": "Indirizzo del firmatario",
+		"deadline": "Scadenza",
+		"hash": "Hash",
+		"transferType": "tipo di trasferimento",
+		"hasCustomMosaic": "Numero di mosaici trasferiti",
+		"undefined": "n/a",
+		"null": "n/a",
+		"namespaceName": "Nome dello spazio dei nomi",
+		"mosaicId": "ID mosaico",
+		"namespaceId": "Identificatore spazi dei nomi",
+		"namespace": "Spazio dei nomi",
+		"phone": "telefono ",
+		"email": "Email",
+		"label": "Etichetta",
+		"notes": "Appunti"
+	},
+	"transactionTypes": {
+		"unknown": "Il tipo non è ancora supportato",
+		"transfer": "Trasferimento",
+		"fundsLock": "Blocco dei fondi",
+		"aggregate": "Aggregate",
+		"namespace": "Registrazione dello spazio dei nomi",
+		"mosaicAlias": "Alias ​​mosaico"
+	},
+	"date": {
+		"monday": "Lunedi",
+		"tuesday": "Martedì",
+		"wednesday": "Mercoledì",
+		"thursday": "Giovedì",
+		"friday": "Venerdì",
+		"saturday": "Sabato",
+		"sunday": "Domenica"
+	},
+	"link": {
+		"faucet": "Richiedi mosaici di prova, tramite (faucet)",
+		"blockExplorer": "Apri Blockchain Explorer",
+		"blockExplorerBlock": "Mostra i blocchi in Blockchain Explorer",
+		"blockExplorerAccount": "Mostra l'account in Blockchain Explorer",
+		"blockExplorerTransaction": "Mostra Blockchain Explorer",
+		"blockExplorerMosaic": "Mostra i mosaici in Blockchain Explorer",
+		"blockExplorerNamespace": "Mostra lo spazio dei nomi in Blockchain Explorer"},
+	"home": {
+		"optInTitle": "Opt-In",
+		"optInDescription": "Processo di pre-optin...",
+		"pendingSignatureTitle": "In attesa di firma",
+		"pendingSignatureDescription": "C'è una transazione in attesa di firma"
+	},
+	"mosaics": {
+		"title": "Mosaico"
+	},
+	"news": {
+		"title": "Notizia"
+	},
+	"all": "All",
+	"history": {
+		"title": "Cronologia dell'account",
+		"accountFilter": "Seleziona un account",
+		"mainAccount": "Account principale",
+		"filter": "Filtro",
+		"all": "tutte",
+		"sent": "invia",
+		"received": "Ricevitore ",
+		"transaction": {
+			"message": "Message",
+			"encrypted": "Criptato",
+			"decrypt": "Decifrare",
+			"hash": "hash",
+			"amountLocked": "Importo bloccato",
+			"sign": "Cartello",
+			"waitingSignature": "Aspettando la tua firma"
+		}
+	},
+	"harvest": {
+		"title": "Titolo ",
+		"status": "Stato",
+		"blocksHarvested": "Harvested blocchi",
+		"feesEarned": "commissioni guadagnate",
+		"selectNode": "Seleziona il nodo",
+		"changeNode": "Cambia nodo",
+		"stopHarvesting": "Sospendi la Harvesting",
+		"startHarvesting": "Inizia la Harvesting",
+		"ACTIVE": "ATTIVA",
+		"INACTIVE": "Inattivo ",
+		"INPROGRESS_ACTIVATION": "Attivazione in corso ",
+		"INPROGRESS_DEACTIVATION": "Disattivazione in corso ",
+		"harvetingIntroTitle": "Inizia a Harvesting per guadagnare ricompense di blocchi",
+		"minBalanceRequirement": "Per implementare la raccolta, l'account deve avere un saldo garantito di almeno% {balance}",
+		"KEYS_LINKED": "Chiavi correlate"
+	},
+	"sidebar": {
+		"seed": "Account seed frase",
+		"pk": "Chiave dell'account privato",
+		"addAccount": "Aggiungi account",
+		"openAddressBook": "Contatti aperti",
+		"rename": "Rinominare",
+		"delete": "Elimina",
+		"hide": "Nascondere",
+		"remove": "Elimina",
+		"details": "Dettagli",
+		"removeAccount": "Eliminare l'account",
+		"removeAccountText": "Sei sicuro di voler eliminare il tuo account dalla memoria locale?",
+		"hideAccountTitle": "Nascondi account",
+		"removeAccountTitle": "Eliminare l'account",
+		"hideAccountDescription": "Sei sicuro di voler nascondere questo account? Questo è un seed mnemonico per un account e puoi ripristinarlo in qualsiasi momento utilizzando il pulsante \"Aggiungi account\". Nessun fondo andrà perso.",
+		"removeAccountDescription": "Sei sicuro di voler rimuovere il tuo account dal tuo portafoglio? Questa non è una frase seed mnemonica per l'account. Assicurati di avere una chiave privata per questo account, altrimenti potresti perdere l'accesso ai tuoi fondi e al tuo portafoglio"
+	},
+	"createAccount": {
+		"title": "titolo",
+		"name": "Nome utente",
+		"type": "Tipo di account",
+		"seed": "Indice",
+		"fromSeed": "Aggiungi seed account da mnemonici",
+		"createSeed": "Aggiungiindice",
+		"fromPk": "Importa account utilizzando la chiave privata",
+		"createPk": "Importa",
+		"errorAccountNameExist": "Esiste già un account con lo stesso nome",
+		"errorPrivateKeyExist": "Questo account è già nel Wallet",
+		"errorInvalidPrivateKey": "Chiave privata non valida"
+	},
+	"settings": {
+		"logoutConfirmTitle": "Sei sicuro?",
+		"logoutConfirmDesc": "Quando ti disconnetti, i dati sul dispositivo verranno eliminati. È necessario disporre di un backup prima di procedere",
+		"logoutConfirm2Title": "Avvertimento",
+		"logoutConfirm2Desc": "Non sarai più in grado di accedere al tuo portafoglio se non disponi di un backup. Sei sicuro di voler continuare?"
+	},
+	"qr": {
+		"scannerTitle": "Scanner QR di Symbol",
+		"transactionQr": "Transazione QR",
+		"addressQr": "Indirizzo QR",
+		"privateKeyQr": "Chiave QR privata"
 	}
 }

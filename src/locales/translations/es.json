@@ -369,5 +369,178 @@
 		"ImportErrorWrongOptedInAccount": "Esta cuenta ya realizó su Opt-in, pero la cuenta Symbol no es la que está en esta Wallet. Por favor, importa la cuenta Symbol correcta o usa otra llave privada XEM",
 		"ErrorCreatingAccount": "Creación de cuenta fallida",
 		"NamespaceUnavailable": "No disponible"
+	},
+	"menu": {
+		"news": "Noticias",
+		"mosaics": "Mosaics",
+		"home": "Inicio",
+		"history": "Historial",
+		"harvest": "Cosecha"
+	},
+	"plugin": {
+		"send": "Enviar",
+		"receive": "Recibir",
+		"more": "Más",
+		"qr": "Escanear QR"
+	},
+	"Harvest": {
+		"StartHarvesting": {
+			"submitButton": "Iniciar",
+			"title": "Cosecha Delegada"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "Crear",
+			"title": "Crear cuenta remota"
+		}
+	},
+	"table": {
+		"type": "Tipo",
+		"recipientAddress": "Dirección de recepción",
+		"messageText": "Mensaje / Memo",
+		"messageEncrypted": "Encriptado de Mensaje",
+		"fee": "Cuota",
+		"accountName": "Nombre de cuenta",
+		"address": "Dirección",
+		"publicKey": "Llave pública",
+		"privateKey": "Llave privada",
+		"balance": "Balance",
+		"mosaics": "Mosaics",
+		"mosaic": "Mosaic",
+		"amount": "Monto",
+		"encrypted": "Encriptado",
+		"unencrypted": "Desencriptado",
+		"status": "Estatus",
+		"innerTxs": "Transacciones internas",
+		"signerAddress": "Dirección signataria",
+		"deadline": "Fecha límite",
+		"hash": "Hash",
+		"transferType": "Tipo de transferencia",
+		"hasCustomMosaic": "Número de Mosaics transferidos",
+		"undefined": "n/d",
+		"null": "n/d",
+		"namespaceName": "Nombre del Namespace",
+		"mosaicId": "ID del Mosaic",
+		"namespaceId": "ID del Namespace",
+		"namespace": "Namespace",
+		"phone": "Teléfono",
+		"email": "Email",
+		"label": "Etiqueta",
+		"notes": "Notas"
+	},
+	"transactionTypes": {
+		"unknown": "Tipo no admitido aún",
+		"transfer": "Transferencia",
+		"fundsLock": "Bloqueo de fondos",
+		"aggregate": "Agregada",
+		"namespace": "Registro de Namespace",
+		"mosaicAlias": "Alias de mosaic "
+	},
+	"date": {
+		"monday": "Lunes",
+		"tuesday": "Martes",
+		"wednesday": "Miércoles",
+		"thursday": "Jueves",
+		"friday": "Viernes",
+		"saturday": "Sábado",
+		"sunday": "Domingo"
+	},
+	"link": {
+		"faucet": "Reclamar mosaics de prueba en el faucet",
+		"blockExplorer": "Abrir el Explorador de bloques",
+		"blockExplorerBlock": "Mostrar bloque en el Explorador de bloques",
+		"blockExplorerAccount": "Mostrar cuenta en el Explorador de bloques",
+		"blockExplorerTransaction": "Mostrar en el Explorador de bloques",
+		"blockExplorerMosaic": "Mostrar mosaic en el Explorador de bloques",
+		"blockExplorerNamespace": "Mostrar namespace en el Explorador de bloques"
+	},
+	"home": {
+		"optInTitle": "Opt-in",
+		"optInDescription": " Opt-in después del lanzamiento muy pronto...",
+		"pendingSignatureTitle": "Firma pendiente",
+		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
+	},
+	"mosaics": {
+		"title": "Mosaics"
+	},
+	"news": {
+		"title": "Noticias"
+	},
+	"all": "Todas",
+	"history": {
+		"title": "Historial",
+		"accountFilter": "Seleccionar cuenta",
+		"mainAccount": "Cuenta principal",
+		"filter": "Filtro",
+		"all": "Todas",
+		"sent": "Enviado",
+		"received": "Recibido",
+		"transaction": {
+			"message": "Mensaje",
+			"encrypted": "Encriptado",
+			"decrypt": "Desencriptado",
+			"hash": "Hash",
+			"amountLocked": "Monto bloqueado",
+			"sign": "Sign",
+			"waitingSignature": "Esperando por firma"
+		}
+	},
+	"harvest": {
+		"title": "Cosecha",
+		"status": "Estatus",
+		"blocksHarvested": "Bloques cosechados",
+		"feesEarned": "Tarifas ganadas",
+		"selectNode": "Seleccionar nodo",
+		"changeNode": "Cambiar nodo",
+		"stopHarvesting": "Dejar de cosechar",
+		"startHarvesting": "Empezar a cosechar",
+		"ACTIVE": "Activo",
+		"INACTIVE": "Inactivo",
+		"INPROGRESS_ACTIVATION": "Activación en curso",
+		"INPROGRESS_DEACTIVATION": "Desactivación en curso",
+		"harvetingIntroTitle": "Comienza a cosechar para ganar recompensas en bloque",
+		"minBalanceRequirement": "Para cosechar, la cuenta necesita un saldo de por lo menos %{balance}",
+		"KEYS_LINKED": "Llaves enlazadas"
+	},
+	"sidebar": {
+		"seed": "Cuenta semillero",
+		"pk": "Cuenta de llave privada",
+		"addAccount": "Añadir cuenta",
+		"openAddressBook": "Abrir libro de direcciones",
+		"rename": "Renombrar",
+		"delete": "Borrar",
+		"hide": "Ocultar",
+		"remove": "Remover",
+		"details": "Detalles",
+		"removeAccount": "Remover cuenta",
+		"removeAccountText": "¿Estás seguro de querer eliminar la cuenta del almacenamiento local?",
+		"hideAccountTitle": "Ocultar cuenta",
+		"removeAccountTitle": "Eliminar cuenta",
+		"hideAccountDescription": "¿Estás seguro de querer ocultar esta cuenta? Es una cuenta semillero mnemotécnica y se puede restaurar en cualquier momento utilizando el botón \"Agregar cuenta\". No se perderán fondos.",
+		"removeAccountDescription": "¿Estás seguro de querer eliminar esta cuenta de la cartera? No es una cuenta semillero mnemotécnica. Asegúrate de tener la clave privada de esta cuenta, de lo contrario puedes perder el acceso y los fondos"
+	},
+	"createAccount": {
+		"title": "Añadir cuenta",
+		"name": "Nombre de la cuenta",
+		"type": "Tipo de cuenta",
+		"seed": "Índice semillero (en blanco para incremento automático)",
+		"fromSeed": "Añadir cuenta semillero mnemotécnica",
+		"createSeed": "Añadir cuenta",
+		"fromPk": "Importar cuenta por llave privada",
+		"createPk": "Importar",
+		"errorAccountNameExist": "Ya existe una cuenta con dicho nombre",
+		"errorPrivateKeyExist": "Esta cuenta ya está en la Wallet",
+		"errorInvalidPrivateKey": "Llave privada no válida"
+	},
+	"settings": {
+		"logoutConfirmTitle": "¿Estás seguro?",
+		"logoutConfirmDesc": "Al cerrar la sesión, los datos en el dispositivo se eliminarán. Debes tener una copia de seguridad antes de proceder",
+		"logoutConfirm2Title": "Advertencia",
+		"logoutConfirm2Desc": "No podrás acceder de nuevo a tu Wallet a menos que tengas una copia de seguridad. ¿Estás seguro de querer continuar?"
+	},
+	"qr": {
+		"scannerTitle": "Escáner Symbol de QR ",
+		"transactionQr": "Transacción de QR",
+		"addressQr": "Dirección de QR",
+		"privateKeyQr": "QR de Llave privada"
 	}
 }

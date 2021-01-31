@@ -25,9 +25,9 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     }
 
     needsSignature = () => {
-        const { transaction, selectedAccount } = this.props;
+        const { transaction, selectedAccount, isMultisig } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        return transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
+        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
     };
 
     renderAction = () => {
@@ -41,7 +41,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     };
 
     renderDetails = () => {
-        const { transaction, isLoading } = this.props;
+        const { transaction, isLoading, isMultisig } = this.props;
         return (
             <View>
                 <TableView
@@ -51,7 +51,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 />
                 {this.needsSignature() && (
                     <Row justify="space-between">
-                        <Button style={{ padding: 0 }} isLoading={isLoading} isDisabled={false} text={translate('history.transaction.sign')} theme="light" onPress={() => this.sign()} />
+                        <Button style={{ padding: 0 }} isLoading={isLoading} text={translate('history.transaction.sign')} theme="light" onPress={() => this.sign()} />
                     </Row>
                 )}
             </View>
@@ -62,4 +62,5 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
 export default connect(state => ({
     isLoading: state.transfer.isLoading,
     selectedAccount: state.wallet.selectedAccount,
+    isMultisig: state.account.isMultisig,
 }))(AggregateTransaction);

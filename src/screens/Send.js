@@ -10,6 +10,9 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AddressBook } from 'symbol-address-book';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
+import GlobalStyles from '@src/styles/GlobalStyles';
+import translate from "@src/locales/i18n";
+import {defaultFeesConfig} from "@src/config/fees";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -22,6 +25,9 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         backgroundColor: '#fff5',
     },
+    warning: {
+		color: GlobalStyles.color.RED
+	}
 });
 
 type Props = {};
@@ -32,10 +38,10 @@ class Send extends Component<Props, State> {
     state = {
         recipientAddress: '',
         mosaicName: this.props.network.currencyMosaicId,
-        amount: '0',
+        amount: '',
         message: '',
         isEncrypted: false,
-        fee: 0.5,
+        fee: defaultFeesConfig.normal,
         isConfirmShown: false,
         showAddressError: false,
         showAmountError: false,
@@ -98,12 +104,16 @@ class Send extends Component<Props, State> {
         return !(selectedMosaic.mosaicId === network.currencyMosaicId && parsedAmount < sendingAmount + fee);
     };
 
-    submit = () => {
+    submit = async () => {
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
-        mosaic.amount = parseFloat(this.state.amount) * Math.pow(10, mosaic.divisibility);
+        mosaic.amount = parseFloat(this.state.amount || '0') * Math.pow(10, mosaic.divisibility);
 
-        Store.dispatchAction({
+        this.setState({
+            isLoading: true,
+            isConfirmShown: true,
+        });
+        await Store.dispatchAction({
             type: 'transfer/setTransaction',
             payload: {
                 recipientAddress: this.state.recipientAddress,
@@ -114,7 +124,7 @@ class Send extends Component<Props, State> {
             },
         });
         this.setState({
-            isConfirmShown: true,
+            isLoading: false,
         });
     };
 
@@ -194,9 +204,9 @@ class Send extends Component<Props, State> {
             }));
 
         const feeList = [
-            { value: 0.1, label: '0.1 XEM - slow' },
-            { value: 0.5, label: '0.5 XEM - normal' },
-            { value: 1, label: '1 XEM - fast' },
+            { value: defaultFeesConfig.slow, label: translate('fees.slow') },
+            { value: defaultFeesConfig.normal, label: translate('fees.recommended') },
+            { value: defaultFeesConfig.fast, label: translate('fees.fast') },
         ];
 
         const validForm = this.isFormValid();
@@ -210,7 +220,7 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <InputAddress
                             value={recipientAddress}
-                            placeholder="Recipient Address"
+                            placeholder={translate('table.recipientAddress')}
                             theme="light"
                             fullWidth
                             onChangeText={val => this.onAddressChange(val)}
@@ -220,7 +230,7 @@ class Send extends Component<Props, State> {
                     <Section type="form-item">
                         <MosaicDropdown
                             value={mosaicName}
-                            title="Mosaic"
+                            title={translate('table.mosaic')}
                             theme="light"
                             editable={true}
                             isLoading={isOwnedMosaicsLoading}
@@ -232,30 +242,31 @@ class Send extends Component<Props, State> {
                         <Input
                             value={amount}
                             keyboardType="decimal-pad"
-                            placeholder="Amount"
-							theme="light"
-							keyboardType='numeric'
+                            nativePlaceholder="0"
+                            keyboardType='numeric'
+                            placeholder={translate('table.amount')}
+                            theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
                         />
-                        {amount.length > 0 && showAmountError && <Text theme="light">Not enough funds</Text>}
+                        {amount.length > 0 && showAmountError && <Text theme="light" style={styles.warning}>Not enough funds</Text>}
                     </Section>
                     <Section type="form-item">
-                        <Input value={message} placeholder="Message / Memo" theme="light" onChangeText={message => this.onMessageChange(message)} />
+                        <Input value={message} placeholder={translate('table.messageText')} theme="light" onChangeText={message => this.onMessageChange(message)} />
                     </Section>
                     <Section type="form-item">
                         <Checkbox
                             disabled={message.length === 0}
                             value={isEncrypted}
-                            title="Encrypted message"
+                            title={translate('table.encrypted')}
                             theme="light"
                             onChange={isEncrypted => this.setState({ isEncrypted })}
                         />
                     </Section>
                     <Section type="form-item">
-                        <Dropdown value={fee} title="Fee" theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
+                        <Dropdown value={fee} title={translate('table.fee')} theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
                     </Section>
                     <Section type="form-bottom">
-                        <Button isLoading={false} isDisabled={!validForm} text="Send" theme="light" onPress={() => this.submit()} />
+                        <Button isLoading={false} isDisabled={!validForm} text={translate('plugin.send')} theme="light" onPress={() => this.submit()} />
                     </Section>
                 </Section>
             </GradientBackground>
