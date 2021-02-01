@@ -47,15 +47,16 @@ class Send extends Component<Props, State> {
         showAmountError: false,
     };
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
 		Store.dispatchAction({ type: 'transfer/clear' });
 		const { recipientAddress, amount, mosaicName, message } = this.props;
+        let isMosaicPresent = true;
 
 		if(recipientAddress)
 			this.onAddressChange(recipientAddress);
 		if(mosaicName)
-			this.onMosaicChange(mosaicName);
-		if(amount)
+            isMosaicPresent = await this.onMosaicChange(mosaicName);
+		if(amount && isMosaicPresent)
 			this.onAmountChange(amount);
 		if(message)
 			this.onMessageChange(message);
@@ -176,9 +177,18 @@ class Send extends Component<Props, State> {
     };
 
     onMosaicChange = async mosaicName => {
+        const { ownedMosaics } = this.props;
+
+        if(!ownedMosaics.find(mosaic => mosaic.mosaicId === mosaicName)) {
+            Router.showMessage(translate('notification.noMosaicPresent', { mosaicName }), 'danger');
+            return false;
+        }
+
         await this.setState({ mosaicName });
         const { amount } = this.state;
         this.onAmountChange(amount);
+
+        return true;
     };
 
     onMessageChange = async message => {

@@ -30,6 +30,7 @@ import Receive from '@src/screens/Receive';
 import QRScanner from '@src/screens/QRScanner';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
+import { showMessage } from 'react-native-flash-message';
 
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
@@ -207,6 +208,16 @@ export class Router {
     }
 
     static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
+
+    static showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {
+        Router.showFlashMessageOverlay().then(() => {
+            showMessage({
+                message: message,
+                type: type,
+                duration: type === 'danger' ? 6000 : 3000
+            });
+        });
+    };
 }
 
 /**
