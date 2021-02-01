@@ -30,6 +30,7 @@ import Receive from '@src/screens/Receive';
 import QRScanner from '@src/screens/QRScanner';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
+import LinkedKeysDetails from "@src/screens/LinkedKeysDetails";
 
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
@@ -62,6 +63,7 @@ export const CONTACT_PROFILE_SCREEN = `${BASE_SCREEN_NAME}.CONTACT_PROFILE_SCREE
 export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREEN`;
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 export const QR_SCANNER_SCREEN = `${BASE_SCREEN_NAME}.QR_SCANNER_SCREEN`;
+export const SHOW_LINKED_KEYS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_LINKED_KEYS_SCREEN`;
 
 /**
  * Class to handle Routing between screens
@@ -95,7 +97,8 @@ export class Router {
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
 		[CONTACT_PROFILE_SCREEN, ContactProfile],
-		[QR_SCANNER_SCREEN, QRScanner]
+		[QR_SCANNER_SCREEN, QRScanner],
+		[SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails]
     ];
 
     static registerScreens() {
@@ -187,6 +190,9 @@ export class Router {
 	}
 	static goToSend(passProps, parentComponent?) {
         return this.goToScreen(SEND_SCREEN, passProps, parentComponent);
+    }
+	static goToShowLinkedKeys(passProps, parentComponent?) {
+        return this.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {

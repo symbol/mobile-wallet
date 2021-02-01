@@ -212,8 +212,16 @@ export default class TransactionService {
             const transactionHash = transaction.hash;
             const repositoryFactory = new RepositoryFactoryHttp(network.node);
             const transactionHttp = repositoryFactory.createTransactionRepository();
-            const tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
-            if (tx instanceof TransferTransaction && tx.message.type === 1) {
+            let tx;
+            try {
+                tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
+            } catch {}
+            if (!tx) {
+                try {
+                    tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Unconfirmed).toPromise();
+                } catch {}
+            }
+            if (tx && tx instanceof TransferTransaction && tx.message.type === 1) {
                 const networkType = NetworkService.getNetworkTypeFromModel(network);
                 const currentAccount = Account.createFromPrivateKey(current.privateKey, networkType);
                 if (tx.recipientAddress.plain() === currentAccount.address.plain()) {

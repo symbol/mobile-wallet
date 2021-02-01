@@ -430,7 +430,13 @@
 		"notes": "Notes",
 		"show": "Show",
 		"name": "Name",
-		"seedIndex": "Account Seed Index"
+		"seedIndex": "Account Seed Index",
+
+		"vrfPublicKey": "Linked Vrf public key",
+		"vrfPrivateKey": "Linked Vrf private key",
+		"remotePublicKey": "Linked Remote public key",
+		"remotePrivateKey": "Linked Remote private key",
+		"nodePublicKey": "Linked Node public key"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -499,6 +505,7 @@
 		"feesEarned": "Fees earned",
 		"selectNode": "Select node",
 		"changeNode": "Change node",
+		"activate": "Activate",
 		"stopHarvesting": "Stop harvesting",
 		"startHarvesting": "Start harvesting",
 		"ACTIVE": "Active",
@@ -507,7 +514,9 @@
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
 		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
 		"minBalanceRequirement": "Insufficient balance, the account needs to hold at least %{balance} to start delegated harvesting.",
-		"KEYS_LINKED": "Keys linked"
+		"KEYS_LINKED": "Keys linked",
+		"viewLinkedKeys": "View Linked Keys",
+		"linkedNode": "Linked Node"
 	},
 	"sidebar": {
 		"seed": "Seed account",
