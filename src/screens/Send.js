@@ -170,7 +170,17 @@ class Send extends Component<Props, State> {
         if (standardComma.endsWith('.') && !decimal) {
             final = final + '.';
         }
-        await this.setState({ amount: final });
+        
+        const invalidNumber = Number.isNaN(parseFloat(final));
+
+        if(invalidNumber) {
+            await this.setState({ amount: '0' });
+        }
+        else {
+            await this.setState({ amount: '' + final });
+        }
+
+        
         const showAmountError = !this.isAmountValid();
         this.setState({ showAmountError });
     };
@@ -178,7 +188,7 @@ class Send extends Component<Props, State> {
     onMosaicChange = async mosaicName => {
         await this.setState({ mosaicName });
         const { amount } = this.state;
-        this.onAmountChange(('' + amount).replace(/[^0-9.,]+/, ''));
+        this.onAmountChange('' + amount);
     };
 
     onMessageChange = async message => {
@@ -243,7 +253,6 @@ class Send extends Component<Props, State> {
                             value={amount}
                             keyboardType="decimal-pad"
                             nativePlaceholder="0"
-                            keyboardType='numeric'
                             placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
