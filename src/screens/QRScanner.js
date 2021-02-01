@@ -262,12 +262,12 @@ class CreateAccount extends Component {
 				noScroll
 			>
                 <Section type="form-without-padding" isScrollable>
+					{!!warning && <Section type="form-item">
+						<Text theme="dark" type="warning">{translate('qr.' + warning)}</Text>
+					</Section>}
                     <Section type="form-item">
 						<Text theme="dark" type="regular">{text}</Text>
 					</Section>
-					{!!warning && <Section type="form-item">
-						<Text theme="dark" type="bold">{translate('qr.' + warning)}</Text>
-					</Section>}
 					<Section type="form-bottom">
 						<Row wrap justify={buttonsJustify}>
 							{buttons.map((button, index) => this.renderButton(button, payload, index, buttons.length))}
