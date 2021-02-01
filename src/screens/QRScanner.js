@@ -72,7 +72,8 @@ class CreateAccount extends Component {
 		showPasswordModal: false,
 		res: null,
 		buttons: [],
-		payload: {}
+		payload: {},
+		warning: ''
 	};
 	
 	componentDidMount = () => {
@@ -167,6 +168,7 @@ class CreateAccount extends Component {
 		let title = translate('qr.scannerTitle');
 		let payload = {};
 		let buttons = [];
+		let warning = '';
 
 		this.setState({isLoading: true });
 
@@ -198,6 +200,7 @@ class CreateAccount extends Component {
 					title = translate('qr.transactionQr');
 					text = `This is the Transaction (Invoice) QR code. Do you want to send ${data.amount} ${data.mosaicName} to an address "${payload.recipientAddress}"?`
 					buttons = ['send'];
+					warning = data.warning;
 				break;
 				case QRService.QRCodeType.ExportAccount:
 					payload = { ...data, importMethod: 'privateKey' };
@@ -227,7 +230,8 @@ class CreateAccount extends Component {
 			title,
 			text,
 			buttons,
-			payload
+			payload,
+			warning
 		});
 	};
 
@@ -240,7 +244,8 @@ class CreateAccount extends Component {
 			text,
 			showPasswordModal,
 			buttons,
-			payload
+			payload,
+			warning
 		} = this.state;
 		const buttonsJustify = buttons.length > 1 ? 'space-between' : 'center';
 
@@ -260,6 +265,9 @@ class CreateAccount extends Component {
                     <Section type="form-item">
 						<Text theme="dark" type="regular">{text}</Text>
 					</Section>
+					{!!warning && <Section type="form-item">
+						<Text theme="dark" type="bold">{translate('qr.' + warning)}</Text>
+					</Section>}
 					<Section type="form-bottom">
 						<Row wrap justify={buttonsJustify}>
 							{buttons.map((button, index) => this.renderButton(button, payload, index, buttons.length))}

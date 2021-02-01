@@ -550,7 +550,8 @@
 		"scannerTitle": "Symbol QR Scanner",
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
-		"privateKeyQr": "Private Key QR"
+		"privateKeyQr": "Private Key QR",
+		"warningMultipleMosaicTransfer": "QR contains multiple mosaics transfer transaction. Currently this app supported sending only one mosaic per transaction."
 	},
 	"notification": {
 		"newUnconfirmed": "New unconfirmed transaction!",

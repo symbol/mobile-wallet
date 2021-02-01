@@ -59,6 +59,7 @@ const getCurrencyList = (): Array<string> => {
 };
 
 const getDefaultCurrency = (): string => {
+    console.log(currencies)
     return currencies.USD || 'USD';
 };
 
