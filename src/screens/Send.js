@@ -166,7 +166,7 @@ class Send extends Component<Props, State> {
         if (integer === '' && decimal) {
             integer = '0';
         }
-        let final = '' + parseInt(integer) + (decimal ? '.' + decimal : '');
+        let final = '' + Math.abs(parseInt(integer)) + (decimal ? '.' + decimal : '');
         if (standardComma.endsWith('.') && !decimal) {
             final = final + '.';
         }
