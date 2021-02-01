@@ -559,12 +559,14 @@
 		"scannerTitle": "Symbol QR Scanner",
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
-		"privateKeyQr": "Private Key QR"
+		"privateKeyQr": "Private Key QR",
+		"warningMultipleMosaicTransfer": "QR contains multiple mosaics transfer transaction. Currently this app supported sending only one mosaic per transaction."
 	},
 	"notification": {
 		"newUnconfirmed": "New unconfirmed transaction!",
 		"newConfirmed": "New confirmed transaction!",
-		"newAggregate": "New aggregate transaction!"
+		"newAggregate": "New aggregate transaction!",
+		"noMosaicPresent": "There is no mosaic '%{mosaicName}' present in this account"
 	},
 	"addressBook": {
 		"title": "Address book",

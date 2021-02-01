@@ -42,12 +42,17 @@ export default class C extends Component<Props, State> {
             case 'title-small':
                 globalStyle = { ...GlobalStyles.text.titleSmall };
                 break;
+            case 'warning':
+                globalStyle = { ...GlobalStyles.text.warning };
+                break;
         }
 
         if (typeof align === 'string') globalStyle.textAlign = align;
 
-        if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
-        else globalStyle.color = GlobalStyles.color.onDark.TEXT;
+        if (type !== 'warning') {
+            if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
+            else globalStyle.color = GlobalStyles.color.onDark.TEXT;
+        }
 
         return <Text style={[globalStyle, style]}>{children}</Text>;
     }

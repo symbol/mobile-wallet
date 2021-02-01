@@ -67,7 +67,8 @@ export default class {
 			message: transaction.message.payload,
 			mosaicName: formattedMosaic.mosaicName,
 			mosaicId: formattedMosaic.mosaicId,
-			amount: formattedMosaic.amount
+			amount: formattedMosaic.amount,
+			warning: transaction.mosaics.length > 1 && 'warningMultipleMosaicTransfer'
 		};
 
 		return formatedTransaction;

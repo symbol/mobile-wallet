@@ -102,6 +102,14 @@ export default {
 			lineHeight: 22,
 		},
 
+		warning: {
+			color: COLORS.ORANGE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '600',
+			fontSize: 13,
+			lineHeight: 22,
+		},
+
 		alert: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-Bold',
