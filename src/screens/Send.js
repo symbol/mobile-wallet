@@ -186,7 +186,7 @@ class Send extends Component<Props, State> {
 
         await this.setState({ mosaicName });
         const { amount } = this.state;
-        this.onAmountChange(amount);
+        this.onAmountChange(('' + amount).replace(/[^0-9.,]+/, ''));
 
         return true;
     };
@@ -253,6 +253,7 @@ class Send extends Component<Props, State> {
                             value={amount}
                             keyboardType="decimal-pad"
                             nativePlaceholder="0"
+                            keyboardType='numeric'
                             placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
