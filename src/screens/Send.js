@@ -167,11 +167,21 @@ class Send extends Component<Props, State> {
         if (integer === '' && decimal) {
             integer = '0';
         }
-        let final = integer + (decimal ? '.' + decimal : '');
+        let final = '' + Math.abs(parseInt(integer)) + (decimal ? '.' + decimal : '');
         if (standardComma.endsWith('.') && !decimal) {
             final = final + '.';
         }
-        await this.setState({ amount: final });
+        
+        const invalidNumber = Number.isNaN(parseFloat(final));
+
+        if(invalidNumber) {
+            await this.setState({ amount: '0' });
+        }
+        else {
+            await this.setState({ amount: '' + final });
+        }
+
+        
         const showAmountError = !this.isAmountValid();
         this.setState({ showAmountError });
     };
@@ -186,7 +196,7 @@ class Send extends Component<Props, State> {
 
         await this.setState({ mosaicName });
         const { amount } = this.state;
-        this.onAmountChange(('' + amount).replace(/[^0-9.,]+/, ''));
+        this.onAmountChange('' + amount);
 
         return true;
     };
@@ -253,7 +263,6 @@ class Send extends Component<Props, State> {
                             value={amount}
                             keyboardType="decimal-pad"
                             nativePlaceholder="0"
-                            keyboardType='numeric'
                             placeholder={translate('table.amount')}
                             theme="light"
                             onChangeText={amount => this.onAmountChange(amount)}
