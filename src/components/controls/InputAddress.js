@@ -9,6 +9,7 @@ import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
 import NetworkService from "@src/services/NetworkService";
 import { showMessage } from 'react-native-flash-message';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     root: {
@@ -72,7 +73,7 @@ class InputAccount extends Component<Props, State> {
 			this.props.onChangeText('');
 			Router.showFlashMessageOverlay().then(() => {
 				showMessage({
-					message: `Invalid address QR!`,
+					message: translate('unsortedKeys.invalidAddressQR'),
 					type: 'danger',
 				});
 			});
@@ -85,8 +86,8 @@ class InputAccount extends Component<Props, State> {
 	};
 
 	encryptPkQRCode = (password) => {
-		const { pkQRData } = this.state;
-		console.log('pkQRData === >', pkQRData)
+        const { pkQRData } = this.state;
+        
         try {
             const accountQR = AccountQR.fromJSON(pkQRData, password);
 			this.props.onChangeText(accountQR.accountPrivateKey);
@@ -102,7 +103,7 @@ class InputAccount extends Component<Props, State> {
 				this.props.onChangeText('');
 				Router.showFlashMessageOverlay().then(() => {
 					showMessage({
-						message: `Invalid password!`,
+						message: translate('unsortedKeys.invalidPassword'),
 						type: 'danger',
 					});
 				});
@@ -112,7 +113,7 @@ class InputAccount extends Component<Props, State> {
 				this.props.onChangeText('');
 				Router.showFlashMessageOverlay().then(() => {
 					showMessage({
-						message: `Invalid private key QR!`,
+						message: translate('unsortedKeys.invalidPrivateKeyQR'),
 						type: 'danger',
 					});
 				});	

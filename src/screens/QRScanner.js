@@ -91,7 +91,7 @@ class CreateAccount extends Component {
 	showDecryptErrorMessage = () => {
 		Router.showFlashMessageOverlay().then(() => {
 			showMessage({
-				message: `Invalid private key QR or password!`,
+				message: translate('unsortedKeys.invalidPrivateKeyQROrPassword'),
 				type: 'danger',
 			});
 		});
@@ -188,7 +188,13 @@ class CreateAccount extends Component {
 						accountName: data.name 
 					};
 					title = translate('qr.addressQr');
-					text = `This is  the Symbol Account Address QR code. The account name is: "${payload.accountName}". The address is: "${payload.recipientAddress}". Please select an action bellow.`
+					text = translate(
+						'unsortedKeys.accountAddressQRInfo', 
+						{ 
+							accountName: payload.accountName, 
+							recipientAddress: payload.recipientAddress
+						}
+					);
 					buttons = ['send', 'addContact'];
 				break;
 				case QRService.QRCodeType.RequestTransaction:
@@ -198,14 +204,21 @@ class CreateAccount extends Component {
 						mosaicName: data.mosaicId
 					};
 					title = translate('qr.transactionQr');
-					text = `This is the Transaction (Invoice) QR code. Do you want to send ${data.amount} ${data.mosaicName} to an address "${payload.recipientAddress}"?`
+					text = translate(
+						'unsortedKeys.invoiceTransactionQRInfo',
+						{
+							amount: data.amount,
+							mosaicName: data.mosaicName,
+							recipientAddress: payload.recipientAddress,
+						}
+					);
 					buttons = ['send'];
 					warning = data.warning;
 				break;
 				case QRService.QRCodeType.ExportAccount:
 					payload = { ...data, importMethod: 'privateKey' };
-					title = translate('qr.privateKeyQr')
-					text = `This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.`
+					title = translate('qr.privateKeyQr');
+					text = translate('unsortedKeys.accountPKQRInfo');
 					buttons = ['addAccount'];
 				break;
 				default: 
