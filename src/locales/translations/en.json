@@ -579,5 +579,23 @@
 		"slow": "Slow",
 		"recommended": "Recommended",
 		"fast": "Fast"
+	},
+	"unsortedKeys": {
+		"copied": "Copied!",
+		"invalidAddressQR": "Invalid address QR" ,
+		"invalidPassword": "Invalid password!",
+		"invalidPrivateKeyQR": "Invalid private key QR!",
+		"invalidPrivateKeyQROrPassword": "Invalid private key QR or password!",
+		"accountAddressQRInfo": "This is  the Symbol Account Address QR code. The account name is: \"%{accountName}\". The address is: \"%{recipientAddress}\". Please select an action bellow.",
+		"invoiceTransactionQRInfo": "This is the Transaction (Invoice) QR code. Do you want to send %{amount} (%{mosaicName}) to an address \"%{recipientAddress}\"?",
+		"accountPKQRInfo": "This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.",
+		"fileSavedToDirectoryMessage": "File saved successfully, please check '%{folder}' folder",
+		"errorSavingFile": "Error saving file",
+		"writePermissionsNeeded": "Write permissions are needed to save the file",
+		"invalidQR": "Invalid QR",
+		"invalidQRNetwork": "QR refers a different network. Please change the node in the Settings and try again",
+		"unsupportedSymbolQR": "This Symbol QR is not supported yet",
+		"failedToParseQR": "Failed to parse QR.",
+		"inavlidQRTransactionType": "Transaction type is not a transfer"
 	}
 }
