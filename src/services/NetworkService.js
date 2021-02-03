@@ -1,4 +1,4 @@
-import { ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp } from 'symbol-sdk';
+import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, TransactionFees} from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
@@ -26,10 +26,15 @@ export default class NetworkService {
             .getChainInfo()
             .pipe(timeout(REQUEST_TIMEOUT))
             .toPromise();
-        const transactionFees = await networkHttp
-            .getTransactionFees()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
+        let transactionFees: TransactionFees;
+        try {
+            transactionFees = await networkHttp
+                .getTransactionFees()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise();
+        } catch (e) {
+            transactionFees = new TransactionFees(0, 0, 0, 0, 0);
+        }
 
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',

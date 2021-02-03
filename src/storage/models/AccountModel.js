@@ -1,6 +1,8 @@
 /**
  * Account Origin Type
  */
+import type {AppNetworkType} from "@src/storage/models/NetworkModel";
+
 export type AccountOriginType = 'hd' | 'privateKey';
 
 /**
@@ -12,6 +14,7 @@ export interface AccountModel {
     type: AccountOriginType;
     path?: string;
     privateKey: string;
+    network: AppNetworkType;
     isPersistentDelReqSent: boolean;
     harvestingNode: string;
 }

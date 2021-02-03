@@ -77,7 +77,7 @@ export default {
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
             GlobalListener.setNetwork(network);
-            await dispatchAction({ type: 'account/loadAllData' });
+            await dispatchAction({ type: 'wallet/initState' });
         },
         updateChainHeight: async ({ state, commit }, payload) => {
             const selectedNetwork = state.network.selectedNetwork;

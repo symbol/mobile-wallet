@@ -51,7 +51,7 @@ class AccountDetails extends Component<Props, State> {
 			isPasscodeSelected
 		} = this.props;
 		const { contactQR, isLoading } = this.state;
-        const startPath = "m/44'/4343'/";
+        const startPath = networkType === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
         const endPath = "'/0'/0'";
         const seedIndex = path ? path.replace(startPath, '').replace(endPath, '') : null;
 		const data = {
