@@ -66,7 +66,7 @@ const ConfirmModal = (props: Props) => {
                                 <Section type="button">
                                     <TouchableOpacity onPress={onClose}>
                                         <Text style={{ color: GlobalStyles.color.PRIMARY }} theme="light" type="bold" align="center">
-                                            Cancel
+                                            {translate('Settings.passcode.alertTextCancel')}
                                         </Text>
                                     </TouchableOpacity>
                                 </Section>
