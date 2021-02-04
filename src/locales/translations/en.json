@@ -573,7 +573,8 @@
 		"addContact": "Add contact",
 		"updateContact": "Update contact",
 		"nameWarning": "Name is required",
-		"addressWarning": "Invalid address"
+		"addressWarning": "Invalid address",
+		"addressTakenWarning": "Address belongs to another contact"
 	},
 	"fees": {
 		"slow": "Slow",

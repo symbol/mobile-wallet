@@ -33,6 +33,7 @@ class AddContact extends Component<Props, State> {
         notes: '',
         update: false,
         isAddressValid: false,
+        isAddressTaken: false,
     };
 
     submit = () => {
@@ -84,8 +85,14 @@ class AddContact extends Component<Props, State> {
     }
 
     onAddressChange = address => {
-        const { network } = this.props;
-        this.setState({ address: address, isAddressValid: isAddressValid(address, network) });
+        const { network, addressBook } = this.props;
+        const isValid = isAddressValid(address, network);
+        if (isValid) {
+            const contact = addressBook.getContactByAddress(address);
+            this.setState({ address: address, isAddressValid: isValid, isAddressTaken: !!contact });
+        } else {
+            this.setState({ address: address, isAddressValid: false, isAddressTaken: false });
+        }
     };
 
     onChangeField = fieldName => newValue => {
@@ -95,7 +102,7 @@ class AddContact extends Component<Props, State> {
     };
 
     render() {
-        let { address, name, phone, email, label, notes, id, isAddressValid } = this.state;
+        let { address, name, phone, email, label, notes, id, isAddressValid, isAddressTaken } = this.state;
 
         return (
             <GradientBackground name="mesh_small" theme="light">
@@ -128,6 +135,11 @@ class AddContact extends Component<Props, State> {
                                 {translate('addressBook.addressWarning')}
                             </Text>
                         )}
+                        {isAddressTaken && (
+                            <Text theme="light" style={styles.warning}>
+                                {translate('addressBook.addressTakenWarning')}
+                            </Text>
+                        )}
                     </Section>
                     <Section type="form-item">
                         <Input value={phone} placeholder={translate('table.phone')} theme="light" onChangeText={this.onChangeField('phone')} />
@@ -145,7 +157,7 @@ class AddContact extends Component<Props, State> {
                                     text={translate('CreateNewAccount.submitButton')}
                                     theme="light"
                                     onPress={() => this.submit()}
-                                    isDisabled={!isAddressValid || name.length < 1}
+                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
                                 />
                             </Section>
                         </Section>
@@ -157,7 +169,7 @@ class AddContact extends Component<Props, State> {
                                     text={translate('addressBook.updateContact')}
                                     theme="light"
                                     onPress={() => this.update(id)}
-                                    isDisabled={!isAddressValid || name.length < 1}
+                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
                                 />
                             </Section>
                         </Section>
