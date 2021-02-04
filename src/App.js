@@ -44,19 +44,19 @@ export const handleAppStateChange = async (nextAppState: any) => {
 
 const initStore = async () => {
     try {
-        store.dispatchAction({ type: 'settings/initState' });
+        await store.dispatchAction({ type: 'settings/initState' });
     } catch {}
     try {
         store.dispatchAction({ type: 'market/loadMarketData' });
     } catch {}
     try {
-        store.dispatchAction({ type: 'network/initState' });
+        await store.dispatchAction({ type: 'network/initState' });
     } catch {}
     try {
         store.dispatchAction({ type: 'news/loadNews' });
     } catch {}
     try {
-        store.dispatchAction({ type: 'addressBook/loadAddressBook' });
+        await store.dispatchAction({ type: 'addressBook/loadAddressBook' });
     } catch {}
 };
 

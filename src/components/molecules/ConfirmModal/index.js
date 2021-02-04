@@ -62,13 +62,15 @@ const ConfirmModal = (props: Props) => {
                             <Section type="form-item">
                                 <Button style={styles.button} title="Confirm" theme="light" fullWidth={false} disabled={confirmDisabled} onPress={onSuccess} />
                             </Section>
-                            <Section type="button">
-                                <TouchableOpacity onPress={onClose}>
-                                    <Text style={{ color: GlobalStyles.color.PRIMARY }} theme="light" type="bold" align="center">
-                                        Cancel
-                                    </Text>
-                                </TouchableOpacity>
-                            </Section>
+                            {onClose && (
+                                <Section type="button">
+                                    <TouchableOpacity onPress={onClose}>
+                                        <Text style={{ color: GlobalStyles.color.PRIMARY }} theme="light" type="bold" align="center">
+                                            {translate('Settings.passcode.alertTextCancel')}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </Section>
+                            )}
                         </Section>
                     </View>
                 </Card>

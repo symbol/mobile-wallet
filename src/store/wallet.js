@@ -45,18 +45,26 @@ export default {
         },
         saveWallet: async ({ state, dispatchAction }) => {
             await MnemonicSecureStorage.saveMnemonic(state.wallet.mnemonic);
-            await dispatchAction({ type: 'wallet/createHdAccount', payload: { name: state.wallet.name, index: 0 } });
+            let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
+
+            const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, state.wallet.name, 'mainnet');
+            await AccountSecureStorage.createNewAccount(mainnetAccountModel);
+            const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, state.wallet.name, 'testnet');
+            await AccountSecureStorage.createNewAccount(testnetAccountModel);
+
+            await dispatchAction({ type: 'wallet/reloadAccounts' });
+            dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
         },
-        reloadAccounts: async ({ commit }) => {
-            const accounts = await AccountSecureStorage.getAllAccounts();
+        reloadAccounts: async ({ commit, state }) => {
+            const accounts = await AccountSecureStorage.getAllAccountsByNetwork(state.network.network);
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
         loadAccount: async ({ commit, dispatchAction, state }, id) => {
             let accountModel;
             if (id) {
-                accountModel = await AccountSecureStorage.getAccountById(id);
+                accountModel = await AccountSecureStorage.getAccountById(id, state.network.network);
             } else {
-                accountModel = (await AccountSecureStorage.getAllAccounts())[0];
+                accountModel = (await AccountSecureStorage.getAllAccountsByNetwork(state.network.network))[0];
             }
             await commit({ type: 'wallet/setSelectedAccount', payload: accountModel });
             const rawAddress = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
@@ -66,33 +74,32 @@ export default {
         createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
             if (!index) {
-                mnemonicModel = await MnemonicSecureStorage.increaseLastBipDerivedPath();
-                index = mnemonicModel.lastIndexDerived;
+                index = await AccountService.getNextIndex(state.network.network);
             }
-            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name);
+            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name, state.network.network);
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
         },
         createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
-            const accountModel = AccountService.createFromPrivateKey(privateKey, name);
+            const accountModel = AccountService.createFromPrivateKey(privateKey, name, state.network.network);
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
         },
         removeAccount: async ({ commit, dispatchAction, state }, id) => {
-            await AccountService.removeAccountById(id);
+            await AccountService.removeAccountById(id, state.network.network);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
         },
         renameAccount: async ({ commit, dispatchAction, state }, { id, newName }) => {
-            const accounts = await AccountService.renameAccount(id, newName);
-            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id);
+            const accounts = await AccountService.renameAccount(id, newName, state.network.network);
+            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id, state.network.network);
             commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
         updateDelegatedHarvestingInfo: async ({ commit, dispatchAction, state }, { id, isPersistentDelReqSent, harvestingNode }) => {
-            const accounts = await AccountService.updateDelegatedHarvestingInfo(id, isPersistentDelReqSent, harvestingNode);
-            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id);
+            const accounts = await AccountService.updateDelegatedHarvestingInfo(id, isPersistentDelReqSent, harvestingNode, state.network.network);
+            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id, state.network.network);
             commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },

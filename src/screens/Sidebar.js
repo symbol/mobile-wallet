@@ -27,6 +27,7 @@ import { downloadFile } from '@src/utils/donwload';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import { showPasscode } from '@src/utils/passcode';
 import translate from "@src/locales/i18n";
+import {getAccountIndexFromDerivationPath} from "@src/utils/format";
 
 const styles = StyleSheet.create({
     root: {
@@ -226,7 +227,7 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderSelectedAccountItem = () => {
-        const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading } = this.props;
+        const { address, selectedAccount, balance, nativeMosaicNamespace, isLoading, networkType } = this.props;
         const options = [
             { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(selectedAccount.id, selectedAccount.name) },
             // { iconName: 'delete_light', label: 'Delete', onPress: () => this.handleDeleteAccount(selectedAccount.id) },
@@ -246,9 +247,7 @@ class Sidebar extends Component<Props, State> {
 			: '..';
 
 		const path = selectedAccount.path;
-		const startPath = "m/44'/4343'/";
-		const endPath = "'/0'/0'";
-		const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
+        const index = getAccountIndexFromDerivationPath(path, networkType);
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                 {/* <Text type="bold" style={styles.selectedIndex}>
@@ -284,6 +283,7 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
+        const { networkType } = this.props;
 		const deleteText = type === 'hd'
 			? translate('sidebar.hide')
 			: translate('sidebar.remove');
@@ -296,9 +296,7 @@ class Sidebar extends Component<Props, State> {
 			? translate('sidebar.hideAccountDescription')
 			: translate('sidebar.removeAccountDescription');
 
-        const startPath = "m/44'/4343'/";
-        const endPath = "'/0'/0'";
-        const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
+        const index = getAccountIndexFromDerivationPath(path, networkType);
 
         const options = [
             { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },
@@ -422,6 +420,7 @@ class Sidebar extends Component<Props, State> {
 export default connect(state => ({
     address: state.account.selectedAccountAddress,
     selectedAccount: state.wallet.selectedAccount,
+    networkType: state.network.selectedNetwork.type,
     balance: state.account.balance,
     nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
     accounts: state.wallet.accounts,

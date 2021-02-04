@@ -7,6 +7,7 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
 import { SymbolPaperWallet } from 'symbol-paper-wallets';
+import {getAccountIndexFromDerivationPath} from "@src/utils/format";
 
 export default class AccountService {
     /**
@@ -35,44 +36,54 @@ export default class AccountService {
     static getAddressByAccountModelAndNetwork(accountModel: AccountModel, network: AppNetworkType): string {
         return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.pretty();
     }
+    /**
+     * Generates random mnemonic
+     */
+    static async getNextIndex(network: AppNetworkType): number {
+        const accounts = await AccountSecureStorage.getAllAccountsByNetwork(network);
+        const hdAccounts = accounts.filter(el => el.type === 'hd' && el.path);
+        hdAccounts.sort((a, b) => {
+            const aI = getAccountIndexFromDerivationPath(a.path, a.network) || -1;
+            const bI = getAccountIndexFromDerivationPath(b.path, b.network) || -1;
+            return aI - bI;
+        });
+        let lastIndex = 0;
+        for (let account: AccountModel of hdAccounts) {
+            const index = getAccountIndexFromDerivationPath(account.path, account.network);
+            if (index === lastIndex) lastIndex = index + 1;
+        }
+        return lastIndex;
+    }
 
     /**
      * Remove account by it's id
      */
-    static async removeAccountById(id: string): string {
-        const allAccounts = await AccountSecureStorage.getAllAccounts();
-        const filteredAccounts = allAccounts.filter(account => account.id !== id);
-        await AccountSecureStorage.saveAccounts(filteredAccounts);
-        return filteredAccounts;
+    static async removeAccountById(id: string, network: AppNetworkType): string {
+        return AccountSecureStorage.removeAccount(id, network);
     }
 
     /**
      * Renames account by it's id
      */
-    static async renameAccount(id: string, newName: string): string {
-        const allAccounts = await AccountSecureStorage.getAllAccounts();
-        allAccounts.forEach(account => {
-            if (account.id === id) {
-                account.name = newName;
-            }
-        });
-        await AccountSecureStorage.saveAccounts(allAccounts);
-        return allAccounts;
+    static async renameAccount(id: string, newName: string, network: AppNetworkType): string {
+        const allAccounts = await AccountSecureStorage.getAllAccountsByNetwork(network);
+        const account = allAccounts.find(account => account.id === id);
+        account.name = newName;
+        await AccountSecureStorage.updateAccount(account);
+        return AccountSecureStorage.getAllAccountsByNetwork(network);
     }
 
     /**
      * Updates persistent del request sent
      */
-    static async updateDelegatedHarvestingInfo(id: string, isPersistentDelReqSent: boolean, harvestingNode: string): string {
-        const allAccounts = await AccountSecureStorage.getAllAccounts();
-        allAccounts.forEach(account => {
-            if (account.id === id) {
-                account.isPersistentDelReqSent = isPersistentDelReqSent;
-                account.harvestingNode = harvestingNode;
-            }
-        });
-        await AccountSecureStorage.saveAccounts(allAccounts);
-        return allAccounts;
+    static async updateDelegatedHarvestingInfo(id: string, isPersistentDelReqSent: boolean, harvestingNode: string, network: AppNetworkType): string {
+        const allAccounts = await AccountSecureStorage.getAllAccountsByNetwork(network);
+        const account = allAccounts.find(account => account.id === id);
+        if (!account) return;
+        account.isPersistentDelReqSent = isPersistentDelReqSent;
+        account.harvestingNode = harvestingNode;
+        await AccountSecureStorage.updateAccount(account);
+        return AccountSecureStorage.getAllAccountsByNetwork(network);
     }
 
     /**
@@ -80,16 +91,17 @@ export default class AccountService {
      * @param mnemonic
      * @param index
      * @param name
+     * @param network
      * @returns {AccountModel}
      */
-    static createFromMnemonicAndIndex(mnemonic: string, index: number, name: string): AccountModel {
+    static createFromMnemonicAndIndex(mnemonic: string, index: number, name: string, network: AppNetworkType): AccountModel {
         const mnemonicPassPhrase = new MnemonicPassPhrase(mnemonic);
         const seed = mnemonicPassPhrase.toSeed().toString('hex');
         const extKey = ExtendedKey.createFromSeed(seed);
         const wallet = new Wallet(extKey);
-        const path = `m/44'/4343'/${index}'/0'/0'`;
+        const path = `m/44'/${network === 'testnet' ? '1' : '4343'}'/${index}'/0'/0'`;
         const privateKey = wallet.getChildAccountPrivateKey(path);
-        const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
+        const symbolAccount = Account.createFromPrivateKey(privateKey, network === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET);
         return this.symbolAccountToAccountModel(symbolAccount, name, 'hd', path);
     }
 
@@ -97,10 +109,11 @@ export default class AccountService {
      * Creates an account from a mnemonic
      * @param privateKey
      * @param name
+     * @param network
      * @returns {AccountModel}
      */
-    static createFromPrivateKey(privateKey: string, name: string): AccountModel {
-        const symbolAccount = Account.createFromPrivateKey(privateKey, NetworkType.MAIN_NET);
+    static createFromPrivateKey(privateKey: string, name: string, network: AppNetworkType): AccountModel {
+        const symbolAccount = Account.createFromPrivateKey(privateKey, network === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET);
         return this.symbolAccountToAccountModel(symbolAccount, name, 'privateKey');
     }
 
@@ -176,6 +189,7 @@ export default class AccountService {
             type: type,
             privateKey: account.privateKey,
             path: path,
+            network: account.networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
         };
     }
 
@@ -204,7 +218,7 @@ export default class AccountService {
      * @param network
      */
     static async generatePaperWallet(mnemonic: string, accounts: AccountModel[], network: NetworkModel): Promise<Uint8Array> {
-        const mnemonicAccount = this.createFromMnemonicAndIndex(mnemonic, 0, 'Root');
+        const mnemonicAccount = this.createFromMnemonicAndIndex(mnemonic, 0, 'Root', network.type);
         const hdRootAccount = {
             mnemonic: mnemonic,
             rootAccountPublicKey: mnemonicAccount.id,

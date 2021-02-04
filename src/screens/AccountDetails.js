@@ -14,6 +14,7 @@ import {
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import {getAccountIndexFromDerivationPath} from "@src/utils/format";
 
 
 const styles = StyleSheet.create({
@@ -51,10 +52,8 @@ class AccountDetails extends Component<Props, State> {
 			isPasscodeSelected
 		} = this.props;
 		const { contactQR, isLoading } = this.state;
-        const startPath = "m/44'/4343'/";
-        const endPath = "'/0'/0'";
-        const seedIndex = path ? path.replace(startPath, '').replace(endPath, '') : null;
-		const data = {
+        const seedIndex = getAccountIndexFromDerivationPath(path, networkType);
+        const data = {
             accountName,
             seedIndex,
             address,
