@@ -27,6 +27,7 @@ import { downloadFile } from '@src/utils/donwload';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import { showPasscode } from '@src/utils/passcode';
 import translate from "@src/locales/i18n";
+import {getAccountIndexFromDerivationPath} from "@src/utils/format";
 
 const styles = StyleSheet.create({
     root: {
@@ -246,10 +247,7 @@ class Sidebar extends Component<Props, State> {
 			: '..';
 
 		const path = selectedAccount.path;
-        const startPath = networkType === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
-		// const startPath = "m/44'/4343'/";
-		const endPath = "'/0'/0'";
-		const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
+        const index = getAccountIndexFromDerivationPath(path, networkType);
         return (
             <SymbolGradientContainer style={styles.selectedAccountBox} noPadding>
                 {/* <Text type="bold" style={styles.selectedIndex}>
@@ -298,10 +296,7 @@ class Sidebar extends Component<Props, State> {
 			? translate('sidebar.hideAccountDescription')
 			: translate('sidebar.removeAccountDescription');
 
-        // const startPath = "m/44'/4343'/";
-        const startPath = networkType === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
-        const endPath = "'/0'/0'";
-        const index = path ? path.replace(startPath, '').replace(endPath, '') : null;
+        const index = getAccountIndexFromDerivationPath(path, networkType);
 
         const options = [
             { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },

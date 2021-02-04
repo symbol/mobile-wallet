@@ -1,5 +1,6 @@
 import { LocalDate, LocalDateTime } from 'js-joda';
 import translate from '@src/locales/i18n';
+import type {AppNetworkType} from "@src/storage/models/NetworkModel";
 
 export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
     return `${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
@@ -110,4 +111,10 @@ export const durationToRelativeTime = (durationInBlocks: number, blockGeneration
 
 export const shortifyAddress = (address: string): string => {
     return `${address.slice(0, 6)}-...-${address.slice(42)}`;
+};
+
+export const getAccountIndexFromDerivationPath = (path: string, network: AppNetworkType): number => {
+    const startPath = network === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
+    const endPath = "'/0'/0'";
+    return path ? parseInt(path.replace(startPath, '').replace(endPath, '')) : null;
 };

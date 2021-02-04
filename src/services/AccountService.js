@@ -7,6 +7,7 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
 import { SymbolPaperWallet } from 'symbol-paper-wallets';
+import {getAccountIndexFromDerivationPath} from "@src/utils/format";
 
 export default class AccountService {
     /**
@@ -42,22 +43,16 @@ export default class AccountService {
         const accounts = await AccountSecureStorage.getAllAccountsByNetwork(network);
         const hdAccounts = accounts.filter(el => el.type === 'hd' && el.path);
         hdAccounts.sort((a, b) => {
-            const aI = this.getIndexFromAccountModel(a) || -1;
-            const bI = this.getIndexFromAccountModel(b) || -1;
+            const aI = getAccountIndexFromDerivationPath(a.path, a.network) || -1;
+            const bI = getAccountIndexFromDerivationPath(b.path, b.network) || -1;
             return aI - bI;
         });
         let lastIndex = 0;
         for (let account: AccountModel of hdAccounts) {
-            const index = this.getIndexFromAccountModel(account);
+            const index = getAccountIndexFromDerivationPath(account.path, account.network);
             if (index === lastIndex) lastIndex = index + 1;
         }
         return lastIndex;
-    }
-
-    static getIndexFromAccountModel(account: AccountModel): number | null {
-        const startPath = account.network === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
-        const endPath = "'/0'/0'";
-        return account.path ? parseInt(account.path.replace(startPath, '').replace(endPath, '')) : null;
     }
 
     /**
