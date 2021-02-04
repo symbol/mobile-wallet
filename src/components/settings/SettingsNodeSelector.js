@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import store from '@src/store';
 import { getNodes } from '@src/config/environment';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import ConfirmModal from "@src/components/molecules/ConfirmModal";
 
 
 const styles = StyleSheet.create({
@@ -64,7 +65,8 @@ class SettingsNodeSelector extends Component {
         isModalOpen: false,
 		error: null,
 		loading: null,
-		selectedTab: 'mainnet'
+		selectedTab: 'mainnet',
+		isConfirmModalOpen: false,
 	};
 
 	componentDidMount = () => {
@@ -84,6 +86,10 @@ class SettingsNodeSelector extends Component {
             isModalOpen: false,
         });
     };
+
+    onSelectTestnet = () => {
+		this.setState({isConfirmModalOpen: true, selectedTab: 'testnet'});
+	};
 
     onSelectNode = node => {
         this.setState({
@@ -124,7 +130,7 @@ class SettingsNodeSelector extends Component {
             testnet: getNodes('testnet').map(node => ({ value: node, label: node })),
         };
 
-        const { isModalOpen, error, loading, selectedTab } = this.state;
+        const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
         const { selectedNode, selectedNetwork } = this.props;
 		const list = selectedTab === 'mainnet'
 			? nodes.mainnet
@@ -160,7 +166,7 @@ class SettingsNodeSelector extends Component {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={styles.tab, selectedTab === 'testnet' && styles.activeTab}
-									onPress={() => this.setState({selectedTab: 'testnet'})}
+									onPress={() => this.onSelectTestnet()}
 								>
 									<Text type="bold" theme="light">
 										Testnet
@@ -212,6 +218,14 @@ class SettingsNodeSelector extends Component {
                         value={selectedNetwork === 'testnet' ? selectedNode : null}
                         onChange={v => this.onSelectNode(v)}
                     /> */}
+
+					<ConfirmModal
+						isModalOpen={isConfirmModalOpen}
+						showTopbar={true}
+						title={translate('settings.logoutConfirm2Title')}
+						text={translate('settings.changeTestnetNode')}
+						onSuccess={() => this.setState({ isConfirmModalOpen: false })}
+					/>
 
                 </PopupModal>
             </View>

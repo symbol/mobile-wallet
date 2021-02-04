@@ -549,6 +549,7 @@
 		"errorInvalidPrivateKey": "Invalid private key"
 	},
 	"settings": {
+		"changeTestnetNode": "You are about to select a testnet node. All transactions done here won't reflect in mainnet network.",
 		"logoutConfirmTitle": "Are you sure",
 		"logoutConfirmDesc": "By logging out the data on the device will be removed. You should have a back up before proceeding",
 		"logoutConfirmCheck": "I have backed up all the accounts under this profile",
