@@ -67,7 +67,7 @@ class AddContact extends Component<Props, State> {
 
         if (address && name) {
             this.onAddressChange(address);
-            this.setState({ name });
+            this.onChangeField('name')(name);
         } else if (selectedContact) {
             this.state.update = true;
             this.state.isAddressValid = true;
@@ -89,11 +89,9 @@ class AddContact extends Component<Props, State> {
     };
 
     onChangeField = fieldName => newValue => {
-        if (newValue.length < 28) {
-            this.setState({
-                [fieldName]: newValue,
-            });
-        }
+        this.setState({
+            [fieldName]: newValue.substr(0, 28),
+        });
     };
 
     render() {
