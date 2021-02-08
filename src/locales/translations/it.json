@@ -111,7 +111,7 @@
 		},
 		"ShowQRCode": {
 			"title": "Backup del portafoglio",
-			"description": "Successivamente, puoi importare nuovamente il portafoglio scansionando il codice QR e fornendo la password che hai scelto.",
+			"description": "Symbol Paper Wallet contiene tutte le informazioni necessarie per ripristinare tutti i tuoi account in questo profilo. È necessario conservare questo file in un luogo sicuro. Chiunque abbia accesso al tuo file sarà in grado di accedere a tutti i tuoi fondi.",
 			"downloadButton": "Scarica il codice QR",
 			"dashboardButton": "Vai a CRUSCOTTO",
 			"permissionTitle": "Symbol di autorizzazione del portafoglio",
@@ -203,7 +203,7 @@
 		"backup": "Backup",
 		"giveFeedback": "Dare un feedback",
 		"aboutNem": "A proposito di Symbol",
-		"logout": "Disconnettersi"
+		"logout": "Elimina tutti gli account"
 	},
 	"AccountDetails": {
 		"title": "Dettagli account",
@@ -425,7 +425,19 @@
 		"phone": "telefono ",
 		"email": "Email",
 		"label": "Etichetta",
-		"notes": "Appunti"
+		"notes": "Appunti",
+		"seedIndex": "Seed Indice Conto",
+		"displayFee": "Commissione Di Transazione",
+		"vrfPublicKey": "La chiave pubblica della funzione casuale verificabile (VRF) associata",
+		"vrfPrivateKey": "La chiave privata della funzione casuale verificabile (VRF) associata",
+		"remotePublicKey": "Chiave pubblica remota associata",
+		"remotePrivateKey": "Chiave privata remota associata",
+		"nodePublicKey": "La chiave pubblica dei nodi collegati"
+	},
+	"fees": {
+		"slow": "lenta",
+		"recommended": "standard",
+		"fast": "veloce"
 	},
 	"transactionTypes": {
 		"unknown": "Il tipo non è ancora supportato",
@@ -490,6 +502,7 @@
 		"feesEarned": "commissioni guadagnate",
 		"selectNode": "Seleziona il nodo",
 		"changeNode": "Cambia nodo",
+		"activate": "Attivare",
 		"stopHarvesting": "Sospendi la Harvesting",
 		"startHarvesting": "Inizia la Harvesting",
 		"ACTIVE": "ATTIVA",
@@ -497,7 +510,9 @@
 		"INPROGRESS_ACTIVATION": "Attivazione in corso ",
 		"INPROGRESS_DEACTIVATION": "Disattivazione in corso ",
 		"harvetingIntroTitle": "Inizia a Harvesting per guadagnare ricompense di blocchi",
-		"minBalanceRequirement": "Per implementare la raccolta, l'account deve avere un saldo garantito di almeno% {balance}",
+		"minBalanceRequirement": "Saldo insufficiente sull'account, poiché deve essere presente almeno %{balance} per avviare la delegated harvesting.",
+		"viewLinkedKeys": "Visualizzazione delle chiavi correlate",
+		"linkedNode": "Nodo correlato (noda)",
 		"KEYS_LINKED": "Chiavi correlate"
 	},
 	"sidebar": {
@@ -531,7 +546,9 @@
 		"errorInvalidPrivateKey": "Chiave privata non valida"
 	},
 	"settings": {
+		"changeTestnetNode": "Stai per selezionare un nodo testnet. Tutte le transazioni effettuate qui non si rifletteranno nella rete mainnet.",
 		"logoutConfirmTitle": "Sei sicuro?",
+		"logoutConfirmCheck": "Ho un backup di tutti gli account in questo profilo",
 		"logoutConfirmDesc": "Quando ti disconnetti, i dati sul dispositivo verranno eliminati. È necessario disporre di un backup prima di procedere",
 		"logoutConfirm2Title": "Avvertimento",
 		"logoutConfirm2Desc": "Non sarai più in grado di accedere al tuo portafoglio se non disponi di un backup. Sei sicuro di voler continuare?"
@@ -540,6 +557,31 @@
 		"scannerTitle": "Scanner QR di Symbol",
 		"transactionQr": "Transazione QR",
 		"addressQr": "Indirizzo QR",
-		"privateKeyQr": "Chiave QR privata"
+		"privateKeyQr": "Chiave QR privata",
+		"warningMultipleMosaicTransfer": "La transazione QR contiene diversi mosaici. Attualmente, questa applicazione supporta solo l'invio di un mosaico per transazione."
+	},
+	"notification": {
+		"noMosaicPresent": "Questo account non ha il mosaico \"%{mosaicName}\""
+	},
+	"unsortedKeys": {
+		"copied": "Copiato!",
+		"invalidAddressQR": "Indirizzo QR non valido" ,
+		"invalidPassword": "Password non valida!",
+		"invalidPrivateKeyQR": "Chiave privata QR non valida!",
+		"invalidPrivateKeyQROrPassword": "Chiave privata (QR) o password non valide!",
+		"accountAddressQRInfo": "Codice QR dell'account Symbol. Nome account: \"%{accountName} \". Indirizzo: \"%{recipientAddress} \". Seleziona un'azione di seguito.",
+		"invoiceTransactionQRInfo": "Questo è il codice QR della transazione (fattura). Vuoi inviare %{amount} (%{mosaicName}) a \"%{recipientAddress} \"?",
+		"accountPKQRInfo": "Codice QR della chiave privata dell'account. Puoi aggiungere questo account al tuo portafoglio.",
+		"fileSavedToDirectoryMessage": "File salvato con successo, controlla \"%{folder}\"",
+		"errorSavingFile": "Errore durante il salvataggio del file",
+		"writePermissionsNeeded": "È necessaria l'autorizzazione di scrittura per salvare il file.",
+		"invalidQR": "QR non valido",
+		"invalidQRNetwork": "QR appartiene a una rete diversa. Cambia il nodo nelle impostazioni e riprova",
+		"unsupportedSymbolQR": "Il QR dei simboli non è ancora supportato",
+		"failedToParseQR": "Impossibile leggere QR.",
+		"inavlidQRTransactionType": "Il tipo di transazione non è un trasferimento"
+	},
+	"addressBook": {
+		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto"
 	}
 }

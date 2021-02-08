@@ -111,7 +111,7 @@
 		},
 		"ShowQRCode": {
 			"title": "Respaldo de Wallet",
-			"description": "Luego puedes importar tu Wallet de nuevo al escanear el Código QR y proveer tu contraseña",
+			"description": "El Paper Wallet de Symbol contiene toda la información para recuperar todas las cuentas en este perfil. Tienes que guardarlo en un lugar seguro. Cualquier persona que lea el paper wallet podrá acceder a todos tus fondos.",
 			"downloadButton": "Descargar Código QR",
 			"dashboardButton": "Ir al Tablero",
 			"permissionTitle": "Autorización de la Wallet Symbol",
@@ -203,7 +203,7 @@
 		"backup": "Respaldo",
 		"giveFeedback": "Dejar comentarios",
 		"aboutNem": "Acerca de Symbol",
-		"logout": "Salir del Sistema"
+		"logout": "Borrar todas las cuentas"
 	},
 	"AccountDetails": {
 		"title": "Detalles de cuenta",
@@ -393,6 +393,11 @@
 			"title": "Crear cuenta remota"
 		}
 	},
+	"fees": {
+		"slow": "Lenta",
+		"recommended": "Recomendada",
+		"fast": "Rápida"
+	},
 	"table": {
 		"type": "Tipo",
 		"recipientAddress": "Dirección de recepción",
@@ -425,7 +430,14 @@
 		"phone": "Teléfono",
 		"email": "Email",
 		"label": "Etiqueta",
-		"notes": "Notas"
+		"notes": "Notas",
+		"seedIndex": "Indice de la cuenta",
+		"displayFee" : "Comisión",
+		"vrfPublicKey": "Llave publica VRF",
+		"vrfPrivateKey": "Llave privada VRF",
+		"remotePublicKey": "Llave publica Remota",
+		"remotePrivateKey": "Llave publica Remota",
+		"nodePublicKey": "Llave publica del nodo"
 	},
 	"transactionTypes": {
 		"unknown": "Tipo no admitido aún",
@@ -491,6 +503,7 @@
 		"feesEarned": "Tarifas ganadas",
 		"selectNode": "Seleccionar nodo",
 		"changeNode": "Cambiar nodo",
+		"activate": "Activar",
 		"stopHarvesting": "Dejar de cosechar",
 		"startHarvesting": "Empezar a cosechar",
 		"ACTIVE": "Activo",
@@ -499,7 +512,9 @@
 		"INPROGRESS_DEACTIVATION": "Desactivación en curso",
 		"harvetingIntroTitle": "Comienza a cosechar para ganar recompensas en bloque",
 		"minBalanceRequirement": "Para cosechar, la cuenta necesita un saldo de por lo menos %{balance}",
-		"KEYS_LINKED": "Llaves enlazadas"
+		"KEYS_LINKED": "Llaves enlazadas",
+		"viewLinkedKeys": "Ver las llaves enlazadas",
+		"linkedNode": "Nodo enlazado"
 	},
 	"sidebar": {
 		"seed": "Cuenta semillero",
@@ -532,7 +547,9 @@
 		"errorInvalidPrivateKey": "Llave privada no válida"
 	},
 	"settings": {
+		"changeTestnetNode": "Estas a punto de cambiar a un nodo de la red de test. Todas las acciones ejecutadas en esta red no se verán reflejadas en la principal",
 		"logoutConfirmTitle": "¿Estás seguro?",
+		"logoutConfirmCheck": "He hecho el back up de todas las cuentas",
 		"logoutConfirmDesc": "Al cerrar la sesión, los datos en el dispositivo se eliminarán. Debes tener una copia de seguridad antes de proceder",
 		"logoutConfirm2Title": "Advertencia",
 		"logoutConfirm2Desc": "No podrás acceder de nuevo a tu Wallet a menos que tengas una copia de seguridad. ¿Estás seguro de querer continuar?"
@@ -541,6 +558,35 @@
 		"scannerTitle": "Escáner Symbol de QR ",
 		"transactionQr": "Transacción de QR",
 		"addressQr": "Dirección de QR",
-		"privateKeyQr": "QR de Llave privada"
+		"privateKeyQr": "QR de Llave privada",
+		"warningMultipleMosaicTransfer": "La transacción de transferencia continene varios mosaicos. Actualmente esta app solo soporta enviar un mosaico por transacción"
+	},
+	"notification": {
+		"newUnconfirmed": "Nueva transacción sin confirmar!",
+		"newConfirmed": "Nueva transacción confirmada!",
+		"newAggregate": "Nueva transacción agregada!",
+		"noMosaicPresent": "El mosaico '%{mosaicName}' no esta presente en esta cuenta"
+	},
+
+	"unsortedKeys": {
+		"copied": "Copiado!",
+		"invalidAddressQR": "QR de dirección invalido" ,
+		"invalidPassword": "Contraseña invalida!",
+		"invalidPrivateKeyQR": "QR de llave privada invalido!",
+		"invalidPrivateKeyQROrPassword": "QR de llave privada o contraseña invalidos!",
+		"accountAddressQRInfo": "Este es el QR de dirección de cuenta. El nombre de la cuenta es: \"%{accountName}\". La dirección es: \"%{recipientAddress}\". Por favor selecciona una acción.",
+		"invoiceTransactionQRInfo": "Esto es un QR de transacción (Invoice). Quieres enviar %{amount} (%{mosaicName}) a \"%{recipientAddress}\"?",
+		"accountPKQRInfo": "Este es el QR de llave privada. Puedes añadir esta cuenta al wallet rellenando la información del formulario.",
+		"fileSavedToDirectoryMessage": "Documento guardado con exito. Por favor comprueba la carpeta '%{folder}'",
+		"errorSavingFile": "Error guardando el archivo",
+		"writePermissionsNeeded": "Para guardar el archivo se necesitan permisos de escritura.",
+		"invalidQR": "QR invalido",
+		"invalidQRNetwork": "Este QR se refiere a otra red. Por favor cambia el nodo en los ajustes y prueba de nuevo",
+		"unsupportedSymbolQR": "Este QR de Symbol aún no está soportado",
+		"failedToParseQR": "Error al leer el QR.",
+		"inavlidQRTransactionType": "El tipo de la transacción de es de transferencia"
+	},
+	"addressBook": {
+		"addressTakenWarning": "Esta dirección corresponde a otro contacto"
 	}
 }
