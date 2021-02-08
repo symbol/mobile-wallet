@@ -110,7 +110,7 @@
 		},
 		"ShowQRCode": {
 			"title": "备份钱包",
-			"description": "以后您可通过扫描二维码并提供您选择的密码再次导入钱包",
+			"description": "Symbol“纸钱包”包含用于恢复此账户(profile)中所有帐户(account)的信息。您必须将此文件放在安全的地方。任何能读取纸钱包文件的人都能够获取您的所有资金。",
 			"downloadButton": "下载二维码",
 			"dashboardButton": "转到操作主页",
 			"permissionTitle": " Symbol钱包权限",
@@ -203,7 +203,7 @@
 		"backup": "备份",
 		"giveFeedback": "提供反馈",
 		"aboutNem": "关于 Symbol",
-		"logout": "注销"
+		"logout": "删除所有帐户"
 	},
 	"AccountDetails": {
 		"title": "帐户详细信息",
@@ -425,7 +425,14 @@
 		"phone": "电话",
 		"email": "电子邮件",
 		"label": "标签",
-		"notes": "注释"
+		"notes": "注释",
+		"seedIndex": "帐户种子指数",
+		"displayFee": "费用",
+		"vrfPublicKey": "已链接的 Vrf 公钥",
+		"vrfPrivateKey": "已链接的 Vrf 私钥",
+		"remotePublicKey": "已链接的远程公钥",
+		"remotePrivateKey": "已链接的远程私钥",
+		"nodePublicKey": "已链接的节点公钥"
 	},
 	"transactionTypes": {
 		"unknown": "尚不支持的类型",
@@ -491,6 +498,7 @@
 		"feesEarned": "赚到的费用",
 		"selectNode": "选择节点",
 		"changeNode": "更改节点",
+		"activate": "激活",
 		"stopHarvesting": "停止收获",
 		"startHarvesting": "开始收获",
 		"ACTIVE": "激活的",
@@ -498,8 +506,10 @@
 		"INPROGRESS_ACTIVATION": "激活正在进行",
 		"INPROGRESS_DEACTIVATION": "停用正在进行中",
 		"harvetingIntroTitle": "开始收获，赚取区块奖励",
-		"minBalanceRequirement": "要收获，该账户需要有至少为 %{balance}的既得余额",
-		"KEYS_LINKED": "关联的钥匙"
+		"minBalanceRequirement": "余额不足，帐户需要持有至少 %{balance}才能开始进行委派的收获。",
+		"KEYS_LINKED": "关联的钥匙",
+		"viewLinkedKeys": "查看已链接的钥匙",
+		"linkedNode": "已链接的节点"
 	},
 	"sidebar": {
 		"seed": "种子帐户",
@@ -532,16 +542,48 @@
 		"errorInvalidPrivateKey": "私钥无效"
 	},
 	"settings": {
+		"changeTestnetNode": "您将要选择一个测试网节点。此处完成的所有交易都不会反映在主网网络中。",
 		"logoutConfirmTitle": "你确定吗？",
 		"logoutConfirmDesc": "退出后，设备上的数据将被删除。在继续进行之前， 您应有一个备份",
 		"logoutConfirm2Title": "警告",
-		"logoutConfirm2Desc": "除非你有备份，否则将无法再次访问钱包。是否确实要继续？"
+		"logoutConfirm2Desc": "除非你有备份，否则将无法再次访问钱包。是否确实要继续？",
+		"logoutConfirmCheck": "我已经备份了此账户(profile)中的所有帐户(account)"
 	},
 	"qr": {
 		"scannerTitle": "Symbol QR 扫描器",
 		"transactionQr": "交易QR",
 		"addressQr": "地址 QR",
-		"privateKeyQr": "私钥 QR"
+		"privateKeyQr": "私钥 QR",
+		"warningMultipleMosaicTransfer": "转账交易QR 包含多个马赛克。目前，此应用程序支持每个交易只发送一个马赛克。"
+	},
+	"fees": {
+		"slow": "慢",
+		"recommended": "推荐",
+		"fast": "快"
+	},
+	"notification": {
+		"noMosaicPresent": "此帐户中不存在\"%{mosaicName}\"马赛克"
+	},
+	"unsortedKeys": {
+		"copied": "已复制!",
+		"invalidAddressQR": "地址 QR无效" ,
+		"invalidPassword": "密码无效！",
+		"invalidPrivateKeyQR": "私钥 QR无效！",
+		"invalidPrivateKeyQROrPassword": "私钥 QR 或密码无效！",
+		"accountAddressQRInfo": "这是Symbol帐户地址 QR 码。帐户名称为：\"%{accountName}\"。地址是：\"%{recipientAddress}\"。请选择下面的一项操作。",
+		"invoiceTransactionQRInfo": "这是本交易（发票）QR码。是否要将 %{amount} (%{mosaicName})发送到\"%{recipientAddress}\"？",
+		"accountPKQRInfo": "这是帐户私钥 QR 代码。您可通过填写\"添加帐户\"表格将此帐户添加到钱包中。",
+		"fileSavedToDirectoryMessage": "保存文件成功，请检查\"%{folder}\"文件夹",
+		"errorSavingFile": "保存文件出错",
+		"writePermissionsNeeded": "需要写入权限才能保存文件",
+		"invalidQR": "无效 QR",
+		"invalidQRNetwork": "QR 指向另一个网络。请更改\"设置\"中的节点，然后重试。",
+		"unsupportedSymbolQR": "此Symbol QR 尚未受支持",
+		"failedToParseQR": "解析 QR 失败。",
+		"inavlidQRTransactionType": "交易类型不是转账"
+	},
+	"addressBook": {
+		"addressTakenWarning": "地址属于另一个联系人"
 	}
 }
 

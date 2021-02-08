@@ -561,7 +561,7 @@
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
 		"privateKeyQr": "Private Key QR",
-		"warningMultipleMosaicTransfer": "QR contains multiple mosaics transfer transaction. Currently this app supported sending only one mosaic per transaction."
+		"warningMultipleMosaicTransfer": "Transfer transaction QR contains multiple mosaics. Currently this app supports sending only one mosaic per transaction."
 	},
 	"notification": {
 		"newUnconfirmed": "New unconfirmed transaction!",
@@ -589,7 +589,7 @@
 		"invalidPrivateKeyQR": "Invalid private key QR!",
 		"invalidPrivateKeyQROrPassword": "Invalid private key QR or password!",
 		"accountAddressQRInfo": "This is  the Symbol Account Address QR code. The account name is: \"%{accountName}\". The address is: \"%{recipientAddress}\". Please select an action bellow.",
-		"invoiceTransactionQRInfo": "This is the Transaction (Invoice) QR code. Do you want to send %{amount} (%{mosaicName}) to an address \"%{recipientAddress}\"?",
+		"invoiceTransactionQRInfo": "This is the Transaction (Invoice) QR code. Do you want to send %{amount} (%{mosaicName}) to \"%{recipientAddress}\"?",
 		"accountPKQRInfo": "This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.",
 		"fileSavedToDirectoryMessage": "File saved successfully, please check '%{folder}' folder",
 		"errorSavingFile": "Error saving file",

@@ -111,7 +111,7 @@
 		},
 		"ShowQRCode": {
 			"title": "QR-код кошелька",
-			"description": "Вы сможете снова получить доступ к своему кошелеку, отсканировав этот QR-код и введя пароль, который Вы выбрали.",
+			"description": "Symbol“纸钱包”包含用于恢复此账户(profile)中所有帐户(account)的信息。您必须将此文件放在安全的地方。任何能读取纸钱包文件的人都能够获取您的所有资金。",
 			"downloadButton": "Скачать QR-код",
 			"dashboardButton": "Перейти к Дашборду",
 			"permissionTitle": "Разрешение Кошелька Symbol",
@@ -203,7 +203,7 @@
 		"backup": "Резервное копирование",
 		"giveFeedback": "Обратная связь",
 		"aboutNem": "О Symbol",
-		"logout": "Выйти"
+		"logout": "Удалить все аккаунты"
 	},
 	"AccountDetails": {
 		"title": "Детали Аккаунта",
@@ -425,7 +425,19 @@
 		"phone": "Телефон",
 		"email": "Email",
 		"label": "Лейбл",
-		"notes": "Заметка"
+		"notes": "Заметка",
+		"seedIndex": "Сид Индекс Аккаунт ",
+		"displayFee": "Транзакционная Комиссия",
+		"vrfPublicKey": "Публичный ключ связанной проверяемой случайной функции (VRF)",
+		"vrfPrivateKey": "Приватный ключ связанной проверяемой случайной функции (VRF)",
+		"remotePublicKey": "Связанный удаленный публичный ключ",
+		"remotePrivateKey": "Связанный удаленный приватный ключ",
+		"nodePublicKey": "Публичный ключ связанного узла (ноды)"
+	},
+	"fees": {
+		"slow": "Низкая",
+		"recommended": "Рекомендуемая",
+		"fast": "Быстрая"
 	},
 	"transactionTypes": {
 		"unknown": "Тип еще не поддерживается",
@@ -491,6 +503,7 @@
 		"feesEarned": "Заработанные комиссии",
 		"selectNode": "Выбрать ноду",
 		"changeNode": "Изменить ноду",
+		"activate": "Активировать",
 		"stopHarvesting": "Приостановить Харвестинг",
 		"startHarvesting": "Начать Харвестинг",
 		"ACTIVE": "Активный",
@@ -498,7 +511,9 @@
 		"INPROGRESS_ACTIVATION": "Активация в процессе",
 		"INPROGRESS_DEACTIVATION": "Деактивация в процессе",
 		"harvetingIntroTitle": "Начните производить харвестинг, чтобы заработать награды за блок",
-		"minBalanceRequirement": "Для реализации харвестинга на аккаунте должен быть гарантированный баланс не менее %{баланс}",
+		"minBalanceRequirement": "Недостаточный баланс, на аккаунте, так как должно быть не менее %{balance}, для того чтобы начать делегированный харвестинг.",
+		"viewLinkedKeys": "НПросмотр связанных ключей",
+		"linkedNode": "Связанный узел (нода)",
 		"KEYS_LINKED": "Связанные Ключи"
 	},
 	"sidebar": {
@@ -532,15 +547,42 @@
 		"errorInvalidPrivateKey": "Неверный приватный ключ"
 	},
 	"settings": {
+		"changeTestnetNode": "Вы собираетесь выбрать тестнет ноду. Любые транзакции, совершенные здесь, не будут отражаться в майннет сети.",
 		"logoutConfirmTitle": "Вы уверены?",
 		"logoutConfirmDesc": "При выходе данные на устройстве будут удалены. Прежде чем продолжить, у вас должна быть резервная копия",
 		"logoutConfirm2Title": "Предупреждение",
-		"logoutConfirm2Desc": "Вы не сможете снова получить доступ к своему кошельку, если у вас нет резервной копии. Вы уверены, что хотите продолжить?"
+		"logoutConfirm2Desc": "Вы не сможете снова получить доступ к своему кошельку, если у вас нет резервной копии. Вы уверены, что хотите продолжить?",
+		"logoutConfirmCheck": "У меня имеется резервная копия всех аккаунтов в этом профиле"
+	},
+	"notification": {
+		"noMosaicPresent": "В данном аккаунте нет мозаики '%{mosaicName}'"
 	},
 	"qr": {
 		"scannerTitle": "QR-сканер Symbol",
 		"transactionQr": "QR Транзакция",
 		"addressQr": "QR Адрес",
-		"privateKeyQr": "Приватный QR ключ"
+		"privateKeyQr": "Приватный QR ключ",
+		"warningMultipleMosaicTransfer": "QR транзакция содержит несколько мозаик. В настоящее время это приложение поддерживает отправку только одной мозаики на транзакцию."
+	},
+	"unsortedKeys": {
+		"copied": "Скопировано!",
+		"invalidAddressQR": "Недействительный QR адрес" ,
+		"invalidPassword": "Неправильный пароль!",
+		"invalidPrivateKeyQR": "Неверный приватный ключ QR!",
+		"invalidPrivateKeyQROrPassword": "Неверный приватный ключ (QR) или пароль!",
+		"accountAddressQRInfo": "QR-код адреса аккаунта Symbol. Имя аккаунта: \"%{accountName}\". Адрес: \"%{recipientAddress}\". Пожалуйста, выберите действие ниже.",
+		"invoiceTransactionQRInfo": "Это QR-код транзакции (инвойс). Вы хотите отправить %{amount} (%{mosaicName}) на \"%{recipientAddress}\"?",
+		"accountPKQRInfo": "QR-код приватного ключа аккаунта. Вы можете добавить этот аккаунт в ваш кошелек.",
+		"fileSavedToDirectoryMessage": "Файл успешно сохранен, проверьте папку \"%{folder}\"",
+		"errorSavingFile": "Ошибка при сохранении файла",
+		"writePermissionsNeeded": "Для сохранения файла необходимы права на запись.",
+		"invalidQR": "Неверный QR",
+		"invalidQRNetwork": "QR относится к другой сети. Измените узел в настройках и попробуйте еще раз",
+		"unsupportedSymbolQR": "Symbol QR пока не поддерживается",
+		"failedToParseQR": "Не удалось прочитать QR.",
+		"inavlidQRTransactionType": "Тип транзакции не является переводом"
+	},
+	"addressBook": {
+		"addressTakenWarning": "Этот адрес принадлежит другому контакту"
 	}
 }
