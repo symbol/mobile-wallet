@@ -18,9 +18,15 @@ export const formatDate = (date: LocalDateTime): string => {
 	];
 
 	const dateObj = new Date(date);
-	return `${days[dateObj.getDay()].slice(0, 3)}, ${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`;
+	return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(dateObj.getDate(), 2)}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
 	// const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
 	// return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
+};
+
+export const pad = (num, size) => {
+    num = num.toString();
+    while (num.length < size) num = '0' + num;
+    return num;
 };
 
 export const durationStringToSeconds = (str: string): number => {
