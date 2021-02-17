@@ -14,7 +14,17 @@ export default {
         generationHash: '',
         network: 'testnet',
         selectedNode: '',
-        selectedNetwork: null,
+        selectedNetwork: {
+            type: 'testnet',
+            generationHash: '',
+            node: '',
+            currencyMosaicId: '',
+            chainHeight: 0,
+            blockGenerationTargetTime: 0,
+            epochAdjustment: 0,
+            transactionFees: {},
+            defaultDynamicFeeMultiplier: 0,
+        },
     },
     mutations: {
         setIsLoaded(state, payload) {
@@ -88,7 +98,9 @@ export default {
             const selectedNetwork = state.network.selectedNetwork;
             let isUp = false;
             if (selectedNetwork) {
-                isUp = await NetworkService.isNetworkUp(selectedNetwork);
+                try {
+                    isUp = await NetworkService.isNetworkUp(selectedNetwork);
+                } catch {}
             }
             commit({ type: 'network/setIsUp', payload: isUp });
         },

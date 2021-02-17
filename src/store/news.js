@@ -21,15 +21,20 @@ export default {
     actions: {
         loadNews: async ({ commit }) => {
             commit({ type: 'news/setLoading', payload: true });
-            const response = await fetch('http://rssmix.com/u/11801188/rss.xml');
-            const responseText = await response.text();
-			const rss = await new RSSParser().parseString(responseText);
-            const news = rss.items.map(el => ({
-				...el, 
-				content: removeRSSContentEnd(htmlToPlainString(el.content)),
-				pubDate: formatDate(el.pubDate)
-			}));
-            commit({ type: 'news/setNews', payload: news });
+            try {
+                const response = await fetch('http://rssmix.com/u/11801188/rss.xml');
+                const responseText = await response.text();
+                const rss = await new RSSParser().parseString(responseText);
+                const news = rss.items.map(el => ({
+                    ...el,
+                    content: removeRSSContentEnd(htmlToPlainString(el.content)),
+                    pubDate: formatDate(el.pubDate)
+                }));
+                commit({ type: 'news/setNews', payload: news});
+            } catch (e) {
+                console.log('Error loading news');
+                commit({ type: 'news/setNews', payload: [] });
+            }
             commit({ type: 'news/setLoading', payload: false });
         },
     },

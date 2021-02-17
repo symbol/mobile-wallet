@@ -17,24 +17,30 @@ export type HarvestedBlockStats = {
     totalFeesEarned: number,
 };
 
+const initialState = {
+    initialized: false,
+    harvestedBlocks: null,
+    isFetchingHarvestedBlocks: false,
+    harvestedBlocksPageInfo: { pageNumber: 1, isLastPage: false },
+    status: 'INACTIVE',
+    harvestedBlockStats: {
+        totalBlockCount: 0,
+        totalFeesEarned: 0,
+    },
+    isFetchingHarvestedBlockStats: false,
+    minRequiredBalance: MIN_REQUIRED_BALANCE,
+    harvestingModel: null,
+    nodes: HarvestingService.getHarvestingNodeList(),
+}
+
 export default {
     namespace: 'harvesting',
-    state: {
-        initialized: false,
-        harvestedBlocks: null,
-        isFetchingHarvestedBlocks: false,
-        harvestedBlocksPageInfo: { pageNumber: 1, isLastPage: false },
-        status: 'INACTIVE',
-        harvestedBlockStats: {
-            totalBlockCount: 0,
-            totalFeesEarned: 0,
-        },
-		isFetchingHarvestedBlockStats: false,
-		minRequiredBalance: MIN_REQUIRED_BALANCE,
-        harvestingModel: null,
-        nodes: HarvestingService.getHarvestingNodeList(),
-    },
+    state: initialState,
     mutations: {
+        resetState(state) {
+            state.harvesting = initialState;
+            return state;
+        },
         setInitialized(state, payload) {
             state.harvesting.initialized = payload;
             return state;
@@ -73,14 +79,16 @@ export default {
         },
     },
     actions: {
-        init: async ({ dispatchAction }) => {
-            await Promise.all([
+        init: async ({ dispatchAction, commit }) => {
+            Promise.all([
                 dispatchAction({ type: 'harvesting/loadState' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocks' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
-            ]);
+            ]).catch(e => {
+                commit({ type: 'harvesting/resetState' });
+            })
         },
         loadState: async ({ commit, state }) => {
             try {
@@ -109,7 +117,7 @@ export default {
             commit({ type: 'harvesting/setHarvestedBlocks', payload: harvestedBlocks });
         },
         loadHarvestedBlocksStats: async ({ commit, state }) => {
-            HarvestingService.getHarvestedBlocksStats(state.wallet.selectedAccount, state.network.selectedNetwork, commit);
+            await HarvestingService.getHarvestedBlocksStats(state.wallet.selectedAccount, state.network.selectedNetwork, commit).toPromise();
         },
         startHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             try {

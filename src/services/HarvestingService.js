@@ -157,6 +157,7 @@ export default class HarvestingService {
                     harvestedBlockStats.totalFeesEarned = harvestedBlockStats.totalFeesEarned.compact() / Math.pow(10, 6);
                     commit({ type: 'harvesting/setHarvestedBlockStats', payload: harvestedBlockStats });
                 },
+                error: err => {},
             });
     }
 

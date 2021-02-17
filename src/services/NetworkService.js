@@ -14,18 +14,20 @@ export default class NetworkService {
     static async getNetworkModelFromNode(node: string): NetworkModel {
         const networkHttp = new NetworkHttp(node);
         const chainHttp = new ChainHttp(node);
-        const networkType = await networkHttp
-            .getNetworkType()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
-        const networkProps = await networkHttp
-            .getNetworkProperties()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
-        const chainInfo = await chainHttp
-            .getChainInfo()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
+        const [networkType, networkProps, chainInfo] = await Promise.all([
+            networkHttp
+                .getNetworkType()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+            networkHttp
+                .getNetworkProperties()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+            chainHttp
+                .getChainInfo()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+        ]);
         let transactionFees: TransactionFees;
         try {
             transactionFees = await networkHttp
