@@ -75,10 +75,10 @@ export default class HarvestingService {
         if (allKeysLinked && accountUnlocked) {
             return 'ACTIVE';
         }
-        const harvestedBlocks = await this.getHarvestedBlocks(account, network);
-        if (harvestedBlocks.length > 0) {
-            return 'ACTIVE';
-        }
+        // const harvestedBlocks = await this.getHarvestedBlocks(account, network);
+        // if (harvestedBlocks.length > 0) {
+        //    return 'ACTIVE';
+        // }
         let status: HarvestingStatus;
         if (allKeysLinked) {
             status = accountUnlocked ? 'ACTIVE' : account.isPersistentDelReqSent ? 'INPROGRESS_ACTIVATION' : 'KEYS_LINKED';
@@ -156,7 +156,11 @@ export default class HarvestingService {
                 next: harvestedBlockStats => {
                     harvestedBlockStats.totalFeesEarned = harvestedBlockStats.totalFeesEarned.compact() / Math.pow(10, 6);
                     commit({ type: 'harvesting/setHarvestedBlockStats', payload: harvestedBlockStats });
+                    if (harvestedBlockStats.totalBlockCount > 0) {
+                        commit({ type: 'harvesting/setStatus', payload: 'ACTIVE' });
+                    }
                 },
+                error: err => {},
             });
     }
 

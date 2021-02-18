@@ -62,8 +62,12 @@ export default {
         init: async ({ commit, state, dispatchAction }) => {
             commit({ type: 'transaction/setAddressFilter', payload: state.account.selectedAccountAddress });
             await dispatchAction({ type: 'transaction/reset' });
-            dispatchAction({ type: 'transaction/loadNextPage' });
-            dispatchAction({ type: 'transaction/checkPendingSignatures' });
+            try {
+                await dispatchAction({ type: 'transaction/loadNextPage' });
+                await dispatchAction({ type: 'transaction/checkPendingSignatures' });
+            } catch (e) {
+                await dispatchAction({ type: 'transaction/reset' });
+            }
         },
         reset: async ({ commit }) => {
             commit({ type: 'transaction/setPage', payload: 0 });
@@ -98,7 +102,8 @@ export default {
                 },
                 error => {
 					console.log(error);
-					commit({ type: 'transaction/setLoadingNext', payload: false })
+					commit({ type: 'transaction/setLoadingNext', payload: false });
+                    commit({ type: 'transaction/setLoading', payload: false });
 				}
             );
             commit({ type: 'transaction/setSubscription', payload: subscription });

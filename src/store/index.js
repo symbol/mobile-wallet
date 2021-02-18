@@ -14,7 +14,7 @@ import ListenerService from '@src/services/ListenerService';
 import transaction from '@src/store/transaction';
 
 const modules = {
-    market,
+    // market,
     settings,
     network,
     wallet,

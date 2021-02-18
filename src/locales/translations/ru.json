@@ -375,13 +375,13 @@
 		"mosaics": "Мозаики",
 		"home": "Главная",
 		"history": "История",
-		"harvest": "Харвестинг"
+		"harvest": "Харвест"
 	},
 	"plugin": {
 		"send": "Отправить",
-		"receive": "Получатель",
+		"receive": "Получить",
 		"more": "Больше",
-		"qr": "Сканировать QR код"
+		"qr": "QR код"
 	},
 	"Harvest": {
 		"StartHarvesting": {

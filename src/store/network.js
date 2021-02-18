@@ -3,18 +3,29 @@ import { getDefaultNetworkType, getNodes } from '@src/config/environment';
 import NetworkService from '@src/services/NetworkService';
 import { GlobalListener } from '@src/store/index';
 
-const NETWORK_JOB_INTERVAL = 3000;
+const NETWORK_JOB_INTERVAL = 5000;
 
 export default {
     namespace: 'network',
     state: {
         isUp: true,
+        nodeFailedAttempts: 0,
         checkNodeJob: null,
         isLoaded: false,
         generationHash: '',
         network: 'testnet',
         selectedNode: '',
-        selectedNetwork: null,
+        selectedNetwork: {
+            type: 'testnet',
+            generationHash: '',
+            node: '',
+            currencyMosaicId: '',
+            chainHeight: 0,
+            blockGenerationTargetTime: 0,
+            epochAdjustment: 0,
+            transactionFees: {},
+            defaultDynamicFeeMultiplier: 0,
+        },
     },
     mutations: {
         setIsLoaded(state, payload) {
@@ -43,6 +54,10 @@ export default {
         },
         setIsUp(state, payload) {
             state.network.isUp = payload;
+            return state;
+        },
+        setNodeFailedAttempts(state, payload) {
+            state.network.nodeFailedAttempts = payload;
             return state;
         },
     },
@@ -88,7 +103,17 @@ export default {
             const selectedNetwork = state.network.selectedNetwork;
             let isUp = false;
             if (selectedNetwork) {
-                isUp = await NetworkService.isNetworkUp(selectedNetwork);
+                try {
+                    isUp = await NetworkService.isNetworkUp(selectedNetwork);
+                } catch {
+                    isUp = false;
+                }
+                if (isUp) {
+                    commit({ type: 'network/setNodeFailedAttempts', payload: 0 });
+                } else {
+                    commit({ type: 'network/setNodeFailedAttempts', payload: state.network.nodeFailedAttempts + 1 });
+                }
+                isUp = state.network.nodeFailedAttempts < 3;
             }
             commit({ type: 'network/setIsUp', payload: isUp });
         },

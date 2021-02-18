@@ -1,6 +1,6 @@
 import AccountService from '@src/services/AccountService';
 import { from } from 'rxjs';
-import {GlobalListener} from "@src/store/index";
+import { GlobalListener } from '@src/store/index';
 
 export default {
     namespace: 'account',
@@ -61,20 +61,32 @@ export default {
                     state.account.refreshingObs.unsubscribe();
                 }
                 const refreshingObs = from(
-                    new Promise(async resolve => {
-                        await Promise.all([
-                            dispatchAction({ type: 'account/loadBalance' }),
-                            dispatchAction({ type: 'account/loadCosignatoryOf' }),
-                            dispatchAction({ type: 'harvesting/init' }),
-                        ]);
-                        resolve();
+                    new Promise(async (resolve, reject) => {
+                        try {
+                            await Promise.all([
+                                dispatchAction({type: 'account/loadBalance'}),
+                                dispatchAction({type: 'account/loadCosignatoryOf'}),
+                                dispatchAction({type: 'harvesting/init'}),
+                            ]);
+                            resolve();
+                        } catch (e) {
+                            reject(e);
+                        }
                     })
-                ).subscribe(() => {
-                    commit({ type: 'account/setRefreshingObs', payload: false });
-                    commit({ type: 'account/setLoading', payload: false });
-                });
+                ).subscribe(
+                    () => {
+                        commit({ type: 'account/setRefreshingObs', payload: false });
+                        commit({ type: 'account/setLoading', payload: false });
+                    },
+                    () => {
+                        console.log('Error reloading accounts');
+                        commit({ type: 'account/setRefreshingObs', payload: false });
+                        commit({ type: 'account/setLoading', payload: false });
+                    }
+                );
                 commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
             } catch (e) {
+                commit({ type: 'account/setLoading', payload: false });
                 console.log(e);
             }
         },
