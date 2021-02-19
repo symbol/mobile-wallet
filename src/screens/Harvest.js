@@ -9,6 +9,7 @@ import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import Trunc from '@src/components/organisms/Trunc';
 import {Router} from "@src/Router";
+import {showMessage} from "react-native-flash-message";
 
 const styles = StyleSheet.create({
     showButton: {
@@ -69,6 +70,7 @@ type State = {};
 class Harvest extends Component<Props, State> {
     state = {
         selectedNode: null,
+        selectedNodeUrl: null,
         isLoading: false,
     };
 
@@ -78,7 +80,7 @@ class Harvest extends Component<Props, State> {
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
                     this.setState({
-                        selectedNode: node.publicKey,
+                        selectedNodeUrl: node.url,
                     });
                 }
             }
@@ -87,20 +89,35 @@ class Harvest extends Component<Props, State> {
 
     getSelectedUrl = () => {
         const { nodes } = this.props;
-        const { selectedNode } = this.state;
-        const nodeObj = nodes.find(node => node.publicKey === selectedNode);
+        const { selectedNodeUrl } = this.state;
+        const nodeObj = nodes.find(node => node.url === selectedNodeUrl);
         return nodeObj ? nodeObj.url : null;
     };
 
     getHarvestingNodesDropDown = () => {
         const { nodes } = this.props;
         return nodes.map(node => ({
-            value: node.publicKey,
+            value: node.url,
             label: node.url,
         }));
     };
 
-    onSelectHarvestingNode = node => this.setState({ selectedNode: node });
+    onSelectHarvestingNode = node => {
+        const url = 'http://' + node + ':3000';
+        HarvestingService.getNodePublicKeyFromNode(url)
+            .then(publicKey => {
+                this.setState({ selectedNode: publicKey, selectedNodeUrl: node });
+            })
+            .catch(e => {
+                this.setState({ selectedNodeUrl: null });
+                Router.showFlashMessageOverlay().then(() => {
+                    showMessage({
+                        message: translate('Settings.nisNode.errorBadNodeDescription'),
+                        type: 'danger',
+                    });
+                });
+            });
+    };
 
     startHarvesting = async _ => {
         const callBack = async () => {
@@ -143,7 +160,7 @@ class Harvest extends Component<Props, State> {
 
     render() {
         const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance, nativeMosaicNamespace, harvestingModel, selectedAccount } = this.props;
-        const { selectedNode, isLoading } = this.state;
+        const { selectedNodeUrl, isLoading } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
         switch (status) {
@@ -233,12 +250,12 @@ class Harvest extends Component<Props, State> {
                                     theme="light"
                                     list={this.getHarvestingNodesDropDown()}
                                     title={translate('harvest.selectNode')}
-                                    value={selectedNode}
+                                    value={selectedNodeUrl}
                                     onChange={this.onSelectHarvestingNode}
                                 />
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode || notEnoughBalance}
+                                    isDisabled={!selectedNodeUrl || notEnoughBalance}
                                     text={translate('harvest.startHarvesting')}
                                     theme="light"
                                     onPress={() => this.startHarvesting()}
