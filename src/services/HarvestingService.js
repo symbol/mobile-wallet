@@ -170,13 +170,20 @@ export default class HarvestingService {
 
         const peerNodes = await nodeRepository.getNodePeers().toPromise();
         return [
-            ...this.getHarvestingNodeList(),
+            // ...this.getHarvestingNodeList(),
             ...peerNodes
                 .sort((a, b) => a.host.localeCompare(b.host))
                 .map(node => {
                     return { publicKey: node.publicKey, url: node.host };
                 }),
         ];
+    }
+
+    static async getNodePublicKeyFromNode(node: string): Promise<string> {
+        const repositoryFactory = new RepositoryFactoryHttp(node);
+        const nodeRepository = repositoryFactory.createNodeRepository();
+        const nodeInfo = await nodeRepository.getNodeInfo().toPromise();
+        return nodeInfo.nodePublicKey;
     }
 
     /**
