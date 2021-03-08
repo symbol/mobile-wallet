@@ -2,6 +2,8 @@ import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureSt
 import AccountService from '@src/services/AccountService';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { GlobalListener } from '@src/store/index';
+import { Network } from 'symbol-hd-wallets';
+import { getWhitelistedPublicKeys } from '../config/environment';
 
 export default {
     namespace: 'wallet',
@@ -51,7 +53,32 @@ export default {
             await AccountSecureStorage.createNewAccount(mainnetAccountModel);
             const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, state.wallet.name, 'testnet');
             await AccountSecureStorage.createNewAccount(testnetAccountModel);
-
+            const optinAccounts = [];
+            for (let i = 0; i < 10; i++) {
+                const optinMainnetAccount = AccountService.createFromMnemonicAndIndex(
+                    mnemonicModel.mnemonic,
+                    i,
+                    `Opt In Account ${i + 1}`,
+                    'mainnet',
+                    Network.BITCOIN
+                );
+                if (getWhitelistedPublicKeys('mainnet').indexOf(optinMainnetAccount.id) >= 0) {
+                    optinAccounts.push(optinMainnetAccount);
+                }
+                const optinTestnetAccount = AccountService.createFromMnemonicAndIndex(
+                    mnemonicModel.mnemonic,
+                    i,
+                    `Opt In Account ${i + 1}`,
+                    'testnet',
+                    Network.BITCOIN
+                );
+                if (getWhitelistedPublicKeys('testnet').indexOf(optinTestnetAccount.id) >= 0) {
+                    optinAccounts.push(optinTestnetAccount);
+                }
+            }
+            for (let account of optinAccounts) {
+                await AccountSecureStorage.createNewAccount(account);
+            }
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
         },

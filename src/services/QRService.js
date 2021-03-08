@@ -1,12 +1,18 @@
-import { 
-	ContactQR, 
-	AddressQR, 
-	AccountQR, 
-	TransactionQR, 
+import {
+	ContactQR,
+	AddressQR,
+	AccountQR,
+	TransactionQR,
 	QRCodeGenerator,
-	QRCodeType
+	QRCodeType, SignedTransactionQR
 } from 'symbol-qr-library';
-import { TransactionMapping, TransactionType, Address } from 'symbol-sdk';
+import {
+	TransactionMapping,
+	TransactionType,
+	Address,
+	CosignatureSignedTransaction,
+	SignedTransaction
+} from 'symbol-sdk';
 import MosaicService from './MosaicService';
 import NetworkService from './NetworkService';
 
@@ -14,7 +20,9 @@ const VALID_QR_TYPES = [
 	QRCodeType.AddContact,
     QRCodeType.ExportAccount,
     QRCodeType.RequestTransaction,
-    QRCodeType.ExportAddress
+    QRCodeType.ExportAddress,
+    QRCodeType.SignedTransaction,
+    QRCodeType.CosignatureSignedTransaction,
 ]
 
 
@@ -43,18 +51,34 @@ export default class {
 				throw Error('This Symbol QR is not supported yet');
 
 			switch(type) {
-				case QRCodeType.AddContact: 
+				case QRCodeType.AddContact:
 					return this.parseAddContactQR(data);
-				case QRCodeType.ExportAccount: 
+				case QRCodeType.ExportAccount:
 					return this.parseExportAccountQR(res, password);
 				case QRCodeType.RequestTransaction:
 					return this.parseRequestTransaction(data, network);
-				default: 
+				case QRCodeType.SignedTransaction:
+					return this.parseSignedTransaction(data, network);
+				case QRCodeType.CosignatureSignedTransaction:
+					return this.parseCosignatureSignedTransaction(data, network);
+				default:
 					return data.data
 			};
-		} 
+		}
 		catch(e) { throw Error('Failed to parse QR. ' + e.message)};
 	}
+
+	static parseSignedTransaction = async (data, network) => {
+		const mapper = (dto: any) => new SignedTransaction(dto.payload, dto.hash, dto.signerPublicKey, dto.type, dto.networkType);
+		const qr = QRCodeGenerator.fromJSON(JSON.stringify(data), undefined, undefined, mapper);
+		return qr.singedTransaction;
+	};
+
+	static parseCosignatureSignedTransaction = async (data, network) => {
+		const mapper = (dto: any) => new CosignatureSignedTransaction(dto.parentHash, dto.signature, dto.signerPublicKey);
+		const qr = QRCodeGenerator.fromJSON(JSON.stringify(data), undefined, undefined, undefined, mapper);
+		return qr.singedTransaction;
+	};
 
 	static parseRequestTransaction = async (data, network) => {
 		const transaction = TransactionMapping.createFromPayload(data.data.payload);
@@ -94,9 +118,9 @@ export default class {
 			...contactQr,
 			address: Address.createFromPublicKey(contactQr.accountPublicKey, contactQr.networkType).pretty()
 		};
-		
+
 		return parsed;
-	} 
+	}
 
 	static checkValidType = (type) => {
 		return VALID_QR_TYPES.includes(type);

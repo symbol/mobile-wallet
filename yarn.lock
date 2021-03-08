@@ -1212,13 +1212,6 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/bip32@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@types/bip32/-/bip32-1.0.2.tgz#41d69728bcd36ba998329b56959db25120647a45"
-  integrity sha512-gqkz3Jq2OA3s5QOHe7de9tUzW7Xjoct6ImCbt0KQnF0ParqDSvLo5Fu+mKQykFF1fgIcdzEmm0CO6HN+xG2SAA==
-  dependencies:
-    "@types/node" "*"
-
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -1258,11 +1251,6 @@
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
-
-"@types/node@*":
-  version "13.7.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.6.tgz#cb734a7c191472ae6a2b3a502b4dfffcea974113"
-  integrity sha512-eyK7MWD0R1HqVTp+PtwRgFeIsemzuj4gBFSQxfPHY5iMjS7474e5wq+VFgTcdpyHeNxyKSaetYAjdMLJlKoWqA==
 
 "@types/node@11.11.6":
   version "11.11.6"
@@ -9376,12 +9364,11 @@ symbol-address-book@^1.0.0:
   dependencies:
     typescript "^3.7.4"
 
-symbol-hd-wallets@0.14.0-alpha-202010231206:
-  version "0.14.0-alpha-202010231206"
-  resolved "https://registry.yarnpkg.com/symbol-hd-wallets/-/symbol-hd-wallets-0.14.0-alpha-202010231206.tgz#ab4767a87bee089389c9c084f9d8fc83408d67d2"
-  integrity sha512-+fFapo0tizhUXupTlTgB2QDzCEujKt7RH36qOXgsuB/bgn+5fnYujVjM3LnJdfMCEhQQaaljvkpgV0+MNF2bIg==
+symbol-hd-wallets@0.14.1-alpha-202103051108:
+  version "0.14.1-alpha-202103051108"
+  resolved "https://registry.yarnpkg.com/symbol-hd-wallets/-/symbol-hd-wallets-0.14.1-alpha-202103051108.tgz#bdd58271eda868569e759ae9ca8b643b8957e079"
+  integrity sha512-EF0ptcwJGdm7yF2CFAAhybN2f7EN9YlZU7OwjwJh7Ae23UeNB/dkJfxfQk//Tfor9776dksId3YdUsO2oD0T6A==
   dependencies:
-    "@types/bip32" "^1.0.2"
     bip32 "^1.0.4"
     bip39 "^3.0.2"
     bip44-constants "^8.0.5"
@@ -9418,7 +9405,18 @@ symbol-paper-wallets@^1.0.2:
     symbol-qr-library "^0.13.1-alpha-202010241730"
     typescript "^3.7.4"
 
-symbol-qr-library@0.13.1-alpha-202011121108, symbol-qr-library@^0.13.1-alpha-202010241730:
+symbol-qr-library@0.14.1-alpha-202103081047:
+  version "0.14.1-alpha-202103081047"
+  resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.14.1-alpha-202103081047.tgz#854c5c2fe04efba37a27525a16d5b7f732b507ab"
+  integrity sha512-pxKw30XP1cYaCH5r0VIsHp0GDJDURFFs7Uvl3bR1lyUJgNN16mp4AhiDt5HogXeaZJvb/7+bNVHRJa4RGFpsJg==
+  dependencies:
+    braces ">=2.3.1"
+    canvas "^2.6.1"
+    crypto-js "^3.3.0"
+    open "^7.0.2"
+    qrcode "^1.4.4"
+
+symbol-qr-library@^0.13.1-alpha-202010241730:
   version "0.13.1-alpha-202011121108"
   resolved "https://registry.yarnpkg.com/symbol-qr-library/-/symbol-qr-library-0.13.1-alpha-202011121108.tgz#978767f3e0a99b9240521ef4be6d8198c5624e12"
   integrity sha512-uf1JLt8ex8qQ1pgD1CWUBuKwh+EJp2rkJFNycXtYOLEcwf5uO3zgu4ItzMxoI0r6Mz7kzjT4h+VPQckiDOPSdQ==

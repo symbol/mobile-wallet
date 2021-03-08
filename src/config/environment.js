@@ -19,6 +19,7 @@ import {
     NISNodes,
     defaultNetworkType,
     nativeMosaicId,
+    optInWhiteList,
 } from 'react-native-env-json';
 import { NetworkType } from "symbol-sdk";
 import { languageNames } from '@src/locales/i18n';
@@ -138,6 +139,10 @@ const getNativeMosaicId = (): string[] => {
     return nativeMosaicId;
 };
 
+const getWhitelistedPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
+    return optInWhiteList[network];
+};
+
 export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
@@ -164,4 +169,5 @@ export {
     getDefaultNetworkType,
     getNodes,
     getNativeMosaicId,
+    getWhitelistedPublicKeys,
 };

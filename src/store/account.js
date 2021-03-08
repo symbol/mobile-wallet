@@ -60,31 +60,10 @@ export default {
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
                 }
-                const refreshingObs = from(
-                    new Promise(async (resolve, reject) => {
-                        try {
-                            await Promise.all([
-                                dispatchAction({type: 'account/loadBalance'}),
-                                dispatchAction({type: 'account/loadCosignatoryOf'}),
-                                dispatchAction({type: 'harvesting/init'}),
-                            ]);
-                            resolve();
-                        } catch (e) {
-                            reject(e);
-                        }
-                    })
-                ).subscribe(
-                    () => {
-                        commit({ type: 'account/setRefreshingObs', payload: false });
-                        commit({ type: 'account/setLoading', payload: false });
-                    },
-                    () => {
-                        console.log('Error reloading accounts');
-                        commit({ type: 'account/setRefreshingObs', payload: false });
-                        commit({ type: 'account/setLoading', payload: false });
-                    }
-                );
-                commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
+                await dispatchAction({type: 'account/loadBalance'});
+                dispatchAction({type: 'harvesting/init'});
+                dispatchAction({type: 'account/loadCosignatoryOf'});
+                commit({ type: 'account/setLoading', payload: false });
             } catch (e) {
                 commit({ type: 'account/setLoading', payload: false });
                 console.log(e);

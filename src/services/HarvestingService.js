@@ -64,7 +64,7 @@ export default class HarvestingService {
         let unlockedAccounts = [];
         if (account.harvestingNode) {
             try {
-                const nodeHttp = new NodeHttp(network.node);
+                const nodeHttp = new NodeHttp(account.harvestingNode);
                 unlockedAccounts = await nodeHttp.getUnlockedAccount().toPromise();
             } catch (e) {
                 console.log(e);

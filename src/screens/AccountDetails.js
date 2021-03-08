@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, View } from 'react-native';
 import {
 	Section,
 	GradientBackground,
@@ -15,6 +15,7 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import {getAccountIndexFromDerivationPath} from "@src/utils/format";
+import translate from "@src/locales/i18n";
 
 
 const styles = StyleSheet.create({
@@ -27,6 +28,12 @@ const styles = StyleSheet.create({
         padding: 8,
         width: 120,
         height: 120,
+    },
+    alert: {
+        padding: 5,
+        backgroundColor: GlobalStyles.color.ORANGE,
+        borderRadius: 5,
+        marginBottom: 15,
     }
 });
 
@@ -48,11 +55,12 @@ class AccountDetails extends Component<Props, State> {
 			balance,
 			networkType,
 			componentId,
+            accountType,
             path,
 			isPasscodeSelected
 		} = this.props;
 		const { contactQR, isLoading } = this.state;
-        const seedIndex = getAccountIndexFromDerivationPath(path, networkType);
+        const seedIndex = accountType === 'hd' ? getAccountIndexFromDerivationPath(path, networkType): null;
         const data = {
             accountName,
             seedIndex,
@@ -67,6 +75,11 @@ class AccountDetails extends Component<Props, State> {
                 <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
+                        <Row justify="center">
+                            <View style={styles.alert}>
+                                <Text type="subtitle" align="center" theme="dark">{translate('unsortedKeys.opt_in_account_alert')}</Text>
+                            </View>
+                        </Row>
 						{/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
 						<Row justify="center">
 							<QRImage
@@ -97,6 +110,7 @@ class AccountDetails extends Component<Props, State> {
 
 export default connect(state => ({
     accountName: state.wallet.selectedAccount.name,
+    accountType: state.wallet.selectedAccount.type,
     address: state.account.selectedAccountAddress,
     publicKey: state.wallet.selectedAccount.id,
     privateKey: state.wallet.selectedAccount.privateKey,

@@ -90,7 +90,6 @@ export default class NetworkService {
         try {
             const health = await nodeHttp
                 .getNodeHealth()
-                .pipe(timeout(REQUEST_TIMEOUT))
                 .toPromise();
             return health.apiNode === 'up' && health.db === 'up';
         } catch {
