@@ -3,7 +3,7 @@
  */
 import type {AppNetworkType} from "@src/storage/models/NetworkModel";
 
-export type AccountOriginType = 'hd' | 'privateKey';
+export type AccountOriginType = 'hd' | 'privateKey' | 'optin';
 
 /**
  * Account model

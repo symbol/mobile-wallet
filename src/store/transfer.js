@@ -108,5 +108,21 @@ export default {
                 commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
             }
         },
+
+        broadcastSignedTransaction: async ({ commit, state, dispatchAction }, payload) => {
+            try {
+                await TransactionService.broadcastSignedTransaction(payload, state.network.selectedNetwork);
+            } catch (e) {
+                console.log(e);
+            }
+        },
+
+        broadcastCosignatureSignedTransaction: async ({ commit, state, dispatchAction }, payload) => {
+            try {
+                await TransactionService.broadcastCosignatureSignedTransaction(payload, state.network.selectedNetwork);
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
 };

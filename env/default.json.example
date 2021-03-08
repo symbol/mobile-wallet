@@ -34,6 +34,10 @@
       ]
     }
   },
- "defaultNetworkType": "testnet",
- "nativeMosaicId": "5F160D7851F3CB30"
+  "defaultNetworkType": "testnet",
+  "nativeMosaicId": "5F160D7851F3CB30",
+  "optInWhiteList" : {
+    "testnet": [],
+    "mainnet": []
+  }
 }

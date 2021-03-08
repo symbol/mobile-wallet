@@ -19,7 +19,7 @@ import {
     Message,
     EncryptedMessage,
     AggregateTransaction,
-    TransactionStatusHttp,
+    TransactionStatusHttp, SignedTransaction, CosignatureSignedTransaction,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { TransactionQR } from 'symbol-qr-library';
@@ -119,8 +119,7 @@ export default class TransactionService {
         const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
         const signedTransaction = signerAccount.sign(transaction, network.generationHash);
         await store.dispatchAction({ type: 'transfer/setTransactionHash', payload: signedTransaction.hash });
-        const transactionHttp = new TransactionHttp(network.node);
-        return transactionHttp.announce(signedTransaction).toPromise();
+        return this.broadcastSignedTransaction(signedTransaction, network);
     }
 
     /**
@@ -135,8 +134,17 @@ export default class TransactionService {
         const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
         const signedTransaction = signerAccount.signCosignatureTransaction(cosignatureTransaction);
 
+        return this.broadcastCosignatureSignedTransaction(signedTransaction, network);
+    }
+
+    static async broadcastSignedTransaction(tx: SignedTransaction, network: NetworkModel) {
         const transactionHttp = new TransactionHttp(network.node);
-        return transactionHttp.announceAggregateBondedCosignature(signedTransaction).toPromise();
+        return transactionHttp.announce(tx).toPromise();
+    }
+
+    static async broadcastCosignatureSignedTransaction(tx: CosignatureSignedTransaction, network: NetworkModel) {
+        const transactionHttp = new TransactionHttp(network.node);
+        return transactionHttp.announceAggregateBondedCosignature(tx).toPromise();
     }
 
     static calculateMaxFee(transaction: Transaction, network: NetworkModel, selectedFeeMultiplier?: number): Transaction {

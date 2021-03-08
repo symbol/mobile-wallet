@@ -1,5 +1,5 @@
 import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp, MosaicId, UInt64 } from 'symbol-sdk';
-import { ExtendedKey, MnemonicPassPhrase, Wallet } from 'symbol-hd-wallets';
+import {ExtendedKey, MnemonicPassPhrase, Network, Wallet} from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
@@ -92,17 +92,18 @@ export default class AccountService {
      * @param index
      * @param name
      * @param network
+     * @param curve
      * @returns {AccountModel}
      */
-    static createFromMnemonicAndIndex(mnemonic: string, index: number, name: string, network: AppNetworkType): AccountModel {
+    static createFromMnemonicAndIndex(mnemonic: string, index: number, name: string, network: AppNetworkType, curve = Network.SYMBOL): AccountModel {
         const mnemonicPassPhrase = new MnemonicPassPhrase(mnemonic);
         const seed = mnemonicPassPhrase.toSeed().toString('hex');
-        const extKey = ExtendedKey.createFromSeed(seed);
+        const extKey = ExtendedKey.createFromSeed(seed, curve);
         const wallet = new Wallet(extKey);
         const path = `m/44'/${network === 'testnet' ? '1' : '4343'}'/${index}'/0'/0'`;
         const privateKey = wallet.getChildAccountPrivateKey(path);
         const symbolAccount = Account.createFromPrivateKey(privateKey, network === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET);
-        return this.symbolAccountToAccountModel(symbolAccount, name, 'hd', path);
+        return this.symbolAccountToAccountModel(symbolAccount, name, curve === Network.SYMBOL ? 'hd' : 'optin', path);
     }
 
     /**

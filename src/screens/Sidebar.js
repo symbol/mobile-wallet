@@ -258,7 +258,7 @@ class Sidebar extends Component<Props, State> {
                 <Section type="form" style={styles.selectedAccountBoxContent}>
 					<ManagerHandler dataManager={{ isLoading }} theme="dark" noLoadingText>
 						<Text style={styles.selectedAccountName} type="title-small" theme="dark">
-							{selectedAccount ? selectedAccount.name : ''}
+							{selectedAccount ? selectedAccount.name : ''} {selectedAccount. type === 'optin' && <Icon name="warning" size="small" /> }
 						</Text>
 						<Text style={styles.selectedAccountAddress} theme="dark">
 							<Trunc type="address">{address}</Trunc>
@@ -284,15 +284,15 @@ class Sidebar extends Component<Props, State> {
 
     renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
         const { networkType } = this.props;
-		const deleteText = type === 'hd'
-			? translate('sidebar.hide')
+		const deleteText = type === 'hd' || type === 'optin'
+            ? translate('sidebar.hide')
 			: translate('sidebar.remove');
 
-		const deleteModalTitle = type === 'hd'
+		const deleteModalTitle = type === 'hd' || type === 'optin'
 			? translate('sidebar.hideAccountTitle')
 			: translate('sidebar.removeAccountTitle');
 
-		const deleteModalDescription = type === 'hd'
+		const deleteModalDescription = type === 'hd' || type === 'optin'
 			? translate('sidebar.hideAccountDescription')
 			: translate('sidebar.removeAccountDescription');
 
@@ -302,7 +302,7 @@ class Sidebar extends Component<Props, State> {
             { iconName: 'edit_light', label: translate('sidebar.rename'), onPress: () => this.handleOpenRenameAccountModal(id, name) },
         ];
 
-        if (parseInt(index) !== 0) {
+        if (parseInt(index) !== 0 || type === 'optin') {
             options.push(
                 { iconName: 'delete_light', label: deleteText, onPress: () => this.handleOpenRemoveAccountModal(id, deleteModalTitle, deleteModalDescription) },
             )
@@ -312,7 +312,7 @@ class Sidebar extends Component<Props, State> {
             <TouchableOpacity style={styles.accountBox} onPress={() => this.handleSelectAccount(id)}>
                 <Row justify="space-between" fullWidth>
                     <Text type="bold" theme="light">
-                        {name}
+                        {name} {type === 'optin' && <Icon name="warning" size="small" /> }
                     </Text>
                     <OptionsMenu list={options} style={styles.optionsIcon}>
                         <Icon name="options_light" size="small" />
@@ -322,7 +322,9 @@ class Sidebar extends Component<Props, State> {
                     <Trunc type="address">{address}</Trunc>
                 </Text>*/}
                 <Text type="regular" align="left" theme="light" style={styles.accountType}>
-                    {type === 'hd' ? translate('sidebar.seed') + ' ' + index : translate('sidebar.pk')}
+                    {type === 'hd' && translate('sidebar.seed') + ' ' + index}
+                    {type === 'privateKey' && translate('sidebar.pk')}
+                    {type === 'optin' && translate('sidebar.optin')}
                 </Text>
             </TouchableOpacity>
         );

@@ -60,14 +60,12 @@ export default {
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
                 }
+                await dispatchAction({type: 'account/loadBalance'});
+                dispatchAction({type: 'harvesting/init'});
+                dispatchAction({type: 'account/loadCosignatoryOf'});
                 const refreshingObs = from(
                     new Promise(async (resolve, reject) => {
                         try {
-                            await Promise.all([
-                                dispatchAction({type: 'account/loadBalance'}),
-                                dispatchAction({type: 'account/loadCosignatoryOf'}),
-                                dispatchAction({type: 'harvesting/init'}),
-                            ]);
                             resolve();
                         } catch (e) {
                             reject(e);

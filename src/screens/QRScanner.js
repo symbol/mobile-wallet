@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { 
-	Section,  
-	Icon, 
-	Text, 
+import {
+	Section,
+	Icon,
+	Text,
 	SymbolPageView,
 	Row
 } from '@src/components';
@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import PasswordModal from '@src/components/molecules/PasswordModal';
 import { showMessage } from 'react-native-flash-message';
+import store from "@src/store";
 
 
 const styles = StyleSheet.create({
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	buttonContent: {
-		height: 40, 
+		height: 40,
 	},
 	buttonText: {
 		lineHeight: 14,
@@ -75,7 +76,7 @@ class CreateAccount extends Component {
 		payload: {},
 		warning: ''
 	};
-	
+
 	componentDidMount = () => {
 		this.startScanner();
 	};
@@ -124,40 +125,68 @@ class CreateAccount extends Component {
 				text = 'Add Contact';
 				icon = 'contact_light';
 				break;
+			case 'broadcastSignedQR':
+				action = () => {
+					store.dispatchAction({ type: 'transfer/broadcastSignedTransaction', payload });
+					Router.showFlashMessageOverlay().then(() => {
+						showMessage({
+							message: translate('unsortedKeys.announce_success'),
+							type: 'success',
+						});
+					});
+					Router.goBack(this.props.componentId);
+				}
+				text = translate('unsortedKeys.announceSignedTransaction');
+				icon = 'send';
+				break;
+			case 'broadcastCoSignedQR':
+				action = () => {
+					store.dispatchAction({ type: 'transfer/broadcastCosignatureSignedTransaction', payload });
+					Router.showFlashMessageOverlay().then(() => {
+						showMessage({
+							message: translate('unsortedKeys.announce_success'),
+							type: 'success',
+						});
+					});
+					Router.goBack(this.props.componentId);
+				}
+				text = translate('unsortedKeys.announceSignedTransaction');
+				icon = 'send';
+				break;
 		}
 
 		return (
-			<Section 
-				type="form-item" 
+			<Section
+				type="form-item"
 				style={count > 1 ? styles.buttonWrapper : styles.buttonWrapperLarger}
 			>
-				<TouchableOpacity 
-					style={styles.button} 
-					onPress={() => action()} 
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => action()}
 					activeOpacity={0.5}
 				>
-					<Row 
-						align="center" 
-						justify={buttonJustify} 
-						style={styles.buttonContent} 
+					<Row
+						align="center"
+						justify={buttonJustify}
+						style={styles.buttonContent}
 						fullWidth={count === 1}
 					>
-						<Icon 
-							size="small" 
-							name={icon} 
+						<Icon
+							size="small"
+							name={icon}
 							style={styles.buttonIcon}
 						/>
-						<Text 
-							type="bold" 
-							theme="light" 
-							style={[styles.buttonText, count > 1 && styles.buttonTextSmaller]} 
+						<Text
+							type="bold"
+							theme="light"
+							style={[styles.buttonText, count > 1 && styles.buttonTextSmaller]}
 							align={count === 1 ? 'center' : 'left'}
 							wrap
 						>
 							{text.toUpperCase()}
 						</Text>
 					</Row>
-					
+
 				</TouchableOpacity>
 			</Section>
 		)
@@ -182,16 +211,16 @@ class CreateAccount extends Component {
 			switch(type) {
 				case QRService.QRCodeType.AddContact:
 				case QRService.QRCodeType.ExportAddress:
-					payload = { 
+					payload = {
 						...data,
-						recipientAddress: data.address, 
-						accountName: data.name 
+						recipientAddress: data.address,
+						accountName: data.name
 					};
 					title = translate('qr.addressQr');
 					text = translate(
-						'unsortedKeys.accountAddressQRInfo', 
-						{ 
-							accountName: payload.accountName, 
+						'unsortedKeys.accountAddressQRInfo',
+						{
+							accountName: payload.accountName,
 							recipientAddress: payload.recipientAddress
 						}
 					);
@@ -221,7 +250,19 @@ class CreateAccount extends Component {
 					text = translate('unsortedKeys.accountPKQRInfo');
 					buttons = ['addAccount'];
 				break;
-				default: 
+				case QRService.QRCodeType.SignedTransaction:
+					payload = { ...data };
+					title = translate('qr.signedQR');
+					text = translate('unsortedKeys.signedTransactionQRInfo');
+					buttons = ['broadcastSignedQR'];
+				break;
+				case QRService.QRCodeType.CosignatureSignedTransaction:
+					payload = { ...data };
+					title = translate('qr.signedQR');
+					text = translate('unsortedKeys.signedTransactionQRInfo');
+					buttons = ['broadcastCoSignedQR'];
+				break;
+				default:
 					text = 'Unsupported QR code';
 					buttonCaption = 'Go Back';
 					buttonAction = () => { this.goBack() };
@@ -249,7 +290,7 @@ class CreateAccount extends Component {
 	};
 
     render = () => {
-		const {  
+		const {
 			title,
 			isLoading,
 			isError,
@@ -292,8 +333,8 @@ class CreateAccount extends Component {
 					title={'Decrypt QR'}
 					onSubmit={this.onSetPassword}
 					onClose={() => this.goBack()}
-				/> 
-			</SymbolPageView> 
+				/>
+			</SymbolPageView>
         );
     };
 }

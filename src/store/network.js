@@ -3,7 +3,7 @@ import { getDefaultNetworkType, getNodes } from '@src/config/environment';
 import NetworkService from '@src/services/NetworkService';
 import { GlobalListener } from '@src/store/index';
 
-const NETWORK_JOB_INTERVAL = 5000;
+const NETWORK_JOB_INTERVAL = 10000;
 
 export default {
     namespace: 'network',
@@ -106,14 +106,13 @@ export default {
                 try {
                     isUp = await NetworkService.isNetworkUp(selectedNetwork);
                 } catch {
-                    isUp = false;
+                    isUp = state.network.nodeFailedAttempts < 5;
                 }
                 if (isUp) {
                     commit({ type: 'network/setNodeFailedAttempts', payload: 0 });
                 } else {
                     commit({ type: 'network/setNodeFailedAttempts', payload: state.network.nodeFailedAttempts + 1 });
                 }
-                isUp = state.network.nodeFailedAttempts < 3;
             }
             commit({ type: 'network/setIsUp', payload: isUp });
         },

@@ -520,6 +520,7 @@
 	},
 	"sidebar": {
 		"seed": "Seed account",
+		"optin": "Opt In account",
 		"pk": "Private key account",
 		"addAccount": "Add account",
 		"openAddressBook": "Open address book",
@@ -561,6 +562,7 @@
 		"transactionQr": "Transaction QR",
 		"addressQr": "Address QR",
 		"privateKeyQr": "Private Key QR",
+		"signedQR": "Signed Transaction QR",
 		"warningMultipleMosaicTransfer": "Transfer transaction QR contains multiple mosaics. Currently this app supports sending only one mosaic per transaction."
 	},
 	"notification": {
@@ -591,6 +593,8 @@
 		"accountAddressQRInfo": "This is  the Symbol Account Address QR code. The account name is: \"%{accountName}\". The address is: \"%{recipientAddress}\". Please select an action bellow.",
 		"invoiceTransactionQRInfo": "This is the Transaction (Invoice) QR code. Do you want to send %{amount} (%{mosaicName}) to \"%{recipientAddress}\"?",
 		"accountPKQRInfo": "This is the Account Private Key QR code. You can add this account to the wallet by filling the Add Account Form.",
+		"signedTransactionQRInfo": "This is a signed transaction QR. You can announce this transaction to the network.",
+		"announceSignedTransaction": "Announce Transaction",
 		"fileSavedToDirectoryMessage": "File saved successfully, please check '%{folder}' folder",
 		"errorSavingFile": "Error saving file",
 		"writePermissionsNeeded": "Write permissions are needed to save the file",
@@ -598,6 +602,8 @@
 		"invalidQRNetwork": "QR refers a different network. Please change the node in the Settings and try again",
 		"unsupportedSymbolQR": "This Symbol QR is not supported yet",
 		"failedToParseQR": "Failed to parse QR.",
-		"inavlidQRTransactionType": "Transaction type is not a transfer"
+		"inavlidQRTransactionType": "Transaction type is not a transfer",
+		"opt_in_account_alert": "This account is obtained by an older derivation. It is recommended that you move the funds to a Seed Account",
+		"announce_success": "Transaction announced successfully"
 	}
 }
