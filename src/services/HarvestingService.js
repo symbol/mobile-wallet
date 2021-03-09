@@ -156,9 +156,6 @@ export default class HarvestingService {
                 next: harvestedBlockStats => {
                     harvestedBlockStats.totalFeesEarned = harvestedBlockStats.totalFeesEarned.compact() / Math.pow(10, 6);
                     commit({ type: 'harvesting/setHarvestedBlockStats', payload: harvestedBlockStats });
-                    if (harvestedBlockStats.totalBlockCount > 0) {
-                        commit({ type: 'harvesting/setStatus', payload: 'ACTIVE' });
-                    }
                 },
                 error: err => {},
             });

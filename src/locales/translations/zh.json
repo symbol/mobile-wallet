@@ -554,6 +554,7 @@
 		"transactionQr": "交易QR",
 		"addressQr": "地址 QR",
 		"privateKeyQr": "私钥 QR",
+		"signedQR": "已签署的交易QR",
 		"warningMultipleMosaicTransfer": "转账交易QR 包含多个马赛克。目前，此应用程序支持每个交易只发送一个马赛克。"
 	},
 	"fees": {
@@ -580,7 +581,11 @@
 		"invalidQRNetwork": "QR 指向另一个网络。请更改\"设置\"中的节点，然后重试。",
 		"unsupportedSymbolQR": "此Symbol QR 尚未受支持",
 		"failedToParseQR": "解析 QR 失败。",
-		"inavlidQRTransactionType": "交易类型不是转账"
+		"inavlidQRTransactionType": "交易类型不是转账",
+		"signedTransactionQRInfo": "这个是已经签署的交易QR码， 可以向网络发布交易。",
+		"announceSignedTransaction": "发布交易",
+		"opt_in_account_alert": "该帐户是通过较早的派生获得的。建议您将资金转移到种子帐户",
+		"announce_success":  "交易成功宣布"
 	},
 	"addressBook": {
 		"addressTakenWarning": "地址属于另一个联系人"

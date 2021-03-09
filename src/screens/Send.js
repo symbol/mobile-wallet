@@ -7,12 +7,13 @@ import _ from 'lodash';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-import { AddressBook } from 'symbol-address-book';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from "@src/locales/i18n";
 import {defaultFeesConfig} from "@src/config/fees";
+import {AccountHttp, Address} from "symbol-sdk";
+import {showMessage} from "react-native-flash-message";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -45,6 +46,7 @@ class Send extends Component<Props, State> {
         isConfirmShown: false,
         showAddressError: false,
         showAmountError: false,
+        loadingEncrypted: false,
     };
 
     componentDidMount = async () => {
@@ -153,7 +155,7 @@ class Send extends Component<Props, State> {
     onAddressChange = recipientAddress => {
         const { network } = this.props;
         const showAddressError = !isAddressValid(recipientAddress, network);
-        this.setState({ recipientAddress, showAddressError });
+        this.setState({ recipientAddress, showAddressError, isEncrypted: false });
     };
 
     onAmountChange = async val => {
@@ -171,7 +173,7 @@ class Send extends Component<Props, State> {
         if (standardComma.endsWith('.') && !decimal) {
             final = final + '.';
         }
-        
+
         const invalidNumber = Number.isNaN(parseFloat(final));
 
         if(invalidNumber) {
@@ -181,7 +183,6 @@ class Send extends Component<Props, State> {
             await this.setState({ amount: '' + final });
         }
 
-        
         const showAmountError = !this.isAmountValid();
         this.setState({ showAmountError });
     };
@@ -212,9 +213,35 @@ class Send extends Component<Props, State> {
         await this.setState({ message, isEncrypted });
     };
 
+    onMessageEncryptedChange = async isEncrypted => {
+        if (isEncrypted) {
+            const {network} = this.props;
+            const {recipientAddress} = this.state;
+            this.setState({loadingEncrypted: true});
+            let accountInfo;
+            try {
+                accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(recipientAddress)).toPromise();
+            } catch (e) {}
+            this.setState({loadingEncrypted: false});
+            if (!accountInfo || !accountInfo.publicKey) {
+                Router.showFlashMessageOverlay().then(() => {
+                    showMessage({
+                        message: translate('unsortedKeys.noPublicKeyWarning'),
+                        type: 'warning',
+                    });
+                });
+                this.setState({isEncrypted: false});
+            } else {
+                this.setState({isEncrypted: true});
+            }
+        } else {
+            this.setState({isEncrypted: false});
+        }
+    };
+
     render = () => {
         const { ownedMosaics, isOwnedMosaicsLoading, network } = this.props;
-        const { recipientAddress, mosaicName, amount, message, isEncrypted, fee, isConfirmShown, showAddressError, showAmountError } = this.state;
+        const { recipientAddress, mosaicName, amount, message, isEncrypted, fee, isConfirmShown, showAddressError, showAmountError, loadingEncrypted } = this.state;
         const mosaicList = ownedMosaics
             .filter(mosaic => !mosaic.expired)
             .map(mosaic => ({
@@ -274,11 +301,12 @@ class Send extends Component<Props, State> {
                     </Section>
                     <Section type="form-item">
                         <Checkbox
+                            loading={loadingEncrypted}
                             disabled={message.length === 0}
                             value={isEncrypted}
                             title={translate('table.encrypted')}
                             theme="light"
-                            onChange={isEncrypted => this.setState({ isEncrypted })}
+                            onChange={isEncrypted => this.onMessageEncryptedChange(isEncrypted)}
                         />
                     </Section>
                     <Section type="form-item">

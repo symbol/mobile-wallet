@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Modal, Image } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Modal,
+    Image,
+    ActivityIndicator
+} from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon, Row } from '@src/components';
+import {Icon, LoadingAnimationFlexible, Row} from '@src/components';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     root: {
@@ -58,6 +68,7 @@ interface Props {
     checkedTitle: String;
     uncheckedTitle: String;
     disabled: boolean;
+    loading?: boolean;
 }
 
 type State = {};
@@ -69,7 +80,7 @@ export default class Dropdown extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, theme, fullWidth, value, title, checkedTitle, uncheckedTitle, children, disabled } = this.props;
+        const { style = {}, theme, fullWidth, value, title, checkedTitle, uncheckedTitle, children, disabled, loading } = this.props;
         const checkboxStyles = [styles.checkbox];
         let rootStyle = [styles.root, style];
         let titleStyle = {};
@@ -81,7 +92,7 @@ export default class Dropdown extends Component<Props, State> {
         else if (theme === 'regular') titleStyle = styles.titleRegular;
         else titleStyle = styles.titleDark;
 
-        if (!value) checkboxStyles.push(styles.unchecked);
+        if (!value && !loading) checkboxStyles.push(styles.unchecked);
 
         if (!!value === true && checkedTitle) titleText = checkedTitle;
         if (!!value === false && uncheckedTitle) titleText = uncheckedTitle;
@@ -89,7 +100,14 @@ export default class Dropdown extends Component<Props, State> {
         return (
             <TouchableOpacity disabled={disabled} style={rootStyle} onPress={() => this.onChange()}>
                 <Row align="center">
-                    <View style={checkboxStyles}>{!!value && <Image style={styles.icon} source={require('@src/assets/icons/check.png')} />}</View>
+                    <View style={checkboxStyles}>
+                        {!!value && !loading &&
+                            <Image style={styles.icon} source={require('@src/assets/icons/check.png')} />
+                        }
+                        {loading &&
+                            <ActivityIndicator size="small" color={GlobalStyles.color.PINK} />
+                        }
+                    </View>
                     <View style={styles.titleContainer}>
                         {!children && <Text style={titleStyle}>{titleText}</Text>}
                         {children}

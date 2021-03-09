@@ -604,6 +604,7 @@
 		"failedToParseQR": "Failed to parse QR.",
 		"inavlidQRTransactionType": "Transaction type is not a transfer",
 		"opt_in_account_alert": "This account is obtained by an older derivation. It is recommended that you move the funds to a Seed Account",
-		"announce_success": "Transaction announced successfully"
+		"announce_success": "Transaction announced successfully",
+		"noPublicKeyWarning": "Can't encrypt message: Address doesn't have a public key"
 	}
 }

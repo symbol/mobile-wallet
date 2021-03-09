@@ -76,9 +76,11 @@ class AccountDetails extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
 					<Section type="form-item">
                         <Row justify="center">
-                            <View style={styles.alert}>
-                                <Text type="subtitle" align="center" theme="dark">{translate('unsortedKeys.opt_in_account_alert')}</Text>
-                            </View>
+                            {accountType === 'optin' && (
+                                <View style={styles.alert}>
+                                    <Text type="subtitle" align="center" theme="dark">{translate('unsortedKeys.opt_in_account_alert')}</Text>
+                                </View>
+                            )}
                         </Row>
 						{/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
 						<Row justify="center">
