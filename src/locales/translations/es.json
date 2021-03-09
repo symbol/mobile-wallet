@@ -559,6 +559,7 @@
 		"transactionQr": "Transacción de QR",
 		"addressQr": "Dirección de QR",
 		"privateKeyQr": "QR de Llave privada",
+		"signedQR": "QR de transacción firmada",
 		"warningMultipleMosaicTransfer": "La transacción de transferencia continene varios mosaicos. Actualmente esta app solo soporta enviar un mosaico por transacción"
 	},
 	"notification": {
@@ -584,7 +585,11 @@
 		"invalidQRNetwork": "Este QR se refiere a otra red. Por favor cambia el nodo en los ajustes y prueba de nuevo",
 		"unsupportedSymbolQR": "Este QR de Symbol aún no está soportado",
 		"failedToParseQR": "Error al leer el QR.",
-		"inavlidQRTransactionType": "El tipo de la transacción de es de transferencia"
+		"inavlidQRTransactionType": "El tipo de la transacción de es de transferencia",
+		"signedTransactionQRInfo": "Esto es un QR de una transacción firmada. Puedes anunciarlo a la red.",
+		"announceSignedTransaction": "Anunciar transacción",
+		"opt_in_account_alert": "Esta cuenta ha sido obtenida con una derivación antigua. Se recomienda mover los fondos a una cuenta semilla",
+		"announce_success":  "Transacción anunciada con exito"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Esta dirección corresponde a otro contacto"

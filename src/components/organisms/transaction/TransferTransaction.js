@@ -124,7 +124,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
         const parsedData = {};
 
         if (this.hasCustomMosaics()) parsedData.mosaics = transaction.mosaics;
-        if (!transaction.messageEncrypted) parsedData.messageText = transaction.messageText;
+        if (transaction.messageText && !transaction.messageEncrypted) parsedData.messageText = transaction.messageText;
 
         return (
             <View>

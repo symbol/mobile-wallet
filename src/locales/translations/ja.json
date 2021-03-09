@@ -564,6 +564,7 @@
 		"transactionQr": "トランザクションQR",
 		"addressQr": "アドレスQR",
 		"privateKeyQr": "秘密鍵QR",
+		"signedQR": "署名入りトランザクションQR",
 		"warningMultipleMosaicTransfer": "トランスファートランザクションQRには複数のモザイクが含まれています このアプリは現在トランザクションごとにモザイクを1つのみ送信できます。"
 	},
 	"notification": {
@@ -596,6 +597,10 @@
 		"invalidQRNetwork": "QRコードは別のネットワークを参照しています。[設定] でノードを変更してもう一度お試しください。",
 		"unsupportedSymbolQR": "このSymbol QRはまだサポートされていません。",
 		"failedToParseQR": "QRの解析に失敗しました。",
-		"inavlidQRTransactionType": "トランザクション種別はトランスファーではありません。"
+		"inavlidQRTransactionType": "トランザクション種別はトランスファーではありません。",
+		"signedTransactionQRInfo": "これは署名入りのトランザクションQRです。このトランザクションをネットワークに告知することができます。",
+		"announceSignedTransaction":"アナウンストランザクション",
+		"opt_in_account_alert":"このアカウントは古い方法で取得しています。シードアカウントに資金を移動することをお勧めします。",
+		"announce_success": "トランザクションは正常に告知されました。"
 	}
 }
