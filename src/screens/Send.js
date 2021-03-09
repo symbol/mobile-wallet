@@ -155,7 +155,7 @@ class Send extends Component<Props, State> {
     onAddressChange = recipientAddress => {
         const { network } = this.props;
         const showAddressError = !isAddressValid(recipientAddress, network);
-        this.setState({ recipientAddress, showAddressError });
+        this.setState({ recipientAddress, showAddressError, isEncrypted: false });
     };
 
     onAmountChange = async val => {
