@@ -3,7 +3,7 @@ import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 
 export class MnemonicSecureStorage extends BaseSecureStorage {
     /** MNEMONIC KEY **/
-    static MNEMONIC_KEY = 'MNEMONIC';
+    static MNEMONIC_KEY = 'mnemonics';
 
     /**
      * Save mnemonic
