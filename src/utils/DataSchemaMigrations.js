@@ -21,7 +21,12 @@ export const migrateDataSchema = async (oldVersion: number) => {
 };
 
 const migrateOptIn = async () => {
-    const mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
+    let mnemonic;
+    try {
+        mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
+    } catch (e) {}
+    if (!mnemonic) return;
+
     await MnemonicSecureStorage.saveMnemonic(mnemonic);
     let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
 
@@ -29,19 +34,16 @@ const migrateOptIn = async () => {
     await AccountSecureStorage.createNewAccount(mainnetAccountModel);
     const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'testnet');
     await AccountSecureStorage.createNewAccount(testnetAccountModel);
-    const optinAccounts = [];
+
+    const mainnetOptinAccounts = {};
     for (let i = 0; i < 10; i++) {
         const optinMainnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'mainnet', Network.BITCOIN);
-        if (getWhitelistedPublicKeys('mainnet').indexOf(optinMainnetAccount.id) >= 0) {
-            optinAccounts.push(optinMainnetAccount);
-        }
-        const optinTestnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'testnet', Network.BITCOIN);
-        if (getWhitelistedPublicKeys('testnet').indexOf(optinTestnetAccount.id) >= 0) {
-            optinAccounts.push(optinTestnetAccount);
-        }
+        mainnetOptinAccounts[optinMainnetAccount.id] = optinMainnetAccount;
     }
-    for (let account of optinAccounts) {
-        await AccountSecureStorage.createNewAccount(account);
+
+    const mainnetList = getWhitelistedPublicKeys('mainnet');
+    for (let publicKey of mainnetList) {
+        if (mainnetOptinAccounts[publicKey]) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
     }
 };
 
