@@ -5,6 +5,7 @@ import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStor
 import AccountService from '@src/services/AccountService';
 import { SecureStorage } from '@src/utils/storage/SecureStorage';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
+import {NetworkType, Account as SymbolAccount} from "symbol-sdk";
 
 export const CURRENT_DATA_SCHEMA = 2;
 
@@ -23,15 +24,27 @@ const migrateVersion0 = async () => {
     if (!mnemonic) return;
     await MnemonicSecureStorage.saveMnemonic(mnemonic);
     const accounts = await getLocalAccounts().toPromise();
+    let i = 1;
     for (let account: Account of accounts) {
+        /*
         const newAccountModel = AccountService.createFromMnemonicAndIndex(
             mnemonic,
             account.bipIndex,
-            account.name,
-            account.networkType === NetworkType.MAIN_NET ? 'mainnet' : 'testnet',
+            'Opt In Account ' + i,
+            NetworkType.MAIN_NET,
             Network.BITCOIN
         );
+        */
+        const symbolAccount = SymbolAccount.createFromPrivateKey(account.privateKey, NetworkType.MAIN_NET);
+        const newAccountModel = {
+            id: symbolAccount.publicKey,
+            name: 'Opt In Account ' + i,
+            type: 'optin',
+            privateKey: symbolAccount.privateKey,
+            network: 'mainnet',
+        };
         await AccountSecureStorage.createNewAccount(newAccountModel);
+        i++;
     }
     const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'testnet');
     await AccountSecureStorage.createNewAccount(testnetAccountModel);
