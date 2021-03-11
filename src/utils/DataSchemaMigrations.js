@@ -36,17 +36,15 @@ const migrateOptIn = async () => {
     const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'testnet');
     await AccountSecureStorage.createNewAccount(testnetAccountModel);
 
-    const mainnetOptinAccounts = [];
+    const mainnetOptinAccounts = {};
     for (let i = 0; i < 10; i++) {
         const optinMainnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'mainnet', Network.BITCOIN);
-        mainnetOptinAccounts.push(optinMainnetAccount);
+        mainnetOptinAccounts[optinMainnetAccount.id] = optinMainnetAccount;
     }
 
     const mainnetList = getWhitelistedPublicKeys('mainnet');
-
-    for (let publicKey of mainnetOptinAccounts) {
-        const foundIndex = publicKeyBinarySearch(mainnetList, publicKey);
-        if (foundIndex >= 0) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
+    for (let publicKey of mainnetList) {
+        if (mainnetOptinAccounts[publicKey]) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
     }
 };
 

@@ -23,7 +23,14 @@
   "networks": {
     "mainnet": {
       "nodes": [
-       "http://api.experimental.symboldev.network:3000"
+        "http://api.experimental.symboldev.network:3000",
+        "http://ngl-api-501.symbolblockchain.io:3000",
+        "http://ngl-api-601.symbolblockchain.io:3000",
+        "http://ngl-api-401.symbolblockchain.io:3000",
+        "http://ngl-api-001.symbolblockchain.io:3000",
+        "http://ngl-api-101.symbolblockchain.io:3000",
+        "http://ngl-api-301.symbolblockchain.io:3000",
+        "http://ngl-api-201.symbolblockchain.io:3000"
       ]
     },
     "testnet": {
