@@ -20,34 +20,38 @@ export const migrateDataSchema = async (oldVersion: number) => {
 
 const migrateVersion0 = async () => {
     console.log('Migrating from version 0');
-    const mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
-    if (!mnemonic) return;
-    await MnemonicSecureStorage.saveMnemonic(mnemonic);
-    const accounts = await getLocalAccounts().toPromise();
-    let i = 1;
-    for (let account: Account of accounts) {
-        /*
-        const newAccountModel = AccountService.createFromMnemonicAndIndex(
-            mnemonic,
-            account.bipIndex,
-            'Opt In Account ' + i,
-            NetworkType.MAIN_NET,
-            Network.BITCOIN
-        );
-        */
-        const symbolAccount = SymbolAccount.createFromPrivateKey(account.privateKey, NetworkType.MAIN_NET);
-        const newAccountModel = {
-            id: symbolAccount.publicKey,
-            name: 'Opt In Account ' + i,
-            type: 'optin',
-            privateKey: symbolAccount.privateKey,
-            network: 'mainnet',
-        };
-        await AccountSecureStorage.createNewAccount(newAccountModel);
-        i++;
+    try {
+        const mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
+        if (!mnemonic) return;
+        await MnemonicSecureStorage.saveMnemonic(mnemonic);
+        const accounts = await getLocalAccounts().toPromise();
+        let i = 1;
+        for (let account: Account of accounts) {
+            /*
+            const newAccountModel = AccountService.createFromMnemonicAndIndex(
+                mnemonic,
+                account.bipIndex,
+                'Opt In Account ' + i,
+                NetworkType.MAIN_NET,
+                Network.BITCOIN
+            );
+            */
+            const symbolAccount = SymbolAccount.createFromPrivateKey(account.privateKey, NetworkType.MAIN_NET);
+            const newAccountModel = {
+                id: symbolAccount.publicKey,
+                name: 'Opt In Account ' + i,
+                type: 'optin',
+                privateKey: symbolAccount.privateKey,
+                network: 'mainnet',
+            };
+            await AccountSecureStorage.createNewAccount(newAccountModel);
+            i++;
+        }
+        const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'testnet');
+        await AccountSecureStorage.createNewAccount(testnetAccountModel);
+        const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'mainnet');
+        await AccountSecureStorage.createNewAccount(mainnetAccountModel);
+    } catch (e) {
+        console.log('Error migrating from version 0');
     }
-    const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'testnet');
-    await AccountSecureStorage.createNewAccount(testnetAccountModel);
-    const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'mainnet');
-    await AccountSecureStorage.createNewAccount(mainnetAccountModel);
 };
