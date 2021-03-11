@@ -5,6 +5,7 @@ import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStor
 import AccountService from '@src/services/AccountService';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import type { AccountModel } from '@src/storage/models/AccountModel';
+import {SecureStorage} from "@src/utils/storage/SecureStorage";
 
 export const CURRENT_DATA_SCHEMA = 2;
 
@@ -22,14 +23,12 @@ export const migrateDataSchema = async (oldVersion: number) => {
 
 const migrateVersion0 = async () => {
     console.log('Migrating from version 0');
-    const mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
-    if (!mnemonicModel) return;
+    const mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
+    if (!mnemonic) return;
     const accounts = await getLocalAccounts().toPromise();
-    let hasTestnetAcc = false;
     for (let account: Account of accounts) {
-        if (account.networkType !== NetworkType.MAIN_NET) hasTestnetAcc = true;
         const newAccountModel = AccountService.createFromMnemonicAndIndex(
-            mnemonicModel.mnemonic,
+            mnemonic,
             account.bipIndex,
             account.name,
             account.networkType === NetworkType.MAIN_NET ? 'mainnet' : 'testnet',
@@ -37,10 +36,10 @@ const migrateVersion0 = async () => {
         );
         await AccountSecureStorage.createNewAccount(newAccountModel);
     }
-    if (!hasTestnetAcc) {
-        const newAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Root account', 'testnet');
-        await AccountSecureStorage.createNewAccount(newAccountModel);
-    }
+    const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'testnet');
+    await AccountSecureStorage.createNewAccount(testnetAccountModel);
+    const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonic, 0, 'Seed account 0', 'mainnet');
+    await AccountSecureStorage.createNewAccount(mainnetAccountModel);
 };
 
 const migrateVersion1 = async () => {
