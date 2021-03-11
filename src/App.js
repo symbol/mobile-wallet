@@ -56,33 +56,33 @@ export const startApp = async () => {
     setGlobalCustomFont();
 
     const dataSchemaVersion = await AsyncCache.getDataSchemaVersion();
-    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) await migrateDataSchema(dataSchemaVersion);
 
-    await initStore();
-
-    /* TODO: REGISTER CORRECT LANGUAGE
-    const language = await SettingsHelper.getActiveLanguage();
-    */
     const selectedLanguage = await AsyncCache.getSelectedLanguage();
     setI18nConfig(selectedLanguage);
 
+    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA || true) {
+        SplashScreen.hide();
+        Router.goToWalletLoading({
+            promiseToRun: async () => await migrateDataSchema(dataSchemaVersion),
+            callbackAction: launchWallet,
+        });
+    } else {
+        await launchWallet();
+        SplashScreen.hide();
+    }
+};
+
+const launchWallet = async () => {
+    await initStore();
+
     const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
-
-    SplashScreen.hide();
 
     if (mnemonic) {
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
         else Router.goToDashboard();
     } else {
-        /* TODO: SELECT FIRST PAGE
-        goToOnBoarding({
-            // goToDashboard: () => goToOptinWelcomeAsRoot(),
-            goToDashboard: () => goToNetworkSelector({}),
-            goToPasscode: (props: Object) => goToPasscode(props),
-        });
-         */
         Router.goToTermsAndPrivacy({});
     }
 };

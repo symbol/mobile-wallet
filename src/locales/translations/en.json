@@ -125,7 +125,7 @@
 	},
 	"WalletLoading": {
 		"title": "Get ready \nwith Symbol",
-		"description": "We are setting up your wallet!"
+		"description": "We are setting up your wallet!\nIt could take some time"
 	},
 	"NetworkLoading": {
 		"title": "Fetching network info",

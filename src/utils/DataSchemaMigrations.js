@@ -8,6 +8,7 @@ import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureSt
 import { NetworkType, Account as SymbolAccount } from 'symbol-sdk';
 import { Network } from 'symbol-hd-wallets';
 import { getWhitelistedPublicKeys } from '@src/config/environment';
+import {publicKeyBinarySearch} from "@src/utils/filter";
 
 export const CURRENT_DATA_SCHEMA = 2;
 
@@ -35,15 +36,17 @@ const migrateOptIn = async () => {
     const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'testnet');
     await AccountSecureStorage.createNewAccount(testnetAccountModel);
 
-    const mainnetOptinAccounts = {};
+    const mainnetOptinAccounts = [];
     for (let i = 0; i < 10; i++) {
         const optinMainnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'mainnet', Network.BITCOIN);
-        mainnetOptinAccounts[optinMainnetAccount.id] = optinMainnetAccount;
+        mainnetOptinAccounts.push(optinMainnetAccount);
     }
 
     const mainnetList = getWhitelistedPublicKeys('mainnet');
-    for (let publicKey of mainnetList) {
-        if (mainnetOptinAccounts[publicKey]) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
+
+    for (let publicKey of mainnetOptinAccounts) {
+        const foundIndex = publicKeyBinarySearch(mainnetList, publicKey);
+        if (foundIndex >= 0) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
     }
 };
 
