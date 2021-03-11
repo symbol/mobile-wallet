@@ -60,7 +60,7 @@ export const startApp = async () => {
     const selectedLanguage = await AsyncCache.getSelectedLanguage();
     setI18nConfig(selectedLanguage);
 
-    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA || true) {
+    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) {
         SplashScreen.hide();
         Router.goToWalletLoading({
             promiseToRun: async () => await migrateDataSchema(dataSchemaVersion),
