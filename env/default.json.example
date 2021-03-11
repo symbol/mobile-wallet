@@ -22,7 +22,9 @@
   "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
   "networks": {
     "mainnet": {
-      "nodes": []
+      "nodes": [
+       "http://api.experimental.symboldev.network:3000"
+      ]
     },
     "testnet": {
       "nodes": [
@@ -34,7 +36,7 @@
       ]
     }
   },
-  "defaultNetworkType": "testnet",
+  "defaultNetworkType": "mainnet",
   "nativeMosaicId": "5F160D7851F3CB30",
   "optInWhiteList" : {
      "mainnet": [

@@ -5,17 +5,44 @@ import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStor
 import AccountService from '@src/services/AccountService';
 import { SecureStorage } from '@src/utils/storage/SecureStorage';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
-import {NetworkType, Account as SymbolAccount} from "symbol-sdk";
+import { NetworkType, Account as SymbolAccount } from 'symbol-sdk';
+import { Network } from 'symbol-hd-wallets';
+import { getWhitelistedPublicKeys } from '@src/config/environment';
 
 export const CURRENT_DATA_SCHEMA = 2;
 
 export const migrateDataSchema = async (oldVersion: number) => {
     switch (oldVersion) {
         case 0:
-            await migrateVersion0();
+            await migrateOptIn();
             break;
     }
     await AsyncCache.setDataSchemaVersion(CURRENT_DATA_SCHEMA);
+};
+
+const migrateOptIn = async () => {
+    const mnemonic = await SecureStorage.secureRetrieveAsync('mnemonics');
+    await MnemonicSecureStorage.saveMnemonic(mnemonic);
+    let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
+
+    const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'mainnet');
+    await AccountSecureStorage.createNewAccount(mainnetAccountModel);
+    const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'testnet');
+    await AccountSecureStorage.createNewAccount(testnetAccountModel);
+    const optinAccounts = [];
+    for (let i = 0; i < 10; i++) {
+        const optinMainnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'mainnet', Network.BITCOIN);
+        if (getWhitelistedPublicKeys('mainnet').indexOf(optinMainnetAccount.id) >= 0) {
+            optinAccounts.push(optinMainnetAccount);
+        }
+        const optinTestnetAccount = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, i, `Opt In Account ${i + 1}`, 'testnet', Network.BITCOIN);
+        if (getWhitelistedPublicKeys('testnet').indexOf(optinTestnetAccount.id) >= 0) {
+            optinAccounts.push(optinTestnetAccount);
+        }
+    }
+    for (let account of optinAccounts) {
+        await AccountSecureStorage.createNewAccount(account);
+    }
 };
 
 const migrateVersion0 = async () => {
