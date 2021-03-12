@@ -13,7 +13,7 @@ ext {
     git = Grgit.open(currentDir: projectDir)
     gitVersionName = git.describe()
     gitShortVersionName = gitVersionName ? gitVersionName.replace("v", "") : ""
-    gitVersionCode = git.tag.list().size()
+    gitVersionCode = git.log().size()
     gitVersionCodeTime = git.head().time
     buildDate = new Date()
     customVersionName = "${gitShortVersionName}-${git.head().abbreviatedId}-${buildDate.format('yyMMdd')}"
