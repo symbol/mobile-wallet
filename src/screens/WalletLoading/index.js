@@ -15,9 +15,15 @@ import store from "@src/store";
 class WalletLoading extends Component {
 
   componentDidMount = () => {
-	  store.dispatchAction({type: 'wallet/saveWallet'}).then( _ => {
-	  	Router.goToDashboard({})
-	  });
+  	if (this.props && this.props.promiseToRun && this.props.callbackAction) {
+  		this.props.promiseToRun().then( () => {
+			this.props.callbackAction();
+		});
+	} else {
+		store.dispatchAction({type: 'wallet/saveWallet'}).then(_ => {
+			Router.goToDashboard({})
+		});
+	}
   };
 
   render() {

@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Row } from '@src/components';
+import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
+import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Col, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
+import Trunc from '@src/components/organisms/Trunc';
+import {Router} from "@src/Router";
+import {showMessage} from "react-native-flash-message";
 
 const styles = StyleSheet.create({
+    showButton: {
+        textAlign: 'right',
+        width: '100%',
+        borderRadius: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: GlobalStyles.color.PRIMARY,
+        color: GlobalStyles.color.PRIMARY,
+    },
     list: {
         marginBottom: 10,
     },
@@ -57,17 +70,17 @@ type State = {};
 class Harvest extends Component<Props, State> {
     state = {
         selectedNode: null,
+        selectedNodeUrl: null,
         isLoading: false,
     };
 
     componentDidMount() {
-        const { selectedAccount } = this.props;
+        const { selectedAccount, nodes } = this.props;
         if (selectedAccount.harvestingNode) {
-            const nodes = HarvestingService.getHarvestingNodeList();
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
                     this.setState({
-                        selectedNode: node.publicKey,
+                        selectedNodeUrl: node.url,
                     });
                 }
             }
@@ -75,19 +88,36 @@ class Harvest extends Component<Props, State> {
     }
 
     getSelectedUrl = () => {
-        const { selectedNode } = this.state;
-        const nodeObj = HarvestingService.getHarvestingNodeList().find(node => node.publicKey === selectedNode);
+        const { nodes } = this.props;
+        const { selectedNodeUrl } = this.state;
+        const nodeObj = nodes.find(node => node.url === selectedNodeUrl);
         return nodeObj ? nodeObj.url : null;
     };
 
     getHarvestingNodesDropDown = () => {
-        return HarvestingService.getHarvestingNodeList().map(node => ({
-            value: node.publicKey,
+        const { nodes } = this.props;
+        return nodes.map(node => ({
+            value: node.url,
             label: node.url,
         }));
     };
 
-    onSelectHarvestingNode = node => this.setState({ selectedNode: node });
+    onSelectHarvestingNode = node => {
+        const url = 'http://' + node + ':3000';
+        HarvestingService.getNodePublicKeyFromNode(url)
+            .then(publicKey => {
+                this.setState({ selectedNode: publicKey, selectedNodeUrl: node });
+            })
+            .catch(e => {
+                this.setState({ selectedNodeUrl: null });
+                Router.showFlashMessageOverlay().then(() => {
+                    showMessage({
+                        message: translate('Settings.nisNode.errorBadNodeDescription'),
+                        type: 'danger',
+                    });
+                });
+            });
+    };
 
     startHarvesting = async _ => {
         const callBack = async () => {
@@ -102,12 +132,12 @@ class Harvest extends Component<Props, State> {
         showPasscode(this.props.componentId, callBack);
     };
 
-    swapHarvesting = async _ => {
+    activateHarvesting = async _ => {
         const callBack = async () => {
             const { selectedNode } = this.state;
             this.setState({ isLoading: true });
             await store.dispatchAction({
-                type: 'harvesting/swapHarvesting',
+                type: 'harvesting/activateHarvesting',
                 payload: { nodePublicKey: selectedNode, harvestingNode: this.getSelectedUrl() },
             });
             this.setState({ isLoading: false });
@@ -124,9 +154,14 @@ class Harvest extends Component<Props, State> {
         showPasscode(this.props.componentId, callBack);
     };
 
+    onViewLinkedKeysClick = async _ => {
+        Router.goToShowLinkedKeys({}, this.props.componentId);
+    };
+
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance } = this.props;
-        const { selectedNode, isLoading } = this.state;
+        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance, nativeMosaicNamespace, harvestingModel, selectedAccount } = this.props;
+        const { selectedNodeUrl, isLoading } = this.state;
+        const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
         switch (status) {
             case 'ACTIVE':
@@ -182,43 +217,78 @@ class Harvest extends Component<Props, State> {
                                 {totalFeesEarned.toString()}
                             </Text>
                         </Row>
-                    </Section>
-                    <Section type="form-item">
-                        <Dropdown
-                            theme="light"
-                            list={this.getHarvestingNodesDropDown()}
-                            title={translate('harvest.selectNode')}
-                            value={selectedNode}
-                            onChange={this.onSelectHarvestingNode}
-                        />
+                        {status !== 'INACTIVE' && (
+                            <TouchableOpacity onPress={() => this.onViewLinkedKeysClick()} style={{ textAlign: 'right', width: '100%' }}>
+                                <NativeText style={{ textAlign: 'right', width: '100%' }}>
+                                    <Text type="bold" style={styles.showButton}>
+                                        {translate('harvest.viewLinkedKeys')}
+                                    </Text>
+                                </NativeText>
+                            </TouchableOpacity>
+                        )}
                     </Section>
 
+                    {status !== 'INACTIVE' && selectedAccount.harvestingNode && (
+                        <Section type="form-item" style={styles.card}>
+                            <Row justify="space-between" fullWidth>
+                                <Text type={'bold'} theme={'light'}>
+                                    {translate('harvest.linkedNode')}:
+                                </Text>
+                            </Row>
+                            <Row align="center">
+                                <Text type={'regular'} theme={'light'}>
+                                    {selectedAccount.harvestingNode}
+                                </Text>
+                            </Row>
+                        </Section>
+                    )}
+
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {status === 'INACTIVE' && (
+                        {!notEnoughBalance && status === 'INACTIVE' && (
                             <Section type="form-item">
+                                <Dropdown
+                                    theme="light"
+                                    list={this.getHarvestingNodesDropDown()}
+                                    title={translate('harvest.selectNode')}
+                                    value={selectedNodeUrl}
+                                    onChange={this.onSelectHarvestingNode}
+                                />
                                 <Button
                                     isLoading={isLoading}
-                                    isDisabled={!selectedNode || balance < 10000}
+                                    isDisabled={!selectedNodeUrl || notEnoughBalance}
                                     text={translate('harvest.startHarvesting')}
                                     theme="light"
                                     onPress={() => this.startHarvesting()}
                                 />
                             </Section>
                         )}
-                        {status !== 'INACTIVE' && (
-                            <Section type="form-item">
-                                <Button
-                                    isLoading={isLoading}
-                                    isDisabled={!selectedNode || balance < 10000}
-                                    text={translate('harvest.changeNode')}
-                                    theme="light"
-                                    onPress={() => this.swapHarvesting()}
-                                />
-                            </Section>
+                        {!notEnoughBalance && status !== 'INACTIVE' && (
+                            <View>
+                                <Section type="form-item">
+                                    <Button
+                                        isLoading={isLoading}
+                                        isDisabled={status !== 'KEYS_LINKED' || !harvestingModel}
+                                        text={translate('harvest.activate')}
+                                        theme="light"
+                                        onPress={() => this.activateHarvesting()}
+                                    />
+                                </Section>
+                                <Section type="form-item">
+                                    <Button
+                                        isLoading={isLoading}
+                                        isDisabled={false}
+                                        text={translate('harvest.stopHarvesting')}
+                                        theme="dark"
+                                        onPress={() => this.stopHarvesting()}
+                                    />
+                                </Section>
+                            </View>
                         )}
-                        {status !== 'INACTIVE' && (
+                        {notEnoughBalance && (
                             <Section type="form-item">
-                                <Button isLoading={isLoading} isDisabled={false} text={translate('harvest.stopHarvesting')} theme="light" onPress={() => this.stopHarvesting()} />
+                                <Text theme="light" align="center" type="regular">
+                                    {translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })}
+                                </Text>
                             </Section>
                         )}
                     </Section>
@@ -232,7 +302,11 @@ class Harvest extends Component<Props, State> {
 export default connect(state => ({
     selectedAccount: state.wallet.selectedAccount,
     balance: state.account.balance,
+    nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
+    minRequiredBalance: state.harvesting.minRequiredBalance,
     status: state.harvesting.status,
     totalBlockCount: state.harvesting.harvestedBlockStats.totalBlockCount,
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
+    harvestingModel: state.harvesting.harvestingModel,
+    nodes: state.harvesting.nodes,
 }))(Harvest);

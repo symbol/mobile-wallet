@@ -16,12 +16,17 @@ type Props = {
 export default class PasswordModal extends Component<Props> {
     state = {
         value: '',
-    };
+	};
+	
+	componentDidMount = () => {
+		this.setState({ value: ''});
+	};
 
     onSubmit = () => {
         const { onSubmit } = this.props;
         const { value } = this.state;
-        onSubmit(value);
+		onSubmit(value);
+		this.setState({value: ''});
     };
 
     render = () => {
@@ -29,20 +34,26 @@ export default class PasswordModal extends Component<Props> {
         const { value } = this.state;
 
         return (
-            <PopupModal isModalOpen={showModal} showTopbar={true} title={title} showClose={true} onClose={() => this.setState({ showDecryptModal: false })}>
-                <Section type="form-item">
+            <PopupModal isModalOpen={showModal} showTopbar={true} title={title} showClose={true} onClose={() => {
+				typeof this.props.onClose === 'function' && this.props.onClose()
+				this.setState({ showDecryptModal: false })
+			}}>
+                <Section type="form">
+				<Section type="form-item">
                     <Input
                         type="password"
                         value={value}
                         placeholder="Insert password"
                         theme="light"
-                        editable={true}
+						editable={true}
+						secureTextEntry={true}
                         onChangeText={value => this.setState({ value })}
                     />
                 </Section>
                 <Section type="form-bottom">
                     <Button text="Submit" theme="light" onPress={() => this.onSubmit()} />
                 </Section>
+				</Section>
             </PopupModal>
         );
     };

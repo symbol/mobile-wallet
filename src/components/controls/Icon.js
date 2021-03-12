@@ -213,8 +213,12 @@ export default class C extends Component<Props, State> {
 			case 'contact_light':
 				source = require('@src/assets/icons/contact_light.png');
 				break;
-				
-
+			case 'qr_scanner':
+				source = require('@src/assets/icons/qr_scanner.png');
+				break;
+			case 'warning':
+				source = require('@src/assets/icons/warning_yellow.png');
+				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;

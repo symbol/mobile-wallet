@@ -40,11 +40,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		width: '100%'
 	},
-	list: {
-		marginBottom: 10,
-		marginTop: 100,
-		flex: 1,
+	notifications: {
+		//marginBottom: 10,
+		//marginTop: 100,
+		//flex: 1,
+		maxHeight: '50%',
+		height: null,
+		flexShrink: 1,
 	},
+	pluginList: {
+		//flexGrow: 1
+	}
 });
 
 type Props = {
@@ -89,13 +95,15 @@ class Home extends Component<Props, State> {
 			onOpenMenu,
 			onOpenSettings,
 			changeTab,
-			isLoading
+			isLoading,
+			isMultisig
 		} = this.props;
         const {} = this.state;
 
         const notifications = [];
-        notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
-        if (pendingSignature) {
+		notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
+		//notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
+        if (pendingSignature && !isMultisig) {
 			notifications.push({title: translate('home.pendingSignatureTitle'), description: translate('home.pendingSignatureDescription'), handler: () => changeTab('history')});
 		}
 
@@ -106,27 +114,23 @@ class Home extends Component<Props, State> {
 				fade={true}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
-				<ScrollView
-					style={styles.ScrollView}
-					contentContainerStyle={styles.scrollViewContent}
-					refreshControl={
-						<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />
-					}
-				>
+
 					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
-							<AccountBalanceWidget />
-							<PluginList componentId={componentId} theme="light"/>
+							<AccountBalanceWidget componentId={componentId}/>
 						</Section>
+
+						<PluginList componentId={componentId} theme="light" style={styles.pluginList}/>
+
+						<ListContainer style={styles.notifications} isScrollable={false}>
+							<FlatList
+								// style={{ height: '100%' }}
+								keyExtractor={(item, index) => '' + index + 'h-notif'}
+								data={notifications}
+								renderItem={this.renderNotification}
+							/>
+						</ListContainer>
 					</Col>
-					<ListContainer style={styles.list} isScrollable={false}>
-						<FlatList
-							// style={{ height: '100%' }}
-							data={notifications}
-							renderItem={this.renderNotification}
-						/>
-					</ListContainer>
-				</ScrollView>
             </GradientBackground>
         );
     }
@@ -137,4 +141,5 @@ export default connect(state => ({
     accountName: state.wallet.selectedAccount.name,
     pendingSignature: state.transaction.pendingSignature,
     address: state.account.selectedAccountAddress,
+	isMultisig: state.account.isMultisig
 }))(Home);

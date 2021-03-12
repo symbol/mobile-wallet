@@ -3,12 +3,22 @@ import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import translate from '@src/locales/i18n';
 import { Router } from '@src/Router';
-import {showPasscode} from "@src/utils/passcode";
+import { showPasscode } from '@src/utils/passcode';
 
 export default class SettingsBackup extends Component {
     onPress = () => {
-        const callBack = () => Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
-        showPasscode(this.props.componentId, callBack);
+        const callBack = () => {
+            Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
+        };
+
+        showPasscode(
+            this.props.componentId,
+            () =>
+                setTimeout(() => {
+                    Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
+                }),
+            500
+        );
     };
 
     render() {

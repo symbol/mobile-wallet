@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Section } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
@@ -21,7 +21,7 @@ interface Props {}
 type State = {};
 
 
-export default class GradientBackground extends Component<Props, State> {
+export default class GradientBackground extends PureComponent<Props, State> {
 	state = {};
 
     render() {

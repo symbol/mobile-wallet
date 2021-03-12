@@ -2,8 +2,8 @@
   "sessionTimeoutInSeconds": 10,
   "marketCurrencyName": "nem",
   "newsURL": "https://nemflash.io/feed",
-  "explorerURL": "http://explorer-0.10.0.x-01.symboldev.network/",
-  "faucetURL": "http://faucet-0.10.0.x-01.symboldev.network/",
+  "explorerURL": "http://explorer.testnet.symboldev.network/",
+  "faucetURL": "http://faucet.testnet.symboldev.network/",
   "aboutURL": "https://nem.io",
   "currencies": {
     "USD": "usd",
@@ -22,20 +22,31 @@
   "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
   "networks": {
     "mainnet": {
-      "nodes": []
+      "nodes": [
+        "http://api.experimental.symboldev.network:3000",
+        "http://ngl-api-501.symbolblockchain.io:3000",
+        "http://ngl-api-601.symbolblockchain.io:3000",
+        "http://ngl-api-401.symbolblockchain.io:3000",
+        "http://ngl-api-001.symbolblockchain.io:3000",
+        "http://ngl-api-101.symbolblockchain.io:3000",
+        "http://ngl-api-301.symbolblockchain.io:3000",
+        "http://ngl-api-201.symbolblockchain.io:3000"
+      ]
     },
     "testnet": {
       "nodes": [
-        "http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.eu-west-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.us-east-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.us-west-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.us-west-2.0.10.0.x.symboldev.network:3000",
-        "http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000",
-        "http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000"
+        "http://api-01.us-west-1.testnet.symboldev.network:3000",
+        "http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
+        "http://api-01.ap-southeast-1.testnet.symboldev.network:3000",
+        "http://api-01.eu-central-1.testnet.symboldev.network:3000",
+        "http://api-01.eu-west-1.testnet.symboldev.network:3000"
       ]
     }
   },
- "defaultNetworkType": "testnet",
- "nativeMosaicId": "5B66E76BECAD0860"
+  "defaultNetworkType": "mainnet",
+  "nativeMosaicId": "5F160D7851F3CB30",
+  "optInWhiteList" : {
+    "testnet": [],
+    "mainnet": []
+  }
 }

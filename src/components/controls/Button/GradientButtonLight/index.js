@@ -101,7 +101,7 @@ class GradientButton extends Component<Props> {
             elevation={fill ? 3 : undefined}>
             {loading ? (
               <View style={styles.buttonContent}>
-				<ActivityIndicator size="small" color={GlobalStyles.color.PINK} />
+				<ActivityIndicator size="small" color={GlobalStyles.color.PINK} style={styles.loader}/>
 				{/* <Image
 					style={styles.loader}
 					source={require('@src/assets/loader.gif')}

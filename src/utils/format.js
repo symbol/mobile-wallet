@@ -1,5 +1,6 @@
 import { LocalDate, LocalDateTime } from 'js-joda';
 import translate from '@src/locales/i18n';
+import type {AppNetworkType} from "@src/storage/models/NetworkModel";
 
 export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
     return `${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
@@ -7,19 +8,25 @@ export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
 
 export const formatDate = (date: LocalDateTime): string => {
 	const days = [
+        translate('date.sunday'),
 		translate('date.monday'),
 		translate('date.tuesday'),
 		translate('date.wednesday'),
 		translate('date.thursday'),
 		translate('date.friday'),
-		translate('date.saturday'),
-		translate('date.sunday')
+		translate('date.saturday')
 	];
 
 	const dateObj = new Date(date);
-	return `${days[dateObj.getDay() - 1].slice(0, 3)}, ${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`;
-	const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
-	return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
+	return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(dateObj.getDate(), 2)}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
+	// const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
+	// return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
+};
+
+export const pad = (num, size) => {
+    num = num.toString();
+    while (num.length < size) num = '0' + num;
+    return num;
 };
 
 export const durationStringToSeconds = (str: string): number => {
@@ -110,4 +117,10 @@ export const durationToRelativeTime = (durationInBlocks: number, blockGeneration
 
 export const shortifyAddress = (address: string): string => {
     return `${address.slice(0, 6)}-...-${address.slice(42)}`;
+};
+
+export const getAccountIndexFromDerivationPath = (path: string, network: AppNetworkType): number => {
+    const startPath = network === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
+    const endPath = "'/0'/0'";
+    return path ? parseInt(path.replace(startPath, '').replace(endPath, '')) : null;
 };

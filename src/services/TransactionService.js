@@ -18,13 +18,35 @@ import {
     PublicAccount,
     Message,
     EncryptedMessage,
+    AggregateTransaction,
+    TransactionStatusHttp, SignedTransaction, CosignatureSignedTransaction,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { TransactionQR } from 'symbol-qr-library';
 import NetworkService from '@src/services/NetworkService';
 import store from '@src/store';
+import { defaultFeesConfig } from '@src/config/fees';
 
 export default class TransactionService {
+    /**
+     * Transforms a model to an sdk object
+     * @param transaction
+     * @param signer
+     * @param networkModel
+     * @returns {TransferTransaction}
+     */
+    static async transactionModelToTransactionObject(transaction: TransactionModel, signer: AccountModel, networkModel: NetworkModel): Promise<Transaction> {
+        let transactionObj: Transaction;
+        switch (transaction.type) {
+            case 'transfer':
+                transactionObj = await this._transferTransactionModelToObject(transaction, signer, networkModel);
+                break;
+            default:
+                throw new Error('Not implemented');
+        }
+        return transactionObj;
+    }
+
     /**
      * Signs and broadcasts a transaction model
      * @param transaction
@@ -32,36 +54,38 @@ export default class TransactionService {
      * @param networkModel
      * @param extraParams
      */
-    static signAndBroadcastTransactionModel(transaction: TransactionModel, signer: AccountModel, networkModel: NetworkModel, ...extraParams) {
-        switch (transaction.type) {
-            case 'transfer':
-                return this._signAndBroadcastTransferTransactionModel(transaction, signer, networkModel);
-            default:
-                console.error('Not yet implemented');
-        }
+    static async signAndBroadcastTransactionModel(transaction: TransactionModel, signer: AccountModel, networkModel: NetworkModel, ...extraParams) {
+        const transactionObject = await this.transactionModelToTransactionObject(transaction, signer, networkModel);
+        return this._signAndBroadcast(transactionObject, signer, networkModel);
     }
 
     /**
-     * Signs and broadcasts transfer transaction model
+     * Transforms a transfer transaction model to an sdk object
      * @param transaction
      * @param signer
      * @param networkModel
+     * @returns {Promise<TransferTransaction>}
      * @private
      */
-    static async _signAndBroadcastTransferTransactionModel(transaction: TransferTransactionModel, signer: AccountModel, networkModel: NetworkModel) {
+    static async _transferTransactionModelToObject(
+        transaction: TransferTransactionModel,
+        signer: AccountModel,
+        networkModel: NetworkModel
+    ): TransferTransaction {
         const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
-        const mosaics = [
-            new Mosaic(
-                new MosaicId(transaction.mosaics[0].mosaicId),
-                UInt64.fromUint(transaction.mosaics[0].amount)
-            ),
-        ];
-        const fee = this._resolveFee(transaction.fee);
+        const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount))];
+
         if (!transaction.messageEncrypted) {
             const message = PlainMessage.create(transaction.messageText);
-            const transferTransaction = TransferTransaction.create(Deadline.create(networkModel.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
-            return this._signAndBroadcast(transferTransaction, signer, networkModel);
+            return TransferTransaction.create(
+                Deadline.create(networkModel.epochAdjustment),
+                recipientAddress,
+                mosaics,
+                message,
+                networkType,
+                UInt64.fromUint(transaction.fee)
+            );
         } else {
             const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
             const repositoryFactory = await new RepositoryFactoryHttp(networkModel.node);
@@ -69,8 +93,14 @@ export default class TransactionService {
             try {
                 const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();
                 const message = signerAccount.encryptMessage(transaction.messageText, accountInfo);
-                const transferTransaction = TransferTransaction.create(Deadline.create(networkModel.epochAdjustment, 2), recipientAddress, mosaics, message, networkType, fee);
-                return this._signAndBroadcast(transferTransaction, signer, networkModel);
+                return TransferTransaction.create(
+                    Deadline.create(networkModel.epochAdjustment, 2),
+                    recipientAddress,
+                    mosaics,
+                    message,
+                    networkType,
+                    UInt64.fromUint(transaction.fee)
+                );
             } catch (e) {
                 throw Error('Recipient address has not a public key');
             }
@@ -89,8 +119,7 @@ export default class TransactionService {
         const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
         const signedTransaction = signerAccount.sign(transaction, network.generationHash);
         await store.dispatchAction({ type: 'transfer/setTransactionHash', payload: signedTransaction.hash });
-        const transactionHttp = new TransactionHttp(network.node);
-        return transactionHttp.announce(signedTransaction).toPromise();
+        return this.broadcastSignedTransaction(signedTransaction, network);
     }
 
     /**
@@ -105,37 +134,75 @@ export default class TransactionService {
         const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
         const signedTransaction = signerAccount.signCosignatureTransaction(cosignatureTransaction);
 
-        const transactionHttp = new TransactionHttp(network.node);
-        return transactionHttp.announceAggregateBondedCosignature(signedTransaction).toPromise();
+        return this.broadcastCosignatureSignedTransaction(signedTransaction, network);
     }
 
-    /**
-     * Calculates fee
-     * @param unresolvedFee
-     * @returns {UInt64}
-     */
-    static _resolveFee = unresolvedFee => {
-        const networkCurrencyDivisibility = 6; // replace
-        const k = Math.pow(10, networkCurrencyDivisibility);
-        return UInt64.fromUint(unresolvedFee * k);
-    };
+    static async broadcastSignedTransaction(tx: SignedTransaction, network: NetworkModel) {
+        const transactionHttp = new TransactionHttp(network.node);
+        return transactionHttp.announce(tx).toPromise();
+    }
+
+    static async broadcastCosignatureSignedTransaction(tx: CosignatureSignedTransaction, network: NetworkModel) {
+        const transactionHttp = new TransactionHttp(network.node);
+        return transactionHttp.announceAggregateBondedCosignature(tx).toPromise();
+    }
+
+    static calculateMaxFee(transaction: Transaction, network: NetworkModel, selectedFeeMultiplier?: number): Transaction {
+        if (!selectedFeeMultiplier) {
+            return transaction;
+        }
+        const feeMultiplier =
+            this._resolveFeeMultiplier(transaction, network, selectedFeeMultiplier) < network.transactionFees.minFeeMultiplier
+                ? network.transactionFees.minFeeMultiplier
+                : this._resolveFeeMultiplier(transaction, network, selectedFeeMultiplier);
+        if (!feeMultiplier) {
+            return transaction;
+        }
+        return transaction.setMaxFee(feeMultiplier);
+    }
+
+    static _resolveFeeMultiplier(transaction: Transaction, network: NetworkModel, selectedFeeMultiplier: number): number | undefined {
+        if (selectedFeeMultiplier === defaultFeesConfig.slow) {
+            const fees =
+                network.transactionFees.lowestFeeMultiplier < network.transactionFees.minFeeMultiplier
+                    ? network.transactionFees.minFeeMultiplier
+                    : network.transactionFees.lowestFeeMultiplier;
+            return fees || network.defaultDynamicFeeMultiplier;
+        }
+        if (selectedFeeMultiplier === defaultFeesConfig.normal) {
+            const fees =
+                network.transactionFees.medianFeeMultiplier < network.transactionFees.minFeeMultiplier
+                    ? network.transactionFees.minFeeMultiplier
+                    : network.transactionFees.medianFeeMultiplier;
+            return fees || network.defaultDynamicFeeMultiplier;
+        }
+        if (selectedFeeMultiplier === defaultFeesConfig.fast) {
+            const fees =
+                network.transactionFees.highestFeeMultiplier < network.transactionFees.minFeeMultiplier
+                    ? network.transactionFees.minFeeMultiplier
+                    : network.transactionFees.highestFeeMultiplier;
+            return fees || network.defaultDynamicFeeMultiplier;
+        }
+        return undefined;
+    }
 
     /**
      * Receive QR Data
      * @param recipientAddress
+     * @param amount
      * @param network
      * @param message
      * @returns {Promise<void>}
      */
-    static getReceiveSvgQRData = async (recipientAddress, network, message) => {
+    static getReceiveSvgQRData = async (recipientAddress, amount, network, message) => {
         const netwrokType = network.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
         const transferTransaction = TransferTransaction.create(
             Deadline.create(network.epochAdjustment, 2),
             Address.createFromRawAddress(recipientAddress),
-            [new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(10 * Math.pow(10, 6)))],
+            [new Mosaic(new MosaicId(network.currencyMosaicId), UInt64.fromUint(amount * Math.pow(10, 6)))],
             PlainMessage.create(message),
             netwrokType,
-            UInt64.fromUint(2000000)
+            UInt64.fromUint(1000000)
         );
         const txQR = new TransactionQR(transferTransaction, netwrokType, network.generationHash);
         return txQR.toBase64().toPromise();
@@ -143,27 +210,37 @@ export default class TransactionService {
 
     /**
      * Decrypt message
-     * @param recipientAccount
+     * @param current
      * @param network
      * @param transaction
      * @returns {Promise<void>}
      */
-    static decryptMessage = async (recipientAccount: AccountModel, network: NetworkModel, transaction: TransferTransactionModel) => {
+    static decryptMessage = async (current: AccountModel, network: NetworkModel, transaction: TransferTransactionModel) => {
         try {
-            const networkType = NetworkService.getNetworkTypeFromModel(network);
-            const account = Account.createFromPrivateKey(recipientAccount.privateKey, networkType);
-            const signerAddress = Address.createFromRawAddress(transaction.signerAddress);
-            const repositoryFactory = new RepositoryFactoryHttp(network.node);
-            const accountHttp = repositoryFactory.createAccountRepository();
-            const transactionHttp = repositoryFactory.createTransactionRepository();
-            const accountInfo = await accountHttp.getAccountInfo(signerAddress).toPromise();
-            const alicePublicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, networkType);
             const transactionHash = transaction.hash;
-            const tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
-            if (tx.message.type === 1) {
-                return account.decryptMessage(tx.message, alicePublicAccount).payload;
+            const repositoryFactory = new RepositoryFactoryHttp(network.node);
+            const transactionHttp = repositoryFactory.createTransactionRepository();
+            let tx;
+            try {
+                tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Confirmed).toPromise();
+            } catch {}
+            if (!tx) {
+                try {
+                    tx = await transactionHttp.getTransaction(transactionHash, TransactionGroup.Unconfirmed).toPromise();
+                } catch {}
+            }
+            if (tx && tx instanceof TransferTransaction && tx.message.type === 1) {
+                const networkType = NetworkService.getNetworkTypeFromModel(network);
+                const currentAccount = Account.createFromPrivateKey(current.privateKey, networkType);
+                if (tx.recipientAddress.plain() === currentAccount.address.plain()) {
+                    return EncryptedMessage.decrypt(tx.message, current.privateKey, tx.signer).payload;
+                } else {
+                    const accountHttp = repositoryFactory.createAccountRepository();
+                    const recipientAccountInfo = await accountHttp.getAccountInfo(tx.recipientAddress).toPromise();
+                    const recipientAccount = PublicAccount.createFromPublicKey(recipientAccountInfo.publicKey, networkType);
+                    return EncryptedMessage.decrypt(tx.message, current.privateKey, recipientAccount).payload;
+                }
             } else {
-                console.log(tx.message);
                 return '';
             }
         } catch (e) {

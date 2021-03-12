@@ -102,6 +102,14 @@ export default {
 			lineHeight: 22,
 		},
 
+		warning: {
+			color: COLORS.ORANGE,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '600',
+			fontSize: 13,
+			lineHeight: 22,
+		},
+
 		alert: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-Bold',
@@ -111,6 +119,12 @@ export default {
 			paddingBottom: 8,
 			paddingTop: 16,
 		},
+
+		shadow: {
+			textShadowColor: 'rgba(0, 0, 0, 0.85)',
+			textShadowOffset: { width: 1, height: 1 },
+			textShadowRadius: 10,
+		}
 	},
 
 	section: {
@@ -139,6 +153,11 @@ export default {
 			paddingLeft: 34,
 			paddingRight: 34,
 			paddingBottom: 17,
+			flex: 1,
+			flexDirection: 'column'
+		},
+
+		formWithoutPaddings: {
 			flex: 1,
 			flexDirection: 'column'
 		},

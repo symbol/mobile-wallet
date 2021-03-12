@@ -1,5 +1,6 @@
 import AccountService from '@src/services/AccountService';
 import { from } from 'rxjs';
+import { GlobalListener } from '@src/store/index';
 
 export default {
     namespace: 'account',
@@ -9,6 +10,7 @@ export default {
         selectedAccountAddress: '',
         loading: true,
         balance: 0,
+        isMultisig: false,
         ownedMosaics: [],
         accounts: [],
         cosignatoryOf: [],
@@ -29,6 +31,10 @@ export default {
         },
         setBalance(state, payload) {
             state.account.balance = payload;
+            return state;
+        },
+        setIsMultisig(state, payload) {
+            state.account.isMultisig = payload;
             return state;
         },
         setOwnedMosaics(state, payload) {
@@ -54,21 +60,12 @@ export default {
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
                 }
-                const refreshingObs = from(
-                    new Promise(async resolve => {
-                        await Promise.all([
-                            dispatchAction({ type: 'account/loadBalance' }),
-                            dispatchAction({ type: 'account/loadCosignatoryOf' }),
-                            dispatchAction({ type: 'harvesting/init' }),
-                        ]);
-                        resolve();
-                    })
-                ).subscribe(() => {
-                    commit({ type: 'account/setRefreshingObs', payload: false });
-                    commit({ type: 'account/setLoading', payload: false });
-                });
-                commit({ type: 'account/setRefreshingObs', payload: refreshingObs });
+                await dispatchAction({type: 'account/loadBalance'});
+                dispatchAction({type: 'harvesting/init'});
+                dispatchAction({type: 'account/loadCosignatoryOf'});
+                commit({ type: 'account/setLoading', payload: false });
             } catch (e) {
+                commit({ type: 'account/setLoading', payload: false });
                 console.log(e);
             }
         },
@@ -80,8 +77,14 @@ export default {
         },
         loadCosignatoryOf: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            const cosignatoryOf = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
-            commit({ type: 'account/setCosignatoryOf', payload: cosignatoryOf });
+            const msigInfo = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
+
+            for (let cosignatoryOf of msigInfo.cosignatoryOf) {
+                GlobalListener.addConfirmed(cosignatoryOf);
+                GlobalListener.addUnconfirmed(cosignatoryOf);
+            }
+            commit({ type: 'account/setCosignatoryOf', payload: msigInfo.cosignatoryOf });
+            commit({ type: 'account/setIsMultisig', payload: msigInfo.isMultisig });
         },
     },
 };

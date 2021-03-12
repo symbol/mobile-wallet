@@ -28,7 +28,7 @@ const downloadAndroid = async (file, filename, encoding) => {
             } else {
                 Router.showFlashMessageOverlay().then(() => {
                     showMessage({
-                        message: `Write permissions are needed to save the file`,
+                        message: translate('writePermissionsNeeded'),
                         type: 'danger',
                     });
                 });
@@ -56,9 +56,17 @@ const saveFile = (data, filename, platform, encoding) => {
     return RNFetchBlob.fs
         .writeFile(`${platform === 'ios' ? dirs.DocumentDir : dirs.DownloadDir}/${filename}`, data, encoding)
         .then(() => {
+            if (platform === 'ios') {
+                RNFetchBlob.ios.previewDocument(`${dirs.DocumentDir}/${filename}`);
+            }
             Router.showFlashMessageOverlay().then(() => {
                 showMessage({
-                    message: `File saved successfully, please check ${platform === 'ios' ? 'Documents' : 'Downloads'} folder`,
+                    message: translate(
+                        'unsortedKeys.fileSavedToDirectoryMessage',
+                        {
+                            folder: platform === 'ios' ? 'Documents' : 'Downloads'
+                        }
+                    ),
                     type: 'success',
                 });
             });
@@ -66,7 +74,7 @@ const saveFile = (data, filename, platform, encoding) => {
         .catch(() => {
             Router.showFlashMessageOverlay().then(() => {
                 showMessage({
-                    message: `Error saving file`,
+                    message: translate('unsortedKeys.errorSavingFile'),
                     type: 'danger',
                 });
             });

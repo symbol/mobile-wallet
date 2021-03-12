@@ -1,398 +1,606 @@
 {
-	"hello": "Witaj",
-	"TERMS_title": "Zasady i warunki",
-	"TERMS_button": "Zasady i warunki",
-	"PRIVACY_title": "Polityka prywatności",
-	"PRIVACY_button": "Polityka prywatności",
-	"TERMS_agreeText": "Akceptuje {terms} oraz {privacy}",
-	"TERMS_content": "__Warunki__mock__>> Zobowiązujemy się do ochrony prywatności osób odwiedzających naszą stronę internetową.\n1.2 Niniejsza zasada ma zastosowanie, gdy działamy jako administrator danych w odniesieniu do danych osobowych osób odwiedzających naszą stronę internetową; innymi słowy, gdy określamy cele i sposoby przetwarzania tych danych osobowych. \n1.3 Używamy plików cookie na naszej stronie internetowej. O ile te pliki cookie nie są absolutnie niezbędne do zapewnienia naszej witryny, poprosimy Cię o zgodę na korzystanie z plików cookie podczas pierwszej wizyty na naszej stronie. W niniejszej polityce „my”, „my” i „nasz” odnoszą się do NEM Group Limited. Aby uzyskać więcej informacji o nas, zobacz rozdział 11.",
-	"PRIVACY_content": "__Prywatność__mock__>> Jesteśmy zobowiązani do ochrony prywatności osób odwiedzających naszą stronę internetową.\n1.2 Niniejsza polityka ma zastosowanie, gdy działamy jako administrator danych w odniesieniu do danych osobowych odwiedzających naszą stronę internetową; innymi słowy, gdy określamy cele i sposoby przetwarzania tych danych osobowych. \n1.3 Używamy plików cookie na naszej stronie internetowej. O ile te pliki cookie nie są absolutnie niezbędne do zapewnienia naszej witryny, poprosimy Cię o zgodę na korzystanie z plików cookie podczas pierwszej wizyty na naszej stronie. W niniejszej polityce „my”, „my” i „nasz” odnoszą się do NEM Group Limited. Aby uzyskać więcej informacji o nas, patrz rozdział 11. ",
-	"TERMS_confirmButton": "ZAAKCEPTUJ WARUNKI",
+	"hello": "こんにちは",
+	"LoadingText": "お待ちください…",
+	"InvalidPassword": "Invalid password",
+	"error": "エラーが発生しました",
+	"TERMS_title": "ご利用規約",
+	"TERMS_button": "ご利用規約",
+	"PRIVACY_title": "プライバシー保護に関する方針",
+	"PRIVACY_button": "プライバシー保護に関する方針",
+	"TERMS_agreeText": "私は{terms}と{privacy}に同意します。",
+	"TERMS_content": "THESE TERMS AND CONDITIONS (“TERMS”) APPLY TO YOUR USE OF THE “SYMBOL\nWALLET” (MORE PARTICULARLY DESCRIBED BELOW) PROVIDED BY NEM SOFTWARE\nLIMITED.\nBY USING THE SYMBOL WALLET, YOU WILL BE BOUND BY THESE TERMS WHICH ARE A\nBINDING CONTRACT BETWEEN YOU AND NEM SOFTWWARE LIMITED.\nPLEASE READ THESE TERMS CAREFULLY AND NOTE THAT THE SECTION ON DISPUTE\nRESOLUTION CONTAINS A BINDING JURISDICTION CLAUSE WHICH AFFECTS YOUR\nLEGAL RIGHTS. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SYMBOL\nWALLET.\nYOU AND THE COMPANY HEREBY AGREE AS FOLLOWS:\n1. Parties to these Terms\n1.1 NEM SOFTWARE LIMITED, a company incorporated and registered in Gibraltar under\nnumber 119521 and with its registered address at Suite 7, Hadfield House, Library Street,\nGibraltar, GX11 1AA (“Company”, “we”, “us” or “our” as the context may require) and its\nsuccessors in interests and assigns.\n1.2 The natural or legal person who/which accepts these Terms and agrees to use the Symbol\nWallet (as defined below) as set out in these Terms (“you” or “your” as the context may\nrequire).\nIn these Terms, you and the Company are hereinafter collectively referred to as the “Parties” and\neach individually as a “Party” as the context may require.\nIf you have any questions relating to these Terms, please contact us at\nsymbolterms@nem.software.\n2. The Symbol Wallet\n2.1 Version 1 of the NEM blockchain and the XEM token was launched in March 2015. Since\nthat time, the NEM community has determined that it would be desirable to develop a new\nblockchain, which has now been developed (the “Symbol Blockchain”). The Symbol\nBlockchain is expected to be launched in early 2021 along with the new XYM token which\nwill be its native currency (“XYM”).\n2.2 The application known as the Symbol Wallet is a piece of software offered by the Company\nconnecting and interacting with the Symbol Blockchain (the “Symbol Wallet”), which allows\nits users to access a range of services including (but not limited to) creating, issuing, signing\nand viewing transactions and associated data on the Symbol Blockchain (the “Services”).\n2.3 The Symbol Wallet consists of:\n(a) various pieces of open source code (the “Open Source Code”) committed to the Open\nSource Github repositories for the Symbol Blockchain, licensed under and governed by\nVersion 2.0 of the Apache License which can be viewed at\nhttps://www.apache.org/licenses/LICENSE-2.0 (the “Apache License”); and\n(b) other pieces of code produced by the Company which are its sole and exclusive property\n(the “Proprietary Code”). \nThe Open Source Code and of the Proprietary Code have been combined by us in a\nparticular manner (the “Combination Structure”) in order to create the Symbol Wallet.\n2.4 A desktop version of the Symbol Wallet is available to download from the our website:\nhttps://symbolplatform.com (the “Website”) or from any other website which we have\nprovided a link to on the Website (. Mobile versions of the Symbol Wallet are available to be\ndownloaded from various app stores for mobile devices. The Website, the said other\nwebsites linked =thereto from which the Symbol Wallet can be downloaded and the said app\nstores for mobile devices shall collectively be referred to as a “Download Source”.\n2.5 The Symbol Wallet is not an account whereby the Company or other third parties act as\nfinancial intermediaries or safekeepers of XYM or other data such as mosaics (collectively,\nthe “Wallet Assets”). The Company acts as a software provider only and does not operate\nas a crypto-exchange, a place for buying or selling Wallet Assets, a place to store Wallet\nAssets, a custodian of Wallet Assets, a payment service provider, an e-money institution and\ndoes not provide customer accounts. The Symbol Wallet solely enables its user to access\ntheir electronic wallet via mobile telephone or other mobile or desktop device.\n2.6 We do not have any control over goods and services which are paid for using the Symbol\nWallet, we do not accept any liability for this and we are not responsible for the successful\ncompletion of business transactions between buyers and sellers.\n2.7 The Company cannot retrieve your private codes or passwords if you have lost them or\nforgotten them and it cannot guarantee a transaction confirmation because we do not have\nany control over the user's Symbol Wallet.\n2.8 Updates. The Symbol Wallet and the Services are evolving and you may be required to\naccept or install updates in this regard or update third party software (that is, browsers or\noperating systems) in order to keep using the Symbol Wallet or access its latest features,\nincluding security updates. We may update or make changes to the Symbol Wallet and/or\nthe Services at any time without providing prior notice to you.\n2.9 The terms and conditions of the app store from which a Symbol Wallet may be downloaded,\nmust be observed in addition to these Terms.\n3. Personal data\nThe Company does not require you to provide us with any item of your personal data and,\nas such, we do not obtain, process or store your personal data. None of the Services require\nyou to provide your personal data and, to the extent that you may do so, such data would be\nstored or processed by you locally on your desktop and/or mobile device and not by us.\n4. The Open Source Software & Grant of licence\n4.1 The use, licensing and redistribution of the Open Source Software is governed by the Apache\nLicense. The grant of the License by the Company set out in clause 4.3 below shall be\nsubject to the terms of the Apache License and shall not restrict the use, licensing and\nredistribution of the Open Source Software.\n4.2 All Intellectual Property Rights (as defined below) associated with the Proprietary Code and\nthe Combination Structure (the “Company IP”), are the sole and exclusive property of the\nCompany.\n4.3 Subject to clause 4.1, with effect from the moment you successfully download a Symbol\nWallet from a Download Source and subject to these Terms, the Company hereby grants\nyou a revocable, non-exclusive, non-sublicensable, non-transferrable, free and limited\nlicence for your use of the Symbol Wallet (including all updates, upgrades, new versions and\nreplacement code or software).\n5. Use of the Symbol Wallet\n5.1 In these Terms, the term “use of the Symbol Wallet” and “using the Symbol Wallet” shall\nbe understood to include the use of the Services.\n5.2 Use of the Symbol Wallet is restricted to persons over 18 years of age.\n5.3 The Symbol Wallet application must be downloaded and saved to your mobile or desktop\ndevice in order to use the same.\n5.4 Certain Restrictions. By using the Symbol Wallet, you agree not to:\n(a) license, sell, rent, lease, transfer, assign, reproduce, distribute, host or otherwise\ncommercially exploit the Company IP or any part thereof in any manner whatsoever;\n(b) use any metatags or other “hidden text” using the Company’s name or that of any of\nits associated companies (including but not limited to NEM Group Limited and Symbol\nChain Limited) names or trademarks;\n(c) modify, translate, adapt, merge, make derivative works of, disassemble, decompile,\nreverse compile or reverse engineer any part of the Company IP;\n(d) access the Company IP in order to build a similar or competitive wallet, services,\nsoftware or website;\n(e) copy, reproduce, distribute, republish, download, display, post or transmit any\nCompany IP except as expressly permitted herein; and\n(f) remove or destroy any copyright notices or other proprietary markings contained on or\nin the Company IP.\n5.5 Third-Party Services. The Symbol Wallet may incorporate or may provide access to,\napplications or materials that are hosted by third parties, including:\n(a) Wallet Assets;\n(b) cryptocurrency exchanges;\n(c) cryptocurrency value information services; and\n(d) other third party services;\n(collectively, the “Third Party Services”).\nYou acknowledge and agree that all cryptocurrency exchanges which you have access to\nvia the Symbol Wallet are controlled and operated by third parties and that we do not directly\nexchange virtual currencies and have no role whatsoever in this regard. Access to Third\nParty Services may be geoblocked for residents of certain countries. You acknowledge and\nagree that it is impossible for us to monitor Third Party Services and the providers of the\nsame and that you access such Third Party Services entirely at your own risk. You should\nnot share any credential, private key or any other sensitive information relating to your\nSymbol Wallet or your use of the Symbol Wallet with any third party without first satisfying\nyourself as to their legitimacy. Third Party Services are provided to you, subject to the terms\nand conditions of the providers of such services and we have no responsibility, obligations\nor liabilities whatsoever in this regard. To the extent Third Party Services are incorporated\ninto or linked to or from the Symbol Wallet which have terms and conditions that differ from\nthese Terms, you may be required to agree to such terms in order to access the Third Party\nService. We do not control the terms, policies, or performance of any third party and are not\nresponsible for any performance or provision, or the failure to perform or provide, any Third\nParty Services including, but not limited to, with respect to exchange rates, processing of\ntransactions, and similar activities.\n5.6 Intellectual property. You acknowledge and agree that all Intellectual Property Rights (as\ndefined below) associated with the Company IP are the sole and exclusive property of the\nCompany. These Terms do not grant you any rights to, or in, patents, copyrights, database\nrights, trade secrets, trade names, trademarks (whether registered or unregistered), or any\nother rights or licences in respect of the Company IP. In this clause 5.6, “Intellectual\nProperty Rights” means, as regards the Company IP: patents, supplementary protection\ncertificates, petty patents, utility models, trademarks, copyright and related rights, moral\nrights, trade-marks, trade names, service marks, rights in get-up, rights in trade dress, rights\nin goodwill or to sue for passing off or for unfair competition, rights in designs, rights in\ncomputer software, database rights, rights to use, rights in designs, copyrights and\ntopography rights, rights to all inventions, know-how, trade secrets, techniques, rights to\nconfidential information, confidential information, other proprietary knowledge and\ninformation, all rights and forms of protection of a similar nature or having equivalent or\nsimilar effect to any of these and any other intellectual property rights of whatsoever nature\nand all similar or equivalent rights or forms of protection which may now or in the future\nsubsist in any part of the world in each case whether registered or unregistered and including\nall applications and rights to apply for and be granted any such rights, renewals or extensions\nthereof and rights to claim priority from.\n6. Fees\nUse of the Symbol Wallet is free of charge. However, your interactions with the Symbol\nBlockchain and with Third Party Services may incur various fees which are not under our\ncontrol. Any such fees are not charged by or payable to the Company.\n7. Your representations and warranties\n7.1 By using the Symbol Wallet, you hereby represent and warrant the matters set out in\nSchedule 1 of these Terms.\n7.2 You undertake and agree to notify the Company immediately if any of the representations\nand warranties set out in Schedule 1 of these Terms becomes untrue, incomplete, invalid or\nmisleading in any respect.\n7.3 If you cannot make all of the representations and warranties set out in Schedule 1 of these\nTerms, you must not use the Symbol Wallet.\n8. Risks\n8.1 You acknowledge and agree that using the Symbol Wallet may carry significant financial,\nregulatory and reputational risks, including but not limited to those set out in Schedule 2 of\nthese Terms.\n8.2 By using the Symbol Wallet and accepting these Terms, you expressly and finally\nacknowledge, accept and assume the risks set out in Schedule 2 of these Terms and\nacknowledge, accept and assume that such risks are not nor are they intended to be a\ncomprehensive or exhaustive list of risk factors.\n9. Security\n9.1 The Symbol Wallet is locally installed on your desktop and/or mobile device and you are\nentirely responsible for the security of the device on which it is installed including ensuring\nthat you keep anti-virus software current and otherwise protect such device against malware.\n9.2 You are responsible for implementing all reasonable and appropriate measures for securing\nyour Symbol Wallet, including any requisite private key(s) or other credentials necessary to\naccess such storage mechanism(s). If your private key(s) or other access credentials are\nlost, you may lose access to your Wallet Assets and/or other data. The Company is not\nresponsible for any security measures relating to your receipt, possession, storage, transfer\nor potential future use of Wallet Assets and of the Symbol Blockchain via your Symbol Wallet\nnor will we be under any obligation to recover or return any Wallet Assets and/or other data.\n9.3 The Company excludes (to the fullest extent permitted under applicable law) any and all\nliability for any security breaches or other acts or omissions which result in your loss of\n(including your loss of access to) Wallet Assets and/or other data stored by you in your\nSymbol Wallet.\n10. Indemnity\n10.1 To the fullest extent permitted by applicable law, you will indemnify, defend and hold\nharmless the Company and our respective past, present and future employees, officers,\ndirectors, contractors, consultants, equity holders, suppliers, vendors, service providers,\nparent companies, subsidiaries, associates, affiliates, agents, representatives,\npredecessors, successors and assigns, specifically including but not limited to NEM Group\nLimited, Symbol Chain Limited and the NEM Group Trust (and its trustees) and any other\nparty who has committed code to the Open Source Github repositories for the Symbol\nBlockchain (the “Company Indemnified Parties”) from and against any and all claims,\ndemands, actions, damages, losses, costs and expenses (including reasonable professional\nand legal fees) that arise from or relate to:\n(a) your use of the Symbol Wallet and/or use of Wallet Assets and/or use of the Symbol\nBlockchain under these Terms;\n(b) the performance or non-performance of your responsibilities, representations,\nwarranties or obligations under these Terms;\n(c) your breach of any of the terms and conditions set out in these Terms; or\n(d) your breach of any rights of any other person or entity in connection with these Terms.\n10.2 The Company reserves the right to exercise sole control over the defence, at your sole cost\nand expense, of any claim subject to an indemnity set out in clause 10.1.\n10.3 The indemnity set out in this clause 10 is in addition to, and not in lieu of, any other remedies\nthat may be available to the Company under any applicable law.\n11. Disclaimers\n11.1 To the fullest extent permitted by applicable law and except as otherwise specified in writing\nby us:\n(a) Use of the Symbol Wallet is offered without any warranties or representations of any\nkind, and we expressly disclaim all warranties and representations relating to the\nSymbol Wallet (whether express or implied), including, without limitation, any implied\nwarranties of merchantability, fitness for a particular purpose, title and noninfringement;\n(b) we do not represent or warrant that the Symbol Wallet is reliable, current or defectfree, meet your requirements, or that any defects will be corrected; and\n(c) we cannot and do not represent or warrant that the Symbol Wallet is free of viruses or\nother harmful components.\n11.2 No regulatory authority has examined or approved any of the information set out in these\nTerms or in the Symbol Wallet. No such action has been or will be taken under the laws,\nregulatory requirements or rules of any jurisdiction. The publication, distribution or\ndissemination of these Terms and of the Symbol Wallet does not imply that applicable laws,\nregulatory requirements or rules have been complied with.\n12. Limitation of liability\n12.1 To the fullest extent permitted by applicable law, in no circumstances will: \n(a) the Company or any of the Company Indemnified Parties be liable for any direct,\nindirect, special, incidental or consequential loss of any kind (including, but not limited\nto, loss of revenue, income, business or profits, loss of contract or depletion of goodwill,\nloss of anticipated savings, loss of use or data, or damages for business interruption\nor any like loss) arising out of or in any way related to your use of the Symbol Wallet\nor otherwise related to these Terms, regardless of the cause of action, whether based\nin contract, tort (including negligence), breach of statutory duty, restitution or any other\nlegal or equitable basis (even if the Company or any of the Company Indemnified\nParties have been advised of the possibility of such losses and regardless of whether\nsuch losses were foreseeable); and\n(b) the aggregate liability of the Company and the Company Indemnified Parties (jointly),\nwhether in contract, tort (including negligence), breach of statutory duty, restitution or\nany other legal or equitable basis, arising out of or relating to these Terms or the use\nof or inability to use your Symbol Wallet, exceed £1.\n12.2 The limitations and exclusions of liability set out in clause 12.1 do not limit or exclude liability\nfor fraud or intentional, wilful or reckless misconduct of any Company Indemnified Party, nor\nwill it limit or exclude any losses for which, as a matter of applicable law, it would be unlawful\nto limit or exclude liability.\n13. Assignment and novation\n13.1 The Company may assign, transfer, novate or otherwise deal in any manner, all or any part\nof the benefit of these Terms and any of its rights, remedies, powers, duties and obligations\nunder these Terms to any person, without your consent and in any way the Company\nconsiders appropriate.\n13.2 You agree that you may not claim against any assignee, transferee or any other person who\nhas an interest in these Terms, any right of set off or other rights that you have against the\nCompany.\n14. Termination\n14.1 Notwithstanding any other provision of these Terms, the Company may at any time and for\nany reason immediately terminate these Terms as between you and it without prior notice or\nneed to specify reasons, including if:\n(a) you have breached any provision of these Terms or acted in a manner which clearly\nshows that you do not intend to or are unable to comply with any provision in these\nTerms;\n(b) the Company reasonably considers it is required to do so by the application of any laws\nor regulations or by any government, quasi-government, authority or public body\n(including any regulatory body of any jurisdiction); or\n(c) the Company determines that performing its obligations under these Terms is no\nlonger commercially viable.\n15. Survival\nThe following clauses survive termination of these Terms and remain binding and effective\n(a) this clause 15;\n(b) clause 7 (your representations and warranties);\n(c) clause 10 (Indemnity);\n(d) clause 12 (Limitation of liability);\n(e) clause 16 (Waiver of set-off); and\n(f) clause 18 (Dispute resolution).\n15.1 Waiver of set-off\n15.2 You acknowledge and agree unconditionally and irrevocably to waive any right of set-off,\nnetting, counterclaim, abatement or other similar remedy which you might otherwise have in\nrespect of the Symbol Wallet or under these Terms under the laws of any jurisdiction.\n16. Taxation\n16.1 You are solely responsible for determining whether your use of the Symbol Wallet will give\nrise to any tax implications on your part.\n16.2 You are solely responsible for withholding, collecting, reporting, paying, settling and/or\nremitting any and all taxes to the appropriate tax authorities in such jurisdiction(s) in which\nyou may be liable to pay tax. The Company is not responsible for withholding, collecting,\nreporting, paying, settling and/or remitting any taxes (including, but not limited to, any income,\ncapital gains, sales, value added or similar tax) which may arise from your use of the Symbol\nWallet under or in connection with these Terms.\n16.3 You agree not to hold the Company or any of the Company Indemnified Parties liable for any\ntax liability associated with or arising from your use of the Symbol Wallet.\n17. Dispute resolution\n17.1 Governing Law. These Terms and any dispute or claim (including non-contractual disputes\nor claims) arising out of or in connection with it or its subject matter or formation shall be\ngoverned by and construed in accordance with the law of Gibraltar.\n17.2 Exclusive Jurisdiction. Each party irrevocably agrees that the courts of Gibraltar shall have\nexclusive jurisdiction to settle any dispute or claim (including non-contractual disputes or\nclaims) arising out of or in connection with these Terms or their subject matter or formation.\n17.3 No Class Arbitrations, Class Actions or Representative Actions. Any dispute arising out\nof or related to these Terms is personal to you and the Company and will be resolved solely\nin accordance with clause 17.2, and will not be brought as a class arbitration, class action or\nany other type of representative proceeding. There will be no class arbitration or arbitration\nin which an individual attempts to resolve a dispute as a representative of another individual\nor group of individuals. Further, a dispute cannot be brought as a class or other type of\nrepresentative action, whether within or outside of arbitration, or on behalf of any other\nindividual or group of individuals.\n17.4 Severability of Dispute Resolution Provisions. If any term, clause or provision of this\nclause 17 is held invalid or unenforceable, it will be so held to the minimum extent applicable\nand required by law, and all other terms, clauses and provisions of this clause 17 will remain\nvalid and enforceable. Further, the waivers set out in clause 17.3 above are severable from\nthe other provisions of these Terms and will remain valid and enforceable, except as\nprohibited by applicable law.\n18. Miscellaneous\n18.1 We may amend these Terms from time to time (including, but not limited to, changes to the\nServices), to make any essential corrections, or as may be otherwise required by any laws\nor regulatory requirements to which we are subject. If we make any amendments to these\nTerms, we will publish a notice together with the updated Terms on the Website and we will\nchange the “Version” number at the top of these Terms. Any amended Terms becomes\neffective immediately upon the publication of notice and updated Terms on the Website. It is\nyour responsibility to regularly check the Website for any such notices and updated Terms.\n18.2 If any term, clause or provision of these Terms is found to be illegal, void or unenforceable\n(in whole or in part), then such term, clause or provision will be severable from these Terms\nwithout affecting the validity or enforceability of any remaining part of that term, clause or\nprovision, or any other term, clause or provision of these Terms, which remains in full force\nand effect. \n18.3 These Terms constitute the entire agreement between the Parties in relation to its subject\nmatter. These Terms replace and extinguish any and all prior agreements, draft agreements,\narrangements, warranties, statements, assurances, representations and undertakings of any\nnature made by, or on behalf of the Parties, whether oral or written, public or private, in\nrelation to that subject matter.\n18.4 You acknowledge that by accepting these Terms, you have not relied on any oral or written\nstatements, warranties, assurances, representations or undertakings which were or may\nhave been made by or on behalf of the Company, or by any other third party, in relation to\nthe subject matter of these Terms at any time before your acceptance of them (“PreContractual Statements”), other than those set out in these Terms. You hereby waive any\nand all rights and remedies which might otherwise be available in relation to such PreContractual Statements.\n18.5 Nothing in these Terms creates any form of partnership, joint venture or any other similar\nrelationship between you and the Company and/or other individuals or entities involved with\nthe Symbol Wallet.\n18.6 You acknowledge and agree that no other person who uses a Symbol Wallet owes you any\nobligation under these Terms.\n18.7 Any indemnity, reimbursement or similar obligation in these Terms given in favour of the\nCompany:\n(a) is a continuing obligation despite the satisfaction of any payment or other obligation in\nconnection with this document, any settlement or any other thing; and\n(b) is independent of any other obligations under these Terms and continues after\ntermination of them. It is not necessary for the Company to incur any expense or make\npayment before enforcing a right of indemnity in connection with the subject of these\nTerms.\n18.8 Without limiting any other disclaimer in these Terms or elsewhere, the Company is not liable\nfor any loss, liability, costs or expenses arising in connection with the exercise or attempted\nexercise of, failure to exercise, or delay in exercising, a right, power or remedy in connection\nwith these Terms.\n18.9 These Terms do not give rise to any rights for a third party to enforce any term of these\nTerms. The rights of the Parties to rescind or agree any amendment or waiver under these\nTerms are not subject to the consent of any other person.\n18.10 Force Majeure. The Parties shall not be liable for any failure or delay in performing any of\ntheir respective obligations under or pursuant to this Agreement, and any such failure or\ndelay in performing its obligations will not constitute a breach of this Agreement, if such failure\nor delay is due to an ‘Act of God’, any change to the law, order or regulation of a\ngovernmental, supranational or regulatory body or any act of war or terrorism and it shall be\nentitled to a reasonable extension of the time for performance of such obligations as a result\nof such a cause.\n19. Interpretation\n(a) In these Terms, unless the context otherwise requires, words importing the singular\nshall be deemed to include the plural and vice versa, words importing the masculine\ngender shall include the feminine gender also and vice-versa, words importing the\nneuter gender shall include the masculine and feminine gender also and vice-versa.\n(b) Unless stated otherwise, references to an “Act” is a reference to a Gibraltar Act of\nParliament (as may be amended from time to time).\n(c) References in these Terms to any statute or any statutory provision shall include any\nstatute or statutory provision which now or at any time in the future, amends, extends,\nconsolidates or replaces the same or which has been amended, extended, \nconsolidated or replaced by the same and shall include any orders, regulations,\ninstruments or other subordinate legislation made under the relevant statute.\n(d) The Schedules form part of these Terms and shall have effect as if set out in full in the\nbody of these Terms. Any reference to these Terms includes the Schedules.\n(e) References in these Terms to any instrument or agreement shall include any\ninstrument or agreement which at the date of these Terms varies, amends, extends or\nreplaces the same.\n(f) Any words following the terms “including”, “include”, “in particular” or any similar\nexpression shall be construed as illustrative and shall not limit the sense of the words\npreceding those terms.\n(g) A reference to any Party shall include that Party's personal representatives,\nsuccessors, permitted transferees and permitted assigns and all references to a legal\nentity shall include their successors in interest, permitted transferees and permitted\nassigns.\n(h) References to \"persons\" includes natural persons, firms, partnerships, companies,\ncorporations, associations, organisations, governments, states, governmental or state\nagencies, foundations and trusts (in each case whether or not incorporated or having\nseparate legal personality and irrespective of the jurisdiction in or under the law of\nwhich it was incorporated or exists).\n",
+	"TERMS_confirmButton": "利用規約に同意する",
 	"INTRO_slideOne": {
-		"title": "Rozpocznij z XEM",
-		"text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+		"title": "Symbolへようこそ",
+		"text": "NEMからお届けする次世代ブロックチェーン。"
 	},
 	"INTRO_slideTwo": {
-		"title": "Rozpocznij z XEM",
-		"text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+		"title": "XYMを始める",
+		"text": "このアプリでSymbolネットワークのローンチにオプトインする方法について詳しくは、nemplatform.com/symbol-migration でご覧ください。 "
 	},
 	"INTRO_slideThree": {
-		"title": "Rozpocznij z XEM",
-		"text": "Dowiedz się, jak używać XEM jako zasobu wartości, korzystając z naszego przewodnika krok po kroku"
+		"title": "スマートブロックチェーンについて",
+		"text": "Symbolプラグインを有効化したスマートコントラクトとアーキテクチャで、最も安定した安全なブロックチェーンを実現します。"
 	},
-	"INTRO_createWalletButton": "UTWÓRZ PORTFEL",
-	"INTRO_alreadyHaveWallet": "Masz już portfel?",
-	"INTRO_importWalletButton": "Zaimportuj",
-	"IMPORT_WALLET_OPTIONS_title": "Zaimporuj portfel",
-	"IMPORT_WALLET_OPTIONS_content": "Zaimportuj konto, wprowadzając 24-wyrazowe hasło lub skanując kod QR. Wybierz opcję",
-	"IMPORT_WALLET_OPTIONS_button_mnemonics": "Odzyskaj za pomocą Mnemoniku",
-	"IMPORT_WALLET_OPTIONS_button_qr": "Zeskanuj kod QR",
-
+	"INTRO_createWalletButton": "ウォレットの作成",
+	"INTRO_alreadyHaveWallet": "すでにSymbolウォレットをお持ちですか？",
+	"INTRO_importWalletButton": "インポートする",
+	"IMPORT_WALLET_OPTIONS_title": "ウォレットのインポート",
+	"IMPORT_WALLET_OPTIONS_content": "Symbolウォレットをインポートするには、24語のパスフレーズ（ニーモニック）を入力するか、QRコードをスキャンします。どちらかを選択してください。",
+	"IMPORT_WALLET_OPTIONS_button_mnemonics": "ニーモニックで復元する",
+	"IMPORT_WALLET_OPTIONS_button_qr": "QRコードをスキャンする",
 	"ImportWallet": {
 		"EnterMnemonics": {
-			"title": "Zaimportuj Portfel",
-			"content": "Zaimportuj konto, wprowadzając mnemoniki w odpowiedniej kolejności.",
-			"button": "Zaimportuj",
-			"ignoreWarning": "Zignoruj Ostrzeżenie",
-			"cancelModalButton": "Anuluj",
+			"title": "ウォレットのインポート",
+			"content": "正しい順序でニーモニックを入力して、ウォレットをインポートします。",
+			"button": "インポート",
+			"ignoreWarning": "警告を無視する",
+			"cancelModalButton": "キャンセル",
 			"error": {
-				"invalidMnemonic": "Niepoprawny Mnemonik",
-				"invalidMnemonics": "Niepoprawne Mnemoniki."
+				"invalidMnemonic": "ニーモニックが無効です",
+				"invalidMnemonics": "ニーモニックが無効です。"
 			}
 		},
 		"ImportOptions": {
-			"title": "Zaimportuj Portfel",
-			"buttonTitleRestoreMnemonics": "Odzyskaj za pomocą Mnemoniku",
-			"buttonTitleQr": "Zeskanuj kod QR",
-			"contentPlaceholder": "Zaimportuj konto, wprowadzając 24-wyrazowe hasło lub skanując kod QR. Wybierz opcję"
+			"title": "ウォレットのインポート",
+			"buttonTitleRestoreMnemonics": "ニーモニックで復元する",
+			"buttonTitleQr": "QRコードをスキャンする",
+			"contentPlaceholder": "Symbolウォレットをインポートするには、24語のパスフレーズ（ニーモニック）を入力するか、QRコードをスキャンします。どちらかを選択してください。"
 		},
 		"EnterPassword": {
-			"title": "Wprowadź Hasło",
-			"inputPassword": "Wprowadź Hasło",
-			"inputConfirmPassword": "Potwierdź Hasło",
-			"dashboardButton": "Przejdź do Panelu"
+			"title": "パスワードの入力",
+			"inputPassword": "パスワードを入力",
+			"inputConfirmPassword": "パスワードを確認",
+			"dashboardButton": "ダッシュボードへ",
+			"alert": "警告",
+			"alertTextCancel": "キャンセル"
+		},
+		"ShowQRCode": {
+			"errorTitle": "Symbolの有効なQRコードではありません。"
 		}
 	},
 	"CreateWallet": {
 		"WalletName": {
-			"title": "Utwórz Portfel",
-			"inputLabel": "Nazwa Portfela",
-			"inputPlaceholder": "Wpisz nazwę swojego portfela",
-			"submitButton": "Utwórz"
+			"title": "ウォレットの作成",
+			"inputLabel": "ウォレット名",
+			"inputPlaceholder": "ウォレット名を入力",
+			"submitButton": "作成する"
 		},
 		"GenerateKey": {
-			"title": "Potrząśnij!",
-			"description": "Potrząśnij telefonem, aby uzyskać entropię",
-			"submitButton": "Zakończ"
+			"title": "携帯をシェイクしてください！",
+			"description": "携帯をシェイクして、エントロピーを高めましょう",
+			"submitButton": "終了"
 		},
 		"GenerateBackup": {
-			"title": "Utwórz Kopię Zapasową",
-			"description": "Możesz utworzyć kopię zapasową portfela, zapisując hasło portfela i przechowując je w bezpiecznym miejscu - możesz ponownie zaimportować portfel, ale pamiętaj, że każdy, kto ma dostęp do Twojego hasła, ma również dostęp do utworzonych z niego kont i funduszy. Możesz również utworzyć kopię zapasową portfela, generując kod QR zawierający hasło.",
-			"mnemonicButton": "Kopia zapasowa za pomocą Mnemoników",
-			"QRButton": "Kopia zapasową za pomocą kodu QR",
-			"dashboardButton": "Przejdź do Panelu"
+			"title": "バックアップの作成",
+			"description": "ウォレットのパスフレーズ（ニーモニック）を書き取って安全な場所に保管すれば、ウォレットのバックアップを作ることができます。それを使えば、ウォレットを再度インポートすることが可能です。ただし、そのパスフレーズにアクセスできるすべての人が、それで作成したアカウント、つまりあなたの資金にアクセスできることになりますので、ご注意ください。あるいは、パスフレーズのQRコードを生成すれば、それでウォレットのバックアップを作ることもできます。",
+			"mnemonicButton": "ニーモニックでバックアップ",
+			"QRButton": "QRコードでバックアップ",
+			"dashboardButton": "バックアップをスキップ"
 		},
 		"ShowMnemonics": {
-			"title": "Mnemonik/Hasło",
-			"description": "Zapisz 24-wyrazowe wyrażenie zapasowe i przechowuj kopię w bezpiecznym miejscu. W każdej chwili możesz przywrócić swój portfel.",
-			"submitButton": "Dalej"
+			"title": "ニーモニックフレーズ",
+			"description": "24語のパスフレーズ（ニーモニック）をバックアップ用にメモして、安全な場所に保管してください。そうすれば、いつでもウォレットを復元することができます。",
+			"submitButton": "次へ"
 		},
 		"SetPassword": {
-			"title": "Utwórz Hasło",
-			"inputPassword": "Wprowadź Hasło",
-			"inputConfirmPassword": "Potwierdź Hasło",
-			"checkboxText": "Nie chcę używać hasła do szyfrowania hasła kopii zapasowej w celu ochrony kodu QR",
-			"submitButton": "Generuj"
+			"title": "パスワードの作成",
+			"inputPassword": "パスワードを入力",
+			"inputConfirmPassword": "パスワードを確認",
+			"checkboxText": "私は、パスフレーズ（ニーモニック）を暗号化してQRコードを保護するパスワードの使用を希望しません。",
+			"submitButton": "生成する",
+			"alert": "警告",
+			"alertPasswordConfirmation": "パスワードと確認用の入力が一致していません。",
+			"alertTextBack": "戻る",
+			"alertTextCancel": "キャンセル",
+			"errorPasswordTooShort": "パスワードには、最低8文字必要です"
 		},
 		"VerifyMnemonics": {
-			"title": "Zweryfikuj swoje 24-wyrazowe hasło",
-			"description": "Wybierz słowa, aby upewnić się, że mnemoniki są poprawne.",
+			"title": "ニーモニックフレーズ",
+			"description": "正しい順番で単語を選択して、ニーモニックのパスフレーズが正しいことを確認してください。",
 			"submitButton": {
-				"title": "Zakończ"
+				"title": "終了"
 			},
 			"error": {
-				"passphraseOrder": "Niepoprawna kolejność 24-wyrazowego hasła."
+				"passphraseOrder": "復元用パスフレーズの順番が間違っています。"
 			},
 			"success": {
-				"passphraseOrder": "Sukces, kontynuuj."
+				"passphraseOrder": "成功しました。次にお進みください。"
 			}
 		},
 		"ShowQRCode": {
-			"title": "Kopia zapasowa konta",
-			"description": "Możesz później zaimportować konto ponownie, skanując kod QR i podając wybrane hasło",
-			"downloadButton": "Pobierz Kod QR",
-			"dashboardButton": "Przejdź do Panelu"
+			"title": "ウォレットのバックアップ",
+			"description": "Symbolペーパーウォレットには、このプロフィールのすべてのアカウントを回復するための情報が含まれています。このファイルは安全な場所に保管する必要があります。ペーパーウォレットファイルを見た方は、貴方の資金にアクセスできます。",
+			"downloadButton": "QRコードをダウンロード",
+			"dashboardButton": "ダッシュボードへ",
+			"permissionTitle": "Symbolウォレットのパーミッション",
+			"permissionMessage": "ニーモニックのQRコードを保存するため、Symbolウォレットはあなたのストレージにアクセスする必要があります。",
+			"permissionTextCancel": "キャンセル",
+			"permissionTextOk": "OK",
+			"downloadFailed": "ダウンロードできませんでした",
+			"walletMnemonicQrSaved": "ウォレット用ニーモニックのQRコードを次の場所に保存しました：",
+			"unableToCreateSnapShot": "QRコードのスナップショットを作成できません！"
 		}
 	},
 	"WalletLoading": {
-		"title": "Czekaj",
-		"description": "Tworzymy Twój portfel!"
+		"title": "Symbolの準備",
+		"description": "ウォレットをセットアップしましょう！"
 	},
 	"NetworkLoading": {
-		"title": "Pobieranie informacji o sieci",
-		"error": "Błąd pobierania informacji o sieci, Proszę spróbuj później."
-	},
-
-	"Home": {
-		"Tabs": {
-			"news": "Aktualności",
-			"dashboard": "Dashboard",
-			"sendReceive": "Wyślij & Odbierz",
-			"SearchTransacation": {
-				"inputPlaceholder": "Wyszukaj po adresie / kwocie / haszu"
-			}
-		},
-		"News": {
-			"title": "Najważniejsze informacje"
-		},
-		"SendReceive": {}
-	},
-	"TransactionViewModel": {
-		"LinkAccount": {
-			"labelType": "Typ",
-			"labelFrom": "Od",
-			"labelRemotePublicKey": "Zdalny klucz publiczny",
-			"labelLinkAction": "Akcja podłączenia",
-			"labelFee": "Opłata",
-			"labelBlock": "Blok",
-			"labelHash": "Hasz",
-			"actionLink": "Połączenie",
-			"actionUnlink": "Odłączenie"
-		},
-		"Aggregate": {
-			"labelType": "Typ",
-			"labelCosignedby": "Podpisana przez",
-			"labelInnerTransactions": "Transakcje wewnętrzne"
-		},
-		"Lock": {
-			"labelType": "Typ",
-			"labelFrom": "Od",
-			"labelAmount": "Kwota",
-			"labelFee": "Opłata",
-			"labelBlock": "Blok",
-			"labelHash": "Hasz"
-		},
-		"MosaicDefinition": {
-			"labelType": "Typ",
-			"labelFrom": "Od",
-			"labelFee": "Opłata",
-			"labelBlock": "Blok",
-			"labelHash": "Hasz",
-			"labelSupplyMutable": "Zmienna ilość",
-			"labelTransferable": "Zbywalny",
-			"labelRestrictable": "Ograniczony"
-		},
-		"MosaicSupplyChange": {
-			"labelType": "Typ",
-			"labelFrom": "Od",
-			"labelFee": "Opłata",
-			"labelBlock": "Blok",
-			"labelHash": "Hasz",
-			"labelSupplyChange": "Zmiana ilości",
-			"labelDelta": "Zmiana"
-		},
-		"ModifyMultisig": {
-			"labelType": "Typ",
-			"labelFrom": "Od",
-			"labelCosignatories": "Sygnatariusze",
-			"labelMinApprovalDelta": "Min Ilość akcept.",
-			"labelMinRemovalDelta": "Min Ilość usuwaj."
-		},
-		"Transfer": {
-			"labelAccount": "Od ",
-			"labelAddress": "Do",
-			"labelAmount": "Kwota",
-			"labelMessage": "Wiadomość",
-			"labelBlock": "Blok",
-			"labelHash": "Hasz",
-			"labelTotal": "Razem Wysłano",
-			"labelMosaics": "Tokeny",
-			"labelFee": "Opłata"
-		},
-		"Unknown": {
-			"title": "Nierozpoznana transakcja",
-			"labelType": "Typ transakcji",
-			"titleDetailView": "Nierozpoznana transakcja"
-		}
-	},
-	"Send": {
-		"Recipient": {
-			"errors": {
-				"invalidRecipient": "Adres jest niepoprawny lub należy do innej sieci",
-				"multisigAccountErrTitle": "Konto z multipodpisem",
-				"multisigAccountErrDesc": "Konto z multipodpisem nie może zainicjalizować transakcji. Proszę, użyj kont sygnatariuszy."
-			},
-			"title": "Wyślij do",
-			"description": "Wprowadź adres albo zeskanuj kod QR żeby wysłać",
-			"submitButton": "Dalej"
-		},
-		"Amount": {
-			"title": "Kwota",
-			"description": "Podaj ile chcesz wysłać",
-			"submitButton": "Dalej",
-			"errors": {
-				"emptyMosaics": "Nie znaleziono żadnych tokenów :(",
-				"unknownError": "Nienany błąd, Skontaktuj się z pomocą techniczną",
-				"feeError": "Nie można pobrać opłaty sieciowej",
-				"insufficientBalance": "Niewystarczające saldo",
-				"invalidAmount": "Niepoprawna kwota"
-			}
-		},
-		"Message": {
-			"title": "Wiadomość",
-			"description": "Dodaj opcjonalną wiadomość do Twojej transakcji",
-			"checkboxText": "Szyfruj wiadomość",
-			"submitButton": "Dalej",
-			"invalidReceiverPub": "Szyfrowanie niedostępne (Ten adres nie ma klucza publicznego widocznego w sieci)"
-		},
-		"ConfirmTransaction": {
-			"title": "Potwierdź transakcję",
-			"submitButton": "Potwierdź",
-			"from": "FROM",
-			"balance": "BALANCE",
-			"sendTo": "SEND TO",
-			"messsge": "MESSAGE",
-			"fee": "FEE",
-			"mosaics": "MOSAICS"
-		},
-		"ApproveTransaction": {
-			"title": "Zatwierdź transakcję",
-			"submitButton": "Zatwierdź",
-			"helpText": "Lorem Ipsum jest tekstem stosowanym jako przykładowy "
-		},
-		"TransactionSuccessfull": {
-			"title": "Transakcja w toku",
-			"actionButton": "Przejdź do Panelu"
-		},
-		"InvoiceQR": {
-			"title": "Czekaj",
-			"description": "Odczytywanie QR!",
-			"errors": {
-				"unsupportedQrTitle": "Błąd QR",
-				"unsupportedQrDesc": "Niewspierany kod QR"
-			}
-		}
-	},
-	"Receive": {
-		"ReceiveDetails": {
-			"title": "Otrzymaj",
-			"namePlaceholder": "MOJA NAZWA",
-			"addressPlaceholder": "MÓJ ADRES",
-			"shareButton": "UDOSTĘPNIJ",
-			"createInvoiceButton": "UTWÓRZ FAKTURĘ"
-		},
-		"CreateInvoice": {
-			"title": "Utwórz Fakturę",
-			"to": "DO",
-			"amount": "KWOTA (XEM)",
-			"message": "WIADOMOŚĆ",
-			"createButton": "UTWÓRZ",
-			"addressPlaceholder": "Wprowadź adres",
-			"amountPlaceholder": "Wprowadź kwotę",
-			"messagePlaceholder": "Wprowadź wiadomość",
-			"errors": {
-				"invalidAmount": "Niepoprawna kwota"
-			}
-		},
-		"Invoice": {
-			"title": "Faktura",
-			"shareButton": "UDOSTĘPNIJ",
-			"description": "*Lorem Ipsum jest tekstem stosowanym jako przykładowy "
-		}
-	},
-	"Sidebar": {
-		"detailButton": "Pokaż Szczegóły",
-		"manageAccountButton": "Zarządzaj Kontami"
+		"title": "ネットワーク情報のフェッチ",
+		"error": "ネットワーク情報のフェッチ中にエラーが発生しました。後ほどお試しください。"
 	},
 	"Settings": {
-		"title": "Ustawienia",
-		"notification": "Powiadomienia",
-		"useMainnet": "Użyj sieci głównej (mainnet)",
+		"title": "設定",
+		"useMainnet": "メインネットを使用",
 		"passcode": {
-			"turnOnPasscode": "Włącz Kod Dostępu",
-			"turnOffPasscode": "Wyłącz Kod Dostępu",
+			"turnOnPasscode": "パスコードを有効にする",
+			"turnOffPasscode": "パスコードを無効にする",
 			"choose": {
-				"title": "Utwórz Kod Dostępu",
-				"subtitle": "Wprowadź Kod Dostępu",
-				"titleconfirm": "Potwierdź Kod Dostępu"
+				"title": "パスコードの作成",
+				"subtitle": "パスコードの入力",
+				"titleconfirm": "パスコードの確認"
 			},
 			"enterPasscode": {
-				"title": "Wprowadź Kod Dostępu "
+				"title": "パスコードの入力"
 			},
 			"enterBiometrics": {
-				"title": "Wprowadź Kod Dostępu lub Touch ID"
+				"title": "パスコードまたはTouch IDの入力"
 			},
-			"promtTitle": "Włącz kod dostępu",
-			"promtMessage": "Nie ustawiłeś jeszcze kodu dostępu, utworzyć nowy?"
+			"promptTitle": "パスコードを有効にします",
+			"promptMessage": "まだパスコードを設定していません。今から作成しますか？",
+			"alertTextCancel": "キャンセル",
+			"alertTextOk": "OK",
+			"titleError": "パスコードが無効です",
+			"subtitleError": ""
 		},
 		"touchID": {
-			"turnOnTouchID": "Włącz Touch ID",
-			"turnOffTouchID": "Wyłącz Touch ID",
-			"promtTitle": "Wymagaj kodu dostępu",
-			"promtMessage": "Nie ustawiłeś jeszcze kodu dostępu, utworzyć nowy?"
+			"turnOnTouchID": "Touch ID（指紋認証）を有効にする",
+			"turnOffTouchID": "Touch ID（指紋認証）を無効にする",
+			"promptTitle": "パスコードが必要です",
+			"promptMessage": "まだパスコードを設定していません。今から作成しますか？"
 		},
 		"node": {
-			"menuTitle": "Użyj Węzła",
-			"pageTitle": "Wybierz Węzeł",
-			"submitButton": "Gotowe",
-			"errorNetworkExist": "Sieć już istnieje",
-			"errorInvalidUrl": "Niepoprawny URL"
+			"menuTitle": "ノード",
+			"pageTitle": "ノードの選択",
+			"submitButton": "送信",
+			"errorNetworkExist": "ネットワークがすでに存在します",
+			"errorNodeExistInList": "ノードがすでにリスト上に存在します",
+			"errorInvalidUrl": "URLが無効です",
+			"costomNode": "カスタムノード",
+			"customNodeURLInputPlaceholder": "ノードのURLを入力"
+		},
+		"nisNode": {
+			"menuTitle": "NEM NIS1のノード",
+			"pageTitle": "NEM NIS1のノードを選択する",
+			"submitButton": "送信",
+			"errorInvalidUrl": "URLが無効です",
+			"errorBadNodeTitle": "ノードの切替ができませんでした",
+			"errorBadNodeDescription": "ノードが応答しません"
+		},
+		"optIn": {
+			"menuTitle": "オプトイン"
 		},
 		"feedback": {
-			"submitButton": "Wyślij",
-			"title": "Wyraź Opinię",
-			"urlError": "Nie można otworzyć klienta poczty e-mail"
+			"submitButton": "送信",
+			"title": "フィードバックの送信",
+			"urlError": "Eメールクライアントを開くことができません",
+			"enterSubjectInputPlaceholder": "件名を入力",
+			"enterMessageInputPlaceholder": "メッセージを入力"
 		},
 		"language": {
-			"title": "Język",
-			"selectBoxTitle": "Wybierz język"
+			"title": "言語",
+			"selectBoxTitle": "言語の選択"
 		},
 		"currency": {
-			"title": "Waluta",
-			"selectBoxTitle": "Wybierz walutę"
+			"title": "通貨",
+			"selectBoxTitle": "通貨の選択"
 		},
-		"backup": "Kopia zapasowa",
-		"giveFeedback": "Wyraź opinię",
-		"aboutNem": "O NEM",
-		"logout": "Wyloguj"
+		"notification": {
+			"title": "通知",
+			"selectBoxTitle": "通知間隔の選択"
+		},
+		"backup": "バックアップ",
+		"giveFeedback": "フィードバックの送信",
+		"aboutNem": "Symbolについて",
+		"logout": "すべてのアカウントを削除"
 	},
 	"AccountDetails": {
-		"title": "Szczegóły Konta",
-		"urlError": "Nie można otworzyć linku"
+		"title": "アカウント情報",
+		"urlError": "リンクを開くことができません",
+		"noMosaics": "利用できるモザイクがありません",
+		"mosaicBalances": "モザイク残高",
+		"loading": "読み込み中です…",
+		"edit": "編集"
 	},
 	"ManageAccount": {
-		"title": "Zarządzaj Kontami",
-		"addAccountButton": "Dodaj Nowa Konto",
-		"inputLabel": "Podaj nazwę konta",
-		"inputPlaceholder": "Nazwa Konta",
-		"submitButton": "Gotowe",
-		"moreInfo": "Więcej informacji",
-		"inputSubmitError": "Błąd aktualizacji nazwy konta, Proszę spróbuj później"
+		"title": "アカウントの管理",
+		"addAccountButton": "新しいアカウントを追加",
+		"inputLabel": "アカウント名を入力",
+		"inputPlaceholder": "アカウント名",
+		"submitButton": "送信",
+		"moreInfo": "詳細",
+		"inputSubmitError": "アカウント名の更新中にエラーが発生しました。後ほど再度お試しください。",
+		"showHiddenAccounts": "非表示アカウントを表示"
 	},
 	"CreateNewAccount": {
-		"title": "Utwórz Nowe Konto",
-		"inputLabel": "Nazwa Konta",
-		"inputPlaceholder": "Wprowadź nazwę konta",
-		"submitButton": "Dodaj",
-		"inputSubmitError": "Błąd podczas tworzenia nazwy konta. Spróbuj ponownie później"
+		"title": "新しいアカウントの作成",
+		"inputLabel": "アカウント名",
+		"inputPlaceholder": "アカウント名を入力",
+		"submitButton": "追加",
+		"inputSubmitError": "アカウント名の作成中にエラーが発生しました。後ほど再度お試しください。"
 	},
 	"About": {
-		"title": "O NEM",
-		"aboutTextPara_1": "Fundacja NEM jest wspierana przez międzynarodową sieć, złożoną z bogatego doświadczenia w dziedzinie IT, przedsiębiorczości, procesów biznesowych, handlu, rozwoju nieruchomości i aktywów, zarządzania międzynarodowego i środowisk akademickich. Etos firmy polega na zapewnieniu platformy technologicznej blockchain firmy NEM w celu usprawnienia przedsiębiorczości, podczas gdy ludzie nią zarządzają. Zespół NEM zapewnia to poprzez szereg wsparcia i edukacji, od szkoleń i dostawców usług po wsparcie techniczne dla ekosystemu.",
-		"aboutTextPara_2": " Nasze unikalne podejście do przywództwa wyznacza jasny, rygorystyczny kurs dla ciągle ewoluujących wpływów rosnących w każdym biznesie i regionie, na każdym poziomie. W rezultacie nasz zespół odzwierciedla grupę zróżnicowanych na arenie międzynarodowej osób o szerokim i głębokim doświadczeniu w całej fundacji.",
-		"button": "Dowiedz się więcej",
-		"urlError": "Nie można otworzyć linku"
+		"title": "Symbolについて",
+		"aboutTextPara_1": "NEM Group Limitedは、情報技術から起業家、業務プロセス、トレーディング、財産および資産開発、国際経営、学界にわたり、豊富な経験を重ねた人々の世界的なネットワークから支持を受けています。その企業理念は、NEMのブロックチェーン技術プラットフォームの提供を通じて、人による人のためのエンタープライズとして成長を続けることにあります。NEMのチームは、研修イベントやサービスプロバイダー、テクニカルサポートに至るまで、このエコシステムのサポートと教育をさまざまな形で提供しています。",
+		"aboutTextPara_2": "弊社のユニークな経営アプローチは、すべての企業と地域のあらゆるレベルで進化を続けて影響力を高めるために、明確かつ厳密な進路を定めています。その結果、財団全体にわたる豊かな経験を幅広く集積した国際的な集団の多様性は、弊社の経営陣にも反映されています。",
+		"button": "さらに詳しく",
+		"urlError": "リンクを開くことができません"
 	},
 	"NodeSwitching": {
-		"title": "Czekaj",
-		"description": "Zmieniamy użyty węzeł."
+		"title": "お待ちください",
+		"description": "ノードの切替中です。",
+		"errorMessage": "ノードの切替中にエラーが発生しました"
+	},
+	"Notification": {
+		"content": {
+			"title": "%{count} new %{transactionType} transaction(s)",
+			"message": "%{address}"
+		},
+		"error": {
+			"restricted": "バックグラウンド制限の通知：このデバイスでは、バックグラウンドタスクが制限されています",
+			"denied": "バックグラウンド通知が拒否されました。このアプリの「Appのバックグラウンド更新」を有効にしてください。"
+		}
+	},
+	"Shared": {
+		"Warning": {
+			"warning": "警告",
+			"cancelModalButton": "キャンセル"
+		}
+	},
+	"QRScanner": {
+		"alert": "QRコードにピントを合わせてください"
+	},
+	"LoadProfile": {
+		"NetworkManager": {
+			"connectingNode": "ノードに接続中です…",
+			"connectionError": "接続できませんでした",
+			"retryButton": "もう一度試す"
+		}
+	},
+	"OptIn": {
+		"DashboardModalTitle": "メインネットはまだローンチしていません",
+		"DashboardModalDescription": "このアカウントは、NEM NIS1からの資金をSymbolにオプトインすることができます",
+		"DashboardModalButton": "オプトインに進む",
+		"WelcomeTitle": "Symbolへのオプトイン",
+		"WelcomeDescription": "オプトインの完了により、Symbolパブリック・ブロックチェーンのローンチにご参加いただく意思を表明したものとみなされます。これにより、スナップショット時のXEMアカウント残高と同数のXYM資金をご請求いただけるようになります（NEM NIS1ブロックチェーン上にお持ちのXEM残高は変わりません）。また、NEM NIS1のネームスペースを再度ご登録いただけば（すでにお持ちの場合）、Symbolの最初のブロックから使用を開始することができます。XEMアカウント残高の変更も可能で、お受け取りいただくXYMの数量はスナップショット時の残高により決定されます。",
+		"StoppedDescription": "オプトインが完了しました。アプリを更新して、最新ニュースを受け取りましょう。",
+		"NoAccountsImported": "まだXEMアカウントのインポートが完了していません。開始するには、アカウントをインポートしてください。",
+		"SelectNISAccount": "XEMアカウントを選択してください：",
+		"NormalOptIn": "オプトイン",
+		"MultisigOptIn": "マルチシグアカウントのオプトイン",
+		"ReviewNormalOptIn": "オプトインの再確認",
+		"CosignMultisigOptIn": "マルチシグアカウントのオプトインに連署する",
+		"SelectAccountTitle": "XEMアカウントの選択",
+		"NISAccountListTitle": "あなたのXEMアカウント",
+		"ConfigureAccount": "オプトインしたいアカウント（複数可）を選択してください",
+		"EmptyAccountList": "インポートしたアカウントがありません。下のボタンで、XEMアカウントをインポートしてください。その後、リストから選択したアカウントをオプトインするか、マルチシグアカウントの場合はオプトインに連署することができます。",
+		"AccountIsNotOptedIn": "このアカウントはまだオプトインされていません！",
+		"AccountIsOptedIn": "このアカウントは正常にオプトインされました。",
+		"AccountIsNotOptedInList": "ボタンを押してオプトインしてください！",
+		"AccountIsOptedInList": "オプトイン済",
+		"AccountIsOptedInMultisigList": "マルチシグアカウントの連署",
+		"SelectMultisigAccountTitle": "マルチシグXEMアカウントを選択",
+		"ImportNISAccount": "新しいアカウントのインポート",
+		"ChangeNISAccount": "アカウントの変更",
+		"PrivateKey": "プライベートキー",
+		"QR": " QRコード",
+		"ImportAccountPrivateKey": "プライベートキーでアカウントを追加",
+		"ImportAccountQR": "QRコードでアカウントを追加",
+		"ImportNISPrivateKey": "プライベートキーのインポート",
+		"EnterNISPrivateKey": "プライベートキーを入力",
+		"InvalidPrivateKey": "プライベートキーが無効です",
+		"EnterNISPassword": "QRパスワードを入力",
+		"Import": "インポート",
+		"NoNISAccounts": "まだXEMアカウントをインポートしていません",
+		"ImportQR": "QRコードを使用してインポート",
+		"InvalidQRErrorText": "QRコードが無効です",
+		"Balance": "残高：",
+		"CurrentBalance": "現在の残高：",
+		"StartOptInTitle": "オプトインの開始",
+		"ReviewOptInTitle": "オプトインの再確認",
+		"Next": "次へ",
+		"HowToMultisig": "このアカウントは、マルチシグの連署人アカウントです。まず、このアカウント用のオプトインを完了して、マルチシグアカウントのオプトイン連署のロックを解除してください。",
+		"BalanceWarning": "ローンチ時にSymbolアカウントに入る資金は、スナップショット時のブロック上に存在するこのアカウント内の資金のみに限られます。",
+		"StartOptInDescription": "これから始めるのは、マルチシグではなく通常のアカウントのオプトインプロセスです。これを実行すると、対象アカウントにネームスペースをオプトインすることになります。このプロセスは、以下の手順で行います：",
+		"StartOptInStep1": "オプトインするネームスペースを選択する",
+		"StartOptInStep2": "ステップ2：Symbolアカウントを作成する",
+		"StartOptInStep3": "ステップ3：Symbolアカウントをバックアップする",
+		"StartOptInStepFinal": "最終ステップ：オプトインを再確認して完了する",
+		"NamespacesOptInTitle": "ネームスペースの選択",
+		"NamespacesOptInDescription": "ここでは、NEM NIS1上に所有するネームスペース（複数可）をオプトインすることができます。これにより、Symbolブロックチェーン上に同一のネームスペース（複数可）のプレースホルダーを確保します。ネームスペースを1つ選択するごとに、オプトインプロセスの手数料がかかります。",
+		"SetupVrf": "VRFのセットアップへ",
+		"VrfOptInTitle": "VRFキーを含めるには",
+		"VrfOptInDescription": "VRFキーで、ブロックをハーベストして報酬を受けることができます。ローンチ後、アカウントに10,000 XYM以上を保有する予定があり、Symbolブロックチェーンでハーベストを行いたい場合は、VRFキーをオプトインプロセスに追加する必要があります。",
+		"VrfOptInCheck": "ハーベスト用のVRFキーを含める",
+		"VRFPublicKey": "VRFパブリックキー",
+		"VRFPrivateKey": "VRFプライベートキー",
+		"ReviewSymbolAccount": "Symbolアカウントの再確認",
+		"ReviewSymbolAccountTitle": "ステップ2：Symbolアカウントの再確認",
+		"ReviewSymbolAccountDescription": "これがあなたのSymbolアカウントです。このアカウントを復元する唯一の方法は、ニーモニックを使うことです。すべて書き取って安全な場所に保管してから、QRコードをバックアップしてください。",
+		"ReviewSymbolAddress": "あなたのSymbolアドレス：",
+		"ReviewSymbolMnemonics": "あなたのSymbol用ニーモニック：",
+		"BackupSymbolAccountTitle": "ステップ3：Symbolアカウントのバックアップ",
+		"NotEnoughBalance": "アカウントの残高が足りません",
+		"SendingOptIn": "オプトインの送信",
+		"FinishOptIn": "オプトインの完了",
+		"FinishOptInDescription": "これがオプトイン用の最終データです。注意深く再確認してから、完了を押してプロセスを終了してください。",
+		"NISAddress": "XEMアカウントのアドレス：",
+		"SymbolAccount": "Symbolアカウントのアドレス：",
+		"Namespaces": "ネームスペース：",
+		"NoNamespacesIncluded": "ネームスペースが含まれていません",
+		"VRFPublicKeyLabel": "VRFパブリックキー：",
+		"CostOfOperation": "操作費用：",
+		"Understand1": "私は、オプトインプロセスで使用したニーモニックによるパスフレーズのバックアップを取りました。また、それを保存してバックアップするのは自分の責任だということを理解しました。",
+		"Understand2": "私は、ローンチ時にSymbolのXYMアカウント残高に入る資金は、スナップショットの時点で自分のXEMアカウントに保有する資金のみだということを理解しました。また、これからスナップショットまでの間に自分のXEMアカウントに変更を加えた場合、Symbolのローンチ時に自分のXYMアカウント残高に反映されることを理解しました。",
+		"Send": "オプトインを確定",
+		"ConfirmOptInTitle": "オプトインの確定",
+		"ConfirmButton": "確定",
+		"SuccessOptInTitle": "成功しました",
+		"SuccessOptInDescription": "このアカウントはオプトインされました！",
+		"SummaryTitle": "オプトインのサマリー",
+		"SummaryDescription": "通常のオプトインを完了しました。こちらでご確認ください。",
+		"MultisigOptInDescription": "マルチシグアカウントのオプトインは、連署人の一人がNEMデスクトップウォレット（旧名称Nano Wallet）から開始しなければなりません。その後、下のドロップダウンリストにそのアカウントが表示され、オプトインの署名ができるようになります。マルチシグアカウントのオプトインは、連署人全員が署名した時点で完了します。",
+		"SelectMultisigAccount": "オプトインするマルチシグアカウントを選択してください。",
+		"OptInNotInitiated": "このマルチシグアカウントのオプトインは、まだ開始されていません。NEMデスクトップウォレット（旧名称Nano Wallet）を使用して開始してください。",
+		"CosignerSignatures": "連署人の署名",
+		"BalanceToBeIncluded": "含める残高",
+		"CosigningOptIn": "オプトインの連署",
+		"CosignOptIn": "オプトインに連署する",
+		"EnterPasswordToDecryptQR": "QRコードの解読用パスワードを入力",
+		"Decrypt": "解読",
+		"GoBack": "戻る",
+		"OkButton": "OK",
+		"OptInDoneStatus": "オプトインが完了しました",
+		"MultisigIsCosignedStatus": "ログインしました",
+		"PendingAnotherSignaturesStatus": "他の連署人の署名を待っています",
+		"ImportErrorAccountAlreadyImported": "アカウントはすでにインポートされています",
+		"ImportErrorMultisigAccountNotAllowed": "マルチシグアカウントのオプトイン申請は、連署人のアカウントと一緒に発行しなければなりません。",
+		"ImportErrorWrongOptedInAccount": "このアカウントはすでにオプトイン済です。ただし、このウォレット内のSymbolアカウントではありません。正しいSymbolアカウントをインポートするか、別のXEMアカウント用のプライベートキーを使用してください。",
+		"ErrorCreatingAccount": "アカウントを作成できませんでした",
+		"NamespaceUnavailable": "利用できません"
+	},
+	"menu": {
+		"news": "ニュース",
+		"mosaics": "モザイク",
+		"home": "ホーム",
+		"history": "履歴",
+		"harvest": "ハーベスト"
+	},
+	"plugin": {
+		"send": "送信",
+		"receive": "受取",
+		"more": "もっとみる",
+		"qr": "QRスキャン"
 	},
 	"Harvest": {
-		"DelegatedHarvesting": {
-			"title": "Delegowane Zbieranie",
-			"remoteStatus": "Status zdalny",
-			"harvestingStatus": "Status zbierania",
-			"delegationStatus": "Status delegowania",
-			"vestedBalance": "Saldo usankcjonowane",
-			"availableBalance": "Soldo dostępne",
-			"importanceScore": "Wskaźnik ważności",
-			"infoLink": "Więcej informacji",
-			"registerButton": "Zarejestruj Konto Delegowane",
-			"startHarvestingButton": "Rozpocznij Zbieranie",
-			"stopHarvestingButton": "Zatrzymaj Zbieranie",
-			"urlError": "Nie można otworzyć linku"
-		},
-		"RegisterAccount": {
-			"title": "Zarejestruj Konto Delegowane",
-			"registerButton": "Zarejestruj",
-			"errors": {
-				"invalidAmount": "Niepoprawna wartość",
-				"errorCreateAccount": "Błąd tworzenia konta"
-			}
-		},
 		"StartHarvesting": {
-			"title": "Rozpocznij Zbieranie",
-			"submitButton": "Rozpocznij Zbieranie"
+			"submitButton": "開始",
+			"title": "委任ハーベスティング"
+		},
+		"CreateRemoteAccount": {
+			"submitButton": "作成",
+			"title": "リモートアカウントの作成"
 		}
+	},
+	"table": {
+		"type": "タイプ",
+		"recipientAddress": "受け取りアドレス",
+		"messageText": "メッセージ/メモ",
+		"messageEncrypted": "メッセージの暗号化",
+		"fee": "手数料",
+		"accountName": "アカウント名",
+		"address": "アドレス",
+		"publicKey": "公開鍵",
+		"privateKey": "秘密鍵",
+		"balance": "残高",
+		"mosaics": "モザイク",
+		"mosaic": "モザイク",
+		"amount": "数量",
+		"encrypted": "暗号化",
+		"unencrypted": "復号化",
+		"status": "状態",
+		"innerTxs": "内部取引",
+		"signerAddress": "署名アドレス",
+		"deadline": "期日",
+		"hash": "ハッシュ",
+		"transferType": "送金タイプ",
+		"hasCustomMosaic": "送金されたモザイクの数",
+		"undefined": "該当なし",
+		"null": "該当なし",
+		"namespaceName": "ネームスペース名",
+		"mosaicId": "モザイクID",
+		"namespaceId": "ネームスペースID",
+		"namespace": "ネームスペース",
+		"phone": "電話番号",
+		"email": "メールアドレス",
+		"label": "ラベル",
+		"notes": "メモ",
+		"show": "表示する",
+		"name": "名前",
+		"seedIndex": "アカウントシードインデックス",
+		"displayFee": "手数料",
+		"vrfPublicKey": "リンクされたVrfパブリックキー",
+		"vrfPrivateKey": "リンクされたVrfプライベートキー",
+		"remotePublicKey": "リンクされたリモートパブリックキー",
+		"remotePrivateKey": "リンクされたリモートプライベートキー",
+		"nodePublicKey": "リンクされたノードパブリックキー"
+	},
+	"fees": {
+		"slow": "遅い",
+		"recommended": "推奨",
+		"fast": "速い"
+	},
+	"transactionTypes": {
+		"unknown": "サポートされていないタイプ",
+		"transfer": "送金",
+		"transferFrom": "送信",
+		"transferTo": "受信",
+		"fundsLock": "資金ロック",
+		"aggregate": "アグリゲート",
+		"namespace": "ネームスペースの登録",
+		"mosaicAlias": "モザイクの別名"
+	},
+	"date": {
+		"monday": "月曜日",
+		"tuesday": "火曜日",
+		"wednesday": "水曜日",
+		"thursday": "木曜日",
+		"friday": "金曜日",
+		"saturday": "土曜日",
+		"sunday": "日曜日"
+	},
+	"link": {
+		"faucet": "フォーセットでテストモザイクを受け取る",
+		"blockExplorer": "ブロックエクスプローラを起動",
+		"blockExplorerBlock": "ブロックエクスプローラでブロックを表示",
+		"blockExplorerAccount": "ブロックエクスプローラでアカウントを表示",
+		"blockExplorerTransaction": "ブロックエクスプローラで表示",
+		"blockExplorerMosaic": "ブロックエクスプローラでモザイクを表示",
+		"blockExplorerNamespace": "ブロックエクスプローラでネームスペースを表示"
+	},
+	"home": {
+		"optInTitle": "オプトイン",
+		"optInDescription": "ローンチ後のオプトインは近日公開予定です...",
+		"pendingSignatureTitle": "ペンディング署名",
+		"pendingSignatureDescription": "署名待ちのペンディングトランザクションがあります"
+	},
+	"mosaics": {
+		"title": "モザイク"
+	},
+	"news": {
+		"title": "ニュース",
+		"readMore": "続きを読む"
+	},
+	"all": "全て",
+	"history": {
+		"title": "履歴",
+		"accountFilter": "アカウント選択",
+		"mainAccount": "メインアカウント",
+		"filter": "フィルター",
+		"all": "全て",
+		"sent": "送信",
+		"received": "受信",
+		"transaction": {
+			"message": "メッセージ",
+			"encrypted": "暗号化",
+			"decrypt": "復号",
+			"hash": "ハッシュ",
+			"amountLocked": "ロックされた数量",
+			"sign": "署名",
+			"waitingSignature": "あなたの署名を待っています"
+		}
+	},
+	"harvest": {
+		"title": "ハーベスティング",
+		"status": "状態",
+		"blocksHarvested": "ハーベストされたブロック",
+		"feesEarned": "獲得した手数料",
+		"selectNode": "ノードを選択",
+		"changeNode": "ノードを変更",
+		"activate": "有効にする",
+		"stopHarvesting": "ハーベスティング停止",
+		"startHarvesting": "ハーベスティング開始",
+		"ACTIVE": "有効",
+		"INACTIVE": "無効",
+		"INPROGRESS_ACTIVATION": "有効化(進行中)",
+		"INPROGRESS_DEACTIVATION": "無効化(進行中)",
+		"harvetingIntroTitle": "ブロック報酬を獲得するためハーベストを開始",
+		"minBalanceRequirement": "残高が不十分です。委任ハーベスティングを開始するには、アカウントに少なくとも%{balance}を保有している必要があります。",
+		"KEYS_LINKED": "リンクされた鍵",
+		"viewLinkedKeys": "リンクされたキーを表示",
+		"linkedNode": "リンクされたノード"
+	},
+	"sidebar": {
+		"seed": "シードアカウント",
+		"pk": "秘密鍵アカウント",
+		"addAccount": "アカウントを追加",
+		"openAddressBook": "アドレス帳を開く",
+		"rename": "名前変更",
+		"delete": "削除",
+		"hide": "隠す",
+		"remove": "削除",
+		"details": "詳細",
+		"removeAccount": "アカウント削除",
+		"removeAccountText": "このアカウントをローカルストレージから削除してもよろしいですか？",
+		"hideAccountTitle": "アカウントを隠す",
+		"removeAccountTitle": "アカウント削除",
+		"hideAccountDescription": "このアカウントを非表示にしますか？ これはニーモニックシードアカウントであり、[アカウントの追加]ボタンを使用していつでも元に戻すことができます。 資金が失われることはありません。",
+		"removeAccountDescription": "このアカウントをウォレットから削除してもよろしいですか？これはニーモニックシードアカウントではありません。このアカウントの秘密鍵を持っていることを確認してください。そうしないとがアクセス出来なくなり資金を失ってしまいます。"
+	},
+	"createAccount": {
+		"title": "アカウント追加",
+		"name": "アカウント名",
+		"type": "アカウントタイプ",
+		"seed": "シードインデックス(自動追加の際は空白)",
+		"fromSeed": "ニーモニックからアカウント追加",
+		"createSeed": "アカウント追加",
+		"fromPk": "秘密鍵からアカウントをインポート",
+		"createPk": "インポートする",
+		"errorAccountNameExist": "その名前のアカウントは既に存在します",
+		"errorPrivateKeyExist": "このアカウントはすでにウォレットにあります",
+		"errorInvalidPrivateKey": "無効な秘密鍵です"
+	},
+	"settings": {
+		"changeTestnetNode": "テストネットノードを選択しようとしています。ここで行われるすべてのトランザクションは、メインネットのネットワークに反映されません。",
+		"logoutConfirmTitle": "よろしいですか？",
+		"logoutConfirmCheck": "このプロフィールのすべてのアカウントをバックアップしました。",
+		"logoutConfirmDesc": "ログアウトすると、デバイス上のデータが削除されます。続行する前にバックアップが必要です",
+		"logoutConfirm2Title": "警告",
+		"logoutConfirm2Desc": "バックアップがないとウォレットに二度とアクセスすることはできなくなるかもしれません。ほんとうに、続行してもよろしいですか？"
+	},
+	"qr": {
+		"scannerTitle": "QRスキャン",
+		"transactionQr": "トランザクションQR",
+		"addressQr": "アドレスQR",
+		"privateKeyQr": "秘密鍵QR",
+		"signedQR": "署名入りトランザクションQR",
+		"warningMultipleMosaicTransfer": "トランスファートランザクションQRには複数のモザイクが含まれています このアプリは現在トランザクションごとにモザイクを1つのみ送信できます。"
+	},
+	"notification": {
+		"newUnconfirmed": "新しい未承認トランザクションがあります！",
+		"newConfirmed": "New confirmed transaction!",
+		"newAggregate": "New aggregate transaction!",
+		"noMosaicPresent": "このアカウントにはモザイク「%{mosaicName}」はありません。"
+	},
+	"addressBook": {
+		"title": "アドレス帳",
+		"addContact": "連絡先追加",
+		"updateContact": "Update contact",
+		"nameWarning": "名前は必須項目です",
+		"addressWarning": "無効なアドレスです",
+		"addressTakenWarning": "そのアドレスはすでに登録されています。"
+	},
+	"unsortedKeys": {
+		"copied": "コピーしました！",
+		"invalidAddressQR": "アドレスQRが無効です" ,
+		"invalidPassword": "パスワードが無効です！",
+		"invalidPrivateKeyQR": "プライベートキーQRが無効です！",
+		"invalidPrivateKeyQROrPassword": "プライベートキーQRまたはパスワードが無効です！",
+		"accountAddressQRInfo": "これはSymbolアカウントアドレスのQRコードです。アカウント名は\"%{accountName}\"です。ドレスは\"%{recipientAddress}\"です。以下のアクションを選択してください。",
+		"invoiceTransactionQRInfo": "これはトランザクション（請求書）QRコードです。%{amount} (%{mosaicName})を\"%{recipientAddress}\"に送金しますか？",
+		"accountPKQRInfo": "これはアカウントプライベートキーQRコードです。[アカウントフォームを追加] に入力することで、このアカウントをウォレットに追加できます。",
+		"fileSavedToDirectoryMessage": "ファイルは正常に保存されました。「%{folder}」フォルダを確認してください。",
+		"errorSavingFile": "ファイルの保存中にエラーが発生しました",
+		"writePermissionsNeeded": "ファイルの保存中にエラーが発生しました",
+		"invalidQR": "QRコードが無効です。",
+		"invalidQRNetwork": "QRコードは別のネットワークを参照しています。[設定] でノードを変更してもう一度お試しください。",
+		"unsupportedSymbolQR": "このSymbol QRはまだサポートされていません。",
+		"failedToParseQR": "QRの解析に失敗しました。",
+		"inavlidQRTransactionType": "トランザクション種別はトランスファーではありません。",
+		"signedTransactionQRInfo": "これは署名入りのトランザクションQRです。このトランザクションをネットワークに告知することができます。",
+		"announceSignedTransaction":"アナウンストランザクション",
+		"opt_in_account_alert":"このアカウントは古い方法で取得しています。シードアカウントに資金を移動することをお勧めします。",
+		"announce_success": "トランザクションは正常に告知されました。"
 	}
 }

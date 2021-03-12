@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-        paddingVertical: 17,
+		paddingTop: 17,
+		paddingBottom: 17,
+		//backgroundColor: '#f005',
         //backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
         //borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
         //borderTopWidth: 1
@@ -71,24 +73,25 @@ class PluginList extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, isNodeUp, theme } = this.props;
+        const { style = {}, isNodeUp, theme, isMultisig } = this.props;
         const {} = this.state;
         const pluginList = [
             {
                 text: 'plugin.send',
                 name: 'SEND_SCREEN',
                 iconName: 'send',
+                disabled: isMultisig,
             },
             {
                 text: 'plugin.receive',
                 name: 'RECEIVE_SCREEN',
                 iconName: 'receive',
-            }
-            // {
-            //    text: 'plugin.qr',
-            //    name: 'SCAN_QR_CODE_SCREEN',
-            //    iconName: 'qr_light',
-            // },
+            },
+            {
+               text: 'plugin.qr',
+               name: 'QR_SCANNER_SCREEN',
+               iconName: 'qr_scanner',
+            },
             // {
             //     text: 'plugin.more',
             //     name: 'DASHBOARD_SCREEN',
@@ -101,7 +104,7 @@ class PluginList extends Component<Props, State> {
                 <Row justify="center" align="center" wrap>
                     {pluginList.map((item, index) => (
                         <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
-                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp}>
+                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp || item.disabled }>
                                 {/* <Col align="center" justify="center" > */}
                                 <LinearGradient
                                     style={styles.gradient}
@@ -127,4 +130,5 @@ class PluginList extends Component<Props, State> {
 
 export default connect(state => ({
     isNodeUp: state.network.isUp,
+    isMultisig: state.account.isMultisig,
 }))(PluginList);

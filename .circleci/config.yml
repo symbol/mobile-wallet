@@ -41,7 +41,7 @@ jobs:
 
       - run:
           name: Fastlane
-          command: cd ios && export BUILD_NUMBER=${CIRCLE_BUILD_NUM}00 && export VERSION_NUMBER=3.0.${BUILD_NUMBER} && bundle exec fastlane $FASTLANE_LANE
+          command: cd ios && export BUILD_NUMBER=${CIRCLE_BUILD_NUM} && export VERSION_NUMBER=4 && bundle exec fastlane $FASTLANE_LANE
 
       - store_artifacts:
           path: ios/output
@@ -56,4 +56,5 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
+                - dev

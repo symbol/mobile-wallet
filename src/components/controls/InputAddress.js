@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Clipboard } from 'react-native';
 import { Input, Icon } from '@src/components';
+import PasswordModal from '@src/components/molecules/PasswordModal';
 import { Router } from '@src/Router';
-import { ContactQR, AddressQR } from 'symbol-qr-library';
+import { ContactQR, AddressQR, AccountQR } from 'symbol-qr-library';
 import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
 import NetworkService from "@src/services/NetworkService";
+import { showMessage } from 'react-native-flash-message';
+import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
     root: {
@@ -36,6 +39,16 @@ type State = {};
 let addressBookList = [];
 
 class InputAccount extends Component<Props, State> {
+	state = {
+		password: '',
+		showPasswordModal: false,
+		pkQRData: null
+	}
+
+	componentDidMount = () => {
+		this.setState({ pkQRData: null });
+	};
+
     importWithAddressBook = address => {
         setTimeout(() => {
             if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
@@ -56,13 +69,66 @@ class InputAccount extends Component<Props, State> {
             const addressQR = AddressQR.fromJSON(res.data);
             this.props.onChangeText(addressQR.accountAddress);
         } catch (e) {
-            console.log(e);
-            this.props.onChangeText('Invalid QR');
+			console.log(e);
+			this.props.onChangeText('');
+			Router.showFlashMessageOverlay().then(() => {
+				showMessage({
+					message: translate('unsortedKeys.invalidAddressQR'),
+					type: 'danger',
+				});
+			});
         }
-    };
+	};
+	
+	onReadPkQRCode = res => {
+		this.setState({pkQRData: res.data});
+		setTimeout(() => { this.encryptPkQRCode(null);});
+	};
 
-    importWithQR = () => {
-        Router.scanQRCode(this.onReadQRCode, () => {});
+	encryptPkQRCode = (password) => {
+        const { pkQRData } = this.state;
+        
+        try {
+            const accountQR = AccountQR.fromJSON(pkQRData, password);
+			this.props.onChangeText(accountQR.accountPrivateKey);
+			this.setState({ pkQRData: null });
+        } catch (e) {
+			console.log(e);
+			if(e.message === 'Could not parse account information.' && typeof password !== 'string') {
+				this.props.onChangeText('');
+				this.setState({showPasswordModal: true});
+			}	
+			else
+			if(e.message === 'Could not parse account information.'){
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: translate('unsortedKeys.invalidPassword'),
+						type: 'danger',
+					});
+				});
+				this.setState({ pkQRData: null });
+			}
+			else {
+				this.props.onChangeText('');
+				Router.showFlashMessageOverlay().then(() => {
+					showMessage({
+						message: translate('unsortedKeys.invalidPrivateKeyQR'),
+						type: 'danger',
+					});
+				});	
+				this.setState({ pkQRData: null });
+			}
+		}
+	};
+
+	onSetPassword = (password) => {
+		this.setState({ showPasswordModal: false});
+		this.encryptPkQRCode(password);
+	};
+
+    importWithQR = (callback) => {
+        Router.scanQRCode(callback, () => {this.setState({ pkQRData: null });});
     };
 
     importWithClipboard = async () => {
@@ -86,8 +152,10 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, fullWidth, showAddressBook = true, ...rest } = this.props;
-        let rootStyle = [styles.root, style];
+        const { style = {}, fullWidth, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
+		const { showPasswordModal } = this.state;
+
+		let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconTouchableWidth = 30;
         const iconOffset = 8;
@@ -97,7 +165,11 @@ class InputAccount extends Component<Props, State> {
         addressBook.getAllContacts().map(item => {
             addressBookList.push({ value: item.address, label: item.name + ': ' + item.address.slice(0, 9) + '...' });
         });
-        if (fullWidth) rootStyle.push(styles.fullWidth);
+		if (fullWidth) rootStyle.push(styles.fullWidth);
+		
+		let qrCallback = this.onReadQRCode;
+		if(qrType === 'privateKey')
+			qrCallback = this.onReadPkQRCode;
 
         return (
             <View style={rootStyle}>
@@ -108,11 +180,11 @@ class InputAccount extends Component<Props, State> {
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
-                <TouchableOpacity
+                {showQR && <TouchableOpacity
                     style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset)]}
-                    onPress={() => this.importWithQR()}>
+                    onPress={() => this.importWithQR(qrCallback)}>
                     <Icon name="qr" size={iconSize} />
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 {showAddressBook && (
                     <Dropdown
                         title="Select Contact"
@@ -123,6 +195,12 @@ class InputAccount extends Component<Props, State> {
                         <Icon name="address_book" size={iconSize} />
                     </Dropdown>
                 )}
+				<PasswordModal
+					showModal={showPasswordModal}
+					title={'Decrypt QR'}
+					onSubmit={this.onSetPassword}
+					onClose={() => this.setState({ showPasswordModal: false })}
+				/>  
             </View>
         );
     };

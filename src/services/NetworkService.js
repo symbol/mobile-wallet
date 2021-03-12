@@ -1,4 +1,4 @@
-import { ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp } from 'symbol-sdk';
+import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, TransactionFees} from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
@@ -14,18 +14,30 @@ export default class NetworkService {
     static async getNetworkModelFromNode(node: string): NetworkModel {
         const networkHttp = new NetworkHttp(node);
         const chainHttp = new ChainHttp(node);
-        const networkType = await networkHttp
-            .getNetworkType()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
-        const networkProps = await networkHttp
-            .getNetworkProperties()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
-        const chainInfo = await chainHttp
-            .getChainInfo()
-            .pipe(timeout(REQUEST_TIMEOUT))
-            .toPromise();
+        const [networkType, networkProps, chainInfo] = await Promise.all([
+            networkHttp
+                .getNetworkType()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+            networkHttp
+                .getNetworkProperties()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+            chainHttp
+                .getChainInfo()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise(),
+        ]);
+        let transactionFees: TransactionFees;
+        try {
+            transactionFees = await networkHttp
+                .getTransactionFees()
+                .pipe(timeout(REQUEST_TIMEOUT))
+                .toPromise();
+        } catch (e) {
+            transactionFees = new TransactionFees(0, 0, 0, 0, 0);
+        }
+
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
             generationHash: networkProps.network.generationHashSeed,
@@ -34,6 +46,8 @@ export default class NetworkService {
             chainHeight: chainInfo.height.compact(),
             blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
+            transactionFees: transactionFees,
+            defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
         };
     }
 
@@ -76,7 +90,6 @@ export default class NetworkService {
         try {
             const health = await nodeHttp
                 .getNodeHealth()
-                .pipe(timeout(REQUEST_TIMEOUT))
                 .toPromise();
             return health.apiNode === 'up' && health.db === 'up';
         } catch {

@@ -19,12 +19,24 @@ export default class MosaicService {
         } catch (e) {
             console.log(e);
         }
+        //Mosaic info not found -> let's try for its namespace
+        if (!mosaicInfo.divisibility) {
+            try {
+                const namespaceInfo = await new NamespaceHttp(network.node).getNamespace(mosaic.id).toPromise();
+                if (namespaceInfo.alias.mosaicId) {
+                    mosaicInfo = await new MosaicHttp(network.node).getMosaic(namespaceInfo.alias.mosaicId).toPromise();
+                    [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([namespaceInfo.alias.mosaicId]).toPromise();
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
         return {
             mosaicId: mosaic.id.toHex(),
             mosaicName: mosaicName && mosaicName.names && mosaicName.names.length > 0 ? mosaicName.names[0].name : mosaic.id.toHex(),
             amount: mosaic.amount.toString(),
             divisibility: mosaicInfo.divisibility,
-            expired: this._checkExpirationDate(mosaicInfo, network),
+            expired: mosaicInfo.duration ? this._checkExpirationDate(mosaicInfo, network): false,
         };
     }
 

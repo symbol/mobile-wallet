@@ -3,17 +3,19 @@ import { View, StyleSheet, TouchableOpacity, FlatList, TouchableOpacityComponent
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import translate from '@src/locales/i18n';
 import PopupModal from '@src/components/molecules/PopupModal';
-import { Dropdown, Text, Section, Row, ManagerHandler } from '@src/components';
+import {Dropdown, Text, Section, Row, ManagerHandler, Input, Button} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { getNodes } from '@src/config/environment';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import ConfirmModal from "@src/components/molecules/ConfirmModal";
 
 
 const styles = StyleSheet.create({
     popup: {
-		height: '65%',
+		height: '80%',
 		paddingBottom: 34,
+		overflow: 'hidden',
 		//flex: 1
     },
     checkboxContainer: {
@@ -64,12 +66,16 @@ class SettingsNodeSelector extends Component {
         isModalOpen: false,
 		error: null,
 		loading: null,
-		selectedTab: 'mainnet'
+		selectedTab: 'mainnet',
+		isConfirmModalOpen: false,
+		customNode: '',
 	};
 
 	componentDidMount = () => {
+		const { selectedNode } = this.props;
 		this.setState({
-			selectedTab: this.props.selectedNetwork
+			selectedTab: this.props.selectedNetwork,
+			customNode: selectedNode,
 		})
 	};
 
@@ -84,6 +90,10 @@ class SettingsNodeSelector extends Component {
             isModalOpen: false,
         });
     };
+
+    onSelectTestnet = () => {
+		this.setState({isConfirmModalOpen: true, selectedTab: 'testnet'});
+	};
 
     onSelectNode = node => {
         this.setState({
@@ -118,17 +128,34 @@ class SettingsNodeSelector extends Component {
 		</TouchableOpacity>)
 	};
 
+	isValidNode = (node) => {
+		return /^(https?:\/\/)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]+\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(node);
+	}
+
+	renderCustomNode = () => {
+		const { customNode, isLoadingCustomNode } = this.state;
+		return (
+			<View>
+				<Section type="form-item">
+					<Input value={customNode} placeholder={translate('Settings.node.costomNode')} theme="light" onChangeText={message => this.setState({ customNode: message})} />
+				</Section>
+				<Section type="form-item">
+					<Button isLoading={isLoadingCustomNode} isDisabled={!this.isValidNode(customNode)} text={translate('Settings.node.submitButton')} theme="light" onPress={() => this.onSelectNode(customNode)} />
+				</Section>
+			</View>
+		)
+	}
+
     render = () => {
         const nodes = {
             mainnet: getNodes('mainnet').map(node => ({ value: node, label: node })),
             testnet: getNodes('testnet').map(node => ({ value: node, label: node })),
+            custom: [],
         };
 
-        const { isModalOpen, error, loading, selectedTab } = this.state;
+        const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
         const { selectedNode, selectedNetwork } = this.props;
-		const list = selectedTab === 'mainnet'
-			? nodes.mainnet
-			: nodes.testnet;
+		const list = nodes[selectedTab];
 
         return (
             <View>
@@ -144,7 +171,7 @@ class SettingsNodeSelector extends Component {
 					isModalOpen={isModalOpen}
 					onClose={() => this.closeModal()}
 					showTopbar={true}
-                    title={'Select a node'}
+                    title={translate('Settings.node.pageTitle')}
                     showClose={true}
 				>
 					<Section type="form">
@@ -159,11 +186,19 @@ class SettingsNodeSelector extends Component {
 									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity
-									style={styles.tab, selectedTab === 'testnet' && styles.activeTab}
-									onPress={() => this.setState({selectedTab: 'testnet'})}
+									style={[{marginRight: 16}, styles.tab, selectedTab === 'testnet' && styles.activeTab]}
+									onPress={() => this.onSelectTestnet()}
 								>
 									<Text type="bold" theme="light">
 										Testnet
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={[{marginRight: 16}, styles.tab, selectedTab === 'custom' && styles.activeTab]}
+									onPress={() => this.setState({selectedTab: 'custom'})}
+								>
+									<Text type="bold" theme="light">
+										Custom
 									</Text>
 								</TouchableOpacity>
 							</Row>
@@ -176,12 +211,17 @@ class SettingsNodeSelector extends Component {
 						}
 						{!loading &&
 							<Section type="form-item">
-								<FlatList
-									style={styles.list}
-									data={list}
-									renderItem={this.renderItem}
-									keyExtractor={(item, index) => '' + index + 'nodes'}
-								/>
+								{selectedTab !== 'custom' &&
+									<FlatList
+										style={styles.list}
+										data={list}
+										renderItem={this.renderItem}
+										keyExtractor={(item, index) => '' + index + 'nodes'}
+									/>
+								}
+								{selectedTab === 'custom' &&
+									this.renderCustomNode()
+								}
 							</Section>
 						}
 						<Section type="form-item">
@@ -212,6 +252,14 @@ class SettingsNodeSelector extends Component {
                         value={selectedNetwork === 'testnet' ? selectedNode : null}
                         onChange={v => this.onSelectNode(v)}
                     /> */}
+
+					<ConfirmModal
+						isModalOpen={isConfirmModalOpen}
+						showTopbar={true}
+						title={translate('settings.logoutConfirm2Title')}
+						text={translate('settings.changeTestnetNode')}
+						onSuccess={() => this.setState({ isConfirmModalOpen: false })}
+					/>
 
                 </PopupModal>
             </View>

@@ -1,3 +1,5 @@
+import { TransactionFees } from 'symbol-sdk';
+
 export type AppNetworkType = 'testnet' | 'mainnet';
 
 /**
@@ -11,4 +13,6 @@ export interface NetworkModel {
     chainHeight: number;
     blockGenerationTargetTime: number;
     epochAdjustment: number;
+    transactionFees: TransactionFees;
+    defaultDynamicFeeMultiplier: number;
 }

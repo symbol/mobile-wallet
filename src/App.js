@@ -10,11 +10,12 @@ import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
 import { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
-import { AsyncCache } from './utils/storage/AsyncCache';
+import {AsyncCache} from './utils/storage/AsyncCache';
 import store from '@src/store';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { deletePasscode } from '@src/utils/passcode';
+import {CURRENT_DATA_SCHEMA, migrateDataSchema} from "@src/utils/DataSchemaMigrations";
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -43,50 +44,45 @@ export const handleAppStateChange = async (nextAppState: any) => {
 
 const initStore = async () => {
     try {
-        store.dispatchAction({ type: 'settings/initState' });
+        await store.dispatchAction({ type: 'settings/initState' });
+        await store.dispatchAction({ type: 'network/initState' });
     } catch {}
-    try {
-        store.dispatchAction({ type: 'market/loadMarketData' });
-    } catch {}
-    try {
-        store.dispatchAction({ type: 'network/initState' });
-    } catch {}
-    try {
-        store.dispatchAction({ type: 'news/loadNews' });
-    } catch {}
-    try {
-        store.dispatchAction({ type: 'addressBook/loadAddressBook' });
-    } catch {}
+    // store.dispatchAction({ type: 'market/loadMarketData' });
+    store.dispatchAction({ type: 'news/loadNews' });
+    store.dispatchAction({ type: 'addressBook/loadAddressBook' });
 };
 
 export const startApp = async () => {
     setGlobalCustomFont();
 
-    await initStore();
+    const dataSchemaVersion = await AsyncCache.getDataSchemaVersion();
 
-    /* TODO: REGISTER CORRECT LANGUAGE
-    const language = await SettingsHelper.getActiveLanguage();
-    */
     const selectedLanguage = await AsyncCache.getSelectedLanguage();
     setI18nConfig(selectedLanguage);
 
+    if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) {
+        SplashScreen.hide();
+        Router.goToWalletLoading({
+            promiseToRun: async () => await migrateDataSchema(dataSchemaVersion),
+            callbackAction: launchWallet,
+        });
+    } else {
+        await launchWallet();
+        SplashScreen.hide();
+    }
+};
+
+const launchWallet = async () => {
+    await initStore();
+
     const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
     const isPin = await hasUserSetPinCode();
-
-    SplashScreen.hide();
 
     if (mnemonic) {
         scheduleBackgroundJob();
         if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
         else Router.goToDashboard();
     } else {
-        /* TODO: SELECT FIRST PAGE
-        goToOnBoarding({
-            // goToDashboard: () => goToOptinWelcomeAsRoot(),
-            goToDashboard: () => goToNetworkSelector({}),
-            goToPasscode: (props: Object) => goToPasscode(props),
-        });
-         */
         Router.goToTermsAndPrivacy({});
     }
 };
@@ -119,9 +115,11 @@ export const setGlobalCustomFont = () => {
 
     Text.defaultProps = Text.defaultProps || {};
     Text.defaultProps.maxFontSizeMultiplier = 1.3;
+    Text.defaultProps.allowFontScaling = false;
 
     TextInput.defaultProps = TextInput.defaultProps || {};
     TextInput.defaultProps.maxFontSizeMultiplier = 1.3;
+    TextInput.defaultProps.allowFontScaling = false;
 };
 
 export const logout = async () => {

@@ -12,7 +12,6 @@ import {
 	Trunc
 } from '@src/components';
 import translate from "@src/locales/i18n";
-import Store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { copyToClipboard } from '@src/utils';
 import { connect } from 'react-redux';
@@ -20,10 +19,10 @@ import { connect } from 'react-redux';
 
 const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
-	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey'],
+	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey', 'vrfPublicKey', 'remotePublicKey', 'linkedPublicKey', 'nodePublicKey'],
 	boolean: [],
-	amount: ['amount', 'fee'],
-	secret: ['privateKey'],
+	amount: ['amount', 'displayFee'],
+	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
 	ecryption: ['messageEncrypted'],
 };
@@ -105,11 +104,12 @@ class TableView extends Component<Props, State> {
 		if(!Array.isArray(data))
 			_data = Object
 				.keys(data)
+				.filter(key => data[key] !== null && data[key] !== undefined)
 				.map(key => ({
 					key,
 					value: data[key]
 				}));
-		_data = _data.slice(0,5);
+		_data = _data.slice(0,6);
         return (
 			_data.map((el, item) => <Section type="form-item" key={''+ item + 'table' + el.key}>
 				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>

@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
-import {Button, Icon, Text, Section, TitleBar, GradientBackground, TableView } from '@src/components';
+import {
+	Button, 
+	Icon, 
+	Text, 
+	Section, 
+	TitleBar, 
+	GradientBackground, 
+	TableView,
+	QRImage
+} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
 import { IContact } from 'symbol-address-book/IContact';
-import { AddressQR } from 'symbol-qr-library';
-import { SvgXml } from 'react-native-svg';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import Row from '@src/components/controls/Row';
 
 const styles = StyleSheet.create({
-    qr: {
-        marginTop: 8,
-        marginBottom: 8,
-        padding: 8,
-        width: 120,
-        height: 120,
-    }
 });
 
 type Props = {
@@ -67,21 +67,9 @@ class ContactProfile extends Component<Props, State> {
         }
     };
 
-    async componentDidMount() {
-        const { selectedContact, network } = this.props;
-        const name = selectedContact.name;
-        const contactAddress = selectedContact.address;
-        const generationHash = network.generationHash;
-        const addressQR = new AddressQR(name, contactAddress, network.selectedNetwork.type, generationHash);
-        const addressQRsvg = await addressQR.toBase64().toPromise();
-        this.setState({
-            contactQR: addressQRsvg,
-        });
-    }
-
     render() {
         const { selectedContact } = this.props;
-        let { isRemoveModalOpen, contactQR } = this.state;
+        let { isRemoveModalOpen } = this.state;
 		const list = {
 			address: selectedContact.address,
 			phone: selectedContact.phone,
@@ -95,7 +83,11 @@ class ContactProfile extends Component<Props, State> {
                 <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Section type="center">
-                            {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />}
+							<QRImage 
+								type="address" 
+								accountName={selectedContact.name}
+								address={selectedContact.address}
+							/>
                         </Section>
                     </Section>
 					<Section>
