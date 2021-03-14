@@ -467,7 +467,7 @@
 	},
 	"home": {
 		"optInTitle": "Опт-ин",
-		"optInDescription": "Пост лаунч на опти-ин подписку...",
+		"optInDescription": "Опт-Ин процесс откроется, после запуска блокчейна Symbol. Пожалуйста, ожидайте новую версию кошелька.",
 		"pendingSignatureTitle": "Ожидает подписания",
 		"pendingSignatureDescription": "Имеется транзакция, которая ожидает подписи"
 	},

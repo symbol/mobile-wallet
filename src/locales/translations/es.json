@@ -467,7 +467,7 @@
 	},
 	"home": {
 		"optInTitle": "Opt-in",
-		"optInDescription": " Opt-in después del lanzamiento muy pronto...",
+		"optInDescription": "El proceso de opt-in post lanzamiento se abirá pronto. Por favor comprueba nuevas versiones después del lanzamiento de Symbol.",
 		"pendingSignatureTitle": "Firma pendiente",
 		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
 	},
