@@ -466,7 +466,7 @@
 		"blockExplorerNamespace": "Mostra lo spazio dei nomi in Blockchain Explorer"},
 	"home": {
 		"optInTitle": "Opt-In",
-		"optInDescription": "Processo di pre-optin...",
+		"optInDescription": "Il processo di attivazione (Opt-in) si aprirà dopo il lancio della blockchain di Symbol.  Attendi la nuova versione del portafoglio.",
 		"pendingSignatureTitle": "In attesa di firma",
 		"pendingSignatureDescription": "C'è una transazione in attesa di firma"
 	},
