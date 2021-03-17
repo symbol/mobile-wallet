@@ -23,6 +23,7 @@ import {
 } from 'react-native-env-json';
 import { NetworkType } from "symbol-sdk";
 import { languageNames } from '@src/locales/i18n';
+import type {AppNetworkType} from "@src/storage/models/NetworkModel";
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
@@ -40,8 +41,8 @@ const getNewsURL = (): string => {
 };
 
 // Explorer URL
-const getExplorerURL = (): string => {
-    return explorerURL;
+const getExplorerURL = (network: AppNetworkType): string => {
+    return explorerURL[network];
 };
 
 // Explorer URL

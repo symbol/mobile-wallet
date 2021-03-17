@@ -2,7 +2,10 @@
   "sessionTimeoutInSeconds": 10,
   "marketCurrencyName": "nem",
   "newsURL": "https://nemflash.io/feed",
-  "explorerURL": "http://explorer.testnet.symboldev.network/",
+  "explorerURL": {
+    "testnet": "http://explorer.testnet.symboldev.network/",
+    "mainnet": "http://explorer.symbolblockchain.io/"
+  },
   "faucetURL": "http://faucet.testnet.symboldev.network/",
   "aboutURL": "https://nem.io",
   "currencies": {

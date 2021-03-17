@@ -43,11 +43,6 @@ class ConfirmTransaction extends Component<Props, State> {
         showPasscode(this.props.componentId, finishAction);
     };
 
-    openExplorer() {
-        const { transaction } = this.props;
-        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
-    }
-
     render = () => {
         const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
         const {} = this.state;
