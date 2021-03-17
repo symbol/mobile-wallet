@@ -64,11 +64,6 @@ export default class BaseTransactionItem extends Component<Props, State> {
         return <Trunc type="address">{transaction.signerAddress}</Trunc>;
     };
 
-    openExplorer() {
-        const { transaction } = this.props;
-        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
-    }
-
     render = () => {
         const { transaction, showDetails } = this.props;
         let date = transaction.deadline;
