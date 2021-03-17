@@ -283,7 +283,7 @@ class Sidebar extends Component<Props, State> {
     };
 
     renderAccountSelectorItem = ({ name, balance, address = 'n/a', id, type, path }) => {
-        const { networkType } = this.props;
+        const { networkType, nativeMosaicNamespace, accountBalances } = this.props;
 		const deleteText = type === 'hd' || type === 'optin'
             ? translate('sidebar.hide')
 			: translate('sidebar.remove');
@@ -321,11 +321,16 @@ class Sidebar extends Component<Props, State> {
                 {/*<Text type="regular" align="left" theme="light">
                     <Trunc type="address">{address}</Trunc>
                 </Text>*/}
-                <Text type="regular" align="left" theme="light" style={styles.accountType}>
-                    {type === 'hd' && translate('sidebar.seed') + ' ' + index}
-                    {type === 'privateKey' && translate('sidebar.pk')}
-                    {type === 'optin' && translate('sidebar.optin')}
-                </Text>
+                <Row justify="space-between" fullWidth>
+                    <Text type="regular" align="left" theme="light" style={styles.accountType}>
+                        {type === 'hd' && translate('sidebar.seed') + ' ' + index}
+                        {type === 'privateKey' && translate('sidebar.pk')}
+                        {type === 'optin' && translate('sidebar.optin')}
+                    </Text>
+                    <Text type="regular" align="right" theme="light" style={styles.accountType}>
+                        {accountBalances && accountBalances[id] !== undefined ? `${accountBalances[id]} ${nativeMosaicNamespace}` : ''}
+                    </Text>
+                </Row>
             </TouchableOpacity>
         );
     };
@@ -427,4 +432,5 @@ export default connect(state => ({
     nativeMosaicNamespace: 'XYM', //TODO: remove hardcode. state.mosaic.nativeMosaicSubNamespaceName,
     accounts: state.wallet.accounts,
     isLoading: state.account.loading,
+    accountBalances: state.wallet.accountBalances,
 }))(Sidebar);
