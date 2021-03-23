@@ -13,7 +13,6 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from "@src/locales/i18n";
 import {defaultFeesConfig} from "@src/config/fees";
 import {AccountHttp, Address} from "symbol-sdk";
-import {showMessage} from "react-native-flash-message";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -191,7 +190,10 @@ class Send extends Component<Props, State> {
         const { ownedMosaics } = this.props;
 
         if(!ownedMosaics.find(mosaic => mosaic.mosaicId === mosaicName)) {
-            Router.showMessage(translate('notification.noMosaicPresent', { mosaicName }), 'danger');
+            Router.showMessage({
+                message: translate('notification.noMosaicPresent', { mosaicName }), 
+                type: 'danger'
+            });
             return false;
         }
 
@@ -224,11 +226,9 @@ class Send extends Component<Props, State> {
             } catch (e) {}
             this.setState({loadingEncrypted: false});
             if (!accountInfo || !accountInfo.publicKey) {
-                Router.showFlashMessageOverlay().then(() => {
-                    showMessage({
-                        message: translate('unsortedKeys.noPublicKeyWarning'),
-                        type: 'warning',
-                    });
+                Router.showMessage({
+                    message: translate('unsortedKeys.noPublicKeyWarning'),
+                    type: 'warning'
                 });
                 this.setState({isEncrypted: false});
             } else {

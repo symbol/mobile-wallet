@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { Dropdown } from '@src/components';
 import {PublicAccount} from "symbol-sdk";
 import NetworkService from "@src/services/NetworkService";
-import { showMessage } from 'react-native-flash-message';
 import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
@@ -71,11 +70,9 @@ class InputAccount extends Component<Props, State> {
         } catch (e) {
 			console.log(e);
 			this.props.onChangeText('');
-			Router.showFlashMessageOverlay().then(() => {
-				showMessage({
-					message: translate('unsortedKeys.invalidAddressQR'),
-					type: 'danger',
-				});
+			Router.showMessage({
+                message: translate('unsortedKeys.invalidAddressQR'),
+                type: 'danger'
 			});
         }
 	};
@@ -101,21 +98,17 @@ class InputAccount extends Component<Props, State> {
 			else
 			if(e.message === 'Could not parse account information.'){
 				this.props.onChangeText('');
-				Router.showFlashMessageOverlay().then(() => {
-					showMessage({
-						message: translate('unsortedKeys.invalidPassword'),
-						type: 'danger',
-					});
+				Router.showMessage({
+                    message: translate('unsortedKeys.invalidPassword'),
+                    type: 'danger'
 				});
 				this.setState({ pkQRData: null });
 			}
 			else {
 				this.props.onChangeText('');
-				Router.showFlashMessageOverlay().then(() => {
-					showMessage({
-						message: translate('unsortedKeys.invalidPrivateKeyQR'),
-						type: 'danger',
-					});
+				Router.showMessage({
+                    message: translate('unsortedKeys.invalidPrivateKeyQR'),
+                    type: 'danger'
 				});	
 				this.setState({ pkQRData: null });
 			}

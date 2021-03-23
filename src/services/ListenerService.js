@@ -1,8 +1,5 @@
 import { Address, IListener, RepositoryFactoryHttp } from 'symbol-sdk';
-import type { AccountModel } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
-import AccountService from '@src/services/AccountService';
-import { showMessage } from 'react-native-flash-message';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
@@ -79,11 +76,9 @@ export default class ListenerService {
     };
 
     showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {
-        Router.showFlashMessageOverlay().then(() => {
-            showMessage({
-                message: message,
-                type: type,
-            });
+        Router.showMessage({
+            message: message,
+            type: type,
         });
     };
 }

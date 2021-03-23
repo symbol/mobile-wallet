@@ -67,6 +67,10 @@ export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`
 export const QR_SCANNER_SCREEN = `${BASE_SCREEN_NAME}.QR_SCANNER_SCREEN`;
 export const SHOW_LINKED_KEYS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_LINKED_KEYS_SCREEN`;
 
+interface MessageProps {
+    message: string;
+    type: 'danger' | 'warning' | 'success';
+} 
 /**
  * Class to handle Routing between screens
  */
@@ -216,12 +220,12 @@ export class Router {
 
     static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
 
-    static showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {
+    static showMessage = (props: MessageProps) => {
         Router.showFlashMessageOverlay().then(() => {
             showMessage({
-                message: message,
-                type: type,
-                duration: type === 'danger' ? 6000 : 3000
+                message: props.message,
+                type: props.type || 'success',
+                duration: props.type === 'danger' ? 6000 : 3000
             });
         });
     };
