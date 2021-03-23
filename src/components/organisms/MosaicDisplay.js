@@ -6,13 +6,9 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
-        height: 60,
         borderRadius: 6,
         marginTop: 0,
-        marginBottom: 8,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#fffd',
+        backgroundColor: '#fffd'
     },
 });
 
