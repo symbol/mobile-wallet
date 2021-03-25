@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
+import { resoveAmount } from '@src/utils/format';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from "@src/locales/i18n";
 import {defaultFeesConfig} from "@src/config/fees";
@@ -46,6 +47,11 @@ class Send extends Component<Props, State> {
         showAddressError: false,
         showAmountError: false,
         loadingEncrypted: false,
+        isMaxFeeLoading: false,
+        maxFeeList: {
+            ...defaultFeesConfig,
+            current: defaultFeesConfig.normal
+        }
     };
 
     componentDidMount = async () => {
@@ -61,6 +67,8 @@ class Send extends Component<Props, State> {
 			this.onAmountChange(amount);
 		if(message)
 			this.onMessageChange(message);
+
+        this.updateMaxFee();
     };
 
     verify = () => {
@@ -91,7 +99,7 @@ class Send extends Component<Props, State> {
             return false;
         }
         const selectedMosaic = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
-        const parsedAmount = selectedMosaic.amount / Math.pow(10, selectedMosaic.divisibility);
+        const parsedAmount = resoveAmount(selectedMosaic.amount, selectedMosaic.divisibility);
         const sendingAmount = parseFloat(this.state.amount);
         const fee = parseFloat(this.state.fee);
         // Basic check amount not greater than what user has
@@ -103,30 +111,68 @@ class Send extends Component<Props, State> {
             return false;
         }
         // Case sending same mosaic than currency mosaic
-        return !(selectedMosaic.mosaicId === network.currencyMosaicId && parsedAmount < sendingAmount + fee);
+    
+        return !(selectedMosaic.mosaicId === network.currencyMosaicId && parsedAmount <= sendingAmount + this.state.maxFeeList.current);
     };
 
-    submit = async () => {
+    updateMaxFee = async () => {
+        const { network } = this.props;
+        this.setState({
+            isMaxFeeLoading: true
+        });
+        setTimeout(async () => {
+            const defaultMaxFees = await Promise.all([
+                ...Object.keys({...defaultFeesConfig, current: this.state.fee})
+                    .map(async key => 
+                        [
+                            key, 
+                            resoveAmount(await Store.dispatchAction({
+                                type: 'transfer/getMaxFee',
+                                payload: this.prepareTansaction(defaultFeesConfig[key]),
+                            }), network.currencyDivisibility)
+                        ]
+                    )
+            ]);
+    
+            const maxFeeList = Object.fromEntries(defaultMaxFees)
+
+            this.setState({
+                isMaxFeeLoading: false,
+                maxFeeList
+            });
+            this.verifyAmount();
+        });
+    };
+
+    prepareTansaction = (fee) => {
         const { ownedMosaics } = this.props;
         const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
         mosaic.amount = parseFloat(this.state.amount || '0') * Math.pow(10, mosaic.divisibility);
 
+        return {
+            recipientAddress: this.state.recipientAddress,
+            mosaics: [mosaic],
+            message: this.state.message,
+            messageEncrypted: this.state.isEncrypted,
+            fee: fee || this.state.fee,
+        };
+    };
+
+    submit = async () => {
         this.setState({
-            isLoading: true,
-            isConfirmShown: true,
+            isLoading: true
         });
-        await Store.dispatchAction({
-            type: 'transfer/setTransaction',
-            payload: {
-                recipientAddress: this.state.recipientAddress,
-                mosaics: [mosaic],
-                message: this.state.message,
-                messageEncrypted: this.state.isEncrypted,
-                fee: this.state.fee,
-            },
-        });
-        this.setState({
-            isLoading: false,
+
+        setTimeout(async () => {
+            await Store.dispatchAction({
+                type: 'transfer/setTransaction',
+                payload: this.prepareTansaction()
+            });
+    
+            this.setState({
+                isConfirmShown: true,
+                isLoading: false,
+            });
         });
     };
 
@@ -182,6 +228,12 @@ class Send extends Component<Props, State> {
             await this.setState({ amount: '' + final });
         }
 
+        
+        this.updateMaxFee();
+        this.verifyAmount();
+    };
+
+    verifyAmount = () => {
         const showAmountError = !this.isAmountValid();
         this.setState({ showAmountError });
     };
@@ -213,6 +265,7 @@ class Send extends Component<Props, State> {
             message.slice(0, 1024);
         }
         await this.setState({ message, isEncrypted });
+        this.updateMaxFee();
     };
 
     onMessageEncryptedChange = async isEncrypted => {
@@ -240,20 +293,37 @@ class Send extends Component<Props, State> {
     };
 
     render = () => {
-        const { ownedMosaics, isOwnedMosaicsLoading, network } = this.props;
-        const { recipientAddress, mosaicName, amount, message, isEncrypted, fee, isConfirmShown, showAddressError, showAmountError, loadingEncrypted } = this.state;
+        const { 
+            ownedMosaics, 
+            isOwnedMosaicsLoading, 
+            network 
+        } = this.props;
+        const { 
+            recipientAddress, 
+            mosaicName, 
+            amount, 
+            message, 
+            isEncrypted,
+            isMaxFeeLoading,
+            maxFeeList,
+            fee, 
+            isConfirmShown, 
+            showAddressError, 
+            showAmountError, 
+            loadingEncrypted 
+        } = this.state;
         const mosaicList = ownedMosaics
             .filter(mosaic => !mosaic.expired)
             .map(mosaic => ({
                 value: mosaic.mosaicId,
                 label: mosaic.mosaicName,
-                balance: mosaic.amount / Math.pow(10, mosaic.divisibility),
+                balance: resoveAmount(mosaic.amount, mosaic.divisibility),
             }));
-
+        
         const feeList = [
-            { value: defaultFeesConfig.slow, label: translate('fees.slow') },
-            { value: defaultFeesConfig.normal, label: translate('fees.recommended') },
-            { value: defaultFeesConfig.fast, label: translate('fees.fast') },
+            { value: defaultFeesConfig.slow, label: translate('fees.slow') + ' - ' + maxFeeList.slow },
+            { value: defaultFeesConfig.normal, label: translate('fees.recommended') + ' - ' + maxFeeList.normal },
+            { value: defaultFeesConfig.fast, label: translate('fees.fast') + ' - ' + maxFeeList.fast },
         ];
 
         const validForm = this.isFormValid();
@@ -272,7 +342,7 @@ class Send extends Component<Props, State> {
                             fullWidth
                             onChangeText={val => this.onAddressChange(val)}
                         />
-                        {showAddressError && <Text theme="light">Invalid address</Text>}
+                        {showAddressError && <Text theme="light" style={styles.warning}>Invalid address</Text>}
                     </Section>
                     <Section type="form-item">
                         <MosaicDropdown
@@ -310,7 +380,15 @@ class Send extends Component<Props, State> {
                         />
                     </Section>
                     <Section type="form-item">
-                        <Dropdown value={fee} title={translate('table.fee')} theme="light" editable={true} list={feeList} onChange={fee => this.setState({ fee })} />
+                        <Dropdown 
+                            isLoading={isMaxFeeLoading}
+                            value={fee} 
+                            title={translate('table.fee')} 
+                            theme="light" 
+                            editable={true} 
+                            list={feeList} 
+                            onChange={fee => this.setState({ fee })} 
+                        />
                     </Section>
                     <Section type="form-bottom">
                         <Button isLoading={false} isDisabled={!validForm} text={translate('plugin.send')} theme="light" onPress={() => this.submit()} />

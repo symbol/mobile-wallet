@@ -55,9 +55,23 @@ export default {
             commit({ type: 'transfer/setTransaction', payload: {} });
         },
 
-        setTransaction: async ({ commit, state }, payload) => {
+        getMaxFee: async ({ state }, payload) => {
             const networkType = NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork);
             const dummyAccount = Account.generateNewAccount(networkType);
+            const transactionModel = {
+                type: 'transfer',
+                recipientAddress: dummyAccount.address.plain(),
+                messageText: payload.message,
+                messageEncrypted: payload.messageEncrypted,
+                mosaics: payload.mosaics,
+                fee: payload.fee,
+            };
+            const ttx = await TransactionService.transactionModelToTransactionObject(transactionModel, dummyAccount, state.network.selectedNetwork);
+            const ttxWithFee = TransactionService.calculateMaxFee(ttx, state.network.selectedNetwork, transactionModel.fee);
+            return ttxWithFee.maxFee.compact();
+        },
+
+        setTransaction: async ({ commit, dispatchAction }, payload) => {
             const transactionModel = {
                 type: 'transfer',
                 recipientAddress: payload.recipientAddress,
@@ -66,14 +80,14 @@ export default {
                 mosaics: payload.mosaics,
                 fee: payload.fee,
             };
-            const ttx = await TransactionService.transactionModelToTransactionObject(transactionModel, dummyAccount, state.network.selectedNetwork);
-            const ttxWithFee = TransactionService.calculateMaxFee(ttx, state.network.selectedNetwork, transactionModel.fee);
+            const maxFee = await dispatchAction({ type: 'transfer/getMaxFee', payload });
+
             commit({
                 type: 'transfer/setTransaction',
                 payload: {
                     ...transactionModel,
-                    displayFee: ttxWithFee.maxFee.compact() / Math.pow(10, 6),
-                    fee: ttxWithFee.maxFee.compact(),
+                    resolvedFee: maxFee / Math.pow(10, 6),
+                    fee: maxFee,
                 },
             });
         },

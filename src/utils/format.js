@@ -124,3 +124,7 @@ export const getAccountIndexFromDerivationPath = (path: string, network: AppNetw
     const endPath = "'/0'/0'";
     return path ? parseInt(path.replace(startPath, '').replace(endPath, '')) : null;
 };
+
+export const resoveAmount = (rawAmount, divisibility) => {
+    return rawAmount / Math.pow(10, divisibility);
+};

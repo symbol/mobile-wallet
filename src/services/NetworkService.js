@@ -1,4 +1,4 @@
-import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, TransactionFees} from 'symbol-sdk';
+import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, RepositoryFactoryHttp, TransactionFees} from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
@@ -28,6 +28,12 @@ export default class NetworkService {
                 .pipe(timeout(REQUEST_TIMEOUT))
                 .toPromise(),
         ]);
+
+        const networkCurrency = await new RepositoryFactoryHttp(node, {
+            networkType: networkType,
+            generationHash: networkProps.network.generationHashSeed
+        }).getCurrencies().toPromise();
+
         let transactionFees: TransactionFees;
         try {
             transactionFees = await networkHttp
@@ -43,6 +49,7 @@ export default class NetworkService {
             generationHash: networkProps.network.generationHashSeed,
             node: node,
             currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
+            currencyDivisibility: networkCurrency.currency.divisibility,
             chainHeight: chainInfo.height.compact(),
             blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
