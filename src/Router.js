@@ -251,16 +251,12 @@ const setDefaultNavOptions = () => {
         blurOnUnmount: true,
         animations: {
             setRoot: {
-                waitForRender: true,
                 alpha: {
                     from: 0,
                     to: 1,
                     duration: 300,
                 },
-            },
-            push: {
-                waitForRender: true,
-            },
+            }
         },
         ...Platform.select({ ios: { sideMenu: { openGestureMode: 'bezel' } } }),
     });

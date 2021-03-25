@@ -19,18 +19,34 @@ const styles = StyleSheet.create({
 type Props = LinearGradientProps;
 
 const GradientContainer = (props: Props) => {
-	const { children, style, noPadding } = props;
+	const { children, style, colorSchema = 'normal', noPadding } = props;
 	const styleArray = [];
 	if(!noPadding)
 		styleArray.push(styles.padding);
 	styleArray.push(styles.container);
 	styleArray.push(style);
 
+	let colors;
+	let locations;
+	
+	switch (colorSchema) {
+		default:
+		case 'normal':
+			colors = [GlobalStyles.color.PRIMARY, GlobalStyles.color.SECONDARY];
+			locations = [0, 1];
+			break;
+		case 'dark':
+			colors = ['rgb(5, 12, 32)', 'rgb(67, 0, 78)'];
+			locations = [0, 1];
+			break;
+	}
+
 	return (
 		<LinearGradient
-			colors={[GlobalStyles.color.PRIMARY, GlobalStyles.color.SECONDARY]}
+			colors={colors}
 			start={{ x: 1, y: 0 }}
 			end={{ x: 0, y: 1 }}
+			locations={locations}
 			angle={ 135 }
 			useAngle
 			style={styleArray}
