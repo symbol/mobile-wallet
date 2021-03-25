@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
-import { Section, GradientBackground, Text, Row, TitleBar, Dropdown, TransactionItem, ListContainer, ListItem } from '@src/components';
+import { StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { Section, GradientBackground, Row, TitleBar, Dropdown, EmptyListMessage, ListContainer, ListItem } from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
@@ -78,7 +78,7 @@ class History extends Component<Props, State> {
     render() {
         const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, directionFilter, isNextLoading } = this.props;
         const { showingDetails } = this.state;
-
+        const isLoading = isNextLoading || loading;
         const allFilters = [
             { value: 'ALL', label: translate('all') },
             { value: 'SENT', label: translate('history.sent') },
@@ -108,14 +108,15 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-				<ListContainer style={styles.list} isScrollable={false} isLoading={isNextLoading || loading}>
+				<ListContainer style={styles.list} isScrollable={false} isLoading={isLoading}>
 					<FlatList
-						// style={{ height: '100%' }}
 						data={transactions}
 						renderItem={this.renderTransactionItem(showingDetails)}
 						onEndReachedThreshold={0.9}
 						onEndReached={this.loadNextPage}
 						keyExtractor={(item, index) => '' + index + 'history'}
+                        ListEmptyComponent={EmptyListMessage(!isLoading)}
+                        contentContainerStyle={{ flexGrow: 1 }}
 						refreshControl={
 							<RefreshControl
 								//refresh control used for the Pull to Refresh

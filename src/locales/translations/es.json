@@ -589,7 +589,8 @@
 		"signedTransactionQRInfo": "Esto es un QR de una transacción firmada. Puedes anunciarlo a la red.",
 		"announceSignedTransaction": "Anunciar transacción",
 		"opt_in_account_alert": "Esta cuenta ha sido obtenida con una derivación antigua. Se recomienda mover los fondos a una cuenta semilla",
-		"announce_success":  "Transacción anunciada con exito"
+		"announce_success":  "Transacción anunciada con exito",
+		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Esta dirección corresponde a otro contacto"

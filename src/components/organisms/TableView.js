@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
 	mosaic: {
 		backgroundColor: GlobalStyles.color.WHITE,
 		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: GlobalStyles.color.SECONDARY,
 		paddingVertical: 8,
 		paddingHorizontal: 16
 	}

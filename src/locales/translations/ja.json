@@ -601,6 +601,7 @@
 		"signedTransactionQRInfo": "これは署名入りのトランザクションQRです。このトランザクションをネットワークに告知することができます。",
 		"announceSignedTransaction":"アナウンストランザクション",
 		"opt_in_account_alert":"このアカウントは古い方法で取得しています。シードアカウントに資金を移動することをお勧めします。",
-		"announce_success": "トランザクションは正常に告知されました。"
+		"announce_success": "トランザクションは正常に告知されました。",
+		"nothingToShow": "Nothing to show"
 	}
 }

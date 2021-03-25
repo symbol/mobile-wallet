@@ -8,7 +8,6 @@ import {
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { copyToClipboard } from '@src/utils';
 import {Router} from "@src/Router";
-import {showMessage} from "react-native-flash-message";
 import translate from "@src/locales/i18n";
 
 
@@ -35,11 +34,9 @@ const styles = StyleSheet.create({
 
 class CopyView extends Component<Props, State> {
 	copyToClipboard = text => {
-		Router.showFlashMessageOverlay().then(() => {
-			showMessage({
-				message: translate('unsortedKeys.copied'),
-				type: 'success',
-			});
+		Router.showMessage({
+			message: translate('unsortedKeys.copied'),
+			type: 'success'
 		});
 		copyToClipboard(text)
 	};

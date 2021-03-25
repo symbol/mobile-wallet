@@ -9,7 +9,6 @@ import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import Trunc from '@src/components/organisms/Trunc';
 import {Router} from "@src/Router";
-import {showMessage} from "react-native-flash-message";
 
 const styles = StyleSheet.create({
     showButton: {
@@ -110,11 +109,9 @@ class Harvest extends Component<Props, State> {
             })
             .catch(e => {
                 this.setState({ selectedNodeUrl: null });
-                Router.showFlashMessageOverlay().then(() => {
-                    showMessage({
-                        message: translate('Settings.nisNode.errorBadNodeDescription'),
-                        type: 'danger',
-                    });
+                Router.showMessage({
+                    message: translate('Settings.nisNode.errorBadNodeDescription'),
+                    type: 'danger',
                 });
             });
     };

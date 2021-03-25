@@ -584,7 +584,8 @@
 		"signedTransactionQRInfo": "Questa è una transazione con firma QR. Puoi pubblicizzare questa transazione sulla rete.",
 		"announceSignedTransaction":"Annuncia la transazione",
 		"opt_in_account_alert":"Questo account è stato ottenuto utilizzando una vecchia derivazione. Si consiglia di trasferire fondi sul conto Seed.",
-		"announce_success": "Transaction announced successfully"
+		"announce_success": "Transaction announced successfully",
+		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto"
