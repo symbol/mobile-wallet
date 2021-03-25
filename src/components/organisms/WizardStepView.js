@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import SymbolGradientContainer from './SymbolGradientContainer';
 import TitleBar from '@src/components/old/StepViewTitleBar';
 import LoadingAnimation from './LoadingAnimation';
-import GradientButton from '@src/components/atoms/GradientButton';
+import { Button as GradientButton } from '@src/components';
 import CompoundButton from '@src/components/atoms/CompoundButton';
 
 const styles = StyleSheet.create({
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
 
 	button: {
 		marginTop: 20,
+		marginHorizontal: 15
 	},
 
 	loading: {
@@ -203,7 +204,7 @@ const WizardStepView = (props: Props) => {
 					{ !isLoading && !isError && buttons && buttons.length === 1 && <GradientButton
 						style={ styles.buttons }
 						title={ buttons[0].title }
-						disabled={ buttons[0].disabled }
+						isDisabled={ buttons[0].disabled }
 						testID={ buttons[0].testID }
 						icon={ buttons[0].icon }
 						onPress={ buttons[0].onPress }
@@ -222,7 +223,7 @@ const WizardStepView = (props: Props) => {
 						<GradientButton
 							style={ styles.button }
 							title={ buttons[0].title }
-							disabled={ buttons[0].disabled }
+							isDisabled={ buttons[0].disabled }
 							testID={ buttons[0].testID }
 							icon={ buttons[0].icon }
 							onPress={ buttons[0].onPress }
@@ -231,7 +232,7 @@ const WizardStepView = (props: Props) => {
 						<GradientButton
 							style={ styles.button }
 							title={ buttons[1].title }
-							disabled={ buttons[1].disabled }
+							isDisabled={ buttons[1].disabled }
 							testID={ buttons[1].testID }
 							icon={ buttons[1].icon }
 							onPress={ buttons[1].onPress }
