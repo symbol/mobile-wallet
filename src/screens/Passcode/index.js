@@ -104,11 +104,7 @@ class Passcode extends Component<Props, State> {
 
         return (
             <GradientContainer
-                colors={['#44004e', '#44004e']}
-                start={{ x: 1, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                angle={135}
-                useAngle
+                colorSchema='normal'
                 style={styles.gradientContainer}>
                 {!isLoading && (
                     <React.Fragment>
