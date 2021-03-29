@@ -120,9 +120,9 @@ export default class Input extends Component<Props, State> {
 					autoCapitalize="none"
 					underlineColorAndroid="transparent"
 				/>
-				<View style={styles.messageContainer}>
-					{!!isError && !!errorMessage && <AdvancedText theme="light" type="error">{errorMessage}</AdvancedText>}
-				</View>
+				{!!errorMessage && <View style={styles.messageContainer}>
+					{!!isError && <AdvancedText theme="light" type="error">{errorMessage}</AdvancedText>}
+				</View>}
 			</View>
         );
     };

@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     },
     icon: {
         position: 'absolute',
-        bottom: 0,
         height: 45,
         justifyContent: 'center',
 		alignItems: 'center'
@@ -131,10 +130,11 @@ class InputAccount extends Component<Props, State> {
         }
     };
 
-    getIconPosition = (index, k, offset) => {
+    getIconPosition = (index, k, offset, isBottomOffset) => {
         return {
             right: index * k + offset,
-			width: k
+			width: k,
+            bottom: isBottomOffset ? 22 : 0
         };
     };
 
@@ -145,7 +145,7 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, fullWidth, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
+        const { style = {}, fullWidth, errorMessage, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
 		const { showPasswordModal } = this.state;
 
 		let rootStyle = [styles.root, style];
@@ -166,15 +166,15 @@ class InputAccount extends Component<Props, State> {
 
         return (
             <View style={rootStyle}>
-                <Input {...rest} fullWidth={fullWidth} inputStyle={this.getInputStyle(numberOfIcons, iconTouchableWidth, iconOffset)} />
+                <Input {...rest} errorMessage={errorMessage} fullWidth={fullWidth} inputStyle={this.getInputStyle(numberOfIcons, iconTouchableWidth, iconOffset)} />
                 {/* <TouchableOpacity
-					style={[styles.icon, this.getIconPosition(2, iconTouchableWidth, iconOffset)]}
+					style={[styles.icon, this.getIconPosition(2, iconTouchableWidth, iconOffset, !!errorMessage)]}
 					onPress={() => this.importWithAddressBook()}
 				>
 					<Icon name="paste" size={iconSize} />
 				</TouchableOpacity> */}
                 {showQR && <TouchableOpacity
-                    style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset)]}
+                    style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset, !!errorMessage)]}
                     onPress={() => this.importWithQR(qrCallback)}>
                     <Icon name="qr" size={iconSize} />
                 </TouchableOpacity>}
@@ -182,7 +182,7 @@ class InputAccount extends Component<Props, State> {
                     <Dropdown
                         title="Select Contact"
                         editable={true}
-                        style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset)]}
+                        style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset, !!errorMessage)]}
                         list={addressBookList}
                         onChange={address => this.importWithAddressBook(address)}>
                         <Icon name="address_book" size={iconSize} />
