@@ -25,6 +25,11 @@
   "nodeTypes": { "MAINNET": "mainnet", "TESTNET": "testnet", "CUSTOM": "custom" },
   "networks": {
     "mainnet": {
+      "nisNodes": [
+        "http://hugealice2.nem.ninja",
+        "http://hachi.nem.ninja",
+        "http://alice2.nem.ninja"
+      ],
       "nodes": [
         "http://api.experimental.symboldev.network:3000",
         "http://ngl-api-501.symbolblockchain.io:3000",
@@ -37,6 +42,11 @@
       ]
     },
     "testnet": {
+      "nisNodes": [
+        "http://hugetestalice2.nem.ninja",
+        "http://hugetestalice.nem.ninja",
+        "http://medalice2.nem.ninja"
+      ],
       "nodes": [
         "http://api-01.us-west-1.testnet.symboldev.network:3000",
         "http://api-01.ap-northeast-1.testnet.symboldev.network:3000",

@@ -99,6 +99,9 @@ export default class C extends Component<Props, State> {
             case 'back_light':
                 source = require('@src/assets/icons/back_light.png');
                 break;
+            case 'back_light_reversed':
+                source = require('@src/assets/icons/back_light_reversed.png');
+                break;
             case 'back_dark':
                 source = require('@src/assets/icons/back_dark.png');
                 break;

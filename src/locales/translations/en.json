@@ -436,7 +436,12 @@
 		"vrfPrivateKey": "Linked Vrf private key",
 		"remotePublicKey": "Linked Remote public key",
 		"remotePrivateKey": "Linked Remote private key",
-		"nodePublicKey": "Linked Node public key"
+		"nodePublicKey": "Linked Node public key",
+
+		"optinAddress": "Your NIS1 Address",
+		"optinStatus": "Opt In status",
+		"optinAmount": "Total XYM",
+		"optinDestination": "Your Symbol Address"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -468,7 +473,7 @@
 	},
 	"home": {
 		"optInTitle": "Opt-in",
-		"optInDescription": "Post launch Opt in-will open soon. Please check back for a new version after Symbol launch.",
+		"optInDescription": "Post launch Opt in is now open. Click here to access the dashboard",
 		"pendingSignatureTitle": "Pending signature",
 		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
 	},
@@ -607,5 +612,42 @@
 		"announce_success": "Transaction announced successfully",
 		"noPublicKeyWarning": "Can't encrypt message: Address doesn't have a public key",
 		"nothingToShow": "Nothing to show"
+	},
+	"optin": {
+		"title": "Post-launch Opt In",
+		"welcomeDescription": "List of imported NIS1 accounts. Choose one or import it to check it's status and start the opt in process",
+		"importQR": "Import using QR",
+		"importPrivateKey": "Import using private key",
+		"qrPassword": "Decrypt QR code",
+		"decryptQRPlaceholder": "Enter password",
+		"decryptQR": "QR password",
+		"invalidDecryptPassword": "Invalid QR password",
+		"importAccount": "Import account",
+		"importPrivateKeyTitle": "Import private key",
+		"importPrivateKeyPlaceholder": "Enter private key",
+		"privateKey": "Private key",
+		"invalidPrivateKey": "Invalid private key",
+		"statusTitle": "Opt In status",
+		"status1": "Simple Opt in Pending",
+		"status2": "Simple Opt in Completed",
+		"start": "Start Opt In",
+		"review": "Review Opt In",
+		"selectSymbolAccountTitle": "Select symbol account",
+		"selectSymbolAccountDescription": "Select a symbol account to receive the opt in funds. Here is the list the accounts inside your wallet:",
+		"reviewTitle": "Review Opt In",
+		"send": "Send Opt In",
+		"selectedNISAddress": "Selected NIS1 address",
+		"optInStatus": "Opt In Status",
+		"optInAmount": "Opt In Amount",
+		"optInDetailsDescription": "Post-launch opt in details for the selected account",
+		"fee": "NIS1 transaction fee",
+		"removeModalTitle": "Are you sure?",
+		"removeModalDescription": "Are you sure that you want to remove NIS1 account",
+		"destination": "Symbol destination account",
+		"error0": "Invalid payload signature",
+		"error1": "Invalid destination account",
+		"error2": "Invalid destination account cosignatories",
+		"lastOptInFailed": "Last Opt In failed with message",
+		"NISNode": "NIS1 node"
 	}
 }

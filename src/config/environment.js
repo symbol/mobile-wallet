@@ -124,8 +124,8 @@ const getOptinEnv = (): string => {
     return optinEnv
 };
 
-const getNISNodes = (): string => {
-    return NISNodes
+const getNISNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
+    return networks[network].nisNodes;
 };
 
 const getDefaultNetworkType = (): NetworkType => {
