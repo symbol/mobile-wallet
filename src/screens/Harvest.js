@@ -96,13 +96,13 @@ class Harvest extends Component<Props, State> {
     getHarvestingNodesDropDown = () => {
         const { nodes } = this.props;
         return nodes.map(node => ({
-            value: node.url,
-            label: node.url,
+            value: `http://${node.url}:3000`,
+            label: `http://${node.url}:3000`,
         }));
     };
 
     onSelectHarvestingNode = node => {
-        const url = 'http://' + node + ':3000';
+        const url = node;
         HarvestingService.getNodePublicKeyFromNode(url)
             .then(publicKey => {
                 this.setState({ selectedNode: publicKey, selectedNodeUrl: node });
@@ -241,7 +241,7 @@ class Harvest extends Component<Props, State> {
                     )}
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {!notEnoughBalance && status === 'INACTIVE' && (
+                        {!notEnoughBalance && status === 'INACTIVE' && (<>
                             <Section type="form-item">
                                 <NodeDropdown
                                     theme="light"
@@ -250,6 +250,8 @@ class Harvest extends Component<Props, State> {
                                     value={selectedNodeUrl}
                                     onChange={this.onSelectHarvestingNode}
                                 />
+                            </Section>
+                            <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
                                     isDisabled={!selectedNodeUrl || notEnoughBalance}
@@ -258,7 +260,7 @@ class Harvest extends Component<Props, State> {
                                     onPress={() => this.startHarvesting()}
                                 />
                             </Section>
-                        )}
+                        </>)}
                         {!notEnoughBalance && status !== 'INACTIVE' && (
                             <View>
                                 <Section type="form-item">

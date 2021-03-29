@@ -45,11 +45,14 @@ export default class C extends Component<Props, State> {
             case 'warning':
                 globalStyle = { ...GlobalStyles.text.warning };
                 break;
+            case 'error':
+                globalStyle = { ...GlobalStyles.text.error };
+                break;
         }
 
         if (typeof align === 'string') globalStyle.textAlign = align;
 
-        if (type !== 'warning') {
+        if (type !== 'warning' && type !== 'error') {
             if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
             else globalStyle.color = GlobalStyles.color.onDark.TEXT;
         }

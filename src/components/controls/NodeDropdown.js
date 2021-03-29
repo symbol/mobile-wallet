@@ -6,8 +6,6 @@ import {
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Dropdown, Row, Input } from '@src/components';
 import translate from '@src/locales/i18n';
-import { node } from 'prop-types';
-
 
 const styles = StyleSheet.create({
 	name: {
@@ -19,18 +17,27 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: GlobalStyles.color.GREY3
 	},
+    input: {
+        marginHorizontal: 20,
+        marginTop: 10,
+        marginBottom: 0
+    }
 });
 
 
-interface Props {};
+interface Props {
+
+};
 type State = {
-    customNodeUrlInput: string
+    customNodeUrlInput: string;
+    isInvalidUrl: Boolean;
 };
 
 
 export default class MosaicDropdown extends Component<Props, State> {
     state = {
-        customNodeUrlInput: ''
+        customNodeUrlInput: '',
+        isInvalidUrl: false
     };
 
     constructor(props) {
@@ -55,20 +62,50 @@ export default class MosaicDropdown extends Component<Props, State> {
         return (
             <Input
                 value={this.state.customNodeUrlInput}
-                placeholder={translate('Settings.node.customNodeURLInputPlaceholder')}
+                placeholder={translate('Settings.node.costomNode')}
+                nativePlaceholder={translate('Settings.node.customNodeURLInputPlaceholder')}
+                errorMessage={translate('Settings.node.errorInvalidUrl')}
+                isError={this.state.isInvalidUrl}
                 theme="light"
+                style={styles.input}
                 onChangeText={text => this.onChangeText(text)}
+                onSubmitEditing={() => this.onSubmit()}
             /> 
         );
     };
 
     onChangeText = (nodeUrl) => {
-        this.setState({customNodeUrlInput: nodeUrl});
+        const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?:(3000)$/gm.test(nodeUrl);
+        this.setState({
+            customNodeUrlInput: nodeUrl,
+            isInvalidUrl: !validUrl
+        });
+    };
+
+    clearCustomNodeUrlInput = () => {
+        this.setState({
+            customNodeUrlInput: '',
+            isInvalidUrl: false
+        });
+    }
+
+    onSubmit = () => {
+        if (!this.state.isInvalidUrl && this.state.customNodeUrlInput.length) {
+            this.dropdown.current.closeSelector();
+            this.props.onChange(this.state.customNodeUrlInput);
+        }
     };
 
     render = () => {
 		const { ...rest } = this.props;
 
-        return <Dropdown modalInnerRenderer={this.renderModalInner} ref={this.dropdown} {...rest} />
+        return <Dropdown 
+            modalInnerRenderer={this.renderModalInner}
+            onOpenSelector={this.clearCustomNodeUrlInput}
+            onCloseSelector={this.clearCustomNodeUrlInput}
+            inputStyle={{borderWidth: 1}}
+            ref={this.dropdown} 
+            {...rest} 
+        />
     };
 }

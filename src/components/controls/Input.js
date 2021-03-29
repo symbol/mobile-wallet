@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Text as AdvancedText } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 
@@ -48,6 +49,10 @@ const styles = StyleSheet.create({
 		padding: 0,
 		margin: 0,
 		fontSize: 14,
+	},
+	messageContainer: {
+		minHeight: 22,
+		marginHorizontal: 2
 	}
 });
 
@@ -64,7 +69,18 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, nativePlaceholder, ...rest } = this.props;
+		const { 
+			style = {}, 
+			inputStyle = {}, 
+			theme, 
+			fullWidth, 
+			value, 
+			placeholder, 
+			nativePlaceholder,
+			isError,
+			errorMessage,
+			...rest 
+		} = this.props;
 		let _inputStyle = {};
 		let placeholderTextColor;
 		let nativePlaceholderSet;
@@ -79,7 +95,7 @@ export default class Input extends Component<Props, State> {
 
 
 		if(theme === 'light') {
-			placeholderTextColor = GlobalStyles.color.PRIMARY,
+			placeholderTextColor = GlobalStyles.color.GREY4,
 			_inputStyle = styles.inputLight;
 			placeholderStyle = styles.placeholderLight;
 			nativePlaceholderSet = nativePlaceholder ? nativePlaceholder : '';
@@ -104,6 +120,9 @@ export default class Input extends Component<Props, State> {
 					autoCapitalize="none"
 					underlineColorAndroid="transparent"
 				/>
+				<View style={styles.messageContainer}>
+					{!!isError && !!errorMessage && <AdvancedText theme="light" type="error">{errorMessage}</AdvancedText>}
+				</View>
 			</View>
         );
     };
