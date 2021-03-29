@@ -133,6 +133,7 @@ interface Props {
     title: String;
     customInputReneder: (item: Object) => void;
     customItemReneder: (item: Object) => void;
+    modalInnerRenderer: (item: Object) => void;
 }
 
 type State = {};
@@ -199,6 +200,7 @@ export default class Dropdown extends Component<Props, State> {
             customInputReneder,
             customItemReneder,
             isLoading,
+            modalInnerRenderer,
             children,
             ...rest
         } = this.props;
@@ -259,8 +261,9 @@ export default class Dropdown extends Component<Props, State> {
                                     alignLeft
                                 />
                             </Row>
+                            {!!modalInnerRenderer && modalInnerRenderer()}
                             {!!list.length && <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />}
-                            {!list.length && (
+                            {!list.length && !modalInnerRenderer && (
                                 <AdvancedText type="regular" align="center" theme="light">
                                     Nothing to show
                                 </AdvancedText>

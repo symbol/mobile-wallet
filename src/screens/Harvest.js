@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Col, Row } from '@src/components';
+import { Section, ImageBackground, GradientBackground, Text, TitleBar, NodeDropdown, Button, Col, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
@@ -243,7 +243,7 @@ class Harvest extends Component<Props, State> {
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
                         {!notEnoughBalance && status === 'INACTIVE' && (
                             <Section type="form-item">
-                                <Dropdown
+                                <NodeDropdown
                                     theme="light"
                                     list={this.getHarvestingNodesDropDown()}
                                     title={translate('harvest.selectNode')}
