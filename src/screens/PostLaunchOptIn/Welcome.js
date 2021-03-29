@@ -94,7 +94,7 @@ class Welcome extends Component<Props, State> {
         return (
             <ListItem>
                 <TouchableOpacity onPress={() => this.goToOptIn(index)} style={styles.accountList}>
-                    <Image style={styles.icon} source={require('@src/assets/icons/account_nis@3x.png')} />
+                    <Image style={styles.icon} source={require('@src/assets/icons/account_nis.png')} />
                     <Text type={'regular'} theme={'light'} style={{ flex: 1 }}>
                         <Trunc type={'address'}>{item.address}</Trunc>
                     </Text>
