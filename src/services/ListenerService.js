@@ -1,13 +1,14 @@
-import { Address, IListener, RepositoryFactoryHttp } from 'symbol-sdk';
+import {Address, IListener, Listener, RepositoryFactoryHttp} from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
+import {CommonHelpers} from "@src/utils/commonHelpers";
 
 export default class ListenerService {
     network: NetworkModel;
     repositoryFactory: RepositoryFactoryHttp;
-    listener: IListener;
+    listener: Listener;
 
     setNetwork = (network: NetworkModel) => {
         if (this.listener) {
@@ -26,29 +27,37 @@ export default class ListenerService {
         }
         this.listener = this.repositoryFactory.createListener();
         const address = Address.createFromRawAddress(rawAddress);
-        return this.listener.open().then(() => {
-            console.log('Listening ' + address.pretty());
+        return this.listener
+            .open(async (event: { client: string, code: any, reason: any }) => {
+                if (event && event.code !== 1005) {
+                    await CommonHelpers.retryNTimes(this.listener, 3, 5000);
+                } else {
+                    this.showMessage('ws_connection_failed', 'danger');
+                }
+            })
+            .then(() => {
+                console.log('Listening ' + address.pretty());
 
-            this.addConfirmed(rawAddress);
-            this.addUnconfirmed(rawAddress);
+                this.addConfirmed(rawAddress);
+                this.addUnconfirmed(rawAddress);
 
-            this.listener
-                .aggregateBondedAdded(address)
-                //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
-                .subscribe(() => {
-                    this.showMessage(translate('notification.newAggregate'), 'success');
+                this.listener
+                    .aggregateBondedAdded(address)
+                    //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
+                    .subscribe(() => {
+                        this.showMessage(translate('notification.newAggregate'), 'success');
+                        store.dispatchAction({ type: 'account/loadAllData' });
+                    });
+
+                this.listener.status(address).subscribe(error => {
+                    this.showMessage(error.code, 'danger');
                     store.dispatchAction({ type: 'account/loadAllData' });
                 });
 
-            this.listener.status(address).subscribe(error => {
-                this.showMessage(error.code, 'danger');
-                store.dispatchAction({ type: 'account/loadAllData' });
+                this.listener.newBlock().subscribe(block => {
+                    store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
+                });
             });
-
-            this.listener.newBlock().subscribe(block => {
-                store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
-            });
-        });
     };
 
     addConfirmed = (rawAddress: string) => {

@@ -2422,10 +2422,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-catbuffer-typescript@0.0.26-alpha-202012311611:
-  version "0.0.26-alpha-202012311611"
-  resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.0.26-alpha-202012311611.tgz#ccb8ae7d7e1cbecbbdbdc4a45f7b1cd5e0ce32e3"
-  integrity sha512-ZQXmEq4t7DW76LP1HLdfb23M0TL0TXhtVFkLSCIAZgCjqqHq0tbgfsbrAt9DRVmvN4ZmLys1JDVIsbtN44QINg==
+catbuffer-typescript@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/catbuffer-typescript/-/catbuffer-typescript-0.1.1.tgz#152746d7ec07af28da31c2f4ad9e00cc27133d5a"
+  integrity sha512-r/z3UKG3YCCdsTEHRXGe3IQxA8OaBRBE31e9du2LOaLStGxYCmxUjfRtJ/DyKfgpS55fJPl3w/VFMnsfwIHmkA==
 
 center-align@^0.1.1:
   version "0.1.3"
@@ -9395,10 +9395,10 @@ symbol-observable@^1.2.0:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
 
-symbol-openapi-typescript-fetch-client@0.10.7-SNAPSHOT.202101131900:
-  version "0.10.7-SNAPSHOT.202101131900"
-  resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.10.7-SNAPSHOT.202101131900.tgz#1ea9744108a08315341ecc256438b1a09aa10e41"
-  integrity sha512-CnDdrG9ti60hbQEffUvtpOlTQEWVtuWR+5g765KOVpa4figRovi7ENbBdi0ZCWZY8WPS7HOIBZbwtV9e8rqnvg==
+symbol-openapi-typescript-fetch-client@0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.11.2.tgz#c34b1a2345b567645b802b79b6e8431281a4c938"
+  integrity sha512-A1MAN8/UWlaCEibBf6zxkduZwDNSvWwLPp6JB0GeYI/FAOrw/9nLyuS/NJQ3siGAUclnuejH1wG7KdUg0/4RSw==
 
 symbol-paper-wallets@^1.0.2:
   version "1.0.2"
@@ -9432,14 +9432,14 @@ symbol-qr-library@^0.13.1-alpha-202010241730:
     open "^7.0.2"
     qrcode "^1.4.4"
 
-symbol-sdk@0.23.0-alpha.202101131900:
-  version "0.23.0-alpha.202101131900"
-  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-0.23.0-alpha.202101131900.tgz#1bea14d5d8c15ccd47349b0c1ec8073364d16bb0"
-  integrity sha512-c5kJGXGgKsTk5wgS6uffgOo32VjYnl4Yw6rZeg0ab3DKJ0n6UPzrFPXKUAivb74h+sC7oW1deLSLpJb68R/BVg==
+symbol-sdk@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-1.0.0.tgz#3d74b76f2ce46b7629d4e653e75e1d0b47789e69"
+  integrity sha512-j7HR5288sNXLHAMRWc6VgXiVBiyY6FJ0b+ug//cJPg63beKF+ZJkAZbzcrQqdrMTuGhIy80jG9HFodQIthLoUg==
   dependencies:
     "@js-joda/core" "^3.2.0"
     bluebird "^3.7.2"
-    catbuffer-typescript "0.0.26-alpha-202012311611"
+    catbuffer-typescript "0.1.1"
     crypto-js "^4.0.0"
     diff "^4.0.2"
     futoin-hkdf "^1.3.2"
@@ -9453,7 +9453,7 @@ symbol-sdk@0.23.0-alpha.202101131900:
     ripemd160 "^2.0.2"
     rxjs "^6.6.3"
     rxjs-compat "^6.6.3"
-    symbol-openapi-typescript-fetch-client "0.10.7-SNAPSHOT.202101131900"
+    symbol-openapi-typescript-fetch-client "0.11.2"
     tweetnacl "^1.0.3"
     ws "^7.3.1"
 
