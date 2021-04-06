@@ -290,6 +290,13 @@ class Send extends Component<Props, State> {
         } else {
             this.setState({isEncrypted: false});
         }
+
+        this.updateMaxFee();
+    };
+
+    onFeeChange(fee) {
+        this.setState({ fee });
+        this.updateMaxFee();
     };
 
     render = () => {
@@ -387,7 +394,7 @@ class Send extends Component<Props, State> {
                             theme="light" 
                             editable={true} 
                             list={feeList} 
-                            onChange={fee => this.setState({ fee })} 
+                            onChange={fee => this.onFeeChange(fee)} 
                         />
                     </Section>
                     <Section type="form-bottom">
