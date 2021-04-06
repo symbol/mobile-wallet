@@ -66,6 +66,7 @@ export default class MosaicDropdown extends Component<Props, State> {
                 nativePlaceholder={translate('Settings.node.customNodeURLInputPlaceholder')}
                 errorMessage={translate('Settings.node.errorInvalidUrl')}
                 isError={this.state.isInvalidUrl}
+                showSubmit={!this.state.isInvalidUrl && this.state.customNodeUrlInput.length}
                 theme="light"
                 style={styles.input}
                 onChangeText={text => this.onChangeText(text)}

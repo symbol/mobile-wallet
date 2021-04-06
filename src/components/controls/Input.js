@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { Text as AdvancedText } from '@src/components';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text as AdvancedText, Icon } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 
@@ -50,10 +50,20 @@ const styles = StyleSheet.create({
 		margin: 0,
 		fontSize: 14,
 	},
+	inputContainer: {
+
+	},
+	iconContainer: {
+		position: 'absolute',
+        height: 45,
+        justifyContent: 'center',
+		alignItems: 'center',
+		right: 15
+	},
 	messageContainer: {
 		minHeight: 22,
 		marginHorizontal: 2
-	}
+	},
 });
 
 type Theme = 'light'
@@ -62,6 +72,7 @@ type Theme = 'light'
 interface Props {
 	fullWidth: boolean;
 	theme: Theme;
+	showSubmit: boolean;
 };
 
 type State = {};
@@ -79,9 +90,11 @@ export default class Input extends Component<Props, State> {
 			nativePlaceholder,
 			isError,
 			errorMessage,
+			showSubmit,
+			onSubmitEditing,
 			...rest 
 		} = this.props;
-		let _inputStyle = {};
+		let _inputStyle = [];
 		let placeholderTextColor;
 		let nativePlaceholderSet;
 		let placeholderStyle;
@@ -108,18 +121,30 @@ export default class Input extends Component<Props, State> {
 			rootStyle.push(styles.rootDark);
 		}
 
+		const inputPadding = {
+			paddingRight: showSubmit ? 40 : 0
+		};
+
         return (
 			<View style={rootStyle}>
 				{(!!value || theme === 'light') && <Text style={placeholderStyle}>{placeholder}</Text>}
-				<TextInput
-					{...rest}
-					value={value}
-					style={[_inputStyle, inputStyle]}
-					placeholder={nativePlaceholderSet}
-					placeholderTextColor={placeholderTextColor}
-					autoCapitalize="none"
-					underlineColorAndroid="transparent"
-				/>
+				<View style={styles.inputContainer}>
+					<TextInput
+						{...rest}
+						value={value}
+						style={[_inputStyle, inputPadding, inputStyle]}
+						placeholder={nativePlaceholderSet}
+						placeholderTextColor={placeholderTextColor}
+						onSubmitEditing={onSubmitEditing}
+						autoCapitalize="none"
+						underlineColorAndroid="transparent"
+					/>
+					{!!showSubmit &&
+						<TouchableOpacity style={styles.iconContainer} onPress={() => !!onSubmitEditing && onSubmitEditing()}>
+							<Icon name="check" />
+						</TouchableOpacity>
+					}
+				</View>
 				{!!errorMessage && <View style={styles.messageContainer}>
 					{!!isError && <AdvancedText theme="light" type="error">{errorMessage}</AdvancedText>}
 				</View>}
