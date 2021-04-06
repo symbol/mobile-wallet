@@ -10,13 +10,14 @@ const styles = StyleSheet.create({
 	},
 	inner: {
 		paddingVertical: 16,
-		borderBottomWidth: 2,
 		borderBottomColor: GlobalStyles.color.DARKWHITE,
 	}
 });
 
 
-interface Props {}
+interface Props {
+	isLast: boolean;
+}
 
 type State = {};
 
@@ -25,16 +26,16 @@ export default class GradientBackground extends PureComponent<Props, State> {
 	state = {};
 
     render() {
-		const { children, style = {}, onPress } = this.props;
+		const { children, style = {}, onPress, isLast = false } = this.props;
 
         return (<>
 			{onPress && <TouchableOpacity style={[styles.root, style]} onPress={onPress}>
-				<View style={styles.inner}>
+				<View style={[styles.inner, { borderBottomWidth: isLast ? 0: 2 }]}>
 					{children}
 				</View>
 			</TouchableOpacity>}
 			{!onPress && <View style={[styles.root, style]}>
-				<View style={styles.inner}>
+				<View style={[styles.inner, { borderBottomWidth: isLast ? 0: 2 }]}>
 					{children}
 				</View>
 			</View>}

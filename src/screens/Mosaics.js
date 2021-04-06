@@ -21,9 +21,9 @@ class Mosaics extends Component<Props, State> {
     state = {};
 
     renderMosaicItem = ({ item, index }) => {
-        const { nativeMosaicNamespaceName } = this.props;
+        const { nativeMosaicNamespaceName, ownedMosaics } = this.props;
         return (
-            <ListItem>
+            <ListItem isLast={index === ownedMosaics.length - 1}>
                 <MosaicDisplay mosaic={item} isNative={item.mosaicName === nativeMosaicNamespaceName} key={'' + index + 'mosaics'} />
             </ListItem>
         );
