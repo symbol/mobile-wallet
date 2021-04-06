@@ -122,7 +122,7 @@ export default class Input extends Component<Props, State> {
 		}
 
 		const inputPadding = {
-			paddingRight: showSubmit ? 40 : 0
+			paddingRight: showSubmit ? 40 : null
 		};
 
         return (
