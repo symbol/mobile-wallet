@@ -6,11 +6,11 @@ import GlobalStyles from '../../styles/GlobalStyles';
 const styles = StyleSheet.create({
 	inner: {
 		width: '100%',
-        borderRadius: 6,
-        marginTop: 0,
-        marginBottom: 8,
+		borderRadius: 6,
+		marginTop: 0,
+		marginBottom: 8,
 		paddingBottom: 2.1,
-        backgroundColor: GlobalStyles.color.WHITE,
+		backgroundColor: GlobalStyles.color.WHITE,
 		flex: 1,
 	},
 	section: {
@@ -44,10 +44,10 @@ type State = {};
 export default class GradientBackground extends Component<Props, State> {
 	state = {};
 
-    render() {
+	render() {
 		const { children, style = {}, isScrollable = true, isLoading = false} = this.props;
 
-        return (
+		return (
 			<Section type="list" style={[styles.section, style]} isScrollable={isScrollable}>
 				<View style={[styles.inner]}>
 					{children}
@@ -59,6 +59,6 @@ export default class GradientBackground extends Component<Props, State> {
 					/>}
 				</View>
 			</Section>
-        );
-    };
+		);
+	};
 }
