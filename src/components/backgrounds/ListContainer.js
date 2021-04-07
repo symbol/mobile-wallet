@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 0,
         marginBottom: 8,
+		paddingBottom: 2.1,
         backgroundColor: GlobalStyles.color.WHITE,
 		flex: 1,
 	},

@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
 	root: {
 		width: '100%',
 		paddingHorizontal: 22,
-		marginVertical: -2,
+		marginBottom: -2.1,
 	},
 	inner: {
-		paddingTop: 18,
+		paddingTop: 18.1,
 		paddingBottom: 16,
 		borderBottomWidth: 2,
 		borderBottomColor: GlobalStyles.color.DARKWHITE,
