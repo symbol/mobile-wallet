@@ -429,7 +429,7 @@
 		"show": "表示する",
 		"name": "名前",
 		"seedIndex": "アカウントシードインデックス",
-		"displayFee": "手数料",
+		"resolvedFee": "手数料",
 		"vrfPublicKey": "リンクされたVrfパブリックキー",
 		"vrfPrivateKey": "リンクされたVrfプライベートキー",
 		"remotePublicKey": "リンクされたリモートパブリックキー",

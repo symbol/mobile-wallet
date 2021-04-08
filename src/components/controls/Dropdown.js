@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 14,
         paddingHorizontal: 16,
+        height: 46
     },
     inputText: {
         fontSize: 12,
@@ -233,7 +234,7 @@ export default class Dropdown extends Component<Props, State> {
                 {!children && (
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
-                            (!customInputReneder ? <Text style={styles.inputText}>{selectedOption.label}</Text> : customInputReneder(selectedOption))}
+                            (!customInputReneder ? <Text style={styles.inputText}>{!isLoading && selectedOption.label}</Text> : customInputReneder(selectedOption))}
                         {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
                         <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />

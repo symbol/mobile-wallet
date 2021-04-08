@@ -427,7 +427,7 @@
 		"label": "标签",
 		"notes": "注释",
 		"seedIndex": "帐户种子指数",
-		"displayFee": "费用",
+		"resolvedFee": "费用",
 		"vrfPublicKey": "已链接的 Vrf 公钥",
 		"vrfPrivateKey": "已链接的 Vrf 私钥",
 		"remotePublicKey": "已链接的远程公钥",
