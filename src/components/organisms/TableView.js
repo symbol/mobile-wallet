@@ -21,7 +21,7 @@ const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
 	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey', 'vrfPublicKey', 'remotePublicKey', 'linkedPublicKey', 'nodePublicKey'],
 	boolean: [],
-	amount: ['amount', 'displayFee'],
+	amount: ['amount', 'resolvedFee'],
 	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
 	ecryption: ['messageEncrypted'],

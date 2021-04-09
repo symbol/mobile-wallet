@@ -152,16 +152,16 @@ export default class TransactionService {
             return transaction;
         }
         const feeMultiplier =
-            this._resolveFeeMultiplier(transaction, network, selectedFeeMultiplier) < network.transactionFees.minFeeMultiplier
+            this._resolveFeeMultiplier(network, selectedFeeMultiplier) < network.transactionFees.minFeeMultiplier
                 ? network.transactionFees.minFeeMultiplier
-                : this._resolveFeeMultiplier(transaction, network, selectedFeeMultiplier);
+                : this._resolveFeeMultiplier(network, selectedFeeMultiplier);
         if (!feeMultiplier) {
             return transaction;
         }
         return transaction.setMaxFee(feeMultiplier);
     }
 
-    static _resolveFeeMultiplier(transaction: Transaction, network: NetworkModel, selectedFeeMultiplier: number): number | undefined {
+    static _resolveFeeMultiplier(network: NetworkModel, selectedFeeMultiplier: number): number | undefined {
         if (selectedFeeMultiplier === defaultFeesConfig.slow) {
             const fees =
                 network.transactionFees.lowestFeeMultiplier < network.transactionFees.minFeeMultiplier

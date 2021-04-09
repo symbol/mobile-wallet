@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 14,
         paddingHorizontal: 16,
+        height: 46
     },
     inputText: {
         fontSize: 12,
@@ -241,7 +242,7 @@ export default class Dropdown extends Component<Props, State> {
                         {selectedOption &&
                             (!customInputReneder 
                                 ? <Text style={styles.inputText}>
-                                    <Trunc length={36}>{selectedOption.label}</Trunc>
+                                    {!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}
                                 </Text> 
                                 : customInputReneder(selectedOption)
                             )

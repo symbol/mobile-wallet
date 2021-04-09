@@ -399,7 +399,7 @@
 		"messageText": "Message / Memo",
 		"messageEncrypted": "Message encryption",
 		"fee": "Fee",
-		"displayFee": "Fee",
+		"resolvedFee": "Fee",
 		"accountName": "Account name",
 		"address": "Address",
 		"publicKey": "Public key",

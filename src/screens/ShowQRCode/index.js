@@ -28,28 +28,31 @@ class ShowQRCode extends Component {
     };
 
     handleDownloadPaperWallet = async () => {
-        const network = store.getState().network.selectedNetwork
-            ? store.getState().network.selectedNetwork
-            : { type: getDefaultNetworkType(), generationHash: 'no-chain-id' };
         this.setState({ isLoading: true });
-        try {
-            const accounts = store.getState().wallet.accounts;
-            const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, accounts, network);
-            const uniqueVal = new Date()
-                .getTime()
-                .toString()
-                .slice(9);
-            downloadFile(paperWallet, `symbol-wallet-${uniqueVal}.pdf`, 'base64')
-                .then(() => {
-                    this.setState({ isLoading: false, downloaded: true });
-                })
-                .catch(() => {
-                    this.setState({ isLoading: false });
-                });
-        } catch (e) {
-            console.log(e);
-            this.setState({ showErrorView: true });
-        }
+        setTimeout(async () => {
+            const network = store.getState().network.selectedNetwork
+                ? store.getState().network.selectedNetwork
+                : { type: getDefaultNetworkType(), generationHash: 'no-chain-id' };
+                
+            try {
+                const accounts = store.getState().wallet.accounts;
+                const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, accounts, network);
+                const uniqueVal = new Date()
+                    .getTime()
+                    .toString()
+                    .slice(9);
+                downloadFile(paperWallet, `symbol-wallet-${uniqueVal}.pdf`, 'base64')
+                    .then(() => {
+                        this.setState({ isLoading: false, downloaded: true });
+                    })
+                    .catch(() => {
+                        this.setState({ isLoading: false });
+                    });
+            } catch (e) {
+                console.log(e);
+                this.setState({ showErrorView: true });
+            }
+        });
     };
 
     handleSubmit = () => {
