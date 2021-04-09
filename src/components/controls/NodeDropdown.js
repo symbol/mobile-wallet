@@ -76,7 +76,7 @@ export default class MosaicDropdown extends Component<Props, State> {
     };
 
     onChangeText = (nodeUrl) => {
-        const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?:(3000)$/gm.test(nodeUrl);
+        const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?(:\d{1,4})?$/gm.test(nodeUrl);
         this.setState({
             customNodeUrlInput: nodeUrl,
             isInvalidUrl: !validUrl
