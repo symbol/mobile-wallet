@@ -9,6 +9,8 @@ import AccountService from '@src/services/AccountService';
 import store from "@src/store";
 import {showPasscode} from "@src/utils/passcode";
 import GlobalStyles from "@src/styles/GlobalStyles";
+import NetworkService from "@src/services/NetworkService";
+import {PublicAccount} from "symbol-sdk";
 
 const styles = StyleSheet.create({
     list: {
@@ -45,14 +47,22 @@ class OptInReview extends Component<Props, State> {
     };
 
     render() {
-        const { componentId, selectedNIS1Account, selectedOptInStatus, selectedSymbolAccount, network, isLoading, isError } = this.props;
+        const { componentId, selectedNIS1MultisigAccount, selectedMultisigDestinationAccount, selectedNIS1Account, selectedOptInStatus, selectedSymbolAccount, network, isLoading, isError } = this.props;
         const { sent, showReview } = this.state;
         let data = {
             optinAddress: selectedNIS1Account.address,
             optinDestination: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
         };
+        if (selectedOptInStatus.isMultisig) {
+            const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
+            const publicAccount = PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType);
+            data = {
+                optinNIS1Multisig: selectedNIS1MultisigAccount,
+                optinMultisigDestination: publicAccount.address.pretty(),
+                optinCosigner: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
+            };
+        }
 
-        console.log(isError);
         const hardCodedDataManager = {
             isLoading,
             isError: !!isError,
@@ -127,6 +137,8 @@ export default connect(state => ({
     selectedNIS1Account: state.optin.selectedNIS1Account,
     selectedOptInStatus: state.optin.selectedOptInStatus,
     selectedSymbolAccount: state.optin.selectedSymbolAccount,
+    selectedNIS1MultisigAccount: state.optin.selectedNIS1MultisigAccount,
+    selectedMultisigDestinationAccount: state.optin.selectedMultisigDestinationAccount,
     symbolAccounts: state.wallet.accounts,
     network: state.network.selectedNetwork.type,
     isLoading: state.optin.loading,

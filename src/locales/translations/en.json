@@ -441,7 +441,10 @@
 		"optinAddress": "Your NIS1 Address",
 		"optinStatus": "Opt In status",
 		"optinAmount": "Total XYM",
-		"optinDestination": "Your Symbol Address"
+		"optinDestination": "Your Symbol Address",
+		"optinNIS1Multisig": "NIS1 Multisig address",
+		"optinMultisigDestination": "Multisig Symbol address",
+		"optinCosigner": "Your Cosigner address"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
@@ -628,15 +631,24 @@
 		"privateKey": "Private key",
 		"invalidPrivateKey": "Invalid private key",
 		"statusTitle": "Opt In status",
-		"status1": "Simple Opt in Pending",
-		"status2": "Simple Opt in Completed",
+		"status1": "Opt in Pending",
+		"status2": "Opt in Completed",
+		"status3": "Multisig Opt in Pending",
+		"status4": "Multisig Opt in pending signatures",
+		"status4signed": "Multisig Opt in pending other cosignatories signatures",
+		"status5signed": "Multisig Opt in Completed",
 		"start": "Start Opt In",
 		"review": "Review Opt In",
 		"selectSymbolAccountTitle": "Select symbol account",
 		"selectSymbolAccountDescription": "Select a symbol account to receive the opt in funds. Here is the list the accounts inside your wallet:",
+		"selectCosignerSymbolDescription": "Select a symbol account that is cosigner of the account above:",
+		"destinationMultisigAccount": "Symbol destination multisig address:",
+		"enterDestinationMultisigAccount": "Enter Symbol destination multisig public key:",
 		"reviewTitle": "Review Opt In",
 		"send": "Send Opt In",
 		"selectedNISAddress": "Selected NIS1 address",
+		"selectMultisigSymbolAccountTitle": "Select multisig account",
+		"selectedNISMultisigAddress": "Multisig address",
 		"optInStatus": "Opt In Status",
 		"optInAmount": "Opt In Amount",
 		"optInDetailsDescription": "Post-launch opt in details for the selected account",
@@ -648,6 +660,8 @@
 		"error1": "Invalid destination account",
 		"error2": "Invalid destination account cosignatories",
 		"lastOptInFailed": "Last Opt In failed with message",
-		"NISNode": "NIS1 node"
+		"NISNode": "NIS1 node",
+		"selectAccount": "Select Account",
+		"next": "Next"
 	}
 }

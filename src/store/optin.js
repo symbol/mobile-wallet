@@ -1,5 +1,5 @@
 import OptInService from '@src/services/OptInService';
-import {NIS1AccountSecureStorage} from "@src/storage/persistence/NIS1AccountSecureStorage";
+import { NIS1AccountSecureStorage } from '@src/storage/persistence/NIS1AccountSecureStorage';
 
 export default {
     namespace: 'optin',
@@ -7,13 +7,17 @@ export default {
         nis1Accounts: [],
         nisAddressOptInBalance: {},
         selectedNIS1Account: null,
+        optinAddresses: [],
+        selectedNIS1MultisigAccount: null,
         selectedOptInStatus: {
+            isMultisig: undefined,
             balance: undefined,
             status: undefined,
             error: undefined,
             destination: undefined,
         },
         selectedSymbolAccount: null,
+        selectedMultisigDestinationAccount: null,
         error: null,
         loading: true,
     },
@@ -24,6 +28,18 @@ export default {
         },
         setNisAccounts(state, payload) {
             state.optin.nis1Accounts = payload;
+            return state;
+        },
+        setOptinAddresses(state, payload) {
+            state.optin.optinAddresses = payload;
+            return state;
+        },
+        setSelectedNIS1MultisigAccount(state, payload) {
+            state.optin.selectedNIS1MultisigAccount = payload;
+            return state;
+        },
+        setSelectedMultisigDestinationAccount(state, payload) {
+            state.optin.selectedMultisigDestinationAccount = payload;
             return state;
         },
         setLoading(state, payload) {
@@ -68,14 +84,42 @@ export default {
             commit({ type: 'optin/setError', payload: null });
             const selectedAccount = state.optin.nis1Accounts[payload];
             commit({ type: 'optin/setSelectedNIS1Account', payload: selectedAccount });
+            commit({ type: 'optin/setSelectedNIS1MultisigAccount', payload: null });
+            const accountData = await OptInService.fetchNIS1Data(selectedAccount.address, state.network.selectedNetwork.type);
+            const optinAddresses = [selectedAccount.address, ...accountData.meta.cosignatoryOf.map(data => data.address)];
+            commit({ type: 'optin/setOptinAddresses', payload: optinAddresses });
             const optinData = await OptInService.getOptInStatus(selectedAccount.address, state.network.selectedNetwork.type);
+            commit({ type: 'optin/setSelectedOptInStatus', payload: optinData });
+            commit({ type: 'optin/setLoading', payload: false });
+        },
+        loadNIS1MultisigAccount: async ({ commit, state }, payload) => {
+            commit({ type: 'optin/setLoading', payload: true });
+            commit({ type: 'optin/setError', payload: null });
+            commit({ type: 'optin/setSelectedNIS1MultisigAccount', payload: payload });
+            const optinData = await OptInService.getOptInStatus(payload, state.network.selectedNetwork.type);
+            commit({ type: 'optin/setSelectedMultisigDestinationAccount', payload: optinData.destination });
             commit({ type: 'optin/setSelectedOptInStatus', payload: optinData });
             commit({ type: 'optin/setLoading', payload: false });
         },
         doOptIn: async ({ commit, state }, payload) => {
             commit({ type: 'optin/setLoading', payload: true });
             try {
-                await OptInService.doSimpleOptIn(state.optin.selectedNIS1Account, state.optin.selectedSymbolAccount, state.network.selectedNetwork.type);
+                if (state.optin.selectedOptInStatus.isMultisig) {
+                    const accountData = await OptInService.fetchNIS1Data(state.optin.selectedNIS1MultisigAccount, state.network.selectedNetwork.type);
+                    const nis1MultisigPublicKey = accountData.account.publicKey;
+                    const multisigDestinationPublicKey = state.optin.selectedMultisigDestinationAccount;
+                    const cosignerDestinationPublicKey = state.optin.selectedSymbolAccount.id;
+                    const nis1CosignerPrivateKey = state.optin.selectedNIS1Account;
+                    await OptInService.doMultisigOptIn(
+                        nis1MultisigPublicKey,
+                        multisigDestinationPublicKey,
+                        cosignerDestinationPublicKey,
+                        nis1CosignerPrivateKey.privateKey,
+                        state.network.selectedNetwork.type
+                    );
+                } else {
+                    await OptInService.doSimpleOptIn(state.optin.selectedNIS1Account, state.optin.selectedSymbolAccount, state.network.selectedNetwork.type);
+                }
                 commit({ type: 'optin/setError', payload: null });
             } catch (e) {
                 commit({ type: 'optin/setError', payload: e.toString() });

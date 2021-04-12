@@ -37,6 +37,7 @@ import OptInAccountDetails from "@src/screens/PostLaunchOptIn/OptInAccountDetail
 import OptInSelectSymbolAccount from "@src/screens/PostLaunchOptIn/OptInSelectSymbolAccount";
 import OptInReview from "@src/screens/PostLaunchOptIn/OptInReview";
 import NIS1AccountDetails from "@src/screens/PostLaunchOptIn/NIS1AccountDetails";
+import OptInSelectSymbolMultisigDestination from "@src/screens/PostLaunchOptIn/OptInSelectSymbolMultisigDestination";
 
 
 
@@ -76,6 +77,7 @@ export const OPTIN_ACCOUNT_DETAIL = `${BASE_SCREEN_NAME}.OPTIN_ACCOUNT_DETAIL`;
 export const OPTIN_SYMBOL_ACCOUNT = `${BASE_SCREEN_NAME}.OPTIN_SYMBOL_ACCOUNT`;
 export const OPTIN_FINISH = `${BASE_SCREEN_NAME}.OPTIN_FINISH`;
 export const NIS1_ACCOUNT_DETAILS = `${BASE_SCREEN_NAME}.NIS1_ACCOUNT_DETAILS`;
+export const OPTIN_SELECT_MULTISIG_DESTINATION = `${BASE_SCREEN_NAME}.OPTIN_SELECT_MULTISIG_DESTINATION`;
 
 interface MessageProps {
     message: string;
@@ -119,7 +121,8 @@ export class Router {
 		[OPTIN_ACCOUNT_DETAIL, OptInAccountDetails],
 		[OPTIN_SYMBOL_ACCOUNT, OptInSelectSymbolAccount],
 		[OPTIN_FINISH, OptInReview],
-		[NIS1_ACCOUNT_DETAILS, NIS1AccountDetails]
+		[NIS1_ACCOUNT_DETAILS, NIS1AccountDetails],
+		[OPTIN_SELECT_MULTISIG_DESTINATION, OptInSelectSymbolMultisigDestination],
     ];
 
     static registerScreens() {
@@ -229,6 +232,9 @@ export class Router {
     }
 	static goToNIS1AccountDetails(passProps, parentComponent?) {
         return this.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
+    }
+	static goToOptinSelectSymbolMultisigDestination(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
