@@ -11071,7 +11071,7 @@ symbol-paper-wallets@^1.0.2:
 
 "symbol-post-launch-optin@git+ssh://git@github.com:Peersyst/symbol-post-launch-optin.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com:Peersyst/symbol-post-launch-optin.git#81d15a8ca42794a62701c3cff26cbdb86b378c48"
+  resolved "git+ssh://git@github.com:Peersyst/symbol-post-launch-optin.git#f2f663f75fdbd1ba728a76e9c67b4e58db88825d"
   dependencies:
     nem-sdk "^1.6.7"
     request-promise "^4.2.4"
