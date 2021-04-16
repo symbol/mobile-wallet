@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, Dropdown, Button, Col, Row } from '@src/components';
+import { Section, ImageBackground, GradientBackground, Text, TitleBar, NodeDropdown, Button, Col, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
@@ -96,13 +96,13 @@ class Harvest extends Component<Props, State> {
     getHarvestingNodesDropDown = () => {
         const { nodes } = this.props;
         return nodes.map(node => ({
-            value: node.url,
-            label: node.url,
+            value: `http://${node.url}:3000`,
+            label: `http://${node.url}:3000`,
         }));
     };
 
     onSelectHarvestingNode = node => {
-        const url = 'http://' + node + ':3000';
+        const url = node;
         HarvestingService.getNodePublicKeyFromNode(url)
             .then(publicKey => {
                 this.setState({ selectedNode: publicKey, selectedNodeUrl: node });
@@ -241,15 +241,17 @@ class Harvest extends Component<Props, State> {
                     )}
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {!notEnoughBalance && status === 'INACTIVE' && (
+                        {!notEnoughBalance && status === 'INACTIVE' && (<>
                             <Section type="form-item">
-                                <Dropdown
+                                <NodeDropdown
                                     theme="light"
                                     list={this.getHarvestingNodesDropDown()}
                                     title={translate('harvest.selectNode')}
                                     value={selectedNodeUrl}
                                     onChange={this.onSelectHarvestingNode}
                                 />
+                            </Section>
+                            <Section type="form-item">
                                 <Button
                                     isLoading={isLoading}
                                     isDisabled={!selectedNodeUrl || notEnoughBalance}
@@ -258,7 +260,7 @@ class Harvest extends Component<Props, State> {
                                     onPress={() => this.startHarvesting()}
                                 />
                             </Section>
-                        )}
+                        </>)}
                         {!notEnoughBalance && status !== 'INACTIVE' && (
                             <View>
                                 <Section type="form-item">

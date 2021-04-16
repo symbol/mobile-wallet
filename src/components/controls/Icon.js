@@ -219,6 +219,9 @@ export default class C extends Component<Props, State> {
 			case 'warning':
 				source = require('@src/assets/icons/warning_yellow.png');
 				break;
+			case 'check':
+				source = require('@src/assets/icons/check.png');
+				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;

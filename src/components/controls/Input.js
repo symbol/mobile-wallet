@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text as AdvancedText, Icon } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 
@@ -48,7 +49,22 @@ const styles = StyleSheet.create({
 		padding: 0,
 		margin: 0,
 		fontSize: 14,
-	}
+	},
+	inputContainer: {
+
+	},
+	iconContainer: {
+		position: 'absolute',
+        height: 45,
+		width: 50,
+        justifyContent: 'center',
+		alignItems: 'center',
+		right: 0
+	},
+	messageContainer: {
+		minHeight: 22,
+		marginHorizontal: 2
+	},
 });
 
 type Theme = 'light'
@@ -57,6 +73,7 @@ type Theme = 'light'
 interface Props {
 	fullWidth: boolean;
 	theme: Theme;
+	showSubmit: boolean;
 };
 
 type State = {};
@@ -64,8 +81,21 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-		const { style = {}, inputStyle = {}, theme, fullWidth, value, placeholder, nativePlaceholder, ...rest } = this.props;
-		let _inputStyle = {};
+		const { 
+			style = {}, 
+			inputStyle = {}, 
+			theme, 
+			fullWidth, 
+			value, 
+			placeholder, 
+			nativePlaceholder,
+			isError,
+			errorMessage,
+			showSubmit,
+			onSubmitEditing,
+			...rest 
+		} = this.props;
+		let _inputStyle = [];
 		let placeholderTextColor;
 		let nativePlaceholderSet;
 		let placeholderStyle;
@@ -79,7 +109,7 @@ export default class Input extends Component<Props, State> {
 
 
 		if(theme === 'light') {
-			placeholderTextColor = GlobalStyles.color.PRIMARY,
+			placeholderTextColor = GlobalStyles.color.GREY4,
 			_inputStyle = styles.inputLight;
 			placeholderStyle = styles.placeholderLight;
 			nativePlaceholderSet = nativePlaceholder ? nativePlaceholder : '';
@@ -92,18 +122,33 @@ export default class Input extends Component<Props, State> {
 			rootStyle.push(styles.rootDark);
 		}
 
+		const inputPadding = {
+			paddingRight: showSubmit ? 40 : null
+		};
+
         return (
 			<View style={rootStyle}>
 				{(!!value || theme === 'light') && <Text style={placeholderStyle}>{placeholder}</Text>}
-				<TextInput
-					{...rest}
-					value={value}
-					style={[_inputStyle, inputStyle]}
-					placeholder={nativePlaceholderSet}
-					placeholderTextColor={placeholderTextColor}
-					autoCapitalize="none"
-					underlineColorAndroid="transparent"
-				/>
+				<View style={styles.inputContainer}>
+					<TextInput
+						{...rest}
+						value={value}
+						style={[_inputStyle, inputPadding, inputStyle]}
+						placeholder={nativePlaceholderSet}
+						placeholderTextColor={placeholderTextColor}
+						onSubmitEditing={onSubmitEditing}
+						autoCapitalize="none"
+						underlineColorAndroid="transparent"
+					/>
+					{!!showSubmit &&
+						<TouchableOpacity style={styles.iconContainer} onPress={() => !!onSubmitEditing && onSubmitEditing()}>
+							<Icon name="check" />
+						</TouchableOpacity>
+					}
+				</View>
+				{!!errorMessage && <View style={styles.messageContainer}>
+					{!!isError && <AdvancedText theme="light" type="error">{errorMessage}</AdvancedText>}
+				</View>}
 			</View>
         );
     };
