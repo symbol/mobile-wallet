@@ -1,20 +1,10 @@
 import nem from 'nem-sdk';
 import { NIS1AccountSecureStorage } from '@src/storage/persistence/NIS1AccountSecureStorage';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
-import {
-    broadcastDTO,
-    buildSimpleDTO,
-    buildMultisigDTO,
-    MultisigCache,
-    NormalCache,
-    OptinConfig,
-    status,
-    StatusCode
-} from 'symbol-post-launch-optin';
-import { Account, NetworkType, Address } from 'symbol-sdk';
+import { broadcastDTO, buildSimpleDTO, buildMultisigDTO, MultisigCache, NormalCache, OptinConfig, status, StatusCode } from 'symbol-post-launch-optin';
+import { NetworkType } from 'symbol-sdk';
 import type { AccountModel } from '@src/storage/models/AccountModel';
 import store from '@src/store';
-import NetworkService from '@src/services/NetworkService';
 
 export type NIS1Account = {
     privateKey: string,
@@ -62,13 +52,15 @@ export default class OptInService {
      */
     static async getNISAccountOptInBalance(address: string): Promise<number> {
         return new Promise(resolve => {
-            fetch('http://ec2-34-254-63-52.eu-west-1.compute.amazonaws.com/balance?address=' + address).then(rawBalance => {
-                rawBalance.json().then(res => {
-                    resolve(res.amount);
+            fetch(this.getOptInConfig('mainnet').snapshotInfoApi + 'balance?address=' + address)
+                .then(rawBalance => {
+                    rawBalance.json().then(res => {
+                        resolve(res.amount);
+                    });
+                })
+                .catch(e => {
+                    resolve(0);
                 });
-            }).catch(e => {
-                resolve(0)
-            });
         });
     }
 
@@ -112,7 +104,7 @@ export default class OptInService {
                 balance: balance,
                 status: statusCode,
                 error: cache.errorDTO ? cache.errorDTO.code : null,
-                destination: cache.simpleDTO ? cache.simpleDTO.destination: null,
+                destination: cache.simpleDTO ? cache.simpleDTO.destination : null,
             };
         }
     }
@@ -155,13 +147,14 @@ export default class OptInService {
                             port: 7890,
                         },
                         network: nem.model.network.data.testnet.id,
-                        configAddress: 'TAEX4RGJBLGEIO2FULVDFRMTGVHCSWO7TCDMXUDX',
+                        configAddress: 'TAXF5HUGBKGSC3MOJCRXN5LLKFBY43LXI3DE2YLS',
                         errorAccountPublicKey: 'dd215238aab71f375fc79455e2fe0e3c4f96ba7dadd5f3c102979c6958b9c337',
                     },
                     SYM: {
                         network: NetworkType.TEST_NET,
                         generationHash: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
                     },
+                    snapshotInfoApi: 'http://post-optin.symboldev.com/',
                 };
             case 'mainnet':
                 return {
@@ -178,6 +171,7 @@ export default class OptInService {
                         network: NetworkType.MAIN_NET,
                         generationHash: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
                     },
+                    snapshotInfoApi: 'http://post-optin.symboldev.com/',
                 };
         }
     }

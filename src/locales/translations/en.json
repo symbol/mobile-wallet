@@ -631,12 +631,13 @@
 		"privateKey": "Private key",
 		"invalidPrivateKey": "Invalid private key",
 		"statusTitle": "Opt In status",
-		"status1": "Opt in Pending",
-		"status2": "Opt in Completed",
-		"status3": "Multisig Opt in Pending",
+		"status1": "Opt in not started.",
+		"status2": "Opt in Pending to be payed. Your petition can take up to a week to be processed.",
+		"status3": "Multisig Opt in not started.",
 		"status4": "Multisig Opt in pending signatures",
 		"status4signed": "Multisig Opt in pending other cosignatories signatures",
-		"status5signed": "Multisig Opt in Completed",
+		"status5signed": "Multisig Opt in pending to be payed. Your petition can take up to a week to be processed.",
+		"status6": "Opt in Completed",
 		"start": "Start Opt In",
 		"review": "Review Opt In",
 		"selectSymbolAccountTitle": "Select symbol account",
@@ -662,6 +663,7 @@
 		"lastOptInFailed": "Last Opt In failed with message",
 		"NISNode": "NIS1 node",
 		"selectAccount": "Select Account",
-		"next": "Next"
+		"next": "Next",
+		"noBalance": "You didn't have any XEM in the snapshot or you already claimed them in pre-launch Opt in"
 	}
 }

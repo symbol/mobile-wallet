@@ -1,5 +1,4 @@
 import OptInService from '@src/services/OptInService';
-import { NIS1AccountSecureStorage } from '@src/storage/persistence/NIS1AccountSecureStorage';
 
 export default {
     namespace: 'optin',

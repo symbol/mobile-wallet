@@ -21,35 +21,28 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5,
     },
-    status1: {
-        backgroundColor: 'orange',
+    status: {
         padding: 15,
         borderRadius: 10,
         marginTop: 5,
+    },
+    status1: {
+        backgroundColor: GlobalStyles.color.GREY4,
     },
     status2: {
-        backgroundColor: 'green',
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 5,
+        backgroundColor: GlobalStyles.color.ORANGE,
     },
     status3: {
-        backgroundColor: 'orange',
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 5,
+        backgroundColor: GlobalStyles.color.GREY4,
     },
     status4: {
-        backgroundColor: 'orange',
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 5,
+        backgroundColor: GlobalStyles.color.ORANGE,
     },
     status5: {
-        backgroundColor: 'green',
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 5,
+        backgroundColor: GlobalStyles.color.ORANGE,
+    },
+    status6: {
+        backgroundColor: GlobalStyles.color.GREEN,
     },
     amount: {
         color: GlobalStyles.color.GREEN,
@@ -150,11 +143,13 @@ class OptInAccountDetails extends Component<Props, State> {
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.optInStatus')}
                         </Text>
-                        <Text type={'regular'} theme={'light'} style={styles['status' + selectedOptInStatus.status]}>
-                            {translate('optin.status' + selectedOptInStatus.status + (this.hasUserSigned() ? 'signed' : ''))}
+                        <Text type={'regular'} theme={'light'} style={[styles.status, styles['status' + selectedOptInStatus.status]]}>
+                            {translate(
+                                'optin.status' + selectedOptInStatus.status + (this.hasUserSigned() && selectedOptInStatus.status !== 6 ? 'signed' : '')
+                            )}
                         </Text>
                     </Section>
-                    {selectedOptInStatus.error != null && selectedOptInStatus.status === 1 && (
+                    {selectedOptInStatus.error != null && (selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && (
                         <Section type="form-item">
                             <Text type={'bold'} theme={'light'}>
                                 {translate('optin.lastOptInFailed')}
@@ -180,10 +175,21 @@ class OptInAccountDetails extends Component<Props, State> {
                             </Text>
                         </Row>
                     </Section>
-                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && !this.hasUserSigned() && (
+                    {selectedOptInStatus.balance === 0 && (
+                        <Section type="form-item">
+                            <Text type={'regular'} theme={'light'}>
+                                {translate('optin.noBalance')}
+                            </Text>
+                        </Section>
+                    )}
+                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && !this.hasUserSigned() && selectedOptInStatus.balance > 0 && (
                         <Section type="form-bottom">
                             <Button
-                                isDisabled={selectedOptInStatus.status === 2 || selectedOptInStatus.status === 5 || selectedOptInStatus.balance === 0}
+                                isDisabled={
+                                    selectedOptInStatus.status === 2 ||
+                                    selectedOptInStatus.status === 5 ||
+                                    selectedOptInStatus.status === 6
+                                }
                                 text={translate('optin.start')}
                                 theme="light"
                                 onPress={() => this.start()}
