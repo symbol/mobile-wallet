@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, Icon, OptionsMenu } from '@src/components';
+import { 
+    FlatList, 
+    RefreshControl, 
+    StyleSheet, 
+    View, 
+    TouchableOpacity, 
+    Image 
+} from 'react-native';
+import { 
+    GradientBackground, 
+    TitleBar, 
+    ListContainer, 
+    ListItem, 
+    Section, 
+    Button, 
+    Input, 
+    Icon, 
+    OptionsMenu,
+    FadeView
+} from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -22,6 +40,9 @@ const styles = StyleSheet.create({
     list: {
         marginBottom: 10,
         marginTop: 10,
+    },
+    content: {
+        flex: 1
     },
     icon: {
         width: 30,
@@ -66,10 +87,15 @@ class Welcome extends Component<Props, State> {
         loadingQRPassword: false,
         isRemoveModalOpen: false,
         removeSelectedAccount: null,
+        isPresentationShown: true
     };
 
     componentDidMount() {
         store.dispatchAction({ type: 'optin/load' });
+    }
+
+    onPresentationFinish() {
+        this.setState({isPresentationShown: false})
     }
 
     handleOpenShowDetails = item => {
@@ -210,14 +236,14 @@ class Welcome extends Component<Props, State> {
             validQRPassword,
             loadingQRPassword,
             isRemoveModalOpen,
+            isPresentationShown
         } = this.state;
-        
-        const isPresentationShown = true;
 
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
-                {!isPresentationShown && <> <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
+                {!isPresentationShown && <FadeView style={styles.content}> 
+                <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
                     {translate('optin.welcomeDescription')}
                 </Text>
                 <ListContainer type="list" style={styles.list} isScrollable={true}>
@@ -246,8 +272,8 @@ class Welcome extends Component<Props, State> {
                         />
                     </Section>
                 </View>
-                </>}
-                {isPresentationShown && <Presentation />}
+                </FadeView>}
+                {isPresentationShown && <Presentation onFinish={() => this.onPresentationFinish()}/>}
                 <BasicModal
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}

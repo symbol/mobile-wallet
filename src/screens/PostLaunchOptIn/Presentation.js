@@ -2,23 +2,15 @@ import React, { Component } from 'react';
 import { 
     StyleSheet, 
     View, 
-    TouchableOpacity, 
     Image
 } from 'react-native';
 import { 
-    GradientBackground, 
-    TitleBar, 
-    ListContainer, 
-    ListItem, 
     Section, 
     Button, 
-    Input, 
-    Icon, 
-    Text
+    Text,
 } from '@src/components';
 import Slider from '@src/components/molecules/Slider';
 import translate from '@src/locales/i18n';
-import GlobalStyles from '@src/styles/GlobalStyles';
 
 
 const styles = StyleSheet.create({
@@ -35,34 +27,23 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         width : '100%',
-        //backgroundColor: '#ff05'
-    },
-      
-    imageContainer: {
-        flex: 0.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        //backgroundColor: '#f005'
     },
 
     image: {
-        width: 152,
-        height: 152,
+        width: 200,
+        height: 200,
         bottom: 0,
         resizeMode: 'contain',
-        //backgroundColor: '#f00'
     },
     
     contentContainer: {
-        //backgroundColor: '#00f',
         flex: 0.8,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
     },
 
     textContainer: {
-        flex: 0.4,
-        //backgroundColor: '#00f',
+        flex: 0.5,
     },
 
     title: {
@@ -85,7 +66,7 @@ const styles = StyleSheet.create({
     },
 
     bottomContaner: {
-        flex: 0.1,
+        flex: 0.2,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
@@ -111,25 +92,21 @@ class Welcome extends Component<Props, State> {
     slides = [
         {
             key: 'slide_1',
-            title: translate(['INTRO_slideOne', 'title']),
-            text: translate(['INTRO_slideOne', 'text']),
-            image: require('@src/assets/intro/slide_0.png'),
-            mesh: require('@src/assets/intro/mesh_1.png'),
-            bg: {
-                colors: ['#095265', '#203455', '#262439'],
-                angle: 135,
-            },
+            title: translate('optin.presentationSlide1Title'),
+            text: translate('optin.presentationSlide1Text'),
+            image: require('@src/assets/claim.png'),
         },
         {
             key: 'slide_2',
-            title: translate(['INTRO_slideTwo', 'title']),
-            text: translate(['INTRO_slideTwo', 'text']),
-            image: require('@src/assets/intro/slide_2.png'),
-            mesh: require('@src/assets/intro/mesh_2.png'),
-            bg: {
-                colors: ['#262439', '#203455', '#095265'],
-                angle: 45,
-            },
+            title: translate('optin.presentationSlide2Title'),
+            text: translate('optin.presentationSlide2Text'),
+            image: require('@src/assets/snapshot.png'),
+        },
+        {
+            key: 'slide_3',
+            title: translate('optin.presentationSlide3Title'),
+            text: translate('optin.presentationSlide3Text'),
+            image: require('@src/assets/optin.png'),
         },
     ];
 
@@ -140,7 +117,7 @@ class Welcome extends Component<Props, State> {
     }
 
     onButtonPress() {
-        if (this.slider.current?.state.activeIndex < this.slides.length)
+        if (this.state.step < this.slides.length - 1)
             this.slider.current?.onNextPress();
         else
             this.props.onFinish();
@@ -148,18 +125,20 @@ class Welcome extends Component<Props, State> {
 
     getButtonText() {
         console.log(this.slider.current?.state.activeIndex)
-        return this.slider.current?.state.activeIndex < this.slides.length
-            ? translate('next')
-            : translate('openOptinManager')
+        return this.state.step < this.slides.length - 1
+            ? translate('optin.next')
+            : translate('optin.getStarted')
+    }
+
+    onSlideChange(index) {
+        this.setState({step: index})
     }
 
     renderItem = (props) => {
-        const { image, title, text, mesh } = props;
+        const { image, title, text } = props;
 
         return ( 
             <View style={styles.slideContent}>
-                
-            
                 <View style={styles.contentContainer}>  
                     <Image style={styles.image} source={image} />
                     <View style={styles.textContainer}>
@@ -174,11 +153,6 @@ class Welcome extends Component<Props, State> {
 
 
     render() {
-        const {
-            currentStep,
-            steps
-        } = this.state;
-
         return (
             <Section type="form" style={styles.root}>
                 <Slider
@@ -186,6 +160,7 @@ class Welcome extends Component<Props, State> {
                     style={styles.slider}
                     slides={this.slides}
                     renderItem={this.renderItem}
+                    onSlideChange={(index) => this.onSlideChange(index)}
                     showNextButton={false}
                     showDoneButton={false}
                     autoScrollInterval={60000}
