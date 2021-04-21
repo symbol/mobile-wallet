@@ -87,15 +87,20 @@ class Welcome extends Component<Props, State> {
         loadingQRPassword: false,
         isRemoveModalOpen: false,
         removeSelectedAccount: null,
-        isPresentationShown: true
+        isPresentationShown: false
     };
 
     componentDidMount() {
-        store.dispatchAction({ type: 'optin/load' });
+        store.dispatchAction({ type: 'optin/load' })
+            .then(() => {
+                this.setState({
+                    isPresentationShown: this.props.nis1Accounts.length > 0
+                })
+            });
     }
 
     onPresentationFinish() {
-        this.setState({isPresentationShown: false})
+        this.setState({isPresentationShown: true})
     }
 
     handleOpenShowDetails = item => {
@@ -242,7 +247,7 @@ class Welcome extends Component<Props, State> {
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
-                {!isPresentationShown && <FadeView style={styles.content}> 
+                {isPresentationShown && <FadeView style={styles.content}> 
                 <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
                     {translate('optin.welcomeDescription')}
                 </Text>
@@ -273,7 +278,7 @@ class Welcome extends Component<Props, State> {
                     </Section>
                 </View>
                 </FadeView>}
-                {isPresentationShown && <Presentation onFinish={() => this.onPresentationFinish()}/>}
+                {!isPresentationShown && <Presentation onFinish={() => this.onPresentationFinish()}/>}
                 <BasicModal
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}
