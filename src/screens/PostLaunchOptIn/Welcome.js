@@ -4,6 +4,7 @@ import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button,
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
+import Presentation from '@src/screens/PostLaunchOptIn/Presentation';
 import store from '@src/store';
 import { Router } from '@src/Router';
 import BasicModal from '@src/components/molecules/BasicModal';
@@ -210,11 +211,13 @@ class Welcome extends Component<Props, State> {
             loadingQRPassword,
             isRemoveModalOpen,
         } = this.state;
+        
+        const isPresentationShown = true;
 
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
-                <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
+                {!isPresentationShown && <> <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
                     {translate('optin.welcomeDescription')}
                 </Text>
                 <ListContainer type="list" style={styles.list} isScrollable={true}>
@@ -231,7 +234,7 @@ class Welcome extends Component<Props, State> {
                             text={translate('optin.importQR')}
                             theme="light"
                             onPress={() => Router.scanQRCode(this.onPrivateKeyQRScanned)}
-                            icon={require('@src/assets/icons/qr_scanner_light.png')}
+                            icon={require('@src/assets/icons/qr_dark.png')}
                         />
                     </Section>
                     <Section type="form-item">
@@ -239,10 +242,12 @@ class Welcome extends Component<Props, State> {
                             text={translate('optin.importPrivateKey')}
                             theme="light"
                             onPress={() => this.setState({ isPrivateKeyModalOpen: true })}
-                            icon={require('@src/assets/icons/security.png')}
+                            icon={require('@src/assets/icons/key_dark.png')}
                         />
                     </Section>
                 </View>
+                </>}
+                {isPresentationShown && <Presentation />}
                 <BasicModal
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}
