@@ -475,8 +475,8 @@
 		"blockExplorerNamespace": "Show namespace in the Block Explorer"
 	},
 	"home": {
-		"optInTitle": "Opt-in",
-		"optInDescription": "Post launch Opt-in is now open. Click here to access the dashboard",
+		"optInTitle": "Post-launch Opt-in",
+		"optInDescription": "Press here to access the dashboard",
 		"pendingSignatureTitle": "Pending signature",
 		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
 	},

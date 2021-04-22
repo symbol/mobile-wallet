@@ -16,34 +16,44 @@ import translate from '@src/locales/i18n';
 const styles = StyleSheet.create({
     root: {
         paddingLeft: 0,
-        paddingRight: 0
+        paddingRight: 0,
     },
     slider: {
         flex: 1,
+        //backgroundColor: '#222',
     },
-    slideContent: {
+
+    slide: {
         flex: 0.8,
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         alignItems: 'center',
         width : '100%',
+        //backgroundColor: '#f0f5',
+        flexDirection: 'column'
+    },
+
+    content: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        flex: 0.8,
+        //backgroundColor: '#0f05',
     },
 
     image: {
+        flex: 0.4,
+        alignSelf: 'center',
         width: 200,
         height: 200,
         bottom: 0,
+        marginBottom: 16,
         resizeMode: 'contain',
-    },
-    
-    contentContainer: {
-        flex: 0.8,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
+        //backgroundColor: '#f005'
     },
 
     textContainer: {
-        flex: 0.5,
+        flex: 0.4,
+        //backgroundColor: '#ff05',
     },
 
     title: {
@@ -148,14 +158,14 @@ class Welcome extends Component<Props, State> {
         const { image, title, text, note = '' } = props;
 
         return ( 
-            <View style={styles.slideContent}>
-                <View style={styles.contentContainer}>  
+            <View style={styles.slide}>
+                <View style={styles.content}>
                     <Image style={styles.image} source={image} />
                     <View style={styles.textContainer}>
                         <Text theme="light" style={styles.title}>{title}</Text>
                         <Text theme="light" style={styles.text}>{text}</Text>
                         <Text theme="light" style={styles.note}>{note}</Text>
-                    </View>
+                    </View> 
                 </View>
             </View>
         );
@@ -169,12 +179,14 @@ class Welcome extends Component<Props, State> {
                 <Slider
                     ref={this.slider}
                     style={styles.slider}
+                    contentContainerStyle={styles.sliderInner}
                     slides={this.slides}
                     renderItem={this.renderItem}
                     onSlideChange={(index) => this.onSlideChange(index)}
                     showNextButton={false}
                     showDoneButton={false}
                     autoScrollInterval={60000}
+                    hidePagination
                 />
                 <Section type="form-bottom">
                     <Section type="text">
