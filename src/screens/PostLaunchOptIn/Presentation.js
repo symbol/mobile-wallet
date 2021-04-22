@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     },
     slider: {
         flex: 1,
-        //backgroundColor: '#222',
     },
 
     slide: {
@@ -28,7 +27,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width : '100%',
-        //backgroundColor: '#f0f5',
         flexDirection: 'column'
     },
 
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         flex: 0.8,
-        //backgroundColor: '#0f05',
     },
 
     image: {
@@ -48,12 +45,10 @@ const styles = StyleSheet.create({
         bottom: 0,
         marginBottom: 16,
         resizeMode: 'contain',
-        //backgroundColor: '#f005'
     },
 
     textContainer: {
         flex: 0.4,
-        //backgroundColor: '#ff05',
     },
 
     title: {
