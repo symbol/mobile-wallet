@@ -590,13 +590,6 @@
 		"announceSignedTransaction": "Anunciar transacción",
 		"opt_in_account_alert": "Esta cuenta ha sido obtenida con una derivación antigua. Se recomienda mover los fondos a una cuenta semilla",
 		"announce_success":  "Transacción anunciada con exito",
-		"getStarted": "Get Started",
-		"presentationSlide1Title": "Welcome",
-		"presentationSlide1Text": "You can still claim your XYM coins by Opting-in you NEM account.",
-		"presentationSlide2Title": "Eligible account",
-		"presentationSlide2Text": "You can receive XYM coins for each XEM coin holded on your NEM account during the Snapshot blok 3,105,500 on March 12, 2021 UTC",
-		"presentationSlide3Title": "Claim your XYM",
-		"presentationSlide3Text": "Import your eligible NEM accounts to check their status or start the Opt-in process. Please note that your Opt-in claim could take up to a week to be processed.",
 		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {

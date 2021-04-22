@@ -665,12 +665,13 @@
 		"selectAccount": "Select Account",
 		"next": "Next",
 		"getStarted": "Get Started",
-		"presentationSlide1Title": "Welcome",
-		"presentationSlide1Text": "You can still claim your XYM coins by Opting-in you NEM account.",
-		"presentationSlide2Title": "Eligible account",
-		"presentationSlide2Text": "You can receive XYM coins for each XEM coin holded on your NEM account during the Snapshot blok 3,105,500 on March 12, 2021 UTC",
-		"presentationSlide3Title": "Claim your XYM",
-		"presentationSlide3Text": "Import your eligible NEM accounts to check their status or start the Opt-in process. Please note that your Opt-in claim could take up to a week to be processed.",
+		"presentationSlide1Title": "Welcome!",
+		"presentationSlide1Text": "Missed out on Symbol's Opt-in? Don't worry! Your coins are still waiting for you.",
+		"presentationSlide2Title": "Eligible Account",
+		"presentationSlide2Text": "You can receive equivalent XYM for each XEM held during the snapshot at block height #3,105,500.",
+		"presentationSlide3Title": "Claim Your XYM",
+		"presentationSlide3Text": "Import your accounts now to check their eligbility; or start the opt-in process.",
+		"presentationSlide3Note": "Note: it can take up to thirty (30) days for your XYM to successfully appear in your wallet.",
 		"noBalance": "You didn't have any XEM in the snapshot or you already claimed them in pre-launch Opt-in"
 	}
 }

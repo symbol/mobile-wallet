@@ -63,6 +63,16 @@ const styles = StyleSheet.create({
         paddingLeft: 32,
         paddingRight: 32,
         flexWrap: 'wrap',
+        marginBottom: 16,
+    },
+
+    note: {
+        fontSize: 10,
+        fontWeight: '400',
+        textAlign: 'center',
+        paddingLeft: 32,
+        paddingRight: 32,
+        flexWrap: 'wrap',
     },
 
     bottomContaner: {
@@ -94,7 +104,7 @@ class Welcome extends Component<Props, State> {
             key: 'slide_1',
             title: translate('optin.presentationSlide1Title'),
             text: translate('optin.presentationSlide1Text'),
-            image: require('@src/assets/claim.png'),
+            image: require('@src/assets/optin.png'),
         },
         {
             key: 'slide_2',
@@ -106,7 +116,8 @@ class Welcome extends Component<Props, State> {
             key: 'slide_3',
             title: translate('optin.presentationSlide3Title'),
             text: translate('optin.presentationSlide3Text'),
-            image: require('@src/assets/optin.png'),
+            note: translate('optin.presentationSlide3Note'),
+            image: require('@src/assets/claim.png'),
         },
     ];
 
@@ -124,7 +135,6 @@ class Welcome extends Component<Props, State> {
     }
 
     getButtonText() {
-        console.log(this.slider.current?.state.activeIndex)
         return this.state.step < this.slides.length - 1
             ? translate('optin.next')
             : translate('optin.getStarted')
@@ -135,7 +145,7 @@ class Welcome extends Component<Props, State> {
     }
 
     renderItem = (props) => {
-        const { image, title, text } = props;
+        const { image, title, text, note = '' } = props;
 
         return ( 
             <View style={styles.slideContent}>
@@ -144,6 +154,7 @@ class Welcome extends Component<Props, State> {
                     <View style={styles.textContainer}>
                         <Text theme="light" style={styles.title}>{title}</Text>
                         <Text theme="light" style={styles.text}>{text}</Text>
+                        <Text theme="light" style={styles.note}>{note}</Text>
                     </View>
                 </View>
             </View>
