@@ -288,6 +288,7 @@ class Welcome extends Component<Props, State> {
                         <Section type="form-item">
                             <Input
                                 type="password"
+                                secureTextEntry={true}
                                 value={importQRPassword}
                                 nativePlaceholder={translate('optin.decryptQRPlaceholder')}
                                 placeholder={translate('optin.decryptQR')}
