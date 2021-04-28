@@ -21,6 +21,7 @@ export default {
             generationHash: '',
             node: '',
             currencyMosaicId: '',
+            currencyDivisibility: 6,
             chainHeight: 0,
             blockGenerationTargetTime: 0,
             epochAdjustment: 0,

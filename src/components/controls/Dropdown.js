@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal, FlatList, ActivityIndicator } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon, Row, Text as AdvancedText } from '@src/components';
+import { Icon, Row, Text as AdvancedText, Trunc } from '@src/components';
 import TitleBar from '@src/components/atoms/TitleBar';
 
 const styles = StyleSheet.create({
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 14,
         paddingHorizontal: 16,
+        height: 46
     },
     inputText: {
         fontSize: 12,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     inputLight: {
         //borderWidth: 1,
         borderRadius: 5,
-        borderColor: GlobalStyles.color.GREY4,
+        borderColor: GlobalStyles.color.GREY5,
         color: GlobalStyles.color.GREY1,
         backgroundColor: GlobalStyles.color.DARKWHITE,
         backgroundColor: GlobalStyles.color.WHITE,
@@ -133,6 +134,9 @@ interface Props {
     title: String;
     customInputReneder: (item: Object) => void;
     customItemReneder: (item: Object) => void;
+    modalInnerRenderer: (item: Object) => void;
+    onOpenSelector: () => void;
+    onCloseSelector: () => void;
 }
 
 type State = {};
@@ -144,7 +148,7 @@ export default class Dropdown extends Component<Props, State> {
 
     getselectedOption = (value, list) => {
         const selectedOption = list.find(el => el.value === value);
-        return selectedOption;
+        return !!selectedOption ? selectedOption : (value ? { label: value, value } : null);
     };
 
     getIconPosition = (k, offset) => {
@@ -162,10 +166,12 @@ export default class Dropdown extends Component<Props, State> {
 
     openSelector = () => {
         this.setState({ isSelectorOpen: true });
+        typeof this.props.onOpenSelector === 'function' && this.props.onOpenSelector();
     };
 
     closeSelector = () => {
         this.setState({ isSelectorOpen: false });
+        typeof this.props.onCloseSelector === 'function' && this.props.onCloseSelector();
     };
 
     onChange = value => {
@@ -199,6 +205,7 @@ export default class Dropdown extends Component<Props, State> {
             customInputReneder,
             customItemReneder,
             isLoading,
+            modalInnerRenderer,
             children,
             showTitle = true,
             ...rest
@@ -234,7 +241,13 @@ export default class Dropdown extends Component<Props, State> {
                 {!children && (
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
-                            (!customInputReneder ? <Text style={styles.inputText}>{selectedOption.label}</Text> : customInputReneder(selectedOption))}
+                            (!customInputReneder 
+                                ? <Text style={styles.inputText}>
+                                    {!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}
+                                </Text> 
+                                : customInputReneder(selectedOption)
+                            )
+                        }
                         {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
                         <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />
@@ -261,11 +274,12 @@ export default class Dropdown extends Component<Props, State> {
                                 />
                             </Row>
                             {!!list.length && <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />}
-                            {!list.length && (
+                            {!list.length && !modalInnerRenderer && (
                                 <AdvancedText type="regular" align="center" theme="light">
                                     Nothing to show
                                 </AdvancedText>
                             )}
+                            {!!modalInnerRenderer && modalInnerRenderer()}
                         </View>
                     </View>
                 </Modal>

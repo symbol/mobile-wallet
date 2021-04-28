@@ -432,7 +432,7 @@
 		"label": "Etiqueta",
 		"notes": "Notas",
 		"seedIndex": "Indice de la cuenta",
-		"displayFee" : "Comisión",
+		"resolvedFee" : "Comisión",
 		"vrfPublicKey": "Llave publica VRF",
 		"vrfPrivateKey": "Llave privada VRF",
 		"remotePublicKey": "Llave publica Remota",

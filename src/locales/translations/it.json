@@ -427,7 +427,7 @@
 		"label": "Etichetta",
 		"notes": "Appunti",
 		"seedIndex": "Seed Indice Conto",
-		"displayFee": "Commissione Di Transazione",
+		"resolvedFee": "Commissione Di Transazione",
 		"vrfPublicKey": "La chiave pubblica della funzione casuale verificabile (VRF) associata",
 		"vrfPrivateKey": "La chiave privata della funzione casuale verificabile (VRF) associata",
 		"remotePublicKey": "Chiave pubblica remota associata",
