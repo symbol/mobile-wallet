@@ -95,7 +95,7 @@ class OptInReview extends Component<Props, State> {
                                 <Row align="center">
                                     <Text type="regular" theme="light"><Trunc type="namespaceName">{"XEM"}</Trunc></Text>
                                 </Row>
-                                <Text type="regular" theme="light" style={styles.amountNegative}>-{selectedOptInStatus.isMultisig ? 0.45 : 0.2}</Text>
+                                <Text type="regular" theme="light" style={styles.amountNegative}>-{selectedOptInStatus.isMultisig ? 0.35 : 0.2}</Text>
                             </Row>
                         </Section>
                         <Section type="form-bottom">

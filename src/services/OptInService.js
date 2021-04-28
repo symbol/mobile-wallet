@@ -130,7 +130,7 @@ export default class OptInService {
         nis1CosignerPrivateKey: string,
         network: AppNetworkType
     ): Promise<string> {
-        const multisigDTO = buildMultisigDTO(origin, destination, cosigner);
+        const multisigDTO = buildMultisigDTO(origin, destination);
         const result = await broadcastDTO(nis1CosignerPrivateKey, multisigDTO, this.getOptInConfig(network));
         if (result !== 'SUCCESS') {
             throw new Error(result);
