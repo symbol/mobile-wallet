@@ -192,6 +192,12 @@ export default class C extends Component<Props, State> {
 			case 'qr_light':
 				source = require('@src/assets/icons/qr_light.png');
 				break;
+			case 'qr_dark':
+				source = require('@src/assets/icons/qr_dark.png');
+				break;
+			case 'key_dark':
+				source = require('@src/assets/icons/key_dark.png');
+				break;
 			case 'explorer_filled_light':
 				source = require('@src/assets/icons/explorer_filled_light.png');
 				break;

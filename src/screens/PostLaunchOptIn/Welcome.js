@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, Icon, OptionsMenu } from '@src/components';
+import { 
+    FlatList, 
+    RefreshControl, 
+    StyleSheet, 
+    View, 
+    TouchableOpacity, 
+    Image 
+} from 'react-native';
+import { 
+    GradientBackground, 
+    TitleBar, 
+    ListContainer, 
+    ListItem, 
+    Section, 
+    Button, 
+    Input, 
+    Icon, 
+    OptionsMenu,
+    FadeView
+} from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
+import Presentation from '@src/screens/PostLaunchOptIn/Presentation';
 import store from '@src/store';
 import { Router } from '@src/Router';
 import BasicModal from '@src/components/molecules/BasicModal';
@@ -21,6 +40,9 @@ const styles = StyleSheet.create({
     list: {
         marginBottom: 10,
         marginTop: 10,
+    },
+    content: {
+        flex: 1
     },
     icon: {
         width: 30,
@@ -65,10 +87,20 @@ class Welcome extends Component<Props, State> {
         loadingQRPassword: false,
         isRemoveModalOpen: false,
         removeSelectedAccount: null,
+        isPresentationShown: false
     };
 
     componentDidMount() {
-        store.dispatchAction({ type: 'optin/load' });
+        store.dispatchAction({ type: 'optin/load' })
+            .then(() => {
+                this.setState({
+                    isPresentationShown: this.props.nis1Accounts.length > 0
+                })
+            });
+    }
+
+    onPresentationFinish() {
+        this.setState({isPresentationShown: true})
     }
 
     handleOpenShowDetails = item => {
@@ -209,11 +241,13 @@ class Welcome extends Component<Props, State> {
             validQRPassword,
             loadingQRPassword,
             isRemoveModalOpen,
+            isPresentationShown
         } = this.state;
 
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
+                {isPresentationShown && <FadeView style={styles.content}> 
                 <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
                     {translate('optin.welcomeDescription')}
                 </Text>
@@ -231,7 +265,7 @@ class Welcome extends Component<Props, State> {
                             text={translate('optin.importQR')}
                             theme="light"
                             onPress={() => Router.scanQRCode(this.onPrivateKeyQRScanned)}
-                            icon={require('@src/assets/icons/qr_scanner_light.png')}
+                            icon={require('@src/assets/icons/qr_dark.png')}
                         />
                     </Section>
                     <Section type="form-item">
@@ -239,10 +273,12 @@ class Welcome extends Component<Props, State> {
                             text={translate('optin.importPrivateKey')}
                             theme="light"
                             onPress={() => this.setState({ isPrivateKeyModalOpen: true })}
-                            icon={require('@src/assets/icons/security.png')}
+                            icon={require('@src/assets/icons/key_dark.png')}
                         />
                     </Section>
                 </View>
+                </FadeView>}
+                {!isPresentationShown && <Presentation onFinish={() => this.onPresentationFinish()}/>}
                 <BasicModal
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}
@@ -252,6 +288,7 @@ class Welcome extends Component<Props, State> {
                         <Section type="form-item">
                             <Input
                                 type="password"
+                                secureTextEntry={true}
                                 value={importQRPassword}
                                 nativePlaceholder={translate('optin.decryptQRPlaceholder')}
                                 placeholder={translate('optin.decryptQR')}
