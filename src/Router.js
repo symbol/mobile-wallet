@@ -201,7 +201,10 @@ export class Router {
         return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
     static scanQRCode(onRead, onClose) {
-        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose });
+        const onCloseCallback = typeof onClose === 'function'
+            ? onClose
+            : () => {};
+        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose: onCloseCallback });
     }
     static goToAddressBook(passProps, parentComponent?) {
         return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
