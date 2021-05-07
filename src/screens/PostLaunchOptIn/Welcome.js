@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { 
-    FlatList, 
-    RefreshControl, 
-    StyleSheet, 
-    View, 
-    TouchableOpacity, 
-    Image 
+import {
+    FlatList,
+    RefreshControl,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Image
 } from 'react-native';
-import { 
-    GradientBackground, 
-    TitleBar, 
-    ListContainer, 
-    ListItem, 
-    Section, 
-    Button, 
-    Input, 
-    Icon, 
+import {
+    GradientBackground,
+    TitleBar,
+    ListContainer,
+    ListItem,
+    Section,
+    Button,
+    Input,
+    Icon,
     OptionsMenu,
     FadeView
 } from '@src/components';
@@ -140,7 +140,7 @@ class Welcome extends Component<Props, State> {
 
     goToOptIn = (index: number) => {
         store.dispatchAction({ type: 'optin/loadNIS1Account', payload: index });
-        Router.goToOptInAccountDetails({}, this.props.componentId);
+        Router.goToOptInAccountDetails({ welcomeComponentId: this.props.componentId }, this.props.componentId);
     };
 
     onPrivateKeyChange = (text: string) => {
@@ -247,7 +247,7 @@ class Welcome extends Component<Props, State> {
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
-                {isPresentationShown && <FadeView style={styles.content}> 
+                {isPresentationShown && <FadeView style={styles.content}>
                 <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
                     {translate('optin.welcomeDescription')}
                 </Text>

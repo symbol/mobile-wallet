@@ -76,9 +76,9 @@ class OptInAccountDetails extends Component<Props, State> {
 
     start = () => {
         const { selectedOptInStatus } = this.props;
-        if (!selectedOptInStatus.isMultisig) Router.goToOptInSelectSymbolAccount({}, this.props.componentId);
-        else if (!selectedOptInStatus.destination) Router.goToOptinSelectSymbolMultisigDestination({}, this.props.componentId);
-        else Router.goToOptInSelectSymbolAccount({}, this.props.componentId);
+        if (!selectedOptInStatus.isMultisig) Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        else if (!selectedOptInStatus.destination) Router.goToOptinSelectSymbolMultisigDestination({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        else Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     hasUserSigned = () => {

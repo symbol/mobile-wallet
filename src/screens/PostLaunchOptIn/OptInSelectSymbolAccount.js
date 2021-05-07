@@ -6,11 +6,6 @@ import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
 import store from '@src/store';
 import { Router } from '@src/Router';
-import BasicModal from '@src/components/molecules/BasicModal';
-import OptInService from '@src/services/OptInService';
-import nem from 'nem-sdk';
-import type { NIS1Account } from '@src/services/OptInService';
-import { AddressQR, ContactQR } from 'symbol-qr-library';
 import NetworkService from '@src/services/NetworkService';
 import { PublicAccount } from 'symbol-sdk';
 import AccountService from '@src/services/AccountService';
@@ -62,7 +57,7 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
 
     finish = (account: string) => {
         store.dispatch({ type: 'optin/setSelectedSymbolAccount', payload: account });
-        Router.goToOptInFinish({}, this.props.componentId);
+        Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     render() {

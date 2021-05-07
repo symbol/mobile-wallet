@@ -8,7 +8,7 @@ orbs:
 jobs:
   build_testnet:
     macos:
-      xcode: 11.5.0 # Specify the Xcode version to use
+      xcode: 12.5 # Specify the Xcode version to use
     working_directory: /Users/distiller/project
     environment:
       FL_OUTPUT_DIR: output

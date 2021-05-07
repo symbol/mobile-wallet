@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { BackHandler, RefreshControl, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Trunc, Col, Row, Icon } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
@@ -41,9 +41,24 @@ class OptInReview extends Component<Props, State> {
         sent: false,
     };
 
+    backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        this.goBack();
+        this.backHandler.remove();
+        return true;
+    });
+
     finish = () => {
         store.dispatchAction({ type: 'optin/doOptIn' });
         this.setState({ sent: true });
+    };
+
+    goBack = () => {
+        const { sent } = this.state;
+        if (!sent) {
+            Router.goBack(this.props.componentId);
+        } else {
+            Router.popTo(this.props.welcomeComponentId);
+        }
     };
 
     render() {
@@ -71,7 +86,7 @@ class OptInReview extends Component<Props, State> {
 
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={hardCodedDataManager}>
-                <TitleBar theme="light" title={translate('optin.reviewTitle')} onBack={() => Router.goBack(componentId)} />
+                <TitleBar theme="light" title={translate('optin.reviewTitle')} onBack={() => this.goBack()} />
                 {!sent && (
                     <Section type="form" style={styles.list} isScrollable>
                         <TableView componentId={componentId} data={data} />
@@ -123,7 +138,7 @@ class OptInReview extends Component<Props, State> {
                         </Col>
 
                         <Section type="form-bottom">
-                            <Button isLoading={false} isDisabled={false} text="Go to menu" theme="light" onPress={() => Router.goToOptInWelcome({}, this.props.componentId)} />
+                            <Button isLoading={false} isDisabled={false} text="Go to menu" theme="light" onPress={() => this.goBack()} />
                         </Section>
                     </Section>
                 )}

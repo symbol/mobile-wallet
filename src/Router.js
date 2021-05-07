@@ -249,6 +249,10 @@ export class Router {
         }
     }
 
+    static popTo(componentId) {
+        return Navigation.popTo(componentId);
+    }
+
     static goBack(componentId) {
         return goBack(componentId);
     }
