@@ -1,7 +1,7 @@
 import nem from 'nem-sdk';
 import { NIS1AccountSecureStorage } from '@src/storage/persistence/NIS1AccountSecureStorage';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
-import { broadcastDTO, buildSimpleDTO, buildMultisigDTO, MultisigCache, NormalCache, OptinConfig, status, StatusCode } from 'symbol-post-launch-optin';
+import { broadcastDTO, buildSimpleDTO, buildMultisigDTO, MultisigCache, NormalCache, OptinConfig, status, StatusCode } from 'symbol-post-launch-optin-module';
 import { NetworkType } from 'symbol-sdk';
 import type { AccountModel } from '@src/storage/models/AccountModel';
 import store from '@src/store';
