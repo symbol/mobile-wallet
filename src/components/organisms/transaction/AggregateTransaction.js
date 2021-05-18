@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { Text, Row, Button } from '@src/components';
 import { View } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
@@ -7,14 +7,59 @@ import { connect } from 'react-redux';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import store from '@src/store';
 import TableView from '@src/components/organisms/TableView';
-import {showPasscode} from "@src/utils/passcode";
-import translate from "@src/locales/i18n";
+import { showPasscode } from '@src/utils/passcode';
+import translate from '@src/locales/i18n';
+import { getFinanceBotPublicKeys } from '@src/config/environment';
+import Icon from '@src/components/controls/Icon';
+import { TransactionType, UInt64, AggregateTransaction as SdkAggregateTransaction, TransactionHttp } from 'symbol-sdk';
+import TransactionService from '@src/services/TransactionService';
 
 type Props = {
     transaction: AggregateTransactionModel,
 };
 
 class AggregateTransaction extends BaseTransactionItem<Props> {
+    state: {
+        fullTransaction: null,
+    };
+
+    componentDidMount() {
+        const { selectedNode, transaction } = this.props;
+        TransactionService.getTransaction(transaction.hash, selectedNode).then(async tx => {
+            this.setState({ fullTransaction: tx });
+        });
+    }
+
+    isPostLaunchOptIn = () => {
+        return getFinanceBotPublicKeys(this.props.network).indexOf(this.props.transaction.signTransactionObject.signer.publicKey) >= 0;
+    };
+
+    postLaunchAmount = () => {
+        const transaction: SdkAggregateTransaction = this.state.fullTransaction;
+        const innerTransactions = transaction && transaction.innerTransactions ? transaction.innerTransactions: [];
+        const currentAddress = this.props.address.replace(/-/g, '');
+        const filteredTransactions = innerTransactions.filter(innerTransaction => {
+            return (
+                innerTransaction.type === TransactionType.TRANSFER &&
+                innerTransaction.recipientAddress &&
+                innerTransaction.recipientAddress?.plain() === currentAddress &&
+                innerTransaction.mosaics?.length
+            );
+        });
+        const mosaics = filteredTransactions.map(transaction => transaction.mosaics[0]);
+        let sumAmount = UInt64.fromNumericString('0');
+        mosaics.forEach(mosaic => (sumAmount = sumAmount.add(mosaic.amount)));
+        return sumAmount.compact() / Math.pow(10, 6);
+    };
+
+    iconName = () => {
+        return this.isPostLaunchOptIn() ? 'postLaunchOptIn' : this.props.transaction.type;
+    };
+
+    title = () => {
+        return this.isPostLaunchOptIn() ? translate('optin.title') : translate('transactionTypes.' + this.props.transaction.type);
+    };
+
     sign() {
         showPasscode(this.props.componentId, () => {
             const { transaction } = this.props;
@@ -25,6 +70,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     }
 
     needsSignature = () => {
+        if (this.isPostLaunchOptIn()) return false;
         const { transaction, selectedAccount, isMultisig } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
         return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
@@ -42,6 +88,16 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
 
     renderDetails = () => {
         const { transaction, isLoading, isMultisig } = this.props;
+        if (this.isPostLaunchOptIn()) {
+            return (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Icon style={{ width: 75, height: 50, marginBottom: 10 }} size="big" name="optin" />
+                    <Text style={{ flex: 1 }} type="regular" align="right" theme="light">
+                        {translate('optin.postLaunchTransactionText')} {this.postLaunchAmount()}
+                    </Text>
+                </View>
+            );
+        }
         return (
             <View>
                 <TableView
@@ -51,7 +107,13 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 />
                 {this.needsSignature() && (
                     <Row justify="space-between">
-                        <Button style={{ padding: 0 }} isLoading={isLoading} text={translate('history.transaction.sign')} theme="light" onPress={() => this.sign()} />
+                        <Button
+                            style={{ padding: 0 }}
+                            isLoading={isLoading}
+                            text={translate('history.transaction.sign')}
+                            theme="light"
+                            onPress={() => this.sign()}
+                        />
                     </Row>
                 )}
             </View>
@@ -60,7 +122,10 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
 }
 
 export default connect(state => ({
+    selectedNode: state.network.selectedNetwork,
     isLoading: state.transfer.isLoading,
     selectedAccount: state.wallet.selectedAccount,
     isMultisig: state.account.isMultisig,
+    network: state.network.selectedNetwork.type,
+    address: state.account.selectedAccountAddress,
 }))(AggregateTransaction);

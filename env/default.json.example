@@ -60,6 +60,11 @@
   },
   "defaultNetworkType": "mainnet",
   "nativeMosaicId": "5F160D7851F3CB30",
+  "nglFinanceBot": {
+    "testnet": [
+      "E5F5638C626F58E1937C181E668EC383C94C5BC72AAE400C19AD28BDD3A4D37E"
+    ]
+  }
   "optInWhiteList" : {
     "testnet": [],
     "mainnet": []

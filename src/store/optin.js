@@ -85,11 +85,17 @@ export default {
             commit({ type: 'optin/setSelectedNIS1Account', payload: selectedAccount });
             commit({ type: 'optin/setSelectedNIS1MultisigAccount', payload: null });
             const accountData = await OptInService.fetchNIS1Data(selectedAccount.address, state.network.selectedNetwork.type);
+            if (accountData.meta.cosignatories.length >= 0) {
+                commit({ type: 'optin/setLoading', payload: false });
+                commit({ type: 'optin/setError', payload: 'This account is multisig, in order to do multisig opt-in you must use the cosigner accounts' });
+                return false;
+            }
             const optinAddresses = [selectedAccount.address, ...accountData.meta.cosignatoryOf.map(data => data.address)];
             commit({ type: 'optin/setOptinAddresses', payload: optinAddresses });
             const optinData = await OptInService.getOptInStatus(selectedAccount.address, state.network.selectedNetwork.type);
             commit({ type: 'optin/setSelectedOptInStatus', payload: optinData });
             commit({ type: 'optin/setLoading', payload: false });
+            return true;
         },
         loadNIS1MultisigAccount: async ({ commit, state }, payload) => {
             commit({ type: 'optin/setLoading', payload: true });

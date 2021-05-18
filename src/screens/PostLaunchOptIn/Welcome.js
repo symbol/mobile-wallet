@@ -138,9 +138,9 @@ class Welcome extends Component<Props, State> {
         );
     };
 
-    goToOptIn = (index: number) => {
-        store.dispatchAction({ type: 'optin/loadNIS1Account', payload: index });
-        Router.goToOptInAccountDetails({ welcomeComponentId: this.props.componentId }, this.props.componentId);
+    goToOptIn = async (index: number) => {
+        const result = await store.dispatchAction({ type: 'optin/loadNIS1Account', payload: index });
+        if (result) Router.goToOptInAccountDetails({ welcomeComponentId: this.props.componentId }, this.props.componentId);
     };
 
     onPrivateKeyChange = (text: string) => {
@@ -230,8 +230,8 @@ class Welcome extends Component<Props, State> {
     };
 
     render() {
-        const { nis1Accounts, isLoading, componentId } = this.props;
-        const dataManager = { isLoading };
+        const { nis1Accounts, isLoading, componentId, error } = this.props;
+        const dataManager = { isLoading, errorMessage: error, isError: error !== null };
         const {
             isPrivateKeyModalOpen,
             importPrivateKey,
@@ -358,6 +358,7 @@ class Welcome extends Component<Props, State> {
 }
 
 export default connect(state => ({
+    error: state.optin.error,
     nis1Accounts: state.optin.nis1Accounts,
     isLoading: state.optin.loading,
 }))(Welcome);

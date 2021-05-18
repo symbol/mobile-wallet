@@ -51,7 +51,8 @@ type IconName = 'none'
 	| 'true_light'
 	| 'true_dark'
 	| 'false_light'
-	| 'copy';
+	| 'copy'
+	| 'optin';
 
 type Size = 'large'
 	| 'big'
@@ -230,6 +231,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'check':
 				source = require('@src/assets/icons/check.png');
+				break;
+			case 'optin':
+				source = require('@src/assets/icons/optin.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');

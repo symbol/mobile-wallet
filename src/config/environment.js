@@ -20,6 +20,7 @@ import {
     defaultNetworkType,
     nativeMosaicId,
     optInWhiteList,
+    nglFinanceBot,
 } from 'react-native-env-json';
 import { NetworkType } from "symbol-sdk";
 import { languageNames } from '@src/locales/i18n';
@@ -144,6 +145,10 @@ const getWhitelistedPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): 
     return optInWhiteList[network];
 };
 
+const getFinanceBotPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
+    return nglFinanceBot[network];
+};
+
 export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
@@ -171,4 +176,5 @@ export {
     getNodes,
     getNativeMosaicId,
     getWhitelistedPublicKeys,
+    getFinanceBotPublicKeys,
 };

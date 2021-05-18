@@ -175,14 +175,14 @@ class OptInAccountDetails extends Component<Props, State> {
                             </Text>
                         </Row>
                     </Section>
-                    {selectedOptInStatus.balance === 0 && (
+                    {selectedOptInStatus.balance < 2 && (
                         <Section type="form-item">
                             <Text type={'regular'} theme={'light'}>
                                 {translate('optin.noBalance')}
                             </Text>
                         </Section>
                     )}
-                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && !this.hasUserSigned() && selectedOptInStatus.balance > 0 && (
+                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && !this.hasUserSigned() && selectedOptInStatus.balance >= 2 && (
                         <Section type="form-bottom">
                             <Button
                                 isDisabled={
