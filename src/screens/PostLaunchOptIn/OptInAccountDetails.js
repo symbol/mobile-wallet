@@ -92,7 +92,7 @@ class OptInAccountDetails extends Component<Props, State> {
         const { isLoading, componentId, selectedNIS1Account, selectedNIS1MultisigAccount, selectedOptInStatus, optinAddresses, network } = this.props;
         const dataManager = { isLoading };
         const addresses = optinAddresses.map((address, index) => ({
-            label: address,
+            label: address + (index === 0 ? ' - Primary' : ' - Multisig'),
             value: address,
         }));
         const networkType = NetworkService.getNetworkTypeFromModel({ type: network });

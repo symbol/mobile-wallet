@@ -644,7 +644,7 @@
 		"selectSymbolAccountDescription": "Select a symbol account to receive the opt-in funds. Here is the list the accounts inside your wallet:",
 		"selectCosignerSymbolDescription": "Select a symbol account that is cosigner of the account above:",
 		"destinationMultisigAccount": "Symbol destination multisig address:",
-		"enterDestinationMultisigAccount": "Enter Symbol destination multisig public key:",
+		"enterDestinationMultisigAccount": "Enter your destination Symbol account's public key. This account must be a multisig and must have the same amount of cosigners as the current NIS1 multisig account.",
 		"reviewTitle": "Review opt-in",
 		"send": "Send opt-in",
 		"selectedNISAddress": "Selected NIS1 address",
@@ -673,6 +673,7 @@
 		"presentationSlide3Text": "Import your accounts now to check their eligbility; or start the opt-in process.",
 		"presentationSlide3Note": "Note: it can take up to thirty (30) days for your XYM to successfully appear in your wallet.",
 		"noBalance": "You didn't have enough XEM in Snapshot or you already claimed them in a pre-launch opt-in.",
-		"postLaunchTransactionText": "The amount you have received:"
+		"postLaunchTransactionText": "The amount you have received:",
+		"publicKeyPlaceholder": "Public key must be 64 hexadecimal characters long."
 	}
 }

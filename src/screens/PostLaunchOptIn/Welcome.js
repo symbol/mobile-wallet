@@ -144,7 +144,7 @@ class Welcome extends Component<Props, State> {
     };
 
     onPrivateKeyChange = (text: string) => {
-        const valid = (text.length === 64 || text.length === 66) && nem.utils.helpers.isPrivateKeyValid(text);
+        const valid = (text.length === 64 || (text.length === 66 && text.startsWith('00'))) && nem.utils.helpers.isPrivateKeyValid(text);
         this.setState({
             importPrivateKey: text,
             validPrivateKey: valid,
@@ -283,7 +283,7 @@ class Welcome extends Component<Props, State> {
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}
                     showClose={true}
-                    handleClose={() => this.setState({ isImportQRModalOpen: false })}>
+                    handleClose={() => this.setState({ isImportQRModalOpen: false, importPrivateKey: '', importQRPassword: '' })}>
                     <Section type="form" style={styles.list} isScrollable>
                         <Section type="form-item">
                             <Input
@@ -316,7 +316,7 @@ class Welcome extends Component<Props, State> {
                     isModalOpen={isPrivateKeyModalOpen}
                     title={translate('optin.importPrivateKeyTitle')}
                     showClose={true}
-                    handleClose={() => this.setState({ isPrivateKeyModalOpen: false })}>
+                    handleClose={() => this.setState({ isPrivateKeyModalOpen: false, importPrivateKey: '' })}>
                     <Section type="form" style={styles.list} isScrollable>
                         <Section type="form-item">
                             <Input

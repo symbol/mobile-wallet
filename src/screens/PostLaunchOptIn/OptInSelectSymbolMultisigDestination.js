@@ -54,7 +54,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
             const networkType = NetworkService.getNetworkTypeFromModel({ type: selectedNetworkType });
             publicAccount = PublicAccount.createFromPublicKey(pubkey, networkType);
         } catch (e) {}
-        if (publicAccount) {
+        if (publicAccount && pubkey.length === 64) {
             this.setState({
                 multisigAccount: {
                     address: publicAccount.address.pretty(),
@@ -80,7 +80,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.enterDestinationMultisigAccount')}
                         </Text>
-                        <Input value={destination} theme="light" onChangeText={v => this.onChangePubKey(v)} />
+                        <Input value={destination} theme="light" onChangeText={v => this.onChangePubKey(v)} nativePlaceholder={translate('optin.publicKeyPlaceholder')}/>
                     </Section>
                     {multisigAccount && (
                         <Section type="form-item">
