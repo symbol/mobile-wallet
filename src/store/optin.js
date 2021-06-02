@@ -113,7 +113,7 @@ export default {
                     const accountData = await OptInService.fetchNIS1Data(state.optin.selectedNIS1MultisigAccount, state.network.selectedNetwork.type);
                     const nis1MultisigPublicKey = accountData.account.publicKey;
                     const multisigDestinationPublicKey = state.optin.selectedMultisigDestinationAccount;
-                    const cosignerDestinationPublicKey = state.optin.selectedSymbolAccount.id;
+                    const cosignerDestinationPublicKey = "";
                     const nis1CosignerPrivateKey = state.optin.selectedNIS1Account;
                     await OptInService.doMultisigOptIn(
                         nis1MultisigPublicKey,

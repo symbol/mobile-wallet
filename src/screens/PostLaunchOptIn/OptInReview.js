@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
-import { BackHandler, RefreshControl, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Trunc, Col, Row, Icon } from '@src/components';
+import {BackHandler, RefreshControl, StyleSheet, View, TouchableOpacity, Linking} from 'react-native';
+import {
+    GradientBackground,
+    TitleBar,
+    ListContainer,
+    ListItem,
+    Section,
+    Button,
+    Input,
+    TableView,
+    Trunc,
+    Col,
+    Row,
+    Icon,
+    Checkbox
+} from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -11,6 +25,8 @@ import {showPasscode} from "@src/utils/passcode";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import NetworkService from "@src/services/NetworkService";
 import {PublicAccount} from "symbol-sdk";
+import CheckableTextLink from "@src/components/molecules/CheckableTextLink";
+import {getExplorerURL} from "@src/config/environment";
 
 const styles = StyleSheet.create({
     list: {
@@ -61,27 +77,47 @@ class OptInReview extends Component<Props, State> {
         }
     };
 
+    onOpenUrl = () => {
+        Linking.openURL("https://symbolplatform.com/terms-conditions/");
+    }
+
     render() {
         const { componentId, selectedNIS1MultisigAccount, selectedMultisigDestinationAccount, selectedNIS1Account, selectedOptInStatus, selectedSymbolAccount, network, isLoading, isError } = this.props;
-        const { sent, showReview } = this.state;
-        let data = {
-            optinAddress: selectedNIS1Account.address,
-            optinDestination: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
-        };
+        const { sent, showReview, isTacAccepted } = this.state;
+        let data = {};
         if (selectedOptInStatus.isMultisig) {
             const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
             const publicAccount = PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType);
             data = {
+                optinAddress: selectedNIS1Account.address,
                 optinNIS1Multisig: selectedNIS1MultisigAccount,
                 optinMultisigDestination: publicAccount.address.pretty(),
-                optinCosigner: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
+                // optinCosigner: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
+            };
+        } else {
+            data = {
+                optinAddress: selectedNIS1Account.address,
+                optinDestination: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
             };
         }
-
         const hardCodedDataManager = {
             isLoading,
             isError: !!isError,
             errorMessage: isError,
+        };
+
+        const termsConfirmText = translate('TERMS_agreeText');
+        const links = {
+            terms: {
+                text: translate('TERMS_button'),
+                active: true,
+                href: this.onOpenUrl,
+            },
+            privacy: {
+                text: translate('PRIVACY_button'),
+                active: true,
+                href: this.onOpenUrl,
+            },
         };
 
         return (
@@ -113,8 +149,13 @@ class OptInReview extends Component<Props, State> {
                                 <Text type="regular" theme="light" style={styles.amountNegative}>-{selectedOptInStatus.isMultisig ? 0.35 : 0.2}</Text>
                             </Row>
                         </Section>
+                        <Section type="form-item">
+                            <CheckableTextLink isChecked={isTacAccepted} onChecked={() => this.setState({ isTacAccepted: !isTacAccepted })} linksMap={links}>
+                                {termsConfirmText}
+                            </CheckableTextLink>
+                        </Section>
                         <Section type="form-bottom">
-                            <Button text={translate('optin.send')} theme="light" onPress={() => showPasscode(this.props.componentId, this.finish)} />
+                            <Button text={translate('optin.send')} disabled={!isTacAccepted} theme="light" onPress={() => showPasscode(this.props.componentId, this.finish)} />
                         </Section>
                     </Section>
                 )}

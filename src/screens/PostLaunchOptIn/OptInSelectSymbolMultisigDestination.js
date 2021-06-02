@@ -43,7 +43,8 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
     finish = () => {
         const { multisigAccount } = this.state;
         store.dispatch({ type: 'optin/setSelectedMultisigDestinationAccount', payload: multisigAccount.publicKey });
-        Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        // Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     onChangePubKey = pubkey => {
