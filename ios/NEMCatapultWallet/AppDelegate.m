@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 #import <UserNotifications/UserNotifications.h>
-#import <RNCPushNotificationIOS.h>
+// #import <RNCPushNotificationIOS.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -26,17 +26,17 @@
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
-  
+
   // [REQUIRED] Register BackgroundFetch
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   return YES;
 }
 
 // Required to register for notifications
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-{
-  [RNCPushNotificationIOS didRegisterUserNotificationSettings:notificationSettings];
-}
+// - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+// {
+//   [RNCPushNotificationIOS didRegisterUserNotificationSettings:notificationSettings];
+// }
 //// Required for the register event.
 //- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 //{
@@ -54,10 +54,10 @@
 //  [RNCPushNotificationIOS didFailToRegisterForRemoteNotificationsWithError:error];
 //}
 // Required for the localNotification event.
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-  [RNCPushNotificationIOS didReceiveLocalNotification:notification];
-}
+// - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+// {
+//   [RNCPushNotificationIOS didReceiveLocalNotification:notification];
+// }
 
 // Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
