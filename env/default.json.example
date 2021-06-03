@@ -31,7 +31,6 @@
         "http://alice2.nem.ninja"
       ],
       "nodes": [
-        "http://api.experimental.symboldev.network:3000",
         "http://ngl-api-501.symbolblockchain.io:3000",
         "http://ngl-api-601.symbolblockchain.io:3000",
         "http://ngl-api-401.symbolblockchain.io:3000",
