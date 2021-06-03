@@ -63,8 +63,11 @@
   "nglFinanceBot": {
     "testnet": [
       "E5F5638C626F58E1937C181E668EC383C94C5BC72AAE400C19AD28BDD3A4D37E"
+    ],
+    "mainnet": [
+      "46038372D2A63D5207BDD9B33E9DA3C5B0B8EFAC399BB4103378E7994746CA14"
     ]
-  }
+  },
   "optInWhiteList" : {
     "testnet": [],
     "mainnet": []
