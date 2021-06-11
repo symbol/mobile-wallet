@@ -85,14 +85,21 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
                         </Text>
                     </View>
                 )}
-                <ListContainer type="list" style={styles.list} isScrollable={true}>
-                    <FlatList
-                        data={symbolAccounts}
-                        renderItem={this.renderAccountItem}
-                        onEndReachedThreshold={0.9}
-                        keyExtractor={(item, index) => '' + index + 'account'}
-                    />
-                </ListContainer>
+                {!selectedOptInStatus.isMultisig && (
+                    <ListContainer type="list" style={styles.list} isScrollable={true}>
+                        <FlatList
+                            data={symbolAccounts}
+                            renderItem={this.renderAccountItem}
+                            onEndReachedThreshold={0.9}
+                            keyExtractor={(item, index) => '' + index + 'account'}
+                        />
+                    </ListContainer>
+                )}
+                {selectedOptInStatus.isMultisig && (
+                    <Section type="form-bottom">
+                        <Button text={translate('optin.next')} theme="light" onPress={() => this.finish()} />
+                    </Section>
+                )}
             </GradientBackground>
             //</ImageBackground>
         );
