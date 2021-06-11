@@ -674,6 +674,7 @@
 		"presentationSlide3Note": "Note: it can take up to thirty (30) days for your XYM to successfully appear in your wallet.",
 		"noBalance": "You didn't have enough XEM in Snapshot or you already claimed them in a pre-launch opt-in.",
 		"postLaunchTransactionText": "The amount you have received:",
+		"postLaunchTransactionTextUnconfirmed": "The amount you will receive:",
 		"publicKeyPlaceholder": "Public key must be 64 hexadecimal characters long."
 	}
 }

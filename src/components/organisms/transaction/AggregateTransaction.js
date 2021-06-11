@@ -35,6 +35,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     };
 
     postLaunchAmount = () => {
+        if (!this.state) return 0;
         const transaction: SdkAggregateTransaction = this.state.fullTransaction;
         const innerTransactions = transaction && transaction.innerTransactions ? transaction.innerTransactions: [];
         const currentAddress = this.props.address.replace(/-/g, '');
@@ -89,11 +90,15 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     renderDetails = () => {
         const { transaction, isLoading, isMultisig } = this.props;
         if (this.isPostLaunchOptIn()) {
+            const amount = this.postLaunchAmount();
             return (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Icon style={{ width: 75, height: 50, marginBottom: 10 }} size="big" name="optin" />
                     <Text style={{ flex: 1 }} type="regular" align="right" theme="light">
-                        {translate('optin.postLaunchTransactionText')} {this.postLaunchAmount()}
+                        {transaction.status === 'confirmed'
+                            ? translate('optin.postLaunchTransactionText')
+                            : translate('optin.postLaunchTransactionTextUnconfirmed')}{' '}
+                        {amount}
                     </Text>
                 </View>
             );
