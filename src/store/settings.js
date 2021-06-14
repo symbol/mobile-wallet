@@ -12,6 +12,7 @@ export default {
         selectedLanguage: getDefaultLanguage(),
         selectedCurrency: getDefaultCurrency(),
         selectedSyncInterval: getDefaultSyncInterval(),
+        selectedNISNode: "",
         isPasscodeSelected: false,
     },
     mutations: {
@@ -29,6 +30,10 @@ export default {
         },
         setIsPasscodeSelected(state, payload) {
             state.settings.isPasscodeSelected = payload;
+            return state;
+        },
+        setSelectedNISNode(state, payload) {
+            state.settings.selectedNISNode = payload;
             return state;
         },
     },
@@ -59,6 +64,10 @@ export default {
         saveIsPasscodeSelected: async ({ commit, state }, payload) => {
             await AsyncCache.setIsPasscodeSelected(payload);
             commit({ type: 'settings/setIsPasscodeSelected', payload: payload });
+        },
+        saveSetSelectedNISNode: async ({ commit, state }, payload) => {
+            await AsyncCache.setIsPasscodeSelected(payload);
+            commit({ type: 'settings/setSelectedNISNode', payload: payload });
         },
     },
 };

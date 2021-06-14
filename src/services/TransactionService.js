@@ -248,4 +248,23 @@ export default class TransactionService {
             return '';
         }
     };
+
+    static getTransaction = async (hash: string, network: NetworkModel): Transaction => {
+        const transactionHttp = new TransactionHttp(network.node);
+        let tx;
+        try {
+            tx = await transactionHttp.getTransaction(hash, TransactionGroup.Confirmed).toPromise();
+        } catch {}
+        if (!tx) {
+            try {
+                tx = await transactionHttp.getTransaction(hash, TransactionGroup.Unconfirmed).toPromise();
+            } catch {}
+        }
+        if (!tx) {
+            try {
+                tx = await transactionHttp.getTransaction(hash, TransactionGroup.Partial).toPromise();
+            } catch {}
+        }
+        return tx;
+    };
 }

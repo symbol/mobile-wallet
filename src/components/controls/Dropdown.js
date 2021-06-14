@@ -207,6 +207,7 @@ export default class Dropdown extends Component<Props, State> {
             isLoading,
             modalInnerRenderer,
             children,
+            showTitle = true,
             ...rest
         } = this.props;
         const { isSelectorOpen } = this.state;
@@ -236,7 +237,7 @@ export default class Dropdown extends Component<Props, State> {
 
         return (
             <View style={rootStyle}>
-                {!children && <Text style={titleStyle}>{title}</Text>}
+                {!children && showTitle && <Text style={titleStyle}>{title}</Text>}
                 {!children && (
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
