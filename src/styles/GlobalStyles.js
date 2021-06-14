@@ -110,6 +110,14 @@ export default {
 			lineHeight: 22,
 		},
 
+		error: {
+			color: COLORS.RED,
+			fontFamily: 'NotoSans-SemiBold',
+			fontWeight: '600',
+			fontSize: 10,
+			lineHeight: 22,
+		},
+
 		alert: {
 			color: COLORS.WHITE,
 			fontFamily: 'NotoSans-Bold',

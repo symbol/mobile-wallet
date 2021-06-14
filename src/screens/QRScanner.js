@@ -13,7 +13,6 @@ import translate from "@src/locales/i18n";
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import PasswordModal from '@src/components/molecules/PasswordModal';
-import { showMessage } from 'react-native-flash-message';
 import store from "@src/store";
 
 
@@ -90,11 +89,9 @@ class CreateAccount extends Component {
 	};
 
 	showDecryptErrorMessage = () => {
-		Router.showFlashMessageOverlay().then(() => {
-			showMessage({
-				message: translate('unsortedKeys.invalidPrivateKeyQROrPassword'),
-				type: 'danger',
-			});
+		Router.showMessage({
+			message: translate('unsortedKeys.invalidPrivateKeyQROrPassword'),
+			type: 'danger'
 		});
 	};
 
@@ -128,11 +125,9 @@ class CreateAccount extends Component {
 			case 'broadcastSignedQR':
 				action = () => {
 					store.dispatchAction({ type: 'transfer/broadcastSignedTransaction', payload });
-					Router.showFlashMessageOverlay().then(() => {
-						showMessage({
-							message: translate('unsortedKeys.announce_success'),
-							type: 'success',
-						});
+					Router.showMessage({
+						message: translate('unsortedKeys.announce_success'),
+						type: 'success'
 					});
 					Router.goBack(this.props.componentId);
 				}
@@ -142,11 +137,9 @@ class CreateAccount extends Component {
 			case 'broadcastCoSignedQR':
 				action = () => {
 					store.dispatchAction({ type: 'transfer/broadcastCosignatureSignedTransaction', payload });
-					Router.showFlashMessageOverlay().then(() => {
-						showMessage({
-							message: translate('unsortedKeys.announce_success'),
-							type: 'success',
-						});
+					Router.showMessage({
+						message: translate('unsortedKeys.announce_success'),
+						type: 'success'
 					});
 					Router.goBack(this.props.componentId);
 				}

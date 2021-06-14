@@ -29,10 +29,6 @@ type Props = {
 };
 
 export default class Transaction extends Component<Props> {
-    openExplorer() {
-        const { transaction } = this.props;
-        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
-    }
 
     render() {
         const { transaction, showDetails, componentId } = this.props;
@@ -44,9 +40,9 @@ export default class Transaction extends Component<Props> {
             case 'aggregate':
                 return <AggregateTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
             case 'namespace':
-                return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+                return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} />;
             case 'mosaicAlias':
-                return <MosaicAliasTransaction transaction={transaction} showDetails={showDetails} openExplorer={() => this.openExplorer()} />;
+                return <MosaicAliasTransaction transaction={transaction} showDetails={showDetails} />;
             default:
                 return <BaseTransactionItem transaction={transaction} showDetails={showDetails} />;
         }

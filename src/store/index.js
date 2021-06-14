@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import market from './market';
 import wallet from '@src/store/wallet';
 import settings from '@src/store/settings';
 import network from '@src/store/network';
@@ -12,6 +11,7 @@ import harvesting from '@src/store/harvesting';
 import addressBook from '@src/store/addressBook';
 import ListenerService from '@src/services/ListenerService';
 import transaction from '@src/store/transaction';
+import optin from '@src/store/optin';
 
 const modules = {
     // market,
@@ -25,6 +25,7 @@ const modules = {
     harvesting,
     addressBook,
     transaction,
+    optin,
 };
 
 const createModuleReducer = (module, state = {}, action) => {

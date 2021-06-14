@@ -51,7 +51,8 @@ type IconName = 'none'
 	| 'true_light'
 	| 'true_dark'
 	| 'false_light'
-	| 'copy';
+	| 'copy'
+	| 'optin';
 
 type Size = 'large'
 	| 'big'
@@ -98,6 +99,9 @@ export default class C extends Component<Props, State> {
                 break;
             case 'back_light':
                 source = require('@src/assets/icons/back_light.png');
+                break;
+            case 'back_light_reversed':
+                source = require('@src/assets/icons/back_light_reversed.png');
                 break;
             case 'back_dark':
                 source = require('@src/assets/icons/back_dark.png');
@@ -189,6 +193,12 @@ export default class C extends Component<Props, State> {
 			case 'qr_light':
 				source = require('@src/assets/icons/qr_light.png');
 				break;
+			case 'qr_dark':
+				source = require('@src/assets/icons/qr_dark.png');
+				break;
+			case 'key_dark':
+				source = require('@src/assets/icons/key_dark.png');
+				break;
 			case 'explorer_filled_light':
 				source = require('@src/assets/icons/explorer_filled_light.png');
 				break;
@@ -218,6 +228,12 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'warning':
 				source = require('@src/assets/icons/warning_yellow.png');
+				break;
+			case 'check':
+				source = require('@src/assets/icons/check.png');
+				break;
+			case 'optin':
+				source = require('@src/assets/icons/optin.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');

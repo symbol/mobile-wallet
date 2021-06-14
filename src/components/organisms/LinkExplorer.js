@@ -4,6 +4,7 @@ import { Row, Icon, Text } from '@src/components';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { getExplorerURL } from '@src/config/environment';
+import {connect} from "react-redux";
 
 
 const styles = StyleSheet.create({
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-type Theme = 'light' 
+type Theme = 'light'
 	| 'dark';
 
 interface Props {
@@ -26,20 +27,20 @@ interface Props {
 type State = {};
 
 
-export default class LinkExplorer extends Component<Props, State> {
+class LinkExplorer extends Component<Props, State> {
 	uglifyAddress = address => {
 		return address.replace(/-/g, '');
 	};
 
 	onPress = route => {
-		Linking.openURL(getExplorerURL() + route);
+		Linking.openURL(getExplorerURL(this.props.network) + route);
 	};
 
     render = () => {
 		const { style = {}, type, value } = this.props;
 		let text = translate('link.blockExplorer');
 		let route = '';
-		
+
 
 		switch(type) {
 			case 'block:':
@@ -76,3 +77,7 @@ export default class LinkExplorer extends Component<Props, State> {
 		);
     };
 }
+
+export default connect(state => ({
+	network: state.network.selectedNetwork.type
+}))(LinkExplorer);

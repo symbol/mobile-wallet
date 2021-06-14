@@ -1,5 +1,5 @@
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
-import { getDefaultNetworkType, getNodes } from '@src/config/environment';
+import {getDefaultNetworkType, getNISNodes, getNodes} from '@src/config/environment';
 import NetworkService from '@src/services/NetworkService';
 import { GlobalListener } from '@src/store/index';
 
@@ -21,6 +21,7 @@ export default {
             generationHash: '',
             node: '',
             currencyMosaicId: '',
+            currencyDivisibility: 6,
             chainHeight: 0,
             blockGenerationTargetTime: 0,
             epochAdjustment: 0,
@@ -70,6 +71,10 @@ export default {
                 selectedNode = getNodes(network)[0];
             }
             const network = await NetworkService.getNetworkModelFromNode(selectedNode);
+            try {
+                const nisNodes = getNISNodes(network.type);
+                await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+            } catch {}
             commit({ type: 'network/setGenerationHash', payload: network.generationHash });
             commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: selectedNode });
@@ -83,6 +88,10 @@ export default {
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const network = await NetworkService.getNetworkModelFromNode(payload);
+            try {
+                const nisNodes = getNISNodes(network.type);
+                await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+            } catch {}
             await AsyncCache.setSelectedNode(payload);
             commit({
                 type: 'network/setSelectedNetwork',

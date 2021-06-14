@@ -20,9 +20,11 @@ import {
     defaultNetworkType,
     nativeMosaicId,
     optInWhiteList,
+    nglFinanceBot,
 } from 'react-native-env-json';
 import { NetworkType } from "symbol-sdk";
 import { languageNames } from '@src/locales/i18n';
+import type {AppNetworkType} from "@src/storage/models/NetworkModel";
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
@@ -40,8 +42,8 @@ const getNewsURL = (): string => {
 };
 
 // Explorer URL
-const getExplorerURL = (): string => {
-    return explorerURL;
+const getExplorerURL = (network: AppNetworkType): string => {
+    return explorerURL[network];
 };
 
 // Explorer URL
@@ -123,8 +125,8 @@ const getOptinEnv = (): string => {
     return optinEnv
 };
 
-const getNISNodes = (): string => {
-    return NISNodes
+const getNISNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
+    return networks[network].nisNodes;
 };
 
 const getDefaultNetworkType = (): NetworkType => {
@@ -141,6 +143,10 @@ const getNativeMosaicId = (): string[] => {
 
 const getWhitelistedPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
     return optInWhiteList[network];
+};
+
+const getFinanceBotPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
+    return nglFinanceBot[network];
 };
 
 export {
@@ -170,4 +176,5 @@ export {
     getNodes,
     getNativeMosaicId,
     getWhitelistedPublicKeys,
+    getFinanceBotPublicKeys,
 };

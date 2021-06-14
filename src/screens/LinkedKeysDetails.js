@@ -61,11 +61,25 @@ class LinkedKeysDetails extends Component<Props, State> {
         const { networkKeys, isLoading } = this.state;
         const networkType = NetworkService.getNetworkTypeFromModel(selectedNetwork);
 
-        const vrfPrivateKey = harvestingModel ? harvestingModel.vrfPrivateKey : null;
-        const vrfPublicKey = vrfPrivateKey ? Account.createFromPrivateKey(vrfPrivateKey, networkType).publicKey : networkKeys.vrf;
+        let vrfPrivateKey = null,
+            vrfPublicKey = networkKeys.vrf;
+        if (harvestingModel) {
+            const savedVrfAccount = Account.createFromPrivateKey(harvestingModel.vrfPrivateKey, networkType);
+            if (networkKeys.vrf === savedVrfAccount.publicKey) {
+                vrfPrivateKey = savedVrfAccount.privateKey;
+                vrfPublicKey = savedVrfAccount.publicKey;
+            }
+        }
 
-        const remotePrivateKey = harvestingModel ? harvestingModel.remotePrivateKey : null;
-        const remotePublicKey = remotePrivateKey ? Account.createFromPrivateKey(remotePrivateKey, networkType).publicKey : networkKeys.linked;
+        let remotePrivateKey = null,
+            remotePublicKey = networkKeys.linked;
+        if (harvestingModel) {
+            const savedRemoteAccount = Account.createFromPrivateKey(harvestingModel.remotePrivateKey, networkType);
+            if (networkKeys.linked === savedRemoteAccount.publicKey) {
+                remotePrivateKey = savedRemoteAccount.privateKey;
+                remotePublicKey = savedRemoteAccount.publicKey;
+            }
+        }
 
         const nodePublicKey = harvestingModel ? harvestingModel.nodePublicKey : networkKeys.node;
 

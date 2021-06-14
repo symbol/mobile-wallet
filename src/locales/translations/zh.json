@@ -427,7 +427,7 @@
 		"label": "标签",
 		"notes": "注释",
 		"seedIndex": "帐户种子指数",
-		"displayFee": "费用",
+		"resolvedFee": "费用",
 		"vrfPublicKey": "已链接的 Vrf 公钥",
 		"vrfPrivateKey": "已链接的 Vrf 私钥",
 		"remotePublicKey": "已链接的远程公钥",
@@ -462,7 +462,7 @@
 	},
 	"home": {
 		"optInTitle": "选择加入",
-		"optInDescription": "发布后的选择加入即将推出...",
+		"optInDescription": "发布后的Opt-in即将开放。 Symbol启动后，请重新检查是否有新版本",
 		"pendingSignatureTitle": "待定签名",
 		"pendingSignatureDescription": "有一笔交易正在等待签名"
 	},
@@ -585,7 +585,8 @@
 		"signedTransactionQRInfo": "这个是已经签署的交易QR码， 可以向网络发布交易。",
 		"announceSignedTransaction": "发布交易",
 		"opt_in_account_alert": "该帐户是通过较早的派生获得的。建议您将资金转移到种子帐户",
-		"announce_success":  "交易成功宣布"
+		"announce_success":  "交易成功宣布",
+		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {
 		"addressTakenWarning": "地址属于另一个联系人"

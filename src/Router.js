@@ -32,6 +32,12 @@ import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
 import { showMessage } from 'react-native-flash-message';
 import LinkedKeysDetails from "@src/screens/LinkedKeysDetails";
+import Welcome from "@src/screens/PostLaunchOptIn/Welcome";
+import OptInAccountDetails from "@src/screens/PostLaunchOptIn/OptInAccountDetails";
+import OptInSelectSymbolAccount from "@src/screens/PostLaunchOptIn/OptInSelectSymbolAccount";
+import OptInReview from "@src/screens/PostLaunchOptIn/OptInReview";
+import NIS1AccountDetails from "@src/screens/PostLaunchOptIn/NIS1AccountDetails";
+import OptInSelectSymbolMultisigDestination from "@src/screens/PostLaunchOptIn/OptInSelectSymbolMultisigDestination";
 
 
 
@@ -66,7 +72,17 @@ export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREE
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 export const QR_SCANNER_SCREEN = `${BASE_SCREEN_NAME}.QR_SCANNER_SCREEN`;
 export const SHOW_LINKED_KEYS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_LINKED_KEYS_SCREEN`;
+export const OPTIN_WELCOME = `${BASE_SCREEN_NAME}.OPTIN_WELCOME`;
+export const OPTIN_ACCOUNT_DETAIL = `${BASE_SCREEN_NAME}.OPTIN_ACCOUNT_DETAIL`;
+export const OPTIN_SYMBOL_ACCOUNT = `${BASE_SCREEN_NAME}.OPTIN_SYMBOL_ACCOUNT`;
+export const OPTIN_FINISH = `${BASE_SCREEN_NAME}.OPTIN_FINISH`;
+export const NIS1_ACCOUNT_DETAILS = `${BASE_SCREEN_NAME}.NIS1_ACCOUNT_DETAILS`;
+export const OPTIN_SELECT_MULTISIG_DESTINATION = `${BASE_SCREEN_NAME}.OPTIN_SELECT_MULTISIG_DESTINATION`;
 
+interface MessageProps {
+    message: string;
+    type: 'danger' | 'warning' | 'success';
+}
 /**
  * Class to handle Routing between screens
  */
@@ -100,7 +116,13 @@ export class Router {
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
 		[CONTACT_PROFILE_SCREEN, ContactProfile],
 		[QR_SCANNER_SCREEN, QRScanner],
-		[SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails]
+		[SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails],
+		[OPTIN_WELCOME, Welcome],
+		[OPTIN_ACCOUNT_DETAIL, OptInAccountDetails],
+		[OPTIN_SYMBOL_ACCOUNT, OptInSelectSymbolAccount],
+		[OPTIN_FINISH, OptInReview],
+		[NIS1_ACCOUNT_DETAILS, NIS1AccountDetails],
+		[OPTIN_SELECT_MULTISIG_DESTINATION, OptInSelectSymbolMultisigDestination],
     ];
 
     static registerScreens() {
@@ -179,7 +201,10 @@ export class Router {
         return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
     static scanQRCode(onRead, onClose) {
-        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose });
+        const onCloseCallback = typeof onClose === 'function'
+            ? onClose
+            : () => {};
+        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose: onCloseCallback });
     }
     static goToAddressBook(passProps, parentComponent?) {
         return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
@@ -196,6 +221,24 @@ export class Router {
 	static goToShowLinkedKeys(passProps, parentComponent?) {
         return this.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
     }
+	static goToOptInWelcome(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_WELCOME, passProps, parentComponent);
+    }
+	static goToOptInAccountDetails(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_ACCOUNT_DETAIL, passProps, parentComponent);
+    }
+	static goToOptInSelectSymbolAccount(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_SYMBOL_ACCOUNT, passProps, parentComponent);
+    }
+	static goToOptInFinish(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_FINISH, passProps, parentComponent);
+    }
+	static goToNIS1AccountDetails(passProps, parentComponent?) {
+        return this.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
+    }
+	static goToOptinSelectSymbolMultisigDestination(passProps, parentComponent?) {
+        return this.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
+    }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
         setDefaultNavOptions();
@@ -204,6 +247,10 @@ export class Router {
         } else {
             return newStack(screen, passProps);
         }
+    }
+
+    static popTo(componentId) {
+        return Navigation.popTo(componentId);
     }
 
     static goBack(componentId) {
@@ -216,12 +263,12 @@ export class Router {
 
     static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
 
-    static showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {
+    static showMessage = (props: MessageProps) => {
         Router.showFlashMessageOverlay().then(() => {
             showMessage({
-                message: message,
-                type: type,
-                duration: type === 'danger' ? 6000 : 3000
+                message: props.message,
+                type: props.type || 'success',
+                duration: props.type === 'danger' ? 6000 : 3000
             });
         });
     };
@@ -247,16 +294,12 @@ const setDefaultNavOptions = () => {
         blurOnUnmount: true,
         animations: {
             setRoot: {
-                waitForRender: true,
                 alpha: {
                     from: 0,
                     to: 1,
                     duration: 300,
                 },
-            },
-            push: {
-                waitForRender: true,
-            },
+            }
         },
         ...Platform.select({ ios: { sideMenu: { openGestureMode: 'bezel' } } }),
     });

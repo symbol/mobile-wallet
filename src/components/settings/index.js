@@ -6,3 +6,4 @@ export SettingsBackup from '@src/components/settings/SettingsBackup';
 export SettingsAboutNem from '@src/components/settings/SettingsAboutNem';
 export SettingsLogout from '@src/components/settings/SettingsLogout';
 export SettingsNodeSelector from '@src/components/settings/SettingsNodeSelector';
+export SettingsNIS1NodeSelector from '@src/components/settings/SettingsNIS1NodeSelector';

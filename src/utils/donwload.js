@@ -1,8 +1,7 @@
-import { PermissionsAndroid, Platform, ToastAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import translate from '@src/locales/i18n';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Router } from '@src/Router';
-import { showMessage } from 'react-native-flash-message';
 
 /**
  * Downloads files
@@ -26,11 +25,9 @@ const downloadAndroid = async (file, filename, encoding) => {
             if (result) {
                 return saveFile(file, filename, 'android', encoding);
             } else {
-                Router.showFlashMessageOverlay().then(() => {
-                    showMessage({
-                        message: translate('writePermissionsNeeded'),
-                        type: 'danger',
-                    });
+                Router.showMessage({
+                    message: translate('writePermissionsNeeded'),
+                    type: 'danger'
                 });
             }
         }
@@ -59,24 +56,20 @@ const saveFile = (data, filename, platform, encoding) => {
             if (platform === 'ios') {
                 RNFetchBlob.ios.previewDocument(`${dirs.DocumentDir}/${filename}`);
             }
-            Router.showFlashMessageOverlay().then(() => {
-                showMessage({
-                    message: translate(
-                        'unsortedKeys.fileSavedToDirectoryMessage',
-                        {
-                            folder: platform === 'ios' ? 'Documents' : 'Downloads'
-                        }
-                    ),
-                    type: 'success',
-                });
+            Router.showMessage({
+                message: translate(
+                    'unsortedKeys.fileSavedToDirectoryMessage',
+                    {
+                        folder: platform === 'ios' ? 'Documents' : 'Downloads'
+                    }
+                ),
+                type: 'success'
             });
         })
         .catch(() => {
-            Router.showFlashMessageOverlay().then(() => {
-                showMessage({
-                    message: translate('unsortedKeys.errorSavingFile'),
-                    type: 'danger',
-                });
+            Router.showMessage({
+                message: translate('unsortedKeys.errorSavingFile'),
+                type: 'danger',
             });
         });
 };

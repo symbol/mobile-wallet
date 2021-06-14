@@ -43,11 +43,6 @@ class ConfirmTransaction extends Component<Props, State> {
         showPasscode(this.props.componentId, finishAction);
     };
 
-    openExplorer() {
-        const { transaction } = this.props;
-        Linking.openURL(`${getExplorerURL()}transactions/${transaction.hash}`);
-    }
-
     render = () => {
         const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
         const {} = this.state;
@@ -58,7 +53,7 @@ class ConfirmTransaction extends Component<Props, State> {
             errorMessage,
         };
 
-        const preview = Object.keys(transaction).map(key => ({ key, value: transaction[key] }));
+        const preview = Object.keys(transaction).filter(key => key !== "fee").map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 

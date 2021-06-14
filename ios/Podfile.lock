@@ -24,7 +24,7 @@ PODS:
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
   - glog (0.3.5)
-  - Permission-Camera (2.0.9):
+  - Permission-Camera (2.2.2):
     - RNPermissions
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
@@ -199,17 +199,17 @@ PODS:
     - React
   - react-native-netinfo (4.7.0):
     - React
-  - react-native-randombytes (3.5.3):
-    - React
+  - react-native-randombytes (3.6.0):
+    - React-Core
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-udp (2.7.0):
     - React
-  - react-native-video (5.1.0-alpha8):
-    - React
-    - react-native-video/Video (= 5.1.0-alpha8)
-  - react-native-video/Video (5.1.0-alpha8):
-    - React
+  - react-native-video (5.1.1):
+    - React-Core
+    - react-native-video/Video (= 5.1.1)
+  - react-native-video/Video (5.1.1):
+    - React-Core
   - react-native-view-shot (3.1.2):
     - React
   - React-RCTActionSheet (0.61.5):
@@ -247,7 +247,12 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - ReactNativeNavigation (6.3.1):
+  - ReactNativeNavigation (6.12.2):
+    - React
+    - React-RCTImage
+    - React-RCTText
+    - ReactNativeNavigation/Core (= 6.12.2)
+  - ReactNativeNavigation/Core (6.12.2):
     - React
     - React-RCTImage
     - React-RCTText
@@ -256,26 +261,24 @@ PODS:
     - React
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNBackgroundFetch (3.0.4):
+  - RNBackgroundFetch (3.1.0):
     - React
-  - RNCAsyncStorage (1.8.0):
-    - React
+  - RNCAsyncStorage (1.12.1):
+    - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNCPushNotificationIOS (1.0.7):
-    - React
   - RNFS (2.16.6):
     - React
   - RNGestureHandler (1.6.0):
     - React
   - RNKeychain (4.0.5):
     - React
-  - RNLocalize (1.3.3):
-    - React
-  - RNPermissions (2.0.9):
-    - React
-  - RNReanimated (1.7.0):
-    - React
+  - RNLocalize (1.4.3):
+    - React-Core
+  - RNPermissions (2.2.2):
+    - React-Core
+  - RNReanimated (1.13.3):
+    - React-Core
   - RNSecureStorage (1.0.82):
     - React
   - RNShare (2.0.0):
@@ -283,6 +286,8 @@ PODS:
   - RNSVG (9.13.6):
     - React
   - TcpSockets (3.3.2):
+    - React
+  - toolbar-android (0.1.0-rc.2):
     - React
   - TouchID (4.4.1):
     - React
@@ -331,7 +336,6 @@ DEPENDENCIES:
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
-  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -342,6 +346,7 @@ DEPENDENCIES:
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
+  - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - TouchID (from `../node_modules/react-native-touch-id`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -429,8 +434,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
-  RNCPushNotificationIOS:
-    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -451,6 +454,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   TcpSockets:
     :path: "../node_modules/react-native-tcp"
+  toolbar-android:
+    :path: "../node_modules/@react-native-community/toolbar-android"
   TouchID:
     :path: "../node_modules/react-native-touch-id"
   Yoga:
@@ -465,7 +470,7 @@ SPEC CHECKSUMS:
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  Permission-Camera: 8fe4753b02396489b11c5089e4f57bab7fe1ef42
+  Permission-Camera: 5d2aaf95592660b6dcb5e8d1d90ed5d0156cad02
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -477,10 +482,10 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-camera: a6c0ca5653cbcd9ea1c1894966207346cfeebe09
   react-native-netinfo: ddaca8bbb9e6e914b1a23787ccb879bc642931c9
-  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
+  react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
-  react-native-video: dbb8df4f0bbdf80de6797c90fcad8bc12b19401d
+  react-native-video: 0bb76b6d6b77da3009611586c7dbf817b947f30e
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -492,23 +497,23 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  ReactNativeNavigation: d9bb71088ef37aa6af58f3172f890a1ae08861d6
-  RealmJS: b9004e5f5683347fa26cbc3ce20b2b792240fdc8
+  ReactNativeNavigation: aefc8debafb4a374575adafb44a3352b9d5b618a
+  RealmJS: 0f2a5db56ff20f2feab9543f57e348575e40b508
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNBackgroundFetch: 388cf1595934d22fed275b8db9b48a28bb4eb7b6
-  RNCAsyncStorage: 5d83b49070d41fd72906a116c5e7bdac4ea3a814
+  RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
+  RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNCPushNotificationIOS: eea954fa69537d4a8db898fe1b1a06e2b7e15841
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNKeychain: 840f8e6f13be0576202aefcdffd26a4f54bfe7b5
-  RNLocalize: a734b53c45e77acd3ffb78b92e63bb4d6cd13257
-  RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
-  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNLocalize: 7c7aeda16c01db7a0918981c14875c0a53be9b79
+  RNPermissions: 5df468064df661a4c8c017e2791ce90d7695eea5
+  RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNSecureStorage: 8b2b07278d80c48b3a881c56e604ab147372f243
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  toolbar-android: 85f3ef4d691469f2d304e7dee4bca013aa1ba1ff
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 

@@ -432,7 +432,7 @@
 		"label": "Etiqueta",
 		"notes": "Notas",
 		"seedIndex": "Indice de la cuenta",
-		"displayFee" : "Comisión",
+		"resolvedFee" : "Comisión",
 		"vrfPublicKey": "Llave publica VRF",
 		"vrfPrivateKey": "Llave privada VRF",
 		"remotePublicKey": "Llave publica Remota",
@@ -467,7 +467,7 @@
 	},
 	"home": {
 		"optInTitle": "Opt-in",
-		"optInDescription": " Opt-in después del lanzamiento muy pronto...",
+		"optInDescription": "El proceso de opt-in post lanzamiento se abirá pronto. Por favor comprueba nuevas versiones después del lanzamiento de Symbol.",
 		"pendingSignatureTitle": "Firma pendiente",
 		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
 	},
@@ -589,7 +589,8 @@
 		"signedTransactionQRInfo": "Esto es un QR de una transacción firmada. Puedes anunciarlo a la red.",
 		"announceSignedTransaction": "Anunciar transacción",
 		"opt_in_account_alert": "Esta cuenta ha sido obtenida con una derivación antigua. Se recomienda mover los fondos a una cuenta semilla",
-		"announce_success":  "Transacción anunciada con exito"
+		"announce_success":  "Transacción anunciada con exito",
+		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Esta dirección corresponde a otro contacto"

@@ -13,6 +13,7 @@ export default {
         password: null,
         selectedAccount: {},
         accounts: [],
+        accountBalances: {},
     },
     mutations: {
         setName(state, payload) {
@@ -33,6 +34,10 @@ export default {
         },
         setAccounts(state, payload) {
             state.wallet.accounts = payload;
+            return state;
+        },
+        setAccountBalances(state, payload) {
+            state.wallet.accountBalances = payload;
             return state;
         },
     },
@@ -82,9 +87,41 @@ export default {
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
         },
-        reloadAccounts: async ({ commit, state }) => {
+        reloadAccounts: async ({ commit, state, dispatchAction }) => {
             const accounts = await AccountSecureStorage.getAllAccountsByNetwork(state.network.network);
             commit({ type: 'wallet/setAccounts', payload: accounts });
+            dispatchAction({ type: 'wallet/loadAccountsBalances' });
+        },
+        loadAccountsBalances: async ({ commit, state }) => {
+            try {
+                const balancePairs = await Promise.all(
+                    state.wallet.accounts.map(account => {
+                        return new Promise(async resolve => {
+                            try {
+                                const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, state.network.network);
+                                const data = await AccountService.getBalanceAndOwnedMosaicsFromAddress(rawAddress, state.network.selectedNetwork);
+                                resolve({
+                                    id: account.id,
+                                    balance: data.balance,
+                                });
+                            } catch {
+                                resolve({
+                                    id: account.id,
+                                    balance: 0,
+                                });
+                            }
+                        });
+                    })
+                );
+                const accountBalances = balancePairs.reduce((acc, pair) => {
+                    acc[pair.id] = pair.balance;
+                    return acc;
+                }, {});
+                commit({ type: 'wallet/setAccountBalances', payload: accountBalances });
+            } catch (e) {
+                console.log(e);
+                commit({ type: 'wallet/setAccountBalances', payload: {} });
+            }
         },
         loadAccount: async ({ commit, dispatchAction, state }, id) => {
             let accountModel;

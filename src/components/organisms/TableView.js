@@ -21,7 +21,7 @@ const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
 	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey', 'vrfPublicKey', 'remotePublicKey', 'linkedPublicKey', 'nodePublicKey'],
 	boolean: [],
-	amount: ['amount', 'displayFee'],
+	amount: ['amount', 'resolvedFee'],
 	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
 	ecryption: ['messageEncrypted'],
@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
 	mosaic: {
 		backgroundColor: GlobalStyles.color.WHITE,
 		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: GlobalStyles.color.SECONDARY,
 		paddingVertical: 8,
 		paddingHorizontal: 16
 	}

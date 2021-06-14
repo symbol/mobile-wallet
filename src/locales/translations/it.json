@@ -427,7 +427,7 @@
 		"label": "Etichetta",
 		"notes": "Appunti",
 		"seedIndex": "Seed Indice Conto",
-		"displayFee": "Commissione Di Transazione",
+		"resolvedFee": "Commissione Di Transazione",
 		"vrfPublicKey": "La chiave pubblica della funzione casuale verificabile (VRF) associata",
 		"vrfPrivateKey": "La chiave privata della funzione casuale verificabile (VRF) associata",
 		"remotePublicKey": "Chiave pubblica remota associata",
@@ -466,7 +466,7 @@
 		"blockExplorerNamespace": "Mostra lo spazio dei nomi in Blockchain Explorer"},
 	"home": {
 		"optInTitle": "Opt-In",
-		"optInDescription": "Processo di pre-optin...",
+		"optInDescription": "Il processo di attivazione (Opt-in) si aprirà dopo il lancio della blockchain di Symbol.  Attendi la nuova versione del portafoglio.",
 		"pendingSignatureTitle": "In attesa di firma",
 		"pendingSignatureDescription": "C'è una transazione in attesa di firma"
 	},
@@ -584,7 +584,8 @@
 		"signedTransactionQRInfo": "Questa è una transazione con firma QR. Puoi pubblicizzare questa transazione sulla rete.",
 		"announceSignedTransaction":"Annuncia la transazione",
 		"opt_in_account_alert":"Questo account è stato ottenuto utilizzando una vecchia derivazione. Si consiglia di trasferire fondi sul conto Seed.",
-		"announce_success": "Transaction announced successfully"
+		"announce_success": "Transaction announced successfully",
+		"nothingToShow": "Nothing to show"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto"
