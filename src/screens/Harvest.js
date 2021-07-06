@@ -87,10 +87,8 @@ class Harvest extends Component<Props, State> {
     }
 
     getSelectedUrl = () => {
-        const { nodes } = this.props;
         const { selectedNodeUrl } = this.state;
-        const nodeObj = nodes.find(node => node.url === selectedNodeUrl);
-        return nodeObj ? nodeObj.url : null;
+        return selectedNodeUrl;
     };
 
     getHarvestingNodesDropDown = () => {
@@ -120,6 +118,7 @@ class Harvest extends Component<Props, State> {
         const callBack = async () => {
             const { selectedNode } = this.state;
             this.setState({ isLoading: true });
+            console.log(this.getSelectedUrl());
             await store.dispatchAction({
                 type: 'harvesting/startHarvesting',
                 payload: { nodePublicKey: selectedNode, harvestingNode: this.getSelectedUrl() },
