@@ -51,7 +51,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
 
     renderAddress = () => {
         const { transaction } = this.props;
-        return <Trunc type="address">{this.isIncoming() ? transaction.signerAddress : transaction.recipientAddress}</Trunc>;
+        return this.isIncoming() ? transaction.signerAddress : transaction.recipientAddress;
     };
 
     renderAction = () => {

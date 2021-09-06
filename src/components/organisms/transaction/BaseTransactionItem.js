@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         color: GlobalStyles.color.GREEN,
 	},
 	address: {
+        width: "60%",
 		fontSize: 11
 	},
 	bold: {
@@ -61,7 +62,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
 
     renderAddress = () => {
         const { transaction } = this.props;
-        return <Trunc type="address">{transaction.signerAddress}</Trunc>;
+        return transaction.signerAddress;
     };
 
     render = () => {
