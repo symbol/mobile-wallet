@@ -26,7 +26,7 @@ const downloadAndroid = async (file, filename, encoding) => {
                 return saveFile(file, filename, 'android', encoding);
             } else {
                 Router.showMessage({
-                    message: translate('writePermissionsNeeded'),
+                    message: translate('unsortedKeys.writePermissionsNeeded'),
                     type: 'danger'
                 });
             }
