@@ -138,7 +138,6 @@ export default class {
 	}
 
 	static formatMosaic = async(mosaic, network) => {
-		// console.log('MMMMOOOOSSSAAAAIIIICCCCC', mosaic)
 		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
 		const formattedMosaic = {
 			...mosaicModel,
