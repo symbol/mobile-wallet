@@ -11,7 +11,10 @@ import {
 	TransactionType,
 	Address,
 	CosignatureSignedTransaction,
-	SignedTransaction
+	SignedTransaction,
+	RepositoryFactoryHttp,
+	Mosaic,
+	UInt64
 } from 'symbol-sdk';
 import MosaicService from './MosaicService';
 import NetworkService from './NetworkService';
@@ -81,11 +84,19 @@ export default class {
 	};
 
 	static parseRequestTransaction = async (data, network) => {
+		let networkCurrency = undefined;
 		const transaction = TransactionMapping.createFromPayload(data.data.payload);
 		if(transaction.type !== TransactionType.TRANSFER)
 			throw Error('Transaction type is not a transfer');
+		if(!transaction.mosaics[0]){
+			networkCurrency = await new RepositoryFactoryHttp(network.node, {
+				networkType: network.networkType,
+				generationHash: network.generationHashSeed
+			}).getCurrencies().toPromise()
+		}
 
-		const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
+		const mosaic = transaction.mosaics[0] || (new Mosaic(networkCurrency.currency.mosaicId, UInt64.fromUint(0)));
+		const formattedMosaic = await this.formatMosaic(mosaic, network);
 		const formatedTransaction = {
 			recipientAddress: transaction.recipientAddress.pretty(),
 			message: transaction.message.payload,
@@ -127,6 +138,7 @@ export default class {
 	}
 
 	static formatMosaic = async(mosaic, network) => {
+		// console.log('MMMMOOOOSSSAAAAIIIICCCCC', mosaic)
 		const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
 		const formattedMosaic = {
 			...mosaicModel,
