@@ -140,6 +140,7 @@ class CreateAccount extends Component {
 								value={index}
 								placeholder={translate('createAccount.seed')}
 								theme="light"
+								keyboardType='numeric'
 								fullWidth
 								onChangeText={val => this.handleIndexChange(val)}
 							/>
