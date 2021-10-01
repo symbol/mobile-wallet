@@ -394,6 +394,7 @@
 		}
 	},
 	"table": {
+		"signature": "Signature",
 		"type": "Type",
 		"recipientAddress": "Indirizzo del destinatario",
 		"messageText": "Messaggio",

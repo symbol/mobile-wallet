@@ -108,19 +108,9 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 <TableView
                     data={{
                         innerTxs: transaction.innerTransactions.length,
+                        signature: this.needsSignature() && 'You can use Symbol Desktop Wallet or Symbol CLI to review and sign this transaction.'
                     }}
                 />
-                {this.needsSignature() && (
-                    <Row justify="space-between">
-                        <Button
-                            style={{ padding: 0 }}
-                            isLoading={isLoading}
-                            text={translate('history.transaction.sign')}
-                            theme="light"
-                            onPress={() => this.sign()}
-                        />
-                    </Row>
-                )}
             </View>
         );
     };

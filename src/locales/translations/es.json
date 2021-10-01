@@ -399,6 +399,7 @@
 		"fast": "Rápida"
 	},
 	"table": {
+		"signature": "Signature",
 		"type": "Tipo",
 		"recipientAddress": "Dirección de recepción",
 		"messageText": "Mensaje / Memo",
