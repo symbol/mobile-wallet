@@ -394,7 +394,8 @@
 		}
 	},
 	"table": {
-		"signature": "Signature",
+		"signature": "署名",
+		"signDescription": "Symbol デスクトップウォレット または Symbol CLI を使用して、このトランザクションを確認、署名する事ができます。",
 		"type": "タイプ",
 		"recipientAddress": "受け取りアドレス",
 		"messageText": "メッセージ/メモ",

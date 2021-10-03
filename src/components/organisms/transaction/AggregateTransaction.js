@@ -91,7 +91,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
         const { transaction, isLoading, isMultisig } = this.props;
         const table = { innerTxs: transaction.innerTransactions.length };
         if (this.needsSignature()) {
-            table.signature = 'You can use Symbol Desktop Wallet or Symbol CLI to review and sign this transaction.'; //TODO: remove when inner transactions presentation is ready
+            table.signature = translate('table.signDescription'); //TODO: remove when inner transactions presentation is ready
         }
 
         if (this.isPostLaunchOptIn()) {
