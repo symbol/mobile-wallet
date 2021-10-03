@@ -394,6 +394,7 @@
 		}
 	},
 	"table": {
+		"signature": "Signature",
 		"type": "Тип",
 		"recipientAddress": "Адрес получателя",
 		"messageText": "Сообщение / Мемо",

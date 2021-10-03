@@ -394,6 +394,7 @@
 		}
 	},
 	"table": {
+		"signature": "Signature",
 		"type": "类型",
 		"recipientAddress": "收件人地址",
 		"messageText": "消息/备忘录",

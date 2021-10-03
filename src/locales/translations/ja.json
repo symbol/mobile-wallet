@@ -394,6 +394,7 @@
 		}
 	},
 	"table": {
+		"signature": "Signature",
 		"type": "タイプ",
 		"recipientAddress": "受け取りアドレス",
 		"messageText": "メッセージ/メモ",
