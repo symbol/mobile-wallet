@@ -394,7 +394,8 @@
 		}
 	},
 	"table": {
-		"signature": "Signature",
+		"signature": "簽名",
+		"signDescription": "您可以使用 Symbol 桌面钱包或 Symbol CLI 来验证和签署此交易。",
 		"type": "类型",
 		"recipientAddress": "收件人地址",
 		"messageText": "消息/备忘录",
