@@ -67,10 +67,10 @@ class History extends Component<Props, State> {
         }
     };
 
-    renderTransactionItem = showingDetails => ({ item, index }) => {
+    renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
 		return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <Transaction transaction={item} showDetails={showingDetails === index} componentId={this.props.componentId} />
+                <Transaction transaction={item} componentId={this.props.componentId} />
             </ListItem>
         );
     };
