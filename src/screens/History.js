@@ -4,7 +4,7 @@ import { Section, GradientBackground, Row, TitleBar, Dropdown, EmptyListMessage,
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
-import Transaction from '@src/components/organisms/transaction';
+import { TransactionItem } from '@src/components';
 import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
@@ -70,7 +70,7 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
 		return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <Transaction transaction={item} componentId={this.props.componentId} />
+                <TransactionItem transaction={item} showDetails componentId={this.props.componentId} />
             </ListItem>
         );
     };

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import { Col, Row, Text, Trunc, Icon, TableView } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
+import { filterCurrencyMosaic } from '@src/utils/filter';
+import { getFinanceBotPublicKeys } from '@src/config/environment';
+import { TransactionType, UInt64, AggregateTransaction as SdkAggregateTransaction } from 'symbol-sdk';
+import TransactionService from '@src/services/TransactionService';
 
 const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
-        // height: 60,
         borderRadius: 6,
-        // marginTop: 0,
-        // marginBottom: 8,
-        // padding: 17,
-        // paddingTop: 8,
         backgroundColor: GlobalStyles.color.WHITE
 	},
 	date: {
@@ -22,18 +22,35 @@ const styles = StyleSheet.create({
 		marginRight: 14,
 	},
 	amounteOutgoing: {
-		color: '#b30000' 
+        color: GlobalStyles.color.RED,
+    },
+    amountIncoming: {
+        color: GlobalStyles.color.GREEN,
 	},
-	amountIncoming: {
-		color: '#1bb300' 
+	address: {
+		fontSize: 11
 	},
+	bold: {
+		fontSize: 11
+	}
 });
 
 type Props = {
     transaction: TransactionModel,
 };
 
-export default class Transaction extends Component<Props> {
+export class TransactionItem extends Component<Props> {
+	state: {
+        fullTransaction: null,
+    };
+
+	componentDidMount() {
+        const { selectedNode, transaction } = this.props;
+        TransactionService.getTransaction(transaction.hash, selectedNode).then(async tx => {
+            this.setState({ fullTransaction: tx });
+        });
+    }
+
 	renderValue = value => {
 		switch(value.type) {
 			case 'nativeMosaicIncoming':
@@ -48,31 +65,61 @@ export default class Transaction extends Component<Props> {
 	};
 
     render = () => {
-		const { transaction, showDetails } = this.props;
-		let rand = Math.random();
-		//transaction.transferType = rand < 0.5 ? 'outgoing' : 'incoming';
+		const { transaction, showDetails, currentAddress, network } = this.props;
 		let transactionType = transaction.type;
 		let date = transaction.deadline;
-		let iconName = '';
+		let iconName = transaction.type;
 		let info = transaction.signerAddress;
 		let values = [];
 
 		switch(transaction.type) {
 			case 'transfer':  // TODO: replace with SDK.TransactionType.TRANSFER
-				iconName = transaction.transferType === 'incoming' ? 'incoming_light' : 'outgoing_light';
-				transactionType = transaction.transferType === 'incoming' ? 'Transfer from' : 'Transfer to';
-				info = transaction.transferType === 'incoming' ? transaction.signerAddress : transaction.recipientAddress;
-
+				const transferType = transaction.recipientAddress === currentAddress ? 'incoming' : 'outgoing';
+				const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+				iconName = transferType === 'incoming' ? 'incoming_light' : 'outgoing_light';
+				transactionType = transferType === 'incoming' ? 'Transfer from' : 'Transfer to';
+				info = transferType === 'incoming' ? transaction.signerAddress : transaction.recipientAddress;
 				
-				if(transaction.amount && transaction.transferType === 'incoming')
-					values.push({type: 'nativeMosaicIncoming', value: transaction.amount});
-				if(transaction.amount && transaction.transferType === 'outgoing')
-					values.push({type: 'nativeMosaicOutgoing', value: transaction.amount});
-				if(transaction.hasCustomMosaic)
-					values.push({type: 'otherMosaics', value: transaction.hasCustomMosaic});
-				if(transaction.messageText)
-					values.push({type: 'message', value: transaction.messageText});
-				break;
+				if (!currencyMosaic) {
+					values.push({ type: 'nativeMosaicIncoming', value: 0 });
+				} else {
+					if (currencyMosaic && transferType === 'incoming')
+						values.push({ type: 'nativeMosaicIncoming', value: currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) });
+					if (currencyMosaic && transferType === 'outgoing')
+						values.push({ type: 'nativeMosaicOutgoing', value: currencyMosaic.amount / Math.pow(10, currencyMosaic.divisibility) });
+				}
+				if ((transaction.mosaics.length > 1 && currencyMosaic) || (transaction.mosaics.length > 0 && !currencyMosaic)) {
+					values.push({ type: 'otherMosaics' });
+				}
+				if (transaction.messageText) values.push({ type: 'message' });
+			break;
+			case 'aggregate':
+				const isPostLaunchOptIn = getFinanceBotPublicKeys(network.type)
+					.indexOf(transaction.signTransactionObject.signer.publicKey) >= 0;
+				let postLaunchOptinAmount = '';
+
+				if (this.state) {
+					const transaction: SdkAggregateTransaction = this.state.fullTransaction;
+					const innerTransactions = transaction && transaction.innerTransactions ? transaction.innerTransactions: [];
+					const _currentAddress = currentAddress.replace(/-/g, '');
+					const filteredTransactions = innerTransactions.filter(innerTransaction => {
+						return (
+							innerTransaction.type === TransactionType.TRANSFER &&
+							innerTransaction.recipientAddress &&
+							innerTransaction.recipientAddress?.plain() === _currentAddress &&
+							innerTransaction.mosaics?.length
+						);
+					});
+					const mosaics = filteredTransactions.map(transaction => transaction.mosaics[0]);
+					let sumAmount = UInt64.fromNumericString('0');
+					mosaics.forEach(mosaic => (sumAmount = sumAmount.add(mosaic.amount)));
+					postLaunchOptinAmount = sumAmount.compact() / Math.pow(10, 6);
+				}
+
+				iconName = isPostLaunchOptIn ? 'postLaunchOptIn' : transaction.type;
+
+			break;
+
 		}
 		
 		
@@ -92,7 +139,7 @@ export default class Transaction extends Component<Props> {
 							</Text>
 						</Row>
 						<Row justify="space-between" align="center">
-							<Text type="bold" theme="light">
+							<Text type="bold" theme="light" style={styles.address}>
 								<Trunc type="address">
 									{info}
 								</Trunc>
@@ -104,11 +151,24 @@ export default class Transaction extends Component<Props> {
 					</Col>
 				</Row>
 				{showDetails && (
-                    <View style={{paddingTop: 17}}>
-                        <TableView data={transaction} />
-                    </View>
+					<Text type="bold" theme="light">
+						{JSON.stringify(transaction.innerTransactions)}
+					</Text>
+                    // <View style={{paddingTop: 17}}>
+                    //     <TableView data={transaction} />
+                    // </View>
                 )}
 			</View>
 		);
     }
 }
+
+export default connect(state => ({
+	selectedNode: state.network.selectedNetwork,
+    isLoading: state.transfer.isLoading,
+	isMultisig: state.account.isMultisig,
+    network: state.network.selectedNetwork,
+    selectedAccount: state.wallet.selectedAccount,
+    selectedAccountAddress: state.account.selectedAccountAddress,
+    currentAddress: state.transaction.addressFilter,
+}))(TransactionItem);
