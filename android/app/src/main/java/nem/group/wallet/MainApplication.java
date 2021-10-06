@@ -1,4 +1,4 @@
-package nem.group.wallet;
+package nem.group.symbol.wallet;
 
 import android.app.Application;
 import android.content.Context;
