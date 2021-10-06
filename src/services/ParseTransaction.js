@@ -16,378 +16,363 @@
  *
  */
 
-import http from './http';
-import helper from '../helper';
-import { Constants } from '../config';
-import { Address, Mosaic, MosaicId } from 'symbol-sdk';
+// import helper from '../helper';
+import { Constants } from '@src/config/constants';
+import { Mosaic, MosaicId } from 'symbol-sdk';
+import { NamespaceService } from '@src/services/NamespaceService';
 
 export class ParseTransaction {
-    static transferTransaction = async (transactionObj) => {
-    	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
-    		helper.resolvedAddress(transactionObj.recipientAddress),
-    		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
-    	]);
+    // static transferTransaction = async (transaction) => {
+    // 	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
+    // 		helper.resolvedAddress(transaction.recipientAddress),
+    // 		helper.mosaicsFieldObjectBuilder(transaction.mosaics)
+    // 	]);
 
+    // 	return {
+    // 		...transaction,
+    // 		transactionBody: {
+    // 			transactionType: transaction.type,
+    // 			message: transaction.message,
+    // 			recipient: resolvedAddress,
+    // 			mosaics: mosaicsFieldObject
+    // 		}
+    // 	};
+    // }
+
+    static namespaceRegistration = async (transaction) => {
     	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			message: transactionObj.message,
-    			recipient: resolvedAddress,
-    			mosaics: mosaicsFieldObject
-    		}
+			transactionType: 'NamespaceRegistration',
+			registrationType: Constants.NamespaceRegistrationType[transaction.registrationType],
+			namespaceName: transaction.namespaceName,
+			namespaceId: transaction.namespaceId.toHex(),
+			parentId: typeof transaction.parentId !== 'undefined' ? transaction.parentId?.toHex() : Constants.Message.UNAVAILABLE,
+			duration: typeof transaction.duration !== 'undefined' ? transaction.duration?.compact() : Constants.Message.UNLIMITED
     	};
     }
 
-    static namespaceRegistration = async (transactionObj) => {
-    	return {
-    		...transactionObj,
-  			transactionBody: {
-    			transactionType: transactionObj.type,
-  				recipient: http.networkConfig.NamespaceRentalFeeSinkAddress.address,
-  				registrationType: Constants.NamespaceRegistrationType[transactionObj.registrationType],
-  				namespaceName: transactionObj.namespaceName,
-  				namespaceId: transactionObj.namespaceId.toHex(),
-  				parentId: typeof transactionObj.parentId !== 'undefined' ? transactionObj.parentId?.toHex() : Constants.Message.UNAVAILABLE,
-  				duration: typeof transactionObj.duration !== 'undefined' ? transactionObj.duration?.compact() : Constants.Message.UNLIMITED
-  			}
-    	};
-    }
-
-    static addressAlias = async (transactionObj, network) => {
+    static addressAlias = async (transaction, network) => {
 		const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-        const namespaceNames = await namespaceHttp.getNamespacesNames([transactionObj.namespaceId]).toPromise();
-    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
+        const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transaction.namespaceId.toHex());
 
     	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			aliasAction: Constants.AliasAction[transactionObj.aliasAction],
-    			namespaceId: transactionObj.namespaceId.toHex(),
-    			namespaceName: namespaceName.name,
-    			address: transactionObj.address.address
-    		}
+			transactionType: 'AddressAlias',
+			aliasAction: Constants.AliasAction[transaction.aliasAction],
+			namespaceId: transaction.namespaceId.toHex(),
+			namespaceName: namespaceName.name,
+			address: transaction.address.address
     	};
     }
 
-    static mosaicAlias = async (transactionObj, network) => {
+    static mosaicAlias = async (transaction, network) => {
     	const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-        const namespaceNames = await namespaceHttp.getNamespacesNames([transactionObj.namespaceId]).toPromise();
-    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
+        const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transaction.namespaceId.toHex());
 
     	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			aliasAction: Constants.AliasAction[transactionObj.aliasAction],
-    			namespaceId: transactionObj.namespaceId.id.toHex(),
-    			namespaceName: namespaceName.name,
-    			mosaicId: transactionObj.mosaicId.id.toHex()
-    		}
+			transactionType: 'MosaicAlias',
+			aliasAction: Constants.AliasAction[transaction.aliasAction],
+			namespaceId: transaction.namespaceId.id.toHex(),
+			namespaceName: namespaceName.name,
+			mosaicId: transaction.mosaicId.id.toHex()
     	};
     };
 
-    static mosaicDefinition = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
+    static mosaicDefinition = async (transaction, network) => {
+    	const resolvedMosaic = await NamespaceService.resolveMosaicId(transaction.mosaicId, network);
 
     	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			recipient: http.networkConfig.MosaicRentalSinkAddress.address,
-    			mosaicId: resolvedMosaic.toHex(),
-    			divisibility: transactionObj.divisibility,
-    			duration: transactionObj.duration.compact(),
-    			nonce: transactionObj.nonce.toHex(),
-    			supplyMutable: transactionObj.flags.supplyMutable,
-    			transferable: transactionObj.flags.transferable,
-    			restrictable: transactionObj.flags.restrictable
-    		}
+			transactionType: 'MosaicDefinition',
+			mosaicId: resolvedMosaic.toHex(),
+			divisibility: transaction.divisibility,
+			duration: transaction.duration.compact(),
+			nonce: transaction.nonce.toHex(),
+			supplyMutable: transaction.flags.supplyMutable,
+			transferable: transaction.flags.transferable,
+			restrictable: transaction.flags.restrictable
     	};
     };
 
-    static mosaicSupplyChange = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
+    static mosaicSupplyChange = async (transaction, network) => {
+    	const resolvedMosaic = await NamespaceService.resolveMosaicId(transaction.mosaicId, network);
 
     	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			mosaicId: resolvedMosaic.toHex(),
-    			action: Constants.MosaicSupplyChangeAction[transactionObj.action],
-    			delta: transactionObj.delta.compact()
-    		}
+			transactionType: 'MosaicSupplyChange',
+			mosaicId: resolvedMosaic.toHex(),
+			action: Constants.MosaicSupplyChangeAction[transaction.action],
+			delta: transaction.delta.compact()
     	};
     };
 
-    static multisigAccountModification = async (transactionObj) => {
+    static multisigAccountModification = async (transaction, network) => {
     	const [addressAdditions, addressDeletions] = await Promise.all([
-    		Promise.all(transactionObj.addressAdditions.map(address => {
+    		Promise.all(transaction.addressAdditions.map(address => {
+    			return NamespaceService.resolveAddress(address, network);
+    		})),
+    		Promise.all(transaction.addressDeletions.map(address => {
+    			return NamespaceService.resolveAddress(address, network);
+    		}))
+    	]);
+
+    	return {
+			transactionType: 'MultisigAccountModification',
+			minApprovalDelta: transaction.minApprovalDelta,
+			minRemovalDelta: transaction.minRemovalDelta,
+			addressAdditions: addressAdditions,
+			addressDeletions: addressDeletions
+    	};
+    }
+
+    static hashLock = async (transaction, network, preLoadedMosaics?) => {
+    	let mosaicModel;
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
+            mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
+            mosaicModel = {
+                ...preLoadedMosaics[transaction.mosaic.id.toHex()],
+                amount: transaction.mosaic.amount.toString(),
+            };
+        } else {
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
+        }
+
+    	return {
+			transactionType: transaction.type,
+			duration: transaction.duration.compact(),
+			mosaic: mosaicModel,
+			hash: transaction.hash
+    	};
+    }
+
+    static secretLock = async (transaction, network, preLoadedMosaics?) => {
+		let mosaicModel;
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
+            mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
+            mosaicModel = {
+                ...preLoadedMosaics[transaction.mosaic.id.toHex()],
+                amount: transaction.mosaic.amount.toString(),
+            };
+        } else {
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
+        }
+
+    	const [resolvedAddress] = await Promise.all([
+    		NamespaceService.resolveAddress(transaction.recipientAddress)
+    	]);
+
+    	return {
+			transactionType: transaction.type,
+			duration: transaction.duration.compact(),
+			mosaic: mosaicModel,
+			secret: transaction.secret,
+			recipient: resolvedAddress,
+			hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm]
+    	};
+    };
+
+    static secretProof = async (transaction) => {
+    	const resolvedAddress = await helper.resolvedAddress(transaction.recipientAddress);
+
+    	return {
+    		...transaction,
+    		transactionBody: {
+    			transactionType: transaction.type,
+    			hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm],
+    			recipient: resolvedAddress,
+    			secret: transaction.secret,
+    			proof: transaction.proof
+    		}
+    	};
+    };
+
+    static accountAddressRestriction = async (transaction) => {
+    	const [addressAdditions, addressDeletions] = await Promise.all([
+    		Promise.all(transaction.restrictionAdditions.map(address => {
     			return helper.resolvedAddress(address);
     		})),
-    		Promise.all(transactionObj.addressDeletions.map(address => {
+    		Promise.all(transaction.restrictionDeletions.map(address => {
     			return helper.resolvedAddress(address);
     		}))
     	]);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			minApprovalDelta: transactionObj.minApprovalDelta,
-    			minRemovalDelta: transactionObj.minRemovalDelta,
-    			addressAdditions: addressAdditions,
-    			addressDeletions: addressDeletions
-    		}
-    	};
-    }
-
-    static hashLock = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
-
-    	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
-
-    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder([mosaic]);
-
-    	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			duration: transactionObj.duration.compact(),
-    			mosaics: mosaicsFieldObject,
-    			hash: transactionObj.hash
-    		}
-    	};
-    }
-
-    static secretLock = async (transactionObj) => {
-    	const [mosaicsFieldObject, resolvedAddress] = await Promise.all([
-    		helper.mosaicsFieldObjectBuilder([transactionObj.mosaic]),
-    		helper.resolvedAddress(transactionObj.recipientAddress)
-    	]);
-
-    	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			duration: transactionObj.duration.compact(),
-    			mosaics: mosaicsFieldObject,
-    			secret: transactionObj.secret,
-    			recipient: resolvedAddress,
-    			hashAlgorithm: Constants.LockHashAlgorithm[transactionObj.hashAlgorithm]
-    		}
-    	};
-    };
-
-    static secretProof = async (transactionObj) => {
-    	const resolvedAddress = await helper.resolvedAddress(transactionObj.recipientAddress);
-
-    	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			hashAlgorithm: Constants.LockHashAlgorithm[transactionObj.hashAlgorithm],
-    			recipient: resolvedAddress,
-    			secret: transactionObj.secret,
-    			proof: transactionObj.proof
-    		}
-    	};
-    };
-
-    static accountAddressRestriction = async (transactionObj) => {
-    	const [addressAdditions, addressDeletions] = await Promise.all([
-    		Promise.all(transactionObj.restrictionAdditions.map(address => {
-    			return helper.resolvedAddress(address);
-    		})),
-    		Promise.all(transactionObj.restrictionDeletions.map(address => {
-    			return helper.resolvedAddress(address);
-    		}))
-    	]);
-
-    	return {
-    		...transactionObj,
-    		transactionBody: {
-    			transactionType: transactionObj.type,
-    			restrictionType: Constants.AddressRestrictionFlag[transactionObj.restrictionFlags],
+    			transactionType: transaction.type,
+    			restrictionType: Constants.AddressRestrictionFlag[transaction.restrictionFlags],
     			restrictionAddressAdditions: addressAdditions,
     			restrictionAddressDeletions: addressDeletions
     		}
     	};
     };
 
-    static accountMosaicRestriction = async (transactionObj) => {
+    static accountMosaicRestriction = async (transaction) => {
     	// Todo: mosaic restriction field
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			restrictionType: Constants.MosaicRestrictionFlag[transactionObj.restrictionFlags],
-    			restrictionMosaicAdditions: transactionObj.restrictionAdditions.map(restriction => restriction.id.toHex()),
-    			restrictionMosaicDeletions: transactionObj.restrictionDeletions.map(restriction => restriction.id.toHex())
+    			transactionType: transaction.type,
+    			restrictionType: Constants.MosaicRestrictionFlag[transaction.restrictionFlags],
+    			restrictionMosaicAdditions: transaction.restrictionAdditions.map(restriction => restriction.id.toHex()),
+    			restrictionMosaicDeletions: transaction.restrictionDeletions.map(restriction => restriction.id.toHex())
     		}
     	};
     }
 
-    static accountOperationRestriction = async (transactionObj) => {
+    static accountOperationRestriction = async (transaction) => {
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			restrictionType: Constants.OperationRestrictionFlag[transactionObj.restrictionFlags],
-    			restrictionOperationAdditions: transactionObj.restrictionAdditions.map(operation => operation),
-    			restrictionOperationDeletions: transactionObj.restrictionDeletions.map(operation => operation)
+    			transactionType: transaction.type,
+    			restrictionType: Constants.OperationRestrictionFlag[transaction.restrictionFlags],
+    			restrictionOperationAdditions: transaction.restrictionAdditions.map(operation => operation),
+    			restrictionOperationDeletions: transaction.restrictionDeletions.map(operation => operation)
     		}
     	};
     };
 
-    static mosaicAddressRestriction = async (transactionObj) => {
+    static mosaicAddressRestriction = async (transaction) => {
     	const [resolvedMosaic, targetAddress] = await Promise.all([
-    		helper.resolveMosaicId(transactionObj.mosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		helper.resolveMosaicId(transaction.mosaicId),
+    		helper.resolvedAddress(transaction.targetAddress)
     	]);
 
     	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
+    			transactionType: transaction.type,
     			mosaicId: resolvedMosaic.toHex(),
     			mosaicAliasNames,
     			targetAddress: targetAddress,
-    			restrictionKey: transactionObj.restrictionKey.toHex(),
-    			previousRestrictionValue: transactionObj.previousRestrictionValue.toString(),
-    			newRestrictionValue: transactionObj.newRestrictionValue.toString()
+    			restrictionKey: transaction.restrictionKey.toHex(),
+    			previousRestrictionValue: transaction.previousRestrictionValue.toString(),
+    			newRestrictionValue: transaction.newRestrictionValue.toString()
     		}
     	};
     };
 
-    static mosaicGlobalRestriction = async (transactionObj) => {
-    	const referenceMosaicId = transactionObj.referenceMosaicId.toHex() === '0000000000000000' ? transactionObj.mosaicId : transactionObj.referenceMosaicId;
+    static mosaicGlobalRestriction = async (transaction) => {
+    	const referenceMosaicId = transaction.referenceMosaicId.toHex() === '0000000000000000' ? transaction.mosaicId : transaction.referenceMosaicId;
     	const mosaicAliasNames = await helper.getMosaicAliasNames(referenceMosaicId);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
+    			transactionType: transaction.type,
     			referenceMosaicId: referenceMosaicId.toHex(),
     			mosaicAliasNames,
-    			restrictionKey: transactionObj.restrictionKey.toHex(),
-    			previousRestrictionType: Constants.MosaicRestrictionType[transactionObj.previousRestrictionType],
-    			previousRestrictionValue: transactionObj.previousRestrictionValue.compact(),
-    			newRestrictionType: Constants.MosaicRestrictionType[transactionObj.newRestrictionType],
-    			newRestrictionValue: transactionObj.newRestrictionValue.compact()
+    			restrictionKey: transaction.restrictionKey.toHex(),
+    			previousRestrictionType: Constants.MosaicRestrictionType[transaction.previousRestrictionType],
+    			previousRestrictionValue: transaction.previousRestrictionValue.compact(),
+    			newRestrictionType: Constants.MosaicRestrictionType[transaction.newRestrictionType],
+    			newRestrictionValue: transaction.newRestrictionValue.compact()
     		}
     	};
     };
 
-    static accountMetadata = async (transactionObj) => {
-    	const resolvedAddress = await helper.resolvedAddress(transactionObj.targetAddress);
+    static accountMetadata = async (transaction) => {
+    	const resolvedAddress = await helper.resolvedAddress(transaction.targetAddress);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
+    			transactionType: transaction.type,
+    			scopedMetadataKey: transaction.scopedMetadataKey.toHex(),
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
-    			valueSizeDelta: transactionObj.valueSizeDelta
+    			metadataValue: transaction.value,
+    			valueSizeDelta: transaction.valueSizeDelta
     		}
     	};
     };
 
-    static mosaicMetadata = async (transactionObj) => {
+    static mosaicMetadata = async (transaction) => {
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
-    		helper.resolveMosaicId(transactionObj.targetMosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		helper.resolveMosaicId(transaction.targetMosaicId),
+    		helper.resolvedAddress(transaction.targetAddress)
     	]);
 
     	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
+    			transactionType: transaction.type,
+    			scopedMetadataKey: transaction.scopedMetadataKey.toHex(),
     			targetMosaicId: resolvedMosaic.toHex(),
     			targetMosaicAliasNames: mosaicAliasNames,
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
-    			valueSizeDelta: transactionObj.valueSizeDelta
+    			metadataValue: transaction.value,
+    			valueSizeDelta: transaction.valueSizeDelta
     		}
     	};
     };
 
-    static namespaceMetadata = async (transactionObj, network) => {
+    static namespaceMetadata = async (transaction, network) => {
 		const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
     	const [namespaceName, resolvedAddress] = await Promise.all([
-    		namespaceHttp.getNamespacesNames([transactionObj.targetNamespaceId]).toPromise(),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		namespaceHttp.getNamespacesNames([transaction.targetNamespaceId]).toPromise(),
+    		helper.resolvedAddress(transaction.targetAddress)
     	]);
 
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
-    			targetNamespaceId: transactionObj.targetNamespaceId.toHex(),
+    			transactionType: transaction.type,
+    			scopedMetadataKey: transaction.scopedMetadataKey.toHex(),
+    			targetNamespaceId: transaction.targetNamespaceId.toHex(),
     			namespaceName: namespaceName,
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
-    			valueSizeDelta: transactionObj.valueSizeDelta
+    			metadataValue: transaction.value,
+    			valueSizeDelta: transaction.valueSizeDelta
     		}
     	};
     };
 
-    static votingKeyLink = async (transactionObj) => {
+    static votingKeyLink = async (transaction) => {
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			linkAction: Constants.LinkAction[transactionObj.linkAction],
-    			linkedPublicKey: transactionObj.linkedPublicKey,
-    			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain(),
-    			startEpoch: transactionObj.startEpoch,
-    			endEpoch: transactionObj.endEpoch
+    			linkAction: Constants.LinkAction[transaction.linkAction],
+    			linkedPublicKey: transaction.linkedPublicKey,
+    			startEpoch: transaction.startEpoch,
+    			endEpoch: transaction.endEpoch
     		}
     	};
     };
 
-    static vrfKeyLink = async (transactionObj) => {
+    static vrfKeyLink = async (transaction) => {
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			linkAction: Constants.LinkAction[transactionObj.linkAction],
-    			linkedPublicKey: transactionObj.linkedPublicKey,
-    			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
+    			transactionType: transaction.type,
+    			linkAction: Constants.LinkAction[transaction.linkAction],
+    			linkedPublicKey: transaction.linkedPublicKey,
     		}
     	};
     };
 
-    static nodeKeyLink = async (transactionObj) => {
+    static nodeKeyLink = async (transaction) => {
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			linkAction: Constants.LinkAction[transactionObj.linkAction],
-    			linkedPublicKey: transactionObj.linkedPublicKey,
-    			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
+    			transactionType: transaction.type,
+    			linkAction: Constants.LinkAction[transaction.linkAction],
+    			linkedPublicKey: transaction.linkedPublicKey,
     		}
     	};
     };
 
-    static accountKeyLink = async (transactionObj) => {
+    static accountKeyLink = async (transaction) => {
     	return {
-    		...transactionObj,
+    		...transaction,
     		transactionBody: {
-    			transactionType: transactionObj.type,
-    			linkAction: Constants.LinkAction[transactionObj.linkAction],
-    			linkedPublicKey: transactionObj.linkedPublicKey,
-    			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
+    			transactionType: transaction.type,
+    			linkAction: Constants.LinkAction[transaction.linkAction],
+    			linkedPublicKey: transaction.linkedPublicKey,
     		}
     	};
     };

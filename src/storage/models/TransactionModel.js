@@ -73,7 +73,6 @@ export interface AccountAddressRestrictionModel extends TransactionModel {
 
 export interface AccountKeyLinkModel extends TransactionModel {
     type: 'AccountKeyLink';
-    linkedAccountAddress: string;
     linkAction: string;
     linkedPublicKey: string;
 }
@@ -194,7 +193,6 @@ export interface NamespaceRegistrationModel extends TransactionModel {
 
 export interface NodeKeyLinkModel extends TransactionModel {
     type: 'NodeKeyLink';
-    linkedAccountAddress: string;
     linkAction: string;
     linkedPublicKey: string;
 }
@@ -218,7 +216,6 @@ export interface SecretProofModel extends TransactionModel {
 
 export interface VotingKeyLinkModel extends TransactionModel {
     type: 'VotingKeyLink';
-    linkedAccountAddress: string;
     linkAction: string;
     linkedPublicKey: string;
     startEpoch: number;
@@ -227,7 +224,6 @@ export interface VotingKeyLinkModel extends TransactionModel {
 
 export interface VrfKeyLinkModel extends TransactionModel {
     type: 'VrfKeyLink';
-    linkedAccountAddress: String;
     linkAction: String;
     linkedPublicKey: String;
 }

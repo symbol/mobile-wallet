@@ -1,4 +1,15 @@
-import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp, MosaicId, UInt64 } from 'symbol-sdk';
+import { 
+    AccountHttp, 
+    Account, 
+    Address, 
+    NetworkType, 
+    Mosaic, 
+    MosaicHttp, 
+    NamespaceHttp, 
+    MultisigHttp, 
+    MosaicId, 
+    UInt64 
+} from 'symbol-sdk';
 import {ExtendedKey, MnemonicPassPhrase, Network, Wallet} from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
