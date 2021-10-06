@@ -26,4 +26,22 @@ export default class NamespaceService {
 
 		return mosaicId.id;
     }
+
+    static async getMosaicAliasNames(mosaicId: MosaicId, network: NetworkModel): Promise<Array<string>> {
+        const mosaicNames = await new NamespaceHttp(network.node)
+            .getMosaicsNames([mosaicId])
+            .toPromise();
+        
+        const formattedMosaicNames = mosaicNames.map(mosaicName => ({
+            ...mosaicName,
+            mosaicId: mosaicName.mosaicId.toHex()
+        }));
+
+        const mosaicInfo = { mosaicId: mosaicId.toHex() };
+        const mosaicName = formattedMosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId);
+        const aliasNames = mosaicName.names.map(names => names.name);
+        const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+
+        return names;
+    }
 }
