@@ -120,6 +120,11 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
 
     renderDetails = () => {
         const { transaction, isLoading, isMultisig } = this.props;
+        const table = { innerTxs: transaction.innerTransactions.length };
+        if (this.needsSignature()) {
+            table.signature = translate('table.signDescription'); //TODO: remove when inner transactions presentation is ready
+        }
+
         if (this.isPostLaunchOptIn()) {
             const amount = this.postLaunchAmount();
             return (
@@ -136,22 +141,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
         }
         return (
             <View>
-                <TableView
-                    data={{
-                        innerTxs: transaction.innerTransactions.length,
-                    }}
-                />
-                {this.needsSignature() && (
-                    <Row justify="space-between">
-                        <Button
-                            style={{ padding: 0 }}
-                            isLoading={isLoading}
-                            text={translate('history.transaction.sign')}
-                            theme="light"
-                            onPress={() => this.sign()}
-                        />
-                    </Row>
-                )}
+                <TableView data={table}/>
             </View>
         );
     };
