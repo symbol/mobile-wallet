@@ -79,7 +79,8 @@ export default class FetchTransactionService {
         rawAddress: string,
         page: number,
         directionFilter: DirectionFilter,
-        network: NetworkModel
+        network: NetworkModel,
+        cosignatoryOf: []
     ): Promise<TransactionModel[]> {
         const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
@@ -110,7 +111,19 @@ export default class FetchTransactionService {
                 transactionHttp.search(partialSearchCriteria).toPromise(),
                 transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
             ]);
-            allTransactions = [...unconfirmedTransactions.data, ...partialTransactions.data, ...confirmedTransactions.data];
+
+            let multisigPartialSearchCriteria = partialSearchCriteria;
+            for(const cosigner of cosignatoryOf){
+                multisigPartialSearchCriteria.address = Address.createFromRawAddress(cosigner);
+                const multisigTransactions =  await transactionHttp.search(multisigPartialSearchCriteria).toPromise();
+                for(const transaction of multisigTransactions.data){
+                    if(!partialTransactions.data.some((tx)=>transaction.transactionInfo.hash ===  tx.transactionInfo.hash)){
+                        partialTransactions.data.push(transaction);
+                    }
+                }
+            };
+
+            allTransactions = [...partialTransactions.data, ...unconfirmedTransactions.data, ...confirmedTransactions.data];
         } else {
             const confirmedTxs = await transactionHttp.search(confirmedSearchCriteria).toPromise();
             allTransactions = confirmedTxs.data;
