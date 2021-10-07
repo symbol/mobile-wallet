@@ -394,6 +394,8 @@
 		}
 	},
 	"table": {
+		"signature": "Firma",
+		"signDescription": "Puoi utilizzare Symbol Desktop Wallet o Symbol CLI per rivedere e firmare questa transazione.",
 		"type": "Type",
 		"recipientAddress": "Indirizzo del destinatario",
 		"messageText": "Messaggio",

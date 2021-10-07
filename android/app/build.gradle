@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "nem.group.wallet"
+        applicationId "nem.group.symbol.wallet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general'

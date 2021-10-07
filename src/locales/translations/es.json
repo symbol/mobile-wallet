@@ -399,6 +399,8 @@
 		"fast": "Rápida"
 	},
 	"table": {
+		"signature": "Firma",
+		"signDescription": "Puedes utilizar Symbol Desktop Wallet o Symbol CLI para revisar y firmar esta transacción.",
 		"type": "Tipo",
 		"recipientAddress": "Dirección de recepción",
 		"messageText": "Mensaje / Memo",
