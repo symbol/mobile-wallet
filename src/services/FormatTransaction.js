@@ -109,7 +109,7 @@ export class FormatTransaction {
             mosaicModels.push(mosaicModel);
         }
         return {
-            type: transaction.type,
+            transactionType: transaction.type,
             recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.pretty() : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type === 0x01,

@@ -96,9 +96,9 @@ class TransactionDetails extends Component<Props, State> {
         }, 200); 
     }
 
-    renderTransactionItem({item}) {
+    renderTransactionItem({index, item}) {
         return <ListItem>
-            <TableView data={item} />
+            <TableView data={{'innerTransactionNo': index + 1, ...item}} />
         </ListItem>
     }
 
