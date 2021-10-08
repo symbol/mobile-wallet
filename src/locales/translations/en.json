@@ -547,7 +547,11 @@
 			"amountLocked": "Amount locked",
 			"sign": "Sign",
 			"waitingSignature": "Waiting your signature"
-		}
+		},
+		"transactionDetails": "Transaction Details",
+		"innerTransactionTab": "Inner Transactions",
+		"graphicTab": "Graphic",
+		"infoTransactionTab": "Info"
 	},
 	"harvest": {
 		"title": "Harvesting",

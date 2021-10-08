@@ -6,9 +6,10 @@ import {
     ListItem,
     ListContainer,
     TitleBar,
-    SwipeablePanel
+    SwipeablePanel, 
+    FadeView
 } from '@src/components';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 // import { SwipeablePanel } from 'rn-swipeable-panel';
 import { connect } from 'react-redux';
@@ -18,7 +19,26 @@ import TableView from '@src/components/organisms/TableView';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import TransactionService from '@src/services/TransactionService';
+import FetchTransactionService from '@src/services/FetchTransactionService';
 import { FormatTransaction } from '@src/services/FormatTransaction';
+import GlobalStyles from '@src/styles/GlobalStyles';
+
+const styles = StyleSheet.create({
+	tabs: {
+		borderBottomWidth: 2,
+		borderColor: GlobalStyles.color.WHITE,
+        marginBottom: 20
+	},
+	tab: {
+        marginLeft: 20,
+		paddingBottom: 5
+	},
+	activeTab: {
+		borderBottomColor: GlobalStyles.color.PINK,
+		borderBottomWidth: 2,
+		marginBottom: -2
+	}
+});
 
 type Props = {
     transaction: AggregateTransactionModel,
@@ -27,8 +47,10 @@ type Props = {
 class TransactionDetails extends Component<Props, State> {
     state = {
         fullTransaction: null,
+        raw: null,
         isActive: false,
-        isLoading: false
+        isLoading: false,
+        selectedTab: 'innerTransactions'
     };
 
     componentDidMount() {
@@ -37,37 +59,34 @@ class TransactionDetails extends Component<Props, State> {
             isLoading: true,
             fullTransaction: null
         })
+
         this.fetchTransactionDetails()
-        .then(async tx => {
-            this.setState({ 
-                fullTransaction: tx,
-                isLoading: false
-            });
-        })
-        .catch((e) => {
-            console.error(e)
-            this.setState({
-                isLoading: false
+            .then(async tx => {
+                this.setState({ 
+                    fullTransaction: tx,
+                    isLoading: false
+                });
             })
-        });
+            .catch((e) => {
+                console.error(e)
+                this.setState({
+                    isLoading: false
+                })
+            });
     }
 
     async fetchTransactionDetails() {
         const { selectedNode, transaction } = this.props;
+        const rawTransactionDetails = await TransactionService.getTransaction(transaction.hash, selectedNode);
+        this.setState({raw: rawTransactionDetails})
+        const preLoadedMosaics = await FetchTransactionService._preLoadMosaics(rawTransactionDetails.innerTransactions, selectedNode);
+        let formattedInnerTransactions = [];
 
-        //try {
-            const rawTransactionDetails = await TransactionService.getTransaction(transaction.hash, selectedNode);
-            let formattedInnerTransactions = [];
+        for (const innerTransaction of rawTransactionDetails.innerTransactions) {
+            formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, selectedNode, preLoadedMosaics));
+        }
 
-            for (const innerTransaction of rawTransactionDetails.innerTransactions) {
-                formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction));
-            }
-
-            return formattedInnerTransactions;
-        // }
-        // catch(e) {
-        //     throw e;
-        // }
+        return formattedInnerTransactions;
     }
 
     sign() {
@@ -102,9 +121,30 @@ class TransactionDetails extends Component<Props, State> {
         </ListItem>
     }
 
+    renderInnerTransactionTable() {
+        const { isLoading, fullTransaction } = this.state;
+
+        return <FadeView style={{ flex: 1 }}>
+            <ListContainer isScrollable={false} isLoading={isLoading} style={{flex: 1}}>
+                <FlatList
+                    data={fullTransaction}
+                    renderItem={this.renderTransactionItem}
+                    keyExtractor={(item, index) => '' + index + 'details'}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                />
+                </ListContainer>
+        </FadeView>
+    }
+
     render() {
-        const { transaction } = this.props;
-        const { isActive, isLoading, fullTransaction } = this.state;
+        const { isActive, isLoading, fullTransaction, selectedTab } = this.state;
+        let Content = null;
+
+        switch(selectedTab) {
+            default:
+            case 'inner-table':
+                Content = this.renderInnerTransactionTable();
+        }
         
         return <SwipeablePanel 
             isActive={isActive}
@@ -113,24 +153,43 @@ class TransactionDetails extends Component<Props, State> {
             onlyLarge
             onClose={() => this.onClose()}
             onPressCloseButton={() => this.onClose()}
-            style={{backgroundColor: '#f3f4f8'}}
+            style={{backgroundColor: '#f3f4f8', height: '80%'}}
         >
                 <TitleBar 
                     theme="light" 
-                    title={translate('history.title')} 
+                    title={translate('history.transactionDetails')} 
                     onBack={() => this.onClose()} 
                 />
-                <View style={{ flex: 1 }}>
-                <ListContainer isScrollable={false} isLoading={isLoading}>
-                    <FlatList
-                        data={fullTransaction}
-                        renderItem={this.renderTransactionItem}
-                        keyExtractor={(item, index) => '' + index + 'details'}
-                        contentContainerStyle={{ flexGrow: 1 }}
-                    />
-                    </ListContainer>
-                </View>
-            {/* </View> */}
+                <Row style={styles.tabs}>
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'innerTransactions'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.innerTransactionTab')} 
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'graphic' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'graphic'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.graphicTab')} 
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'info'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.infoTransactionTab')} 
+                        </Text>
+                    </TouchableOpacity>
+                </Row>
+                {/* {this.state.raw&&<Text theme="light">
+                    {JSON.stringify(this.state.raw)}
+                </Text>} */}
+                {Content}
         </SwipeablePanel>
     }
 }

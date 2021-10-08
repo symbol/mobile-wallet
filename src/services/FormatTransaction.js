@@ -17,7 +17,7 @@
  */
 
 import { Constants } from '@src/config/constants';
-import { Mosaic, MosaicId, TransactionType } from 'symbol-sdk';
+import { Address, TransactionType, RepositoryFactoryHttp } from 'symbol-sdk';
 import NamespaceService from '@src/services/NamespaceService';
 import MosaicService from '@src/services/MosaicService';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
@@ -109,7 +109,9 @@ export class FormatTransaction {
             mosaicModels.push(mosaicModel);
         }
         return {
+			//...transaction,
             transactionType: transaction.type,
+			signerAddress: transaction.signer.address.pretty(),
             recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.pretty() : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type === 0x01,
