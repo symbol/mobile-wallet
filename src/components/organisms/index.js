@@ -15,4 +15,4 @@ export LoadingAnimationFlexible from './LoadingAnimationFlexible';
 export LinkExplorer from './LinkExplorer';
 export LinkFaucet from './LinkFaucet';
 export QRImage from './QRImage';
-export TransactionDetails from './transaction-details/TransactionDetails';
+export TransactionDetails from './TransactionDetails';

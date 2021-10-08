@@ -16,14 +16,84 @@
  *
  */
 
-// import NamespaceService from '../NamespaceService';
 import { Constants } from '@src/config/constants';
-import { Mosaic, MosaicId } from 'symbol-sdk';
-import { NamespaceService } from '@src/services/NamespaceService';
+import { Mosaic, MosaicId, TransactionType } from 'symbol-sdk';
+import NamespaceService from '@src/services/NamespaceService';
+import MosaicService from '@src/services/MosaicService';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 
-export class ParseTransaction {
+export class FormatTransaction {
+	static format = (transaction, network, preLoadedMosaics) => {
+		switch(transaction.type) {
+			case TransactionType.TRANSFER: 
+				return FormatTransaction.transferTransaction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ADDRESS_ALIAS: 
+				return FormatTransaction.addressAlias(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_ALIAS: 
+				return FormatTransaction.mosaicAlias(transaction, network, preLoadedMosaics);
+
+			case TransactionType.NAMESPACE_REGISTRATION: 
+				return FormatTransaction.namespaceRegistration(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_DEFINITION: 
+				return FormatTransaction.mosaicDefinition(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_SUPPLY_CHANGE: 
+				return FormatTransaction.mosaicSupplyChange(transaction, network, preLoadedMosaics);
+
+			case TransactionType.SECRET_LOCK: 
+				return FormatTransaction.secretLock(transaction, network, preLoadedMosaics);
+
+			case TransactionType.HASH_LOCK: 
+				return FormatTransaction.hashLock(transaction, network, preLoadedMosaics);
+
+			case TransactionType.SECRET_PROOF: 
+				return FormatTransaction.secretProof(transaction, network, preLoadedMosaics);
+
+			case TransactionType.VRF_KEY_LINK: 
+				return FormatTransaction.vrfKeyLink(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ACCOUNT_KEY_LINK: 
+				return FormatTransaction.accountKeyLink(transaction, network, preLoadedMosaics);
+
+			case TransactionType.NODE_KEY_LINK: 
+				return FormatTransaction.nodeKeyLink(transaction, network, preLoadedMosaics);
+
+			case TransactionType.VOTING_KEY_LINK: 
+				return FormatTransaction.votingKeyLink(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_GLOBAL_RESTRICTION: 
+				return FormatTransaction.mosaicGlobalRestriction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_ADDRESS_RESTRICTION: 
+				return FormatTransaction.mosaicAddressRestriction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: 
+				return FormatTransaction.accountOperationRestriction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: 
+				return FormatTransaction.accountAddressRestriction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: 
+				return FormatTransaction.accountMosaicRestriction(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION: 
+				return FormatTransaction.multisigAccountModification(transaction, network, preLoadedMosaics);
+
+			case TransactionType.ACCOUNT_METADATA: 
+				return FormatTransaction.accountMetadata(transaction, network, preLoadedMosaics);
+
+			case TransactionType.NAMESPACE_METADATA: 
+				return FormatTransaction.namespaceMetadata(transaction, network, preLoadedMosaics);
+
+			case TransactionType.MOSAIC_METADATA: 
+				return FormatTransaction.mosaicMetadata(transaction, network, preLoadedMosaics); 
+		}
+	}
+
     static transferTransaction = async (transaction, network, preLoadedMosaics) => {
     	const mosaicModels: MosaicModel[] = [];
         for (let mosaic of transaction.mosaics) {
@@ -233,19 +303,16 @@ export class ParseTransaction {
     		NamespaceService.resolveAddress(transaction.targetAddress, network)
     	]);
 
-    	const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(resolvedMosaic);
+    	const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(resolvedMosaic, network);
 
     	return {
-    		...transaction,
-    		transactionBody: {
-    			transactionType: transaction.type,
-    			mosaicId: resolvedMosaic.toHex(),
-    			mosaicAliasNames,
-    			targetAddress: targetAddress,
-    			restrictionKey: transaction.restrictionKey.toHex(),
-    			previousRestrictionValue: transaction.previousRestrictionValue.toString(),
-    			newRestrictionValue: transaction.newRestrictionValue.toString()
-    		}
+			transactionType: transaction.type,
+			mosaicId: resolvedMosaic.toHex(),
+			mosaicAliasNames,
+			targetAddress: targetAddress,
+			restrictionKey: transaction.restrictionKey.toHex(),
+			previousRestrictionValue: transaction.previousRestrictionValue.toString(),
+			newRestrictionValue: transaction.newRestrictionValue.toString()
     	};
     };
 

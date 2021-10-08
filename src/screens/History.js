@@ -4,7 +4,8 @@ import { Section, GradientBackground, Row, TitleBar, Dropdown, EmptyListMessage,
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
-import { TransactionItem } from '@src/components';
+import Transaction from '@src/components/organisms/transaction';
+import { TransactionDetails } from '@src/components';
 import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
@@ -70,7 +71,11 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
 		return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <TransactionItem transaction={item} showDetails componentId={this.props.componentId} />
+                <Transaction 
+                    transaction={item} 
+                    showDetails={showingDetailsIndex === index && item.type !== 'aggregate'} 
+                    componentId={this.props.componentId} 
+                />
             </ListItem>
         );
     };
@@ -84,6 +89,7 @@ class History extends Component<Props, State> {
             { value: 'SENT', label: translate('history.sent') },
             { value: 'RECEIVED', label: translate('history.received') },
         ];
+        const currentTransaction = transactions[showingDetails];
 
         return (
 			<GradientBackground
@@ -126,6 +132,10 @@ class History extends Component<Props, State> {
 						}
 					/>
 				</ListContainer>
+                {currentTransaction && currentTransaction.type === 'aggregate' && <TransactionDetails
+                    transaction={currentTransaction}
+                    onClose={() => this.showDetails(-1)} 
+                />}
             </GradientBackground>
             // </ImageBackground>
         );
