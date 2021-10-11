@@ -1,3 +1,4 @@
+export * from './atoms';
 export * from './controls';
 export * from './molecules';
 export * from './organisms';

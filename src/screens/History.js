@@ -135,6 +135,7 @@ class History extends Component<Props, State> {
                 {currentTransaction && currentTransaction.type === 'aggregate' && <TransactionDetails
                     transaction={currentTransaction}
                     onClose={() => this.showDetails(-1)} 
+                    {...this.props}
                 />}
             </GradientBackground>
             // </ImageBackground>

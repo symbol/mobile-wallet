@@ -8,9 +8,12 @@ import {
     TitleBar,
     SwipeablePanel, 
     FadeView,
-    LinkExplorer
+    LinkExplorer,
+    Section,
+    RandomImage,
+    Checkbox
 } from '@src/components';
-import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet,Image } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 // import { SwipeablePanel } from 'rn-swipeable-panel';
 import { connect } from 'react-redux';
@@ -25,6 +28,9 @@ import { FormatTransaction } from '@src/services/FormatTransaction';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
+    panel: {
+        backgroundColor: GlobalStyles.color.DARKWHITE
+    },
 	tabs: {
 		borderBottomWidth: 2,
 		borderColor: GlobalStyles.color.WHITE,
@@ -38,7 +44,32 @@ const styles = StyleSheet.create({
 		borderBottomColor: GlobalStyles.color.PINK,
 		borderBottomWidth: 2,
 		marginBottom: -2
-	}
+	},
+    acceptanceForm: {
+        backgroundColor: GlobalStyles.color.SECONDARY,
+        paddingTop: 17,
+        flex: null
+    },
+    signFormContainer: {
+        backgroundColor: GlobalStyles.color.ORANGE,
+    },
+    randomImage: {
+        width: '100%',
+        height: 60,
+        resizeMode: 'cover',
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    textCaution: {
+        textShadowColor: GlobalStyles.color.SECONDARY,
+        textShadowOffset: {width: 0, height: 1},
+        textShadowRadius: 15
+    },
+    signForm: {
+        backgroundColor: GlobalStyles.color.ORANGE,
+        paddingTop: 17,
+        flex: null
+    }
 });
 
 type Props = {
@@ -51,7 +82,9 @@ class TransactionDetails extends Component<Props, State> {
         raw: null,
         isActive: false,
         isLoading: false,
-        selectedTab: 'innerTransactions'
+        isWhitelisted: false,
+        userUnderstand: false,
+        selectedTab: 'info'
     };
 
     componentDidMount() {
@@ -96,7 +129,6 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     needsSignature = () => {
-        if (this.isPostLaunchOptIn()) return false;
         const { transaction, selectedAccount, isMultisig } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
         return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
@@ -150,6 +182,64 @@ class TransactionDetails extends Component<Props, State> {
         </FadeView>
     }
 
+    renderSign() {
+        const { isWhitelisted, userUnderstand } = this.state;
+
+        if (!isWhitelisted) {
+            return <Section type="form" style={styles.acceptanceForm}>
+                <Section type="form-item">
+                    <Text type="bold">Transaction requires signature. Do you trust the signatory of this transaction?</Text>
+                </Section>
+                <Section type="form-item">
+                    <Button 
+                        text={translate('plugin.send')} 
+                        theme="dark" 
+                        onPress={() => this.setState({
+                            isWhitelisted: true,
+                            selectedTab: 'innerTransactions'
+                        })} 
+                    />
+                </Section>
+                <Section type="form-item">
+                    <Button 
+                        text={translate('plugin.send')} 
+                        theme="dark" 
+                        onPress={() => this.setState({isWhitelisted: false})} 
+                    />
+                </Section>
+            </Section>
+        }
+        else {
+            return <FadeView style={styles.signFormContainer}>
+                {/* <RandomImage style={styles.randomImage} isContainer>
+                    <Text style={styles.textCaution} type="title" theme="dark" align="center">CAUTION</Text>
+                </RandomImage> */}
+                <Section type="form" style={styles.signForm}>
+                    <Section type="form-item">
+                        <Text type="bold">You are about to sign this transaction. Please review carefully. Sign it only if you understand it. Otherwise, it can lead to the loss of all of your funds.</Text>
+                    </Section>
+                    <Section type="form-item">
+                        <Checkbox
+                            value={userUnderstand}
+                            title={'I understand'}
+                            theme="dark"
+                            onChange={value => this.setState({userUnderstand: value})}
+                        />
+                    </Section>
+                    <Section type="form-item">
+                        <Button  
+                            isDisabled={!userUnderstand} 
+                            text={translate('plugin.send')} 
+                            theme="light" 
+                            onPress={() => this.sign()} 
+                        /> 
+                    </Section>
+                </Section>
+            </FadeView>
+            
+        }
+    }
+
     render() {
         const { isActive, isLoading, fullTransaction, selectedTab } = this.state;
         let Content = null;
@@ -171,7 +261,7 @@ class TransactionDetails extends Component<Props, State> {
             onlyLarge
             onClose={() => this.onClose()}
             onPressCloseButton={() => this.onClose()}
-            style={{backgroundColor: '#f3f4f8', height: '80%'}}
+            style={{backgroundColor: '#f3f4f8', height: '85%'}}
         >
                 <TitleBar 
                     theme="light" 
@@ -179,6 +269,14 @@ class TransactionDetails extends Component<Props, State> {
                     onBack={() => this.onClose()} 
                 />
                 <Row style={styles.tabs}>
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'info'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.infoTransactionTab')} 
+                        </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
                         onPress={() => this.setState({selectedTab: 'innerTransactions'})}
@@ -195,19 +293,10 @@ class TransactionDetails extends Component<Props, State> {
                             {translate('history.graphicTab')} 
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
-                        onPress={() => this.setState({selectedTab: 'info'})}
-                    >
-                        <Text type="bold" theme="light">
-                            {translate('history.infoTransactionTab')} 
-                        </Text>
-                    </TouchableOpacity>
+                    
                 </Row>
-                {/* {this.state.raw&&<Text theme="light">
-                    {JSON.stringify(this.state.raw)}
-                </Text>} */}
                 {Content}
+                {this.needsSignature() && !isLoading && this.renderSign()}
         </SwipeablePanel>
     }
 }
