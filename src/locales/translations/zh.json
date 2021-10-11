@@ -34,7 +34,6 @@
 			"title": "导入钱包",
 			"content": "按顺序输入助记词",
 			"button": "导入",
-			"ignoreWarning": "忽略警告",
 			"cancelModalButton": "取消",
 			"error": {
 				"invalidMnemonic": "助记词无效",

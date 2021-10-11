@@ -35,7 +35,6 @@
 			"title": "Importar Wallet",
 			"content": "Importa tu Wallet Symbol al ingresar las palabras nemónicas en el orden correcto.",
 			"button": "Importar",
-			"ignoreWarning": "Ignorar la advertencia",
 			"cancelModalButton": "Cancelar",
 			"error": {
 				"invalidMnemonic": "Nemónica inválida",

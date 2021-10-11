@@ -34,7 +34,6 @@
 			"title": "ウォレットのインポート",
 			"content": "正しい順序でニーモニックを入力して、ウォレットをインポートします。",
 			"button": "インポート",
-			"ignoreWarning": "警告を無視する",
 			"cancelModalButton": "キャンセル",
 			"error": {
 				"invalidMnemonic": "ニーモニックが無効です",

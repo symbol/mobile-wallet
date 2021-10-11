@@ -35,7 +35,6 @@
 			"title": "Import Wallet",
 			"content": "Import your Wallet by entering your mnemonics in order.",
 			"button": "Import",
-			"ignoreWarning": "Ignore Warning",
 			"cancelModalButton": "Cancel",
 			"error": {
 				"invalidMnemonic": "Invalid Mnemonic",

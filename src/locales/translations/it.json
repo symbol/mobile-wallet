@@ -35,7 +35,6 @@
 			"title": "Importa portafoglio",
 			"content": "Importa il tuo portafoglio inserendo il tuo mnemonico.",
 			"button": "Importare",
-			"ignoreWarning": "Ignora l'avviso",
 			"cancelModalButton": "Annulla",
 			"error": {
 				"invalidMnemonic": "Mnemonico non valido",
