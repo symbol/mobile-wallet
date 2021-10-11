@@ -11,9 +11,11 @@ import {
     LinkExplorer,
     Section,
     RandomImage,
-    Checkbox
+    Checkbox,
+    Input,
+    Icon
 } from '@src/components';
-import { View, FlatList, TouchableOpacity, StyleSheet,Image } from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet,Image, TouchableOpacityBase } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 // import { SwipeablePanel } from 'rn-swipeable-panel';
 import { connect } from 'react-redux';
@@ -84,6 +86,8 @@ class TransactionDetails extends Component<Props, State> {
         isLoading: false,
         isWhitelisted: false,
         userUnderstand: false,
+        userWishToBlacklist: false,
+        blacklistAccountName: '',
         selectedTab: 'info'
     };
 
@@ -183,16 +187,16 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     renderSign() {
-        const { isWhitelisted, userUnderstand } = this.state;
+        const { isWhitelisted, userUnderstand, userWishToBlacklist, blacklistAccountName } = this.state;
 
-        if (!isWhitelisted) {
+        if (!isWhitelisted && !userWishToBlacklist) {
             return <Section type="form" style={styles.acceptanceForm}>
                 <Section type="form-item">
                     <Text type="bold">Transaction requires signature. Do you trust the signatory of this transaction?</Text>
                 </Section>
                 <Section type="form-item">
                     <Button 
-                        text={translate('plugin.send')} 
+                        text={'Accept'} 
                         theme="dark" 
                         onPress={() => this.setState({
                             isWhitelisted: true,
@@ -202,18 +206,45 @@ class TransactionDetails extends Component<Props, State> {
                 </Section>
                 <Section type="form-item">
                     <Button 
-                        text={translate('plugin.send')} 
+                        text={'Reject'} 
                         theme="dark" 
-                        onPress={() => this.setState({isWhitelisted: false})} 
+                        onPress={() => this.setState({userWishToBlacklist: true})} 
                     />
                 </Section>
             </Section>
         }
+        else if (userWishToBlacklist) {
+            return <Section type="form" style={styles.acceptanceForm}>
+                    <Section type="form-item">
+                        <TouchableOpacity onPress={() => this.setState({userWishToBlacklist: false})}>
+                            <Row align="center">
+                                <Icon name="back_dark" size="small" style={{marginRight: 10}} />
+                                <Text type="bold">Blacklist this address?</Text>
+                            </Row>
+                        </TouchableOpacity>
+                    </Section>
+                    <Section type="form-item">
+                    <Input 
+                        value={blacklistAccountName} 
+                        placeholder={'Note'} 
+                        theme="light" 
+                        onChangeText={value => this.setState({blacklistAccountName: value})} 
+                    />
+                    </Section>
+                    <Section type="form-item">
+                        <Button 
+                            text={'Blacklist'} 
+                            theme="dark" 
+                            onPress={() => this.setState({isWhitelisted: false})} 
+                        />
+                    </Section>
+                </Section>
+        }
         else {
             return <FadeView style={styles.signFormContainer}>
-                {/* <RandomImage style={styles.randomImage} isContainer>
+                <RandomImage style={styles.randomImage} isContainer>
                     <Text style={styles.textCaution} type="title" theme="dark" align="center">CAUTION</Text>
-                </RandomImage> */}
+                </RandomImage>
                 <Section type="form" style={styles.signForm}>
                     <Section type="form-item">
                         <Text type="bold">You are about to sign this transaction. Please review carefully. Sign it only if you understand it. Otherwise, it can lead to the loss of all of your funds.</Text>
