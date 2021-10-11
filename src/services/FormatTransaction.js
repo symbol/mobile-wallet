@@ -21,77 +21,134 @@ import { Address, TransactionType, RepositoryFactoryHttp } from 'symbol-sdk';
 import NamespaceService from '@src/services/NamespaceService';
 import MosaicService from '@src/services/MosaicService';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-import type { NetworkModel } from '@src/storage/models/NetworkModel';
+import { formatTransactionLocalDateTime } from '@src/utils/format';
 
 export class FormatTransaction {
-	static format = (transaction, network, preLoadedMosaics) => {
+	static format = async (transaction, network, preLoadedMosaics) => {
+		let formattedTansaction;
 		switch(transaction.type) {
+			case TransactionType.AGGREGATE_BONDED:
+			case TransactionType.AGGREGATE_COMPLETE:
+				return FormatTransaction.aggregate(transaction, network, preLoadedMosaics);
+			
 			case TransactionType.TRANSFER: 
-				return FormatTransaction.transferTransaction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.transferTransaction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ADDRESS_ALIAS: 
-				return FormatTransaction.addressAlias(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.addressAlias(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_ALIAS: 
-				return FormatTransaction.mosaicAlias(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.mosaicAlias(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.NAMESPACE_REGISTRATION: 
-				return FormatTransaction.namespaceRegistration(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.namespaceRegistration(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_DEFINITION: 
-				return FormatTransaction.mosaicDefinition(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.mosaicDefinition(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: 
-				return FormatTransaction.mosaicSupplyChange(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.mosaicSupplyChange(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.SECRET_LOCK: 
-				return FormatTransaction.secretLock(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.secretLock(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.HASH_LOCK: 
-				return FormatTransaction.hashLock(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.hashLock(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.SECRET_PROOF: 
-				return FormatTransaction.secretProof(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.secretProof(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.VRF_KEY_LINK: 
-				return FormatTransaction.vrfKeyLink(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.vrfKeyLink(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ACCOUNT_KEY_LINK: 
-				return FormatTransaction.accountKeyLink(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.accountKeyLink(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.NODE_KEY_LINK: 
-				return FormatTransaction.nodeKeyLink(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.nodeKeyLink(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.VOTING_KEY_LINK: 
-				return FormatTransaction.votingKeyLink(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.votingKeyLink(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_GLOBAL_RESTRICTION: 
-				return FormatTransaction.mosaicGlobalRestriction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.mosaicGlobalRestriction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_ADDRESS_RESTRICTION: 
-				return FormatTransaction.mosaicAddressRestriction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.mosaicAddressRestriction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: 
-				return FormatTransaction.accountOperationRestriction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.accountOperationRestriction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: 
-				return FormatTransaction.accountAddressRestriction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.accountAddressRestriction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: 
-				return FormatTransaction.accountMosaicRestriction(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.accountMosaicRestriction(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION: 
-				return FormatTransaction.multisigAccountModification(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.multisigAccountModification(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.ACCOUNT_METADATA: 
-				return FormatTransaction.accountMetadata(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.accountMetadata(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.NAMESPACE_METADATA: 
-				return FormatTransaction.namespaceMetadata(transaction, network, preLoadedMosaics);
+				formattedTansaction = await FormatTransaction.namespaceMetadata(transaction, network, preLoadedMosaics);
+			break;
 
 			case TransactionType.MOSAIC_METADATA: 
-				return FormatTransaction.mosaicMetadata(transaction, network, preLoadedMosaics); 
+				formattedTansaction = await FormatTransaction.mosaicMetadata(transaction, network, preLoadedMosaics);
+			break; 
 		}
+
+		return FormatTransaction.base(transaction, formattedTansaction, network);
+	}
+
+	static base = async (transaction, formattedTansaction, network) => {
+		return {
+			transactionType: transaction.type,
+			deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
+			signerAddress: transaction.signer.address.pretty(),
+			...formattedTansaction
+		}
+	}
+
+	static aggregate = async (transaction, network, preLoadedMosaics) => {
+        let formattedInnerTransactions = [];
+
+        for (const innerTransaction of transaction.innerTransactions) {
+            formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, network, preLoadedMosaics));
+        }
+
+        return {
+            info: {
+				transactionType: transaction.type,
+				deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
+                signerAddress: transaction.signer.address.pretty(),
+                receivedCosignatures: transaction.cosignatures,
+				hash: transaction.hash,
+            },
+            innerTransactions: formattedInnerTransactions
+        };
 	}
 
     static transferTransaction = async (transaction, network, preLoadedMosaics) => {

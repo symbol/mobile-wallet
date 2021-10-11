@@ -7,7 +7,8 @@ import {
     ListContainer,
     TitleBar,
     SwipeablePanel, 
-    FadeView
+    FadeView,
+    LinkExplorer
 } from '@src/components';
 import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
@@ -70,6 +71,7 @@ class TransactionDetails extends Component<Props, State> {
             .catch((e) => {
                 console.error(e)
                 this.setState({
+                    isActive: false,
                     isLoading: false
                 })
             });
@@ -78,15 +80,10 @@ class TransactionDetails extends Component<Props, State> {
     async fetchTransactionDetails() {
         const { selectedNode, transaction } = this.props;
         const rawTransactionDetails = await TransactionService.getTransaction(transaction.hash, selectedNode);
-        this.setState({raw: rawTransactionDetails})
+        rawTransactionDetails.hash = transaction.hash;
         const preLoadedMosaics = await FetchTransactionService._preLoadMosaics(rawTransactionDetails.innerTransactions, selectedNode);
-        let formattedInnerTransactions = [];
-
-        for (const innerTransaction of rawTransactionDetails.innerTransactions) {
-            formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, selectedNode, preLoadedMosaics));
-        }
-
-        return formattedInnerTransactions;
+        
+        return FormatTransaction.format(rawTransactionDetails, selectedNode, preLoadedMosaics);
     }
 
     sign() {
@@ -125,14 +122,31 @@ class TransactionDetails extends Component<Props, State> {
         const { isLoading, fullTransaction } = this.state;
 
         return <FadeView style={{ flex: 1 }}>
-            <ListContainer isScrollable={false} isLoading={isLoading} style={{flex: 1}}>
-                <FlatList
-                    data={fullTransaction}
+            <ListContainer isScrollable={false} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
+                {fullTransaction && <FlatList
+                    data={fullTransaction.innerTransactions}
                     renderItem={this.renderTransactionItem}
                     keyExtractor={(item, index) => '' + index + 'details'}
                     contentContainerStyle={{ flexGrow: 1 }}
-                />
+                />}
                 </ListContainer>
+        </FadeView>
+    }
+
+    renderInfo() {
+        const { isLoading, fullTransaction } = this.state;
+    
+        return <FadeView style={{ flex: 1 }}>
+            <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
+                {fullTransaction && <>
+                    <ListItem>
+                        <TableView data={fullTransaction.info} />
+                    </ListItem>
+                    <ListItem>
+                        <LinkExplorer type="transaction" value={fullTransaction.info.hash} />
+                    </ListItem>
+                </>}
+            </ListContainer>
         </FadeView>
     }
 
@@ -142,8 +156,12 @@ class TransactionDetails extends Component<Props, State> {
 
         switch(selectedTab) {
             default:
-            case 'inner-table':
+            case 'innerTransactions':
                 Content = this.renderInnerTransactionTable();
+                break;
+            case 'info':
+                Content = this.renderInfo();
+                break;
         }
         
         return <SwipeablePanel 
