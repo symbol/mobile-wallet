@@ -20,16 +20,13 @@
 
  const BasicAlert = (props: Props) => {
    const { title, message, actions } = props;
-   const PopupAlert = () => {
-     Alert.alert(
-       title,
-       message,
-       actions,
-       { cancelable: true }
-     );
-   };
-
-   return <View>{PopupAlert()}</View>;
+   return (
+    <View>
+      {
+        Alert.alert(title,message,actions,{ cancelable: true })
+      }
+    </View>
+   )
  };
 
  export default BasicAlert;
