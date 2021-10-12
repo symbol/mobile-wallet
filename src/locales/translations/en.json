@@ -479,7 +479,11 @@
 		"optInTitle": "Post-launch Opt-in",
 		"optInDescription": "Press here to access the dashboard",
 		"pendingSignatureTitle": "Pending signature",
-		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
+		"pendingSignatureDescription": "There is a transaction pending awaiting signature",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "Mosaics"

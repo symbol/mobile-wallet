@@ -465,7 +465,11 @@
 		"optInTitle": "选择加入",
 		"optInDescription": "发布后的Opt-in即将开放。 Symbol启动后，请重新检查是否有新版本",
 		"pendingSignatureTitle": "待定签名",
-		"pendingSignatureDescription": "有一笔交易正在等待签名"
+		"pendingSignatureDescription": "有一笔交易正在等待签名",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "马赛克"

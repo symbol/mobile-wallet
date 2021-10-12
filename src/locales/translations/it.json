@@ -469,7 +469,11 @@
 		"optInTitle": "Opt-In",
 		"optInDescription": "Il processo di attivazione (Opt-in) si aprirà dopo il lancio della blockchain di Symbol.  Attendi la nuova versione del portafoglio.",
 		"pendingSignatureTitle": "In attesa di firma",
-		"pendingSignatureDescription": "C'è una transazione in attesa di firma"
+		"pendingSignatureDescription": "C'è una transazione in attesa di firma",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "Mosaico"

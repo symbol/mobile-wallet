@@ -470,7 +470,11 @@
 		"optInTitle": "Opt-in",
 		"optInDescription": "El proceso de opt-in post lanzamiento se abirá pronto. Por favor comprueba nuevas versiones después del lanzamiento de Symbol.",
 		"pendingSignatureTitle": "Firma pendiente",
-		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
+		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "Mosaics"
