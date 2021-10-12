@@ -18,6 +18,7 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
+import BasicAlert from "@src/components/molecules/BasicAlert";
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -60,7 +61,7 @@ type Props = {
 type State = {};
 
 class Home extends Component<Props, State> {
-    state = { isSidebarShown: false };
+    state = { isSidebarShown: false,  showWarning: false};
 
 	reload = () => {
         store.dispatchAction({ type: 'account/loadAllData' });
@@ -86,6 +87,13 @@ class Home extends Component<Props, State> {
 		);
 	}
 
+	componentDidMount = () => {
+		// If wallet created by empty mnemonic, show warning message.
+		if (store.getState().wallet.mnemonic === ''){
+			this.setState({showWarning: true})
+		}
+	};
+
     render = () => {
         const {
 			pendingSignature,
@@ -98,7 +106,8 @@ class Home extends Component<Props, State> {
 			isLoading,
 			isMultisig
 		} = this.props;
-        const {} = this.state;
+
+		const { showWarning } = this.state;
 
         const notifications = [];
 		notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' ), handler: () => Router.goToOptInWelcome({}, this.props.componentId)});
@@ -114,6 +123,22 @@ class Home extends Component<Props, State> {
 				fade={true}
 				titleBar={<TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()}/>}
 			>
+					{showWarning && <BasicAlert
+						title={translate('home.alertTitle')}
+						message={translate('home.alertInvalidMnemonicMessage')}
+						actions={[
+							{
+								text: translate('home.alertActionCreateWallet'),
+								onPress: () => Router.goToCreateOrImport({}),
+							},
+							{
+								text: translate('home.alertActionCancel'),
+								onPress: () => {
+									this.setState({ showWarning: false });
+								},
+							}
+						]}
+					/>}
 
 					<Col justify="space-between" style={contentStyle}>
 						<Section type="list">
