@@ -18,7 +18,7 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
-import AccountIcon from '@src/components/transaction-graphic/graphics/AccountIcon';
+import AccountIcon from '@src/components/transaction-graphic/graphics/MosaicIcon';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -123,7 +123,7 @@ class Home extends Component<Props, State> {
 							y={277}
 							width={261}
 							height={90}
-							address={'TCLRK6E2Y5A6BTADEDGAVDMA3ZKIH4UVPR4FM6Q'}
+							mosaic={{mosaicId: 'EBEB23EB2354', aliasName: 'symbol.xym'}}
 						/>
 						
 
