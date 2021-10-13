@@ -88,8 +88,8 @@ class Home extends Component<Props, State> {
 	}
 
 	componentDidMount = () => {
-		// If wallet created by empty mnemonic, show warning message.
-		if (store.getState().wallet.mnemonic === ''){
+		// If wallet created by words mnemonic not equal 24, show warning message.
+		if (store.getState().wallet.mnemonic.split(' ').length !== 24){
 			this.setState({showWarning: true})
 		}
 	};
