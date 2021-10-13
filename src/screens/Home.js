@@ -19,7 +19,7 @@ import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
 import AccountIcon from '@src/components/transaction-graphic/graphics/Arrow';
-import CircleAccount from '@src/components/transaction-graphic/graphics/CircleEdit';
+import CircleAccount from '@src/components/transaction-graphic/graphics/CircleMosaicRestriction';
 
 const styles = StyleSheet.create({
     transactionPreview: {
