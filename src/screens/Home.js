@@ -18,8 +18,6 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
-import AccountIcon from '@src/components/transaction-graphic/graphics/Arrow';
-import CircleAccount from '@src/components/transaction-graphic/graphics/CircleMosaicRestriction';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -118,23 +116,13 @@ class Home extends Component<Props, State> {
 			>
 
 					<Col justify="space-between" style={contentStyle}>
-						
-						<AccountIcon
-							x={200}
-							y={277}
-							width={261}
-							height={90}
-							lockName={'abcdefg'}
-						>
-							
-						</AccountIcon>
-						<CircleAccount x={466} y={300}/>
-						
+						<Section type="list">
+							<AccountBalanceWidget componentId={componentId}/>
+						</Section>
 
 						<PluginList componentId={componentId} theme="light" style={styles.pluginList}/>
 
 						<ListContainer style={styles.notifications} isScrollable={false}>
-						
 							<FlatList
 								// style={{ height: '100%' }}
 								keyExtractor={(item, index) => '' + index + 'h-notif'}
