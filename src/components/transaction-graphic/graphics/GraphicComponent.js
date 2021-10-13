@@ -28,7 +28,18 @@ class GraphicComponent extends Component {
                 fontSize: 13,
                 fontWeight: 'bold',
                 fill: GlobalStyles.color.BLUE
-            }
+            },
+            arrowBody: {
+                stroke: GlobalStyles.color.SECONDARY
+            },
+            arrowEnd: {
+                fill: GlobalStyles.color.SECONDARY
+            },
+            circleIconsContainer: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            },
         });
     }
 
