@@ -3,14 +3,14 @@ import GraphicComponent from './GraphicComponent.js';
 import Svg, {
     Circle,
     G,
+    Path,
     Defs,
     LinearGradient,
-    Rect,
     Stop,
 } from 'react-native-svg';
 
-export default class CircleAdd extends GraphicComponent {
-    gradientId = 'add-circle-gradient';
+export default class CircleEdit extends GraphicComponent {
+    gradientId = 'edit-circle-gradient';
     stopColor1 = 'rgb(255, 197, 255)';
     stopColor2 = 'rgb(255, 0, 255)';
 
@@ -39,8 +39,9 @@ export default class CircleAdd extends GraphicComponent {
                     r="17.26"
                 />
                 <G>
-                    <Rect x="17" y="11" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="4" height="16"/>
-			        <Rect x="11" y="17" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="16" height="4"/>
+                    <Path fill="#FFFFFF" d="M27.152,14.584c0.354-0.354,0.354-0.943,0-1.279l-2.124-2.124c-0.336-0.354-0.926-0.354-1.279,0
+                        l-1.669,1.661l3.402,3.403 M11.082,23.849v3.403h3.403l10.036-10.045l-3.403-3.403L11.082,23.849z"
+                    />
                 </G>
             </Svg>
         );
