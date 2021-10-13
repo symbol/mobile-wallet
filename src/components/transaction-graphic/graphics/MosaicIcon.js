@@ -7,7 +7,7 @@ import Svg, {
     Defs,
     LinearGradient,
     Stop,
-  } from 'react-native-svg';
+} from 'react-native-svg';
 
 export default class MosaicIcon extends GraphicComponent {
     get iconColor() {
@@ -28,7 +28,7 @@ export default class MosaicIcon extends GraphicComponent {
     }
 
     get viewBox() {
-        return this.hideCaption
+        return this.props.hideCaption
             ? '115 0 16 105'
             : '0 0 261.333 131.313';
     }
