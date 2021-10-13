@@ -18,7 +18,7 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
-import AccountIcon from '@src/components/transaction-graphic/graphics/NamespaceIcon';
+import AccountIcon from '@src/components/transaction-graphic/graphics/LockIcon';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -123,7 +123,7 @@ class Home extends Component<Props, State> {
 							y={277}
 							width={261}
 							height={90}
-							namespace={{namespaceId: 'EBEB23EB2354', namespaceName: 'symbol.xym'}}
+							lockName={'abcdefg'}
 						/>
 						
 
