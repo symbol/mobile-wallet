@@ -18,6 +18,7 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
+import AccountIcon from '@src/components/transaction-graphic/graphics/AccountIcon';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -116,13 +117,20 @@ class Home extends Component<Props, State> {
 			>
 
 					<Col justify="space-between" style={contentStyle}>
-						<Section type="list">
-							<AccountBalanceWidget componentId={componentId}/>
-						</Section>
+						
+						<AccountIcon
+							x={200}
+							y={277}
+							width={261}
+							height={90}
+							address={'TCLRK6E2Y5A6BTADEDGAVDMA3ZKIH4UVPR4FM6Q'}
+						/>
+						
 
 						<PluginList componentId={componentId} theme="light" style={styles.pluginList}/>
 
 						<ListContainer style={styles.notifications} isScrollable={false}>
+						
 							<FlatList
 								// style={{ height: '100%' }}
 								keyExtractor={(item, index) => '' + index + 'h-notif'}

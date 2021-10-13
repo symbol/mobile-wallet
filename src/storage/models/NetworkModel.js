@@ -15,4 +15,10 @@ export interface NetworkModel {
     epochAdjustment: number;
     transactionFees: TransactionFees;
     defaultDynamicFeeMultiplier: number;
+    networkCurrency: {
+        namespaceName: string;
+        namespaceId: string;
+        mosaicId: string;
+        divisibility: number;
+    }
 }
