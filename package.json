@@ -5,7 +5,7 @@
   "scripts": {
     "git-info": "echo export default \"{ version: '$(git describe --tags `git rev-list --tags --max-count=1`)' };\"  > src/shared/_git_commit.js",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --scheme Symbol",
     "start": "yarn git-info; react-native start",
     "dev": "react-native start",
     "reconnect": "adb reverse tcp:8081 tcp:8081",
