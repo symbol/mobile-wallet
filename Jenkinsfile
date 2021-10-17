@@ -16,13 +16,15 @@ pipeline {
         RUNNING_ON_CI = 'true'
         VERSION_NUMBER = "${params.VERSION_NUMBER}"
         BUILD_NUMBER = "${params.BUILD_NUMBER}"
+        // TODO change branch name
+        DEV_BRANCH = 'jenkins-pipeline-setup'
     }
 
     stages {
         stage('Install') {
                 steps {
                     // Get mobile-wallet dev branch code from GitHub repository
-                    git branch: 'dev', url: 'https://github.com/symbol/mobile-wallet.git'
+                    // git branch: DEV_BRANCH, url: 'https://github.com/symbol/mobile-wallet.git'
 
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
@@ -57,12 +59,11 @@ pipeline {
         stage ('Deploy Staging - Alpha version') {
             when {
                 expression {
-                    // TODO Change branch name !!!
-                    BRANCH_NAME == 'jenkins-pipeline-setup'
+                    BRANCH_NAME == DEV_BRANCH
                 }
             }
             steps {
-                // TODO sh "cd ios && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=4.2 && bundle exec fastlane ${FASTLANE_LANE}"
+                sh "cd ios && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta"
                 sh "echo Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}"
             }
         }
