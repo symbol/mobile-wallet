@@ -1,5 +1,5 @@
 app_identifier("com.nemgrouplimited.symbolwallet") # The bundle identifier of your app
-apple_id("yc-law1015@hotmail.com") # Your Apple email address
+apple_id("yilmazbahadir@gmail.com") # Your Apple email address
 
 itc_team_id("122014636") # App Store Connect Team ID
 team_id("W594P93ZB8") # Developer Portal Team ID

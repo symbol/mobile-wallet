@@ -7,9 +7,17 @@ pipeline {
         skipStagesAfterUnstable()
     }
 
+    parameters {
+        string(name: 'VERSION_NUMBER', defaultValue: '4.4.2', description: 'Version Number')
+        string(name: 'BUILD_NUMBER', defaultValue: '58', description: 'Build Number')
+    }
+    
     environment {
         RUNNING_ON_CI = 'true'
+        VERSION_NUMBER = "${params.VERSION_NUMBER}"
+        BUILD_NUMBER = "${params.BUILD_NUMBER}"
     }
+
     stages {
         stage('Install') {
                 steps {
@@ -33,7 +41,7 @@ pipeline {
                 stage('Build - Android') {
                     steps {
                         sh "npx react-native run-android --variant=DevDebug"
-                        sh "cd android && ./gradlew assembleDevRelease"
+                        sh "cd android && ./gradlew assembleProdRelease"
                     }
                 }
             }
@@ -47,20 +55,15 @@ pipeline {
 
         // deploy to testnet
         stage ('Deploy Staging - Alpha version') {
-            steps {
-                // TODO sh "cd ios && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=4.2 && bundle exec fastlane ${FASTLANE_LANE}"
-
-                sh "echo 'Deployed to TestFlight.'"
+            when {
+                expression {
+                    // TODO Change branch name !!!
+                    BRANCH_NAME == 'jenkins-pipeline-setup'
+                }
             }
-        }
-
-        // deploy to production
-        stage ('Deploy Production - Release version') {
             steps {
                 // TODO sh "cd ios && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=4.2 && bundle exec fastlane ${FASTLANE_LANE}"
-                input "waiting for the input to continue..."
-
-                sh "echo 'Deployed to Production.'"
+                sh "echo Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}"
             }
         }
     }
