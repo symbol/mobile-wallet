@@ -7,7 +7,7 @@ import _ from 'lodash';
 // import AddressAliasGraphic from './AddressAliasGraphic.js';
 // import MosaicAliasGraphic from './MosaicAliasGraphic.js';
 // import NamespaceRegistrationGraphic from './NamespaceRegistrationGraphic.js';
-// import MosaicDefinitionGraphic from './MosaicDefinitionGraphic.js';
+import MosaicDefinitionGraphic from './MosaicDefinitionGraphic.js';
 import MosaicSupplyChangeGraphic from './MosaicSupplyChangeGraphic.js';
 // import SecretLockGraphic from './SecretLockGraphic.js';
 // import HashLockGraphic from './HashLockGraphic.js';
@@ -72,8 +72,8 @@ export default class TransactionGraphic extends Component<Props, State> {
 			// case TransactionType.NAMESPACE_REGISTRATION: 
 			// 	return <NamespaceRegistrationGraphic {...data} />
 
-			// case TransactionType.MOSAIC_DEFINITION: 
-			// 	return <MosaicDefinitionGraphic {...data} />
+			case TransactionType.MOSAIC_DEFINITION: 
+				return <MosaicDefinitionGraphic {...this.props} />
 
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: 
 				return <MosaicSupplyChangeGraphic {...this.props} />

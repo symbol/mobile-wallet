@@ -1,130 +1,72 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { connect } from 'react-redux';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import MosaicIcon from './graphics/MosaicIcon.js';
+import CircleAdd from './graphics/CircleAdd.js';
+import Svg, {
+    Text,
+	G
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<MosaicIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:mosaic="mosaic"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<AddCircle
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				:data="data"
-				:title="transactionType"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import AddCircle from '../graphics/AddCircle.vue';
-import MosaicIcon from '../graphics/MosaicIcon.vue';
-import Arrow from '../graphics/Arrow.vue';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		AddCircle,
-		Arrow,
-		MosaicIcon
-	},
-
-	props: {
-		message: {
-			type: String,
-			default: ''
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		mosaicId: {
-			type: String,
-			required: true
-		},
-		divisibility: {
-			type: Number,
-			required: true
-		},
-		duration: {
-			type: Number,
-			required: true
-		},
-		supplyMutable: {
-			type: Boolean,
-			required: true
-		},
-		transferable: {
-			type: Boolean,
-			required: true
-		},
-		restrictable: {
-			type: Boolean,
-			required: true
-		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		mosaic() {
-			return { mosaicId: this.mosaicId };
-		},
-
-		data() {
-			return {
-				divisibility: this.divisibility,
-				duration: this.duration,
-				supplyMutable: this.supplyMutable,
-				transferable: this.transferable,
-				restrictable: this.restrictable
-			};
-		}
+class MosaicDefinitionGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+	get mosaic() {
+		return { mosaicId: this.props.mosaicId }
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<MosaicIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					mosaic={this.mosaic}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleAdd
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				<G>
+					<Text 
+						x={this.transactionTypeTextPositionX}
+						y={this.transactionTypeTextPositionY}
+						textAnchor="middle" 
+						style={this.styles.message}
+					>
+						{this.transactionType}
+					</Text>
+				</G>
+			</Svg>
+        );
+    }
+}
+
+export default connect(state => ({
+    address: state.account.selectedAccountAddress,
+    network: state.network.selectedNetwork,
+}))(MosaicDefinitionGraphic);
