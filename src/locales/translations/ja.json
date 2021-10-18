@@ -475,10 +475,10 @@
 		"optInDescription": "Symbolローンチ後のオプトインはこちらから",
 		"pendingSignatureTitle": "ペンディング署名",
 		"pendingSignatureDescription": "署名待ちのペンディングトランザクションがありま",
-		"alertTitle":"Error",
-		"alertActionCreateWallet": "Create New",
-		"alertActionCancel": "Cancel",
-		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
+		"alertTitle":"エラーが発生しました",
+		"alertActionCreateWallet": "新規作成",
+		"alertActionCancel": "キャンセル",
+		"alertInvalidMnemonicMessage": "このプロファイルには、有効なニーモニックフレーズがありません。新しいプロファイルを作成し、XYMを出来るだけ早く転送してください。"
 	},
 	"mosaics": {
 		"title": "モザイク"

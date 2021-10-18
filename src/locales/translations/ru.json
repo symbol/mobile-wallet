@@ -488,10 +488,10 @@
 		"optInDescription": "Нажмите здесь, чтобы получить доступ к дашборд",
 		"pendingSignatureTitle": "Ожидает подписания",
 		"pendingSignatureDescription": "Имеется транзакция, которая ожидает подписи",
-		"alertTitle":"Error",
-		"alertActionCreateWallet": "Create New",
-		"alertActionCancel": "Cancel",
-		"alertInvalidMnemonicMessage": "This address does not have a valid mnemonic. Please create a new address and transfer your funds as soon as possible."
+		"alertTitle":"Ошибка",
+		"alertActionCreateWallet": "Создать новый аккаунт",
+		"alertActionCancel": "Отмена",
+		"alertInvalidMnemonicMessage": "В этом профиле нет действующей мнемонической фразы. Пожалуйста, как можно скорее переведите свои XYM на другой аккаунт."
 	},
 	"mosaics": {
 		"title": "Мозаика"
