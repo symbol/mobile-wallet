@@ -1,111 +1,78 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { connect } from 'react-redux';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import NamespaceIcon from './graphics/NamespaceIcon.js';
+import CircleAdd from './graphics/CircleAdd.js';
+import Svg, {
+    Text,
+	G
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<NamespaceIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:namespace="namespace"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<AddCircle
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				title="Namespace Registration"
-				:data="namespace"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import AddCircle from '../graphics/AddCircle.vue';
-import NamespaceIcon from '../graphics/NamespaceIcon.vue';
-import Arrow from '../graphics/Arrow.vue';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		AddCircle,
-		NamespaceIcon,
-		Arrow
-	},
-
-	props: {
-		message: {
-			type: String,
-			default: ''
-		},
-
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-
-		namespaceId: {
-			type: String,
-			required: true,
-			default: ''
-		},
-
-		namespaceName: {
-			type: String,
-			required: true,
-			default: ''
-		},
-
-		duration: {
-			type: Number,
-			required: true
-		}
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(16718); // Namespace registration
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		namespace() {
-			return {
-				namespaceName: this.namespaceName,
-				namespaceId: this.namespaceId,
-				duration: this.duration
-			};
-		}
+class NamespaceRegistrationGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+	get namespace() {
+		return {
+			namespaceName: this.props.namespaceName,
+			namespaceId: this.props.namespaceId,
+			duration: this.props.duration
+		};
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<NamespaceIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					namespace={this.namespace}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleAdd
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				<G>
+					<Text 
+						x={this.transactionTypeTextPositionX}
+						y={this.transactionTypeTextPositionY}
+						textAnchor="middle" 
+						style={this.styles.message}
+					>
+						{this.transactionType}
+					</Text>
+				</G>
+			</Svg>
+        );
+    }
+}
+
+export default connect(state => ({
+    address: state.account.selectedAccountAddress,
+    network: state.network.selectedNetwork,
+}))(NamespaceRegistrationGraphic);
+
+
