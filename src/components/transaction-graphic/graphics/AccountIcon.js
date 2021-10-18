@@ -16,7 +16,7 @@ class AccountIcon extends GraphicComponent {
 
     get truncatedAddress() {
         return this.props.userAddress === this.props.address
-            ? translate('transaction.currentAccount')
+            ? translate('unsortedKeys.currentAccount')
             : this.truncString(this.props.address);
     }
 

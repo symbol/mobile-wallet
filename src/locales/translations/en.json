@@ -685,7 +685,9 @@
 		"opt_in_account_alert": "This account is obtained by an older derivation. It is recommended that you move the funds to a Seed Account",
 		"announce_success": "Transaction announced successfully",
 		"noPublicKeyWarning": "Can't encrypt message: Address doesn't have a public key",
-		"nothingToShow": "Nothing to show"
+		"nothingToShow": "Nothing to show",
+		"currentAccount": "You",
+		"currentAddress": "Your address"
 	},
 	"optin": {
 		"title": "Post-launch opt-in",

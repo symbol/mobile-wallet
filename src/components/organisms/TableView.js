@@ -127,6 +127,3 @@ class TableView extends Component<Props, State> {
 }
 
 export default TableView;
-// connect(state => ({
-
-// }))(TableView);
