@@ -18,7 +18,7 @@ import store from '@src/store';
 import ListContainer from "@src/components/backgrounds/ListContainer";
 import GlobalStyles from "@src/styles/GlobalStyles";
 import translate from "@src/locales/i18n";
-import BasicAlert from "@src/components/molecules/BasicAlert";
+import { BasicAlert } from '@src/components'
 
 const styles = StyleSheet.create({
     transactionPreview: {

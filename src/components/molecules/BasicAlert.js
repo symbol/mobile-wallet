@@ -1,8 +1,3 @@
-/**
- * @format
- * @flow
- */
-
  import React from 'react';
 
  import { View, Alert } from 'react-native';
@@ -18,7 +13,7 @@
    actions: Action[]
  };
 
- const BasicAlert = (props: Props) => {
+ export default BasicAlert = (props: Props) => {
    const { title, message, actions } = props;
    return (
     <View>
@@ -28,5 +23,3 @@
     </View>
    )
  };
-
- export default BasicAlert;
