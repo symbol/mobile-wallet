@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, ScrollView, TouchableOpacity, View, RefreshControl, FlatList} from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, RefreshControl, FlatList } from 'react-native';
 import {
 	Section,
 	GradientBackground,
@@ -10,15 +10,15 @@ import {
 	Row,
 	Icon,
 	TitleBar,
-	ListItem
+	ListItem,
+	ListContainer,
+	BasicAlert
 } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
-import ListContainer from "@src/components/backgrounds/ListContainer";
-import GlobalStyles from "@src/styles/GlobalStyles";
-import translate from "@src/locales/i18n";
-import { BasicAlert } from '@src/components'
+import GlobalStyles from '@src/styles/GlobalStyles';
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
     transactionPreview: {
