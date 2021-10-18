@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
 	Icon,
 	Section,
@@ -7,14 +7,10 @@ import {
 	Row,
 	CopyView,
 	SecretView,
-	View,
-	MosaicDisplay,
 	Trunc
 } from '@src/components';
 import translate from "@src/locales/i18n";
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { copyToClipboard } from '@src/utils';
-import { connect } from 'react-redux';
 
 
 const TRANSLATION_ROOT_KEY = 'table';
@@ -28,22 +24,23 @@ const renderTypeMap = {
 };
 const styles = StyleSheet.create({
 	amount: {
-		color: GlobalStyles.color.RED
+		color: GlobalStyles.color.SECONDARY
 	},
 	mosaic: {
-		backgroundColor: GlobalStyles.color.WHITE,
+		backgroundColor: GlobalStyles.color.DARKWHITE,
 		borderRadius: 5,
-		paddingVertical: 8,
-		paddingHorizontal: 16
+		paddingVertical: 2,
+		paddingHorizontal: 16,
+		marginBottom: 2
 	}
 });
 
-type Props = {};
+interface Props {
+	data: Object;
+	smaller?: boolean;
+}
 
-type State = {};
-
-
-class TableView extends Component<Props, State> {
+class TableView extends Component<Props> {
 
 	render_copyButton = (value) => {
 		if(typeof value === 'string')
@@ -51,19 +48,24 @@ class TableView extends Component<Props, State> {
 		else
 			return <Text type="regular" theme="light">{translate('table.null')}</Text>;
 	};
+	
 	render_secret = (value) => {
 		return <SecretView componentId={this.props.componentId} title="Show " theme="light">{value}</SecretView>
 	};
+	
 	render_boolean = (value) => {
 		return <Icon name={value + '_light'} size="small"/>
 	};
+	
 	render_ecryption = (value) => {
 		return <Text type="regular" theme="light">{translate('table.' + (value ? 'encrypted' : 'unencrypted'))}</Text>;
 	};
+	
 	render_amount = (value) => {
-		if (value === 0) return <Text type="regular" theme="light" style={styles.amount}>{value}</Text>
-		return <Text type="regular" theme="light" style={styles.amount}>-{value}</Text>
+		if (value === 0) return <Text type="bold" theme="light" style={styles.amount}>{value}</Text>
+		return <Text type="bold" theme="light" style={styles.amount}>{value}</Text>
 	};
+	
 	render_mosaics = (value) => {
 		const mosaics = Array.isArray(value) ? value : [];
 		if(mosaics.length)
@@ -95,8 +97,19 @@ class TableView extends Component<Props, State> {
 	};
 
 	renderTable = (data) => {
+		const { smaller } = this.props
+		const sectionStyle = smaller ? { 
+			borderTopWidth: 1, 
+			borderTopColor: 
+			GlobalStyles.color.DARKWHITE,
+			paddingVertical: 5
+		} : {};
+		const sectionType = smaller ? null : 'form-item';
+		const titleStyle = smaller ? { flex: 0.3 } : {};
+		const contentStyle = smaller ? { flex: 0.7 } : {};
+		const Item = smaller ? Row : View;
 		let _data = data;
-		console.log('DATA', data)
+
 		if(data === null || typeof data !== 'object')
 			return null;
 
@@ -108,19 +121,28 @@ class TableView extends Component<Props, State> {
 					key,
 					value: data[key]
 				}));
-		//_data = _data.slice(0,6);
         return (
-			_data.map((el, item) => <Section type="form-item" key={''+ item + 'table' + el.key}>
-				<Text type="bold" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:</Text>
-				{this.renderItem(el.key, el.value)}
-			</Section>)
+			_data.map((el, item) => (
+				<Section 
+					type={sectionType}
+					style={!!item && sectionStyle}
+					key={''+ item + 'table' + el.key}
+				>
+					<Item>
+						<Text type="bold" theme="light" style={titleStyle}>
+							{translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:
+						</Text>
+						<View style={contentStyle}>
+							{this.renderItem(el.key, el.value)}
+						</View>
+					</Item>
+				</Section>)
+			)
         );
 	}
 
 	render = () => {
-		const {
-			data
-		} = this.props;
+		const { data } = this.props;
 
 		return this.renderTable(data);
     };

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { TransactionType } from 'symbol-sdk';
+import { TableView } from '@src/components';
 import TransferGraphic from './TransferGraphic.js';
+import _ from 'lodash';
 // import AddressAliasGraphic from './AddressAliasGraphic.js';
 // import MosaicAliasGraphic from './MosaicAliasGraphic.js';
 // import NamespaceRegistrationGraphic from './NamespaceRegistrationGraphic.js';
@@ -21,14 +25,40 @@ import TransferGraphic from './TransferGraphic.js';
 // import AccountAddressRestrictionGraphic from './AccountAddressRestrictionGraphic.js';
 // import AccountMosaicRestrictionGraphic from './AccountMosaicRestrictionGraphic.js';
 // import MultisigAccountModificationGraphic from './MultisigAccountModificationGraphic.js';
-import { TransactionType } from 'symbol-sdk';
 
 type Props = {
-	data: Object;
+	data: object;
 };
 
-export default class TransactionGraphic extends Component<Props> {
-	render() {
+type State = {
+	expanded: Boolean;
+}
+
+export default class TransactionGraphic extends Component<Props, State> {
+	state = {
+		expanded: false
+	};
+
+	componentDidMount() {
+		this.setState({ expanded: false });
+	}
+
+	toggle() {
+		this.setState({ expanded: !this.state.expanded });
+	}
+
+	tableData() {
+		return _.omit(this.props, [
+			'transactionType', 
+			'type', 
+			'signerAddress', 
+			'recipientAddress', 
+			'deadline', 
+			'messageEncrypted'
+		])
+	}
+
+	renderGraphic() {
 		switch (this.props.transactionType) {
 			case TransactionType.TRANSFER: 
 				return <TransferGraphic {...this.props} />
@@ -98,5 +128,14 @@ export default class TransactionGraphic extends Component<Props> {
 		}
 
 		return null;
+	}
+	
+	render() {
+		const { expanded } = this.state;
+
+		return <TouchableOpacity onPress={() => this.toggle()}>
+			{this.renderGraphic()}
+			{expanded && <TableView smaller data={this.tableData()} />}
+		</TouchableOpacity>
 	}
 }
