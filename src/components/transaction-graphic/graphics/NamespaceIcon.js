@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Text,
     Path,
     Rect,
@@ -23,7 +23,7 @@ export default class NamespaceIcon extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -54,7 +54,7 @@ export default class NamespaceIcon extends GraphicComponent {
                     c3.468-0.028,6.512-3.168,6.51-6.717c-0.002-3.541-3.041-6.587-6.594-6.605c-3.849-0.023-6.973,2.932-6.917,6.539
                     C96.161,32.009,99.307,35.057,103.104,35.029z"
                 />
-            </Svg>
+            </G>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Text,
     Path,
     Rect,
@@ -19,7 +19,7 @@ export default class LockIcon extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -60,7 +60,7 @@ export default class LockIcon extends GraphicComponent {
                     C132.672,83.903,132.066,84.508,131.318,84.508z M131.372,63.18c-3.154,0-5.737,2.602-5.737,5.738c0,3.152,2.601,5.737,5.737,5.737
                     c3.189,0,5.736-2.549,5.736-5.737C137.108,65.782,134.507,63.18,131.372,63.18z"
                 />
-            </Svg>
+            </G>
         );
     }
 }

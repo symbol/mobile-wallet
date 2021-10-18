@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Circle,
     Path,
     Defs,
@@ -15,7 +15,7 @@ export default class CircleAccount extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -52,7 +52,7 @@ export default class CircleAccount extends GraphicComponent {
                     c0.177,0.427,0.181,0.854-0.002,1.28l0.008-0.013c-0.002,0.001-0.002,0.005-0.002,0.007c-0.104,0.262-0.134,0.563-0.385,0.749
                     C21.902,19.604,22.02,20.271,21.721,20.741z"
                 />
-            </Svg>
+            </G>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Circle,
     G,
     Path,
@@ -16,7 +16,7 @@ export default class CircleMosaicRestriction extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -76,7 +76,7 @@ export default class CircleMosaicRestriction extends GraphicComponent {
                             c0-0.6,0.602-1.086,1.343-1.086l0,0c0.741,0,1.343,0.486,1.343,1.086V23.931z"
                     />
                 </G>
-            </Svg>
+            </G>
         );
     }
 }

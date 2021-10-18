@@ -1,18 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
+    G,
     Text,
     Path,
     Rect,
 } from 'react-native-svg';
+import translate from '@src/locales/i18n';
 
-export default class AccountIcon extends GraphicComponent {
+class AccountIcon extends GraphicComponent {
     get iconColor() {
         return this.getIconColor(this.props.address);
     }
 
     get truncatedAddress() {
-        return this.truncString(this.props.address);
+        return this.props.userAddress === this.props.address
+            ? translate('transaction.currentAccount')
+            : this.truncString(this.props.address);
     }
 
     get viewBox() {
@@ -23,13 +28,13 @@ export default class AccountIcon extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
                 width={this._width}
                 height={this._height}
-                viewBox={this.viewBox}
+                viewBox={'0 0 261.333 131.313'}
             >
                 <Rect
                     x="25.266"
@@ -131,7 +136,12 @@ export default class AccountIcon extends GraphicComponent {
                     d="M148.619,57.931c0.693-1.358,1.386-2.718,2.079-4.076
                         C150.928,55.684,150.725,57.292,148.619,57.931z"
                 />
-            </Svg>
+            </G>
         );
     }
 }
+
+export default connect(state => ({
+    userAddress: state.account.selectedAccountAddress,
+    network: state.network.selectedNetwork,
+}))(AccountIcon);

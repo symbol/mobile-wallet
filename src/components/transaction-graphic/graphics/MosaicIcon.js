@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     G,
     Text,
     Path,
@@ -35,7 +35,7 @@ export default class MosaicIcon extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -92,7 +92,7 @@ export default class MosaicIcon extends GraphicComponent {
                     style={this.styles.text}
                     textAnchor="middle"
                 >{this.truncatedMosaicName}</Text>}
-            </Svg>
+            </G>
         );
     }
 }

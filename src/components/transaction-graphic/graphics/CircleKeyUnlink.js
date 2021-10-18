@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Circle,
     G,
     Path,
@@ -17,7 +17,7 @@ export default class CircleKeyUnlink extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -49,7 +49,7 @@ export default class CircleKeyUnlink extends GraphicComponent {
                     />
                     <Rect id="Cut" x="10.557" y="18.571" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -7.6666 19.9229)" fill="#FFFFFF" width="19.318" height="1.289"/>
                 </G>
-            </Svg>
+            </G>
         );
     }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View, FlatList, TouchableOpacity, StyleSheet,Image, TouchableOpacityBase } from 'react-native';
 import { 
     Text, 
     Row, 
@@ -15,7 +16,7 @@ import {
     Input,
     Icon
 } from '@src/components';
-import { View, FlatList, TouchableOpacity, StyleSheet,Image, TouchableOpacityBase } from 'react-native';
+import TransactionGraphic from '@src/components/transaction-graphic/TransactionGraphic';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 // import { SwipeablePanel } from 'rn-swipeable-panel';
 import { connect } from 'react-redux';
@@ -154,6 +155,11 @@ class TransactionDetails extends Component<Props, State> {
         </ListItem>
     }
 
+    renderTransactionGraphicItem({index, item}) {
+        return <ListItem><TransactionGraphic {...item} /></ListItem>
+        
+    }
+
     renderInnerTransactionTable() {
         const { isLoading, fullTransaction } = this.state;
 
@@ -162,6 +168,21 @@ class TransactionDetails extends Component<Props, State> {
                 {fullTransaction && <FlatList
                     data={fullTransaction.innerTransactions}
                     renderItem={this.renderTransactionItem}
+                    keyExtractor={(item, index) => '' + index + 'details'}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                />}
+                </ListContainer>
+        </FadeView>
+    }
+
+    renderGraphic() {
+        const { isLoading, fullTransaction } = this.state;
+
+        return <FadeView style={{ flex: 1 }}>
+            <ListContainer isScrollable={false} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
+                {fullTransaction && <FlatList
+                    data={fullTransaction.innerTransactions}
+                    renderItem={this.renderTransactionGraphicItem}
                     keyExtractor={(item, index) => '' + index + 'details'}
                     contentContainerStyle={{ flexGrow: 1 }}
                 />}
@@ -282,6 +303,9 @@ class TransactionDetails extends Component<Props, State> {
                 break;
             case 'info':
                 Content = this.renderInfo();
+                break;
+            case 'graphic':
+                Content = this.renderGraphic();
                 break;
         }
         

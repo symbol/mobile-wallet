@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { connect } from 'react-redux';
 
 class GraphicComponent extends Component {
     transactionTypeTextPositionX = 485;
-    transactionTypeTextPositionY = 361.9268;
+    transactionTypeTextPositionY = 380;
     arrowPositionX = 341;
-    arrowPositionY = 305;
+    arrowPositionY = 325;
     circlesIconsPositionsX = [[466], [447, 485], [428, 466, 504]];
-    circleIconPositionY = 300;
+    circleIconPositionY = 320;
+    transactionGraphicViewbox ='380 240 200 170';
+    transactionGraphicWidth = 370;
+    transactionGraphicHeight = 110;
+    subjectPositionX = 200;
+    subjectPositionY = 277;
+    objectPositionX = 505;
+    subjectWidth = 261;
+    subjectHeight = 90;
 
-    // Computed
+    get objectPositionY() {
+        return this.subjectPositionY;
+    }
 
     get styles() {
         return ({
@@ -25,8 +33,8 @@ class GraphicComponent extends Component {
                 fill: GlobalStyles.color.SECONDARY
             },
             message: {
-                fontSize: 13,
-                fontWeight: 'bold',
+                fontSize: 16,
+                fontWeight: 400,
                 fill: GlobalStyles.color.BLUE
             },
             arrowBody: {
@@ -43,64 +51,30 @@ class GraphicComponent extends Component {
         });
     }
 
-    get transactionGraphicViewbox() {
-        return '380 240 200 170';
-    }
-
-    get transactionGraphicWidth() {
-        return 370;
-    }
-
-    get transactionGraphicHeight() {
-        return 150;
-    }
-
-    get subjectPositionX() {
-        return 200;
-    }
-
-    get subjectPositionY() {
-        return 277;
-    }
-
-    get objectPositionX() {
-        return 505;
-    }
-
-    get objectPositionY() {
-        return this.subjectPositionY;
-    }
-
-    get subjectWidth() {
-        return 261;
-    }
-
-    get subjectHeight() {
-        return 90;
-    }
-
     get nativeMosaicId() {
-        return this.props.network.networkCurrency.mosaicId;
+        console.log('Network', this.props.network)
+        return this.props.network?.networkCurrency.mosaicId;
     }
 
     get nativeMosaicAliasName() {
-        return this.props.network.networkCurrency.namespaceName;
+        console.log('Network', this.props.network)
+        return this.props.network?.networkCurrency.namespaceName;
     }
 
     get _x() {
-        return this.getPixels(this.props.x);
+        return this.props.x;
     }
 
     get _y() {
-        return this.getPixels(this.props.y);
+        return this.props.y;
     }
 
     get _height() {
-        return this.getPixels(this.props.height || '0');
+        return this.props.height || 0;
     }
 
     get _width() {
-        return this.getPixels(this.props.width || '0');
+        return this.props.width || 0;
     }
 
     get circlesCount() {
@@ -109,7 +83,10 @@ class GraphicComponent extends Component {
             : 0;
     }
 
-    // Methods
+    get transactionType() {
+        return this.getTranslation(`transactionTypes.transactionDescriptor_${this.props.transactionType}`);
+    }
+
     getColorFromHash(hash, isHex = true) {
 		const color = {
 			R: 0,
@@ -248,13 +225,6 @@ class GraphicComponent extends Component {
     getAddressTitle(address) {
         return `Account: ${address}`;
     }
-
-    getTransactionTypeCaption(type) {
-        return this.getTranslation(`transaction.transactionDescriptor_${type}`);
-    }
 }
 
- export default GraphicComponent //connect(state => ({
-//     address: state.account.selectedAccountAddress,
-//     network: state.network.selectedNetwork,
-// }))(GraphicComponent);
+ export default GraphicComponent;

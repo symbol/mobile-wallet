@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Circle,
     G,
     Path,
@@ -16,7 +16,7 @@ export default class CircleNamespaceUnlink extends GraphicComponent {
 
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -48,7 +48,7 @@ export default class CircleNamespaceUnlink extends GraphicComponent {
                         l-2.89,2.89l-0.88-0.88l13.66-13.66l0.88,0.88l-2.9,2.91l3.39,3.39C27.56,19.71,27.57,20.67,26.97,21.27z"
                     />
                 </G>
-            </Svg>
+            </G>
         );
     }
 }

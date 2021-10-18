@@ -1,7 +1,7 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
 import Svg, {
-    ForeignObject,
+    G,
     Polygon,
     Line,
 } from 'react-native-svg';
@@ -9,7 +9,7 @@ import Svg, {
 export default class Arrow extends GraphicComponent {
     render() {
         return (
-            <Svg
+            <G
                 version="1.1"
                 x={this._x}
                 y={this._y}
@@ -32,16 +32,7 @@ export default class Arrow extends GraphicComponent {
                     style={this.styles.arrowEnd}
                     points="269.176,22.628 273.267,13 269.176,3.372 292,13"
                 />
-                <ForeignObject 
-                    style={this.styles.circleIconsContainer} 
-                    x="9" 
-                    y="0" 
-                    width="267" 
-                    height="27"
-                >
-                    {this.props.children}
-                </ForeignObject>
-            </Svg>
+            </G>
         );
     }
 }

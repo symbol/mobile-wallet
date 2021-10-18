@@ -29,11 +29,9 @@ type Props = {
 
 export default class TransactionGraphic extends Component<Props> {
 	render() {
-		const { data } = this.props;
-
-		switch (data && data.type) {
+		switch (this.props.transactionType) {
 			case TransactionType.TRANSFER: 
-				return <TransferGraphic {...data} />
+				return <TransferGraphic {...this.props} />
 
 			// case TransactionType.ADDRESS_ALIAS: 
 			// 	return <AddressAliasGraphic {...data} />

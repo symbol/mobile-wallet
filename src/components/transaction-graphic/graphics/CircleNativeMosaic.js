@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, {
+import {
     Circle,
     G,
     Path,
@@ -16,8 +16,7 @@ export default class CircleNativeMosaic extends GraphicComponent {
 
     render() {
         return (
-            <Svg
-                version="1.1"
+            <G
                 x={this._x}
                 y={this._y}
                 width="38.5px"
@@ -74,7 +73,7 @@ export default class CircleNativeMosaic extends GraphicComponent {
                             c0.249-0.275,0.479-0.626,0.929-0.624C21.737,21.667,21.739,23.922,21.74,26.177z"
                     />
                 </G>
-            </Svg>
+            </G>
         );
     }
 }
