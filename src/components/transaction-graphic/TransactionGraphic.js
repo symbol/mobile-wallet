@@ -8,7 +8,7 @@ import _ from 'lodash';
 // import MosaicAliasGraphic from './MosaicAliasGraphic.js';
 // import NamespaceRegistrationGraphic from './NamespaceRegistrationGraphic.js';
 // import MosaicDefinitionGraphic from './MosaicDefinitionGraphic.js';
-// import MosaicSupplyChangeGraphic from './MosaicSupplyChangeGraphic.js';
+import MosaicSupplyChangeGraphic from './MosaicSupplyChangeGraphic.js';
 // import SecretLockGraphic from './SecretLockGraphic.js';
 // import HashLockGraphic from './HashLockGraphic.js';
 // import VrfKeyGraphic from './VrfKeyGraphic.js';
@@ -75,8 +75,8 @@ export default class TransactionGraphic extends Component<Props, State> {
 			// case TransactionType.MOSAIC_DEFINITION: 
 			// 	return <MosaicDefinitionGraphic {...data} />
 
-			// case TransactionType.MOSAIC_SUPPLY_CHANGE: 
-			// 	return <MosaicSupplyChangeGraphic {...data} />
+			case TransactionType.MOSAIC_SUPPLY_CHANGE: 
+				return <MosaicSupplyChangeGraphic {...this.props} />
 
 			// case TransactionType.SECRET_LOCK: 
 			// 	return <SecretLockGraphic {...data} />
@@ -135,7 +135,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 
 		return <TouchableOpacity onPress={() => this.toggle()}>
 			{this.renderGraphic()}
-			{expanded && <TableView smaller data={this.tableData()} />}
+			{expanded && <TableView smaller hideEmpty data={this.tableData()} />}
 		</TouchableOpacity>
 	}
 }

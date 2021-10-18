@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Dimensions } from 'react-native'
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -9,14 +10,17 @@ class GraphicComponent extends Component {
     arrowPositionY = 325;
     circlesIconsPositionsX = [[466], [447, 485], [428, 466, 504]];
     circleIconPositionY = 320;
-    transactionGraphicViewbox ='380 240 200 170';
-    transactionGraphicWidth = 370;
+    transactionGraphicViewbox = '11.7 270 10.5 160';
     transactionGraphicHeight = 110;
     subjectPositionX = 200;
     subjectPositionY = 277;
     objectPositionX = 505;
     subjectWidth = 261;
     subjectHeight = 90;
+
+    get transactionGraphicWidth() {
+        return Dimensions.get('window').width - 96;
+    }
 
     get objectPositionY() {
         return this.subjectPositionY;
@@ -85,6 +89,14 @@ class GraphicComponent extends Component {
 
     get transactionType() {
         return this.getTranslation(`transactionTypes.transactionDescriptor_${this.props.transactionType}`);
+    }
+
+    get signer() {
+        return this.props.signerAddress;
+    }
+
+    get recipient() {
+        return this.props.recipientAddress;
     }
 
     getColorFromHash(hash, isHex = true) {

@@ -397,7 +397,7 @@
 		"innerTransactionNo": "Inner Transaction #",
 		"type": "Type",
 		"recipientAddress": "Recipient Address",
-		"messageText": "Message / Memo",
+		"messageText": "Message",
 		"messageEncrypted": "Message encryption",
 		"fee": "Fee",
 		"resolvedFee": "Fee",

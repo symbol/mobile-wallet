@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 interface Props {
 	data: Object;
 	smaller?: boolean;
+	hideEmpty?: boolean;
 }
 
 class TableView extends Component<Props> {
@@ -97,7 +98,7 @@ class TableView extends Component<Props> {
 	};
 
 	renderTable = (data) => {
-		const { smaller } = this.props
+		const { smaller, hideEmpty } = this.props
 		const sectionStyle = smaller ? { 
 			borderTopWidth: 1, 
 			borderTopColor: 
@@ -123,9 +124,9 @@ class TableView extends Component<Props> {
 				}));
         return (
 			_data.map((el, item) => (
-				<Section 
+				(!hideEmpty || !!el.value) && <Section 
 					type={sectionType}
-					style={!!item && sectionStyle}
+					style={sectionStyle}
 					key={''+ item + 'table' + el.key}
 				>
 					<Item>

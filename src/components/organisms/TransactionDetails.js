@@ -6,6 +6,7 @@ import {
     Button, 
     ListItem,
     ListContainer,
+    LoadingAnimationFlexible,
     TitleBar,
     SwipeablePanel, 
     FadeView,
@@ -48,6 +49,19 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		marginBottom: -2
 	},
+    graphicItem: {
+        backgroundColor: GlobalStyles.color.WHITE,
+        marginBottom: 16,
+        borderRadius: 6,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        // alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        elevation: 1,
+    },
     acceptanceForm: {
         backgroundColor: GlobalStyles.color.SECONDARY,
         paddingTop: 17,
@@ -155,12 +169,13 @@ class TransactionDetails extends Component<Props, State> {
         </ListItem>
     }
 
-    renderTransactionGraphicItem({index, item}) {
-        return <ListItem><TransactionGraphic {...item} /></ListItem>
-        
+    renderGraphicItem({index, item}) {
+        return <View type="form-item" style={styles.graphicItem}>
+            <TransactionGraphic {...item} />
+        </View>        
     }
 
-    renderInnerTransactionTable() {
+    renderTabInnerTransactions() {
         const { isLoading, fullTransaction } = this.state;
 
         return <FadeView style={{ flex: 1 }}>
@@ -175,22 +190,24 @@ class TransactionDetails extends Component<Props, State> {
         </FadeView>
     }
 
-    renderGraphic() {
+    renderTabGraphic() {
         const { isLoading, fullTransaction } = this.state;
 
-        return <FadeView style={{ flex: 1 }}>
-            <ListContainer isScrollable={false} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
-                {fullTransaction && <FlatList
+        return isLoading || !fullTransaction
+        ? <LoadingAnimationFlexible isFade text={' '} theme="light" />
+        : <FadeView style={{ flex: 1 }}>
+            <Section type="form">
+                <FlatList
                     data={fullTransaction.innerTransactions}
-                    renderItem={this.renderTransactionGraphicItem}
+                    renderItem={this.renderGraphicItem}
                     keyExtractor={(item, index) => '' + index + 'details'}
                     contentContainerStyle={{ flexGrow: 1 }}
-                />}
-                </ListContainer>
+                />
+            </Section>
         </FadeView>
     }
 
-    renderInfo() {
+    renderTabInfo() {
         const { isLoading, fullTransaction } = this.state;
     
         return <FadeView style={{ flex: 1 }}>
@@ -299,13 +316,13 @@ class TransactionDetails extends Component<Props, State> {
         switch(selectedTab) {
             default:
             case 'innerTransactions':
-                Content = this.renderInnerTransactionTable();
+                Content = this.renderTabInnerTransactions();
                 break;
             case 'info':
-                Content = this.renderInfo();
+                Content = this.renderTabInfo();
                 break;
             case 'graphic':
-                Content = this.renderGraphic();
+                Content = this.renderTabGraphic();
                 break;
         }
         

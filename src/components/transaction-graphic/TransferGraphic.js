@@ -52,7 +52,7 @@ class TransferGraphic extends GraphicComponent {
 				y={0}
 				width={this.transactionGraphicWidth}
 				height={this.transactionGraphicHeight}
-				viewBox={'9.1 270 9 160'}
+				viewBox={this.transactionGraphicViewbox}
 			>
 				<G>
 					<AccountIcon
