@@ -35,7 +35,6 @@
 			"title": "Import Wallet",
 			"content": "Import your Wallet by entering your mnemonics in order.",
 			"button": "Import",
-			"ignoreWarning": "Ignore Warning",
 			"cancelModalButton": "Cancel",
 			"error": {
 				"invalidMnemonic": "Invalid Mnemonic",
@@ -480,7 +479,11 @@
 		"optInTitle": "Post-launch Opt-in",
 		"optInDescription": "Press here to access the dashboard",
 		"pendingSignatureTitle": "Pending signature",
-		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
+		"pendingSignatureDescription": "There is a transaction pending awaiting signature",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This profile does not have a valid mnemonic phrase. Please create a new profile and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "Mosaics"
