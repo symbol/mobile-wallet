@@ -39,7 +39,7 @@ platform :ios do
       xcodeproj: "SymbolWallet.xcodeproj"
     )
     ensure_temp_keychain 'fastlane_temp'
-    match(type: "appstore", readonly: ENV["RUNNING_ON_CI"], keychain_name: 'fastlane_temp')
+    match(type: "appstore", readonly: ENV["RUNNING_ON_CI"], keychain_name: 'fastlane_temp', git_basic_authorization: ENV["MATCH_GIT_BASIC_AUTHORIZATION"])
     build_app(workspace: "SymbolWallet.xcworkspace", scheme: "Symbol")
     upload_to_testflight
   end

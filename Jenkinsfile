@@ -18,7 +18,7 @@ pipeline {
         BUILD_NUMBER = "${params.BUILD_NUMBER}"
         // TODO change branch name
         DEV_BRANCH = 'jenkins-pipeline-setup'
-        GHUB_CREDS_SECRET = credentials('GHUB_CREDS_SECRET')
+        MATCH_GIT_BASIC_AUTHORIZATION = credentials('GHUB_CREDS_SECRET')
     }
 
     stages {
@@ -26,53 +26,51 @@ pipeline {
                 steps {
                     // Get mobile-wallet dev branch code from GitHub repository
                     // git branch: DEV_BRANCH, url: 'https://github.com/symbol/mobile-wallet.git'
-                    sh "GHUB_CREDS_SECRET:${GHUB_CREDS_SECRET}"
-                    sh "GHUB_CREDS_SECRET BASE64:${GHUB_CREDS_SECRET.bytes.encodeBase64().toString()}"
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
                     sh "yarn cache clean && yarn install --network-concurrency 1"                
                 }
             }
 
-        // stage('Build') {
-        //     parallel {
-        //         stage('Build - IOS') {
-        //             steps {
-        //                 sh "cd ios && bundle install"
-        //                 sh "cd ios && bundle exec pod install"
-        //             }
-        //         }
-        //         stage('Build - Android') {
-        //             steps {
-        //                 sh "npx react-native run-android --variant=DevDebug"
-        //                 sh "cd android && ./gradlew assembleProdRelease"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build') {
+            parallel {
+                stage('Build - IOS') {
+                    steps {
+                        sh "cd ios && bundle install"
+                        sh "cd ios && bundle exec pod install"
+                    }
+                }
+                stage('Build - Android') {
+                    steps {
+                        sh "npx react-native run-android --variant=DevDebug"
+                        sh "cd android && ./gradlew assembleProdRelease"
+                    }
+                }
+            }
+        }
 
-        // stage ('Test') {
-        //     steps {
-        //         sh "echo Currently there are no tests to run!"
-        //     }
-        // }
+        stage ('Test') {
+            steps {
+                sh "echo Currently there are no tests to run!"
+            }
+        }
 
-        // // deploy to testnet
-        // stage ('Deploy Staging - Alpha version') {
-        //     when {
-        //         expression {
-        //             BRANCH_NAME == DEV_BRANCH
-        //         }
-        //     }
-        //     steps {
-        //         sh "cd ios && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta"
-        //         sh "echo Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}"
-        //     }
-        // }
+        // deploy to testnet
+        stage ('Deploy Staging - Alpha version') {
+            when {
+                expression {
+                    BRANCH_NAME == DEV_BRANCH
+                }
+            }
+            steps {
+                sh "cd ios && export MATCH_GIT_BASIC_AUTHORIZATION=${MATCH_GIT_BASIC_AUTHORIZATION} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta"
+                sh "echo Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}"
+            }
+        }
     }
-    // post {
-    //     success {
-    //         archiveArtifacts artifacts: 'android/app/build/outputs/apk/dev/release/*.apk'
-    //     }
-    // }
+    post {
+        success {
+            archiveArtifacts artifacts: 'android/app/build/outputs/apk/dev/release/*.apk'
+        }
+    }
 }
