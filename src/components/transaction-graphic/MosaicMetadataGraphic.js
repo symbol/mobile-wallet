@@ -1,127 +1,63 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import MosaicIcon from './graphics/MosaicIcon.js';
+import CircleMetadata from './graphics/CircleMetadata.js';
+import Svg, {
+    Text,
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<MosaicIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:mosaic="mosaic"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MetadataCircle
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				:title="transactionType"
-				:data="metadataInfo"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import MosaicIcon from '../graphics/MosaicIcon.vue';
-import MetadataCircle from '../graphics/MetadataCircle.vue';
-import Arrow from '../graphics/Arrow.vue';
-import { TransactionType } from 'symbol-sdk';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		MosaicIcon,
-		Arrow,
-		MetadataCircle
-	},
-
-	props: {
-		type: {
-			type: Number,
-			default: TransactionType.ACCOUNT_METADATA
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		targetAddress: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		targetMosaicId: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		scopedMetadataKey: {
-			type: String
-		},
-		metadataValue: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		valueSizeDelta: {
-			type: Number
-		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		metadataInfo() {
-			return {
-				targetAddress: this.targetAddress,
-				metadataValue: this.metadataValue,
-				valueSizeDelta: this.valueSizeDelta,
-				scopedMetadataKey: this.scopedMetadataKey
-			};
-		},
-
-		mosaic() {
-			return { mosaicId: this.targetMosaicId };
-		}
+export default class AccountMetadataGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+	get mosaic() {
+		return { mosaicId: this.props.targetMosaicId };
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<MosaicIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					mosaic={this.mosaic}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleMetadata
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				<Text 
+					x={this.transactionTypeTextPositionX}
+					y={this.transactionTypeTextPositionY}
+					textAnchor="middle" 
+					style={this.styles.message}
+				>
+					{this.transactionType}
+				</Text>
+			</Svg>
+        );
+    }
+}

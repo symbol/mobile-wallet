@@ -1,135 +1,76 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import CircleEdit from './graphics/CircleEdit.js';
+import CircleAccount from './graphics/CircleAccount.js';
+import CircleAccountRemove from './graphics/CircleAccountRemove.js';
+import Svg, {
+    Text,
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<AccountIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<EditCircle
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				:data="data"
-				:title="transactionType"
-			/>
-			<AccountCircle
-				v-if="!!addressAdditions.length"
-				:x="getCircleIconPositionX(1)"
-				:y="circleIconPositionY"
-				:accounts="addressAdditions"
-			/>
-			<AccountRemoveCircle
-				v-if="!!addressDeletions.length"
-				:x="getCircleIconPositionX(2)"
-				:y="circleIconPositionY"
-				:accounts="addressDeletions"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import AccountCircle from '../graphics/AccountCircle.vue';
-import AccountRemoveCircle from '../graphics/AccountRemoveCircle.vue';
-import EditCircle from '../graphics/EditCircle.vue';
-import Arrow from '../graphics/Arrow.vue';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		AccountCircle,
-		AccountRemoveCircle,
-		EditCircle,
-		Arrow
-	},
-
-	props: {
-		message: {
-			type: String,
-			default: ''
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		minRemovalDelta: {
-			type: Number,
-			required: true
-		},
-		minApprovalDelta: {
-			type: Number,
-			required: true
-		},
-		addressAdditionsCount: {
-			type: Number
-		},
-		addressDeletionsCount: {
-			type: Number
-		},
-		addressAdditions: {
-			type: Array,
-			default: () => []
-		},
-		addressDeletions: {
-			type: Array,
-			default: () => []
-		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true, !!this.addressAdditions.length, !!this.addressDeletions.length];
-		},
-
-		data() {
-			return {
-				minRemovalDelta: this.minRemovalDelta,
-				minApprovalDelta: this.minApprovalDelta
-			};
-		}
+export default class NodeKeyLinkGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true, this.isAddressAdditions, this.isAddressDeletions];
+	}
+
+	get isAddressAdditions() {
+		return !!this.props.addressAdditions.length;
+	}
+
+	get isAddressDeletions() {
+		return !!this.props.addressDeletions.length;
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<AccountIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleEdit
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				{this.isAddressAdditions && <CircleAccount
+					x={this.getCircleIconPositionX(1)}
+					y={this.circleIconPositionY}
+				/>}
+				{this.isAddressDeletions && <CircleAccountRemove
+					x={this.getCircleIconPositionX(2)}
+					y={this.circleIconPositionY}
+				/>}
+				<Text 
+					x={this.transactionTypeTextPositionX}
+					y={this.transactionTypeTextPositionY}
+					textAnchor="middle" 
+					style={this.styles.message}
+				>
+					{this.transactionType}
+				</Text>
+			</Svg>
+        );
+    }
+}

@@ -103,7 +103,7 @@ class TransactionDetails extends Component<Props, State> {
         userUnderstand: false,
         userWishToBlacklist: false,
         blacklistAccountName: '',
-        selectedTab: 'info'
+        selectedTab: 'graphic'
     };
 
     componentDidMount() {
@@ -115,6 +115,7 @@ class TransactionDetails extends Component<Props, State> {
 
         this.fetchTransactionDetails()
             .then(async tx => {
+                console.log('Aggregate Transaction details:', JSON.stringify(tx.innerTransactions, null, 4))
                 this.setState({ 
                     fullTransaction: tx,
                     isLoading: false

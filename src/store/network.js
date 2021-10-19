@@ -18,6 +18,7 @@ export default {
         selectedNode: '',
         selectedNetwork: {
             type: 'testnet',
+            networkType: 0,
             generationHash: '',
             node: '',
             currencyMosaicId: '',

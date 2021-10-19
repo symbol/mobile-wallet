@@ -4,27 +4,27 @@ import { TransactionType } from 'symbol-sdk';
 import { TableView } from '@src/components';
 import TransferGraphic from './TransferGraphic.js';
 import _ from 'lodash';
-// import AddressAliasGraphic from './AddressAliasGraphic.js';
-// import MosaicAliasGraphic from './MosaicAliasGraphic.js';
+import AddressAliasGraphic from './AddressAliasGraphic.js';
+import MosaicAliasGraphic from './MosaicAliasGraphic.js';
 import NamespaceRegistrationGraphic from './NamespaceRegistrationGraphic.js';
 import MosaicDefinitionGraphic from './MosaicDefinitionGraphic.js';
 import MosaicSupplyChangeGraphic from './MosaicSupplyChangeGraphic.js';
-// import SecretLockGraphic from './SecretLockGraphic.js';
-// import HashLockGraphic from './HashLockGraphic.js';
-// import VrfKeyGraphic from './VrfKeyGraphic.js';
-// import AccountKeyLinkGraphic from './AccountKeyLinkGraphic.js';
-// import NodeKeyLinkGraphic from './NodeKeyLinkGraphic.js';
-// import VotingKeyLinkGraphic from './VotingKeyLinkGraphic.js';
+import SecretLockGraphic from './SecretLockGraphic.js';
+import HashLockGraphic from './HashLockGraphic.js';
+import VrfKeyGraphic from './VrfKeyGraphic.js';
+import AccountKeyLinkGraphic from './AccountKeyLinkGraphic.js';
+import NodeKeyLinkGraphic from './NodeKeyLinkGraphic.js';
+import VotingKeyLinkGraphic from './VotingKeyLinkGraphic.js';
 // import SecretProofGraphic from './SecretProofGraphic.js';
-// import AccountMetadataGraphic from './AccountMetadataGraphic.js';
+import AccountMetadataGraphic from './AccountMetadataGraphic.js';
 // import NamespaceMetadataGraphic from './NamespaceMetadataGraphic.js';
-// import MosaicMetadataGraphic from './MosaicMetadataGraphic.js';
+import MosaicMetadataGraphic from './MosaicMetadataGraphic.js';
 // import MosaicGlobalRestrictionGraphic from './MosaicGlobalRestrictionGraphic.js';
 // import MosaicAddressRestrictionGraphic from './MosaicAddressRestrictionGraphic.js';
-// import AccountOperationRestrictionGraphic from './AccountOperationRestrictionGraphic.js';
-// import AccountAddressRestrictionGraphic from './AccountAddressRestrictionGraphic.js';
-// import AccountMosaicRestrictionGraphic from './AccountMosaicRestrictionGraphic.js';
-// import MultisigAccountModificationGraphic from './MultisigAccountModificationGraphic.js';
+import AccountOperationRestrictionGraphic from './AccountOperationRestrictionGraphic.js';
+import AccountAddressRestrictionGraphic from './AccountAddressRestrictionGraphic.js';
+import AccountMosaicRestrictionGraphic from './AccountMosaicRestrictionGraphic.js';
+import MultisigAccountModificationGraphic from './MultisigAccountModificationGraphic.js';
 
 type Props = {
 	data: object;
@@ -54,7 +54,8 @@ export default class TransactionGraphic extends Component<Props, State> {
 			'signerAddress', 
 			'recipientAddress', 
 			'deadline', 
-			'messageEncrypted'
+			'messageEncrypted',
+			'hash'
 		])
 	}
 
@@ -63,11 +64,11 @@ export default class TransactionGraphic extends Component<Props, State> {
 			case TransactionType.TRANSFER: 
 				return <TransferGraphic {...this.props} />
 
-			// case TransactionType.ADDRESS_ALIAS: 
-			// 	return <AddressAliasGraphic {...data} />
+			case TransactionType.ADDRESS_ALIAS: 
+				return <AddressAliasGraphic {...this.props} />
 				
-			// case TransactionType.MOSAIC_ALIAS: 
-			// 	return <MosaicAliasGraphic {...data} />
+			case TransactionType.MOSAIC_ALIAS: 
+				return <MosaicAliasGraphic {...this.props} />
 
 			case TransactionType.NAMESPACE_REGISTRATION: 
 				return <NamespaceRegistrationGraphic {...this.props} />
@@ -78,53 +79,53 @@ export default class TransactionGraphic extends Component<Props, State> {
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: 
 				return <MosaicSupplyChangeGraphic {...this.props} />
 
-			// case TransactionType.SECRET_LOCK: 
-			// 	return <SecretLockGraphic {...data} />
+			case TransactionType.SECRET_LOCK: 
+				return <SecretLockGraphic {...this.props} />
 
-			// case TransactionType.HASH_LOCK: 
-			// 	return <HashLockGraphic {...data} />
+			case TransactionType.HASH_LOCK: 
+				return <HashLockGraphic {...this.props} />
 
 			// case TransactionType.SECRET_PROOF: 
-			// 	return <SecretProofGraphic {...data} />
+			// 	return <SecretProofGraphic {...this.props} />
 
-			// case TransactionType.VRF_KEY_LINK: 
-			// 	return <VrfKeyGraphic {...data} />
+			case TransactionType.VRF_KEY_LINK: 
+				return <VrfKeyGraphic {...this.props} />
 
-			// case TransactionType.ACCOUNT_KEY_LINK: 
-			// 	return <AccountKeyLinkGraphic {...data} />
+			case TransactionType.ACCOUNT_KEY_LINK: 
+				return <AccountKeyLinkGraphic {...this.props} />
 
-			// case TransactionType.NODE_KEY_LINK: 
-			// 	return <NodeKeyLinkGraphic {...data} />
+			case TransactionType.NODE_KEY_LINK: 
+				return <NodeKeyLinkGraphic {...this.props} />
 
-			// case TransactionType.VOTING_KEY_LINK: 
-			// 	return <VotingKeyLinkGraphic {...data} />
+			case TransactionType.VOTING_KEY_LINK: 
+				return <VotingKeyLinkGraphic {...this.props} />
 
 			// case TransactionType.MOSAIC_GLOBAL_RESTRICTION: 
-			// 	return <MosaicGlobalRestrictionGraphic {...data} />
+			// 	return <MosaicGlobalRestrictionGraphic {...this.props} />
 
 			// case TransactionType.MOSAIC_ADDRESS_RESTRICTION: 
-			// 	return <MosaicAddressRestrictionGraphic {...data} />
+			// 	return <MosaicAddressRestrictionGraphic {...this.props} />
 
-			// case TransactionType.ACCOUNT_OPERATION_RESTRICTION: 
-			// 	return <AccountOperationRestrictionGraphic {...data} />
+			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: 
+				return <AccountOperationRestrictionGraphic {...this.props} />
 
-			// case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: 
-			// 	return <AccountAddressRestrictionGraphic {...data} />
+			case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: 
+				return <AccountAddressRestrictionGraphic {...this.props} />
 
-			// case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: 
-			// 	return <AccountMosaicRestrictionGraphic {...data} />
+			case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: 
+				return <AccountMosaicRestrictionGraphic {...this.props} />
 
-			// case TransactionType.MULTISIG_ACCOUNT_MODIFICATION: 
-			// 	return <MultisigAccountModificationGraphic {...data} />
+			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION: 
+				return <MultisigAccountModificationGraphic {...this.props} />
 
-			// case TransactionType.ACCOUNT_METADATA: 
-			// 	return <AccountMetadataGraphic {...data} />
+			case TransactionType.ACCOUNT_METADATA: 
+				return <AccountMetadataGraphic {...this.props} />
 
 			// case TransactionType.NAMESPACE_METADATA: 
-			// 	return <NamespaceMetadataGraphic {...data} />
+			// 	return <NamespaceMetadataGraphic {...this.props} />
 
-			// case TransactionType.MOSAIC_METADATA: 
-			// 	return <MosaicMetadataGraphic {...data} />
+			case TransactionType.MOSAIC_METADATA: 
+				return <MosaicMetadataGraphic {...this.props} />
 		}
 
 		return null;

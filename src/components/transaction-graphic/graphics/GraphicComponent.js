@@ -239,4 +239,4 @@ class GraphicComponent extends Component {
     }
 }
 
- export default GraphicComponent;
+export default GraphicComponent;

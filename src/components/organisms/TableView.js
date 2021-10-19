@@ -15,12 +15,33 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 
 const TRANSLATION_ROOT_KEY = 'table';
 const renderTypeMap = {
-	copyButton: ['address', 'recipientAddress', 'signerAddress', 'publicKey', 'vrfPublicKey', 'remotePublicKey', 'linkedPublicKey', 'nodePublicKey'],
+	copyButton: [
+		'address', 
+		'recipientAddress', 
+		'signerAddress',
+		'linkedAccountAddress',
+		'targetAddress',
+		'metadataValue',
+		'publicKey', 
+		'vrfPublicKey', 
+		'remotePublicKey', 
+		'linkedPublicKey', 
+		'nodePublicKey',
+		'_restrictionAddressAdditions',
+		'_restrictionAddressDeletions',
+		'_addressAdditions',
+		'_addressDeletions'
+	],
 	boolean: ['supplyMutable', 'transferable', 'restrictable'],
 	amount: ['amount', 'resolvedFee'],
 	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
 	ecryption: ['messageEncrypted'],
+	transactionType: [
+		'transactionType', 
+		'_restrictionOperationAdditions',
+		'_restrictionOperationDeletions'
+	]
 };
 const styles = StyleSheet.create({
 	amount: {
@@ -42,6 +63,17 @@ interface Props {
 }
 
 class TableView extends Component<Props> {
+	valueExists = (value) => {
+		if (!value) {
+			return false;
+		}
+
+		if (Array.isArray(value) && !value.length) {
+			return false;
+		}
+
+		return true;
+	};
 
 	render_copyButton = (value) => {
 		if(typeof value === 'string')
@@ -66,6 +98,10 @@ class TableView extends Component<Props> {
 		if (value === 0) return <Text type="bold" theme="light" style={styles.amount}>{value}</Text>
 		return <Text type="bold" theme="light" style={styles.amount}>{value}</Text>
 	};
+
+	render_transactionType = (value) => {
+		return <Text type="regular" theme="light">{translate('transactionTypes.transactionDescriptor_' + value)}</Text>;
+	}
 	
 	render_mosaics = (value) => {
 		const mosaics = Array.isArray(value) ? value : [];
@@ -93,11 +129,11 @@ class TableView extends Component<Props> {
 				}));
 
 		if(!ItemTemplate && typeof value === 'object' && value !== null)
-			return this.renderTable(value);
+			return this.renderTable(value, key);
 		return ItemTemplate ? ItemTemplate : <Text type="regular" theme="light">{value}</Text>
 	};
 
-	renderTable = (data) => {
+	renderTable = (data, key) => {
 		const { smaller, hideEmpty } = this.props
 		const sectionStyle = smaller ? { 
 			borderTopWidth: 1, 
@@ -111,10 +147,14 @@ class TableView extends Component<Props> {
 		const Item = smaller ? Row : View;
 		let _data = data;
 
-		if(data === null || typeof data !== 'object')
+		if (data === null || typeof data !== 'object')
 			return null;
 
-		if(!Array.isArray(data))
+		if (Array.isArray(data) && data.length && !data[0].key && key) {
+			return data.map(value => this.renderItem('_' + key, value))
+		}
+
+		if (!Array.isArray(data))
 			_data = Object
 				.keys(data)
 				.filter(key => data[key] !== null && data[key] !== undefined)
@@ -124,7 +164,7 @@ class TableView extends Component<Props> {
 				}));
         return (
 			_data.map((el, item) => (
-				(!hideEmpty || !!el.value) && <Section 
+				(!hideEmpty || this.valueExists(el.value)) && <Section 
 					type={sectionType}
 					style={sectionStyle}
 					key={''+ item + 'table' + el.key}

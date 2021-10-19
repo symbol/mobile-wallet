@@ -1,130 +1,67 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import CircleKey from './graphics/CircleKey.js';
+import CircleKeyUnlink from './graphics/CircleKeyUnlink.js';
+import Svg, {
+    Text,
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<AccountIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="linkedAccountAddress"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<KeyCircle
-				v-if="isLinkAction"
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				title="VRF Key Link"
-				:data="keyLinkInfo"
-			/>
-			<KeyUnlinkCircle
-				v-else
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				title="VRF Key Link"
-				:data="keyLinkInfo"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType + subTitle }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyCircle from '../graphics/KeyCircle';
-import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
-import Arrow from '../graphics/Arrow.vue';
-import { TransactionType } from 'symbol-sdk';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		Arrow,
-		KeyCircle,
-		KeyUnlinkCircle
-	},
-
-	props: {
-		type: {
-			type: Number,
-			default: TransactionType.VRF_KEY_LINK
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		linkedAccountAddress: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		linkAction: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		linkedPublicKey: {
-			type: String,
-			required: true,
-			default: ''
-		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		isLinkAction() {
-			return this.linkAction === 'Link';
-		},
-
-		subTitle() {
-			return `. ${this.linkAction} account`;
-		},
-
-		keyLinkInfo() {
-			return {
-				publicKey: this.linkedPublicKey
-			};
-		}
+export default class VrfKeyGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+	get isLinkAction() {
+		return this.props.linkAction === 'Link';
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<AccountIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.linkedAccountAddress}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				{this.isLinkAction && <CircleKey
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>}
+				{!this.isLinkAction && <CircleKeyUnlink
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>}
+				<Text 
+					x={this.transactionTypeTextPositionX}
+					y={this.transactionTypeTextPositionY}
+					textAnchor="middle" 
+					style={this.styles.message}
+				>
+					{this.transactionType}
+				</Text>
+			</Svg>
+        );
+    }
+}

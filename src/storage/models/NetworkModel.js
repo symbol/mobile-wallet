@@ -1,4 +1,4 @@
-import { TransactionFees } from 'symbol-sdk';
+import { TransactionFees, NetworkType } from 'symbol-sdk';
 
 export type AppNetworkType = 'testnet' | 'mainnet';
 
@@ -7,6 +7,7 @@ export type AppNetworkType = 'testnet' | 'mainnet';
  */
 export interface NetworkModel {
     type: AppNetworkType;
+    networkType: NetworkType;
     generationHash: string;
     node: string;
     currencyMosaicId: string;

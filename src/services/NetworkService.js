@@ -46,6 +46,7 @@ export default class NetworkService {
 
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
+            networkType,
             generationHash: networkProps.network.generationHashSeed,
             node: node,
             currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),

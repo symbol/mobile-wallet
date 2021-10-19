@@ -2,6 +2,7 @@ import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
 import {
     Circle,
+    G,
     Path,
     Defs,
     LinearGradient,

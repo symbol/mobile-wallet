@@ -191,14 +191,15 @@ export class FormatTransaction {
 		const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
-    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transaction.namespaceId.toHex());
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId.toHex() === transaction.namespaceId.toHex());
+		console.log('namespaceNames', namespaceNames)
 
     	return {
 			transactionType: transaction.type,
 			aliasAction: Constants.AliasAction[transaction.aliasAction],
 			namespaceId: transaction.namespaceId.toHex(),
 			namespaceName: namespaceName.name,
-			address: transaction.address.address
+			address: transaction.address.pretty()
     	};
     }
 
@@ -206,7 +207,7 @@ export class FormatTransaction {
     	const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
-    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transaction.namespaceId.toHex());
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId.toHex() === transaction.namespaceId.toHex());
 
     	return {
 			transactionType: transaction.type,
@@ -277,7 +278,7 @@ export class FormatTransaction {
     	return {
 			transactionType: transaction.type,
 			duration: transaction.duration.compact(),
-			mosaic: mosaicModel,
+			mosaics: [mosaicModel],
 			hash: transaction.hash
     	};
     }
@@ -301,10 +302,10 @@ export class FormatTransaction {
     	return {
 			transactionType: transaction.type,
 			duration: transaction.duration.compact(),
-			mosaic: mosaicModel,
 			secret: transaction.secret,
-			recipient: resolvedAddress,
-			hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm]
+			recipientAddress: resolvedAddress,
+			hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm],
+			mosaics: [mosaicModel],
     	};
     };
 
@@ -446,6 +447,7 @@ export class FormatTransaction {
 			transactionType: transaction.type,
 			linkAction: Constants.LinkAction[transaction.linkAction],
 			linkedPublicKey: transaction.linkedPublicKey,
+			linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
 			startEpoch: transaction.startEpoch,
 			endEpoch: transaction.endEpoch
     	};
@@ -456,6 +458,7 @@ export class FormatTransaction {
 			transactionType: transaction.type,
 			linkAction: Constants.LinkAction[transaction.linkAction],
 			linkedPublicKey: transaction.linkedPublicKey,
+			linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty()
     	};
     };
 
@@ -464,6 +467,7 @@ export class FormatTransaction {
 			transactionType: transaction.type,
 			linkAction: Constants.LinkAction[transaction.linkAction],
 			linkedPublicKey: transaction.linkedPublicKey,
+			linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty()
     	};
     };
 
@@ -472,6 +476,7 @@ export class FormatTransaction {
 			transactionType: transaction.type,
 			linkAction: Constants.LinkAction[transaction.linkAction],
 			linkedPublicKey: transaction.linkedPublicKey,
+			linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty()
     	};
     };
 };

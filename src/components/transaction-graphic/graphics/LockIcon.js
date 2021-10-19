@@ -1,6 +1,7 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
 import {
+    G,
     Text,
     Path,
     Rect,

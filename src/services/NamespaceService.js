@@ -4,6 +4,7 @@ import {
     NamespaceId,
     MosaicId, 
 } from 'symbol-sdk';
+import { Constants } from '@src/config/constants';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 
 export default class NamespaceService {

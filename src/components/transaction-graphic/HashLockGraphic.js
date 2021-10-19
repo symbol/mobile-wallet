@@ -1,104 +1,59 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import LockIcon from './graphics/LockIcon.js';
+import CircleMosaics from './graphics/CircleMosaics.js';
+import Svg, {
+    Text,
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<LockIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:lockName="subTitle"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MosaicsCircle
-				id="target"
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				:mosaics="mosaics"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import LockIcon from '../graphics/LockIcon.vue';
-import MosaicsCircle from '../graphics/MosaicsCircle.vue';
-import { TransactionType } from 'symbol-sdk';
-import Arrow from '../graphics/Arrow.vue';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		LockIcon,
-		MosaicsCircle,
-		Arrow
-	},
-
-	props: {
-		type: {
-			type: Number,
-			default: TransactionType.HASH_LOCK
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		duration: {
-			type: Number
-		},
-		mosaics: {
-			type: Array,
-			default: () => []
-		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		subTitle() {
-			return `${this.duration} Blocks`;
-		}
+export default class HashLockGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
+
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+    render() {
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<LockIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					lockName={'' + this.props.duration}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleMosaics
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				<Text 
+					x={this.transactionTypeTextPositionX}
+					y={this.transactionTypeTextPositionY}
+					textAnchor="middle" 
+					style={this.styles.message}
+				>
+					{this.transactionType}
+				</Text>
+			</Svg>
+        );
+    }
+}
