@@ -527,6 +527,7 @@
 		"INPROGRESS_DEACTIVATION": "Deactivation in progress",
 		"harvetingIntroTitle": "Start harvesting to earn a block rewards",
 		"minBalanceRequirement": "Insufficient balance, the account needs to hold at least %{balance} to start delegated harvesting.",
+		"nonZeroImportanceRequirement": "Your account cannot start delegated harvesting while importance is equal to 0. Importance recalculation might take up to 12h.",
 		"KEYS_LINKED": "Keys linked",
 		"viewLinkedKeys": "View Linked Keys",
 		"linkedNode": "Linked Node"

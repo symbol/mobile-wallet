@@ -516,6 +516,7 @@
 		"INPROGRESS_DEACTIVATION": "Disattivazione in corso ",
 		"harvetingIntroTitle": "Inizia a Harvesting per guadagnare ricompense di blocchi",
 		"minBalanceRequirement": "Saldo insufficiente sull'account, poiché deve essere presente almeno %{balance} per avviare la delegated harvesting.",
+		"nonZeroImportanceRequirement": "Il tuo account non può avviare la raccolta delegata mentre l'importanza è uguale a 0. Il ricalcolo dell'importanza potrebbe richiedere fino a 12 ore.",
 		"viewLinkedKeys": "Visualizzazione delle chiavi correlate",
 		"linkedNode": "Nodo correlato (noda)",
 		"KEYS_LINKED": "Chiavi correlate"

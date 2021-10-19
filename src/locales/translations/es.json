@@ -517,6 +517,7 @@
 		"INPROGRESS_DEACTIVATION": "Desactivación en curso",
 		"harvetingIntroTitle": "Comienza a cosechar para ganar recompensas en bloque",
 		"minBalanceRequirement": "Para cosechar, la cuenta necesita un saldo de por lo menos %{balance}",
+		"nonZeroImportanceRequirement": "Su cuenta no puede iniciar la recolección delegada mientras la importancia sea igual a 0. El recálculo de la importancia puede demorar hasta 12 horas.",
 		"KEYS_LINKED": "Llaves enlazadas",
 		"viewLinkedKeys": "Ver las llaves enlazadas",
 		"linkedNode": "Nodo enlazado"

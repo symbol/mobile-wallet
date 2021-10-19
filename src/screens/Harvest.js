@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text as NativeText, TouchableOpacity, View, Linking } from 'react-native';
 import { Section, ImageBackground, GradientBackground, Text, TitleBar, NodeDropdown, Button, Col, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
@@ -8,7 +8,8 @@ import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import Trunc from '@src/components/organisms/Trunc';
-import {Router} from "@src/Router";
+import { Router } from '@src/Router';
+import { AccountHttp, Address } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
     showButton: {
@@ -60,6 +61,11 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginBottom: 1,
     },
+    link: {
+        fontSize: 12,
+        color: GlobalStyles.color.BLUE,
+        textDecorationLine: 'underline',
+    },
 });
 
 type Props = {};
@@ -71,10 +77,20 @@ class Harvest extends Component<Props, State> {
         selectedNode: null,
         selectedNodeUrl: null,
         isLoading: false,
+        accountImportance: null,
     };
 
-    componentDidMount() {
-        const { selectedAccount, nodes } = this.props;
+    onPress() {
+        const harvestingPreRequisitesUrl = 'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
+        Linking.openURL(harvestingPreRequisitesUrl);
+    }
+
+    async componentDidMount() {
+        const { selectedAccount, nodes, selectedNode, selectedAccountAddress } = this.props;
+        const accountHttp = new AccountHttp(selectedNode);
+        const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(selectedAccountAddress)).toPromise();
+        this.setState({ accountImportance: accountInfo.importance.compact() });
+
         if (selectedAccount.harvestingNode) {
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
@@ -154,8 +170,19 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance, nativeMosaicNamespace, harvestingModel, selectedAccount } = this.props;
-        const { selectedNodeUrl, isLoading } = this.state;
+        const {
+            status,
+            totalBlockCount,
+            totalFeesEarned,
+            onOpenMenu,
+            onOpenSettings,
+            balance,
+            minRequiredBalance,
+            nativeMosaicNamespace,
+            harvestingModel,
+            selectedAccount,
+        } = this.props;
+        const { selectedNodeUrl, isLoading, accountImportance } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
         switch (status) {
@@ -281,6 +308,7 @@ class Harvest extends Component<Props, State> {
                                 </Section>
                             </View>
                         )}
+
                         {notEnoughBalance && (
                             <Section type="form-item">
                                 <Text theme="light" align="center" type="regular">
@@ -288,6 +316,28 @@ class Harvest extends Component<Props, State> {
                                 </Text>
                             </Section>
                         )}
+
+                        {notEnoughBalance && accountImportance == 0 && (
+                                <Text>{`\n`}</Text>
+                        )}
+
+                        {accountImportance == 0 && (
+                            <Section type="form-item">
+                                <Text theme="light" align="center" type="regular">
+                                    {translate('harvest.nonZeroImportanceRequirement')}
+                                </Text>
+                                <Row justify="space-between" align="end" fullWidth>
+                                    <Col style={{ flex: 1, marginTop: 10 }}>
+                                        <TouchableOpacity onPress={() => this.onPress()}>
+                                            <Text theme="light" align="right" style={styles.link}>
+                                                {translate('news.readMore')}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </Col>
+                                </Row>
+                            </Section>
+                        )}
+
                     </Section>
                 </Section>
             </GradientBackground>
@@ -306,4 +356,6 @@ export default connect(state => ({
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
     harvestingModel: state.harvesting.harvestingModel,
     nodes: state.harvesting.nodes,
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
+    selectedAccountAddress: state.account.selectedAccountAddress,
 }))(Harvest);
