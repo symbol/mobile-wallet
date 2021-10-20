@@ -523,7 +523,7 @@
 		"v_mosaicRestrictionTypeLE": "≤",
 		"v_mosaicRestrictionTypeLT": "<",
 		"v_mosaicRestrictionTypeNE": "≠",
-		"v_mosaicRestrictionTypeNONE": ""
+		"v_mosaicRestrictionTypeNONE": "No Restriction"
 	},
 	"transactionTypes": {
 		"unknown": "Type not supported yet",

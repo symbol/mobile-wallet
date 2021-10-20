@@ -315,7 +315,7 @@ export class FormatTransaction {
     	return {
 			transactionType: transaction.type,
 			hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm],
-			recipient: resolvedAddress,
+			recipientAddress: resolvedAddress,
 			secret: transaction.secret,
 			proof: transaction.proof
     	};
@@ -367,12 +367,12 @@ export class FormatTransaction {
 
     	return {
 			transactionType: transaction.type,
+			restrictionKey: transaction.restrictionKey.toHex(),
+			newRestrictionValue: transaction.newRestrictionValue.toString(),
+			previousRestrictionValue: transaction.previousRestrictionValue.toString(),
 			mosaicId: resolvedMosaic.toHex(),
 			mosaicAliasNames,
 			targetAddress: targetAddress,
-			restrictionKey: transaction.restrictionKey.toHex(),
-			previousRestrictionValue: transaction.previousRestrictionValue.toString(),
-			newRestrictionValue: transaction.newRestrictionValue.toString()
     	};
     };
 
@@ -382,13 +382,13 @@ export class FormatTransaction {
 
     	return {
 			transactionType: transaction.type,
-			referenceMosaicId: referenceMosaicId.toHex(),
-			mosaicAliasNames,
 			restrictionKey: transaction.restrictionKey.toHex(),
+			newRestrictionType: Constants.MosaicRestrictionType[transaction.newRestrictionType],
+			newRestrictionValue: transaction.newRestrictionValue.compact(),
 			previousRestrictionType: Constants.MosaicRestrictionType[transaction.previousRestrictionType],
 			previousRestrictionValue: transaction.previousRestrictionValue.compact(),
-			newRestrictionType: Constants.MosaicRestrictionType[transaction.newRestrictionType],
-			newRestrictionValue: transaction.newRestrictionValue.compact()
+			referenceMosaicId: referenceMosaicId.toHex(),
+			mosaicAliasNames,
     	};
     };
 
@@ -426,19 +426,20 @@ export class FormatTransaction {
     static namespaceMetadata = async (transaction, network, preLoadedMosaics) => {
 		const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-    	const [namespaceName, resolvedAddress] = await Promise.all([
+    	const [namespaces, resolvedAddress] = await Promise.all([
     		namespaceHttp.getNamespacesNames([transaction.targetNamespaceId]).toPromise(),
     		NamespaceService.resolveAddress(transaction.targetAddress)
     	]);
+		const namespaceNames = namespaces.map(namespace => namespace.name)
 
     	return {
 			transactionType: transaction.type,
 			scopedMetadataKey: transaction.scopedMetadataKey.toHex(),
-			targetNamespaceId: transaction.targetNamespaceId.toHex(),
-			namespaceName: namespaceName,
-			targetAddress: resolvedAddress,
 			metadataValue: transaction.value,
-			valueSizeDelta: transaction.valueSizeDelta
+			valueSizeDelta: transaction.valueSizeDelta,
+			targetNamespaceId: transaction.targetNamespaceId.toHex(),
+			namespaceName: namespaceNames,
+			targetAddress: resolvedAddress,
     	};
     };
 

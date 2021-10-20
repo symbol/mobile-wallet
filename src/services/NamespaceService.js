@@ -4,7 +4,6 @@ import {
     NamespaceId,
     MosaicId, 
 } from 'symbol-sdk';
-import { Constants } from '@src/config/constants';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 
 export default class NamespaceService {
@@ -41,7 +40,7 @@ export default class NamespaceService {
         const mosaicInfo = { mosaicId: mosaicId.toHex() };
         const mosaicName = formattedMosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId);
         const aliasNames = mosaicName.names.map(names => names.name);
-        const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+        const names = aliasNames.length > 0 ? aliasNames : [];
 
         return names;
     }

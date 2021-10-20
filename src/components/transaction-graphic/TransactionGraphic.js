@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { TransactionType } from 'symbol-sdk';
-import { TableView } from '@src/components';
+import { TableView, Text } from '@src/components';
 import TransferGraphic from './TransferGraphic.js';
 import _ from 'lodash';
 import AddressAliasGraphic from './AddressAliasGraphic.js';
@@ -15,19 +15,28 @@ import VrfKeyGraphic from './VrfKeyGraphic.js';
 import AccountKeyLinkGraphic from './AccountKeyLinkGraphic.js';
 import NodeKeyLinkGraphic from './NodeKeyLinkGraphic.js';
 import VotingKeyLinkGraphic from './VotingKeyLinkGraphic.js';
-// import SecretProofGraphic from './SecretProofGraphic.js';
+import SecretProofGraphic from './SecretProofGraphic.js';
 import AccountMetadataGraphic from './AccountMetadataGraphic.js';
-// import NamespaceMetadataGraphic from './NamespaceMetadataGraphic.js';
+import NamespaceMetadataGraphic from './NamespaceMetadataGraphic.js';
 import MosaicMetadataGraphic from './MosaicMetadataGraphic.js';
-// import MosaicGlobalRestrictionGraphic from './MosaicGlobalRestrictionGraphic.js';
-// import MosaicAddressRestrictionGraphic from './MosaicAddressRestrictionGraphic.js';
+import MosaicGlobalRestrictionGraphic from './MosaicGlobalRestrictionGraphic.js';
+import MosaicAddressRestrictionGraphic from './MosaicAddressRestrictionGraphic.js';
 import AccountOperationRestrictionGraphic from './AccountOperationRestrictionGraphic.js';
 import AccountAddressRestrictionGraphic from './AccountAddressRestrictionGraphic.js';
 import AccountMosaicRestrictionGraphic from './AccountMosaicRestrictionGraphic.js';
 import MultisigAccountModificationGraphic from './MultisigAccountModificationGraphic.js';
 
+const styles = StyleSheet.create({
+	transactionNumber: {
+		position: 'absolute', 
+		top: 4, 
+		left: 0,
+		opacity: 0.3
+	}
+});
+
 type Props = {
-	data: object;
+	index: number;
 };
 
 type State = {
@@ -49,6 +58,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 
 	tableData() {
 		return _.omit(this.props, [
+			'index',
 			'transactionType', 
 			'type', 
 			'signerAddress', 
@@ -56,7 +66,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 			'deadline', 
 			'messageEncrypted',
 			'hash'
-		])
+		]);
 	}
 
 	renderGraphic() {
@@ -85,8 +95,8 @@ export default class TransactionGraphic extends Component<Props, State> {
 			case TransactionType.HASH_LOCK: 
 				return <HashLockGraphic {...this.props} />
 
-			// case TransactionType.SECRET_PROOF: 
-			// 	return <SecretProofGraphic {...this.props} />
+			case TransactionType.SECRET_PROOF: 
+				return <SecretProofGraphic {...this.props} />
 
 			case TransactionType.VRF_KEY_LINK: 
 				return <VrfKeyGraphic {...this.props} />
@@ -100,11 +110,11 @@ export default class TransactionGraphic extends Component<Props, State> {
 			case TransactionType.VOTING_KEY_LINK: 
 				return <VotingKeyLinkGraphic {...this.props} />
 
-			// case TransactionType.MOSAIC_GLOBAL_RESTRICTION: 
-			// 	return <MosaicGlobalRestrictionGraphic {...this.props} />
+			case TransactionType.MOSAIC_GLOBAL_RESTRICTION: 
+				return <MosaicGlobalRestrictionGraphic {...this.props} />
 
-			// case TransactionType.MOSAIC_ADDRESS_RESTRICTION: 
-			// 	return <MosaicAddressRestrictionGraphic {...this.props} />
+			case TransactionType.MOSAIC_ADDRESS_RESTRICTION: 
+				return <MosaicAddressRestrictionGraphic {...this.props} />
 
 			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: 
 				return <AccountOperationRestrictionGraphic {...this.props} />
@@ -121,8 +131,8 @@ export default class TransactionGraphic extends Component<Props, State> {
 			case TransactionType.ACCOUNT_METADATA: 
 				return <AccountMetadataGraphic {...this.props} />
 
-			// case TransactionType.NAMESPACE_METADATA: 
-			// 	return <NamespaceMetadataGraphic {...this.props} />
+			case TransactionType.NAMESPACE_METADATA: 
+				return <NamespaceMetadataGraphic {...this.props} />
 
 			case TransactionType.MOSAIC_METADATA: 
 				return <MosaicMetadataGraphic {...this.props} />
@@ -132,11 +142,24 @@ export default class TransactionGraphic extends Component<Props, State> {
 	}
 	
 	render() {
+		const { index } = this.props;
 		const { expanded } = this.state;
+		const transactionNumber = typeof index === 'number' ? index + 1 + '' : null;
 
 		return <TouchableOpacity onPress={() => this.toggle()}>
+			{transactionNumber && <Text 
+				type="regular" 
+				theme="light" 
+				style={styles.transactionNumber}
+			>
+				{transactionNumber}
+			</Text>}
 			{this.renderGraphic()}
-			{expanded && <TableView smaller hideEmpty data={this.tableData()} />}
+			{expanded && <TableView 
+				smaller 
+				hideEmpty 
+				data={this.tableData()} 
+			/>}
 		</TouchableOpacity>
 	}
 }

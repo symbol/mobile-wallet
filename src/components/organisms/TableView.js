@@ -27,6 +27,8 @@ const renderTypeMap = {
 		'remotePublicKey', 
 		'linkedPublicKey', 
 		'nodePublicKey',
+		'secret',
+		'proof',
 		'_restrictionAddressAdditions',
 		'_restrictionAddressDeletions',
 		'_addressAdditions',
@@ -163,7 +165,7 @@ class TableView extends Component<Props> {
 		if (data === null || typeof data !== 'object')
 			return null;
 
-		if (Array.isArray(data) && data.length && !data[0].key && key) {
+		if (Array.isArray(data) && data.length && typeof data[0] !== 'object' && key) {
 			return data.map(value => this.renderItem('_' + key, value))
 		}
 

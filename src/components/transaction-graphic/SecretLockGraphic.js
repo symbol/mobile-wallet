@@ -8,7 +8,7 @@ import Svg, {
     Text,
 } from 'react-native-svg';
 
-export default class TransferGraphic extends GraphicComponent {
+export default class SecretLockGraphic extends GraphicComponent {
 	constructor(props) {
 		super(props);
 	}

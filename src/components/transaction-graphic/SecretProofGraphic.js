@@ -1,121 +1,79 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import GraphicComponent from './graphics/GraphicComponent.js';
+import Arrow from './graphics/Arrow.js';
+import AccountIcon from './graphics/AccountIcon.js';
+import CircleLock from './graphics/CircleLock.js';
+import Svg, {
+    Text,
+} from 'react-native-svg';
 
-<template>
-	<div>
-		<svg
-			version="1.1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			:width="getPixels(transactionGraphicWidth)"
-			:height="getPixels(transactionGraphicHeight)"
-			:viewBox="transactionGraphicViewbox"
-			xml:space="preserve"
-		>
-			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="signer"
-			/>
-			<AccountIcon
-				:x="objectPositionX"
-				:y="objectPositionY"
-				:width="subjectWidth"
-				:height="subjectHeight"
-				:address="recipient"
-			/>
-			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<LockCircle
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				title="Secret Proof"
-				:data="secretProofInfo"
-			/>
-			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
-			</text>
-		</svg>
-	</div>
-</template>
-
-<script>
-import GraphicComponent from '../graphics/GraphicComponent.vue';
-import AccountIcon from '../graphics/AccountIcon.vue';
-import LockCircle from '../graphics/LockCircle.vue';
-import Arrow from '../graphics/Arrow.vue';
-import { TransactionType } from 'symbol-sdk';
-
-export default {
-	extends: GraphicComponent,
-
-	components: {
-		AccountIcon,
-		LockCircle,
-		Arrow
-	},
-
-	props: {
-		type: {
-			type: Number,
-			required: true,
-			default: TransactionType.SECRET_PROOF
-		},
-		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		recipient: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		secret: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		hashAlgorithm: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		proof: {
-			type: String,
-			required: true,
-			default: ''
-		}
-	},
-
-	computed: {
-		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
-		},
-
-		circleIconsToDisplay() {
-			return [true];
-		},
-
-		secretProofInfo() {
-			return {
-				secret: this.secret,
-				hashAlgorithm: this.hashAlgorithm,
-				proof: this.proof
-			};
-		}
+export default class SecretProofGraphic extends GraphicComponent {
+	constructor(props) {
+		super(props);
 	}
-};
-</script>
 
-<style lang="scss" scoped>
-.message {
-    font-size: 13px;
-    font-weight: bold;
-    fill: var(--blue);
+    get circleIconsToDisplay() {
+		return [true];
+	}
+
+	get mosaic() {
+		return {
+			mosaicId: this.mosaicId,
+			amount: this.amount,
+			mosaicAliasName: this.mosaicAliasName
+		};
+	}
+
+	get hasMosaic() {
+		return this.mosaicId !== 'undefined';
+	}
+
+	get secretLockInfo() {
+		return {
+			duration: this.duration,
+			secret: this.secret,
+			hashAlgorithm: this.hashAlgorithm
+		};
+	}
+
+    render() {
+		
+        return (
+            <Svg
+				x={0}
+				y={0}
+				width={this.transactionGraphicWidth}
+				height={this.transactionGraphicHeight}
+				viewBox={this.transactionGraphicViewbox}
+			>
+				<AccountIcon
+					x={this.subjectPositionX}
+					y={this.subjectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.signerAddress}
+				/>
+				<AccountIcon
+					x={this.objectPositionX}
+					y={this.objectPositionY}
+					width={this.subjectWidth}
+					height={this.subjectHeight}
+					address={this.props.recipientAddress}
+				/>
+				<Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
+				<CircleLock
+					x={this.getCircleIconPositionX(0)}
+					y={this.circleIconPositionY}
+				/>
+				<Text 
+					x={this.transactionTypeTextPositionX}
+					y={this.transactionTypeTextPositionY}
+					textAnchor="middle" 
+					style={this.styles.message}
+				>
+					{this.transactionType}
+				</Text>
+			</Svg>
+        );
+    }
 }
-</style>

@@ -171,8 +171,8 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     renderGraphicItem({index, item}) {
-        return <View type="form-item" style={styles.graphicItem}>
-            <TransactionGraphic {...item} />
+        return <View type="form-item" style={styles.graphicItem} key={'graphic' + index}>
+            <TransactionGraphic index={index} {...item} />
         </View>        
     }
 

@@ -251,10 +251,8 @@ export default class TransactionService {
 
     static getTransaction = async (hash: string, network: NetworkModel): Transaction => {
         const transactionHttp = new TransactionHttp(network.node);
-        // TODO: remove this part before merge!
-        //const hash = 'F44D8B28A3CA5DAD99E13508082EC99C58D72F2F3EDDA7462568250AC29D5CAD';
-
         let tx;
+        
         try {
             tx = await transactionHttp.getTransaction(hash, TransactionGroup.Confirmed).toPromise();
         } catch {}
@@ -267,15 +265,6 @@ export default class TransactionService {
             try {
                 tx = await transactionHttp.getTransaction(hash, TransactionGroup.Partial).toPromise();
             } catch {}
-        }
-
-        // TODO: remove this part before merge!
-        if (tx.innerTransactions) {
-            const hash = '2D3589277DF87CD58ABB9318F7A475AD18396824DA1A4AFCB7CE7FA34559427D';
-
-            const inner = await transactionHttp.getTransaction(hash, TransactionGroup.Confirmed).toPromise();
-            
-            tx.innerTransactions = [inner, ...tx.innerTransactions];
         }
 
         return tx;
