@@ -339,7 +339,7 @@ class TransactionDetails extends Component<Props, State> {
                 <TitleBar 
                     theme="light" 
                     title={translate('history.transactionDetails')} 
-                    onBack={() => this.onClose()} 
+                    onClose={() => this.onClose()} 
                 />
                 <Row style={styles.tabs}>
                     <TouchableOpacity
@@ -351,14 +351,6 @@ class TransactionDetails extends Component<Props, State> {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
-                        onPress={() => this.setState({selectedTab: 'innerTransactions'})}
-                    >
-                        <Text type="bold" theme="light">
-                            {translate('history.innerTransactionTab')} 
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
                         style={[styles.tab, selectedTab === 'graphic' && styles.activeTab]}
                         onPress={() => this.setState({selectedTab: 'graphic'})}
                     >
@@ -366,7 +358,14 @@ class TransactionDetails extends Component<Props, State> {
                             {translate('history.graphicTab')} 
                         </Text>
                     </TouchableOpacity>
-                    
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'innerTransactions'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.innerTransactionTab')} 
+                        </Text>
+                    </TouchableOpacity>
                 </Row>
                 {Content}
                 {this.needsSignature() && !isLoading && this.renderSign()}

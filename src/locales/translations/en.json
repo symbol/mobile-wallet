@@ -489,6 +489,7 @@
 		"linkedAccountAddress": "Linked Account Address",
 		"startEpoch": "Start Epoch",
 		"endEpoch": "End Epoch",
+		"receivedCosignatures": "Received Cosignatures",
 
 		"v_unlimited": "UNLIMITED",
 		"v_na": "N/A",
@@ -610,7 +611,7 @@
 		"transactionDetails": "Transaction Details",
 		"innerTransactionTab": "Inner Transactions",
 		"graphicTab": "Graphic",
-		"infoTransactionTab": "Info"
+		"infoTransactionTab": "About transaction"
 	},
 	"harvest": {
 		"title": "Harvesting",
