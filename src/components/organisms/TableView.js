@@ -75,7 +75,7 @@ interface Props {
 
 class TableView extends Component<Props> {
 	valueExists = (value) => {
-		if (!value) {
+		if (typeof value !== 'boolean' && !value) {
 			return false;
 		}
 

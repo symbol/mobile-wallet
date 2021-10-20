@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	tabs: {
 		borderBottomWidth: 2,
 		borderColor: GlobalStyles.color.WHITE,
-        marginBottom: 20
+        marginBottom: 2
 	},
 	tab: {
         marginLeft: 20,
@@ -46,9 +46,20 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		marginBottom: -2
 	},
+    infoTable: {
+        //flex: 1, 
+        paddingTop: 16,
+        paddingBottom: 16,
+    },
+    table: {
+        marginTop: 20
+    },
+    contentBottom: {
+        marginBottom: 18
+    },
     graphicItem: {
         backgroundColor: GlobalStyles.color.WHITE,
-        marginBottom: 16,
+        marginTop: 16,
         borderRadius: 6,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -68,7 +79,7 @@ const styles = StyleSheet.create({
     },
     randomImage: {
         width: '100%',
-        height: 120,
+        height: 190,
         resizeMode: 'cover',
         flexDirection: 'column',
         justifyContent: 'center'
@@ -161,17 +172,19 @@ class AggregateTransactionDetails extends Component<Props, State> {
         </ListItem>
     }
 
-    renderGraphicItem = (expand) => ({index, item}) => {
-        return <View type="form-item" style={styles.graphicItem} key={'graphic' + index}>
-            <TransactionGraphic index={index} forceExpand={expand} {...item} />
-        </View>        
+    renderGraphicItem = (expand, count) => ({index, item}) => {
+        return <Section type="list" style={count - 1 === index && styles.contentBottom}>
+            <View style={styles.graphicItem} key={'graphic' + index}>
+                <TransactionGraphic index={index} forceExpand={expand} {...item} />
+            </View>
+        </Section>        
     }
 
     renderTabInnerTransactions() {
         const { isLoading, fullTransaction } = this.state;
 
         return <FadeView style={{ flex: 1 }}>
-            <ListContainer isScrollable={false} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
+            <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={styles.infoTable}>
                 {fullTransaction && <FlatList
                     data={fullTransaction.innerTransactions}
                     renderItem={this.renderTransactionItem}
@@ -183,19 +196,15 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     renderTabGraphic() {
-        const { isLoading, fullTransaction, expandGraphic } = this.state;
+        const { fullTransaction, expandGraphic } = this.state;
 
-        return isLoading || !fullTransaction
-        ? <LoadingAnimationFlexible isFade text={' '} theme="light" />
-        : <FadeView style={{ flex: 1 }}>
-            <Section type="form">
-                <FlatList
-                    data={fullTransaction.innerTransactions}
-                    renderItem={this.renderGraphicItem(expandGraphic)}
-                    keyExtractor={(item, index) => '' + index + 'details'}
-                    contentContainerStyle={{ flexGrow: 1 }}
-                />
-            </Section>
+        return <FadeView style={{ flex: 1 }}>
+            <FlatList
+                data={fullTransaction.innerTransactions}
+                renderItem={this.renderGraphicItem(expandGraphic, fullTransaction.innerTransactions.length)}
+                keyExtractor={(item, index) => '' + index + 'details'}
+                contentContainerStyle={{ flexGrow: 1 }}
+            />
         </FadeView>
     }
 
@@ -203,7 +212,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
         const { isLoading, fullTransaction } = this.state;
     
         return <FadeView style={{ flex: 1 }}>
-            <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={{flex: 1}}>
+            <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={styles.infoTable}>
                 {fullTransaction && <>
                     <ListItem>
                         <TableView data={fullTransaction.info} />
@@ -230,6 +239,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         theme="dark" 
                         onPress={() => this.setState({
                             showLastWarning: true,
+                            userUnderstand: false,
                             selectedTab: 'graphic'
                         })} 
                     />
@@ -291,7 +301,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         <Section type="form-item">
                             <Button  
                                 text={translate('history.cosignFormButtonReviewAgain')} 
-                                theme="light" 
+                                theme="dark" 
                                 onPress={() => this.setState({
                                     showLastWarning: false, 
                                     expandGraphic: true,
@@ -303,19 +313,18 @@ class AggregateTransactionDetails extends Component<Props, State> {
                             <Button  
                                 isDisabled={!userUnderstand} 
                                 text={translate('history.transaction.sign')} 
-                                theme="light" 
+                                theme="dark" 
                                 onPress={() => this.sign()} 
                             /> 
                         </Section>
                     </Section>
                 </Section>
             </FadeView>
-            
         }
     }
 
     render() {
-        const { isActive, showLastWarning, isLoading, selectedTab } = this.state;
+        const { isActive, showLastWarning, isLoading, selectedTab, fullTransaction } = this.state;
         let Content = null;
 
         switch(selectedTab) {
@@ -338,7 +347,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
             onlyLarge
             onClose={() => this.onClose()}
             onPressCloseButton={() => this.onClose()}
-            style={{backgroundColor: '#f3f4f8', height: '85%'}}
+            style={{backgroundColor: '#f3f4f8'}}
         >
                 <TitleBar 
                     theme="light" 
@@ -371,7 +380,12 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         </Text>
                     </TouchableOpacity>
                 </Row>}
-                {!showLastWarning && Content}
+                {(isLoading || !fullTransaction) && 
+                    <FadeView style={{flex: 1}} delay={400}>
+                        <LoadingAnimationFlexible isFade text={' '} theme="light" />
+                    </FadeView>
+                }
+                {!showLastWarning && !(isLoading || !fullTransaction) && Content}
                 {this.needsSignature() && !isLoading && this.renderSign()}
         </SwipeablePanel>
     }

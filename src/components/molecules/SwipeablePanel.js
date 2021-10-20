@@ -209,7 +209,7 @@ class SwipeablePanel extends Component<SwipeablePanelProps, SwipeablePanelState>
           SwipeablePanelStyles.background,
           {
             backgroundColor: noBackgroundOpacity ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.5)',
-            height: allowTouchOutside ? 'auto' : deviceHeight,
+            height: allowTouchOutside ? 'auto' : deviceHeight - 20,
             width: deviceWidth,
           },
         ]}
