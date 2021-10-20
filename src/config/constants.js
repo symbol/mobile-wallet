@@ -24,16 +24,16 @@ export class Constants {
 	static PageSize = 25
 
 	static Message = {
-		UNLIMITED: 'UNLIMITED',
-		UNAVAILABLE: 'N/A',
-		INFINITY: 'INFINITY',
-		MOSAIC: 'MOSAIC',
-		ADDRESS: 'ADDRESS',
-		NO_ALIAS: 'NO ALIAS',
-		ACTIVE: 'ACTIVE',
-		INACTIVE: 'INACTIVE',
-		UNKNOWN: 'UNKNOWN',
-		EXPIRED: 'EXPIRED'
+		UNLIMITED: 'v_unlimited',
+		UNAVAILABLE: 'v_na',
+		INFINITY: 'v_infinity',
+		MOSAIC: 'v_moasic',
+		ADDRESS: 'v_address',
+		NO_ALIAS: 'v_noAlias',
+		ACTIVE: 'v_active',
+		INACTIVE: 'v_inactive',
+		UNKNOWN: 'v_unknown',
+		EXPIRED: 'v_expired'
 	}
 
 	static TransactionType = {
@@ -64,23 +64,23 @@ export class Constants {
 	}
 
 	static MosaicSupplyChangeAction = {
-		[MosaicSupplyChangeAction.Increase]: 'Increase',
-		[MosaicSupplyChangeAction.Decrease]: 'Decrease'
+		[MosaicSupplyChangeAction.Increase]: 'v_increase',
+		[MosaicSupplyChangeAction.Decrease]: 'v_decrease'
 	}
 
 	static NamespaceRegistrationType = {
-		[NamespaceRegistrationType.RootNamespace]: 'rootNamespace',
-		[NamespaceRegistrationType.SubNamespace]: 'Sub Namespace'
+		[NamespaceRegistrationType.RootNamespace]: 'v_rootNamespace',
+		[NamespaceRegistrationType.SubNamespace]: 'v_subNamespace'
 	}
 
 	static AliasAction = {
-		[AliasAction.Link]: 'Link',
-		[AliasAction.Unlink]: 'Unlink'
+		[AliasAction.Link]: 'v_link',
+		[AliasAction.Unlink]: 'v_unlink'
 	}
 
 	static LinkAction = {
-		[LinkAction.Link]: 'Link',
-		[LinkAction.Unlink]: 'Unlink'
+		[LinkAction.Link]: 'v_link',
+		[LinkAction.Unlink]: 'v_unlink'
 	}
 
 	static AccountType = {
@@ -152,35 +152,35 @@ export class Constants {
 	}
 
 	static AddressRestrictionFlag = {
-		[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Addresses',
-		[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Addresses',
-		[AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Addresses',
-		[AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Addresses'
+		[AddressRestrictionFlag.AllowIncomingAddress]: 'v_AllowIncomingAddresses',
+		[AddressRestrictionFlag.AllowOutgoingAddress]: 'v_AllowOutgoingAddresses',
+		[AddressRestrictionFlag.BlockIncomingAddress]: 'v_BlockIncomingAddresses',
+		[AddressRestrictionFlag.BlockOutgoingAddress]: 'v_BlockOutgoingAddresses'
 	}
 
 	static MosaicRestrictionFlag = {
-		[MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaics',
-		[MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaics'
+		[MosaicRestrictionFlag.AllowMosaic]: 'v_AllowMosaics',
+		[MosaicRestrictionFlag.BlockMosaic]: 'v_BlockMosaics'
 	}
 
 	static OperationRestrictionFlag = {
-		[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transactions',
-		[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transactions'
+		[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'v_AllowOutgoingTransactions',
+		[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'v_BlockOutgoingTransactions'
 	}
 
 	static MosaicRestrictionEntryType = {
-		[MosaicRestrictionEntryType.ADDRESS]: 'Mosaic address restriction',
-		[MosaicRestrictionEntryType.GLOBAL]: 'Mosaic global restriction'
+		[MosaicRestrictionEntryType.ADDRESS]: 'v_MosaicAddressRestriction',
+		[MosaicRestrictionEntryType.GLOBAL]: 'v_MosaicGlobalRestriction'
 	}
 
 	static MosaicRestrictionType = {
-		[MosaicRestrictionType.EQ]: 'mosaicRestrictionType.EQ',
-		[MosaicRestrictionType.GE]: 'mosaicRestrictionType.GE',
-		[MosaicRestrictionType.GT]: 'mosaicRestrictionType.GT',
-		[MosaicRestrictionType.LE]: 'mosaicRestrictionType.LE',
-		[MosaicRestrictionType.LT]: 'mosaicRestrictionType.LT',
-		[MosaicRestrictionType.NE]: 'mosaicRestrictionType.NE',
-		[MosaicRestrictionType.NONE]: 'mosaicRestrictionType.NONE'
+		[MosaicRestrictionType.EQ]: 'v_mosaicRestrictionTypeEQ',
+		[MosaicRestrictionType.GE]: 'v_mosaicRestrictionTypeGE',
+		[MosaicRestrictionType.GT]: 'v_mosaicRestrictionTypeGT',
+		[MosaicRestrictionType.LE]: 'v_mosaicRestrictionTypeLE',
+		[MosaicRestrictionType.LT]: 'v_mosaicRestrictionTypeLT',
+		[MosaicRestrictionType.NE]: 'v_mosaicRestrictionTypeNE',
+		[MosaicRestrictionType.NONE]: 'v_mosaicRestrictionTypeNONE'
 	}
 
 	static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']

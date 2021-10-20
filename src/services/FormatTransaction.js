@@ -182,7 +182,7 @@ export class FormatTransaction {
 			registrationType: Constants.NamespaceRegistrationType[transaction.registrationType],
 			namespaceName: transaction.namespaceName,
 			namespaceId: transaction.namespaceId.toHex(),
-			parentId: typeof transaction.parentId !== 'undefined' ? transaction.parentId?.toHex() : Constants.Message.UNAVAILABLE,
+			parentId: typeof transaction.parentId !== 'undefined' ? transaction.parentId?.toHex() : '',
 			duration: typeof transaction.duration !== 'undefined' ? transaction.duration?.compact() : Constants.Message.UNLIMITED
     	};
     }
