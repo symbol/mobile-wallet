@@ -41,7 +41,16 @@ const renderTypeMap = {
 		'transactionType', 
 		'_restrictionOperationAdditions',
 		'_restrictionOperationDeletions'
-	]
+	],
+	translate: [
+		'registrationType',
+		'aliasAction',
+		'action',
+		'restrictionType',
+		'previousRestrictionType',
+		'newRestrictionType',
+		'linkAction'
+	],
 };
 const styles = StyleSheet.create({
 	amount: {
@@ -101,6 +110,10 @@ class TableView extends Component<Props> {
 
 	render_transactionType = (value) => {
 		return <Text type="regular" theme="light">{translate('transactionTypes.transactionDescriptor_' + value)}</Text>;
+	}
+
+	render_translate = (value) => {
+		return <Text type="regular" theme="light">{translate(`${TRANSLATION_ROOT_KEY}.${value}`)}</Text>;
 	}
 	
 	render_mosaics = (value) => {

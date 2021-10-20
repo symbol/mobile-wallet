@@ -41,6 +41,7 @@ export default class AccountOperationRestrictionGraphic extends GraphicComponent
 				<Text 
 					x={this.transactionTypeTextPositionX}
 					y={this.transactionTypeTextPositionY}
+					width={100}
 					textAnchor="middle" 
 					style={this.styles.message}
 				>

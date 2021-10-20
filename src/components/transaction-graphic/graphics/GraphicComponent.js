@@ -12,9 +12,9 @@ class GraphicComponent extends Component {
     circleIconPositionY = 320;
     transactionGraphicViewbox = '11.7 270 10.5 160';
     transactionGraphicHeight = 110;
-    subjectPositionX = 200;
+    subjectPositionX = 190;
     subjectPositionY = 277;
-    objectPositionX = 505;
+    objectPositionX = 515;
     subjectWidth = 261;
     subjectHeight = 90;
 

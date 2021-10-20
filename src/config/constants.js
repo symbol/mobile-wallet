@@ -24,9 +24,9 @@ export class Constants {
 	static PageSize = 25
 
 	static Message = {
-		UNLIMITED: 'v_unlimited',
+		UNLIMITED: '∞',
 		UNAVAILABLE: 'v_na',
-		INFINITY: 'v_infinity',
+		INFINITY: '∞',
 		MOSAIC: 'v_moasic',
 		ADDRESS: 'v_address',
 		NO_ALIAS: 'v_noAlias',
