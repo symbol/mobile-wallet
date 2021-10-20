@@ -29,6 +29,7 @@ pipeline {
                     // git branch: DEV_BRANCH, url: 'https://github.com/symbol/mobile-wallet.git'
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
+                    sh "rm -rf node_modules"
                     sh "yarn cache clean && yarn install --network-concurrency 1"                
                 }
             }
@@ -37,6 +38,7 @@ pipeline {
             parallel {
                 stage('Build - IOS') {
                     steps {
+                        sh "cd ios && rm -rf Pods"
                         sh "cd ios && bundle install"
                         sh "cd ios && bundle exec pod install"
                     }
