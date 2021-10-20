@@ -56,12 +56,10 @@ class GraphicComponent extends Component {
     }
 
     get nativeMosaicId() {
-        console.log('Network', this.props.network)
         return this.props.network?.networkCurrency.mosaicId;
     }
 
     get nativeMosaicAliasName() {
-        console.log('Network', this.props.network)
         return this.props.network?.networkCurrency.namespaceName;
     }
 

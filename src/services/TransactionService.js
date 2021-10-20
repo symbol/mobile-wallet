@@ -23,6 +23,8 @@ import {
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { TransactionQR } from 'symbol-qr-library';
+import { FormatTransaction } from '@src/services/FormatTransaction';
+import FetchTransactionService from '@src/services/FetchTransactionService';
 import NetworkService from '@src/services/NetworkService';
 import store from '@src/store';
 import { defaultFeesConfig } from '@src/config/fees';
@@ -252,7 +254,7 @@ export default class TransactionService {
     static getTransaction = async (hash: string, network: NetworkModel): Transaction => {
         const transactionHttp = new TransactionHttp(network.node);
         let tx;
-        
+
         try {
             tx = await transactionHttp.getTransaction(hash, TransactionGroup.Confirmed).toPromise();
         } catch {}
@@ -269,4 +271,16 @@ export default class TransactionService {
 
         return tx;
     };
+
+    static getTransactionDetails = async (hash: string, network: NetworkModel) => {
+        let rawTransactionDetails = await TransactionService.getTransaction(hash, network);
+        rawTransactionDetails.hash = hash;
+
+        const preLoadedMosaics = await FetchTransactionService._preLoadMosaics(
+            rawTransactionDetails.innerTransactions, 
+            network
+        );
+        
+        return FormatTransaction.format(rawTransactionDetails, network, preLoadedMosaics);
+    }
 }

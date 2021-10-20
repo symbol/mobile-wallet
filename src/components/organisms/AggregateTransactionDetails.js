@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, StyleSheet,Image, TouchableOpacityBase } from 'react-native';
+import { connect } from 'react-redux';
+import { View, FlatList, TouchableOpacity, StyleSheet, } from 'react-native';
 import { 
     Text, 
     Row, 
@@ -7,7 +8,9 @@ import {
     ListItem,
     ListContainer,
     LoadingAnimationFlexible,
+    TableView,
     TitleBar,
+    TransactionGraphic,
     SwipeablePanel, 
     FadeView,
     LinkExplorer,
@@ -17,18 +20,12 @@ import {
     Input,
     Icon
 } from '@src/components';
-import TransactionGraphic from '@src/components/transaction-graphic/TransactionGraphic';
-import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
-// import { SwipeablePanel } from 'rn-swipeable-panel';
-import { connect } from 'react-redux';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import store from '@src/store';
-import TableView from '@src/components/organisms/TableView';
+import TransactionService from '@src/services/TransactionService';
+import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
+import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
-import TransactionService from '@src/services/TransactionService';
-import FetchTransactionService from '@src/services/FetchTransactionService';
-import { FormatTransaction } from '@src/services/FormatTransaction';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
@@ -55,7 +52,6 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         flexDirection: 'row',
         justifyContent: 'center',
-        // alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
@@ -72,7 +68,7 @@ const styles = StyleSheet.create({
     },
     randomImage: {
         width: '100%',
-        height: 60,
+        height: 120,
         resizeMode: 'cover',
         flexDirection: 'column',
         justifyContent: 'center'
@@ -93,29 +89,31 @@ type Props = {
     transaction: AggregateTransactionModel,
 };
 
-class TransactionDetails extends Component<Props, State> {
+class AggregateTransactionDetails extends Component<Props, State> {
     state = {
         fullTransaction: null,
         raw: null,
         isActive: false,
         isLoading: false,
-        isWhitelisted: false,
+        expandGraphic: false,
+        showLastWarning: false,
         userUnderstand: false,
-        userWishToBlacklist: false,
+        showBlacklistForm: false,
         blacklistAccountName: '',
-        selectedTab: 'graphic'
+        selectedTab: 'info'
     };
 
     componentDidMount() {
+        const { selectedNode, transaction } = this.props;
+
         this.setState({
             isActive: true,
             isLoading: true,
             fullTransaction: null
         })
 
-        this.fetchTransactionDetails()
+        TransactionService.getTransactionDetails(transaction.hash, selectedNode)
             .then(async tx => {
-                console.log('Aggregate Transaction details:', JSON.stringify(tx.innerTransactions, null, 4))
                 this.setState({ 
                     fullTransaction: tx,
                     isLoading: false
@@ -130,15 +128,6 @@ class TransactionDetails extends Component<Props, State> {
             });
     }
 
-    async fetchTransactionDetails() {
-        const { selectedNode, transaction } = this.props;
-        const rawTransactionDetails = await TransactionService.getTransaction(transaction.hash, selectedNode);
-        rawTransactionDetails.hash = transaction.hash;
-        const preLoadedMosaics = await FetchTransactionService._preLoadMosaics(rawTransactionDetails.innerTransactions, selectedNode);
-        
-        return FormatTransaction.format(rawTransactionDetails, selectedNode, preLoadedMosaics);
-    }
-
     sign() {
         showPasscode(this.props.componentId, () => {
             const { transaction } = this.props;
@@ -151,7 +140,9 @@ class TransactionDetails extends Component<Props, State> {
     needsSignature = () => {
         const { transaction, selectedAccount, isMultisig } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
+        return !isMultisig 
+            && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 
+            && transaction.status !== 'confirmed';
     };
 
     onClose() {
@@ -170,9 +161,9 @@ class TransactionDetails extends Component<Props, State> {
         </ListItem>
     }
 
-    renderGraphicItem({index, item}) {
+    renderGraphicItem = (expand) => ({index, item}) => {
         return <View type="form-item" style={styles.graphicItem} key={'graphic' + index}>
-            <TransactionGraphic index={index} {...item} />
+            <TransactionGraphic index={index} forceExpand={expand} {...item} />
         </View>        
     }
 
@@ -192,7 +183,7 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     renderTabGraphic() {
-        const { isLoading, fullTransaction } = this.state;
+        const { isLoading, fullTransaction, expandGraphic } = this.state;
 
         return isLoading || !fullTransaction
         ? <LoadingAnimationFlexible isFade text={' '} theme="light" />
@@ -200,7 +191,7 @@ class TransactionDetails extends Component<Props, State> {
             <Section type="form">
                 <FlatList
                     data={fullTransaction.innerTransactions}
-                    renderItem={this.renderGraphicItem}
+                    renderItem={this.renderGraphicItem(expandGraphic)}
                     keyExtractor={(item, index) => '' + index + 'details'}
                     contentContainerStyle={{ flexGrow: 1 }}
                 />
@@ -226,83 +217,96 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     renderSign() {
-        const { isWhitelisted, userUnderstand, userWishToBlacklist, blacklistAccountName } = this.state;
+        const { showLastWarning, userUnderstand, showBlacklistForm, blacklistAccountName } = this.state;
 
-        if (!isWhitelisted && !userWishToBlacklist) {
+        if (!showLastWarning && !showBlacklistForm) {
             return <Section type="form" style={styles.acceptanceForm}>
                 <Section type="form-item">
-                    <Text type="bold">Transaction requires signature. Do you trust the signatory of this transaction?</Text>
+                    <Text type="bold">{translate('history.cosignFormTitleRequireSignature')}</Text>
                 </Section>
                 <Section type="form-item">
                     <Button 
-                        text={'Accept'} 
+                        text={translate('history.cosignFormButtonContinue')} 
                         theme="dark" 
                         onPress={() => this.setState({
-                            isWhitelisted: true,
-                            selectedTab: 'innerTransactions'
+                            showLastWarning: true,
+                            selectedTab: 'graphic'
                         })} 
                     />
                 </Section>
-                <Section type="form-item">
+                {/* <Section type="form-item">
                     <Button 
-                        text={'Reject'} 
+                        text={translate('history.cosignFormButtonMarkSpam')}  
                         theme="dark" 
-                        onPress={() => this.setState({userWishToBlacklist: true})} 
+                        onPress={() => this.setState({showBlacklistForm: true})} 
                     />
-                </Section>
+                </Section> */}
             </Section>
         }
-        else if (userWishToBlacklist) {
+        else if (showBlacklistForm) {
             return <Section type="form" style={styles.acceptanceForm}>
                     <Section type="form-item">
-                        <TouchableOpacity onPress={() => this.setState({userWishToBlacklist: false})}>
+                        <TouchableOpacity onPress={() => this.setState({showBlacklistForm: false})}>
                             <Row align="center">
                                 <Icon name="back_dark" size="small" style={{marginRight: 10}} />
-                                <Text type="bold">Blacklist this address?</Text>
+                                <Text type="bold">{translate('history.cosignFormTitleBlacklist')}</Text>
                             </Row>
                         </TouchableOpacity>
                     </Section>
                     <Section type="form-item">
                     <Input 
                         value={blacklistAccountName} 
-                        placeholder={'Note'} 
+                        placeholder={translate('history.cosignFormInputNote')} 
                         theme="light" 
                         onChangeText={value => this.setState({blacklistAccountName: value})} 
                     />
                     </Section>
                     <Section type="form-item">
                         <Button 
-                            text={'Blacklist'} 
+                            text={translate('history.cosignFormButtonBlacklist')}  
                             theme="dark" 
-                            onPress={() => this.setState({isWhitelisted: false})} 
+                            onPress={() => this.setState({showLastWarning: false})} 
                         />
                     </Section>
                 </Section>
         }
         else {
-            return <FadeView style={styles.signFormContainer}>
+            return <FadeView style={styles.signFormContainer} style={{flex: 1}}>
                 <RandomImage style={styles.randomImage} isContainer>
-                    <Text style={styles.textCaution} type="title" theme="dark" align="center">CAUTION</Text>
+                    <Text style={styles.textCaution} type="title" theme="dark" align="center">{translate('history.caution')}</Text>
                 </RandomImage>
-                <Section type="form" style={styles.signForm}>
-                    <Section type="form-item">
-                        <Text type="bold">You are about to sign this transaction. Please review carefully. Sign it only if you understand it. Otherwise, it can lead to the loss of all of your funds.</Text>
-                    </Section>
-                    <Section type="form-item">
-                        <Checkbox
-                            value={userUnderstand}
-                            title={'I understand'}
-                            theme="dark"
-                            onChange={value => this.setState({userUnderstand: value})}
-                        />
-                    </Section>
-                    <Section type="form-item">
-                        <Button  
-                            isDisabled={!userUnderstand} 
-                            text={translate('plugin.send')} 
-                            theme="light" 
-                            onPress={() => this.sign()} 
-                        /> 
+                <Section type="form" style={styles.signForm} isScrollable>
+                    <Section type="form-bottom">
+                        <Section type="form-item">
+                            <Text type="bold">{translate('history.cosignFormTitleLastWarning')}</Text>
+                        </Section>
+                        <Section type="form-item">
+                            <Checkbox
+                                value={userUnderstand}
+                                title={translate('history.cosignFormCheckbox')}
+                                theme="dark"
+                                onChange={value => this.setState({userUnderstand: value})}
+                            />
+                        </Section>
+                        <Section type="form-item">
+                            <Button  
+                                text={translate('history.cosignFormButtonReviewAgain')} 
+                                theme="light" 
+                                onPress={() => this.setState({
+                                    showLastWarning: false, 
+                                    expandGraphic: true,
+                                    selectedTab: 'graphic'
+                                })} 
+                            /> 
+                        </Section>
+                        <Section>
+                            <Button  
+                                isDisabled={!userUnderstand} 
+                                text={translate('history.transaction.sign')} 
+                                theme="light" 
+                                onPress={() => this.sign()} 
+                            /> 
+                        </Section>
                     </Section>
                 </Section>
             </FadeView>
@@ -311,7 +315,7 @@ class TransactionDetails extends Component<Props, State> {
     }
 
     render() {
-        const { isActive, isLoading, fullTransaction, selectedTab } = this.state;
+        const { isActive, showLastWarning, isLoading, selectedTab } = this.state;
         let Content = null;
 
         switch(selectedTab) {
@@ -341,7 +345,7 @@ class TransactionDetails extends Component<Props, State> {
                     title={translate('history.transactionDetails')} 
                     onClose={() => this.onClose()} 
                 />
-                <Row style={styles.tabs}>
+                {!showLastWarning && <Row style={styles.tabs}>
                     <TouchableOpacity
                         style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
                         onPress={() => this.setState({selectedTab: 'info'})}
@@ -366,8 +370,8 @@ class TransactionDetails extends Component<Props, State> {
                             {translate('history.innerTransactionTab')} 
                         </Text>
                     </TouchableOpacity>
-                </Row>
-                {Content}
+                </Row>}
+                {!showLastWarning && Content}
                 {this.needsSignature() && !isLoading && this.renderSign()}
         </SwipeablePanel>
     }
@@ -380,4 +384,4 @@ export default connect(state => ({
     isMultisig: state.account.isMultisig,
     network: state.network.selectedNetwork.type,
     address: state.account.selectedAccountAddress,
-}))(TransactionDetails);
+}))(AggregateTransactionDetails);

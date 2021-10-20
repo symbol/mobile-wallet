@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { TransactionType } from 'symbol-sdk';
-import { TableView, Text } from '@src/components';
+import { Icon, Row, TableView, Text } from '@src/components';
 import TransferGraphic from './TransferGraphic.js';
 import _ from 'lodash';
 import AddressAliasGraphic from './AddressAliasGraphic.js';
@@ -32,11 +32,18 @@ const styles = StyleSheet.create({
 		top: 4, 
 		left: 0,
 		opacity: 0.3
+	},
+	expand: {
+		position: 'absolute', 
+		bottom: 0, 
+		right: 0,
+		opacity: 0.2
 	}
 });
 
 type Props = {
 	index: number;
+	forceExpand?: Boolean;
 };
 
 type State = {
@@ -52,6 +59,13 @@ export default class TransactionGraphic extends Component<Props, State> {
 		this.setState({ expanded: false });
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.forceExpand !== this.props.forceExpand 
+			&& this.state.expanded !== this.props.forceExpand) {
+			this.setState({ expanded: this.props.forceExpand });
+		}
+	}
+
 	toggle() {
 		this.setState({ expanded: !this.state.expanded });
 	}
@@ -59,6 +73,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 	tableData() {
 		return _.omit(this.props, [
 			'index',
+			'forceExpand',
 			'transactionType', 
 			'type', 
 			'signerAddress', 
@@ -155,6 +170,9 @@ export default class TransactionGraphic extends Component<Props, State> {
 				{transactionNumber}
 			</Text>}
 			{this.renderGraphic()}
+			{!expanded && <Row style={styles.expand} align="center" justify="center" fullWidth>
+				<Icon name="expand" size="small" />
+			</Row>}
 			{expanded && <TableView 
 				smaller 
 				hideEmpty 

@@ -150,7 +150,6 @@ export default class FetchTransactionService {
      * @param preLoadedMosaics
      */
     static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel, preLoadedMosaics): Promise<TransactionModel> {
-        console.log('TRANSACTION', transaction)
         let transactionModel: TransactionModel = {
             type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',

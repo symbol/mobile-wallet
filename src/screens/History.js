@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
 import Transaction from '@src/components/organisms/transaction';
-import { TransactionDetails } from '@src/components';
+import { AggregateTransactionDetails } from '@src/components';
 import translate from "@src/locales/i18n";
 
 const styles = StyleSheet.create({
@@ -132,13 +132,12 @@ class History extends Component<Props, State> {
 						}
 					/>
 				</ListContainer>
-                {currentTransaction && currentTransaction.type === 'aggregate' && <TransactionDetails
+                {currentTransaction && currentTransaction.type === 'aggregate' && <AggregateTransactionDetails
                     transaction={currentTransaction}
                     onClose={() => this.showDetails(-1)} 
                     {...this.props}
                 />}
             </GradientBackground>
-            // </ImageBackground>
         );
     }
 }
