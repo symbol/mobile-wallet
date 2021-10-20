@@ -571,6 +571,7 @@
 		"newUnconfirmed": "Nueva transacción sin confirmar!",
 		"newConfirmed": "Nueva transacción confirmada!",
 		"newAggregate": "Nueva transacción agregada!",
+		"newCosignatureAdded":"Firma recibida!",
 		"noMosaicPresent": "El mosaico '%{mosaicName}' no esta presente en esta cuenta"
 	},
 

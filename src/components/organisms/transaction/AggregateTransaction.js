@@ -11,19 +11,21 @@ import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import { getFinanceBotPublicKeys } from '@src/config/environment';
 import Icon from '@src/components/controls/Icon';
-import { TransactionType, UInt64, AggregateTransaction as SdkAggregateTransaction, TransactionHttp } from 'symbol-sdk';
+import { TransactionType, UInt64, AggregateTransaction as SdkAggregateTransaction } from 'symbol-sdk';
 import TransactionService from '@src/services/TransactionService';
+import _ from 'lodash';
+import { Router } from '@src/Router';
 
 type Props = {
     transaction: AggregateTransactionModel,
 };
 
 class AggregateTransaction extends BaseTransactionItem<Props> {
-    state: {
+    state = {
         fullTransaction: null,
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         const { selectedNode, transaction } = this.props;
         TransactionService.getTransaction(transaction.hash, selectedNode).then(async tx => {
             this.setState({ fullTransaction: tx });
@@ -65,17 +67,38 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
         showPasscode(this.props.componentId, () => {
             const { transaction } = this.props;
             store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction }).then(_ => {
+                this.showCosignatureMessage(translate('notification.newCosignatureAdded'));
                 store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
             });
         });
     }
 
+    // check if the transaction needs to be Signed from current signer
     needsSignature = () => {
         if (this.isPostLaunchOptIn()) return false;
-        const { transaction, selectedAccount, isMultisig } = this.props;
+        const { transaction, selectedAccount, isMultisig, cosignatoryOf  } = this.props;
         const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
+        const cosignerAddresses = transaction.innerTransactions.map((t) => t.signerAddress);
+        const cosignRequired = cosignerAddresses.find((c) => {
+            if (c) {
+                return (
+                    (cosignatoryOf && cosignatoryOf.some((address) => address === c))
+                );
+            }
+            return false;
+        });        
+        return !isMultisig && (((transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed'))|| (this.hasMissSignatures() && cosignRequired!==undefined));
     };
+
+    // check if the transaction misses cosignatories
+    hasMissSignatures=()=> {
+        const {transaction}= this.props;
+        return (
+            transaction?.transactionInfo != null &&
+            transaction?.transactionInfo.merkleComponentHash !== undefined &&
+            transaction?.transactionInfo.merkleComponentHash.startsWith('000000000000')
+        );
+    }
 
     renderAction = () => {
         if (this.needsSignature()) {
@@ -85,6 +108,14 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                 </Text>
             );
         }
+    };
+
+    // show notification for transaction signing  
+    showCosignatureMessage = (message: string) => {
+        Router.showMessage({
+            message: message,
+            type: 'success',
+        });
     };
 
     renderDetails = () => {
@@ -123,4 +154,5 @@ export default connect(state => ({
     isMultisig: state.account.isMultisig,
     network: state.network.selectedNetwork.type,
     address: state.account.selectedAccountAddress,
+    cosignatoryOf: state.account.cosignatoryOf,
 }))(AggregateTransaction);

@@ -582,6 +582,7 @@
 		"newUnconfirmed": "New unconfirmed transaction!",
 		"newConfirmed": "New confirmed transaction!",
 		"newAggregate": "New aggregate transaction!",
+		"newCosignatureAdded":"Cosignature received!",
 		"noMosaicPresent": "There is no mosaic '%{mosaicName}' present in this account"
 	},
 	"addressBook": {
