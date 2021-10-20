@@ -29,27 +29,30 @@ pipeline {
                     // git branch: DEV_BRANCH, url: 'https://github.com/symbol/mobile-wallet.git'
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
-                    sh "rm -rf node_modules"
                     sh "yarn cache clean && yarn install --network-concurrency 1"                
                 }
             }
 
         stage('Build') {
-            parallel {
-                stage('Build - IOS') {
-                    steps {
-                        sh "cd ios && rm -rf Pods"
-                        sh "cd ios && bundle install"
-                        sh "cd ios && bundle exec pod install"
-                    }
-                }
-                stage('Build - Android') {
-                    steps {
-                        sh "npx react-native run-android --variant=DevDebug"
-                        sh "cd android && ./gradlew assembleProdRelease"
-                    }
-                }
+            steps {
+                sh "cd ios && bundle install"
+                sh "cd ios && bundle exec pod install"
             }
+
+            // parallel {
+            //     stage('Build - IOS') {
+            //         steps {
+            //             sh "cd ios && bundle install"
+            //             sh "cd ios && bundle exec pod install"
+            //         }
+            //     }
+            //     stage('Build - Android') {
+            //         steps {
+            //             sh "npx react-native run-android --variant=DevDebug"
+            //             sh "cd android && ./gradlew assembleProdRelease"
+            //         }
+            //     }
+            // }
         }
 
         stage ('Test') {
@@ -74,6 +77,10 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: 'android/app/build/outputs/apk/dev/release/*.apk'
+        }
+        
+        always { 
+            cleanWs()
         }
     }
 }
