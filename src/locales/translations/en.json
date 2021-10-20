@@ -530,7 +530,8 @@
 		"nonZeroImportanceRequirement": "Your account cannot start delegated harvesting while importance is equal to 0. Importance recalculation might take up to 12h.",
 		"KEYS_LINKED": "Keys linked",
 		"viewLinkedKeys": "View Linked Keys",
-		"linkedNode": "Linked Node"
+		"linkedNode": "Linked Node",
+		"Importance": "Importance score"
 	},
 	"sidebar": {
 		"seed": "Seed account",

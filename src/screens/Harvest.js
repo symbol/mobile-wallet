@@ -10,7 +10,8 @@ import translate from '@src/locales/i18n';
 import Trunc from '@src/components/organisms/Trunc';
 import { Router } from '@src/Router';
 import { AccountHttp, Address } from 'symbol-sdk';
-
+import { getHarvestingPrerequisitesUrl } from '@src/config/environment'
+import NetworkService from '@src/services/NetworkService';
 const styles = StyleSheet.create({
     showButton: {
         textAlign: 'right',
@@ -78,11 +79,11 @@ class Harvest extends Component<Props, State> {
         selectedNodeUrl: null,
         isLoading: false,
         accountImportance: null,
+        displayedImportance: null
     };
 
     onPress() {
-        const harvestingPreRequisitesUrl = 'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
-        Linking.openURL(harvestingPreRequisitesUrl);
+        Linking.openURL(getHarvestingPrerequisitesUrl());
     }
 
     async componentDidMount() {
@@ -91,6 +92,7 @@ class Harvest extends Component<Props, State> {
         const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(selectedAccountAddress)).toPromise();
         this.setState({ accountImportance: accountInfo.importance.compact() });
 
+        await this.getImportanceScore()
         if (selectedAccount.harvestingNode) {
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
@@ -114,6 +116,25 @@ class Harvest extends Component<Props, State> {
             label: `http://${node.url}:3000`,
         }));
     };
+    // get account Importance score
+    async getImportanceScore(){
+        const {networkCurrencyDivisibility, selectedNode} =  this.props;
+        const networkInfo = await NetworkService.getNetworkModelFromNode(selectedNode);
+
+        const {accountImportance} = this.state;
+        if (!networkCurrencyDivisibility || !networkInfo.totalChainImportance) {
+            return 'N/A';
+        }
+        const totalChainImportance = parseInt(networkInfo.totalChainImportance.toString().replace(/'/g, '')) || 0;
+        const relativeImportance = accountImportance > 0 ? accountImportance / totalChainImportance : accountImportance;
+        const formatOptions: Intl.NumberFormatOptions = {
+            maximumFractionDigits: networkCurrencyDivisibility,
+            style: 'percent',
+        };
+        this.setState({ displayedImportance: relativeImportance.toLocaleString(undefined, formatOptions).toString() });
+        return;
+    }
+     
 
     onSelectHarvestingNode = node => {
         const url = node;
@@ -182,7 +203,7 @@ class Harvest extends Component<Props, State> {
             harvestingModel,
             selectedAccount,
         } = this.props;
-        const { selectedNodeUrl, isLoading, accountImportance } = this.state;
+        const { selectedNodeUrl, isLoading, accountImportance, displayedImportance } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
         let statusStyle;
         switch (status) {
@@ -237,6 +258,14 @@ class Harvest extends Component<Props, State> {
                             </Text>
                             <Text type={'regular'} theme={'light'}>
                                 {totalFeesEarned.toString()}
+                            </Text>
+                        </Row>
+                        <Row justify="space-between" fullWidth>
+                            <Text type={'bold'} theme={'light'}>
+                                {translate('harvest.Importance')}:
+                            </Text>
+                            <Text type={'regular'} theme={'light'}>
+                                {displayedImportance}
                             </Text>
                         </Row>
                         {status !== 'INACTIVE' && (
@@ -358,4 +387,5 @@ export default connect(state => ({
     nodes: state.harvesting.nodes,
     selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
     selectedAccountAddress: state.account.selectedAccountAddress,
+    networkCurrencyDivisibility: state.network.selectedNetwork.currencyDivisibility,
 }))(Harvest);

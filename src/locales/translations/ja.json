@@ -525,7 +525,8 @@
 		"nonZeroImportanceRequirement": "重要度が0の場合、アカウントは委任された収穫を開始できません。重要度の再計算には最大12時間かかる場合があります.",
 		"KEYS_LINKED": "リンクされた鍵",
 		"viewLinkedKeys": "リンクされたキーを表示",
-		"linkedNode": "リンクされたノード"
+		"linkedNode": "リンクされたノード",
+		"Importance": "重要度スコア"
 	},
 	"sidebar": {
 		"seed": "シードアカウント",

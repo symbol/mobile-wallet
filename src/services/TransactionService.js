@@ -73,7 +73,7 @@ export default class TransactionService {
         networkModel: NetworkModel
     ): TransferTransaction {
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
-        const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress, networkType);
+        const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount))];
 
         if (!transaction.messageEncrypted) {
