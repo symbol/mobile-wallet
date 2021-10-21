@@ -578,6 +578,7 @@
 		"newUnconfirmed": "新しい未承認トランザクションがあります！",
 		"newConfirmed": "New confirmed transaction!",
 		"newAggregate": "New aggregate transaction!",
+		"newCosignatureAdded":"連署名を受信!",
 		"noMosaicPresent": "このアカウントにはモザイク「%{mosaicName}」はありません。"
 	},
 	"addressBook": {

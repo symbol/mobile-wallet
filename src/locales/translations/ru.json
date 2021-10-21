@@ -592,6 +592,7 @@
 		"newUnconfirmed": "Новая неподтвержденная транзакция!",
 		"newConfirmed": "Новая подтвержденная транзакция!",
 		"newAggregate": "Новая агрегированная транзакция!",
+		"newCosignatureAdded":"Подпись получена!",
 		"noMosaicPresent": "В этом аккаунте '%{mosaicName}' нет мозаики"
 	},
 	"addressBook": {
