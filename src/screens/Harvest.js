@@ -10,6 +10,7 @@ import translate from '@src/locales/i18n';
 import { Router } from '@src/Router';
 import NetworkService from '@src/services/NetworkService';
 import ReadMoreLink from '@src/components/controls/ReadMoreLink';
+import { getHarvestingPrerequisitesUrl } from '@src/config/environment';
 const styles = StyleSheet.create({
     showButton: {
         textAlign: 'right',
@@ -193,6 +194,8 @@ class Harvest extends Component<Props, State> {
         } = this.props;
         const { selectedNodeUrl, isLoading, displayedImportance } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
+        const notEnoughBalanceTitle = translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })
+        const zeroImportanceTitle = translate('harvest.nonZeroImportanceRequirement')
         const url = getHarvestingPrerequisitesUrl();
         let statusStyle;
         switch (status) {
@@ -329,15 +332,13 @@ class Harvest extends Component<Props, State> {
 
                         {notEnoughBalance && (
                             <Section type="form-item">
-                                <Text theme="light" align="center" type="regular">
-                                    {translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })}
-                                </Text>
+                                <ReadMoreLink url={url} title={notEnoughBalanceTitle}></ReadMoreLink>
                             </Section>
                         )}
 
 
                         {!notEnoughBalance && accountImportance == 0 && (  
-                            <ReadMoreLink url={url}></ReadMoreLink>
+                            <ReadMoreLink url={url} title={zeroImportanceTitle}></ReadMoreLink>
                         )}
 
                     </Section>
