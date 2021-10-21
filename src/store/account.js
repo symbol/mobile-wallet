@@ -61,6 +61,7 @@ export default {
                 const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
                 commit({ type: 'account/setSelectedAccountAddress', payload: address });
                 await dispatchAction({ type: 'account/loadMultisigTree' });
+                await dispatchAction({ type: 'account/loadBalance' });
                 if (reset) {
                     await dispatchAction({ type: 'account/loadCosignatoryOf' });
                     commit({ type: 'account/setBalance', payload: 0 });
@@ -70,7 +71,6 @@ export default {
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
                 }
-                await dispatchAction({ type: 'account/loadBalance' });
                 dispatchAction({ type: 'harvesting/init' });
                 commit({ type: 'account/setLoading', payload: false });
             } catch (e) {
