@@ -12,6 +12,7 @@ import { Router } from '@src/Router';
 import { AccountHttp, Address } from 'symbol-sdk';
 import { getHarvestingPrerequisitesUrl } from '@src/config/environment'
 import NetworkService from '@src/services/NetworkService';
+import ReadMoreLink from '@src/components/controls/ReadMoreLink';
 const styles = StyleSheet.create({
     showButton: {
         textAlign: 'right',
@@ -62,11 +63,6 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginBottom: 1,
     },
-    link: {
-        fontSize: 12,
-        color: GlobalStyles.color.BLUE,
-        textDecorationLine: 'underline',
-    },
 });
 
 type Props = {};
@@ -78,7 +74,6 @@ class Harvest extends Component<Props, State> {
         selectedNode: null,
         selectedNodeUrl: null,
         isLoading: false,
-        accountImportance: null,
         displayedImportance: null
     };
 
@@ -87,11 +82,7 @@ class Harvest extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        const { selectedAccount, nodes, selectedNode, selectedAccountAddress } = this.props;
-        const accountHttp = new AccountHttp(selectedNode);
-        const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(selectedAccountAddress)).toPromise();
-        this.setState({ accountImportance: accountInfo.importance.compact() });
-
+        const { selectedAccount, nodes } = this.props;
         await this.getImportanceScore()
         if (selectedAccount.harvestingNode) {
             for (let node of nodes) {
@@ -102,6 +93,9 @@ class Harvest extends Component<Props, State> {
                 }
             }
         }
+    }
+    async componentDidUpdate(){
+        await this.getImportanceScore()
     }
 
     getSelectedUrl = () => {
@@ -118,10 +112,9 @@ class Harvest extends Component<Props, State> {
     };
     // get account Importance score
     async getImportanceScore(){
-        const {networkCurrencyDivisibility, selectedNode} =  this.props;
+        const {networkCurrencyDivisibility, selectedNode, accountImportance} =  this.props;
         const networkInfo = await NetworkService.getNetworkModelFromNode(selectedNode);
 
-        const {accountImportance} = this.state;
         if (!networkCurrencyDivisibility || !networkInfo.totalChainImportance) {
             return 'N/A';
         }
@@ -202,9 +195,11 @@ class Harvest extends Component<Props, State> {
             nativeMosaicNamespace,
             harvestingModel,
             selectedAccount,
+            accountImportance
         } = this.props;
-        const { selectedNodeUrl, isLoading, accountImportance, displayedImportance } = this.state;
+        const { selectedNodeUrl, isLoading, displayedImportance } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
+        const url = getHarvestingPrerequisitesUrl();
         let statusStyle;
         switch (status) {
             case 'ACTIVE':
@@ -295,7 +290,7 @@ class Harvest extends Component<Props, State> {
                     )}
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {!notEnoughBalance && status === 'INACTIVE' && (<>
+                        {!notEnoughBalance && status === 'INACTIVE'  && accountImportance !== 0 && (<>
                             <Section type="form-item">
                                 <NodeDropdown
                                     theme="light"
@@ -346,25 +341,9 @@ class Harvest extends Component<Props, State> {
                             </Section>
                         )}
 
-                        {notEnoughBalance && accountImportance == 0 && (
-                                <Text>{`\n`}</Text>
-                        )}
 
-                        {accountImportance == 0 && (
-                            <Section type="form-item">
-                                <Text theme="light" align="center" type="regular">
-                                    {translate('harvest.nonZeroImportanceRequirement')}
-                                </Text>
-                                <Row justify="space-between" align="end" fullWidth>
-                                    <Col style={{ flex: 1, marginTop: 10 }}>
-                                        <TouchableOpacity onPress={() => this.onPress()}>
-                                            <Text theme="light" align="right" style={styles.link}>
-                                                {translate('news.readMore')}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </Col>
-                                </Row>
-                            </Section>
+                        {!notEnoughBalance && accountImportance == 0 && (  
+                            <ReadMoreLink url={url}></ReadMoreLink>
                         )}
 
                     </Section>
@@ -388,4 +367,5 @@ export default connect(state => ({
     selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
     selectedAccountAddress: state.account.selectedAccountAddress,
     networkCurrencyDivisibility: state.network.selectedNetwork.currencyDivisibility,
+    accountImportance: state.harvesting.accountImportance,
 }))(Harvest);

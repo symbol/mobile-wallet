@@ -218,6 +218,15 @@ export default class HarvestingService {
             },
         ];
     }
+    static async getAccountImportance(node: string, accountAddress: string){
+        try{
+            const accountHttp = new AccountHttp(node);
+            const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(accountAddress)).toPromise();
+            return accountInfo.importance.compact()
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     /**
      * Creates and links the keys

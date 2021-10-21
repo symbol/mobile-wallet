@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Text, Row, Col, } from '@src/components';
+import { View, StyleSheet, Linking } from 'react-native';
+import { Text, Row, Col } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import TextLink from '@src/components/atoms/TextLink';
-import Card from '@src/components/atoms/Card';
-import translate from "@src/locales/i18n";
+import ReadMoreLink from '../controls/ReadMoreLink';
 
 const styles = StyleSheet.create({
 	root: {
@@ -33,11 +31,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'NotoSans-Light',
 		fontSize: 12,
 	},
-	link: {
-		fontSize: 12,
-		color: GlobalStyles.color.BLUE,
-		textDecorationLine: 'underline'
-	},
 });
 
 type Props = {
@@ -55,6 +48,7 @@ export default class New extends Component<Props> {
     }
 
     render() {
+        const url = this.props.url;
         return (
 			<View onPress={() => this.onPress(this.props.url)} style={styles.root}>
 				<Row justify="space-between" fullWidth>
@@ -79,22 +73,14 @@ export default class New extends Component<Props> {
 						</Text>
 					</Col>
 				</Row>
-				<Row justify="space-between" align="end" fullWidth>
-					<Col style={{flex: 1, marginTop: 10}}>
-						<TouchableOpacity onPress={() => this.onPress()}>
-							<Text theme="light" align="right" style={styles.link}>
-								{translate('news.readMore')}
-							</Text>
-						</TouchableOpacity>
-					</Col>
-				</Row>
-				{/* <Text theme="light" type="bold" style={styles.title}>
+                <ReadMoreLink url={url}></ReadMoreLink>
+                {/* <Text theme="light" type="bold" style={styles.title}>
 					{this.props.title}
 				</Text>
 				<Text theme="light"  type="regular" align={'right'} style={styles.content}>
 					{this.props.publicationDate}
 				</Text> */}
-			</View>
+            </View>
         );
     }
 }
