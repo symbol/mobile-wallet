@@ -10,6 +10,9 @@ type Props = {
 };
 
 class MultisigFilter extends Component<Props> {
+    formatAddress = address => {
+        return address.substring(0, 6) + '...' + address.substring(address.length - 3, address.length);
+    };
     render() {
         const { cosignatoryOf, selectedAccountAddress, selected, onSelect, ...rest } = this.props;
         const allMultisigAccounts = [
@@ -20,7 +23,7 @@ class MultisigFilter extends Component<Props> {
             })),
         ];
 
-        return <Dropdown list={allMultisigAccounts} title={translate('history.accountFilter')} value={selected} onChange={onSelect} {...rest} />;
+        return <Dropdown list={allMultisigAccounts} title={translate('history.accountFilter')} value={this.formatAddress(selected)} onChange={onSelect} {...rest} />;
     }
 }
 
