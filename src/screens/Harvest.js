@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text as NativeText, TouchableOpacity, View, Linking } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, NodeDropdown, Button, Col, Row } from '@src/components';
+import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
+import { Section, GradientBackground, Text, TitleBar, NodeDropdown, Button, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
-import Trunc from '@src/components/organisms/Trunc';
 import { Router } from '@src/Router';
-import { AccountHttp, Address } from 'symbol-sdk';
-import { getHarvestingPrerequisitesUrl } from '@src/config/environment'
 import NetworkService from '@src/services/NetworkService';
 import ReadMoreLink from '@src/components/controls/ReadMoreLink';
 const styles = StyleSheet.create({
@@ -77,9 +74,6 @@ class Harvest extends Component<Props, State> {
         displayedImportance: null
     };
 
-    onPress() {
-        Linking.openURL(getHarvestingPrerequisitesUrl());
-    }
 
     async componentDidMount() {
         const { selectedAccount, nodes } = this.props;

@@ -115,7 +115,6 @@ const isCustomNode = (nodeType: string): boolean => {
 
 // Network info
 const getNetworkInfo = (nodeType: string): Object => {
-    console.log(networks);
     const networkConfig = networks[nodeType];
     // use mainnet as fallback config
     return networkConfig !== undefined ? networkConfig : networks.MAINNET;
