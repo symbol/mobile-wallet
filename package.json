@@ -1,6 +1,6 @@
 {
   "name": "symbol-mobile-wallet",
-  "version": "0.0.1",
+  "version": "1.2",
   "private": true,
   "scripts": {
     "git-info": "echo export default \"{ version: '$(git describe --tags `git rev-list --tags --max-count=1`)' };\"  > src/shared/_git_commit.js",
@@ -110,7 +110,7 @@
     "symbol-paper-wallets": "^1.0.2",
     "symbol-post-launch-optin-module": "1.0.1",
     "symbol-qr-library": "0.14.1-alpha-202103081047",
-    "symbol-sdk": "1.0.0",
+    "symbol-sdk": "1.0.2-alpha-202108061451",
     "timers-browserify": "^1.0.1",
     "tls-browserify": "^0.2.2",
     "tty-browserify": "0.0.0",

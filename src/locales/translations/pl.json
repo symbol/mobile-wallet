@@ -33,7 +33,6 @@
       "title": "Zaimportuj Portfel",
       "content": "Zaimportuj konto, wprowadzając mnemoniki w odpowiedniej kolejności.",
       "button": "Zaimportuj",
-      "ignoreWarning": "Zignoruj Ostrzeżenie",
       "cancelModalButton": "Anuluj",
       "error": {
         "invalidMnemonic": "Niepoprawny Mnemonik",

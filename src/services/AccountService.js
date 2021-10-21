@@ -1,13 +1,24 @@
-import { AccountHttp, Account, Address, NetworkType, Mosaic, MosaicHttp, NamespaceHttp, MultisigHttp, MosaicId, UInt64 } from 'symbol-sdk';
-import {ExtendedKey, MnemonicPassPhrase, Network, Wallet} from 'symbol-hd-wallets';
-import type { AccountModel, AccountOriginType } from '@src/storage/models/AccountModel';
+import {
+    AccountHttp,
+    Account,
+    Address,
+    NetworkType,
+    Mosaic,
+    MosaicHttp,
+    NamespaceHttp,
+    MultisigHttp,
+    MosaicId,
+    UInt64,
+} from 'symbol-sdk';
+import { ExtendedKey, MnemonicPassPhrase, Network, Wallet } from 'symbol-hd-wallets';
+import type { AccountModel, AccountOriginType, MultisigAccountInfo } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
 import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
 import { SymbolPaperWallet } from 'symbol-paper-wallets';
-import {getAccountIndexFromDerivationPath} from "@src/utils/format";
+import { getAccountIndexFromDerivationPath } from '@src/utils/format';
 
 export default class AccountService {
     /**
@@ -271,5 +282,56 @@ export default class AccountService {
         };
 
         return btoa(Uint8ToString(bytes));
+    }
+
+    // get signers for current account
+    static getSigners(
+        currentAccountAddress: Address,
+        multisigAccountGraph?: Map<number, MultisigAccountInfo[]>,
+        level?: number,
+        childMinApproval?: number,
+        childMinRemoval?: number
+    ) {
+        let currentMultisigAccountInfo: MultisigAccountInfo;
+        if (level === undefined) {
+            for (const [l, levelAccounts] of multisigAccountGraph) {
+                for (const levelAccount of levelAccounts) {
+                    if (levelAccount.accountAddress.equals(currentAccountAddress)) {
+                        currentMultisigAccountInfo = levelAccount;
+                        level = l;
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (const levelAccount of multisigAccountGraph.get(level)) {
+                if (levelAccount.accountAddress.equals(currentAccountAddress)) {
+                    currentMultisigAccountInfo = levelAccount;
+                }
+            }
+        }
+        const currentSigner = {
+            address: currentAccountAddress,
+            multisig: currentMultisigAccountInfo?.isMultisig() || false,
+            requiredCosigApproval: Math.max(childMinApproval || 0, currentMultisigAccountInfo?.minApproval || 0),
+            requiredCosigRemoval: Math.max(childMinRemoval || 0, currentMultisigAccountInfo?.minRemoval || 0),
+        };
+
+        const parentSigners = [];
+        if (currentMultisigAccountInfo?.multisigAddresses) {
+            for (const parentSignerAddress of currentMultisigAccountInfo.multisigAddresses) {
+                parentSigners.push(
+                    ...this.getSigners(
+                        parentSignerAddress,
+                        multisigAccountGraph,
+                        level - 1,
+                        currentSigner.requiredCosigApproval,
+                        currentSigner.requiredCosigRemoval
+                    )
+                );
+            }
+            currentSigner.parentSigners = parentSigners.filter(ps => currentMultisigAccountInfo.multisigAddresses.some(msa => msa.equals(ps.address)));
+        }
+        return [currentSigner, ...parentSigners];
     }
 }

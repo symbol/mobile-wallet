@@ -35,7 +35,6 @@
 			"title": "Importar Wallet",
 			"content": "Importa tu Wallet Symbol al ingresar las palabras nemónicas en el orden correcto.",
 			"button": "Importar",
-			"ignoreWarning": "Ignorar la advertencia",
 			"cancelModalButton": "Cancelar",
 			"error": {
 				"invalidMnemonic": "Nemónica inválida",
@@ -399,6 +398,8 @@
 		"fast": "Rápida"
 	},
 	"table": {
+		"signature": "Firma",
+		"signDescription": "Puedes utilizar Symbol Desktop Wallet o Symbol CLI para revisar y firmar esta transacción.",
 		"type": "Tipo",
 		"recipientAddress": "Dirección de recepción",
 		"messageText": "Mensaje / Memo",
@@ -469,7 +470,11 @@
 		"optInTitle": "Opt-in",
 		"optInDescription": "El proceso de opt-in post lanzamiento se abirá pronto. Por favor comprueba nuevas versiones después del lanzamiento de Symbol.",
 		"pendingSignatureTitle": "Firma pendiente",
-		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma"
+		"pendingSignatureDescription": "Hay una transacción pendiente a la espera de la firma",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Crear nuevo",
+		"alertActionCancel": "Cancelar",
+		"alertInvalidMnemonicMessage": "Este perfil no está asociado a una frase nemónica válida. Por favor crea un nuevo perfil y transfiere tus fondos lo antes posible."
 	},
 	"mosaics": {
 		"title": "Mosaics"
@@ -566,6 +571,7 @@
 		"newUnconfirmed": "Nueva transacción sin confirmar!",
 		"newConfirmed": "Nueva transacción confirmada!",
 		"newAggregate": "Nueva transacción agregada!",
+		"newCosignatureAdded":"Firma recibida!",
 		"noMosaicPresent": "El mosaico '%{mosaicName}' no esta presente en esta cuenta"
 	},
 

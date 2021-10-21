@@ -35,7 +35,6 @@
 			"title": "Импортировать кошелек",
 			"content": "Импортируйте свой кошелек, введя кодовую фразу (мнемонику).",
 			"button": "Импортировать",
-			"ignoreWarning": "Игнорировать предупреждение",
 			"cancelModalButton": "Отмена",
 			"error": {
 				"invalidMnemonic": "Недействительная мнемоника",
@@ -394,6 +393,8 @@
 		}
 	},
 	"table": {
+		"signature": "Подписание транзакции",
+		"signDescription": "Вы можете использовать десктопный кошелек Symbol или интерфейс (CLI) командной строки Symbol, для проверки и подписания данной транзакции.",
 		"type": "Тип",
 		"recipientAddress": "Адрес получателя",
 		"messageText": "Сообщение / Мемо",
@@ -486,7 +487,11 @@
 		"optInTitle": "Пост Лаунч Опт-Ин",
 		"optInDescription": "Нажмите здесь, чтобы получить доступ к дашборд",
 		"pendingSignatureTitle": "Ожидает подписания",
-		"pendingSignatureDescription": "Имеется транзакция, которая ожидает подписи"
+		"pendingSignatureDescription": "Имеется транзакция, которая ожидает подписи",
+		"alertTitle":"Ошибка",
+		"alertActionCreateWallet": "Создать новый аккаунт",
+		"alertActionCancel": "Отмена",
+		"alertInvalidMnemonicMessage": "В этом профиле нет действующей мнемонической фразы. Пожалуйста, как можно скорее переведите свои XYM на другой аккаунт."
 	},
 	"mosaics": {
 		"title": "Мозаика"
@@ -585,6 +590,7 @@
 		"newUnconfirmed": "Новая неподтвержденная транзакция!",
 		"newConfirmed": "Новая подтвержденная транзакция!",
 		"newAggregate": "Новая агрегированная транзакция!",
+		"newCosignatureAdded":"Подпись получена!",
 		"noMosaicPresent": "В этом аккаунте '%{mosaicName}' нет мозаики"
 	},
 	"addressBook": {

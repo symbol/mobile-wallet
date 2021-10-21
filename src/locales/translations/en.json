@@ -35,7 +35,6 @@
 			"title": "Import Wallet",
 			"content": "Import your Wallet by entering your mnemonics in order.",
 			"button": "Import",
-			"ignoreWarning": "Ignore Warning",
 			"cancelModalButton": "Cancel",
 			"error": {
 				"invalidMnemonic": "Invalid Mnemonic",
@@ -394,6 +393,8 @@
 		}
 	},
 	"table": {
+		"signature": "Signature",
+		"signDescription": "You can use Symbol Desktop Wallet or Symbol CLI to review and sign this transaction.",
 		"type": "Type",
 		"recipientAddress": "Recipient Address",
 		"messageText": "Message / Memo",
@@ -478,7 +479,11 @@
 		"optInTitle": "Post-launch Opt-in",
 		"optInDescription": "Press here to access the dashboard",
 		"pendingSignatureTitle": "Pending signature",
-		"pendingSignatureDescription": "There is a transaction pending awaiting signature"
+		"pendingSignatureDescription": "There is a transaction pending awaiting signature",
+		"alertTitle":"Error",
+		"alertActionCreateWallet": "Create New",
+		"alertActionCancel": "Cancel",
+		"alertInvalidMnemonicMessage": "This profile does not have a valid mnemonic phrase. Please create a new profile and transfer your funds as soon as possible."
 	},
 	"mosaics": {
 		"title": "Mosaics"
@@ -577,6 +582,7 @@
 		"newUnconfirmed": "New unconfirmed transaction!",
 		"newConfirmed": "New confirmed transaction!",
 		"newAggregate": "New aggregate transaction!",
+		"newCosignatureAdded":"Cosignature received!",
 		"noMosaicPresent": "There is no mosaic '%{mosaicName}' present in this account"
 	},
 	"addressBook": {
