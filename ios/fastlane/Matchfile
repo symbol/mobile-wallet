@@ -5,7 +5,7 @@ storage_mode("git")
 type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
 
 app_identifier("com.nemgrouplimited.symbolwallet") # The bundle identifier of your app
-username("yilmazbahadir@gmail.com") # Your Apple email address
+username("baha@symbol.dev") # Your Apple email address
 
 # app_identifier(["tools.fastlane.app", "tools.fastlane.app2"])
 # username("user@fastlane.tools") # Your Apple Developer Portal username
