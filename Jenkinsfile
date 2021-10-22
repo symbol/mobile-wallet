@@ -17,18 +17,18 @@ pipeline {
         VERSION_NUMBER = "${params.VERSION_NUMBER}"
         BUILD_NUMBER = "${params.BUILD_NUMBER}"
         // TODO change branch name
-        DEV_BRANCH = 'jenkins-pipeline-setup'
+        DEPLOY_BETA_BRANCH = 'jenkins-pipeline-setup'
         MATCH_GIT_BASIC_AUTHORIZATION = credentials('GHUB_CREDS_SECRET')
         MATCH_PASSWORD = credentials('MATCH_PASSWORD')
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD = credentials("FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")
         FASTLANE_PASSWORD = credentials("FASTLANE_PASSWORD")
+        FASTLANE_KEYCHAIN = 'fastlane.keychain'
+        FASTLANE_KEYCHAIN_PASSWORD = credentials("FASTLANE_KEYCHAIN_PASSWORD")
     }
 
     stages {
         stage('Install') {
                 steps {
-                    // Get mobile-wallet dev branch code from GitHub repository
-                    // git branch: DEV_BRANCH, url: 'https://github.com/symbol/mobile-wallet.git'
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
                     sh "yarn cache clean && yarn install --network-concurrency 1"                
@@ -40,6 +40,8 @@ pipeline {
                 sh "cd ios && bundle install"
                 sh "cd ios && bundle exec pod install"
             }
+            
+            // TODO uncomment below !!!
 
             // parallel {
             //     stage('Build - IOS') {
@@ -67,10 +69,11 @@ pipeline {
         stage ('Deploy Staging - Alpha version') {
             when {
                 expression {
-                    BRANCH_NAME == DEV_BRANCH
+                    BRANCH_NAME == DEPLOY_BETA_BRANCH
                 }
             }
             steps {
+                // TODO remove below exports!
                 sh 'cd ios && export FASTLANE_PASSWORD=${FASTLANE_PASSWORD} && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=${FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD} && export MATCH_PASSWORD=${MATCH_PASSWORD} && export MATCH_GIT_BASIC_AUTHORIZATION=${MATCH_GIT_BASIC_AUTHORIZATION} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
                 sh "echo Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}"
             }
