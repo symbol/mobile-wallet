@@ -1,5 +1,3 @@
-// create a multibranch pipeline
-// define the repository link and branch
 pipeline {
     agent { label 'macos' }
     
@@ -10,14 +8,21 @@ pipeline {
     parameters {
         string(name: 'VERSION_NUMBER', defaultValue: '4.4.2', description: 'Version Number')
         string(name: 'BUILD_NUMBER', defaultValue: '58', description: 'Build Number')
+        // TODO change to dev
+        string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'jenkins-pipeline-setup', description: 'Deploy Beta Branch Name')
+        choice(
+            name: 'TARGET_OS',
+            choices: ['All', 'IOS', 'Android'],
+            description: 'Target Environment'
+        )
     }
     
     environment {
         RUNNING_ON_CI = 'true'
         VERSION_NUMBER = "${params.VERSION_NUMBER}"
         BUILD_NUMBER = "${params.BUILD_NUMBER}"
-        // TODO change branch name
-        DEPLOY_BETA_BRANCH = 'jenkins-pipeline-setup'
+        DEPLOY_BETA_BRANCH = "${params.DEPLOY_BETA_BRANCH}"
+        TARGET_OS = "${params.TARGET_OS}"
         MATCH_GIT_BASIC_AUTHORIZATION = credentials('GHUB_CREDS_SECRET')
         MATCH_PASSWORD = credentials('MATCH_PASSWORD')
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD = credentials("FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")
@@ -31,7 +36,8 @@ pipeline {
                 steps {
                     sh "cp env/default.json.example env/default.json"
                     // Run yarn install for the dependencies
-                    sh "yarn cache clean && yarn install --network-concurrency 1"                
+                    sh "yarn cache clean && yarn install --network-concurrency 1"
+                    sh "npx jetify" // for android
                 }
             }
 
@@ -45,12 +51,22 @@ pipeline {
 
             // parallel {
             //     stage('Build - IOS') {
+                    // when {
+                    //     expression {
+                    //         TARGET_OS == 'All' || TARGET_OS == 'IOS'
+                    //     }
+                    // }
             //         steps {
             //             sh "cd ios && bundle install"
             //             sh "cd ios && bundle exec pod install"
             //         }
             //     }
             //     stage('Build - Android') {
+                    // when {
+                    //     expression {
+                    //         TARGET_OS == 'All' || TARGET_OS == 'Android'
+                    //     }
+                    // }                
             //         steps {
             //             sh "npx react-native run-android --variant=DevDebug"
             //             sh "cd android && ./gradlew assembleProdRelease"
@@ -66,7 +82,7 @@ pipeline {
         }
 
         // deploy to testnet
-        stage ('Deploy Staging - Alpha version') {
+        stage ('Deploy IOS - Alpha version') {
             when {
                 expression {
                     BRANCH_NAME == DEPLOY_BETA_BRANCH
@@ -82,6 +98,7 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: 'android/app/build/outputs/apk/dev/release/*.apk'
+            archiveArtifacts artifacts: 'ios/output/*.ipa'
         }
         
         always { 
