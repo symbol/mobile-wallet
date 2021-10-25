@@ -8,7 +8,6 @@ import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import { Router } from '@src/Router';
-import NetworkService from '@src/services/NetworkService';
 import ReadMoreLink from '@src/components/controls/ReadMoreLink';
 import { getHarvestingPrerequisitesUrl } from '@src/config/environment';
 const styles = StyleSheet.create({
@@ -72,13 +71,11 @@ class Harvest extends Component<Props, State> {
         selectedNode: null,
         selectedNodeUrl: null,
         isLoading: false,
-        displayedImportance: null
     };
 
 
     async componentDidMount() {
         const { selectedAccount, nodes } = this.props;
-        await this.getImportanceScore()
         if (selectedAccount.harvestingNode) {
             for (let node of nodes) {
                 if (node.url === selectedAccount.harvestingNode) {
@@ -88,9 +85,6 @@ class Harvest extends Component<Props, State> {
                 }
             }
         }
-    }
-    async componentDidUpdate(){
-        await this.getImportanceScore()
     }
 
     getSelectedUrl = () => {
@@ -105,23 +99,6 @@ class Harvest extends Component<Props, State> {
             label: `http://${node.url}:3000`,
         }));
     };
-    // get account Importance score
-    async getImportanceScore(){
-        const {networkCurrencyDivisibility, selectedNode, accountImportance} =  this.props;
-        const networkInfo = await NetworkService.getNetworkModelFromNode(selectedNode);
-
-        if (!networkCurrencyDivisibility || !networkInfo.totalChainImportance) {
-            return 'N/A';
-        }
-        const totalChainImportance = parseInt(networkInfo.totalChainImportance.toString().replace(/'/g, '')) || 0;
-        const relativeImportance = accountImportance > 0 ? accountImportance / totalChainImportance : accountImportance;
-        const formatOptions: Intl.NumberFormatOptions = {
-            maximumFractionDigits: networkCurrencyDivisibility,
-            style: 'percent',
-        };
-        this.setState({ displayedImportance: relativeImportance.toLocaleString(undefined, formatOptions).toString() });
-        return;
-    }
      
 
     onSelectHarvestingNode = node => {
@@ -192,7 +169,7 @@ class Harvest extends Component<Props, State> {
             selectedAccount,
             accountImportance
         } = this.props;
-        const { selectedNodeUrl, isLoading, displayedImportance } = this.state;
+        const { selectedNodeUrl, isLoading } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
         const notEnoughBalanceTitle = translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })
         const zeroImportanceTitle = translate('harvest.nonZeroImportanceRequirement')
@@ -257,7 +234,7 @@ class Harvest extends Component<Props, State> {
                                 {translate('harvest.Importance')}:
                             </Text>
                             <Text type={'regular'} theme={'light'}>
-                                {displayedImportance}
+                                {accountImportance}
                             </Text>
                         </Row>
                         {status !== 'INACTIVE' && (
@@ -287,7 +264,7 @@ class Harvest extends Component<Props, State> {
                     )}
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {!notEnoughBalance && status === 'INACTIVE'  && accountImportance !== 0 && (<>
+                        {!notEnoughBalance && status === 'INACTIVE'  && accountImportance !== '0%' && (<>
                             <Section type="form-item">
                                 <NodeDropdown
                                     theme="light"
@@ -337,7 +314,7 @@ class Harvest extends Component<Props, State> {
                         )}
 
 
-                        {!notEnoughBalance && accountImportance == 0 && (  
+                        {!notEnoughBalance && accountImportance == '0%' && (  
                             <ReadMoreLink url={url} title={zeroImportanceTitle}></ReadMoreLink>
                         )}
 

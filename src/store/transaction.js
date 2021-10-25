@@ -81,7 +81,7 @@ export default {
             setTimeout(() => {
 				commit({ type: 'transaction/setLoadingNext', payload: true });
 			});
-            if(!state.account.cosignatoryOf || !state.account.cosignatoryOf.length ){
+            if((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined ){
                 await dispatchAction({ type: 'account/loadCosignatoryOf' });
             }
             const nextPage = state.transaction.page + 1;

@@ -84,13 +84,14 @@ export default {
     },
     actions: {
         init: async ({ dispatchAction, commit }) => {
-            Promise.all([
+            // commit({ type: 'harvesting/setAccountImportance', payload: 0 });
+            await Promise.all([
                 dispatchAction({ type: 'harvesting/loadState' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocks' }),
+                dispatchAction({ type: 'harvesting/loadAccountImportance' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
-                dispatchAction({ type: 'harvesting/loadAccountImportance' }),
             ]).catch(e => {
                 commit({ type: 'harvesting/resetState' });
             });
@@ -106,9 +107,16 @@ export default {
         },
         loadAccountImportance: async ({ commit, state }) => {
             try {
-                const importance = await HarvestingService.getAccountImportance(state.network.selectedNetwork.node, state.account.selectedAccountAddress);
-                commit({ type: 'harvesting/setAccountImportance', payload: importance });
+                const {importance, networkInfo} = await HarvestingService.getAccountImportance(state.network.selectedNetwork.node, state.account.selectedAccountAddress,  state.network.selectedNetwork.currencyDivisibility, state.network.selectedNetwork.node || '');
+                const totalChainImportance = parseInt(networkInfo.totalChainImportance.toString().replace(/'/g, '')) || 0;
+                const relativeImportance = importance > 0 ? importance / totalChainImportance : importance;
+                const formatOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: state.network.selectedNetwork.currencyDivisibility,
+                    style: 'percent',
+                };
+                commit({ type: 'harvesting/setAccountImportance', payload: relativeImportance.toLocaleString(undefined, formatOptions).toString() });
             } catch (e) {
+                commit({ type: 'harvesting/setAccountImportance', payload: '0%' });
                 console.log(e);
             }
         },

@@ -218,13 +218,21 @@ export default class HarvestingService {
             },
         ];
     }
-    static async getAccountImportance(node: string, accountAddress: string){
+    static async getAccountImportance(node: string, accountAddress: string, networkCurrencyDivisibility, selectedNode){
         try{
             const accountHttp = new AccountHttp(node);
             const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(accountAddress)).toPromise();
-            return accountInfo.importance.compact()
+            if(!accountInfo){
+                return '0%'
+            }
+            const networkInfo = await NetworkService.getNetworkModelFromNode(selectedNode);
+            if (!networkCurrencyDivisibility || !networkInfo.totalChainImportance) {
+                return 'N/A';
+            }
+            return {networkInfo: networkInfo, importance: accountInfo.importance.compact()};
         }catch(err){
             console.log(err);
+            return;
         }
     }
 
