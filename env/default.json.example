@@ -1,7 +1,6 @@
 {
   "sessionTimeoutInSeconds": 10,
   "marketCurrencyName": "nem",
-  "newsURL": "https://nemflash.io/feed",
   "explorerURL": {
     "testnet": "http://explorer.testnet.symboldev.network/",
     "mainnet": "http://explorer.symbolblockchain.io/"
