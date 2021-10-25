@@ -74,8 +74,8 @@ pipeline {
                         // copy key.properties and copy keystore file
                         withCredentials([file(credentialsId: 'ANDROID_KEY_PROPERTIES', variable: 'android_key_properties'),
                                         file(credentialsId: 'ANDROID_KEY_PROPERTIES_STORE_FILE', variable: 'release_keystore')]) {
-                            sh "cp $android_key_properties ./android/app/key.properties"
-                            sh "cp $release_keystore ./android/app/release.keystore"
+                            sh 'cp $android_key_properties ./android/app/key.properties'
+                            sh 'cp $release_keystore ./android/app/release.keystore'
                             sh "cd android && ./gradlew assembleProdRelease -PBUILD_NUMBER=${BUILD_NUMBER}"
                             sh "echo 'Build completed and .apk file is generated. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}'"
                         }
@@ -109,13 +109,10 @@ pipeline {
         }
     }
     post {
-        success {
-            archiveArtifacts artifacts: 'android/app/build/outputs/apk/prod/release/*.apk'
-            archiveArtifacts artifacts: 'ios/output/*.ipa'
+        always {
+            archiveArtifacts artifacts: 'android/app/build/outputs/apk/prod/release/*.apk', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'ios/output/*.ipa', allowEmptyArchive: true
+            cleanWs()
         }
-        
-        // always { 
-        //     cleanWs()
-        // }
     }
 }
