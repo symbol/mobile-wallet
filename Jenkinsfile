@@ -29,15 +29,13 @@ pipeline {
         FASTLANE_PASSWORD = credentials("FASTLANE_PASSWORD")
         FASTLANE_KEYCHAIN = 'fastlane.keychain'
         FASTLANE_KEYCHAIN_PASSWORD = credentials("FASTLANE_KEYCHAIN_PASSWORD")
+        APP_STORE_CONNECT_API_KEY_KEY_ID = credentials("APP_STORE_CONNECT_API_KEY_KEY_ID")
+        APP_STORE_CONNECT_API_KEY_ISSUER_ID = credentials("APP_STORE_CONNECT_API_KEY_ISSUER_ID")
+        APP_STORE_CONNECT_API_KEY_KEY = credentials("APP_STORE_CONNECT_API_KEY_KEY")
     }
 
     stages {
         stage('Install') {
-            when {
-                expression {
-                    BRANCH_NAME == DEPLOY_BETA_BRANCH
-                }
-            }
             steps {
                 sh "cp env/default.json.example env/default.json"
                 // Run yarn install for the dependencies
@@ -47,16 +45,11 @@ pipeline {
         }
 
         stage('Build') {
-            when {
-                expression {
-                    BRANCH_NAME == DEPLOY_BETA_BRANCH
-                }
-            }
             parallel {
                 stage('Build - IOS') {
                     when {
                         expression {
-                            TARGET_OS == 'All' || TARGET_OS == 'IOS'
+                            BRANCH_NAME == DEPLOY_BETA_BRANCH && (TARGET_OS == 'All' || TARGET_OS == 'IOS')
                         }
                     }
                     steps {
@@ -69,7 +62,7 @@ pipeline {
                         expression {
                             TARGET_OS == 'All' || TARGET_OS == 'Android'
                         }
-                    }                
+                    }
                     steps {
                         // copy key.properties and copy keystore file
                         withCredentials([file(credentialsId: 'ANDROID_KEY_PROPERTIES', variable: 'android_key_properties'),
@@ -85,11 +78,6 @@ pipeline {
         }
 
         stage ('Test') {
-            when {
-                expression {
-                    BRANCH_NAME == DEPLOY_BETA_BRANCH
-                }
-            }
             steps {
                 sh "echo 'Currently there are no tests to run!'"
             }
@@ -103,7 +91,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd ios && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=${FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD} && export MATCH_PASSWORD=${MATCH_PASSWORD} && export MATCH_GIT_BASIC_AUTHORIZATION=${MATCH_GIT_BASIC_AUTHORIZATION} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
+                //sh 'cd ios && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=${FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD} && export MATCH_PASSWORD=${MATCH_PASSWORD} && export MATCH_GIT_BASIC_AUTHORIZATION=${MATCH_GIT_BASIC_AUTHORIZATION} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
+                sh 'cd ios && export APP_STORE_CONNECT_API_KEY_KEY_ID=${APP_STORE_CONNECT_API_KEY_KEY_ID} && export APP_STORE_CONNECT_API_KEY_ISSUER_ID=${APP_STORE_CONNECT_API_KEY_ISSUER_ID} && export APP_STORE_CONNECT_API_KEY_KEY=${APP_STORE_CONNECT_API_KEY_KEY} && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
                 sh "echo 'Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}'"
             }
         }
