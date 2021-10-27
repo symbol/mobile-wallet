@@ -1,9 +1,13 @@
 import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, RepositoryFactoryHttp, TransactionFees} from 'symbol-sdk';
-import type { NetworkModel } from '@src/storage/models/NetworkModel';
+import type { NetworkModel, AppNetworkType } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
+import { getStatisticsServiceURL } from '@src/config/environment'
 
 const REQUEST_TIMEOUT = 5000;
+
+// Statistics service nodes endpoint filters
+export type NodeFilters = 'preferred' | 'suggested';
 
 export default class NetworkService {
     /**
@@ -102,5 +106,42 @@ export default class NetworkService {
         } catch {
             return false;
         }
+    }
+
+    /**
+     * Gets node list from statistics service
+     * @param networkType 'mainnet | testnet'
+     * @param filter 'preferred' | 'suggested'
+     */
+    static async getNodeList(networkType: AppNetworkType, filter: NodeFilters) {
+        return new Promise(resolve => {
+            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${filter}`)
+                .then(response => response.json())
+                .then((responseData)=> {
+                    resolve(responseData)
+                })
+                .catch(e => {
+                    throw e;
+                });
+        });
+    }
+
+    /**
+     * Gets nodes urls
+     * @param networkType 'mainnet | testnet'
+     */
+    static async getSelectorNodeList(networkType: AppNetworkType) {
+        const nodes = await NetworkService.getNodeList(networkType, 'preferred');
+        let nodeUrls = [];
+
+        for (const node of nodes) {
+            const { apiStatus, host } = node;
+            if (apiStatus) {
+                const isHttps = apiStatus?.isHttpsEnabled || false;
+                nodeUrls.push(`${isHttps ? 'https' : 'http' }://${host}:${isHttps ? '3001' : '3000' }`)
+            }
+        }
+
+       return nodeUrls;
     }
 }
