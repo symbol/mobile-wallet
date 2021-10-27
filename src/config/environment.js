@@ -133,10 +133,6 @@ const getDefaultNetworkType = (): NetworkType => {
     return defaultNetworkType;
 };
 
-const getNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
-    return networks[network].nodes;
-};
-
 const getNativeMosaicId = (): string[] => {
     return nativeMosaicId;
 };
@@ -173,7 +169,6 @@ export {
     getOptinEnv,
     getNISNodes,
     getDefaultNetworkType,
-    getNodes,
     getNativeMosaicId,
     getWhitelistedPublicKeys,
     getFinanceBotPublicKeys,
