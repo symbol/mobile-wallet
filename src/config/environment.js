@@ -6,6 +6,7 @@ import {
     sessionTimeoutInSeconds,
     marketCurrencyName,
     explorerURL,
+    statisticsServiceURL,
     faucetURL,
     aboutURL,
     currencies,
@@ -38,6 +39,11 @@ const getMarketCurrencyLabel = (): string => {
 // Explorer URL
 const getExplorerURL = (network: AppNetworkType): string => {
     return explorerURL[network];
+};
+
+// Statistics Service URL
+const getStatisticsServiceURL = (network: AppNetworkType): string => {
+    return statisticsServiceURL[network];
 };
 
 // Explorer URL
@@ -147,6 +153,7 @@ export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
     getExplorerURL,
+    getStatisticsServiceURL,
     getFaucetUrl,
     getAboutURL,
     getCurrencyList,

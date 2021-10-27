@@ -6,7 +6,6 @@ import PopupModal from '@src/components/molecules/PopupModal';
 import {Dropdown, Text, Section, Row, ManagerHandler, Input, Button} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
-import { getNodes } from '@src/config/environment';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from "@src/components/molecules/ConfirmModal";
 
@@ -147,15 +146,14 @@ class SettingsNodeSelector extends Component {
 	}
 
     render = () => {
-        const nodes = {
-            mainnet: getNodes('mainnet').map(node => ({ value: node, label: node })),
-            testnet: getNodes('testnet').map(node => ({ value: node, label: node })),
+        const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
+        const { selectedNode, selectedNetwork, testnetNodes, mainnetNodes } = this.props;
+
+		const nodes = {
+            mainnet: mainnetNodes.map(node => ({ value: node, label: node })),
+            testnet: testnetNodes.map(node => ({ value: node, label: node })),
             custom: [],
         };
-
-        const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
-        const { selectedNode, selectedNetwork } = this.props;
-		const list = nodes[selectedTab];
 
         return (
             <View>
@@ -214,7 +212,7 @@ class SettingsNodeSelector extends Component {
 								{selectedTab !== 'custom' &&
 									<FlatList
 										style={styles.list}
-										data={list}
+										data={nodes[selectedTab]}
 										renderItem={this.renderItem}
 										keyExtractor={(item, index) => '' + index + 'nodes'}
 									/>
@@ -270,4 +268,6 @@ class SettingsNodeSelector extends Component {
 export default connect(state => ({
     selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
     selectedNetwork: state.network.selectedNetwork ? state.network.selectedNetwork.type : '',
+    testnetNodes: state.network.testnetNodes || [],
+    mainnetNodes: state.network.mainnetNodes || [],
 }))(SettingsNodeSelector);
