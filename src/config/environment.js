@@ -5,7 +5,6 @@
 import {
     sessionTimeoutInSeconds,
     marketCurrencyName,
-    newsURL,
     explorerURL,
     faucetURL,
     aboutURL,
@@ -34,11 +33,6 @@ const getSessionTimeoutInMillis = (): number => {
 // Market currency
 const getMarketCurrencyLabel = (): string => {
     return marketCurrencyName;
-};
-
-// News URL
-const getNewsURL = (): string => {
-    return newsURL;
 };
 
 // Explorer URL
@@ -156,7 +150,6 @@ const getHarvestingPrerequisitesUrl = (): string => {
 export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
-    getNewsURL,
     getExplorerURL,
     getFaucetUrl,
     getAboutURL,
