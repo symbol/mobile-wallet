@@ -60,7 +60,7 @@ export default {
             const dummyAccount = Account.generateNewAccount(networkType);
             const transactionModel = {
                 type: 'transfer',
-                recipientAddress: dummyAccount.address.plain(),
+                recipientAddress: payload.recipientAddress,
                 messageText: payload.message,
                 messageEncrypted: payload.messageEncrypted,
                 mosaics: payload.mosaics,

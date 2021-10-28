@@ -66,11 +66,11 @@ export default {
                     commit({ type: 'account/setBalance', payload: 0 });
                     commit({ type: 'account/setOwnedMosaics', payload: [] });
                 }
+                await dispatchAction({ type: 'account/loadBalance' });
                 await dispatchAction({ type: 'transaction/init' });
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
                 }
-                await dispatchAction({ type: 'account/loadBalance' });
                 dispatchAction({ type: 'harvesting/init' });
                 commit({ type: 'account/setLoading', payload: false });
             } catch (e) {
@@ -90,24 +90,25 @@ export default {
             let multisigAccountGraph = state.account.multisigGraphInfo;
 
             // find account signers
-            const accountSigners = AccountService.getSigners(Address.createFromRawAddress(address), multisigAccountGraph);
-            let allSigners = [];
-            accountSigners.forEach(signer => {
-                allSigners.push(signer.address.pretty());
-                signer.parentSigners.forEach(parent => {
-                    allSigners.push(parent.address.pretty());
-                    parent.parentSigners.forEach(topLevel => {
-                        allSigners.push(topLevel.address.pretty());
+            if (multisigAccountGraph !== undefined) {
+                const accountSigners = AccountService.getSigners(Address.createFromRawAddress(address), multisigAccountGraph);
+                let allSigners = [];
+                accountSigners.forEach(signer => {
+                    allSigners.push(signer.address.pretty());
+                    signer.parentSigners.forEach(parent => {
+                        allSigners.push(parent.address.pretty());
+                        parent.parentSigners.forEach(topLevel => {
+                            allSigners.push(topLevel.address.pretty());
+                        });
                     });
                 });
-            });
-            allSigners = _.uniq(allSigners);
-            allSigners.forEach(signer => {
-                if (!msigInfo.cosignatoryOf.some(cosignatory => cosignatory == signer) && signer !== address) {
-                    msigInfo.cosignatoryOf.push(signer);
-                }
-            });
-
+                allSigners = _.uniq(allSigners);
+                allSigners.forEach(signer => {
+                    if (!msigInfo.cosignatoryOf.some(cosignatory => cosignatory == signer) && signer !== address) {
+                        msigInfo.cosignatoryOf.push(signer);
+                    }
+                });
+            }
             for (let cosignatoryOf of msigInfo.cosignatoryOf) {
                 GlobalListener.addConfirmed(cosignatoryOf, state.account.cosignatoryOf.length > 0);
                 GlobalListener.addUnconfirmed(cosignatoryOf, state.account.cosignatoryOf.length > 0);
@@ -129,7 +130,7 @@ export default {
                         return of(g);
                     }),
                     catchError(() => {
-                        commit([]);
+                        commit({ type: 'account/setMultisigGraphInfo', payload: undefined });
                         return of([]);
                     })
                 )

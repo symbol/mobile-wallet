@@ -85,12 +85,12 @@ export default {
                 await AccountSecureStorage.createNewAccount(account);
             }
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
+            await dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
         },
         reloadAccounts: async ({ commit, state, dispatchAction }) => {
             const accounts = await AccountSecureStorage.getAllAccountsByNetwork(state.network.network);
             commit({ type: 'wallet/setAccounts', payload: accounts });
-            dispatchAction({ type: 'wallet/loadAccountsBalances' });
+            await dispatchAction({ type: 'wallet/loadAccountsBalances' });
         },
         loadAccountsBalances: async ({ commit, state }) => {
             try {
