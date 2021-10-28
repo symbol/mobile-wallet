@@ -149,7 +149,7 @@ class SettingsNodeSelector extends Component {
         const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
         const { selectedNode, selectedNetwork, testnetNodes, mainnetNodes } = this.props;
 
-		const nodes = {
+        const nodes = {
             mainnet: mainnetNodes.map(node => ({ value: node, label: node })),
             testnet: testnetNodes.map(node => ({ value: node, label: node })),
             custom: [],
