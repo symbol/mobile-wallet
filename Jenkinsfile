@@ -7,9 +7,8 @@ pipeline {
 
     parameters {
         string(name: 'VERSION_NUMBER', defaultValue: '4.4.2', description: 'Version Number')
-        string(name: 'BUILD_NUMBER', defaultValue: '58', description: 'Build Number')
-        // TODO change defaultValue to dev
-        string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'jenkins-pipeline-setup', description: 'Deploy Beta Branch Name')
+        string(name: 'BUILD_NUMBER', defaultValue: '59', description: 'Build Number')
+        string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'dev', description: 'Deploy Beta Branch Name')
         choice(
             name: 'TARGET_OS',
             choices: ['All', 'IOS', 'Android'],
@@ -89,7 +88,6 @@ pipeline {
                 }
             }
             steps {
-                //sh 'cd ios && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=${FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD} && export MATCH_PASSWORD=${MATCH_PASSWORD} && export MATCH_GIT_BASIC_AUTHORIZATION=${MATCH_GIT_BASIC_AUTHORIZATION} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
                 sh 'cd ios && export APP_STORE_CONNECT_API_KEY_KEY_ID=${APP_STORE_CONNECT_API_KEY_KEY_ID} && export APP_STORE_CONNECT_API_KEY_ISSUER_ID=${APP_STORE_CONNECT_API_KEY_ISSUER_ID} && export APP_STORE_CONNECT_API_KEY_KEY=${APP_STORE_CONNECT_API_KEY_KEY} && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
                 sh "echo 'Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}'"
             }
