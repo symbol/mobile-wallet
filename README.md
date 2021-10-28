@@ -2,7 +2,6 @@
 
 Official Android and iOS applications for NEM2(a.k.a Catapult).
 
-[![CircleCI](https://circleci.com/gh/hatioin/nem-catapult-wallet.svg?style=svg&circle-token=8a16be5d725e06b1380904c8024e6622b6193e86)](https://circleci.com/gh/hatioin/nem-catapult-wallet)
 
 ## Getting Started
 
