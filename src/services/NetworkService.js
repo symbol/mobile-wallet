@@ -8,6 +8,11 @@ const REQUEST_TIMEOUT = 5000;
 
 // Statistics service nodes endpoint filters
 export type NodeFilters = 'preferred' | 'suggested';
+export interface NodeSearchCriteria{
+    nodeFilter: NodeFilters,
+    limit: 30
+}
+
 
 export default class NetworkService {
     /**
@@ -111,11 +116,11 @@ export default class NetworkService {
     /**
      * Gets node list from statistics service
      * @param networkType 'mainnet | testnet'
-     * @param filter 'preferred' | 'suggested'
+     * @param nodeSearchCriteria NodeSearchCriteria
      */
-    static async getNodeList(networkType: AppNetworkType, filter: NodeFilters) {
+    static async getNodeList(networkType: AppNetworkType, {limit, nodeFilter}: NodeSearchCriteria) {
         return new Promise(resolve => {
-            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${filter}`)
+            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${nodeFilter}&limit=${limit}`)
                 .then(response => response.json())
                 .then((responseData)=> {
                     resolve(responseData)
@@ -131,7 +136,12 @@ export default class NetworkService {
      * @param networkType 'mainnet | testnet'
      */
     static async getSelectorNodeList(networkType: AppNetworkType) {
-        const nodes = await NetworkService.getNodeList(networkType, 'preferred');
+        const nodeSearchCriteria = {
+            nodeFilter: 'suggested',
+            limit: 30
+        }
+
+        const nodes = await NetworkService.getNodeList(networkType, nodeSearchCriteria);
         let nodeUrls = [];
 
         for (const node of nodes) {
