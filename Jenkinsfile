@@ -34,7 +34,17 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh "cp env/default.json.example env/default.json"
+                withCredentials([file(credentialsId: 'ENV_FILE_ZIP', variable: 'default_env_zip')]) {
+                    sh "cp $default_env_zip default_whitelist_zip.zip"
+                }
+                script {
+                    unzip zipFile: 'default_whitelist_zip.zip', quiet: true
+                    def jsonWhitelist = readJSON file: 'default_whitelist.json'
+                    def json = readJSON file: 'env/default.json.example'
+                    json.optInWhiteList = jsonWhitelist.optInWhiteList
+                    writeJSON file: 'env/default.json', json: json
+                }
+                sh "rm -f default_whitelist_zip.zip && rm -f default_whitelist.json"
                 // Run yarn install for the dependencies
                 sh "yarn cache clean && yarn install --network-concurrency 1"
                 sh "npx jetify" // for android
