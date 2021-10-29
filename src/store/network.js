@@ -78,7 +78,7 @@ export default {
             let selectedNode = await AsyncCache.getSelectedNode();
 
             // load nodes list from statistic service
-            await dispatchAction({ type: 'network/loadPreferredNodes' });
+            await dispatchAction({ type: 'network/loadNodeList' });
 
             if (!selectedNode) {
                 const network = getDefaultNetworkType();
@@ -100,7 +100,7 @@ export default {
             GlobalListener.setNetwork(network);
             await dispatchAction({ type: 'wallet/initState' });
         },
-        loadPreferredNodes: async ({ commit }) => {
+        loadNodeList: async ({ commit }) => {
             try {
                 // load nodes list from statistic service
                 const [testnetNodes, mainnetNodes] = await Promise.all([
