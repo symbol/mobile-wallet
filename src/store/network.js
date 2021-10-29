@@ -82,7 +82,9 @@ export default {
 
             if (!selectedNode) {
                 const network = getDefaultNetworkType();
-                selectedNode = network === 'mainnet' ? state.network.mainnetNodes[0] : state.network.testnetNodes[0];
+                const nodeList = network === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
+                const randomIndex = Math.floor(Math.random() * nodeList.length);
+                selectedNode = nodeList[randomIndex];
             }
             const network = await NetworkService.getNetworkModelFromNode(selectedNode);
             try {
