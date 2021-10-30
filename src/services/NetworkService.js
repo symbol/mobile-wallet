@@ -64,6 +64,7 @@ export default class NetworkService {
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
             transactionFees: transactionFees,
             defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
+            totalChainImportance: networkProps.chain.totalChainImportance
         };
     }
 

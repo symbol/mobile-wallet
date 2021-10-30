@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text as NativeText, TouchableOpacity, View } from 'react-native';
-import { Section, ImageBackground, GradientBackground, Text, TitleBar, NodeDropdown, Button, Col, Row } from '@src/components';
+import { Section, GradientBackground, Text, TitleBar, NodeDropdown, Button, Row } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
 import store from '@src/store';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
-import Trunc from '@src/components/organisms/Trunc';
-import {Router} from "@src/Router";
-
+import { Router } from '@src/Router';
+import ReadMoreLink from '@src/components/controls/ReadMoreLink';
+import { getHarvestingPrerequisitesUrl } from '@src/config/environment';
 const styles = StyleSheet.create({
     showButton: {
         textAlign: 'right',
@@ -73,7 +73,8 @@ class Harvest extends Component<Props, State> {
         isLoading: false,
     };
 
-    componentDidMount() {
+
+    async componentDidMount() {
         const { selectedAccount, nodes } = this.props;
         if (selectedAccount.harvestingNode) {
             for (let node of nodes) {
@@ -98,6 +99,7 @@ class Harvest extends Component<Props, State> {
             label: `http://${node.url}:3000`,
         }));
     };
+     
 
     onSelectHarvestingNode = node => {
         const url = node;
@@ -154,9 +156,24 @@ class Harvest extends Component<Props, State> {
     };
 
     render() {
-        const { status, totalBlockCount, totalFeesEarned, onOpenMenu, onOpenSettings, balance, minRequiredBalance, nativeMosaicNamespace, harvestingModel, selectedAccount } = this.props;
+        const {
+            status,
+            totalBlockCount,
+            totalFeesEarned,
+            onOpenMenu,
+            onOpenSettings,
+            balance,
+            minRequiredBalance,
+            nativeMosaicNamespace,
+            harvestingModel,
+            selectedAccount,
+            accountImportance
+        } = this.props;
         const { selectedNodeUrl, isLoading } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
+        const notEnoughBalanceTitle = translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })
+        const zeroImportanceTitle = translate('harvest.nonZeroImportanceRequirement')
+        const url = getHarvestingPrerequisitesUrl();
         let statusStyle;
         switch (status) {
             case 'ACTIVE':
@@ -212,6 +229,14 @@ class Harvest extends Component<Props, State> {
                                 {totalFeesEarned.toString()}
                             </Text>
                         </Row>
+                        <Row justify="space-between" fullWidth>
+                            <Text type={'bold'} theme={'light'}>
+                                {translate('harvest.Importance')}:
+                            </Text>
+                            <Text type={'regular'} theme={'light'}>
+                                {accountImportance}
+                            </Text>
+                        </Row>
                         {status !== 'INACTIVE' && (
                             <TouchableOpacity onPress={() => this.onViewLinkedKeysClick()} style={{ textAlign: 'right', width: '100%' }}>
                                 <NativeText style={{ textAlign: 'right', width: '100%' }}>
@@ -239,7 +264,7 @@ class Harvest extends Component<Props, State> {
                     )}
 
                     <Section type="form-bottom" style={[styles.card, styles.bottom]}>
-                        {!notEnoughBalance && status === 'INACTIVE' && (<>
+                        {!notEnoughBalance && status === 'INACTIVE'  && accountImportance !== '0%' && (<>
                             <Section type="form-item">
                                 <NodeDropdown
                                     theme="light"
@@ -281,13 +306,18 @@ class Harvest extends Component<Props, State> {
                                 </Section>
                             </View>
                         )}
+
                         {notEnoughBalance && (
                             <Section type="form-item">
-                                <Text theme="light" align="center" type="regular">
-                                    {translate('harvest.minBalanceRequirement', { balance: minRequiredBalance + ' ' + nativeMosaicNamespace })}
-                                </Text>
+                                <ReadMoreLink url={url} title={notEnoughBalanceTitle}></ReadMoreLink>
                             </Section>
                         )}
+
+
+                        {!notEnoughBalance && accountImportance == '0%' && (  
+                            <ReadMoreLink url={url} title={zeroImportanceTitle}></ReadMoreLink>
+                        )}
+
                     </Section>
                 </Section>
             </GradientBackground>
@@ -306,4 +336,8 @@ export default connect(state => ({
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
     harvestingModel: state.harvesting.harvestingModel,
     nodes: state.harvesting.nodes,
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
+    selectedAccountAddress: state.account.selectedAccountAddress,
+    networkCurrencyDivisibility: state.network.selectedNetwork.currencyDivisibility,
+    accountImportance: state.harvesting.accountImportance,
 }))(Harvest);
