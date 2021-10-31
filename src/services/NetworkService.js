@@ -127,7 +127,8 @@ export default class NetworkService {
                     resolve(responseData)
                 })
                 .catch(e => {
-                    throw e;
+                    resolve([])
+                    console.log(e)
                 });
         });
     }
@@ -142,7 +143,7 @@ export default class NetworkService {
             limit: 30
         }
 
-        const nodes = await NetworkService.getNodeList(networkType, nodeSearchCriteria);
+        const nodes = await NetworkService.getNodeList(networkType, nodeSearchCriteria) || [];
         let nodeUrls = [];
 
         for (const node of nodes) {
