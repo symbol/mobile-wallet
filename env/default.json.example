@@ -5,6 +5,10 @@
     "testnet": "http://explorer.testnet.symboldev.network/",
     "mainnet": "http://explorer.symbolblockchain.io/"
   },
+  "statisticsServiceURL": {
+    "testnet": "https://testnet.symbol.services/",
+    "mainnet": "https://symbol.services/"
+  },
   "faucetURL": "http://faucet.testnet.symboldev.network/",
   "aboutURL": "https://nem.io",
   "currencies": {
@@ -28,15 +32,6 @@
         "http://hugealice2.nem.ninja",
         "http://hachi.nem.ninja",
         "http://alice2.nem.ninja"
-      ],
-      "nodes": [
-        "http://ngl-api-501.symbolblockchain.io:3000",
-        "http://ngl-api-601.symbolblockchain.io:3000",
-        "http://ngl-api-401.symbolblockchain.io:3000",
-        "http://ngl-api-001.symbolblockchain.io:3000",
-        "http://ngl-api-101.symbolblockchain.io:3000",
-        "http://ngl-api-301.symbolblockchain.io:3000",
-        "http://ngl-api-201.symbolblockchain.io:3000"
       ]
     },
     "testnet": {
@@ -44,15 +39,6 @@
         "http://hugetestalice2.nem.ninja",
         "http://hugetestalice.nem.ninja",
         "http://medalice2.nem.ninja"
-      ],
-      "nodes": [
-        "http://ngl-dual-001.testnet.symboldev.network:3000",
-        "http://ngl-dual-101.testnet.symboldev.network:3000",
-        "http://ngl-dual-201.testnet.symboldev.network:3000",
-        "http://ngl-dual-301.testnet.symboldev.network:3000",
-        "http://ngl-dual-401.testnet.symboldev.network:3000",
-        "http://ngl-dual-501.testnet.symboldev.network:3000",
-        "http://ngl-dual-601.testnet.symboldev.network:3000"
       ]
     }
   },

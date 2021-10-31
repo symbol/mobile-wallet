@@ -6,6 +6,7 @@ import {
     sessionTimeoutInSeconds,
     marketCurrencyName,
     explorerURL,
+    statisticsServiceURL,
     faucetURL,
     aboutURL,
     currencies,
@@ -38,6 +39,11 @@ const getMarketCurrencyLabel = (): string => {
 // Explorer URL
 const getExplorerURL = (network: AppNetworkType): string => {
     return explorerURL[network];
+};
+
+// Statistics Service URL
+const getStatisticsServiceURL = (network: AppNetworkType): string => {
+    return statisticsServiceURL[network];
 };
 
 // Explorer URL
@@ -126,10 +132,6 @@ const getDefaultNetworkType = (): NetworkType => {
     return defaultNetworkType;
 };
 
-const getNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
-    return networks[network].nodes;
-};
-
 const getNativeMosaicId = (): string[] => {
     return nativeMosaicId;
 };
@@ -151,6 +153,7 @@ export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
     getExplorerURL,
+    getStatisticsServiceURL,
     getFaucetUrl,
     getAboutURL,
     getCurrencyList,
@@ -170,7 +173,6 @@ export {
     getOptinEnv,
     getNISNodes,
     getDefaultNetworkType,
-    getNodes,
     getNativeMosaicId,
     getWhitelistedPublicKeys,
     getFinanceBotPublicKeys,
