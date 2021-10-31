@@ -7,7 +7,7 @@
   },
   "statisticsServiceURL": {
     "testnet": "https://testnet.symbol.services/",
-    "mainnet": "https://mainnet.symbol.services/"
+    "mainnet": "https://symbol.services/"
   },
   "faucetURL": "http://faucet.testnet.symboldev.network/",
   "aboutURL": "https://nem.io",
