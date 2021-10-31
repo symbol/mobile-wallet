@@ -80,26 +80,28 @@ export default {
             // load nodes list from statistic service
             await dispatchAction({ type: 'network/loadNodeList' });
 
-            if (!selectedNode) {
-                const network = getDefaultNetworkType();
-                const nodeList = network === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
-                const randomIndex = Math.floor(Math.random() * nodeList.length);
-                selectedNode = nodeList[randomIndex];
+            if (state.network.mainnetNodes.lenght && state.network.testnetNodes.lenght) {
+                if (!selectedNode) {
+                    const network = getDefaultNetworkType();
+                    const nodeList = network === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
+                    const randomIndex = Math.floor(Math.random() * nodeList.length);
+                    selectedNode = nodeList[randomIndex];
+                }
+                const network = await NetworkService.getNetworkModelFromNode(selectedNode);
+                try {
+                    const nisNodes = getNISNodes(network.type);
+                    await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+                } catch {}
+                commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+                commit({ type: 'network/setNetwork', payload: network.type });
+                commit({ type: 'network/setSelectedNode', payload: selectedNode });
+                commit({ type: 'network/setIsLoaded', payload: true });
+                commit({
+                    type: 'network/setSelectedNetwork',
+                    payload: network,
+                });
+                GlobalListener.setNetwork(network);
             }
-            const network = await NetworkService.getNetworkModelFromNode(selectedNode);
-            try {
-                const nisNodes = getNISNodes(network.type);
-                await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
-            } catch {}
-            commit({ type: 'network/setGenerationHash', payload: network.generationHash });
-            commit({ type: 'network/setNetwork', payload: network.type });
-            commit({ type: 'network/setSelectedNode', payload: selectedNode });
-            commit({ type: 'network/setIsLoaded', payload: true });
-            commit({
-                type: 'network/setSelectedNetwork',
-                payload: network,
-            });
-            GlobalListener.setNetwork(network);
             await dispatchAction({ type: 'wallet/initState' });
         },
         loadNodeList: async ({ commit }) => {
