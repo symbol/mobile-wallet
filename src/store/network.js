@@ -80,13 +80,17 @@ export default {
             // load nodes list from statistic service
             await dispatchAction({ type: 'network/loadNodeList' });
 
-            if (state.network.mainnetNodes.lenght && state.network.testnetNodes.lenght) {
-                if (!selectedNode) {
-                    const network = getDefaultNetworkType();
-                    const nodeList = network === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
-                    const randomIndex = Math.floor(Math.random() * nodeList.length); //NOSONAR
-                    selectedNode = nodeList[randomIndex];
-                }
+            const networkType = getDefaultNetworkType();
+            const nodeList = networkType === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
+
+            // assign node, if node list available and selectedNode is not set
+            if (nodeList.length && !selectedNode) {
+                const randomIndex = Math.floor(Math.random() * nodeList.length); //NOSONAR
+                selectedNode = nodeList[randomIndex];
+            }
+
+            // If selectedNode exists, set network
+            if (selectedNode) {
                 const network = await NetworkService.getNetworkModelFromNode(selectedNode);
                 try {
                     const nisNodes = getNISNodes(network.type);
