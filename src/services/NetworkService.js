@@ -147,10 +147,9 @@ export default class NetworkService {
         let nodeUrls = [];
 
         for (const node of nodes) {
-            const { apiStatus, host } = node;
+            const { apiStatus } = node;
             if (apiStatus) {
-                const isHttps = apiStatus?.isHttpsEnabled || false;
-                nodeUrls.push(`${isHttps ? 'https' : 'http' }://${host}:${isHttps ? '3001' : '3000' }`)
+                nodeUrls.push(apiStatus.restGatewayUrl)
             }
         }
 
