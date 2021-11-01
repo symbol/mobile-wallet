@@ -89,7 +89,7 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>ITSAppUsesNonExeemptEncryption</key>
+	<key>ITSAppUsesNonExemptEncryption</key>
     <false/>
 </dict>
 </plist>
