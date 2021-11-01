@@ -6,8 +6,8 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VERSION_NUMBER', defaultValue: '4.4.2', description: 'Version Number')
-        string(name: 'BUILD_NUMBER', defaultValue: '59', description: 'Build Number')
+        string(name: 'VERSION_NUMBER', defaultValue: '4.4.3', description: 'Version Number')
+        string(name: 'BUILD_NUMBER', defaultValue: '64', description: 'Build Number')
         string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'dev', description: 'Deploy Beta Branch Name')
         choice(
             name: 'TARGET_OS',
