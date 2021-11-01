@@ -2,14 +2,14 @@
   "sessionTimeoutInSeconds": 10,
   "marketCurrencyName": "nem",
   "explorerURL": {
-    "testnet": "http://explorer.testnet.symboldev.network/",
-    "mainnet": "http://explorer.symbolblockchain.io/"
+    "testnet": "https://testnet.symbol.fyi/",
+    "mainnet": "https://symbol.fyi/"
   },
   "statisticsServiceURL": {
     "testnet": "https://testnet.symbol.services/",
     "mainnet": "https://symbol.services/"
   },
-  "faucetURL": "http://faucet.testnet.symboldev.network/",
+  "faucetURL": "https://testnet.symbol.tools/",
   "aboutURL": "https://nem.io",
   "currencies": {
     "USD": "usd",
