@@ -48,7 +48,6 @@ const initStore = async () => {
         await store.dispatchAction({ type: 'network/initState' });
     } catch {}
     // store.dispatchAction({ type: 'market/loadMarketData' });
-    store.dispatchAction({ type: 'news/loadNews' });
     store.dispatchAction({ type: 'addressBook/loadAddressBook' });
 };
 

@@ -35,7 +35,6 @@
 			"title": "Importa portafoglio",
 			"content": "Importa il tuo portafoglio inserendo il tuo mnemonico.",
 			"button": "Importare",
-			"ignoreWarning": "Ignora l'avviso",
 			"cancelModalButton": "Annulla",
 			"error": {
 				"invalidMnemonic": "Mnemonico non valido",
@@ -470,7 +469,11 @@
 		"optInTitle": "Opt-In",
 		"optInDescription": "Il processo di attivazione (Opt-in) si aprirà dopo il lancio della blockchain di Symbol.  Attendi la nuova versione del portafoglio.",
 		"pendingSignatureTitle": "In attesa di firma",
-		"pendingSignatureDescription": "C'è una transazione in attesa di firma"
+		"pendingSignatureDescription": "C'è una transazione in attesa di firma",
+		"alertTitle":"Errore",
+		"alertActionCreateWallet": "Creare un nuovo account",
+		"alertActionCancel": "Annulla",
+		"alertInvalidMnemonicMessage": "Questo profilo non ha una frase mnemonica valida.  Trasferisci il tuo XYM su un altro account il prima possibile."
 	},
 	"mosaics": {
 		"title": "Mosaico"
@@ -513,9 +516,11 @@
 		"INPROGRESS_DEACTIVATION": "Disattivazione in corso ",
 		"harvetingIntroTitle": "Inizia a Harvesting per guadagnare ricompense di blocchi",
 		"minBalanceRequirement": "Saldo insufficiente sull'account, poiché deve essere presente almeno %{balance} per avviare la delegated harvesting.",
+		"nonZeroImportanceRequirement": "Il tuo account non può avviare la raccolta delegata mentre l'importanza è uguale a 0. Il ricalcolo dell'importanza potrebbe richiedere fino a 12 ore.",
 		"viewLinkedKeys": "Visualizzazione delle chiavi correlate",
 		"linkedNode": "Nodo correlato (noda)",
-		"KEYS_LINKED": "Chiavi correlate"
+		"KEYS_LINKED": "Chiavi correlate",
+		"Importance": "Punteggio di importanza"
 	},
 	"sidebar": {
 		"seed": "Account seed frase",

@@ -1,9 +1,18 @@
 import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, RepositoryFactoryHttp, TransactionFees} from 'symbol-sdk';
-import type { NetworkModel } from '@src/storage/models/NetworkModel';
+import type { NetworkModel, AppNetworkType } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
+import { getStatisticsServiceURL } from '@src/config/environment'
 
 const REQUEST_TIMEOUT = 5000;
+
+// Statistics service nodes endpoint filters
+export type NodeFilters = 'preferred' | 'suggested';
+export interface NodeSearchCriteria{
+    nodeFilter: NodeFilters,
+    limit: 30
+}
+
 
 export default class NetworkService {
     /**
@@ -55,6 +64,7 @@ export default class NetworkService {
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
             transactionFees: transactionFees,
             defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
+            totalChainImportance: networkProps.chain.totalChainImportance
         };
     }
 
@@ -102,5 +112,47 @@ export default class NetworkService {
         } catch {
             return false;
         }
+    }
+
+    /**
+     * Gets node list from statistics service
+     * @param networkType 'mainnet | testnet'
+     * @param nodeSearchCriteria NodeSearchCriteria
+     */
+    static async getNodeList(networkType: AppNetworkType, {limit, nodeFilter}: NodeSearchCriteria) {
+        return new Promise(resolve => {
+            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${nodeFilter}&limit=${limit}`)
+                .then(response => response.json())
+                .then((responseData)=> {
+                    resolve(responseData)
+                })
+                .catch(e => {
+                    resolve([])
+                    console.log(e)
+                });
+        });
+    }
+
+    /**
+     * Gets nodes urls
+     * @param networkType 'mainnet | testnet'
+     */
+    static async getSelectorNodeList(networkType: AppNetworkType) {
+        const nodeSearchCriteria = {
+            nodeFilter: 'suggested',
+            limit: 30
+        }
+
+        const nodes = await NetworkService.getNodeList(networkType, nodeSearchCriteria) || [];
+        let nodeUrls = [];
+
+        for (const node of nodes) {
+            const { apiStatus } = node;
+            if (apiStatus) {
+                nodeUrls.push(apiStatus.restGatewayUrl)
+            }
+        }
+
+       return nodeUrls;
     }
 }

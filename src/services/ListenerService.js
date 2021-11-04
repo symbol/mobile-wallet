@@ -1,9 +1,9 @@
-import {Address, IListener, Listener, RepositoryFactoryHttp} from 'symbol-sdk';
+import { Address, Listener, RepositoryFactoryHttp } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
-import {CommonHelpers} from "@src/utils/commonHelpers";
+import { CommonHelpers } from '@src/utils/commonHelpers';
 
 export default class ListenerService {
     network: NetworkModel;
@@ -60,11 +60,11 @@ export default class ListenerService {
             });
     };
 
-    addConfirmed = (rawAddress: string) => {
+    addConfirmed = (rawAddress: string, isMultisig: boolean) => {
         console.log('Adding confirmed listener: ' + rawAddress);
         const address = Address.createFromRawAddress(rawAddress);
         this.listener
-            .confirmed(address)
+            .confirmed(address, undefined, isMultisig)
             //.pipe(filter(transaction => transaction.transactionInfo !== undefined))
             .subscribe(() => {
                 this.showMessage(translate('notification.newConfirmed'), 'success');
@@ -72,16 +72,25 @@ export default class ListenerService {
             });
     };
 
-    addUnconfirmed = (rawAddress: string) => {
+    addUnconfirmed = (rawAddress: string, isMultisig: boolean) => {
         console.log('Adding unconfirmed listener: ' + rawAddress);
         const address = Address.createFromRawAddress(rawAddress);
         this.listener
-            .unconfirmedAdded(address)
+            .unconfirmedAdded(address, undefined, isMultisig)
             //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
             .subscribe(() => {
                 this.showMessage(translate('notification.newUnconfirmed'), 'warning');
                 store.dispatchAction({ type: 'account/loadAllData' });
             });
+    };
+
+    addPartial = (rawAddress: string, isMultisig: boolean) => {
+        console.log('Adding unconfirmed listener: ' + rawAddress);
+        const address = Address.createFromRawAddress(rawAddress);
+        this.listener.aggregateBondedAdded(address, undefined, isMultisig).subscribe(() => {
+            this.showMessage(translate('notification.newAggregate'), 'warning');
+            store.dispatchAction({ type: 'account/loadAllData' });
+        });
     };
 
     showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {

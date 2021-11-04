@@ -34,7 +34,6 @@
 			"title": "导入钱包",
 			"content": "按顺序输入助记词",
 			"button": "导入",
-			"ignoreWarning": "忽略警告",
 			"cancelModalButton": "取消",
 			"error": {
 				"invalidMnemonic": "助记词无效",
@@ -466,7 +465,11 @@
 		"optInTitle": "选择加入",
 		"optInDescription": "发布后的Opt-in即将开放。 Symbol启动后，请重新检查是否有新版本",
 		"pendingSignatureTitle": "待定签名",
-		"pendingSignatureDescription": "有一笔交易正在等待签名"
+		"pendingSignatureDescription": "有一笔交易正在等待签名",
+		"alertTitle":"错误",
+		"alertActionCreateWallet": "创建新账户",
+		"alertActionCancel": "取消",
+		"alertInvalidMnemonicMessage": "此配置文件没有有效的助记词。请尽快将您的 XYM 转移到另一个帐户。"
 	},
 	"mosaics": {
 		"title": "马赛克"
@@ -509,9 +512,11 @@
 		"INPROGRESS_DEACTIVATION": "停用正在进行中",
 		"harvetingIntroTitle": "开始收获，赚取区块奖励",
 		"minBalanceRequirement": "余额不足，帐户需要持有至少 %{balance}才能开始进行委派的收获。",
+		"nonZeroImportanceRequirement": "当重要性等于 0 时，您的帐户无法开始委托收获。重要性重新计算可能需要长达 12 小时.",
 		"KEYS_LINKED": "关联的钥匙",
 		"viewLinkedKeys": "查看已链接的钥匙",
-		"linkedNode": "已链接的节点"
+		"linkedNode": "已链接的节点",
+		"Importance": "重要性得分"
 	},
 	"sidebar": {
 		"seed": "种子帐户",
