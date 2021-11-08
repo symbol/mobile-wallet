@@ -9,6 +9,8 @@
     "start": "yarn git-info; react-native start",
     "dev": "react-native start",
     "reconnect": "adb reverse tcp:8081 tcp:8081",
+    "build:android:dev": "react-native run-android --variant=devDebug",
+    "build:android:prod": "cd ./android && gradlew assembleProdRelease",
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "./scripts/post-install.sh"
