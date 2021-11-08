@@ -29,8 +29,8 @@ class Mosaics extends Component<Props, State> {
         );
     };
 
-    refresh = () => {
-        store.dispatchAction({ type: 'account/loadBalance' });
+    refresh = async() => {
+        await store.dispatchAction({ type: 'account/loadBalance' });
     };
 
     render() {

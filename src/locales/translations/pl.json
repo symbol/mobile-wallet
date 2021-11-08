@@ -379,6 +379,8 @@
       "registerButton": "Zarejestruj Konto Delegowane",
       "startHarvestingButton": "Rozpocznij Zbieranie",
       "stopHarvestingButton": "Zatrzymaj Zbieranie",
+      "minBalanceRequirement": "Niewystarczające saldo, konto musi zawierać co najmniej %{balance}, aby rozpocząć delegowane zbieranie.",
+      "nonZeroImportanceRequirement": "Twoje konto nie może rozpocząć delegowanych zbiorów, gdy ważność jest równa 0. Ponowne obliczenie ważności może potrwać do 12 godzin.",  
       "urlError": "Nie można otworzyć linku"
     },
     "RegisterAccount": {

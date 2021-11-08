@@ -15,4 +15,5 @@ export interface NetworkModel {
     epochAdjustment: number;
     transactionFees: TransactionFees;
     defaultDynamicFeeMultiplier: number;
+    totalChainImportance: number
 }

@@ -5,8 +5,8 @@
 import {
     sessionTimeoutInSeconds,
     marketCurrencyName,
-    newsURL,
     explorerURL,
+    statisticsServiceURL,
     faucetURL,
     aboutURL,
     currencies,
@@ -22,9 +22,9 @@ import {
     optInWhiteList,
     nglFinanceBot,
 } from 'react-native-env-json';
-import { NetworkType } from "symbol-sdk";
+import { NetworkType } from 'symbol-sdk';
 import { languageNames } from '@src/locales/i18n';
-import type {AppNetworkType} from "@src/storage/models/NetworkModel";
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
@@ -36,14 +36,14 @@ const getMarketCurrencyLabel = (): string => {
     return marketCurrencyName;
 };
 
-// News URL
-const getNewsURL = (): string => {
-    return newsURL;
-};
-
 // Explorer URL
 const getExplorerURL = (network: AppNetworkType): string => {
     return explorerURL[network];
+};
+
+// Statistics Service URL
+const getStatisticsServiceURL = (network: AppNetworkType): string => {
+    return statisticsServiceURL[network];
 };
 
 // Explorer URL
@@ -115,14 +115,13 @@ const isCustomNode = (nodeType: string): boolean => {
 
 // Network info
 const getNetworkInfo = (nodeType: string): Object => {
-    console.log(networks)
     const networkConfig = networks[nodeType];
     // use mainnet as fallback config
     return networkConfig !== undefined ? networkConfig : networks.MAINNET;
 };
 
 const getOptinEnv = (): string => {
-    return optinEnv
+    return optinEnv;
 };
 
 const getNISNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
@@ -131,10 +130,6 @@ const getNISNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
 
 const getDefaultNetworkType = (): NetworkType => {
     return defaultNetworkType;
-};
-
-const getNodes = (network: 'mainnet' | 'testnet' = 'testnet'): string[] => {
-    return networks[network].nodes;
 };
 
 const getNativeMosaicId = (): string[] => {
@@ -149,11 +144,16 @@ const getFinanceBotPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): s
     return nglFinanceBot[network];
 };
 
+const getHarvestingPrerequisitesUrl = (): string => {
+    const prerequisitesURL = 'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
+    return prerequisitesURL;
+};
+
 export {
     getSessionTimeoutInMillis,
     getMarketCurrencyLabel,
-    getNewsURL,
     getExplorerURL,
+    getStatisticsServiceURL,
     getFaucetUrl,
     getAboutURL,
     getCurrencyList,
@@ -173,8 +173,8 @@ export {
     getOptinEnv,
     getNISNodes,
     getDefaultNetworkType,
-    getNodes,
     getNativeMosaicId,
     getWhitelistedPublicKeys,
     getFinanceBotPublicKeys,
+    getHarvestingPrerequisitesUrl,
 };

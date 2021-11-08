@@ -22,7 +22,10 @@ class WalletLoading extends Component {
 	} else {
 		store.dispatchAction({type: 'wallet/saveWallet'}).then(_ => {
 			Router.goToDashboard({})
-		});
+		})
+		.finally(() => {
+			Router.goToDashboard({})
+		})
 	}
   };
 

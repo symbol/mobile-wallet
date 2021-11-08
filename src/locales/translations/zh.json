@@ -512,9 +512,11 @@
 		"INPROGRESS_DEACTIVATION": "停用正在进行中",
 		"harvetingIntroTitle": "开始收获，赚取区块奖励",
 		"minBalanceRequirement": "余额不足，帐户需要持有至少 %{balance}才能开始进行委派的收获。",
+		"nonZeroImportanceRequirement": "当重要性等于 0 时，您的帐户无法开始委托收获。重要性重新计算可能需要长达 12 小时.",
 		"KEYS_LINKED": "关联的钥匙",
 		"viewLinkedKeys": "查看已链接的钥匙",
-		"linkedNode": "已链接的节点"
+		"linkedNode": "已链接的节点",
+		"Importance": "重要性得分"
 	},
 	"sidebar": {
 		"seed": "种子帐户",
