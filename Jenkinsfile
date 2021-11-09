@@ -6,8 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VERSION_NUMBER', defaultValue: '4.4.2', description: 'Version Number')
-        string(name: 'BUILD_NUMBER', defaultValue: '59', description: 'Build Number')
+        string(name: 'VERSION_NUMBER', defaultValue: '4.4.3', description: 'Version Number')
         string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'dev', description: 'Deploy Beta Branch Name')
         choice(
             name: 'TARGET_OS',
@@ -19,7 +18,7 @@ pipeline {
     environment {
         RUNNING_ON_CI = 'true'
         VERSION_NUMBER = "${params.VERSION_NUMBER}"
-        BUILD_NUMBER = "${params.BUILD_NUMBER}"
+        BUILD_NUMBER = sh(script: "echo `date +%y%m.%d.%H%M`", returnStdout: true).trim()
         DEPLOY_BETA_BRANCH = "${params.DEPLOY_BETA_BRANCH}"
         TARGET_OS = "${params.TARGET_OS}"
         MATCH_GIT_BASIC_AUTHORIZATION = credentials('GHUB_CREDS_SECRET')
