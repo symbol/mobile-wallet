@@ -89,6 +89,19 @@ pipeline {
             }
         }
 
+        stage('Upload Android') {
+            when {
+                expression {
+                    TARGET_OS == 'All' || TARGET_OS == 'Android'
+                }
+            }
+            steps {
+                // upload apk artifact to folder(env.branch_name) in AWS S3 bucket (s3://symbol-mobile-builds/branches) 
+                // note that there is a s3 bucket retention policy deleting the files older than 60 days
+                sh "aws s3 cp android/app/build/outputs/apk/prod/release/ s3://symbol-mobile-builds/branches/\$BRANCH_NAME --recursive --exclude '*' --include '*.apk'"
+            }
+        }
+
         // deploy to testnet
         stage ('Deploy IOS - Alpha version') {
             when {
@@ -97,7 +110,17 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd ios && export APP_STORE_CONNECT_API_KEY_KEY_ID=${APP_STORE_CONNECT_API_KEY_KEY_ID} && export APP_STORE_CONNECT_API_KEY_ISSUER_ID=${APP_STORE_CONNECT_API_KEY_ISSUER_ID} && export APP_STORE_CONNECT_API_KEY_KEY=${APP_STORE_CONNECT_API_KEY_KEY} && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} && export RUNNING_ON_CI=${RUNNING_ON_CI} && export BUILD_NUMBER=${BUILD_NUMBER} && export VERSION_NUMBER=${VERSION_NUMBER} && bundle exec fastlane beta'
+                sh '''
+                    cd ios && export APP_STORE_CONNECT_API_KEY_KEY_ID=${APP_STORE_CONNECT_API_KEY_KEY_ID} \
+                           && export APP_STORE_CONNECT_API_KEY_ISSUER_ID=${APP_STORE_CONNECT_API_KEY_ISSUER_ID} \
+                           && export APP_STORE_CONNECT_API_KEY_KEY=${APP_STORE_CONNECT_API_KEY_KEY} \
+                           && export FASTLANE_KEYCHAIN=${FASTLANE_KEYCHAIN} \
+                           && export FASTLANE_KEYCHAIN_PASSWORD=${FASTLANE_KEYCHAIN_PASSWORD} \
+                           && export RUNNING_ON_CI=${RUNNING_ON_CI} \
+                           && export BUILD_NUMBER=${BUILD_NUMBER} \
+                           && export VERSION_NUMBER=${VERSION_NUMBER} \
+                           && bundle exec fastlane beta
+                '''
                 sh "echo 'Deployed to TestFlight. Version:${VERSION_NUMBER}, Build:${BUILD_NUMBER}'"
             }
         }
