@@ -83,6 +83,16 @@ export default {
             const networkType = getDefaultNetworkType();
             const nodeList = networkType === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
 
+            // verify selected node availability
+            if (selectedNode) {
+                try {
+                    await NetworkService.getNetworkModelFromNode(selectedNode);
+                } catch (error) {
+                    // reset selected node
+                    selectedNode = null;
+                }
+            }
+
             // assign node, if node list available and selectedNode is not set
             if (nodeList.length && !selectedNode) {
                 const randomIndex = Math.floor(Math.random() * nodeList.length); //NOSONAR
