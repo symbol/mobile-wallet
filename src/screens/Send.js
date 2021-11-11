@@ -59,15 +59,19 @@ class Send extends Component<Props, State> {
 		const { recipientAddress, amount, mosaicName, message } = this.props;
         let isMosaicPresent = true;
 
-		if(recipientAddress)
-			this.onAddressChange(recipientAddress);
-		if(mosaicName)
+        if (recipientAddress) {
+            this.onAddressChange(recipientAddress);
+        }
+        if (mosaicName) {
             isMosaicPresent = await this.onMosaicChange(mosaicName);
-		if(amount && isMosaicPresent)
-			this.onAmountChange(amount);
-		if(message)
-			this.onMessageChange(message);
-
+        }
+        if (amount && isMosaicPresent) {
+            this.onAmountChange(amount);
+        }
+        if (message) {
+            this.onMessageChange(message);
+        }
+        await this.updateMaxFee();
     };
 
     verify = () => {
