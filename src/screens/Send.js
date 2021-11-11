@@ -67,7 +67,7 @@ class Send extends Component<Props, State> {
 			this.onAmountChange(amount);
 		if(message)
 			this.onMessageChange(message);
-
+        await this.updateMaxFee()
     };
 
     verify = () => {
