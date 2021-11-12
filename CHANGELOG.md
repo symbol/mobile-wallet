@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.4.0][v1.4.0] - 12-Nov-2021
+
+### Fixed
+- Fix behavior when node is down and application crashes[#259](https://github.com/symbol/mobile-wallet/issues/259)
+- Fix fees selector problems when recipient address is not provided [#254](https://github.com/symbol/mobile-wallet/issues/254)
+### Changed
+- Updated CI/CD pipeline
+- Build Android version against SDK version30
+
 ## [v1.3.0][v1.3.0] - 1-Nov-2021
 
 ### Fixed
@@ -28,3 +37,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 [v1.2]: https://github.com/symbol/mobile-wallet/releases/tag/1.2
 [v1.3.0]: https://github.com/symbol/mobile-wallet/releases/tag/1.3.0
+[v1.4.0]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.0
