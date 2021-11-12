@@ -6,8 +6,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## [v1.4.0][v1.4.0] - 12-Nov-2021
 
 ### Fixed
-- Fix behavior when node is down and application crashes[#259](https://github.com/symbol/mobile-wallet/issues/259)
-- Fix fees selector problems when recipient address is not provided [#254](https://github.com/symbol/mobile-wallet/issues/254)
+- Fixed behavior when node is down and application crashes[#259](https://github.com/symbol/mobile-wallet/issues/259)
+- Fixed fees selector problems when recipient address is not provided [#254](https://github.com/symbol/mobile-wallet/issues/254)
 ### Changed
 - Updated CI/CD pipeline
 - Build Android version against SDK version30
