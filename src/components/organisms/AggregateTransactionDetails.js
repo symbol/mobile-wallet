@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, TouchableOpacity, StyleSheet, } from 'react-native';
+import { BackHandler, View, FlatList, TouchableOpacity, StyleSheet, } from 'react-native';
 import { 
     Text, 
     Row, 
@@ -114,6 +114,12 @@ class AggregateTransactionDetails extends Component<Props, State> {
         blacklistAccountName: '',
         selectedTab: 'innerTransactions'
     };
+
+    backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        this.backHandler.remove();
+        this.onClose();
+        return true;
+    });
 
     componentDidMount() {
         const { selectedNode, transaction } = this.props;
@@ -371,11 +377,9 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     </TouchableOpacity>
                 </Row>}
                 {(isLoading || !fullTransaction) && 
-                    <FadeView style={{flex: 1}} delay={400}>
-                        <LoadingAnimationFlexible isFade text={' '} theme="light" />
-                    </FadeView>
+                    <LoadingAnimationFlexible isFade style={{position: 'relative', height: '80%'}} text={' '} theme="light" />
                 }
-                {!showLastWarning && !(isLoading || !fullTransaction) && Content}
+                {!showLastWarning && !isLoading && fullTransaction && Content}
                 {this.needsSignature() && !isLoading && this.renderSign()}
         </SwipeablePanel>
     }
