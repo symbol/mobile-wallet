@@ -1,9 +1,8 @@
 import { UInt64 } from 'symbol-sdk';
 import HarvestingService from '@src/services/HarvestingService';
-import {HarvestingSecureStorage} from "@src/storage/persistence/HarvestingSecureStorage";
+import { HarvestingSecureStorage } from '@src/storage/persistence/HarvestingSecureStorage';
 
 const MIN_REQUIRED_BALANCE = 10000;
-
 
 export type HarvestingStatus = 'ACTIVE' | 'INACTIVE' | 'INPROGRESS_ACTIVATION' | 'INPROGRESS_DEACTIVATION' | 'KEYS_LINKED';
 
@@ -31,7 +30,8 @@ const initialState = {
     minRequiredBalance: MIN_REQUIRED_BALANCE,
     harvestingModel: null,
     nodes: HarvestingService.getHarvestingNodeList(),
-}
+    accountImportance: 0,
+};
 
 export default {
     namespace: 'harvesting',
@@ -77,33 +77,54 @@ export default {
             state.harvesting.nodes = payload;
             return state;
         },
+        setAccountImportance(state, payload) {
+            state.harvesting.accountImportance = payload;
+            return state;
+        },
     },
     actions: {
         init: async ({ dispatchAction, commit }) => {
-            Promise.all([
+            // commit({ type: 'harvesting/setAccountImportance', payload: 0 });
+            await Promise.all([
                 dispatchAction({ type: 'harvesting/loadState' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocks' }),
+                dispatchAction({ type: 'harvesting/loadAccountImportance' }),
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
             ]).catch(e => {
                 commit({ type: 'harvesting/resetState' });
-            })
+            });
         },
         loadState: async ({ commit, state }) => {
             try {
                 const status = await HarvestingService.getAccountStatus(state.wallet.selectedAccount, state.network.selectedNetwork);
                 commit({ type: 'harvesting/setStatus', payload: status });
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
                 commit({ type: 'harvesting/setStatus', payload: 'INACTIVE' });
+            }
+        },
+        loadAccountImportance: async ({ commit, state }) => {
+            try {
+                const {importance, networkInfo} = await HarvestingService.getAccountImportance(state.network.selectedNetwork.node, state.account.selectedAccountAddress,  state.network.selectedNetwork.currencyDivisibility, state.network.selectedNetwork.node || '');
+                const totalChainImportance = parseInt(networkInfo.totalChainImportance.toString().replace(/'/g, '')) || 0;
+                const relativeImportance = importance > 0 ? importance / totalChainImportance : importance;
+                const formatOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: state.network.selectedNetwork.currencyDivisibility,
+                    style: 'percent',
+                };
+                commit({ type: 'harvesting/setAccountImportance', payload: relativeImportance.toLocaleString(undefined, formatOptions).toString() });
+            } catch (e) {
+                commit({ type: 'harvesting/setAccountImportance', payload: '0%' });
+                console.log(e);
             }
         },
         loadHarvestingNodes: async ({ commit, state }) => {
             try {
                 const nodes = await HarvestingService.getPeerNodes(state.network.selectedNetwork);
                 commit({ type: 'harvesting/setNodes', payload: nodes });
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
                 commit({ type: 'harvesting/setNodes', payload: HarvestingService.getHarvestingNodeList() });
             }
@@ -144,7 +165,7 @@ export default {
                         harvestingNode: null,
                     },
                 });
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
             }
             dispatchAction({ type: 'harvesting/init' });

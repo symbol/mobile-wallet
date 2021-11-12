@@ -74,8 +74,8 @@ export default class TransactionService {
         signer: AccountModel,
         networkModel: NetworkModel
     ): TransferTransaction {
-        const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const networkType = networkModel.type === 'testnet' ? NetworkType.TEST_NET : NetworkType.MAIN_NET;
+        const recipientAddress = Address.createFromRawAddress(transaction.recipientAddress);
         const mosaics = [new Mosaic(new MosaicId(transaction.mosaics[0].mosaicId), UInt64.fromUint(transaction.mosaics[0].amount))];
 
         if (!transaction.messageEncrypted) {
@@ -90,7 +90,7 @@ export default class TransactionService {
             );
         } else {
             const signerAccount = Account.createFromPrivateKey(signer.privateKey, networkType);
-            const repositoryFactory = await new RepositoryFactoryHttp(networkModel.node);
+            const repositoryFactory = new RepositoryFactoryHttp(networkModel.node);
             const accountHttp = repositoryFactory.createAccountRepository();
             try {
                 const accountInfo = await accountHttp.getAccountInfo(recipientAddress).toPromise();

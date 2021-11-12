@@ -81,13 +81,17 @@ export default {
             setTimeout(() => {
 				commit({ type: 'transaction/setLoadingNext', payload: true });
 			});
+            if((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined ){
+                await dispatchAction({ type: 'account/loadCosignatoryOf' });
+            }
             const nextPage = state.transaction.page + 1;
             const subscription = from(
                 FetchTransactionService.getTransactionsFromAddress(
                     state.transaction.addressFilter,
                     nextPage,
                     state.transaction.directionFilter,
-                    state.network.selectedNetwork
+                    state.network.selectedNetwork,
+                    state.account.cosignatoryOf
                 )
             ).subscribe(
                 transactions => {

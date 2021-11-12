@@ -21,5 +21,6 @@ export interface NetworkModel {
         namespaceId: string;
         mosaicId: string;
         divisibility: number;
-    }
+    },
+    totalChainImportance: number
 }

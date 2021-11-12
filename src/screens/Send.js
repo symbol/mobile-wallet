@@ -59,16 +59,19 @@ class Send extends Component<Props, State> {
 		const { recipientAddress, amount, mosaicName, message } = this.props;
         let isMosaicPresent = true;
 
-		if(recipientAddress)
-			this.onAddressChange(recipientAddress);
-		if(mosaicName)
+        if (recipientAddress) {
+            this.onAddressChange(recipientAddress);
+        }
+        if (mosaicName) {
             isMosaicPresent = await this.onMosaicChange(mosaicName);
-		if(amount && isMosaicPresent)
-			this.onAmountChange(amount);
-		if(message)
-			this.onMessageChange(message);
-
-        this.updateMaxFee();
+        }
+        if (amount && isMosaicPresent) {
+            this.onAmountChange(amount);
+        }
+        if (message) {
+            this.onMessageChange(message);
+        }
+        await this.updateMaxFee();
     };
 
     verify = () => {
@@ -197,10 +200,11 @@ class Send extends Component<Props, State> {
         );
     };
 
-    onAddressChange = recipientAddress => {
+    onAddressChange = async recipientAddress => {
         const { network } = this.props;
         const showAddressError = !isAddressValid(recipientAddress, network);
         this.setState({ recipientAddress, showAddressError, isEncrypted: false });
+        await this.updateMaxFee();
     };
 
     onAmountChange = async val => {
@@ -229,7 +233,7 @@ class Send extends Component<Props, State> {
         }
 
         
-        this.updateMaxFee();
+        await this.updateMaxFee();
         this.verifyAmount();
     };
 
@@ -265,7 +269,7 @@ class Send extends Component<Props, State> {
             message.slice(0, 1024);
         }
         await this.setState({ message, isEncrypted });
-        this.updateMaxFee();
+        await this.updateMaxFee();
     };
 
     onMessageEncryptedChange = async isEncrypted => {
@@ -291,12 +295,12 @@ class Send extends Component<Props, State> {
             this.setState({isEncrypted: false});
         }
 
-        this.updateMaxFee();
+        await this.updateMaxFee();
     };
 
-    onFeeChange(fee) {
+    onFeeChange = async fee => {
         this.setState({ fee });
-        this.updateMaxFee();
+        await this.updateMaxFee();
     };
 
     render = () => {

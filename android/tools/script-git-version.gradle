@@ -16,7 +16,7 @@ ext {
     gitVersionCode = git.log().size()
     gitVersionCodeTime = git.head().time
     buildDate = new Date()
-    customVersionName = "${gitShortVersionName}-${git.head().abbreviatedId}-${buildDate.format('yyMMdd')}"
+    customVersionName = "${gitShortVersionName}-${git.head().abbreviatedId}-${buildDate.format('yyMMddHHmm')}"
 }
 
 task printVersion() {

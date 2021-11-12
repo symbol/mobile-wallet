@@ -1,5 +1,5 @@
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
-import {getDefaultNetworkType, getNISNodes, getNodes} from '@src/config/environment';
+import { getDefaultNetworkType, getNISNodes } from '@src/config/environment';
 import NetworkService from '@src/services/NetworkService';
 import { GlobalListener } from '@src/store/index';
 
@@ -35,6 +35,8 @@ export default {
                 divisibility: 6,
             }
         },
+        mainnetNodes: [],
+        testnetNodes: [],
     },
     mutations: {
         setIsLoaded(state, payload) {
@@ -69,29 +71,74 @@ export default {
             state.network.nodeFailedAttempts = payload;
             return state;
         },
+        setMainnetNodes(state, payload) {
+            state.network.mainnetNodes = payload;
+            return state;
+        },
+        setTestnetNodes(state, payload) {
+            state.network.testnetNodes = payload;
+            return state;
+        },
     },
     actions: {
-        initState: async ({ commit, dispatchAction }) => {
+        initState: async ({ state, commit, dispatchAction }) => {
             let selectedNode = await AsyncCache.getSelectedNode();
-            if (!selectedNode) {
-                const network = getDefaultNetworkType();
-                selectedNode = getNodes(network)[0];
+
+            // load nodes list from statistic service
+            await dispatchAction({ type: 'network/loadNodeList' });
+
+            const networkType = getDefaultNetworkType();
+            const nodeList = networkType === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
+
+            // verify selected node availability
+            if (selectedNode) {
+                try {
+                    await NetworkService.getNetworkModelFromNode(selectedNode);
+                } catch (error) {
+                    // reset selected node
+                    selectedNode = null;
+                }
             }
-            const network = await NetworkService.getNetworkModelFromNode(selectedNode);
-            try {
-                const nisNodes = getNISNodes(network.type);
-                await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
-            } catch {}
-            commit({ type: 'network/setGenerationHash', payload: network.generationHash });
-            commit({ type: 'network/setNetwork', payload: network.type });
-            commit({ type: 'network/setSelectedNode', payload: selectedNode });
-            commit({ type: 'network/setIsLoaded', payload: true });
-            commit({
-                type: 'network/setSelectedNetwork',
-                payload: network,
-            });
-            GlobalListener.setNetwork(network);
+
+            // assign node, if node list available and selectedNode is not set
+            if (nodeList.length && !selectedNode) {
+                const randomIndex = Math.floor(Math.random() * nodeList.length); //NOSONAR
+                selectedNode = nodeList[randomIndex];
+            }
+
+            // If selectedNode exists, set network
+            if (selectedNode) {
+                const network = await NetworkService.getNetworkModelFromNode(selectedNode);
+                try {
+                    const nisNodes = getNISNodes(network.type);
+                    await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+                } catch {}
+                commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+                commit({ type: 'network/setNetwork', payload: network.type });
+                commit({ type: 'network/setSelectedNode', payload: selectedNode });
+                commit({ type: 'network/setIsLoaded', payload: true });
+                commit({
+                    type: 'network/setSelectedNetwork',
+                    payload: network,
+                });
+                GlobalListener.setNetwork(network);
+            }
             await dispatchAction({ type: 'wallet/initState' });
+        },
+        loadNodeList: async ({ commit }) => {
+            try {
+                // load nodes list from statistic service
+                const [testnetNodes, mainnetNodes] = await Promise.all([
+                    NetworkService.getSelectorNodeList('testnet'),
+                    NetworkService.getSelectorNodeList('mainnet')
+                ])
+
+                // Assign nodes on the state
+                commit({ type: 'network/setTestnetNodes', payload: testnetNodes });
+                commit({ type: 'network/setMainnetNodes', payload: mainnetNodes });
+            } catch(e) {
+                console.log(e);
+            }
         },
         changeNode: async ({ commit, state, dispatchAction }, payload) => {
             const network = await NetworkService.getNetworkModelFromNode(payload);

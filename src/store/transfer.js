@@ -58,9 +58,10 @@ export default {
         getMaxFee: async ({ state }, payload) => {
             const networkType = NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork);
             const dummyAccount = Account.generateNewAccount(networkType);
+            const recipientAddress =  payload.recipientAddress || dummyAccount.address.plain();
             const transactionModel = {
                 type: 'transfer',
-                recipientAddress: dummyAccount.address.plain(),
+                recipientAddress: recipientAddress,
                 messageText: payload.message,
                 messageEncrypted: payload.messageEncrypted,
                 mosaics: payload.mosaics,

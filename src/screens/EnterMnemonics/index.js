@@ -180,11 +180,6 @@ class EnterMnemonics extends Component {
         // Router go to pre-dashboard
     };
 
-    forceCreate = async () => {
-        this.setState({ showWarning: false });
-        this.createWallet();
-    };
-
     hideWarning = () => {
         this.setState({ showWarning: false });
     };
@@ -199,9 +194,7 @@ class EnterMnemonics extends Component {
                 {showWarning && (
                     <Warning
                         hideWarning={this.hideWarning}
-                        onIgnore={this.forceCreate}
                         message={translate('ImportWallet.EnterMnemonics.error.invalidMnemonics')}
-                        okButtonText={translate('ImportWallet.EnterMnemonics.ignoreWarning')}
                     />
                 )}
 

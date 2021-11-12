@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
 import { NavigationMenu, GradientBackground } from '@src/components';
-import Home from './Home';
-import History from './History';
-import Harvest from './Harvest';
-import News from '@src/screens/News';
+import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
+import Home from '@src/screens/Home';
+import History from '@src/screens/History';
+import Harvest from '@src/screens/Harvest';
 import Mosaics from '@src/screens/Mosaics';
 import Sidebar from '@src/screens/Sidebar';
 import { Router } from '@src/Router';
 import store from '@src/store';
-import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -58,9 +57,6 @@ class Dashboard extends Component<Props, State> {
                 break;
             case 'mosaics':
                 Tab = Mosaics;
-                break;
-            case 'news':
-                Tab = News;
                 break;
             case 'harvest':
                 Tab = Harvest;
