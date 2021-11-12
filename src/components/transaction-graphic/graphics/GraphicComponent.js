@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native'
+import { Dimensions } from 'react-native';
+import { Address } from 'symbol-sdk'
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -10,8 +11,8 @@ class GraphicComponent extends Component {
     arrowPositionY = 325;
     circlesIconsPositionsX = [[466], [447, 485], [428, 466, 504]];
     circleIconPositionY = 320;
-    transactionGraphicViewbox = '11.7 270 10.5 160';
-    transactionGraphicHeight = 110;
+    transactionGraphicViewbox = '250 270 470 150';
+    transactionGraphicHeight = 100;
     subjectPositionX = 190;
     subjectPositionY = 277;
     objectPositionX = 515;
@@ -19,7 +20,7 @@ class GraphicComponent extends Component {
     subjectHeight = 90;
 
     get transactionGraphicWidth() {
-        return Dimensions.get('window').width - 96;
+        return '100%';
     }
 
     get objectPositionY() {
@@ -28,11 +29,20 @@ class GraphicComponent extends Component {
 
     get styles() {
         return ({
+            transactionGraphicSvg: {
+                width: '100%', 
+                maxWidth: 310
+            },
             circleIcon: {
                 marginHorizontal: 2
             },
             text: {
                 fontSize: 18,
+                fontWeight: 'bold',
+                fill: GlobalStyles.color.SECONDARY
+            },
+            textSmaller: {
+                fontSize: 12,
                 fontWeight: 'bold',
                 fill: GlobalStyles.color.SECONDARY
             },
@@ -136,7 +146,7 @@ class GraphicComponent extends Component {
 		const hashLength = hash.length;
 		const colorStrLength = Math.trunc(hashLength / 3);
 
-		const strRed = hash.substring(0, colorStrLength);
+		const strRed = hash.substring(4, colorStrLength);
 		const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
 		const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
 
@@ -175,6 +185,18 @@ class GraphicComponent extends Component {
 		}
 		console.error('Failed to trunc string. Provided value is not a string');
 		return str;
+    }
+
+    stackAddress(address) {
+        const prettyAddress = Address.createFromRawAddress(address).pretty();
+        const splittedAddress = prettyAddress.split('-');
+        const stackedAddress = [
+            splittedAddress[0] + '-' + splittedAddress[1] + '-',
+            splittedAddress[2] + '-' + splittedAddress[3] + '-',
+            splittedAddress[4] + '-' + splittedAddress[5] + '-' + splittedAddress[6],
+        ];
+
+        return stackedAddress;
     }
 
     getId(id) {

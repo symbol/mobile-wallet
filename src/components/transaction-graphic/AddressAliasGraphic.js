@@ -30,6 +30,7 @@ export default class AddressAliasGraphic extends GraphicComponent {
 				width={this.transactionGraphicWidth}
 				height={this.transactionGraphicHeight}
 				viewBox={this.transactionGraphicViewbox}
+				style={this.styles.transactionGraphicSvg}
 			>
 				<AccountIcon
 					x={this.subjectPositionX}

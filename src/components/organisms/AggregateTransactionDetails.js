@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     graphicItem: {
         backgroundColor: GlobalStyles.color.WHITE,
         marginTop: 16,
+        marginHorizontal: 2,
         borderRadius: 6,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -111,7 +112,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
         userUnderstand: false,
         showBlacklistForm: false,
         blacklistAccountName: '',
-        selectedTab: 'info'
+        selectedTab: 'innerTransactions'
     };
 
     componentDidMount() {
@@ -173,7 +174,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     renderGraphicItem = (expand, count) => ({index, item}) => {
-        return <Section type="list" style={count - 1 === index && styles.contentBottom}>
+        return <Section style={count - 1 === index && styles.contentBottom}>
             <View style={styles.graphicItem} key={'graphic' + index}>
                 <TransactionGraphic index={index} forceExpand={expand} {...item} />
             </View>
@@ -199,12 +200,12 @@ class AggregateTransactionDetails extends Component<Props, State> {
         const { fullTransaction, expandGraphic } = this.state;
 
         return <FadeView style={{ flex: 1 }}>
-            <FlatList
+            {fullTransaction && <FlatList
                 data={fullTransaction.innerTransactions}
                 renderItem={this.renderGraphicItem(expandGraphic, fullTransaction.innerTransactions.length)}
                 keyExtractor={(item, index) => '' + index + 'details'}
                 contentContainerStyle={{ flexGrow: 1 }}
-            />
+            />}
         </FadeView>
     }
 
@@ -330,13 +331,10 @@ class AggregateTransactionDetails extends Component<Props, State> {
         switch(selectedTab) {
             default:
             case 'innerTransactions':
-                Content = this.renderTabInnerTransactions();
+                Content = this.renderTabGraphic();
                 break;
             case 'info':
                 Content = this.renderTabInfo();
-                break;
-            case 'graphic':
-                Content = this.renderTabGraphic();
                 break;
         }
         
@@ -356,27 +354,19 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 />
                 {!showLastWarning && <Row style={styles.tabs}>
                     <TouchableOpacity
-                        style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
-                        onPress={() => this.setState({selectedTab: 'info'})}
-                    >
-                        <Text type="bold" theme="light">
-                            {translate('history.infoTransactionTab')} 
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.tab, selectedTab === 'graphic' && styles.activeTab]}
-                        onPress={() => this.setState({selectedTab: 'graphic'})}
-                    >
-                        <Text type="bold" theme="light">
-                            {translate('history.graphicTab')} 
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
                         style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
                         onPress={() => this.setState({selectedTab: 'innerTransactions'})}
                     >
                         <Text type="bold" theme="light">
                             {translate('history.innerTransactionTab')} 
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
+                        onPress={() => this.setState({selectedTab: 'info'})}
+                    >
+                        <Text type="bold" theme="light">
+                            {translate('history.infoTransactionTab')} 
                         </Text>
                     </TouchableOpacity>
                 </Row>}

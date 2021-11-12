@@ -149,7 +149,7 @@ class TableView extends Component<Props> {
 	};
 
 	renderTable = (data, key) => {
-		const { smaller, hideEmpty } = this.props
+		const { smaller, hideEmpty, style } = this.props
 		const sectionStyle = smaller ? { 
 			borderTopWidth: 1, 
 			borderTopColor: 
@@ -181,7 +181,7 @@ class TableView extends Component<Props> {
 			_data.map((el, item) => (
 				(!hideEmpty || this.valueExists(el.value)) && <Section 
 					type={sectionType}
-					style={sectionStyle}
+					style={[sectionStyle, style]}
 					key={''+ item + 'table' + el.key}
 				>
 					<Item>

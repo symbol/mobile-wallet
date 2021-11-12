@@ -4,6 +4,7 @@ import GraphicComponent from './GraphicComponent.js';
 import {
     G,
     Text,
+    TSpan,
     Path,
     Rect,
 } from 'react-native-svg';
@@ -14,10 +15,18 @@ class AccountIcon extends GraphicComponent {
         return this.getIconColor(this.props.address);
     }
 
-    get truncatedAddress() {
-        return this.props.userAddress === this.props.address
+    get isUserAddress() {
+        return this.props.userAddress === this.props.address;
+    }
+
+    get formattedAddress() {
+        return this.isUserAddress
             ? translate('unsortedKeys.currentAccount')
             : this.truncString(this.props.address);
+    }
+
+    get stackedAddress() {
+        return this.stackAddress(this.props.address);
     }
 
     get viewBox() {
@@ -45,12 +54,33 @@ class AccountIcon extends GraphicComponent {
                     width="207.333"
                     height="23.667"
                 />
-                {!this.props.hideCaption && <Text
+                {!this.props.hideCaption && this.isUserAddress && <Text
                     x="130"
                     y="122.8457"
                     style={this.styles.text}
                     textAnchor="middle"
-                >{this.truncatedAddress}</Text>}
+                >
+                    {this.formattedAddress}
+                </Text>}
+                {!this.props.hideCaption && !this.isUserAddress && <Text
+                    x="120"
+                    y="122.8457"
+                    style={this.styles.textSmaller}
+                    textAnchor="middle"
+                >
+                    <TSpan x="130" dy="-9">{this.stackedAddress[0]}</TSpan>
+                    <TSpan x="130" dy="14">{this.stackedAddress[1]}</TSpan>
+                    <TSpan x="130" dy="14">{this.stackedAddress[2]}</TSpan>
+                </Text>}
+                {/* {!this.props.hideCaption && <ForeignObject
+                    x="30"
+                    y="122.8457"
+                    width="155"
+                >
+                    <NativeText style={this.styles.nativeText}>
+                        {this.formattedAddress}
+                    </NativeText>
+                </ForeignObject>} */}
                 <Path
                     fill-rule="evenodd"
                     clip-rule="evenodd"

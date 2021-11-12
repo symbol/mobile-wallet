@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { TransactionType } from 'symbol-sdk';
-import { Icon, Row, TableView, Text } from '@src/components';
+import { Icon, Row, Section, TableView, Text } from '@src/components';
 import TransferGraphic from './TransferGraphic.js';
 import _ from 'lodash';
 import AddressAliasGraphic from './AddressAliasGraphic.js';
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 	transactionNumber: {
 		position: 'absolute', 
 		top: 4, 
-		left: 0,
+		left: 8,
 		opacity: 0.3
 	},
 	expand: {
@@ -38,6 +38,16 @@ const styles = StyleSheet.create({
 		bottom: 0, 
 		right: 0,
 		opacity: 0.2
+	},
+	fullWidth: {
+		width: '100%'
+	},
+	center: {
+		justifyContent: 'center', 
+		alignItems: 'center'
+	},
+	tableContainer: {
+		paddingBottom: 18
 	}
 });
 
@@ -161,7 +171,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 		const { expanded } = this.state;
 		const transactionNumber = typeof index === 'number' ? index + 1 + '' : null;
 
-		return <TouchableOpacity onPress={() => this.toggle()}>
+		return <TouchableOpacity onPress={() => this.toggle()} style={[styles.fullWidth, styles.center]}>
 			{transactionNumber && <Text 
 				type="regular" 
 				theme="light" 
@@ -173,11 +183,14 @@ export default class TransactionGraphic extends Component<Props, State> {
 			{!expanded && <Row style={styles.expand} align="center" justify="center" fullWidth>
 				<Icon name="expand" size="small" />
 			</Row>}
-			{expanded && <TableView 
-				smaller 
-				hideEmpty 
-				data={this.tableData()} 
-			/>}
+			{expanded && <Section type="list" style={[styles.fullWidth, styles.tableContainer]}>
+				<TableView 
+					smaller 
+					hideEmpty
+					style={styles.fullWidth}
+					data={this.tableData()} 
+				/>
+			</Section>}
 		</TouchableOpacity>
 	}
 }
