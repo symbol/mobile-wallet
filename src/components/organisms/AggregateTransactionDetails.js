@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackHandler, View, FlatList, TouchableOpacity, StyleSheet, } from 'react-native';
+import { BackHandler, Dimensions, View, FlatList, TouchableOpacity, StyleSheet, } from 'react-native';
 import { 
     Text, 
     Row, 
@@ -28,6 +28,8 @@ import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
+const FULL_HEIGHT = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
     panel: {
         backgroundColor: GlobalStyles.color.DARKWHITE
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
 		marginBottom: -2
 	},
     infoTable: {
-        //flex: 1, 
         paddingTop: 16,
         paddingBottom: 16,
     },
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     },
     randomImage: {
         width: '100%',
-        height: 190,
+        height: FULL_HEIGHT / 4,
         resizeMode: 'cover',
         flexDirection: 'column',
         justifyContent: 'center'
@@ -251,6 +252,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         })} 
                     />
                 </Section>
+                {/* TODO: uncomment when address book is implemented */}
                 {/* <Section type="form-item">
                     <Button 
                         text={translate('history.cosignFormButtonMarkSpam')}  
@@ -308,11 +310,11 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         <Section type="form-item">
                             <Button  
                                 text={translate('history.cosignFormButtonReviewAgain')} 
-                                theme="dark" 
+                                theme="light" 
                                 onPress={() => this.setState({
                                     showLastWarning: false, 
                                     expandGraphic: true,
-                                    selectedTab: 'graphic'
+                                    selectedTab: 'innerTransactions'
                                 })} 
                             /> 
                         </Section>
@@ -320,7 +322,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                             <Button  
                                 isDisabled={!userUnderstand} 
                                 text={translate('history.transaction.sign')} 
-                                theme="dark" 
+                                theme="light" 
                                 onPress={() => this.sign()} 
                             /> 
                         </Section>

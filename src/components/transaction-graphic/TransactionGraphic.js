@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	tableContainer: {
-		paddingBottom: 18
+		paddingHorizontal: 22,
 	}
 });
 
@@ -183,7 +183,7 @@ export default class TransactionGraphic extends Component<Props, State> {
 			{!expanded && <Row style={styles.expand} align="center" justify="center" fullWidth>
 				<Icon name="expand" size="small" />
 			</Row>}
-			{expanded && <Section type="list" style={[styles.fullWidth, styles.tableContainer]}>
+			{expanded && <Section style={[styles.fullWidth, styles.tableContainer]}>
 				<TableView 
 					smaller 
 					hideEmpty

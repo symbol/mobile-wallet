@@ -146,7 +146,7 @@ class GraphicComponent extends Component {
 		const hashLength = hash.length;
 		const colorStrLength = Math.trunc(hashLength / 3);
 
-		const strRed = hash.substring(4, colorStrLength);
+		const strRed = hash.substring(2, colorStrLength);
 		const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
 		const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
 

@@ -139,14 +139,19 @@ export class FormatTransaction {
             formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, network, preLoadedMosaics));
         }
 
+		const info = {
+			transactionType: transaction.type,
+			deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
+			signerAddress: transaction.signer.address.pretty(),
+			hash: transaction.hash,
+		};
+
+		if (transaction.type === TransactionType.AGGREGATE_BONDED) {
+			info.receivedCosignatures = transaction.cosignatures;
+		}
+
         return {
-            info: {
-				transactionType: transaction.type,
-				deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
-                signerAddress: transaction.signer.address.pretty(),
-                receivedCosignatures: transaction.cosignatures,
-				hash: transaction.hash,
-            },
+            info,
             innerTransactions: formattedInnerTransactions
         };
 	}
