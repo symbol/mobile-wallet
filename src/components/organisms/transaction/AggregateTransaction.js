@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Row, Button } from '@src/components';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import { connect } from 'react-redux';
@@ -15,6 +15,13 @@ import { TransactionType, UInt64, AggregateTransaction as SdkAggregateTransactio
 import TransactionService from '@src/services/TransactionService';
 import _ from 'lodash';
 import { Router } from '@src/Router';
+import GlobalStyles from '@src/styles/GlobalStyles';
+
+const styles = StyleSheet.create({
+    waitingSignature: {
+        color: GlobalStyles.color.BLUE
+    }
+});
 
 type Props = {
     transaction: AggregateTransactionModel,
@@ -103,7 +110,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     renderAction = () => {
         if (this.needsSignature()) {
             return (
-                <Text type="regular" theme="light">
+                <Text type="regular" theme="light" style={styles.waitingSignature}>
                     {translate('history.transaction.waitingSignature')}
                 </Text>
             );
