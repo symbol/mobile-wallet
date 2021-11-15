@@ -199,10 +199,6 @@ class GraphicComponent extends Component {
         return stackedAddress;
     }
 
-    getId(id) {
-        return id + '-' + Math.floor(Math.random() * Math.floor(1000));
-    }
-
     getCircleIconPositionX(index) {
         const circlesCount = this.circlesCount;
 
