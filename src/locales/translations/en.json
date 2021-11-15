@@ -616,7 +616,7 @@
 		"transactionDetails": "Transaction Details",
 		"innerTransactionTab": "Inner Transactions",
 		"graphicTab": "Graphic",
-		"infoTransactionTab": "About transaction",
+		"infoTransactionTab": "About Transaction",
 		"cosignFormTitleRequireSignatureTrust": "Transaction requires signature. Do you trust the signer address of this transaction?",
 		"cosignFormTitleRequireSignature": "Transaction requires signature",
 		"cosignFormButtonTrust": "Trust",
