@@ -13,6 +13,7 @@
     "build:android:prod": "cd ./android && gradlew assembleProdRelease",
     "test": "jest",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "postinstall": "./scripts/post-install.sh"
   },
   "dependencies": {
