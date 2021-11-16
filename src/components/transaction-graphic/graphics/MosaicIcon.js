@@ -1,36 +1,30 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    G,
-    Text,
-    Path,
-    Defs,
-    LinearGradient,
-    Stop,
-} from 'react-native-svg';
+import { Defs, G, LinearGradient, Path, Stop, Text } from 'react-native-svg';
 
 export default class MosaicIcon extends GraphicComponent {
     get iconColor() {
-        return this.getIconColorFromHex(this.props.mosaicId || this.props.mosaic.mosaicId);
+        return this.getIconColorFromHex(
+            this.props.mosaicId || this.props.mosaic.mosaicId
+        );
     }
 
     get truncatedMosaicId() {
-        return this.truncString(this.props.mosaicId || this.props.mosaic.mosaicId);
+        return this.truncString(
+            this.props.mosaicId || this.props.mosaic.mosaicId
+        );
     }
 
     get truncatedMosaicName() {
         const aliasName = this.props.aliasName || this.props.mosaic.aliasName;
         const mosaicId = this.props.mosaicId || this.props.mosaic.mosaicId;
 
-        if (aliasName)
-            return this.truncString(aliasName, 5);
+        if (aliasName) return this.truncString(aliasName, 5);
         return this.truncString(mosaicId);
     }
 
     get viewBox() {
-        return this.props.hideCaption
-            ? '115 0 16 105'
-            : '0 0 261.333 131.313';
+        return this.props.hideCaption ? '115 0 16 105' : '0 0 261.333 131.313';
     }
 
     render() {
@@ -44,7 +38,13 @@ export default class MosaicIcon extends GraphicComponent {
                 viewBox={this.viewBox}
             >
                 <Defs>
-                    <LinearGradient id="connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <LinearGradient
+                        id="connector-gradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
                         <Stop offset="0%" stopColor="rgb(255, 255, 255)" />
                         <Stop offset="100%" stopColor="rgb(196, 182, 208)" />
                     </LinearGradient>
@@ -86,12 +86,16 @@ export default class MosaicIcon extends GraphicComponent {
                             c1.371-1.518,2.641-3.447,5.115-3.435C145.178,69.867,145.184,82.28,145.19,94.69z"
                     />
                 </G>
-                {!this.props.hideCaption && <Text
-                    x="130"
-                    y="122.8457"
-                    style={this.styles.text}
-                    textAnchor="middle"
-                >{this.truncatedMosaicName}</Text>}
+                {!this.props.hideCaption && (
+                    <Text
+                        x="130"
+                        y="122.8457"
+                        style={this.styles.text}
+                        textAnchor="middle"
+                    >
+                        {this.truncatedMosaicName}
+                    </Text>
+                )}
             </G>
         );
     }

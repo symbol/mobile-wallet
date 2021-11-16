@@ -1,11 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    G,
-    Text,
-    Path,
-    Rect,
-} from 'react-native-svg';
+import { G, Path, Rect, Text } from 'react-native-svg';
 
 export default class LockIcon extends GraphicComponent {
     get truncatedLockName() {
@@ -13,9 +8,7 @@ export default class LockIcon extends GraphicComponent {
     }
 
     get viewBox() {
-        return this.props.hideCaption
-            ? '115 0 16 105' 
-            : '0 0 261.333 131.313';
+        return this.props.hideCaption ? '115 0 16 105' : '0 0 261.333 131.313';
     }
 
     render() {
@@ -37,12 +30,16 @@ export default class LockIcon extends GraphicComponent {
                     width="207.333"
                     height="23.667"
                 />
-                {!this.props.hideCaption && <Text
-                    x="130"
-                    y="122.8457"
-                    style={this.styles.text}
-                    textAnchor="middle"
-                >{this.truncatedLockName}</Text>}
+                {!this.props.hideCaption && (
+                    <Text
+                        x="130"
+                        y="122.8457"
+                        style={this.styles.text}
+                        textAnchor="middle"
+                    >
+                        {this.truncatedLockName}
+                    </Text>
+                )}
                 <Path
                     id="lock"
                     fill="#44004E"
@@ -51,7 +48,14 @@ export default class LockIcon extends GraphicComponent {
                     s0.392,0.606,0.356,0.944v54.52c0,0.75-0.605,1.355-1.354,1.355H95.826L95.826,101.078z M97.216,98.388h68.346V46.611H97.216V98.388
                     z M131.372,15.805c-12.276,0-22.325,10.031-22.325,22.325v5.737h44.633V38.13C153.679,25.836,143.647,15.805,131.372,15.805z"
                 />
-                <Rect id="plane" x="96.325" y="45.491" fill="#44004E" width="70.699" height="53.865" />
+                <Rect
+                    id="plane"
+                    x="96.325"
+                    y="45.491"
+                    fill="#44004E"
+                    width="70.699"
+                    height="53.865"
+                />
                 <Path
                     id="key"
                     fill="#FFFFFF"

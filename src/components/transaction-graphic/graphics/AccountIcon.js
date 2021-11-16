@@ -1,13 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    G,
-    Text,
-    TSpan,
-    Path,
-    Rect,
-} from 'react-native-svg';
+import { G, Path, Rect, TSpan, Text } from 'react-native-svg';
 import translate from '@src/locales/i18n';
 
 class AccountIcon extends GraphicComponent {
@@ -30,9 +24,7 @@ class AccountIcon extends GraphicComponent {
     }
 
     get viewBox() {
-        return this.props.hideCaption
-            ? '115 0 16 105'
-            : '0 0 261.333 131.313';
+        return this.props.hideCaption ? '115 0 16 105' : '0 0 261.333 131.313';
     }
 
     render() {
@@ -54,24 +46,34 @@ class AccountIcon extends GraphicComponent {
                     width="207.333"
                     height="23.667"
                 />
-                {!this.props.hideCaption && this.isUserAddress && <Text
-                    x="130"
-                    y="122.8457"
-                    style={this.styles.text}
-                    textAnchor="middle"
-                >
-                    {this.formattedAddress}
-                </Text>}
-                {!this.props.hideCaption && !this.isUserAddress && <Text
-                    x="120"
-                    y="122.8457"
-                    style={this.styles.textSmaller}
-                    textAnchor="middle"
-                >
-                    <TSpan x="130" dy="-9">{this.stackedAddress[0]}</TSpan>
-                    <TSpan x="130" dy="14">{this.stackedAddress[1]}</TSpan>
-                    <TSpan x="130" dy="14">{this.stackedAddress[2]}</TSpan>
-                </Text>}
+                {!this.props.hideCaption && this.isUserAddress && (
+                    <Text
+                        x="130"
+                        y="122.8457"
+                        style={this.styles.text}
+                        textAnchor="middle"
+                    >
+                        {this.formattedAddress}
+                    </Text>
+                )}
+                {!this.props.hideCaption && !this.isUserAddress && (
+                    <Text
+                        x="120"
+                        y="122.8457"
+                        style={this.styles.textSmaller}
+                        textAnchor="middle"
+                    >
+                        <TSpan x="130" dy="-9">
+                            {this.stackedAddress[0]}
+                        </TSpan>
+                        <TSpan x="130" dy="14">
+                            {this.stackedAddress[1]}
+                        </TSpan>
+                        <TSpan x="130" dy="14">
+                            {this.stackedAddress[2]}
+                        </TSpan>
+                    </Text>
+                )}
                 {/* {!this.props.hideCaption && <ForeignObject
                     x="30"
                     y="122.8457"

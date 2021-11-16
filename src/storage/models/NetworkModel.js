@@ -1,4 +1,4 @@
-import { TransactionFees, NetworkType } from 'symbol-sdk';
+import { NetworkType, TransactionFees } from 'symbol-sdk';
 
 export type AppNetworkType = 'testnet' | 'mainnet';
 
@@ -17,10 +17,10 @@ export interface NetworkModel {
     transactionFees: TransactionFees;
     defaultDynamicFeeMultiplier: number;
     networkCurrency: {
-        namespaceName: string;
-        namespaceId: string;
-        mosaicId: string;
-        divisibility: number;
-    },
-    totalChainImportance: number
+        namespaceName: string,
+        namespaceId: string,
+        mosaicId: string,
+        divisibility: number,
+    };
+    totalChainImportance: number;
 }

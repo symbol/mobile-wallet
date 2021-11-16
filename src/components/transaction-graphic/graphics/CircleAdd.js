@@ -1,13 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    Circle,
-    G,
-    Defs,
-    LinearGradient,
-    Rect,
-    Stop,
-} from 'react-native-svg';
+import { Circle, Defs, G, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 export default class CircleAdd extends GraphicComponent {
     gradientId = 'add-circle-gradient';
@@ -25,7 +18,13 @@ export default class CircleAdd extends GraphicComponent {
                 viewBox="0 0 38.5 38.167"
             >
                 <Defs>
-                    <LinearGradient id={this.gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                    <LinearGradient
+                        id={this.gradientId}
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
                         <Stop offset="0%" stopColor={this.stopColor1} />
                         <Stop offset="100%" stopColor={this.stopColor2} />
                     </LinearGradient>
@@ -39,8 +38,24 @@ export default class CircleAdd extends GraphicComponent {
                     r="17.26"
                 />
                 <G>
-                    <Rect x="17" y="11" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="4" height="16"/>
-			        <Rect x="11" y="17" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="16" height="4"/>
+                    <Rect
+                        x="17"
+                        y="11"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        fill="#FFFFFF"
+                        width="4"
+                        height="16"
+                    />
+                    <Rect
+                        x="11"
+                        y="17"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        fill="#FFFFFF"
+                        width="16"
+                        height="4"
+                    />
                 </G>
             </G>
         );

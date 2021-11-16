@@ -1,5 +1,11 @@
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-export type TransactionType = 'unknown' | 'transfer' | 'fundsLock' | 'aggregate' | 'namespace' | 'mosaicAlias';
+export type TransactionType =
+    | 'unknown'
+    | 'transfer'
+    | 'fundsLock'
+    | 'aggregate'
+    | 'namespace'
+    | 'mosaicAlias';
 export type TransactionStatus = 'confirmed' | 'unconfirmed';
 
 /**
@@ -48,7 +54,8 @@ export interface AggregateTransactionModel extends TransactionModel {
 /**
  * Namespace transaction model
  */
-export interface NamespaceRegistrationTransactionModel extends TransactionModel {
+export interface NamespaceRegistrationTransactionModel
+    extends TransactionModel {
     type: 'namespace';
     namespaceName: string;
 }
@@ -60,9 +67,6 @@ export interface MosaicAliasTransactionModel extends TransactionModel {
     namespaceName: string;
     mosaicId: string;
 }
-
-
-
 
 export interface AccountAddressRestrictionModel extends TransactionModel {
     type: 'AccountAddressRestriction';
@@ -227,4 +231,3 @@ export interface VrfKeyLinkModel extends TransactionModel {
     linkAction: String;
     linkedPublicKey: String;
 }
-

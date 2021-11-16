@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
-import { Address } from 'symbol-sdk'
+import { Address } from 'symbol-sdk';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -28,41 +28,41 @@ class GraphicComponent extends Component {
     }
 
     get styles() {
-        return ({
+        return {
             transactionGraphicSvg: {
-                width: '100%', 
-                maxWidth: 310
+                width: '100%',
+                maxWidth: 310,
             },
             circleIcon: {
-                marginHorizontal: 2
+                marginHorizontal: 2,
             },
             text: {
                 fontSize: 18,
                 fontWeight: 'bold',
-                fill: GlobalStyles.color.SECONDARY
+                fill: GlobalStyles.color.SECONDARY,
             },
             textSmaller: {
                 fontSize: 12,
                 fontWeight: 'bold',
-                fill: GlobalStyles.color.SECONDARY
+                fill: GlobalStyles.color.SECONDARY,
             },
             message: {
                 fontSize: 16,
                 fontWeight: 400,
-                fill: GlobalStyles.color.BLUE
+                fill: GlobalStyles.color.BLUE,
             },
             arrowBody: {
-                stroke: GlobalStyles.color.SECONDARY
+                stroke: GlobalStyles.color.SECONDARY,
             },
             arrowEnd: {
-                fill: GlobalStyles.color.SECONDARY
+                fill: GlobalStyles.color.SECONDARY,
             },
             circleIconsContainer: {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
             },
-        });
+        };
     }
 
     get nativeMosaicId() {
@@ -96,7 +96,9 @@ class GraphicComponent extends Component {
     }
 
     get transactionType() {
-        return this.getTranslation(`transactionTypes.transactionDescriptor_${this.props.transactionType}`);
+        return this.getTranslation(
+            `transactionTypes.transactionDescriptor_${this.props.transactionType}`
+        );
     }
 
     get signer() {
@@ -108,54 +110,98 @@ class GraphicComponent extends Component {
     }
 
     getColorFromHash(hash, isHex = true) {
-		const color = {
-			R: 0,
-			G: 0,
-			B: 0
-		};
+        const color = {
+            R: 0,
+            G: 0,
+            B: 0,
+        };
 
-		if (typeof hash !== 'string') {
-			console.error('Failed to convert hash to color. Hash is not a String');
-			return color;
-		}
-		if (hash.length < 3) {
-			console.error('Failed to convert hash to color. Hash string length < 3');
-			return color;
-		}
+        if (typeof hash !== 'string') {
+            console.error(
+                'Failed to convert hash to color. Hash is not a String'
+            );
+            return color;
+        }
+        if (hash.length < 3) {
+            console.error(
+                'Failed to convert hash to color. Hash string length < 3'
+            );
+            return color;
+        }
 
-		const hexToRGB = (hexString) => {
-			let totalHex = 0;
+        const hexToRGB = hexString => {
+            let totalHex = 0;
 
-			for (const hex of hexString)
-				totalHex += parseInt(hex, 16);
+            for (const hex of hexString) totalHex += parseInt(hex, 16);
 
-			return Math.trunc(totalHex * 255 / (15 * hexString.length));
-		};
+            return Math.trunc((totalHex * 255) / (15 * hexString.length));
+        };
 
-		const charsetToRGB = (string) => {
-			const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        const charsetToRGB = string => {
+            const charset = [
+                '0',
+                '1',
+                '2',
+                '3',
+                '4',
+                '5',
+                '6',
+                '7',
+                '8',
+                '9',
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+                'f',
+                'g',
+                'h',
+                'i',
+                'j',
+                'k',
+                'l',
+                'm',
+                'n',
+                'o',
+                'p',
+                'q',
+                'r',
+                's',
+                't',
+                'u',
+                'v',
+                'w',
+                'x',
+                'y',
+                'z',
+            ];
 
-			let totalHex = 0;
+            let totalHex = 0;
 
-			for (const char of string)
-				totalHex += charset.indexOf(char.toLowerCase());
+            for (const char of string)
+                totalHex += charset.indexOf(char.toLowerCase());
 
-			return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
-		};
+            return Math.trunc(
+                (totalHex * 255) / ((charset.length - 1) * string.length)
+            );
+        };
 
-		const hashLength = hash.length;
-		const colorStrLength = Math.trunc(hashLength / 3);
+        const hashLength = hash.length;
+        const colorStrLength = Math.trunc(hashLength / 3);
 
-		const strRed = hash.substring(2, colorStrLength);
-		const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
-		const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
+        const strRed = hash.substring(2, colorStrLength);
+        const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
+        const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
 
-		color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
-		color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
-		color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
+        color.R = isHex
+            ? hexToRGB(strRed)
+            : charsetToRGB(strRed.substring(2, 3));
+        color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
+        color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
 
-		return color;
-	}
+        return color;
+    }
 
     getTranslation(str) {
         return translate(str);
@@ -179,12 +225,15 @@ class GraphicComponent extends Component {
 
     truncString(str, strLen = 4) {
         if (typeof str === 'string') {
-			if (str.length > strLen * 2)
-				return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
-			return str;
-		}
-		console.error('Failed to trunc string. Provided value is not a string');
-		return str;
+            if (str.length > strLen * 2)
+                return `${str.substring(0, strLen)}...${str.substring(
+                    str.length - strLen,
+                    str.length
+                )}`;
+            return str;
+        }
+        console.error('Failed to trunc string. Provided value is not a string');
+        return str;
     }
 
     stackAddress(address) {
@@ -193,7 +242,11 @@ class GraphicComponent extends Component {
         const stackedAddress = [
             splittedAddress[0] + '-' + splittedAddress[1] + '-',
             splittedAddress[2] + '-' + splittedAddress[3] + '-',
-            splittedAddress[4] + '-' + splittedAddress[5] + '-' + splittedAddress[6],
+            splittedAddress[4] +
+                '-' +
+                splittedAddress[5] +
+                '-' +
+                splittedAddress[6],
         ];
 
         return stackedAddress;
@@ -206,7 +259,7 @@ class GraphicComponent extends Component {
             case 0:
                 if (this.circleIconsToDisplay[0])
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
-            break;
+                break;
             case 1:
                 if (this.circleIconsToDisplay[1]) {
                     if (this.circleIconsToDisplay[0])
@@ -214,7 +267,7 @@ class GraphicComponent extends Component {
 
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
                 }
-            break;
+                break;
             case 2:
                 if (this.circleIconsToDisplay[2]) {
                     if (
@@ -229,21 +282,23 @@ class GraphicComponent extends Component {
                         return this.circlesIconsPositionsX[circlesCount - 1][1];
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
                 }
-            break;
+                break;
         }
     }
 
     getMosaicName(mosaic) {
         let mosaicAliasName;
 
-		if (Array.isArray(mosaic.mosaicAliasName))
-			mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
-		else
-			mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
+        if (Array.isArray(mosaic.mosaicAliasName))
+            mosaicAliasName = mosaic.mosaicAliasName.length
+                ? mosaic.mosaicAliasName[0]
+                : 'N/A';
+        else
+            mosaicAliasName = mosaic.mosaicAliasName
+                ? mosaic.mosaicAliasName
+                : 'N/A';
 
-		return mosaicAliasName !== 'N/A'
-			? mosaicAliasName
-			: mosaic.mosaicId;
+        return mosaicAliasName !== 'N/A' ? mosaicAliasName : mosaic.mosaicId;
     }
 
     getMosaicTitle(mosaic) {

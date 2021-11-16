@@ -1,13 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    Circle,
-    G,
-    Path,
-    Defs,
-    LinearGradient,
-    Stop,
-} from 'react-native-svg';
+import { Circle, Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
 export default class CircleMosaics extends GraphicComponent {
     gradientId = 'mosaics-circle-gradient';
@@ -25,7 +18,13 @@ export default class CircleMosaics extends GraphicComponent {
                 viewBox="0 0 38.5 38.167"
             >
                 <Defs>
-                    <LinearGradient id={this.gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                    <LinearGradient
+                        id={this.gradientId}
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
                         <Stop offset="0%" stopColor={this.stopColor1} />
                         <Stop offset="100%" stopColor={this.stopColor2} />
                     </LinearGradient>

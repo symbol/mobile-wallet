@@ -11,16 +11,20 @@ const imageSources = [
     require('@src/assets/random-images/Random_27.png'),
     require('@src/assets/random-images/Random_28.png'),
     require('@src/assets/random-images/Random_29.png'),
-    require('@src/assets/random-images/Random_30.png'),  
-]
+    require('@src/assets/random-images/Random_30.png'),
+];
 
-const RandomImage = (props) => {
-    const randomImageIndex = Math.floor(Math.random() * (30 - 21)); 
+const RandomImage = props => {
+    const randomImageIndex = Math.floor(Math.random() * (30 - 21));
     const source = imageSources[randomImageIndex];
 
-	return props.children 
-        ? <ImageBackground source={source} resizeMode="cover" {...props}>{props.children}</ImageBackground> 
-        : <Image source={source} {...props} />
+    return props.children ? (
+        <ImageBackground source={source} resizeMode="cover" {...props}>
+            {props.children}
+        </ImageBackground>
+    ) : (
+        <Image source={source} {...props} />
+    );
 };
 
 export default RandomImage;

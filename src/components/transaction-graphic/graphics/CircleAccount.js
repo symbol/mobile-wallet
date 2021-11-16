@@ -1,13 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import {
-    Circle,
-    G,
-    Path,
-    Defs,
-    LinearGradient,
-    Stop,
-} from 'react-native-svg';
+import { Circle, Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
 
 export default class CircleAccount extends GraphicComponent {
     gradientId = 'account-circle-gradient';
@@ -25,7 +18,13 @@ export default class CircleAccount extends GraphicComponent {
                 viewBox="0 0 38.5 38.167"
             >
                 <Defs>
-                    <LinearGradient id={this.gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                    <LinearGradient
+                        id={this.gradientId}
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
                         <Stop offset="0%" stopColor={this.stopColor1} />
                         <Stop offset="100%" stopColor={this.stopColor2} />
                     </LinearGradient>
@@ -38,7 +37,9 @@ export default class CircleAccount extends GraphicComponent {
                     cy="19.094"
                     r="17.26"
                 />
-                <Path fill="#FFFFFF" d="M27.355,25.504c-0.242-0.576-0.628-1.056-1.117-1.455c-0.853-0.696-1.828-1.146-2.868-1.47
+                <Path
+                    fill="#FFFFFF"
+                    d="M27.355,25.504c-0.242-0.576-0.628-1.056-1.117-1.455c-0.853-0.696-1.828-1.146-2.868-1.47
                     c-1.288-0.401-1.285-0.402-0.704-1.616l1.115-2.413c0-0.002,0-0.002,0-0.004c0.271-0.576,0.335-1.152-0.006-1.728
                     c-0.035-0.108-0.125-0.229-0.103-0.32c0.673-2.601-0.929-5.061-3.548-5.439c-1.643-0.49-3.477,0.23-4.749,1.869
                     c-0.258,0.329-0.511,0.663-0.531,1.107c-0.225,0.285-0.221,0.613-0.186,0.949c-0.295,0.727,0.164,1.453-0.013,2.196
