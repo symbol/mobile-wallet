@@ -250,9 +250,6 @@ export class TransactionItem extends Component<Props> {
                     <Text type="bold" theme="light">
                         {JSON.stringify(transaction.innerTransactions)}
                     </Text>
-                    // <View style={{paddingTop: 17}}>
-                    //     <TableView data={transaction} />
-                    // </View>
                 )}
             </View>
         );

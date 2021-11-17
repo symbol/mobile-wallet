@@ -25,12 +25,7 @@ import TransactionIcon from '@src/components/controls/TransactionIcon';
 const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
-        // height: 60,
         borderRadius: 6,
-        // marginTop: 0,
-        // marginBottom: 8,
-        // padding: 17,
-        // paddingTop: 8,
         backgroundColor: GlobalStyles.color.WHITE,
     },
     date: {

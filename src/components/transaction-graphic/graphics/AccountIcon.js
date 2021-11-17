@@ -74,15 +74,6 @@ class AccountIcon extends GraphicComponent {
                         </TSpan>
                     </Text>
                 )}
-                {/* {!this.props.hideCaption && <ForeignObject
-                    x="30"
-                    y="122.8457"
-                    width="155"
-                >
-                    <NativeText style={this.styles.nativeText}>
-                        {this.formattedAddress}
-                    </NativeText>
-                </ForeignObject>} */}
                 <Path
                     fill-rule="evenodd"
                     clip-rule="evenodd"
