@@ -15,7 +15,7 @@ const imageSources = [
 ];
 
 const RandomImage = props => {
-    const randomImageIndex = Math.floor(
+    const randomImageIndex = Math.round(
         Math.random() * imageSources.length -1 
     );
     const source = imageSources[randomImageIndex];
