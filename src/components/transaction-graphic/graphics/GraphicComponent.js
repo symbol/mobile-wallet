@@ -225,14 +225,17 @@ class GraphicComponent extends Component {
 
     truncString(str, strLen = 4) {
         if (typeof str === 'string') {
-            if (str.length > strLen * 2)
+            if (str.length > strLen * 2) {
                 return `${str.substring(0, strLen)}...${str.substring(
                     str.length - strLen,
                     str.length
                 )}`;
+            }
+
             return str;
         }
         console.error('Failed to trunc string. Provided value is not a string');
+        
         return str;
     }
 
@@ -257,13 +260,15 @@ class GraphicComponent extends Component {
 
         switch (index) {
             case 0:
-                if (this.circleIconsToDisplay[0])
+                if (this.circleIconsToDisplay[0]) {
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
+                }
                 break;
             case 1:
                 if (this.circleIconsToDisplay[1]) {
-                    if (this.circleIconsToDisplay[0])
+                    if (this.circleIconsToDisplay[0]) {
                         return this.circlesIconsPositionsX[circlesCount - 1][1];
+                    }
 
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
                 }
@@ -273,13 +278,16 @@ class GraphicComponent extends Component {
                     if (
                         this.circleIconsToDisplay[0] &&
                         this.circleIconsToDisplay[1]
-                    )
+                    ) {
                         return this.circlesIconsPositionsX[circlesCount - 1][2];
+                    }
                     if (
                         this.circleIconsToDisplay[0] ||
                         this.circleIconsToDisplay[1]
-                    )
+                    ) {
                         return this.circlesIconsPositionsX[circlesCount - 1][1];
+                    }
+
                     return this.circlesIconsPositionsX[circlesCount - 1][0];
                 }
                 break;
@@ -289,14 +297,16 @@ class GraphicComponent extends Component {
     getMosaicName(mosaic) {
         let mosaicAliasName;
 
-        if (Array.isArray(mosaic.mosaicAliasName))
+        if (Array.isArray(mosaic.mosaicAliasName)) {
             mosaicAliasName = mosaic.mosaicAliasName.length
                 ? mosaic.mosaicAliasName[0]
                 : 'N/A';
-        else
+        }
+        else {
             mosaicAliasName = mosaic.mosaicAliasName
                 ? mosaic.mosaicAliasName
                 : 'N/A';
+        }
 
         return mosaicAliasName !== 'N/A' ? mosaicAliasName : mosaic.mosaicId;
     }
