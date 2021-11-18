@@ -140,11 +140,7 @@ export class Constants {
 
     static NetworkType = {
         [NetworkType.MAIN_NET]: 'MAINNET',
-        [NetworkType.MIJIN]: 'MIJIN',
-        [NetworkType.MIJIN_TEST]: 'MIJIN TESTNET',
         [NetworkType.TEST_NET]: 'TESTNET',
-        [NetworkType.PRIVATE_TEST]: 'PRIVATE TESTNET',
-        [NetworkType.PRIVATE]: 'PRIVATE',
     };
 
     static RoleType = {
