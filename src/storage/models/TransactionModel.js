@@ -115,6 +115,7 @@ export interface HashLockModel extends TransactionModel {
     type: 'HashLock';
     duration: number;
     mosaics: Array;
+    hash: string;
 }
 
 export interface MosaicAddressRestrictionModel extends TransactionModel {
