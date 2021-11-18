@@ -332,7 +332,6 @@ export class FormatTransaction {
                 namespace.namespaceId.toHex() ===
                 transaction.namespaceId.toHex()
         );
-        console.log('namespaceNames', namespaceNames);
 
         return {
             transactionType: transaction.type,
