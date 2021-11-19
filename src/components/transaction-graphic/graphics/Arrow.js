@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphicComponent from './GraphicComponent.js';
-import Svg, { G, Line, Polygon } from 'react-native-svg';
+import { G, Line, Polygon } from 'react-native-svg';
 
 export default class Arrow extends GraphicComponent {
     render() {

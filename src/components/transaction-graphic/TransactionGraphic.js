@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
 
 type Props = {
     index: number,
-    forceExpand?: Boolean,
 };
 
 type State = {
@@ -64,19 +63,6 @@ export default class TransactionGraphic extends Component<Props, State> {
     state = {
         expanded: false,
     };
-
-    componentDidMount() {
-        this.setState({ expanded: false });
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            prevProps.forceExpand !== this.props.forceExpand &&
-            this.state.expanded !== this.props.forceExpand
-        ) {
-            this.setState({ expanded: this.props.forceExpand });
-        }
-    }
 
     toggle() {
         this.setState({ expanded: !this.state.expanded });

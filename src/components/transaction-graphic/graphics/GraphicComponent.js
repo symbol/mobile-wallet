@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
 import { Address } from 'symbol-sdk';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';

@@ -3,7 +3,6 @@ import {
     Animated,
     Dimensions,
     PanResponder,
-    ScrollViewProps,
     StyleSheet,
     TouchableHighlight,
     TouchableWithoutFeedback,
@@ -32,17 +31,14 @@ type SwipeablePanelProps = {
     openLarge?: boolean,
     smallPanelHeight?: number,
     allowTouchOutside?: boolean,
-    scrollViewProps?: ScrollViewProps,
 };
 
 type MaybeAnimated<T> = T | Animated.Value;
 
 type SwipeablePanelState = {
     status: number,
-    isActive: boolean,
     showComponent: boolean,
     canScroll: boolean,
-    opacity: Animated.Value,
     pan: any,
     orientation: 'portrait' | 'landscape',
     deviceWidth: number,
@@ -62,10 +58,8 @@ class SwipeablePanel extends Component<
         super(props);
         this.state = {
             status: STATUS.CLOSED,
-            isActive: false,
             showComponent: false,
             canScroll: false,
-            opacity: new Animated.Value(0),
             pan: new Animated.ValueXY({ x: 0, y: FULL_HEIGHT }),
             orientation: FULL_HEIGHT >= FULL_WIDTH ? 'portrait' : 'landscape',
             deviceWidth: FULL_WIDTH,
@@ -134,8 +128,6 @@ class SwipeablePanel extends Component<
             (value: any) => (this.animatedValueY = value.value)
         );
 
-        this.setState({ isActive });
-
         if (isActive)
             this._animateTo(
                 onlySmall
@@ -178,8 +170,6 @@ class SwipeablePanel extends Component<
             );
 
         if (prevProps.isActive !== isActive) {
-            this.setState({ isActive });
-
             if (isActive) {
                 this._animateTo(
                     onlySmall
