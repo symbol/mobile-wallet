@@ -112,7 +112,6 @@ type Props = {
 class AggregateTransactionDetails extends Component<Props, State> {
     state = {
         fullTransaction: null,
-        raw: null,
         isActive: false,
         isLoading: false,
         expandGraphic: false,

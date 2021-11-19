@@ -436,7 +436,6 @@ export class FormatTransaction {
             preLoadedMosaics &&
             preLoadedMosaics[transaction.mosaic.id.toHex()]
         ) {
-            mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
             mosaicModel = {
                 ...preLoadedMosaics[transaction.mosaic.id.toHex()],
                 amount: transaction.mosaic.amount.toString(),
@@ -462,7 +461,6 @@ export class FormatTransaction {
             preLoadedMosaics &&
             preLoadedMosaics[transaction.mosaic.id.toHex()]
         ) {
-            mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
             mosaicModel = {
                 ...preLoadedMosaics[transaction.mosaic.id.toHex()],
                 amount: transaction.mosaic.amount.toString(),
