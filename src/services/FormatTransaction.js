@@ -253,7 +253,8 @@ export class FormatTransaction {
         };
 
         if (transaction.type === TransactionType.AGGREGATE_BONDED) {
-            info.receivedCosignatures = transaction.cosignatures;
+            info.receivedCosignatures = transaction.cosignatures
+                .map(signature => signature.signer.address.pretty());
         }
 
         return {

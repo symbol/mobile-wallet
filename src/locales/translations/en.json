@@ -490,7 +490,7 @@
 		"linkedAccountAddress": "Linked Account Address",
 		"startEpoch": "Start Epoch",
 		"endEpoch": "End Epoch",
-		"receivedCosignatures": "Received Cosignatures",
+		"receivedCosignatures": "Co-signatures Received",
 
 		"v_unlimited": "UNLIMITED",
 		"v_na": "N/A",

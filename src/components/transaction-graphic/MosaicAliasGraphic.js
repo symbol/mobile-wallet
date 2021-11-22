@@ -17,7 +17,7 @@ export default class MosaicAliasGraphic extends GraphicComponent {
     }
 
     get isLinkAction() {
-        return this.props.aliasAction === 'Link';
+        return this.props.aliasAction === 'v_link';
     }
 
     get mosaic() {

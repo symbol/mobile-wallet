@@ -18,7 +18,7 @@ class MosaicAliasTransaction extends BaseTransactionItem<Props> {
 
         return (
             <Text type="bold" theme="light">
-                {transaction.aliasAction ? 'Link' : 'Unlink'}
+                {transaction.aliasAction ? 'v_link' : 'Unlink'}
             </Text>
         );
     };

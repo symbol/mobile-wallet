@@ -7,13 +7,13 @@ export default class NamespaceService {
         network: NetworkModel
     ): Promise<string> {
         if (!(unResolvedAddress instanceof NamespaceId))
-            return unResolvedAddress.address;
+            return unResolvedAddress.pretty();
 
         const address = await new NamespaceHttp(network.node)
             .getLinkedAddress(unResolvedAddress)
             .toPromise();
 
-        return address.plain();
+        return address.pretty();
     }
 
     static async resolveMosaicId(

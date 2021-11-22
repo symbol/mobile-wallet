@@ -32,6 +32,7 @@ const renderTypeMap = {
 		'_restrictionAddressAdditions',
 		'_restrictionAddressDeletions',
 		'_addressAdditions',
+		'_receivedCosignatures',
 		'_addressDeletions'
 	],
 	boolean: ['supplyMutable', 'transferable', 'restrictable'],
@@ -75,7 +76,7 @@ interface Props {
 
 class TableView extends Component<Props> {
 	valueExists = (value) => {
-		if (typeof value !== 'boolean' && !value) {
+		if (typeof value !== 'boolean' && value !== 0 && !value) {
 			return false;
 		}
 

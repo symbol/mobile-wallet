@@ -60,14 +60,14 @@ class SwipeablePanel extends Component<
             status: STATUS.CLOSED,
             showComponent: false,
             canScroll: false,
-            pan: new Animated.ValueXY({ x: 0, y: FULL_HEIGHT }),
+            pan: new Animated.ValueXY({ x: 0, y: PANEL_HEIGHT }),
             orientation: FULL_HEIGHT >= FULL_WIDTH ? 'portrait' : 'landscape',
             deviceWidth: FULL_WIDTH,
             deviceHeight: FULL_HEIGHT,
             panelHeight: PANEL_HEIGHT,
         };
 
-        this.pan = new Animated.ValueXY({ x: 0, y: FULL_HEIGHT });
+        this.pan = new Animated.ValueXY({ x: 0, y: PANEL_HEIGHT });
         this.isClosing = false;
         this.animatedValueY = 0;
 

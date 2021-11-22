@@ -16,7 +16,7 @@ export default class VrfKeyGraphic extends GraphicComponent {
     }
 
     get isLinkAction() {
-        return this.props.linkAction === 'Link';
+        return this.props.linkAction === 'v_link';
     }
 
     render() {
