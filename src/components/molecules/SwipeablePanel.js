@@ -146,7 +146,6 @@ class SwipeablePanel extends Component<
         const dimesions = Dimensions.get('screen');
         FULL_HEIGHT = dimesions.height;
         FULL_WIDTH = dimesions.width;
-        PANEL_HEIGHT = FULL_HEIGHT - 100;
 
         this.setState({
             orientation:

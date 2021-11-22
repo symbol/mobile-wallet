@@ -118,6 +118,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
         showLastWarning: false,
         userUnderstand: false,
         showBlacklistForm: false,
+        needsSignature: false,
         blacklistAccountName: '',
         selectedTab: 'innerTransactions',
     };
@@ -139,7 +140,11 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
         TransactionService.getTransactionDetails(transaction.hash, selectedNode)
             .then(async tx => {
+                const needsSignature = this.needsSignature();
+
                 this.setState({
+                    needsSignature,
+                    expandGraphic: needsSignature,
                     fullTransaction: tx,
                     isLoading: false,
                 });
@@ -206,7 +211,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 <View style={styles.graphicItem} key={'graphic' + index}>
                     <TransactionGraphic
                         index={index}
-                        forceExpand={expand}
+                        expand={expand}
                         {...item}
                     />
                 </View>
@@ -447,6 +452,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
             isLoading,
             selectedTab,
             fullTransaction,
+            needsSignature,
         } = this.state;
         let Content = null;
 
@@ -517,7 +523,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     />
                 )}
                 {!showLastWarning && !isLoading && fullTransaction && Content}
-                {this.needsSignature() && !isLoading && this.renderSign()}
+                {needsSignature && !isLoading && this.renderSign()}
             </SwipeablePanel>
         );
     }

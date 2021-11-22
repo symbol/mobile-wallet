@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { TransactionType } from 'symbol-sdk';
 import { Icon, Row, Section, TableView, Text } from '@src/components';
@@ -52,150 +52,141 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    index: number,
+    index: number;
+    expand: boolean;
 };
 
-type State = {
-    expanded: Boolean,
-};
+export default function TransactionGraphic(props: Props) {
+    const [expanded, setExpanded] = useState(false);
+    useEffect(() => {
+        setExpanded(props.expand);
+    }, [props.expand]);
 
-export default class TransactionGraphic extends Component<Props, State> {
-    state = {
-        expanded: false,
-    };
+    const transactionNumber =
+            typeof props.index === 'number' ? props.index + 1 + '' : null;
+    const tableData = _.omit(props, [
+        'index',
+        'expand',
+        'transactionType',
+        'type',
+        'signerAddress',
+        'recipientAddress',
+        'deadline',
+        'messageEncrypted',
+        'hash',
+    ]);
 
-    toggle() {
-        this.setState({ expanded: !this.state.expanded });
+    const toggle = () => {
+        setExpanded(value => !value);
     }
 
-    tableData() {
-        return _.omit(this.props, [
-            'index',
-            'forceExpand',
-            'transactionType',
-            'type',
-            'signerAddress',
-            'recipientAddress',
-            'deadline',
-            'messageEncrypted',
-            'hash',
-        ]);
-    }
-
-    renderGraphic() {
-        switch (this.props.transactionType) {
+    const renderGraphic = () => {
+        switch (props.transactionType) {
             case TransactionType.TRANSFER:
-                return <TransferGraphic {...this.props} />;
+                return <TransferGraphic {...props} />;
 
             case TransactionType.ADDRESS_ALIAS:
-                return <AddressAliasGraphic {...this.props} />;
+                return <AddressAliasGraphic {...props} />;
 
             case TransactionType.MOSAIC_ALIAS:
-                return <MosaicAliasGraphic {...this.props} />;
+                return <MosaicAliasGraphic {...props} />;
 
             case TransactionType.NAMESPACE_REGISTRATION:
-                return <NamespaceRegistrationGraphic {...this.props} />;
+                return <NamespaceRegistrationGraphic {...props} />;
 
             case TransactionType.MOSAIC_DEFINITION:
-                return <MosaicDefinitionGraphic {...this.props} />;
+                return <MosaicDefinitionGraphic {...props} />;
 
             case TransactionType.MOSAIC_SUPPLY_CHANGE:
-                return <MosaicSupplyChangeGraphic {...this.props} />;
+                return <MosaicSupplyChangeGraphic {...props} />;
 
             case TransactionType.SECRET_LOCK:
-                return <SecretLockGraphic {...this.props} />;
+                return <SecretLockGraphic {...props} />;
 
             case TransactionType.HASH_LOCK:
-                return <HashLockGraphic {...this.props} />;
+                return <HashLockGraphic {...props} />;
 
             case TransactionType.SECRET_PROOF:
-                return <SecretProofGraphic {...this.props} />;
+                return <SecretProofGraphic {...props} />;
 
             case TransactionType.VRF_KEY_LINK:
-                return <VrfKeyGraphic {...this.props} />;
+                return <VrfKeyGraphic {...props} />;
 
             case TransactionType.ACCOUNT_KEY_LINK:
-                return <AccountKeyLinkGraphic {...this.props} />;
+                return <AccountKeyLinkGraphic {...props} />;
 
             case TransactionType.NODE_KEY_LINK:
-                return <NodeKeyLinkGraphic {...this.props} />;
+                return <NodeKeyLinkGraphic {...props} />;
 
             case TransactionType.VOTING_KEY_LINK:
-                return <VotingKeyLinkGraphic {...this.props} />;
+                return <VotingKeyLinkGraphic {...props} />;
 
             case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-                return <MosaicGlobalRestrictionGraphic {...this.props} />;
+                return <MosaicGlobalRestrictionGraphic {...props} />;
 
             case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-                return <MosaicAddressRestrictionGraphic {...this.props} />;
+                return <MosaicAddressRestrictionGraphic {...props} />;
 
             case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-                return <AccountOperationRestrictionGraphic {...this.props} />;
+                return <AccountOperationRestrictionGraphic {...props} />;
 
             case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-                return <AccountAddressRestrictionGraphic {...this.props} />;
+                return <AccountAddressRestrictionGraphic {...props} />;
 
             case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-                return <AccountMosaicRestrictionGraphic {...this.props} />;
+                return <AccountMosaicRestrictionGraphic {...props} />;
 
             case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-                return <MultisigAccountModificationGraphic {...this.props} />;
+                return <MultisigAccountModificationGraphic {...props} />;
 
             case TransactionType.ACCOUNT_METADATA:
-                return <AccountMetadataGraphic {...this.props} />;
+                return <AccountMetadataGraphic {...props} />;
 
             case TransactionType.NAMESPACE_METADATA:
-                return <NamespaceMetadataGraphic {...this.props} />;
+                return <NamespaceMetadataGraphic {...props} />;
 
             case TransactionType.MOSAIC_METADATA:
-                return <MosaicMetadataGraphic {...this.props} />;
+                return <MosaicMetadataGraphic {...props} />;
         }
 
         return null;
     }
 
-    render() {
-        const { index } = this.props;
-        const { expanded } = this.state;
-        const transactionNumber =
-            typeof index === 'number' ? index + 1 + '' : null;
-
-        return (
-            <TouchableOpacity
-                onPress={() => this.toggle()}
-                style={[styles.fullWidth, styles.center]}
-            >
-                {transactionNumber && (
-                    <Text
-                        type="regular"
-                        theme="light"
-                        style={styles.transactionNumber}
-                    >
-                        {transactionNumber}
-                    </Text>
-                )}
-                {this.renderGraphic()}
-                {!expanded && (
-                    <Row
-                        style={styles.expand}
-                        align="center"
-                        justify="center"
-                        fullWidth
-                    >
-                        <Icon name="expand" size="small" />
-                    </Row>
-                )}
-                {expanded && (
-                    <Section style={[styles.fullWidth, styles.tableContainer]}>
-                        <TableView
-                            smaller
-                            hideEmpty
-                            style={styles.fullWidth}
-                            data={this.tableData()}
-                        />
-                    </Section>
-                )}
-            </TouchableOpacity>
-        );
-    }
+    return (
+        <TouchableOpacity
+            onPress={() => toggle()}
+            style={[styles.fullWidth, styles.center]}
+        >
+            {transactionNumber && (
+                <Text
+                    type="regular"
+                    theme="light"
+                    style={styles.transactionNumber}
+                >
+                    {transactionNumber}
+                </Text>
+            )}
+            {renderGraphic()}
+            {!expanded && (
+                <Row
+                    style={styles.expand}
+                    align="center"
+                    justify="center"
+                    fullWidth
+                >
+                    <Icon name="expand" size="small" />
+                </Row>
+            )}
+            {expanded && (
+                <Section style={[styles.fullWidth, styles.tableContainer]}>
+                    <TableView
+                        smaller
+                        hideEmpty
+                        style={styles.fullWidth}
+                        data={tableData}
+                    />
+                </Section>
+            )}
+        </TouchableOpacity>
+    );
 }
