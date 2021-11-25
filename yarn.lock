@@ -3623,7 +3623,7 @@ css-parse@~2.0.0:
   dependencies:
     css "^2.0.0"
 
-css-select@^2.0.2:
+css-select@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/css-select/-/css-select-2.1.0.tgz#6a34653356635934a81baca68d0255432105dbef"
   integrity sha512-Dqk7LQKpwLoH3VovzZnkzegqNSuAziQyNZUcrdDM401iY+R5NkGBXGmtO05/yaXQziALuPogeG0b7UAgjnTJTQ==
@@ -3651,10 +3651,10 @@ css-to-react-native@^2.3.0:
     css-color-keywords "^1.0.0"
     postcss-value-parser "^3.3.0"
 
-css-tree@^1.0.0-alpha.37:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-1.1.2.tgz#9ae393b5dafd7dae8a622475caec78d3d8fbd7b5"
-  integrity sha512-wCoWush5Aeo48GLhfHPbmvZs59Z+M7k5+B1xDnXbdWNcEF423DoFdqSWE0PM5aNk5nI5cp1q7ms36zGApY/sKQ==
+css-tree@^1.0.0-alpha.39:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-1.1.3.tgz#eb4870fb6fd7707327ec95c2ff2ab09b5e8db91d"
+  integrity sha512-tRpdppF7TRazZrjJ6v3stzv93qxRcSsFmW6cX0Zm2NVKpxE1WV1HblnghVv9TreireHkqI/VDEsfolRF1p6y7Q==
   dependencies:
     mdn-data "2.0.14"
     source-map "^0.6.1"
@@ -9443,13 +9443,13 @@ react-native-stylus-transformer@^1.2.0:
     css-to-react-native-transform "^1.8.1"
     semver "^5.6.0"
 
-react-native-svg@^9.13.3:
-  version "9.13.6"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.13.6.tgz#5365fba2bc460054b90851e71f2a71006a5d373f"
-  integrity sha512-vjjuJhEhQCwWjqsgWyGy6/C/LIBM2REDxB40FU1PMhi8T3zQUwUHnA6M15pJKlQG8vaZyA+QnLyIVhjtujRgig==
+react-native-svg@^12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
+  integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
   dependencies:
-    css-select "^2.0.2"
-    css-tree "^1.0.0-alpha.37"
+    css-select "^2.1.0"
+    css-tree "^1.0.0-alpha.39"
 
 react-native-swipeable-item@^1.5.0:
   version "1.5.4"
@@ -10183,6 +10183,13 @@ rn-nodeify@^10.2.0:
 "rn-secure-storage@https://github.com/irshadpc/rn-secure-storage.git#master":
   version "2.0.2"
   resolved "https://github.com/irshadpc/rn-secure-storage.git#0bcd10c6f388075d8004ce4c8f39a8a5a137e0e2"
+
+rn-swipeable-panel@^1.2.5, rn-swipeable-panel@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/rn-swipeable-panel/-/rn-swipeable-panel-1.2.6.tgz#a7c2b090ecfd8c43ad91abd553100cb79f5a33ee"
+  integrity sha512-jZ5wsrtSUddf1GJR6Xc14ohum0R3RpEfD8UyX6nSAcpNAACErR+kwKlyp60yiF95bTy6fqB3+/udcQ4eOo+NXw==
+  dependencies:
+    rn-swipeable-panel "^1.2.5"
 
 rss-parser@^3.9.0:
   version "3.12.0"

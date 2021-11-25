@@ -18,6 +18,7 @@ export default {
         selectedNode: '',
         selectedNetwork: {
             type: 'testnet',
+            networkType: 0,
             generationHash: '',
             node: '',
             currencyMosaicId: '',
@@ -27,6 +28,12 @@ export default {
             epochAdjustment: 0,
             transactionFees: {},
             defaultDynamicFeeMultiplier: 0,
+            networkCurrency: {
+                namespaceName: '',
+                namespaceId: '',
+                mosaicId: '',
+                divisibility: 6,
+            }
         },
         mainnetNodes: [],
         testnetNodes: [],

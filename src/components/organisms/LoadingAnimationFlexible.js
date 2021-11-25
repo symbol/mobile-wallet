@@ -53,6 +53,7 @@ type Props = {
 
 const LoadingAnimation = (props: Props) => {
 	const {
+		style,
 		text,
 		theme = 'light',
 		isFade = false
@@ -63,7 +64,7 @@ const LoadingAnimation = (props: Props) => {
 		: GlobalStyles.color.WHITE;
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			{isFade && <FadeView style={styles.container} duration={200}>
 				<View style={styles.loadingContainer}>
 					<View style={styles.spinnerWrapper}>
