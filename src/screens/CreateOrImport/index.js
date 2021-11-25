@@ -4,16 +4,15 @@
  */
 
 import React, { Component } from 'react';
-import {View, Image, Text, TouchableHighlight} from 'react-native';
+import { Image, Text, TouchableHighlight, View } from 'react-native';
 
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 import Slider from '@src/components/molecules/Slider';
 
 import styles from './CreateOrImport.styl';
-import GradientButton from "@src/components/atoms/GradientButton";
-import GradientContainer from "@src/components/organisms/SymbolGradientContainer";
-import {Router} from "@src/Router";
-
+import GradientButton from '@src/components/atoms/GradientButton';
+import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
+import { Router } from '@src/Router';
 
 /**
  * Create or Import Screen
@@ -55,19 +54,15 @@ export class CreateOrImport extends Component {
      * Import Wallet handler
      */
     importWallet = () => {
-        Router.goToImportOptions({}, this.props.componentId)
+        Router.goToImportOptions({}, this.props.componentId);
     };
 
-    renderItem = (props) => {
+    renderItem = props => {
         const { image, title, text, mesh } = props;
 
         return (
-            <View
-                style={styles.slide}
-                source={mesh}
-            >
+            <View style={styles.slide} source={mesh}>
                 <View style={styles.slideContent}>
-
                     <Image style={styles.image} source={image} />
                     <Text style={styles.title}>{title}</Text>
                     <Text style={styles.text}>{text}</Text>
@@ -82,7 +77,7 @@ export class CreateOrImport extends Component {
                 colors={['#5200c6', '#44004E']}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 0, y: 1 }}
-                angle={ 135 }
+                angle={135}
                 useAngle
                 style={styles.container}
             >
@@ -94,19 +89,26 @@ export class CreateOrImport extends Component {
                     showDoneButton={false}
                 />
                 <View style={styles.bottomCard}>
-                    <GradientButton title={translate('INTRO_createWalletButton')} onPress={this.createWallet} />
+                    <GradientButton
+                        title={translate('INTRO_createWalletButton')}
+                        onPress={this.createWallet}
+                    />
                     <View style={styles.row}>
-                        <Text style={styles.buttonTextNormal}>{translate('INTRO_alreadyHaveWallet')}</Text>
+                        <Text style={styles.buttonTextNormal}>
+                            {translate('INTRO_alreadyHaveWallet')}
+                        </Text>
                         <TouchableHighlight
                             style={styles.buttonLink}
                             onPress={this.importWallet}
-                            underlayColor="#EEEEEE">
-                            <Text style={styles.buttonTextLink}>{translate('INTRO_importWalletButton')}</Text>
+                            underlayColor="#EEEEEE"
+                        >
+                            <Text style={styles.buttonTextLink}>
+                                {translate('INTRO_importWalletButton')}
+                            </Text>
                         </TouchableHighlight>
                     </View>
                 </View>
             </GradientContainer>
-
         );
     }
 }

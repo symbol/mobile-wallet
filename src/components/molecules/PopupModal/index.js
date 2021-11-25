@@ -9,7 +9,6 @@ import { Modal, View } from 'react-native';
 import styles from './popupmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
-import Text from "@src/components/controls/Section";
 
 type Props = {
     children: Node,
@@ -24,10 +23,28 @@ type Props = {
 };
 
 const PopupModal = (props: Props) => {
-	const { children, isModalOpen, handleClose, showTopbar, title, showBack, onBack, showClose, onClose, noPadding, style = {}, containerStyle={} } = props;
-	const contentStyle = noPadding ? {} : styles.contentBody;
+    const {
+        children,
+        isModalOpen,
+        handleClose,
+        showTopbar,
+        title,
+        showBack,
+        onBack,
+        showClose,
+        onClose,
+        noPadding,
+        style = {},
+        containerStyle = {},
+    } = props;
+    const contentStyle = noPadding ? {} : styles.contentBody;
     return (
-        <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
+        <Modal
+            animationType="fade"
+            transparent
+            visible={isModalOpen}
+            onRequestClose={handleClose}
+        >
             <View style={styles.modalOverlay} />
 
             <View style={styles.modalWrapper}>
@@ -46,9 +63,7 @@ const PopupModal = (props: Props) => {
                                 alignLeft
                             />
                         )}
-						<View style={[contentStyle, style]}>
-							{children}
-						</View>
+                        <View style={[contentStyle, style]}>{children}</View>
                     </View>
                 </Card>
             </View>

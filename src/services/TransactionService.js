@@ -7,12 +7,10 @@ import type {
 import {
     Account,
     Address,
-    AggregateTransaction,
     CosignatureSignedTransaction,
     CosignatureTransaction,
     Deadline,
     EncryptedMessage,
-    Message,
     Mosaic,
     MosaicId,
     NetworkType,
@@ -23,7 +21,6 @@ import {
     Transaction,
     TransactionGroup,
     TransactionHttp,
-    TransactionStatusHttp,
     TransferTransaction,
     UInt64,
 } from 'symbol-sdk';
@@ -68,13 +65,11 @@ export default class TransactionService {
      * @param transaction
      * @param signer
      * @param networkModel
-     * @param extraParams
      */
     static async signAndBroadcastTransactionModel(
         transaction: TransactionModel,
         signer: AccountModel,
-        networkModel: NetworkModel,
-        ...extraParams
+        networkModel: NetworkModel
     ) {
         const transactionObject = await this.transactionModelToTransactionObject(
             transaction,

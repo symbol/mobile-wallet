@@ -12,7 +12,11 @@ export class SecureStorage {
         return this.secureRetrieveAsync(this.MNEMONIC_KEY);
     }
 
-    static async createNewAccount(name: string, privateKey: string, index?: number) {
+    static async createNewAccount(
+        name: string,
+        privateKey: string,
+        index?: number
+    ) {
         const accounts = await this.getAccounts();
         accounts.push({
             type: index ? 'hd' : 'privateKey',
@@ -20,11 +24,16 @@ export class SecureStorage {
             privateKey: privateKey,
             index: index,
         });
-        return this.secureSaveAsync(this.ACCOUNTS_KEY, JSON.stringify(accounts));
+        return this.secureSaveAsync(
+            this.ACCOUNTS_KEY,
+            JSON.stringify(accounts)
+        );
     }
 
     static async getAccounts() {
-        const accountsString = await this.secureRetrieveAsync(this.ACCOUNTS_KEY);
+        const accountsString = await this.secureRetrieveAsync(
+            this.ACCOUNTS_KEY
+        );
         try {
             return JSON.parse(accountsString) || [];
         } catch (e) {

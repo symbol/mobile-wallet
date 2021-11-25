@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    index: number;
-    expand: boolean;
+    index: number,
+    expand: boolean,
 };
 
 export default function TransactionGraphic(props: Props) {
@@ -63,7 +63,7 @@ export default function TransactionGraphic(props: Props) {
     }, [props.expand]);
 
     const transactionNumber =
-            typeof props.index === 'number' ? props.index + 1 + '' : null;
+        typeof props.index === 'number' ? props.index + 1 + '' : null;
     const tableData = _.omit(props, [
         'index',
         'expand',
@@ -78,7 +78,7 @@ export default function TransactionGraphic(props: Props) {
 
     const toggle = () => {
         setExpanded(value => !value);
-    }
+    };
 
     const renderGraphic = () => {
         switch (props.transactionType) {
@@ -150,7 +150,7 @@ export default function TransactionGraphic(props: Props) {
         }
 
         return null;
-    }
+    };
 
     return (
         <TouchableOpacity

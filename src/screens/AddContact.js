@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, GradientBackground, ImageBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
+import {
+    Button,
+    GradientBackground,
+    Input,
+    InputAddress,
+    Section,
+    Text,
+    TitleBar,
+} from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -46,7 +54,12 @@ class AddContact extends Component<Props, State> {
             notes: this.state.notes,
         };
 
-        store.dispatchAction({ type: 'addressBook/addContact', payload: contact }).then(_ => Router.goBack(this.props.componentId));
+        store
+            .dispatchAction({
+                type: 'addressBook/addContact',
+                payload: contact,
+            })
+            .then(() => Router.goBack(this.props.componentId));
     };
 
     update = id => {
@@ -59,8 +72,16 @@ class AddContact extends Component<Props, State> {
             notes: this.state.notes,
             id: id,
         };
-        store.dispatchAction({ type: 'addressBook/selectContact', payload: contact });
-        store.dispatchAction({ type: 'addressBook/updateContact', payload: contact }).then(_ => Router.goBack(this.props.componentId));
+        store.dispatchAction({
+            type: 'addressBook/selectContact',
+            payload: contact,
+        });
+        store
+            .dispatchAction({
+                type: 'addressBook/updateContact',
+                payload: contact,
+            })
+            .then(() => Router.goBack(this.props.componentId));
     };
 
     componentDidMount() {
@@ -70,8 +91,6 @@ class AddContact extends Component<Props, State> {
             this.onAddressChange(address);
             this.onChangeField('name')(name);
         } else if (selectedContact) {
-            this.state.update = true;
-            this.state.isAddressValid = true;
             this.setState({
                 address: selectedContact.address,
                 name: selectedContact.name,
@@ -80,6 +99,8 @@ class AddContact extends Component<Props, State> {
                 label: selectedContact.label,
                 notes: selectedContact.notes,
                 id: selectedContact.id,
+                update: true,
+                isAddressValid: true,
             });
         }
     }
@@ -89,9 +110,17 @@ class AddContact extends Component<Props, State> {
         const isValid = isAddressValid(address, network);
         if (isValid) {
             const contact = addressBook.getContactByAddress(address);
-            this.setState({ address: address, isAddressValid: isValid, isAddressTaken: !!contact });
+            this.setState({
+                address: address,
+                isAddressValid: isValid,
+                isAddressTaken: !!contact,
+            });
         } else {
-            this.setState({ address: address, isAddressValid: false, isAddressTaken: false });
+            this.setState({
+                address: address,
+                isAddressValid: false,
+                isAddressTaken: false,
+            });
         }
     };
 
@@ -102,19 +131,41 @@ class AddContact extends Component<Props, State> {
     };
 
     render() {
-        let { address, name, phone, email, label, notes, id, isAddressValid, isAddressTaken } = this.state;
+        let {
+            address,
+            name,
+            phone,
+            email,
+            notes,
+            id,
+            isAddressValid,
+            isAddressTaken,
+        } = this.state;
 
         return (
             <GradientBackground name="mesh_small" theme="light">
                 {!this.state.update && (
-                    <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('addressBook.addContact')} />
+                    <TitleBar
+                        theme="light"
+                        onBack={() => Router.goBack(this.props.componentId)}
+                        title={translate('addressBook.addContact')}
+                    />
                 )}
                 {this.state.update && (
-                    <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('addressBook.updateContact')} />
+                    <TitleBar
+                        theme="light"
+                        onBack={() => Router.goBack(this.props.componentId)}
+                        title={translate('addressBook.updateContact')}
+                    />
                 )}
                 <Section type="form" isScrollable>
                     <Section type="form-item">
-                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={this.onChangeField('name')} />
+                        <Input
+                            value={name}
+                            placeholder={translate('table.name')}
+                            theme="light"
+                            onChangeText={this.onChangeField('name')}
+                        />
                         {name.length === 0 && (
                             <Text theme="light" style={styles.warning}>
                                 {translate('addressBook.nameWarning')}
@@ -127,7 +178,9 @@ class AddContact extends Component<Props, State> {
                             placeholder={translate('table.address')}
                             theme="light"
                             fullWidth
-                            onChangeText={address => this.onAddressChange(address)}
+                            onChangeText={address =>
+                                this.onAddressChange(address)
+                            }
                             showAddressBook={false}
                         />
                         {!isAddressValid && (
@@ -142,22 +195,43 @@ class AddContact extends Component<Props, State> {
                         )}
                     </Section>
                     <Section type="form-item">
-                        <Input value={phone} placeholder={translate('table.phone')} theme="light" onChangeText={this.onChangeField('phone')} />
+                        <Input
+                            value={phone}
+                            placeholder={translate('table.phone')}
+                            theme="light"
+                            onChangeText={this.onChangeField('phone')}
+                        />
                     </Section>
                     <Section type="form-item">
-                        <Input value={email} placeholder={translate('table.email')} theme="light" onChangeText={email => this.setState({ email })} />
+                        <Input
+                            value={email}
+                            placeholder={translate('table.email')}
+                            theme="light"
+                            onChangeText={email => this.setState({ email })}
+                        />
                     </Section>
                     <Section type="form-item">
-                        <Input value={notes} placeholder={translate('table.notes')} theme="light" onChangeText={notes => this.setState({ notes })} />
+                        <Input
+                            value={notes}
+                            placeholder={translate('table.notes')}
+                            theme="light"
+                            onChangeText={notes => this.setState({ notes })}
+                        />
                     </Section>
                     {!this.state.update && (
                         <Section type="form-bottom">
                             <Section type="button">
                                 <Button
-                                    text={translate('CreateNewAccount.submitButton')}
+                                    text={translate(
+                                        'CreateNewAccount.submitButton'
+                                    )}
                                     theme="light"
                                     onPress={() => this.submit()}
-                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
+                                    isDisabled={
+                                        !isAddressValid ||
+                                        name.length < 1 ||
+                                        isAddressTaken
+                                    }
                                 />
                             </Section>
                         </Section>
@@ -166,10 +240,16 @@ class AddContact extends Component<Props, State> {
                         <Section type="form-bottom">
                             <Section type="button">
                                 <Button
-                                    text={translate('addressBook.updateContact')}
+                                    text={translate(
+                                        'addressBook.updateContact'
+                                    )}
                                     theme="light"
                                     onPress={() => this.update(id)}
-                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
+                                    isDisabled={
+                                        !isAddressValid ||
+                                        name.length < 1 ||
+                                        isAddressTaken
+                                    }
                                 />
                             </Section>
                         </Section>

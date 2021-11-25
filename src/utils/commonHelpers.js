@@ -1,4 +1,4 @@
-import {Listener} from "symbol-sdk";
+import { Listener } from 'symbol-sdk';
 
 export class CommonHelpers {
     /**
@@ -17,7 +17,11 @@ export class CommonHelpers {
     /**
      * Helper method to retry opening websocket n times asynchronously
      */
-    static async retryNTimes(listener: Listener, trials: number, interval: number) {
+    static async retryNTimes(
+        listener: Listener,
+        trials: number,
+        interval: number
+    ) {
         if (trials < 1) {
             throw new Error('could not connect');
         }

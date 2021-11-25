@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, Linking } from 'react-native';
-import { Text, Section, Col, Row } from '@src/components';
+import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Col, Row, Section, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 
@@ -30,8 +30,14 @@ export default class ReadMoreLink extends Component<Props, State> {
                     </Text>
                     <Row justify="space-between" align="end" fullWidth>
                         <Col style={{ flex: 1, marginTop: 10 }}>
-                            <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
-                                <Text theme="light" align="right" style={styles.link}>
+                            <TouchableOpacity
+                                onPress={() => this.onPress(this.props.url)}
+                            >
+                                <Text
+                                    theme="light"
+                                    align="right"
+                                    style={styles.link}
+                                >
                                     {translate('news.readMore')}
                                 </Text>
                             </TouchableOpacity>
@@ -43,8 +49,14 @@ export default class ReadMoreLink extends Component<Props, State> {
             return (
                 <Row justify="space-between" align="end" fullWidth>
                     <Col style={{ flex: 1, marginTop: 10 }}>
-                        <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
-                            <Text theme="light" align="right" style={styles.link}>
+                        <TouchableOpacity
+                            onPress={() => this.onPress(this.props.url)}
+                        >
+                            <Text
+                                theme="light"
+                                align="right"
+                                style={styles.link}
+                            >
                                 {translate('news.readMore')}
                             </Text>
                         </TouchableOpacity>

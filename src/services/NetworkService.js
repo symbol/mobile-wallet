@@ -1,18 +1,28 @@
-import {ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, RepositoryFactoryHttp, TransactionFees} from 'symbol-sdk';
-import type { NetworkModel, AppNetworkType } from '@src/storage/models/NetworkModel';
+import {
+    ChainHttp,
+    NetworkConfiguration,
+    NetworkHttp,
+    NetworkType,
+    NodeHttp,
+    RepositoryFactoryHttp,
+    TransactionFees,
+} from 'symbol-sdk';
+import type {
+    AppNetworkType,
+    NetworkModel,
+} from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
-import { getStatisticsServiceURL } from '@src/config/environment'
+import { getStatisticsServiceURL } from '@src/config/environment';
 
 const REQUEST_TIMEOUT = 5000;
 
 // Statistics service nodes endpoint filters
 export type NodeFilters = 'preferred' | 'suggested';
-export interface NodeSearchCriteria{
-    nodeFilter: NodeFilters,
-    limit: 30
+export interface NodeSearchCriteria {
+    nodeFilter: NodeFilters;
+    limit: 30;
 }
-
 
 export default class NetworkService {
     /**
@@ -40,8 +50,10 @@ export default class NetworkService {
 
         const networkCurrency = await new RepositoryFactoryHttp(node, {
             networkType: networkType,
-            generationHash: networkProps.network.generationHashSeed
-        }).getCurrencies().toPromise();
+            generationHash: networkProps.network.generationHashSeed,
+        })
+            .getCurrencies()
+            .toPromise();
 
         let transactionFees: TransactionFees;
         try {
@@ -58,20 +70,25 @@ export default class NetworkService {
             networkType,
             generationHash: networkProps.network.generationHashSeed,
             node: node,
-            currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
+            currencyMosaicId: networkProps.chain.currencyMosaicId
+                .replace('0x', '')
+                .replace(/'/g, ''),
             currencyDivisibility: networkCurrency.currency.divisibility,
             chainHeight: chainInfo.height.compact(),
-            blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
+            blockGenerationTargetTime: this._blockGenerationTargetTime(
+                networkProps
+            ),
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
             transactionFees: transactionFees,
-            defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
+            defaultDynamicFeeMultiplier:
+                networkProps.chain.defaultDynamicFeeMultiplier || 1000,
             networkCurrency: {
                 namespaceName: networkCurrency.currency.namespaceId.fullName,
                 namespaceId: networkCurrency.currency.namespaceId.id.toHex(),
                 mosaicId: networkCurrency.currency.mosaicId.toHex(),
                 divisibility: networkCurrency.currency.divisibility,
             },
-            totalChainImportance: networkProps.chain.totalChainImportance
+            totalChainImportance: networkProps.chain.totalChainImportance,
         };
     }
 
@@ -82,9 +99,16 @@ export default class NetworkService {
      * @returns {number}
      * @private
      */
-    static _blockGenerationTargetTime(networkConfiguration: NetworkConfiguration | undefined, defaultValue: number | undefined = 15): number {
+    static _blockGenerationTargetTime(
+        networkConfiguration: NetworkConfiguration | undefined,
+        defaultValue: number | undefined = 15
+    ): number {
         return (
-            (networkConfiguration && networkConfiguration.chain && durationStringToSeconds(networkConfiguration.chain.blockGenerationTargetTime)) ||
+            (networkConfiguration &&
+                networkConfiguration.chain &&
+                durationStringToSeconds(
+                    networkConfiguration.chain.blockGenerationTargetTime
+                )) ||
             defaultValue
         );
     }
@@ -112,9 +136,7 @@ export default class NetworkService {
     static async isNetworkUp(network: NetworkModel) {
         const nodeHttp = new NodeHttp(network.node);
         try {
-            const health = await nodeHttp
-                .getNodeHealth()
-                .toPromise();
+            const health = await nodeHttp.getNodeHealth().toPromise();
             return health.apiNode === 'up' && health.db === 'up';
         } catch {
             return false;
@@ -126,16 +148,23 @@ export default class NetworkService {
      * @param networkType 'mainnet | testnet'
      * @param nodeSearchCriteria NodeSearchCriteria
      */
-    static async getNodeList(networkType: AppNetworkType, {limit, nodeFilter}: NodeSearchCriteria) {
+    static async getNodeList(
+        networkType: AppNetworkType,
+        { limit, nodeFilter }: NodeSearchCriteria
+    ) {
         return new Promise(resolve => {
-            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${nodeFilter}&limit=${limit}`)
+            fetch(
+                `${getStatisticsServiceURL(
+                    networkType
+                )}nodes?filter=${nodeFilter}&limit=${limit}`
+            )
                 .then(response => response.json())
-                .then((responseData)=> {
-                    resolve(responseData)
+                .then(responseData => {
+                    resolve(responseData);
                 })
                 .catch(e => {
-                    resolve([])
-                    console.log(e)
+                    resolve([]);
+                    console.log(e);
                 });
         });
     }
@@ -147,19 +176,23 @@ export default class NetworkService {
     static async getSelectorNodeList(networkType: AppNetworkType) {
         const nodeSearchCriteria = {
             nodeFilter: 'suggested',
-            limit: 30
-        }
+            limit: 30,
+        };
 
-        const nodes = await NetworkService.getNodeList(networkType, nodeSearchCriteria) || [];
+        const nodes =
+            (await NetworkService.getNodeList(
+                networkType,
+                nodeSearchCriteria
+            )) || [];
         let nodeUrls = [];
 
         for (const node of nodes) {
             const { apiStatus } = node;
             if (apiStatus) {
-                nodeUrls.push(apiStatus.restGatewayUrl)
+                nodeUrls.push(apiStatus.restGatewayUrl);
             }
         }
 
-       return nodeUrls;
+        return nodeUrls;
     }
 }

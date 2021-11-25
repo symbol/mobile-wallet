@@ -112,6 +112,6 @@ export class AsyncCache {
             this.remove(this.SELECTED_NOTIFICATION_KEY),
             this.remove(this.SELECTED_PASSCODE_KEY),
             this.remove(this.SELECTED_NODE_KEY),
-        ])
-    }
+        ]);
+    };
 }

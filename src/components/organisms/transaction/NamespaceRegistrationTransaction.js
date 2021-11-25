@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text } from '@src/components';
 import type { NamespaceRegistrationTransactionModel } from '@src/storage/models/TransactionModel';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
@@ -8,7 +8,6 @@ type Props = {
 };
 
 export default class NamespaceRegistrationTransaction extends BaseTransactionItem<Props> {
-
     renderAction = () => {
         const { transaction } = this.props;
         return (

@@ -1,4 +1,4 @@
-import { IContact, AddressBook } from 'symbol-address-book';
+import { AddressBook, IContact } from 'symbol-address-book';
 import { AddressBookSecureStorage } from '@src/storage/persistence/AddressBookSecureStorage';
 
 type AddressBookState = {
@@ -31,28 +31,40 @@ export default {
         },
     },
     actions: {
-        loadAddressBook: async ({ commit, dispatchAction, state }) => {
+        loadAddressBook: async ({ commit }) => {
             const addressBook = await AddressBookSecureStorage.retrieveAddressBook();
-            commit({ type: 'addressBook/setAddressBook', payload: addressBook });
+            commit({
+                type: 'addressBook/setAddressBook',
+                payload: addressBook,
+            });
         },
 
         addContact: async ({ commit, dispatchAction, state }, contact) => {
             let addressBook = state.addressBook.addressBook;
             addressBook.addContact(contact);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
-            commit({ type: 'addressBook/setAddressBook', payload: addressBook });
+            commit({
+                type: 'addressBook/setAddressBook',
+                payload: addressBook,
+            });
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
         },
 
-        selectContact: async ({ commit, dispatchAction, state }, contact) => {
-            await commit({ type: 'addressBook/setSelectedContact', payload: contact });
+        selectContact: async ({ commit }, contact) => {
+            await commit({
+                type: 'addressBook/setSelectedContact',
+                payload: contact,
+            });
         },
 
         updateContact: async ({ commit, dispatchAction, state }, contact) => {
             let addressBook = state.addressBook.addressBook;
             addressBook.updateContact(contact.id, contact);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
-            commit({ type: 'addressBook/setAddressBook', payload: addressBook });
+            commit({
+                type: 'addressBook/setAddressBook',
+                payload: addressBook,
+            });
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
         },
 
@@ -60,7 +72,10 @@ export default {
             let addressBook = state.addressBook.addressBook;
             addressBook.removeContact(id);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
-            commit({ type: 'addressBook/setAddressBook', payload: addressBook });
+            commit({
+                type: 'addressBook/setAddressBook',
+                payload: addressBook,
+            });
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
         },
     },

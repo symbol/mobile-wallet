@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { isEqual } from 'lodash';
 
 import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
@@ -15,7 +15,7 @@ import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import { Router } from '@src/Router';
 import store from '@src/store';
-import {createPasscode} from "@src/utils/passcode";
+import { createPasscode } from '@src/utils/passcode';
 
 const testIDs = {
     listItemVerifiedMnemonics: 'list-item-mnemonic',
@@ -35,9 +35,15 @@ class VerifyMnemonics extends Component {
         super(props);
 
         const mnemonics = store.getState().wallet.mnemonic;
-        const originalPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
-        const mnemonicPassPhrase = mnemonics.split(' ').map((item, index) => ({ key: item, id: index }));
-        const sortedMnemonics = mnemonicPassPhrase.sort((a, b) => a.key.localeCompare(b.key));
+        const originalPassPhrase = mnemonics
+            .split(' ')
+            .map((item, index) => ({ key: item, id: index }));
+        const mnemonicPassPhrase = mnemonics
+            .split(' ')
+            .map((item, index) => ({ key: item, id: index }));
+        const sortedMnemonics = mnemonicPassPhrase.sort((a, b) =>
+            a.key.localeCompare(b.key)
+        );
         this.state = {
             mnemonics: originalPassPhrase,
             unverifiedMnemonics: sortedMnemonics,
@@ -69,8 +75,13 @@ class VerifyMnemonics extends Component {
         const concatedMnemonics = verifiedMnemonics.concat(newItem);
 
         this.setState({
-            isInvalidOrder: !isEqual(concatedMnemonics, mnemonics.slice(0, concatedMnemonics.length)),
-            unverifiedMnemonics: deleteFrom.filter(i => i.id !== newItem.id).sort((x, y) => x.key > y.key),
+            isInvalidOrder: !isEqual(
+                concatedMnemonics,
+                mnemonics.slice(0, concatedMnemonics.length)
+            ),
+            unverifiedMnemonics: deleteFrom
+                .filter(i => i.id !== newItem.id)
+                .sort((x, y) => x.key > y.key),
             verifiedMnemonics: verifiedMnemonics.concat(newItem),
         });
     };
@@ -78,12 +89,19 @@ class VerifyMnemonics extends Component {
     addItemVerifiedMnemonic = (newItem, deleteFrom) => {
         const { mnemonics } = this.state;
         const { unverifiedMnemonics } = this.state;
-        const removedMnemonics = deleteFrom.filter(i => i.id !== newItem.id).map(item => item);
+        const removedMnemonics = deleteFrom
+            .filter(i => i.id !== newItem.id)
+            .map(item => item);
 
         this.setState({
-            isInvalidOrder: !isEqual(removedMnemonics, mnemonics.slice(0, removedMnemonics.length)),
+            isInvalidOrder: !isEqual(
+                removedMnemonics,
+                mnemonics.slice(0, removedMnemonics.length)
+            ),
             verifiedMnemonics: deleteFrom.filter(i => i.id !== newItem.id),
-            unverifiedMnemonics: unverifiedMnemonics.concat(newItem).sort((x, y) => x.key > y.key),
+            unverifiedMnemonics: unverifiedMnemonics
+                .concat(newItem)
+                .sort((x, y) => x.key > y.key),
         });
     };
 
@@ -91,7 +109,14 @@ class VerifyMnemonics extends Component {
         const { verifiedMnemonics } = this.state;
         // $FlowFixMe
         return verifiedMnemonics.map((item: PassPhraseItem) => (
-            <TouchableOpacity testID={item.key} style={styles.orderedChip} onPress={() => this.addItemVerifiedMnemonic(item, verifiedMnemonics)} key={item.id}>
+            <TouchableOpacity
+                testID={item.key}
+                style={styles.orderedChip}
+                onPress={() =>
+                    this.addItemVerifiedMnemonic(item, verifiedMnemonics)
+                }
+                key={item.id}
+            >
                 <Text style={styles.orderedChipText}>{item.key}</Text>
             </TouchableOpacity>
         ));
@@ -104,15 +129,22 @@ class VerifyMnemonics extends Component {
             <TouchableOpacity
                 testID={item.key}
                 style={styles.unorderedChip}
-                onPress={() => this.addItemUnverifiedMnemonic(item, unverifiedMnemonics)}
-                key={item.id}>
+                onPress={() =>
+                    this.addItemUnverifiedMnemonic(item, unverifiedMnemonics)
+                }
+                key={item.id}
+            >
                 <Text style={styles.unorderedChipText}>{item.key}</Text>
             </TouchableOpacity>
         ));
     };
 
     renderMnemonicNoteText = () => {
-        return <Text style={styles.textContent}>{translate('CreateWallet.VerifyMnemonics.description')}</Text>;
+        return (
+            <Text style={styles.textContent}>
+                {translate('CreateWallet.VerifyMnemonics.description')}
+            </Text>
+        );
     };
 
     keyExtractor = item => item.id;
@@ -120,36 +152,65 @@ class VerifyMnemonics extends Component {
     render() {
         const { isInvalidOrder } = this.state;
         return (
-            <GradientContainer start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} angle={135} useAngle style={styles.gradientContainer}>
-                <TitleBar title={translate('CreateWallet.VerifyMnemonics.title')} theme="dark" showBack onBack={() => Router.goBack(this.props.componentId)} />
+            <GradientContainer
+                start={{ x: 1, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                angle={135}
+                useAngle
+                style={styles.gradientContainer}
+            >
+                <TitleBar
+                    title={translate('CreateWallet.VerifyMnemonics.title')}
+                    theme="dark"
+                    showBack
+                    onBack={() => Router.goBack(this.props.componentId)}
+                />
                 <ScrollView>
                     <View style={styles.contentContainer}>
                         {this.renderMnemonicNoteText()}
                         <Card style={styles.orderedMnemonicsCard}>
                             <View style={styles.orderedMnemonicsContent}>
-                                <View style={styles.orderedMnemonics} testID={testIDs.listItemVerifiedMnemonics}>
+                                <View
+                                    style={styles.orderedMnemonics}
+                                    testID={testIDs.listItemVerifiedMnemonics}
+                                >
                                     {this.renderVerifiedMnemonicItem()}
                                 </View>
 
                                 {this.isValidPassphrase() ? (
-                                    <Text testID={testIDs.textSuccessPassPhrase} style={styles.success}>
-                                        {translate('CreateWallet.VerifyMnemonics.success.passphraseOrder')}
+                                    <Text
+                                        testID={testIDs.textSuccessPassPhrase}
+                                        style={styles.success}
+                                    >
+                                        {translate(
+                                            'CreateWallet.VerifyMnemonics.success.passphraseOrder'
+                                        )}
                                     </Text>
                                 ) : null}
                                 {isInvalidOrder ? (
-                                    <Text testID={testIDs.textErrorPassPhrase} style={styles.error}>
-                                        {translate('CreateWallet.VerifyMnemonics.error.passphraseOrder')}
+                                    <Text
+                                        testID={testIDs.textErrorPassPhrase}
+                                        style={styles.error}
+                                    >
+                                        {translate(
+                                            'CreateWallet.VerifyMnemonics.error.passphraseOrder'
+                                        )}
                                     </Text>
                                 ) : null}
                             </View>
                         </Card>
 
-                        <View style={styles.unorderedMnemonics} testID={testIDs.listItemUnverifiedMnemonics}>
+                        <View
+                            style={styles.unorderedMnemonics}
+                            testID={testIDs.listItemUnverifiedMnemonics}
+                        >
                             {this.renderUnverifiedMnemonicItem()}
                         </View>
                         <GradientButton
                             testID={testIDs.submitButton}
-                            title={translate('CreateWallet.VerifyMnemonics.submitButton.title')}
+                            title={translate(
+                                'CreateWallet.VerifyMnemonics.submitButton.title'
+                            )}
                             disabled={this.isInvalidPassphrase()}
                             onPress={this.handleSubmit}
                             style={styles.button}
