@@ -189,8 +189,18 @@ class TableView extends Component<Props> {
         Object.keys(renderTypeMap).find(itemType =>
             renderTypeMap[itemType].find(el => {
                 if (el === key) {
-                    ItemTemplate = this['render_' + itemType](value);
-                    return true;
+                    const renderer = this['render_' + itemType];
+
+                    if (typeof renderer === 'function') {
+                        ItemTemplate = renderer(value);
+                        return true;
+                    } else {
+                        console.error(
+                            `Table item renderer "${'render_' +
+                                itemType}" is not implemented`
+                        );
+                        return false;
+                    }
                 }
             })
         );

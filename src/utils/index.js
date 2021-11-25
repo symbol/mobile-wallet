@@ -20,22 +20,6 @@ export const copyToClipboard = (str: string) => {
     Clipboard.setString(str);
 };
 
-export const htmlToPlainString = (str: string) => {
-    let formattedString = '';
-
-    if (str === null || str === '') return '';
-
-    formattedString = str
-        .toString()
-        .replace(/&#([0-9]{1,4});/gi, (match, numStr) => {
-            const num = parseInt(numStr, 10);
-            return String.fromCharCode(num);
-        })
-        .replace(/(<([^>]+)>)/gi, '');
-
-    return formattedString;
-};
-
 export const removeRSSContentEnd = (str: string) => {
     const indexOfDots = str.indexOf('...');
     const lastChar = indexOfDots !== -1 ? indexOfDots : str.length;
