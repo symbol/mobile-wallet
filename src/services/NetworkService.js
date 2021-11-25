@@ -55,6 +55,7 @@ export default class NetworkService {
 
         return {
             type: networkType === NetworkType.TEST_NET ? 'testnet' : 'mainnet',
+            networkType,
             generationHash: networkProps.network.generationHashSeed,
             node: node,
             currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
@@ -64,6 +65,12 @@ export default class NetworkService {
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
             transactionFees: transactionFees,
             defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
+            networkCurrency: {
+                namespaceName: networkCurrency.currency.namespaceId.fullName,
+                namespaceId: networkCurrency.currency.namespaceId.id.toHex(),
+                mosaicId: networkCurrency.currency.mosaicId.toHex(),
+                divisibility: networkCurrency.currency.divisibility,
+            },
             totalChainImportance: networkProps.chain.totalChainImportance
         };
     }
