@@ -1,0 +1,1 @@
+export RandomImage from './RandomImage';

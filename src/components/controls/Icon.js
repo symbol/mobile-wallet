@@ -52,6 +52,7 @@ type IconName = 'none'
 	| 'true_dark'
 	| 'false_light'
 	| 'copy'
+	| 'close'
 	| 'optin';
 
 type Size = 'large'
@@ -231,6 +232,12 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'check':
 				source = require('@src/assets/icons/check.png');
+				break;
+			case 'close_light':
+				source = require('@src/assets/icons/close_light.png');
+				break;
+			case 'close_dark':
+				source = require('@src/assets/icons/close_dark.png');
 				break;
 			case 'optin':
 				source = require('@src/assets/icons/optin.png');

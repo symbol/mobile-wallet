@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
 	Icon,
@@ -41,6 +42,13 @@ class CopyView extends Component<Props, State> {
 		copyToClipboard(text)
 	};
 
+	text() {
+		const rawText = this.props.children;
+		return this.props.userAddress === rawText
+            ? `(${translate('unsortedKeys.currentAddress')}) ${rawText}`
+            : rawText
+	}
+
 	render = () => {
 		const { children, style = {}, placeholder, theme = 'light'} = this.props;
 		let placeholderStyle;
@@ -55,7 +63,7 @@ class CopyView extends Component<Props, State> {
 		return (<>
 			{!!placeholder && <Text style={placeholderStyle}>{placeholder}</Text>}
 			<Row align="center" justify="space-between">
-				<Text type="regular" theme={theme} style={[styles.text, style]}>{children}</Text>
+				<Text type="regular" theme={theme} style={[styles.text, style]}>{this.text()}</Text>
 				<TouchableOpacity style={styles.button} onPress={() => this.copyToClipboard(children)}>
 					<Icon name="copy" size="small" />
 				</TouchableOpacity>
@@ -64,4 +72,6 @@ class CopyView extends Component<Props, State> {
     };
 }
 
-export default CopyView;
+export default connect(state => ({
+    userAddress: state.account.selectedAccountAddress,
+}))(CopyView);

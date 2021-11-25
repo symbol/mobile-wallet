@@ -60,6 +60,7 @@ export default class PluginList extends Component<Props, State> {
 			theme,
 			onOpenMenu,
 			onBack,
+			onClose,
 			onSettings,
 			title,
 			buttons
@@ -67,6 +68,10 @@ export default class PluginList extends Component<Props, State> {
 		const iconBackName = theme === 'light'
 			? 'back_light'
 			: 'back_dark';
+		
+		const iconCloseName = theme === 'light'
+			? 'close_light'
+			: 'close_dark';
 
 		const iconSettingsName = theme === 'light'
 			? 'settings_filled_light'
@@ -104,7 +109,10 @@ export default class PluginList extends Component<Props, State> {
 						{!!onSettings && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
 							<Icon name={iconSettingsName} size="small" />
 						</TouchableOpacity>}
-						{!onSettings && !buttons && <Icon name="none" />}
+						{!!onClose && <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onClose}>
+							<Icon name={iconCloseName} size="small" />
+						</TouchableOpacity>}
+						{!onSettings && !onClose&& !buttons && <Icon name="none" />}
 					</Row>
 				</Row>
 			</Section>

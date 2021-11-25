@@ -1,4 +1,9 @@
-import { Mosaic, MosaicHttp, MosaicInfo, NamespaceHttp } from 'symbol-sdk';
+import { 
+    Mosaic,  
+    MosaicHttp,
+    MosaicInfo, 
+    NamespaceHttp,
+} from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { durationToRelativeTime } from '@src/utils/format';

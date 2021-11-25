@@ -1,4 +1,4 @@
-import { TransactionFees } from 'symbol-sdk';
+import { NetworkType, TransactionFees } from 'symbol-sdk';
 
 export type AppNetworkType = 'testnet' | 'mainnet';
 
@@ -7,6 +7,7 @@ export type AppNetworkType = 'testnet' | 'mainnet';
  */
 export interface NetworkModel {
     type: AppNetworkType;
+    networkType: NetworkType;
     generationHash: string;
     node: string;
     currencyMosaicId: string;
@@ -15,5 +16,11 @@ export interface NetworkModel {
     epochAdjustment: number;
     transactionFees: TransactionFees;
     defaultDynamicFeeMultiplier: number;
-    totalChainImportance: number
+    networkCurrency: {
+        namespaceName: string,
+        namespaceId: string,
+        mosaicId: string,
+        divisibility: number,
+    };
+    totalChainImportance: number;
 }
