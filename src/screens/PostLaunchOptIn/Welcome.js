@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import {
     FlatList,
+    Image,
     RefreshControl,
     StyleSheet,
-    View,
     TouchableOpacity,
-    Image
+    View,
 } from 'react-native';
 import {
+    Button,
+    FadeView,
     GradientBackground,
-    TitleBar,
+    Icon,
+    Input,
     ListContainer,
     ListItem,
-    Section,
-    Button,
-    Input,
-    Icon,
     OptionsMenu,
-    FadeView
+    Section,
+    TitleBar,
 } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     content: {
-        flex: 1
+        flex: 1,
     },
     icon: {
         width: 30,
@@ -87,20 +87,19 @@ class Welcome extends Component<Props, State> {
         loadingQRPassword: false,
         isRemoveModalOpen: false,
         removeSelectedAccount: null,
-        isPresentationShown: false
+        isPresentationShown: false,
     };
 
     componentDidMount() {
-        store.dispatchAction({ type: 'optin/load' })
-            .then(() => {
-                this.setState({
-                    isPresentationShown: this.props.nis1Accounts.length > 0
-                })
+        store.dispatchAction({ type: 'optin/load' }).then(() => {
+            this.setState({
+                isPresentationShown: this.props.nis1Accounts.length > 0,
             });
+        });
     }
 
     onPresentationFinish() {
-        this.setState({isPresentationShown: true})
+        this.setState({ isPresentationShown: true });
     }
 
     handleOpenShowDetails = item => {
@@ -110,23 +109,43 @@ class Welcome extends Component<Props, State> {
 
     handleDeleteAccount = (item, index) => {
         const { removeSelectedAccount } = this.state;
-        store.dispatchAction({ type: 'optin/removeNIS1Account', payload: removeSelectedAccount });
-        this.setState({ isRemoveModalOpen: false, removeSelectedAccount: null })
+        store.dispatchAction({
+            type: 'optin/removeNIS1Account',
+            payload: removeSelectedAccount,
+        });
+        this.setState({
+            isRemoveModalOpen: false,
+            removeSelectedAccount: null,
+        });
     };
 
     renderAccountItem = ({ item, index }) => {
         const options = [
-            { iconName: 'wallet_filled_light', label: translate('sidebar.details'), onPress: () => this.handleOpenShowDetails(item) },
+            {
+                iconName: 'wallet_filled_light',
+                label: translate('sidebar.details'),
+                onPress: () => this.handleOpenShowDetails(item),
+            },
             {
                 iconName: 'delete_light',
                 label: translate('sidebar.remove'),
-                onPress: () => this.setState({ isRemoveModalOpen: true, removeSelectedAccount: item }),
+                onPress: () =>
+                    this.setState({
+                        isRemoveModalOpen: true,
+                        removeSelectedAccount: item,
+                    }),
             },
         ];
         return (
             <ListItem>
-                <TouchableOpacity onPress={() => this.goToOptIn(index)} style={styles.accountList}>
-                    <Image style={styles.icon} source={require('@src/assets/icons/account_nis.png')} />
+                <TouchableOpacity
+                    onPress={() => this.goToOptIn(index)}
+                    style={styles.accountList}
+                >
+                    <Image
+                        style={styles.icon}
+                        source={require('@src/assets/icons/account_nis.png')}
+                    />
                     <Text type={'regular'} theme={'light'} style={{ flex: 1 }}>
                         <Trunc type={'address'}>{item.address}</Trunc>
                     </Text>
@@ -139,12 +158,22 @@ class Welcome extends Component<Props, State> {
     };
 
     goToOptIn = async (index: number) => {
-        const result = await store.dispatchAction({ type: 'optin/loadNIS1Account', payload: index });
-        if (result) Router.goToOptInAccountDetails({ welcomeComponentId: this.props.componentId }, this.props.componentId);
+        const result = await store.dispatchAction({
+            type: 'optin/loadNIS1Account',
+            payload: index,
+        });
+        if (result)
+            Router.goToOptInAccountDetails(
+                { welcomeComponentId: this.props.componentId },
+                this.props.componentId
+            );
     };
 
     onPrivateKeyChange = (text: string) => {
-        const valid = (text.length === 64 || (text.length === 66 && text.startsWith('00'))) && nem.utils.helpers.isPrivateKeyValid(text);
+        const valid =
+            (text.length === 64 ||
+                (text.length === 66 && text.startsWith('00'))) &&
+            nem.utils.helpers.isPrivateKeyValid(text);
         this.setState({
             importPrivateKey: text,
             validPrivateKey: valid,
@@ -176,7 +205,10 @@ class Welcome extends Component<Props, State> {
             key: nem.utils.convert.hex2ua(key.toString()),
         };
         const decrypt = nem.crypto.helpers.decrypt(obj);
-        const valid = !(decrypt === '' || (decrypt.length !== 64 && decrypt.length !== 66));
+        const valid = !(
+            decrypt === '' ||
+            (decrypt.length !== 64 && decrypt.length !== 66)
+        );
         this.setState({
             loadingQRPassword: false,
             importQRPassword: text,
@@ -187,7 +219,10 @@ class Welcome extends Component<Props, State> {
 
     onImportPrivateKey = async () => {
         const { importPrivateKey } = this.state;
-        await store.dispatchAction({ type: 'optin/addPrivateKey', payload: importPrivateKey });
+        await store.dispatchAction({
+            type: 'optin/addPrivateKey',
+            payload: importPrivateKey,
+        });
         this.setState({
             isPrivateKeyModalOpen: false,
             importPrivateKey: '',
@@ -197,7 +232,10 @@ class Welcome extends Component<Props, State> {
 
     onImportQRPassword = async () => {
         const { importPrivateKey } = this.state;
-        await store.dispatchAction({ type: 'optin/addPrivateKey', payload: importPrivateKey });
+        await store.dispatchAction({
+            type: 'optin/addPrivateKey',
+            payload: importPrivateKey,
+        });
         this.setState({
             importPrivateKey: '',
             isImportQRModalOpen: false,
@@ -210,7 +248,13 @@ class Welcome extends Component<Props, State> {
     onPrivateKeyQRScanned = async res => {
         try {
             const data = JSON.parse(res.data);
-            if (data.v && data.type && data.data.name && data.data.priv_key && data.data.salt) {
+            if (
+                data.v &&
+                data.type &&
+                data.data.name &&
+                data.data.priv_key &&
+                data.data.salt
+            ) {
                 this.setState({
                     encryptedQRWallet: data,
                     isImportQRModalOpen: true,
@@ -231,7 +275,11 @@ class Welcome extends Component<Props, State> {
 
     render() {
         const { nis1Accounts, isLoading, componentId, error } = this.props;
-        const dataManager = { isLoading, errorMessage: error, isError: error !== null };
+        const dataManager = {
+            isLoading,
+            errorMessage: error,
+            isError: error !== null,
+        };
         const {
             isPrivateKeyModalOpen,
             importPrivateKey,
@@ -241,56 +289,102 @@ class Welcome extends Component<Props, State> {
             validQRPassword,
             loadingQRPassword,
             isRemoveModalOpen,
-            isPresentationShown
+            isPresentationShown,
         } = this.state;
 
         return (
-            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
-                <TitleBar theme="light" title={translate('optin.title')} onBack={() => Router.goBack(componentId)} />
-                {isPresentationShown && <FadeView style={styles.content}>
-                <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
-                    {translate('optin.welcomeDescription')}
-                </Text>
-                <ListContainer type="list" style={styles.list} isScrollable={true}>
-                    <FlatList
-                        data={nis1Accounts}
-                        renderItem={this.renderAccountItem}
-                        onEndReachedThreshold={0.9}
-                        keyExtractor={(item, index) => '' + index + 'account'}
+            <GradientBackground
+                name="connector_small"
+                theme="light"
+                dataManager={dataManager}
+            >
+                <TitleBar
+                    theme="light"
+                    title={translate('optin.title')}
+                    onBack={() => Router.goBack(componentId)}
+                />
+                {isPresentationShown && (
+                    <FadeView style={styles.content}>
+                        <Text
+                            style={{
+                                paddingLeft: 30,
+                                paddingRight: 30,
+                                marginBottom: 20,
+                            }}
+                            theme="light"
+                            type={'bold'}
+                            align={'center'}
+                        >
+                            {translate('optin.welcomeDescription')}
+                        </Text>
+                        <ListContainer
+                            type="list"
+                            style={styles.list}
+                            isScrollable={true}
+                        >
+                            <FlatList
+                                data={nis1Accounts}
+                                renderItem={this.renderAccountItem}
+                                onEndReachedThreshold={0.9}
+                                keyExtractor={(item, index) =>
+                                    '' + index + 'account'
+                                }
+                            />
+                        </ListContainer>
+                        <View style={{ paddingLeft: 30, paddingRight: 30 }}>
+                            <Section type="form-item">
+                                <Button
+                                    text={translate('optin.importQR')}
+                                    theme="light"
+                                    onPress={() =>
+                                        Router.scanQRCode(
+                                            this.onPrivateKeyQRScanned
+                                        )
+                                    }
+                                    icon={require('@src/assets/icons/qr_dark.png')}
+                                />
+                            </Section>
+                            <Section type="form-item">
+                                <Button
+                                    text={translate('optin.importPrivateKey')}
+                                    theme="light"
+                                    onPress={() =>
+                                        this.setState({
+                                            isPrivateKeyModalOpen: true,
+                                        })
+                                    }
+                                    icon={require('@src/assets/icons/key_dark.png')}
+                                />
+                            </Section>
+                        </View>
+                    </FadeView>
+                )}
+                {!isPresentationShown && (
+                    <Presentation
+                        onFinish={() => this.onPresentationFinish()}
                     />
-                </ListContainer>
-                <View style={{ paddingLeft: 30, paddingRight: 30 }}>
-                    <Section type="form-item">
-                        <Button
-                            text={translate('optin.importQR')}
-                            theme="light"
-                            onPress={() => Router.scanQRCode(this.onPrivateKeyQRScanned)}
-                            icon={require('@src/assets/icons/qr_dark.png')}
-                        />
-                    </Section>
-                    <Section type="form-item">
-                        <Button
-                            text={translate('optin.importPrivateKey')}
-                            theme="light"
-                            onPress={() => this.setState({ isPrivateKeyModalOpen: true })}
-                            icon={require('@src/assets/icons/key_dark.png')}
-                        />
-                    </Section>
-                </View>
-                </FadeView>}
-                {!isPresentationShown && <Presentation onFinish={() => this.onPresentationFinish()}/>}
+                )}
                 <BasicModal
                     isModalOpen={isImportQRModalOpen}
                     title={translate('optin.qrPassword')}
                     showClose={true}
-                    handleClose={() => this.setState({ isImportQRModalOpen: false, importPrivateKey: '', importQRPassword: '' })}>
+                    handleClose={() =>
+                        this.setState({
+                            isImportQRModalOpen: false,
+                            importPrivateKey: '',
+                            importQRPassword: '',
+                        })
+                    }
+                >
                     <Section type="form" style={styles.list} isScrollable>
                         <Section type="form-item">
                             <Input
                                 type="password"
                                 secureTextEntry={true}
                                 value={importQRPassword}
-                                nativePlaceholder={translate('optin.decryptQRPlaceholder')}
+                                nativePlaceholder={translate(
+                                    'optin.decryptQRPlaceholder'
+                                )}
                                 placeholder={translate('optin.decryptQR')}
                                 theme="light"
                                 onChangeText={pw => this.onQRPasswordChange(pw)}
@@ -316,12 +410,20 @@ class Welcome extends Component<Props, State> {
                     isModalOpen={isPrivateKeyModalOpen}
                     title={translate('optin.importPrivateKeyTitle')}
                     showClose={true}
-                    handleClose={() => this.setState({ isPrivateKeyModalOpen: false, importPrivateKey: '' })}>
+                    handleClose={() =>
+                        this.setState({
+                            isPrivateKeyModalOpen: false,
+                            importPrivateKey: '',
+                        })
+                    }
+                >
                     <Section type="form" style={styles.list} isScrollable>
                         <Section type="form-item">
                             <Input
                                 value={importPrivateKey}
-                                nativePlaceholder={translate('optin.importPrivateKeyPlaceholder')}
+                                nativePlaceholder={translate(
+                                    'optin.importPrivateKeyPlaceholder'
+                                )}
                                 placeholder={translate('optin.privateKey')}
                                 theme="light"
                                 onChangeText={pk => this.onPrivateKeyChange(pk)}

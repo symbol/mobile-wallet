@@ -31,15 +31,13 @@ import QRScanner from '@src/screens/QRScanner';
 import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
 import { showMessage } from 'react-native-flash-message';
-import LinkedKeysDetails from "@src/screens/LinkedKeysDetails";
-import Welcome from "@src/screens/PostLaunchOptIn/Welcome";
-import OptInAccountDetails from "@src/screens/PostLaunchOptIn/OptInAccountDetails";
-import OptInSelectSymbolAccount from "@src/screens/PostLaunchOptIn/OptInSelectSymbolAccount";
-import OptInReview from "@src/screens/PostLaunchOptIn/OptInReview";
-import NIS1AccountDetails from "@src/screens/PostLaunchOptIn/NIS1AccountDetails";
-import OptInSelectSymbolMultisigDestination from "@src/screens/PostLaunchOptIn/OptInSelectSymbolMultisigDestination";
-
-
+import LinkedKeysDetails from '@src/screens/LinkedKeysDetails';
+import Welcome from '@src/screens/PostLaunchOptIn/Welcome';
+import OptInAccountDetails from '@src/screens/PostLaunchOptIn/OptInAccountDetails';
+import OptInSelectSymbolAccount from '@src/screens/PostLaunchOptIn/OptInSelectSymbolAccount';
+import OptInReview from '@src/screens/PostLaunchOptIn/OptInReview';
+import NIS1AccountDetails from '@src/screens/PostLaunchOptIn/NIS1AccountDetails';
+import OptInSelectSymbolMultisigDestination from '@src/screens/PostLaunchOptIn/OptInSelectSymbolMultisigDestination';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
@@ -114,15 +112,18 @@ export class Router {
         [HARVEST_SCREEN, Harvest],
         [ACCOUNT_DETAILS_SCREEN, AccountDetails],
         [CREATE_ACCOUNT_SCREEN, CreateAccount],
-		[CONTACT_PROFILE_SCREEN, ContactProfile],
-		[QR_SCANNER_SCREEN, QRScanner],
-		[SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails],
-		[OPTIN_WELCOME, Welcome],
-		[OPTIN_ACCOUNT_DETAIL, OptInAccountDetails],
-		[OPTIN_SYMBOL_ACCOUNT, OptInSelectSymbolAccount],
-		[OPTIN_FINISH, OptInReview],
-		[NIS1_ACCOUNT_DETAILS, NIS1AccountDetails],
-		[OPTIN_SELECT_MULTISIG_DESTINATION, OptInSelectSymbolMultisigDestination],
+        [CONTACT_PROFILE_SCREEN, ContactProfile],
+        [QR_SCANNER_SCREEN, QRScanner],
+        [SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails],
+        [OPTIN_WELCOME, Welcome],
+        [OPTIN_ACCOUNT_DETAIL, OptInAccountDetails],
+        [OPTIN_SYMBOL_ACCOUNT, OptInSelectSymbolAccount],
+        [OPTIN_FINISH, OptInReview],
+        [NIS1_ACCOUNT_DETAILS, NIS1AccountDetails],
+        [
+            OPTIN_SELECT_MULTISIG_DESTINATION,
+            OptInSelectSymbolMultisigDestination,
+        ],
     ];
 
     static registerScreens() {
@@ -139,24 +140,41 @@ export class Router {
 
         this.screens.forEach(([key, ScreenComponent]) =>
             Navigation.registerComponent(key, () =>
-                WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent))
+                WrappedComponentWithStore(
+                    gestureHandlerRootHOC(ScreenComponent)
+                )
             )
         );
 
-        Navigation.registerComponent(CUSTOM_FLASH_MESSAGE, () => CustomFlashMessage);
+        Navigation.registerComponent(
+            CUSTOM_FLASH_MESSAGE,
+            () => CustomFlashMessage
+        );
     }
 
     static goToTermsAndPrivacy(passProps, parentComponent?) {
-        return this.goToScreen(TERMS_AND_PRIVACY_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            TERMS_AND_PRIVACY_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToCreateOrImport(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_OR_IMPORT_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            CREATE_OR_IMPORT_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToWalletName(passProps, parentComponent?) {
         return this.goToScreen(WALLET_NAME_SCREEN, passProps, parentComponent);
     }
     static goToGenerateBackup(passProps, parentComponent?) {
-        return this.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            GENERATE_BACKUP_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToShowQRCode(passProps, parentComponent?) {
         return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
@@ -165,25 +183,49 @@ export class Router {
         return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
     }
     static goToVerifyMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            VERIFY_MNEMONICS_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToShowMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            SHOW_MNEMONICS_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToImportOptions(passProps, parentComponent?) {
-        return this.goToScreen(IMPORT_OPTION_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            IMPORT_OPTION_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToScanQRCode(passProps, parentComponent?) {
         return this.goToScreen(SCAN_QR_CODE_SCREEN, passProps, parentComponent);
     }
     static goToEnterMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(ENTER_MNEMONICS_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            ENTER_MNEMONICS_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToWalletLoading(passProps, parentComponent?) {
-        return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            WALLET_LOADING_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToConfirmTransaction(passProps, parentComponent?) {
-        return this.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            CONFIRM_TRANSACTION_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToSettings(passProps, parentComponent?) {
         return this.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
@@ -195,16 +237,26 @@ export class Router {
         return this.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
     }
     static goToAccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(ACCOUNT_DETAILS_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            ACCOUNT_DETAILS_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static goToCreateAccount(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
+        return this.goToScreen(
+            CREATE_ACCOUNT_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
     static scanQRCode(onRead, onClose) {
-        const onCloseCallback = typeof onClose === 'function'
-            ? onClose
-            : () => {};
-        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, { onRead, onClose: onCloseCallback });
+        const onCloseCallback =
+            typeof onClose === 'function' ? onClose : () => {};
+        showOverlay(SCAN_GENERIC_QR_CODE_SCREEN, {
+            onRead,
+            onClose: onCloseCallback,
+        });
     }
     static goToAddressBook(passProps, parentComponent?) {
         return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
@@ -213,31 +265,58 @@ export class Router {
         return this.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
     }
     static goToContactProfile(passProps, parentComponent?) {
-        return this.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
-	}
-	static goToSend(passProps, parentComponent?) {
+        return this.goToScreen(
+            CONTACT_PROFILE_SCREEN,
+            passProps,
+            parentComponent
+        );
+    }
+    static goToSend(passProps, parentComponent?) {
         return this.goToScreen(SEND_SCREEN, passProps, parentComponent);
     }
-	static goToShowLinkedKeys(passProps, parentComponent?) {
-        return this.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
+    static goToShowLinkedKeys(passProps, parentComponent?) {
+        return this.goToScreen(
+            SHOW_LINKED_KEYS_SCREEN,
+            passProps,
+            parentComponent
+        );
     }
-	static goToOptInWelcome(passProps, parentComponent?) {
+    static goToOptInWelcome(passProps, parentComponent?) {
         return this.goToScreen(OPTIN_WELCOME, passProps, parentComponent);
     }
-	static goToOptInAccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_ACCOUNT_DETAIL, passProps, parentComponent);
+    static goToOptInAccountDetails(passProps, parentComponent?) {
+        return this.goToScreen(
+            OPTIN_ACCOUNT_DETAIL,
+            passProps,
+            parentComponent
+        );
     }
-	static goToOptInSelectSymbolAccount(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_SYMBOL_ACCOUNT, passProps, parentComponent);
+    static goToOptInSelectSymbolAccount(passProps, parentComponent?) {
+        return this.goToScreen(
+            OPTIN_SYMBOL_ACCOUNT,
+            passProps,
+            parentComponent
+        );
     }
-	static goToOptInFinish(passProps, parentComponent?) {
+    static goToOptInFinish(passProps, parentComponent?) {
         return this.goToScreen(OPTIN_FINISH, passProps, parentComponent);
     }
-	static goToNIS1AccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
+    static goToNIS1AccountDetails(passProps, parentComponent?) {
+        return this.goToScreen(
+            NIS1_ACCOUNT_DETAILS,
+            passProps,
+            parentComponent
+        );
     }
-	static goToOptinSelectSymbolMultisigDestination(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
+    static goToOptinSelectSymbolMultisigDestination(
+        passProps,
+        parentComponent?
+    ) {
+        return this.goToScreen(
+            OPTIN_SELECT_MULTISIG_DESTINATION,
+            passProps,
+            parentComponent
+        );
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
@@ -261,14 +340,15 @@ export class Router {
         Navigation.dismissOverlay(componentId);
     }
 
-    static showFlashMessageOverlay = (): Promise<any> => showOverlay(CUSTOM_FLASH_MESSAGE, {});
+    static showFlashMessageOverlay = (): Promise<any> =>
+        showOverlay(CUSTOM_FLASH_MESSAGE, {});
 
     static showMessage = (props: MessageProps) => {
         Router.showFlashMessageOverlay().then(() => {
             showMessage({
                 message: props.message,
                 type: props.type || 'success',
-                duration: props.type === 'danger' ? 6000 : 3000
+                duration: props.type === 'danger' ? 6000 : 3000,
             });
         });
     };
@@ -299,7 +379,7 @@ const setDefaultNavOptions = () => {
                     to: 1,
                     duration: 300,
                 },
-            }
+            },
         },
         ...Platform.select({ ios: { sideMenu: { openGestureMode: 'bezel' } } }),
     });
@@ -349,7 +429,11 @@ const pushToStack = (parent, screen: string, passProps) => {
             name: screen,
             passProps: passProps,
             options: {
-                bottomTabs: { visible: false, drawBehind: false, animate: true },
+                bottomTabs: {
+                    visible: false,
+                    drawBehind: false,
+                    animate: true,
+                },
                 sideMenu: {
                     left: { visible: false },
                 },

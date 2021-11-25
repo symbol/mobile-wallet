@@ -30,31 +30,34 @@ class SettingsCurrencySelector extends Component {
 
     onSelectCurrency = currency => {
         store
-            .dispatchAction({ type: 'settings/saveSelectedCurrency', payload: currency })
+            .dispatchAction({
+                type: 'settings/saveSelectedCurrency',
+                payload: currency,
+            })
             .then(_ => this.closeModal());
     };
 
     render() {
         const { data, isCurrencyBoxOpen } = this.state;
         const { selectedCurrency } = this.props.settings;
-		const list = data.map(el => ({value: el, label: el}));
+        const list = data.map(el => ({ value: el, label: el }));
         return (
             <View>
-				<Dropdown 
-					list={list}
-					title={translate('Settings.currency.title')}
-					value={selectedCurrency}
-					onChange={this.onSelectCurrency}
-				>
-					<SettingsListItem
-						title={translate('Settings.currency.title')}
-						icon={require('@src/assets/icons/ic-currency.png')}
-						isSelector={true}
-						isDropdown={true}
-						itemValue={selectedCurrency}
-						onPress={this.openModal}
-					/>
-				</Dropdown>
+                <Dropdown
+                    list={list}
+                    title={translate('Settings.currency.title')}
+                    value={selectedCurrency}
+                    onChange={this.onSelectCurrency}
+                >
+                    <SettingsListItem
+                        title={translate('Settings.currency.title')}
+                        icon={require('@src/assets/icons/ic-currency.png')}
+                        isSelector={true}
+                        isDropdown={true}
+                        itemValue={selectedCurrency}
+                        onPress={this.openModal}
+                    />
+                </Dropdown>
             </View>
         );
     }

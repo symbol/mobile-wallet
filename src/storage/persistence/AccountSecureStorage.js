@@ -1,6 +1,6 @@
 import { BaseSecureStorage } from '@src/storage/persistence/BaseSecureStorage';
 import type { AccountModel } from '@src/storage/models/AccountModel';
-import type {AppNetworkType} from "@src/storage/models/NetworkModel";
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 export class AccountSecureStorage extends BaseSecureStorage {
     /** ACCOUNTS DB KEY **/
@@ -11,9 +11,15 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * @returns {Promise<AccountModel>}
      * @param account
      */
-    static async createNewAccount(account: AccountModel): Promise<AccountModel> {
+    static async createNewAccount(
+        account: AccountModel
+    ): Promise<AccountModel> {
         const accounts = await this.getAllAccounts();
-        if (!accounts.find(el => el.id === account.id && el.network === account.network)) {
+        if (
+            !accounts.find(
+                el => el.id === account.id && el.network === account.network
+            )
+        ) {
             accounts.push(account);
         }
         return this.saveAccounts(accounts);
@@ -25,7 +31,10 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * @param accounts
      */
     static async saveAccounts(accounts: AccountModel[]): Promise<any> {
-        return this.secureSaveAsync(this.ACCOUNTS_KEY, JSON.stringify(accounts));
+        return this.secureSaveAsync(
+            this.ACCOUNTS_KEY,
+            JSON.stringify(accounts)
+        );
     }
 
     /**
@@ -51,9 +60,14 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * @param network
      * @returns {Promise<*>}
      */
-    static async removeAccount(id: string, network: AppNetworkType): Promise<AccountModel[]> {
+    static async removeAccount(
+        id: string,
+        network: AppNetworkType
+    ): Promise<AccountModel[]> {
         const allAccounts = await this.getAllAccounts();
-        const filteredAccounts = allAccounts.filter(account => !(account.id === id && account.network === network));
+        const filteredAccounts = allAccounts.filter(
+            account => !(account.id === id && account.network === network)
+        );
         await this.saveAccounts(filteredAccounts);
         return filteredAccounts;
     }
@@ -63,7 +77,9 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * @returns {Promise<void>}
      */
     static async getAllAccounts(): Promise<AccountModel[]> {
-        const accountsString = await this.secureRetrieveAsync(this.ACCOUNTS_KEY);
+        const accountsString = await this.secureRetrieveAsync(
+            this.ACCOUNTS_KEY
+        );
         try {
             return JSON.parse(accountsString) || [];
         } catch (e) {
@@ -75,7 +91,9 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * Get all the accounts
      * @returns {Promise<AccountModel[]>}
      */
-    static async getAllAccountsByNetwork(network: AppNetworkType): Promise<AccountModel[]> {
+    static async getAllAccountsByNetwork(
+        network: AppNetworkType
+    ): Promise<AccountModel[]> {
         const allAccounts = await this.getAllAccounts();
         return allAccounts.filter(el => el.network === network);
     }
@@ -84,7 +102,10 @@ export class AccountSecureStorage extends BaseSecureStorage {
      * Get all the accounts
      * @returns {Promise<AccountModel[]>}
      */
-    static async getAccountById(id: number, network: AppNetworkType): Promise<AccountModel | null> {
+    static async getAccountById(
+        id: number,
+        network: AppNetworkType
+    ): Promise<AccountModel | null> {
         const accounts = await this.getAllAccountsByNetwork(network);
         return accounts.find(account => account.id === id);
     }

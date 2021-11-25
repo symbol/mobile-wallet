@@ -3,24 +3,24 @@
  * @flow
  */
 import {
-    sessionTimeoutInSeconds,
-    marketCurrencyName,
-    explorerURL,
-    statisticsServiceURL,
-    faucetURL,
+    NISNodes,
     aboutURL,
     currencies,
-    lanugages,
-    syncIntervals,
-    nodeTypes,
-    networks,
-    defaultSyncInterval,
-    optinEnv,
-    NISNodes,
     defaultNetworkType,
+    defaultSyncInterval,
+    explorerURL,
+    faucetURL,
+    lanugages,
+    marketCurrencyName,
     nativeMosaicId,
-    optInWhiteList,
+    networks,
     nglFinanceBot,
+    nodeTypes,
+    optInWhiteList,
+    optinEnv,
+    sessionTimeoutInSeconds,
+    statisticsServiceURL,
+    syncIntervals,
 } from 'react-native-env-json';
 import { NetworkType } from 'symbol-sdk';
 import { languageNames } from '@src/locales/i18n';
@@ -136,16 +136,21 @@ const getNativeMosaicId = (): string[] => {
     return nativeMosaicId;
 };
 
-const getWhitelistedPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
+const getWhitelistedPublicKeys = (
+    network: 'mainnnet' | 'testnet' = 'testnet'
+): string[] => {
     return optInWhiteList[network];
 };
 
-const getFinanceBotPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
+const getFinanceBotPublicKeys = (
+    network: 'mainnnet' | 'testnet' = 'testnet'
+): string[] => {
     return nglFinanceBot[network];
 };
 
 const getHarvestingPrerequisitesUrl = (): string => {
-    const prerequisitesURL = 'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
+    const prerequisitesURL =
+        'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
     return prerequisitesURL;
 };
 

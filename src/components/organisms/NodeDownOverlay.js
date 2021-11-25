@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text } from '@src/components';
 
 class NodeDownOverlay extends Component<Props> {
@@ -11,7 +11,9 @@ class NodeDownOverlay extends Component<Props> {
         return (
             <View style={styles.container}>
                 <Text align="center">Node is down</Text>
-                <Text align="center" style={{ fontSize: 9 }}>Select a different node on settings page</Text>
+                <Text align="center" style={{ fontSize: 9 }}>
+                    Select a different node on settings page
+                </Text>
             </View>
         );
     }

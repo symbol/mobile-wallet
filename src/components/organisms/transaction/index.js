@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Linking } from 'react-native';
+import { Linking, StyleSheet } from 'react-native';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import TransferTransaction from '@src/components/organisms/transaction/TransferTransaction';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
@@ -8,7 +8,6 @@ import NamespaceRegistrationTransaction from '@src/components/organisms/transact
 import MosaicAliasTransaction from '@src/components/organisms/transaction/MosaicAliasTransaction';
 import { getExplorerURL } from '@src/config/environment';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
-
 
 const styles = StyleSheet.create({
     root: {
@@ -29,22 +28,53 @@ type Props = {
 };
 
 export default class Transaction extends Component<Props> {
-
     render() {
         const { transaction, showDetails, componentId } = this.props;
         switch (transaction.type) {
             case 'transfer':
-                return <TransferTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
+                return (
+                    <TransferTransaction
+                        transaction={transaction}
+                        showDetails={showDetails}
+                        componentId={componentId}
+                    />
+                );
             case 'fundsLock':
-                return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
+                return (
+                    <FundsLockTransaction
+                        transaction={transaction}
+                        showDetails={showDetails}
+                    />
+                );
             case 'aggregate':
-                return <AggregateTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
+                return (
+                    <AggregateTransaction
+                        transaction={transaction}
+                        showDetails={showDetails}
+                        componentId={componentId}
+                    />
+                );
             case 'namespace':
-                return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} />;
+                return (
+                    <NamespaceRegistrationTransaction
+                        transaction={transaction}
+                        showDetails={showDetails}
+                    />
+                );
             case 'mosaicAlias':
-                return <MosaicAliasTransaction transaction={transaction} showDetails={showDetails} />;
+                return (
+                    <MosaicAliasTransaction
+                        transaction={transaction}
+                        showDetails={showDetails}
+                    />
+                );
             default:
-                return <BaseTransactionItem transaction={transaction} showDetails={showDetails} />;
+                return (
+                    <BaseTransactionItem
+                        transaction={transaction}
+                        showDetails={showDetails}
+                    />
+                );
         }
     }
 }

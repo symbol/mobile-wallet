@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
-import { 
-    StyleSheet, 
-    View, 
-    Image
-} from 'react-native';
-import { 
-    Section, 
-    Button, 
-    Text,
-} from '@src/components';
+import { Image, StyleSheet, View } from 'react-native';
+import { Button, Section, Text } from '@src/components';
 import Slider from '@src/components/molecules/Slider';
 import translate from '@src/locales/i18n';
-
 
 const styles = StyleSheet.create({
     root: {
@@ -26,8 +17,8 @@ const styles = StyleSheet.create({
         flex: 0.8,
         justifyContent: 'center',
         alignItems: 'center',
-        width : '100%',
-        flexDirection: 'column'
+        width: '100%',
+        flexDirection: 'column',
     },
 
     content: {
@@ -60,7 +51,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         paddingHorizontal: 32,
     },
-      
+
     text: {
         fontSize: 14,
         fontWeight: '400',
@@ -85,7 +76,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-    }
+    },
 });
 
 type Props = {
@@ -99,7 +90,7 @@ class Welcome extends Component<Props, State> {
         super(props);
         this.slider = React.createRef();
     }
-    
+
     state = {
         step: 0,
     };
@@ -128,45 +119,48 @@ class Welcome extends Component<Props, State> {
 
     componentDidMount() {
         this.setState({
-            step: 0
-        })
+            step: 0,
+        });
     }
 
     onButtonPress() {
         if (this.state.step < this.slides.length - 1)
             this.slider.current?.onNextPress();
-        else
-            this.props.onFinish();
+        else this.props.onFinish();
     }
 
     getButtonText() {
         return this.state.step < this.slides.length - 1
             ? translate('optin.next')
-            : translate('optin.getStarted')
+            : translate('optin.getStarted');
     }
 
     onSlideChange(index) {
-        this.setState({step: index})
+        this.setState({ step: index });
     }
 
-    renderItem = (props) => {
+    renderItem = props => {
         const { image, title, text, note = '' } = props;
 
-        return ( 
+        return (
             <View style={styles.slide}>
                 <View style={styles.content}>
                     <Image style={styles.image} source={image} />
                     <View style={styles.textContainer}>
-                        <Text theme="light" style={styles.title}>{title}</Text>
-                        <Text theme="light" style={styles.text}>{text}</Text>
-                        <Text theme="light" style={styles.note}>{note}</Text>
-                    </View> 
+                        <Text theme="light" style={styles.title}>
+                            {title}
+                        </Text>
+                        <Text theme="light" style={styles.text}>
+                            {text}
+                        </Text>
+                        <Text theme="light" style={styles.note}>
+                            {note}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
     };
-
-
 
     render() {
         return (
@@ -177,7 +171,7 @@ class Welcome extends Component<Props, State> {
                     contentContainerStyle={styles.sliderInner}
                     slides={this.slides}
                     renderItem={this.renderItem}
-                    onSlideChange={(index) => this.onSlideChange(index)}
+                    onSlideChange={index => this.onSlideChange(index)}
                     showNextButton={false}
                     showDoneButton={false}
                     autoScrollInterval={60000}
@@ -185,10 +179,10 @@ class Welcome extends Component<Props, State> {
                 />
                 <Section type="form-bottom">
                     <Section type="text">
-                        <Button 
+                        <Button
                             theme="light"
-                            text={this.getButtonText()} 
-                            onPress={() => this.onButtonPress()} 
+                            text={this.getButtonText()}
+                            onPress={() => this.onButtonPress()}
                         />
                     </Section>
                 </Section>

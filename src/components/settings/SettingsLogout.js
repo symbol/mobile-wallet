@@ -7,7 +7,7 @@ import { Router } from '@src/Router';
 import { logout } from '@src/App';
 import { showPasscode } from '@src/utils/passcode';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
-import {Checkbox, Section} from "@src/components";
+import { Checkbox, Section } from '@src/components';
 
 export default class SettingsLogout extends Component {
     state = {
@@ -28,13 +28,20 @@ export default class SettingsLogout extends Component {
 
     onPress = () => {
         const callback = () => {
-            this.setState({ isConfirmModalOpen: true, isBackUpConfirmed: false });
+            this.setState({
+                isConfirmModalOpen: true,
+                isBackUpConfirmed: false,
+            });
         };
         showPasscode(this.props.componentId, callback);
     };
 
     render() {
-        const { isConfirmModalOpen, isConfirm2ModalOpen, isBackUpConfirmed } = this.state;
+        const {
+            isConfirmModalOpen,
+            isConfirm2ModalOpen,
+            isBackUpConfirmed,
+        } = this.state;
         return (
             <View>
                 <SettingsListItem
@@ -58,7 +65,9 @@ export default class SettingsLogout extends Component {
                             value={isBackUpConfirmed}
                             title={translate('settings.logoutConfirmCheck')}
                             theme="regular"
-                            onChange={isBackUpConfirmed => this.setState({ isBackUpConfirmed })}
+                            onChange={isBackUpConfirmed =>
+                                this.setState({ isBackUpConfirmed })
+                            }
                         />
                     </Section>
                 </ConfirmModal>
@@ -68,7 +77,9 @@ export default class SettingsLogout extends Component {
                     title={translate('settings.logoutConfirm2Title')}
                     text={translate('settings.logoutConfirm2Desc')}
                     showClose={false}
-                    onClose={() => this.setState({ isConfirm2ModalOpen: false })}
+                    onClose={() =>
+                        this.setState({ isConfirm2ModalOpen: false })
+                    }
                     onSuccess={() => this.doLogout()}
                 />
             </View>

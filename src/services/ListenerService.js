@@ -45,7 +45,10 @@ export default class ListenerService {
                     .aggregateBondedAdded(address)
                     //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
                     .subscribe(() => {
-                        this.showMessage(translate('notification.newAggregate'), 'success');
+                        this.showMessage(
+                            translate('notification.newAggregate'),
+                            'success'
+                        );
                         store.dispatchAction({ type: 'account/loadAllData' });
                     });
 
@@ -55,7 +58,10 @@ export default class ListenerService {
                 });
 
                 this.listener.newBlock().subscribe(block => {
-                    store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
+                    store.dispatchAction({
+                        type: 'network/updateChainHeight',
+                        payload: block.height.compact(),
+                    });
                 });
             });
     };
@@ -67,7 +73,10 @@ export default class ListenerService {
             .confirmed(address, undefined, isMultisig)
             //.pipe(filter(transaction => transaction.transactionInfo !== undefined))
             .subscribe(() => {
-                this.showMessage(translate('notification.newConfirmed'), 'success');
+                this.showMessage(
+                    translate('notification.newConfirmed'),
+                    'success'
+                );
                 store.dispatchAction({ type: 'account/loadAllData' });
             });
     };
@@ -79,7 +88,10 @@ export default class ListenerService {
             .unconfirmedAdded(address, undefined, isMultisig)
             //.pipe(filteser(transaction => transaction.transactionInfo !== undefined))
             .subscribe(() => {
-                this.showMessage(translate('notification.newUnconfirmed'), 'warning');
+                this.showMessage(
+                    translate('notification.newUnconfirmed'),
+                    'warning'
+                );
                 store.dispatchAction({ type: 'account/loadAllData' });
             });
     };
@@ -87,13 +99,21 @@ export default class ListenerService {
     addPartial = (rawAddress: string, isMultisig: boolean) => {
         console.log('Adding unconfirmed listener: ' + rawAddress);
         const address = Address.createFromRawAddress(rawAddress);
-        this.listener.aggregateBondedAdded(address, undefined, isMultisig).subscribe(() => {
-            this.showMessage(translate('notification.newAggregate'), 'warning');
-            store.dispatchAction({ type: 'account/loadAllData' });
-        });
+        this.listener
+            .aggregateBondedAdded(address, undefined, isMultisig)
+            .subscribe(() => {
+                this.showMessage(
+                    translate('notification.newAggregate'),
+                    'warning'
+                );
+                store.dispatchAction({ type: 'account/loadAllData' });
+            });
     };
 
-    showMessage = (message: string, type: 'danger' | 'warning' | 'success' = 'success') => {
+    showMessage = (
+        message: string,
+        type: 'danger' | 'warning' | 'success' = 'success'
+    ) => {
         Router.showMessage({
             message: message,
             type: type,

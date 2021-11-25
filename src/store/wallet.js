@@ -44,7 +44,10 @@ export default {
     actions: {
         initState: async ({ commit, state, dispatchAction }) => {
             const mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
-            commit({ type: 'wallet/setMnemonic', payload: mnemonicModel.mnemonic });
+            commit({
+                type: 'wallet/setMnemonic',
+                payload: mnemonicModel.mnemonic,
+            });
             await dispatchAction({ type: 'wallet/reloadAccounts' });
             if (state.wallet.accounts.length > 0) {
                 await dispatchAction({ type: 'wallet/loadAccount' });
@@ -54,9 +57,19 @@ export default {
             await MnemonicSecureStorage.saveMnemonic(state.wallet.mnemonic);
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
 
-            const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, state.wallet.name, 'mainnet');
+            const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(
+                mnemonicModel.mnemonic,
+                0,
+                state.wallet.name,
+                'mainnet'
+            );
             await AccountSecureStorage.createNewAccount(mainnetAccountModel);
-            const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, state.wallet.name, 'testnet');
+            const testnetAccountModel = AccountService.createFromMnemonicAndIndex(
+                mnemonicModel.mnemonic,
+                0,
+                state.wallet.name,
+                'testnet'
+            );
             await AccountSecureStorage.createNewAccount(testnetAccountModel);
             const optinAccounts = [];
             for (let i = 0; i < 10; i++) {
@@ -67,7 +80,11 @@ export default {
                     'mainnet',
                     Network.BITCOIN
                 );
-                if (getWhitelistedPublicKeys('mainnet').indexOf(optinMainnetAccount.id) >= 0) {
+                if (
+                    getWhitelistedPublicKeys('mainnet').indexOf(
+                        optinMainnetAccount.id
+                    ) >= 0
+                ) {
                     optinAccounts.push(optinMainnetAccount);
                 }
                 const optinTestnetAccount = AccountService.createFromMnemonicAndIndex(
@@ -77,7 +94,11 @@ export default {
                     'testnet',
                     Network.BITCOIN
                 );
-                if (getWhitelistedPublicKeys('testnet').indexOf(optinTestnetAccount.id) >= 0) {
+                if (
+                    getWhitelistedPublicKeys('testnet').indexOf(
+                        optinTestnetAccount.id
+                    ) >= 0
+                ) {
                     optinAccounts.push(optinTestnetAccount);
                 }
             }
@@ -85,10 +106,18 @@ export default {
                 await AccountSecureStorage.createNewAccount(account);
             }
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            await dispatchAction({ type: 'wallet/loadAccount', payload: state.network.network === 'testnet' ? testnetAccountModel.id : mainnetAccountModel.id });
+            await dispatchAction({
+                type: 'wallet/loadAccount',
+                payload:
+                    state.network.network === 'testnet'
+                        ? testnetAccountModel.id
+                        : mainnetAccountModel.id,
+            });
         },
         reloadAccounts: async ({ commit, state, dispatchAction }) => {
-            const accounts = await AccountSecureStorage.getAllAccountsByNetwork(state.network.network);
+            const accounts = await AccountSecureStorage.getAllAccountsByNetwork(
+                state.network.network
+            );
             commit({ type: 'wallet/setAccounts', payload: accounts });
             await dispatchAction({ type: 'wallet/loadAccountsBalances' });
         },
@@ -98,8 +127,14 @@ export default {
                     state.wallet.accounts.map(account => {
                         return new Promise(async resolve => {
                             try {
-                                const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, state.network.network);
-                                const data = await AccountService.getBalanceAndOwnedMosaicsFromAddress(rawAddress, state.network.selectedNetwork);
+                                const rawAddress = AccountService.getAddressByAccountModelAndNetwork(
+                                    account,
+                                    state.network.network
+                                );
+                                const data = await AccountService.getBalanceAndOwnedMosaicsFromAddress(
+                                    rawAddress,
+                                    state.network.selectedNetwork
+                                );
                                 resolve({
                                     id: account.id,
                                     balance: data.balance,
@@ -117,7 +152,10 @@ export default {
                     acc[pair.id] = pair.balance;
                     return acc;
                 }, {});
-                commit({ type: 'wallet/setAccountBalances', payload: accountBalances });
+                commit({
+                    type: 'wallet/setAccountBalances',
+                    payload: accountBalances,
+                });
             } catch (e) {
                 console.log(e);
                 commit({ type: 'wallet/setAccountBalances', payload: {} });
@@ -126,51 +164,121 @@ export default {
         loadAccount: async ({ commit, dispatchAction, state }, id) => {
             let accountModel;
             if (id) {
-                accountModel = await AccountSecureStorage.getAccountById(id, state.network.network);
+                accountModel = await AccountSecureStorage.getAccountById(
+                    id,
+                    state.network.network
+                );
             } else {
-                accountModel = (await AccountSecureStorage.getAllAccountsByNetwork(state.network.network))[0];
+                accountModel = (
+                    await AccountSecureStorage.getAllAccountsByNetwork(
+                        state.network.network
+                    )
+                )[0];
             }
-            await commit({ type: 'wallet/setSelectedAccount', payload: accountModel });
-            const rawAddress = AccountService.getAddressByAccountModelAndNetwork(accountModel, state.network.network);
+            await commit({
+                type: 'wallet/setSelectedAccount',
+                payload: accountModel,
+            });
+            const rawAddress = AccountService.getAddressByAccountModelAndNetwork(
+                accountModel,
+                state.network.network
+            );
             await GlobalListener.listen(rawAddress);
-            await dispatchAction({ type: 'account/loadAllData', payload: true });
+            await dispatchAction({
+                type: 'account/loadAllData',
+                payload: true,
+            });
         },
-        createHdAccount: async ({ commit, state, dispatchAction }, { index, name }) => {
+        createHdAccount: async (
+            { commit, state, dispatchAction },
+            { index, name }
+        ) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
             if (!index) {
-                index = await AccountService.getNextIndex(state.network.network);
+                index = await AccountService.getNextIndex(
+                    state.network.network
+                );
             }
-            const accountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, index, name, state.network.network);
+            const accountModel = AccountService.createFromMnemonicAndIndex(
+                mnemonicModel.mnemonic,
+                index,
+                name,
+                state.network.network
+            );
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+            dispatchAction({
+                type: 'wallet/loadAccount',
+                payload: accountModel.id,
+            });
         },
-        createPkAccount: async ({ commit, state, dispatchAction }, { privateKey, name }) => {
-            const accountModel = AccountService.createFromPrivateKey(privateKey, name, state.network.network);
+        createPkAccount: async (
+            { commit, state, dispatchAction },
+            { privateKey, name }
+        ) => {
+            const accountModel = AccountService.createFromPrivateKey(
+                privateKey,
+                name,
+                state.network.network
+            );
             await AccountSecureStorage.createNewAccount(accountModel);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
-            await dispatchAction({ type: 'wallet/loadAccount', payload: accountModel.id });
+            await dispatchAction({
+                type: 'wallet/loadAccount',
+                payload: accountModel.id,
+            });
         },
         removeAccount: async ({ commit, dispatchAction, state }, id) => {
             await AccountService.removeAccountById(id, state.network.network);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
         },
-        renameAccount: async ({ commit, dispatchAction, state }, { id, newName }) => {
-            const accounts = await AccountService.renameAccount(id, newName, state.network.network);
-            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id, state.network.network);
-            commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
+        renameAccount: async (
+            { commit, dispatchAction, state },
+            { id, newName }
+        ) => {
+            const accounts = await AccountService.renameAccount(
+                id,
+                newName,
+                state.network.network
+            );
+            const selectedAccount = await AccountSecureStorage.getAccountById(
+                state.wallet.selectedAccount.id,
+                state.network.network
+            );
+            commit({
+                type: 'wallet/setSelectedAccount',
+                payload: selectedAccount,
+            });
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
-        updateDelegatedHarvestingInfo: async ({ commit, dispatchAction, state }, { id, isPersistentDelReqSent, harvestingNode }) => {
-            const accounts = await AccountService.updateDelegatedHarvestingInfo(id, isPersistentDelReqSent, harvestingNode, state.network.network);
-            const selectedAccount = await AccountSecureStorage.getAccountById(state.wallet.selectedAccount.id, state.network.network);
-            commit({ type: 'wallet/setSelectedAccount', payload: selectedAccount });
+        updateDelegatedHarvestingInfo: async (
+            { commit, dispatchAction, state },
+            { id, isPersistentDelReqSent, harvestingNode }
+        ) => {
+            const accounts = await AccountService.updateDelegatedHarvestingInfo(
+                id,
+                isPersistentDelReqSent,
+                harvestingNode,
+                state.network.network
+            );
+            const selectedAccount = await AccountSecureStorage.getAccountById(
+                state.wallet.selectedAccount.id,
+                state.network.network
+            );
+            commit({
+                type: 'wallet/setSelectedAccount',
+                payload: selectedAccount,
+            });
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
         downloadPaperWallet: async ({ state }) => {
             const accounts = state.wallet.accounts || [];
             const mnemonic = await MnemonicSecureStorage.retrieveMnemonic();
-            return AccountService.generatePaperWallet(mnemonic.mnemonic, accounts, state.network);
+            return AccountService.generatePaperWallet(
+                mnemonic.mnemonic,
+                accounts,
+                state.network
+            );
         },
     },
 };

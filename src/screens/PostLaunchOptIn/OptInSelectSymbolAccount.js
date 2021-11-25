@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Trunc, Icon } from '@src/components';
+import {
+    FlatList,
+    Image,
+    RefreshControl,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import {
+    Button,
+    GradientBackground,
+    Icon,
+    Input,
+    ListContainer,
+    ListItem,
+    Section,
+    TableView,
+    TitleBar,
+    Trunc,
+} from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -44,48 +62,111 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
         const { network } = this.props;
         return (
             <ListItem>
-                <TouchableOpacity onPress={() => this.finish(item)} style={styles.accountList}>
-                    <Image style={styles.icon} source={require('@src/assets/icons/account_nis1.png')} />
+                <TouchableOpacity
+                    onPress={() => this.finish(item)}
+                    style={styles.accountList}
+                >
+                    <Image
+                        style={styles.icon}
+                        source={require('@src/assets/icons/account_nis1.png')}
+                    />
                     <Text type={'regular'} theme={'light'} style={{ flex: 1 }}>
-                        {item.name} - <Trunc type="address">{AccountService.getAddressByAccountModelAndNetwork(item, network)}</Trunc>
+                        {item.name} -{' '}
+                        <Trunc type="address">
+                            {AccountService.getAddressByAccountModelAndNetwork(
+                                item,
+                                network
+                            )}
+                        </Trunc>
                     </Text>
-                    <Icon style={styles.optionsIcon} name="back_light_reversed" size="small" />
+                    <Icon
+                        style={styles.optionsIcon}
+                        name="back_light_reversed"
+                        size="small"
+                    />
                 </TouchableOpacity>
             </ListItem>
         );
     };
 
     finish = (account: string) => {
-        store.dispatch({ type: 'optin/setSelectedSymbolAccount', payload: account });
-        Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        store.dispatch({
+            type: 'optin/setSelectedSymbolAccount',
+            payload: account,
+        });
+        Router.goToOptInFinish(
+            { welcomeComponentId: this.props.welcomeComponentId },
+            this.props.componentId
+        );
     };
 
     render() {
-        const { componentId, symbolAccounts, selectedOptInStatus, selectedMultisigDestinationAccount, network } = this.props;
-        const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
-        const publicAccount = selectedOptInStatus.isMultisig ? PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType) : null;
+        const {
+            componentId,
+            symbolAccounts,
+            selectedOptInStatus,
+            selectedMultisigDestinationAccount,
+            network,
+        } = this.props;
+        const networkType = NetworkService.getNetworkTypeFromModel({
+            type: network,
+        });
+        const publicAccount = selectedOptInStatus.isMultisig
+            ? PublicAccount.createFromPublicKey(
+                  selectedMultisigDestinationAccount,
+                  networkType
+              )
+            : null;
         return (
             <GradientBackground name="connector_small" theme="light">
-                <TitleBar theme="light" title={translate('optin.selectSymbolAccountTitle')} onBack={() => Router.goBack(componentId)} />
+                <TitleBar
+                    theme="light"
+                    title={translate('optin.selectSymbolAccountTitle')}
+                    onBack={() => Router.goBack(componentId)}
+                />
                 {!selectedOptInStatus.isMultisig && (
-                    <Text style={styles.titleText} theme="light" type={'bold'} align={'left'}>
+                    <Text
+                        style={styles.titleText}
+                        theme="light"
+                        type={'bold'}
+                        align={'left'}
+                    >
                         {translate('optin.selectSymbolAccountDescription')}
                     </Text>
                 )}
                 {selectedOptInStatus.isMultisig && (
                     <View>
-                        <Text style={styles.titleText} theme="light" type={'bold'} align={'left'}>
+                        <Text
+                            style={styles.titleText}
+                            theme="light"
+                            type={'bold'}
+                            align={'left'}
+                        >
                             {translate('optin.destinationMultisigAccount')}
                         </Text>
-                        <Text style={styles.titleText} theme="light" type={'regular'} align={'left'}>
+                        <Text
+                            style={styles.titleText}
+                            theme="light"
+                            type={'regular'}
+                            align={'left'}
+                        >
                             {publicAccount.address.pretty()}
                         </Text>
-                        <Text style={styles.titleText} theme="light" type={'bold'} align={'left'}>
+                        <Text
+                            style={styles.titleText}
+                            theme="light"
+                            type={'bold'}
+                            align={'left'}
+                        >
                             {translate('optin.selectCosignerSymbolDescription')}
                         </Text>
                     </View>
                 )}
-                <ListContainer type="list" style={styles.list} isScrollable={true}>
+                <ListContainer
+                    type="list"
+                    style={styles.list}
+                    isScrollable={true}
+                >
                     <FlatList
                         data={symbolAccounts}
                         renderItem={this.renderAccountItem}
@@ -101,7 +182,8 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
 
 export default connect(state => ({
     selectedNIS1Account: state.optin.selectedNIS1Account,
-    selectedMultisigDestinationAccount: state.optin.selectedMultisigDestinationAccount,
+    selectedMultisigDestinationAccount:
+        state.optin.selectedMultisigDestinationAccount,
     selectedOptInStatus: state.optin.selectedOptInStatus,
     symbolAccounts: state.wallet.accounts,
     network: state.network.selectedNetwork.type,

@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { Image, View, Text, TouchableOpacity, BackHandler } from 'react-native';
+import { BackHandler, Image, Text, TouchableOpacity, View } from 'react-native';
 import PINCode from '@haskkor/react-native-pincode';
 import styles from './Passcode.styl';
 import translate from '@src/locales/i18n';
@@ -44,7 +44,11 @@ class Passcode extends Component<Props, State> {
         const isPinSet = await getPasscodeStatus();
         const isTouchIDEnabled = isPinSet;
 
-        this.setState({ isPinSet: isPinSet, isTouchIDEnabled: isTouchIDEnabled, isLoading: false });
+        this.setState({
+            isPinSet: isPinSet,
+            isTouchIDEnabled: isTouchIDEnabled,
+            isLoading: false,
+        });
     };
 
     handleCancel = async () => {
@@ -72,7 +76,10 @@ class Passcode extends Component<Props, State> {
             onSuccess();
             Router.goBack(this.props.componentId);
         } else {
-            this.updateSecurity(enableTouchID ? 'biometrics' : 'passcode', onSuccess);
+            this.updateSecurity(
+                enableTouchID ? 'biometrics' : 'passcode',
+                onSuccess
+            );
         }
     };
 
@@ -84,13 +91,19 @@ class Passcode extends Component<Props, State> {
 
     renderCustomDeleteIcon = () => {
         return (
-            <Image style={styles.iconDelete} source={require('@src/assets/icons/ic-delete.png')} />
+            <Image
+                style={styles.iconDelete}
+                source={require('@src/assets/icons/ic-delete.png')}
+            />
         );
     };
 
     renderCustomCancel = () => {
         return (
-            <TouchableOpacity onPress={this.handleCancel} style={styles.cancelText}>
+            <TouchableOpacity
+                onPress={this.handleCancel}
+                style={styles.cancelText}
+            >
                 <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
         );
@@ -104,8 +117,9 @@ class Passcode extends Component<Props, State> {
 
         return (
             <GradientContainer
-                colorSchema='normal'
-                style={styles.gradientContainer}>
+                colorSchema="normal"
+                style={styles.gradientContainer}
+            >
                 {!isLoading && (
                     <React.Fragment>
                         <Image
@@ -115,17 +129,33 @@ class Passcode extends Component<Props, State> {
 
                         <PINCode
                             status={type}
-                            titleChoose={translate('Settings.passcode.choose.title')}
-                            titleConfirm={translate('Settings.passcode.choose.title')}
-                            subtitleChoose={translate('Settings.passcode.choose.subtitle')}
+                            titleChoose={translate(
+                                'Settings.passcode.choose.title'
+                            )}
+                            titleConfirm={translate(
+                                'Settings.passcode.choose.title'
+                            )}
+                            subtitleChoose={translate(
+                                'Settings.passcode.choose.subtitle'
+                            )}
                             titleEnter={
                                 isTouchIDEnabled
-                                    ? translate('Settings.passcode.enterBiometrics.title')
-                                    : translate('Settings.passcode.enterPasscode.title')
+                                    ? translate(
+                                          'Settings.passcode.enterBiometrics.title'
+                                      )
+                                    : translate(
+                                          'Settings.passcode.enterPasscode.title'
+                                      )
                             }
-                            subtitleConfirm={translate('Settings.passcode.choose.titleconfirm')}
-                            titleAttemptFailed={translate('Settings.passcode.titleError')}
-                            subtitleError={translate('Settings.passcode.subtitleError')}
+                            subtitleConfirm={translate(
+                                'Settings.passcode.choose.titleconfirm'
+                            )}
+                            titleAttemptFailed={translate(
+                                'Settings.passcode.titleError'
+                            )}
+                            subtitleError={translate(
+                                'Settings.passcode.subtitleError'
+                            )}
                             maxAttempts={20}
                             stylePinCodeTextTitle={styles.title}
                             stylePinCodeTextSubtitle={styles.subtitle}
@@ -133,17 +163,35 @@ class Passcode extends Component<Props, State> {
                             stylePinCodeColorTitleError="#ff9600"
                             stylePinCodeColorSubtitle="#ff00ff"
                             stylePinCodeColorSubtitleError="#ff9600"
-                            stylePinCodeMainContainer={styles.stylePinCodeMainContainer}
-                            stylePinCodeColumnButtons={styles.stylePinCodeColumnButtons}
+                            stylePinCodeMainContainer={
+                                styles.stylePinCodeMainContainer
+                            }
+                            stylePinCodeColumnButtons={
+                                styles.stylePinCodeColumnButtons
+                            }
                             stylePinCodeButtonNumber="#ffffff"
                             styleMainContainer={styles.styleMainContainer}
-                            stylePinCodeChooseContainer={styles.stylePinCodeChooseContainer}
-                            stylePinCodeEnterContainer={styles.stylePinCodeChooseContainer}
-                            stylePinCodeRowButtons={styles.stylePinCodeRowButtons}
-                            stylePinCodeTextButtonCircle={styles.numberButtonText}
-                            stylePinCodeButtonCircle={styles.stylePinCodeButtonCircle}
-                            stylePinCodeEmptyColumn={styles.stylePinCodeEmptyColumn}
-                            stylePinCodeColumnDeleteButton={styles.stylePinCodeColumnDeleteButton}
+                            stylePinCodeChooseContainer={
+                                styles.stylePinCodeChooseContainer
+                            }
+                            stylePinCodeEnterContainer={
+                                styles.stylePinCodeChooseContainer
+                            }
+                            stylePinCodeRowButtons={
+                                styles.stylePinCodeRowButtons
+                            }
+                            stylePinCodeTextButtonCircle={
+                                styles.numberButtonText
+                            }
+                            stylePinCodeButtonCircle={
+                                styles.stylePinCodeButtonCircle
+                            }
+                            stylePinCodeEmptyColumn={
+                                styles.stylePinCodeEmptyColumn
+                            }
+                            stylePinCodeColumnDeleteButton={
+                                styles.stylePinCodeColumnDeleteButton
+                            }
                             buttonComponentLockedPage={() => null}
                             iconComponentLockedPage={() => null}
                             numbersButtonOverlayColor="#5200c633"
@@ -151,7 +199,10 @@ class Passcode extends Component<Props, State> {
                             colorPassword="#ff00ff"
                             buttonDeleteText="Delete"
                             customBackSpaceIcon={this.renderCustomDeleteIcon}
-                            bottomLeftComponent={(!isPinSet || showCancel) && this.renderCustomCancel()}
+                            bottomLeftComponent={
+                                (!isPinSet || showCancel) &&
+                                this.renderCustomCancel()
+                            }
                             finishProcess={() => this.finish()}
                             touchIDDisabled={!isTouchIDEnabled}
                         />

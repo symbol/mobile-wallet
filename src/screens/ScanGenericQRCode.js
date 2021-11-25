@@ -18,8 +18,13 @@ class ScanGenericQRCode extends Component<Props> {
     }
 
     componentDidMount() {
-        this.backHwHandler = BackHandler.addEventListener('hardwareBackPress', () => this.onClose(false));
-        this.backHandler = BackHandler.addEventListener('backPress', () => this.onClose(false));
+        this.backHwHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            () => this.onClose(false)
+        );
+        this.backHandler = BackHandler.addEventListener('backPress', () =>
+            this.onClose(false)
+        );
     }
 
     onClose = (callCallback = true) => {
@@ -28,7 +33,7 @@ class ScanGenericQRCode extends Component<Props> {
         callCallback && onClose();
     };
 
-    onRead = (res) => {
+    onRead = res => {
         const { onRead } = this.props;
         Router.closeOverlay(this.props.componentId);
         onRead(res);

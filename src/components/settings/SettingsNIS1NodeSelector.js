@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import {BackHandler, View} from 'react-native';
+import { BackHandler, View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import { Dropdown } from '@src/components';
 import translate, { languageNames } from '@src/locales/i18n';
 import store from '@src/store';
 import { getDropdownListFromObjct } from '@src/utils';
 import { connect } from 'react-redux';
-import {Router} from "@src/Router";
-import {getNISNodes} from "@src/config/environment";
+import { Router } from '@src/Router';
+import { getNISNodes } from '@src/config/environment';
 
 class SettingsNIS1NodeSelector extends Component {
     constructor(props) {
@@ -33,7 +33,10 @@ class SettingsNIS1NodeSelector extends Component {
     onSelect = node => {
         console.log(node);
         store
-            .dispatchAction({ type: 'settings/saveSetSelectedNISNode', payload: node })
+            .dispatchAction({
+                type: 'settings/saveSetSelectedNISNode',
+                payload: node,
+            })
             .then(_ => {
                 this.closeModal();
             });
@@ -48,21 +51,21 @@ class SettingsNIS1NodeSelector extends Component {
         }));
         return (
             <View>
-				<Dropdown
-					list={parsedData}
-					title={translate('optin.NISNode')}
-					value={selectedNISNode}
-					onChange={this.onSelect}
-				>
-					<SettingsListItem
-						title={translate('optin.NISNode')}
-						icon={require('@src/assets/icons/ic-mainnet.png')}
-						isSelector={true}
-						isDropdown={true}
-						itemValue={selectedNISNode}
-						onPress={this.openModal}
-					/>
-				</Dropdown>
+                <Dropdown
+                    list={parsedData}
+                    title={translate('optin.NISNode')}
+                    value={selectedNISNode}
+                    onChange={this.onSelect}
+                >
+                    <SettingsListItem
+                        title={translate('optin.NISNode')}
+                        icon={require('@src/assets/icons/ic-mainnet.png')}
+                        isSelector={true}
+                        isDropdown={true}
+                        itemValue={selectedNISNode}
+                        onPress={this.openModal}
+                    />
+                </Dropdown>
             </View>
         );
     }

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Section, GradientBackground, TitleBar, LinkFaucet, LinkExplorer, Text, TableView, QRImage, Row } from '@src/components';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    GradientBackground,
+    LinkExplorer,
+    LinkFaucet,
+    QRImage,
+    Row,
+    Section,
+    TableView,
+    Text,
+    TitleBar,
+} from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -44,27 +54,34 @@ class LinkedKeysDetails extends Component<Props, State> {
 
     componentDidMount() {
         const { selectedAccount, selectedNetwork } = this.props;
-        HarvestingService.getAccountKeys(selectedAccount, selectedNetwork).then(keys => {
-            this.setState({
-                networkKeys: {
-                    vrf: keys.vrf.publicKey,
-                    linked: keys.linked.publicKey,
-                    node: keys.node.publicKey,
-                },
-                loading: false,
-            });
-        });
+        HarvestingService.getAccountKeys(selectedAccount, selectedNetwork).then(
+            keys => {
+                this.setState({
+                    networkKeys: {
+                        vrf: keys.vrf.publicKey,
+                        linked: keys.linked.publicKey,
+                        node: keys.node.publicKey,
+                    },
+                    loading: false,
+                });
+            }
+        );
     }
 
     render = () => {
         const { harvestingModel, selectedNetwork, componentId } = this.props;
         const { networkKeys, isLoading } = this.state;
-        const networkType = NetworkService.getNetworkTypeFromModel(selectedNetwork);
+        const networkType = NetworkService.getNetworkTypeFromModel(
+            selectedNetwork
+        );
 
         let vrfPrivateKey = null,
             vrfPublicKey = networkKeys.vrf;
         if (harvestingModel) {
-            const savedVrfAccount = Account.createFromPrivateKey(harvestingModel.vrfPrivateKey, networkType);
+            const savedVrfAccount = Account.createFromPrivateKey(
+                harvestingModel.vrfPrivateKey,
+                networkType
+            );
             if (networkKeys.vrf === savedVrfAccount.publicKey) {
                 vrfPrivateKey = savedVrfAccount.privateKey;
                 vrfPublicKey = savedVrfAccount.publicKey;
@@ -74,14 +91,19 @@ class LinkedKeysDetails extends Component<Props, State> {
         let remotePrivateKey = null,
             remotePublicKey = networkKeys.linked;
         if (harvestingModel) {
-            const savedRemoteAccount = Account.createFromPrivateKey(harvestingModel.remotePrivateKey, networkType);
+            const savedRemoteAccount = Account.createFromPrivateKey(
+                harvestingModel.remotePrivateKey,
+                networkType
+            );
             if (networkKeys.linked === savedRemoteAccount.publicKey) {
                 remotePrivateKey = savedRemoteAccount.privateKey;
                 remotePublicKey = savedRemoteAccount.publicKey;
             }
         }
 
-        const nodePublicKey = harvestingModel ? harvestingModel.nodePublicKey : networkKeys.node;
+        const nodePublicKey = harvestingModel
+            ? harvestingModel.nodePublicKey
+            : networkKeys.node;
 
         const data = {
             vrfPublicKey,
@@ -92,8 +114,16 @@ class LinkedKeysDetails extends Component<Props, State> {
         };
 
         return (
-            <GradientBackground name="mesh_small_2" theme="light" dataManager={{ isLoading }}>
-                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Linked Keys Details" />
+            <GradientBackground
+                name="mesh_small_2"
+                theme="light"
+                dataManager={{ isLoading }}
+            >
+                <TitleBar
+                    theme="light"
+                    onBack={() => Router.goBack(this.props.componentId)}
+                    title="Linked Keys Details"
+                />
                 <Section type="form" style={styles.list} isScrollable>
                     <TableView componentId={componentId} data={data} />
                 </Section>

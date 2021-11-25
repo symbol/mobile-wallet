@@ -8,7 +8,6 @@ type Props = {
 };
 
 export default class NamespaceRegistrationTransaction extends BaseTransactionItem<Props> {
-
     renderAction = () => {
         const { transaction } = this.props;
         return (

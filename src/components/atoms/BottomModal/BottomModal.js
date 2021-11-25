@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal } from 'react-native';
+import { Modal, View } from 'react-native';
 import styles from './BottomModal.styl';
 import Card from '@src/components/atoms/Card';
 
@@ -13,12 +13,15 @@ export default class BottomModal extends Component<Props> {
         const { isModalOpen, onClose, children } = this.props;
 
         return (
-            <Modal animationType="slide" transparent visible={isModalOpen} onRequestClose={onClose}>
-                <View style={styles.modalOverlay}/>
+            <Modal
+                animationType="slide"
+                transparent
+                visible={isModalOpen}
+                onRequestClose={onClose}
+            >
+                <View style={styles.modalOverlay} />
                 <View style={styles.bottomCardWrapper}>
-                    <Card style={styles.bottomCard}>
-                        {children}
-                    </Card>
+                    <Card style={styles.bottomCard}>{children}</Card>
                 </View>
             </Modal>
         );

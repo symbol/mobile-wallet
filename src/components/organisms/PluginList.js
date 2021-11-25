@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Row, Col, Icon, Text, PriceChart } from '@src/components';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Col, Icon, PriceChart, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
-import { Router, BASE_SCREEN_NAME } from '@src/Router';
+import { BASE_SCREEN_NAME, Router } from '@src/Router';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-		paddingTop: 17,
-		paddingBottom: 17,
-		//backgroundColor: '#f005',
+        paddingTop: 17,
+        paddingBottom: 17,
+        //backgroundColor: '#f005',
         //backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
         //borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
         //borderTopWidth: 1
@@ -69,7 +69,11 @@ class PluginList extends Component<Props, State> {
 
     onOpen = name => {
         console.log(this.props.componentId);
-        Router.goToScreen(`${BASE_SCREEN_NAME}.${name}`, {}, this.props.componentId);
+        Router.goToScreen(
+            `${BASE_SCREEN_NAME}.${name}`,
+            {},
+            this.props.componentId
+        );
     };
 
     render = () => {
@@ -88,9 +92,9 @@ class PluginList extends Component<Props, State> {
                 iconName: 'receive',
             },
             {
-               text: 'plugin.qr',
-               name: 'QR_SCANNER_SCREEN',
-               iconName: 'qr_scanner',
+                text: 'plugin.qr',
+                name: 'QR_SCANNER_SCREEN',
+                iconName: 'qr_scanner',
             },
             // {
             //     text: 'plugin.more',
@@ -103,15 +107,32 @@ class PluginList extends Component<Props, State> {
             <View style={[styles.root, style]}>
                 <Row justify="center" align="center" wrap>
                     {pluginList.map((item, index) => (
-                        <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
-                            <TouchableOpacity style={styles.circle} onPress={() => this.onOpen(item.name)} disabled={!isNodeUp || item.disabled }>
+                        <Col
+                            align="center"
+                            justify="center"
+                            style={styles.item}
+                            key={'' + index + 'plugin'}
+                        >
+                            <TouchableOpacity
+                                style={styles.circle}
+                                onPress={() => this.onOpen(item.name)}
+                                disabled={!isNodeUp || item.disabled}
+                            >
                                 {/* <Col align="center" justify="center" > */}
                                 <LinearGradient
                                     style={styles.gradient}
                                     start={{ x: 0, y: 0 }}
                                     end={{ x: 1, y: 0 }}
-                                    colors={[GlobalStyles.color.WHITE, GlobalStyles.color.DARKWHITE]}>
-                                    <Icon name={item.iconName} size="medium" style={styles.icon} />
+                                    colors={[
+                                        GlobalStyles.color.WHITE,
+                                        GlobalStyles.color.DARKWHITE,
+                                    ]}
+                                >
+                                    <Icon
+                                        name={item.iconName}
+                                        size="medium"
+                                        style={styles.icon}
+                                    />
                                 </LinearGradient>
                                 {/* </Col> */}
                             </TouchableOpacity>

@@ -1,5 +1,13 @@
 import React, { Component, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableHighlight, Modal, FlatList, ActivityIndicator } from 'react-native';
+import {
+    ActivityIndicator,
+    FlatList,
+    Modal,
+    StyleSheet,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import Popover from 'react-native-popover-view';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row, Text } from '@src/components';
@@ -47,9 +55,16 @@ export default class OptionsMenu extends Component<Props, State> {
 
     renderItem = item => {
         return (
-            <TouchableHighlight underlayColor="#0001" onPress={() => this.onPressItem(item)}>
+            <TouchableHighlight
+                underlayColor="#0001"
+                onPress={() => this.onPressItem(item)}
+            >
                 <Row style={styles.listItem} align="center">
-                    <Icon style={styles.icon} name={item.item.iconName} size="small" />
+                    <Icon
+                        style={styles.icon}
+                        name={item.item.iconName}
+                        size="small"
+                    />
                     <Text style={styles.label} type="bold" theme="light">
                         {item.item.label}
                     </Text>
@@ -67,15 +82,24 @@ export default class OptionsMenu extends Component<Props, State> {
             <>
                 <Popover
                     from={
-                        <TouchableOpacity style={style} onPress={() => this.setState({ isVisible: true })}>
+                        <TouchableOpacity
+                            style={style}
+                            onPress={() => this.setState({ isVisible: true })}
+                        >
                             {children}
                         </TouchableOpacity>
                     }
                     isVisible={isVisible}
                     animationConfig={{ duration: 200 }}
                     arrowStyle={{ backgroundColor: 'transparent' }}
-                    onRequestClose={() => this.setState({ isVisible: false })}>
-                    <FlatList style={styles.root} data={list} renderItem={this.renderItem} keyExtractor={(item, index) => item.label + index} />
+                    onRequestClose={() => this.setState({ isVisible: false })}
+                >
+                    <FlatList
+                        style={styles.root}
+                        data={list}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => item.label + index}
+                    />
                 </Popover>
             </>
         );

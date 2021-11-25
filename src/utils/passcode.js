@@ -2,7 +2,10 @@
  * @format
  * @flow
  */
-import { hasUserSetPinCode, deleteUserPinCode } from '@haskkor/react-native-pincode';
+import {
+    deleteUserPinCode,
+    hasUserSetPinCode,
+} from '@haskkor/react-native-pincode';
 import store from '@src/store';
 import { Router } from '@src/Router';
 
@@ -16,9 +19,14 @@ const deletePasscode = (serviceName?: string): boolean => {
 
 const createPasscode = componentId => {
     const setPasscode = () => {
-        store.dispatchAction({ type: 'settings/saveIsPasscodeSelected', payload: true }).then(_ => {
-            Router.goToWalletLoading({});
-        });
+        store
+            .dispatchAction({
+                type: 'settings/saveIsPasscodeSelected',
+                payload: true,
+            })
+            .then(_ => {
+                Router.goToWalletLoading({});
+            });
     };
     Router.showPasscode(
         {

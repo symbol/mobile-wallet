@@ -1,9 +1,4 @@
-import { 
-    Mosaic,  
-    MosaicHttp,
-    MosaicInfo, 
-    NamespaceHttp,
-} from 'symbol-sdk';
+import { Mosaic, MosaicHttp, MosaicInfo, NamespaceHttp } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { durationToRelativeTime } from '@src/utils/format';
@@ -15,22 +10,35 @@ export default class MosaicService {
      * @param network
      * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
      */
-    static async getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
+    static async getMosaicModelFromMosaicId(
+        mosaic: Mosaic,
+        network: NetworkModel
+    ): Promise<MosaicModel> {
         let mosaicInfo = {},
             mosaicName = {};
         try {
-            mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
-            [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
+            mosaicInfo = await new MosaicHttp(network.node)
+                .getMosaic(mosaic.id)
+                .toPromise();
+            [mosaicName] = await new NamespaceHttp(network.node)
+                .getMosaicsNames([mosaic.id])
+                .toPromise();
         } catch (e) {
             console.log(e);
         }
         //Mosaic info not found -> let's try for its namespace
         if (!mosaicInfo.divisibility) {
             try {
-                const namespaceInfo = await new NamespaceHttp(network.node).getNamespace(mosaic.id).toPromise();
+                const namespaceInfo = await new NamespaceHttp(network.node)
+                    .getNamespace(mosaic.id)
+                    .toPromise();
                 if (namespaceInfo.alias.mosaicId) {
-                    mosaicInfo = await new MosaicHttp(network.node).getMosaic(namespaceInfo.alias.mosaicId).toPromise();
-                    [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([namespaceInfo.alias.mosaicId]).toPromise();
+                    mosaicInfo = await new MosaicHttp(network.node)
+                        .getMosaic(namespaceInfo.alias.mosaicId)
+                        .toPromise();
+                    [mosaicName] = await new NamespaceHttp(network.node)
+                        .getMosaicsNames([namespaceInfo.alias.mosaicId])
+                        .toPromise();
                 }
             } catch (e) {
                 console.log(e);
@@ -38,10 +46,15 @@ export default class MosaicService {
         }
         return {
             mosaicId: mosaic.id.toHex(),
-            mosaicName: mosaicName && mosaicName.names && mosaicName.names.length > 0 ? mosaicName.names[0].name : mosaic.id.toHex(),
+            mosaicName:
+                mosaicName && mosaicName.names && mosaicName.names.length > 0
+                    ? mosaicName.names[0].name
+                    : mosaic.id.toHex(),
             amount: mosaic.amount.toString(),
             divisibility: mosaicInfo.divisibility,
-            expired: mosaicInfo.duration ? this._checkExpirationDate(mosaicInfo, network): false,
+            expired: mosaicInfo.duration
+                ? this._checkExpirationDate(mosaicInfo, network)
+                : false,
         };
     }
 
@@ -69,6 +82,9 @@ export default class MosaicService {
         }
         return false;
         // number of blocks remaining
-        return durationToRelativeTime(expiresIn, network.blockGenerationTargetTime);
+        return durationToRelativeTime(
+            expiresIn,
+            network.blockGenerationTargetTime
+        );
     }
 }

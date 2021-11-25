@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Linking } from 'react-native';
-import { Section, GradientBackground, TitleBar, Text, Button, TableView, LinkExplorer, Icon, Row, Col } from '@src/components';
+import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    Button,
+    Col,
+    GradientBackground,
+    Icon,
+    LinkExplorer,
+    Row,
+    Section,
+    TableView,
+    Text,
+    TitleBar,
+} from '@src/components';
 import translate from '@src/locales/i18n';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import { getExplorerURL } from '@src/config/environment';
-import {showPasscode} from "@src/utils/passcode";
+import { showPasscode } from '@src/utils/passcode';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -44,7 +55,14 @@ class ConfirmTransaction extends Component<Props, State> {
     };
 
     render = () => {
-        const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
+        const {
+            isLoading,
+            isError,
+            errorMessage,
+            isSuccessfullySent,
+            transaction,
+            onBack,
+        } = this.props;
         const {} = this.state;
 
         const hardCodedDataManager = {
@@ -53,7 +71,9 @@ class ConfirmTransaction extends Component<Props, State> {
             errorMessage,
         };
 
-        const preview = Object.keys(transaction).filter(key => key !== "fee").map(key => ({ key, value: transaction[key] }));
+        const preview = Object.keys(transaction)
+            .filter(key => key !== 'fee')
+            .map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
@@ -64,13 +84,28 @@ class ConfirmTransaction extends Component<Props, State> {
             : () => Router.goBack(this.props.componentId);
 
         return (
-            <GradientBackground name="connector" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
-                <TitleBar theme="light" onBack={backFunction} title="Confirm Transaction" />
+            <GradientBackground
+                name="connector"
+                theme="light"
+                dataManager={hardCodedDataManager}
+                onBack={onBack}
+            >
+                <TitleBar
+                    theme="light"
+                    onBack={backFunction}
+                    title="Confirm Transaction"
+                />
                 {isPreviewShown && (
                     <Section type="form" style={styles.list} isScrollable>
                         <TableView data={preview} />
                         <Section type="form-bottom">
-                            <Button isLoading={false} isDisabled={false} text="Confirm" theme="light" onPress={() => this.submit()} />
+                            <Button
+                                isLoading={false}
+                                isDisabled={false}
+                                text="Confirm"
+                                theme="light"
+                                onPress={() => this.submit()}
+                            />
                         </Section>
                     </Section>
                 )}
@@ -79,7 +114,11 @@ class ConfirmTransaction extends Component<Props, State> {
                         <Col justify="center" style={{ marginTop: '15%' }}>
                             <Section type="form-item">
                                 <Row justify="space-between" align="end">
-                                    <Text type="alert" theme="light" style={{ paddingBottom: 0 }}>
+                                    <Text
+                                        type="alert"
+                                        theme="light"
+                                        style={{ paddingBottom: 0 }}
+                                    >
                                         Success!
                                     </Text>
                                     <Icon name="success" size="big" />
@@ -87,16 +126,26 @@ class ConfirmTransaction extends Component<Props, State> {
                             </Section>
                             <Section type="form-item">
                                 <Text type="bold" theme="light">
-                                    Transaction succesfully sent. Pending to be confirmed by the network
+                                    Transaction succesfully sent. Pending to be
+                                    confirmed by the network
                                 </Text>
                             </Section>
                             <Section type="form-item">
-                                <LinkExplorer type="transaction" value={transaction.hash} />
+                                <LinkExplorer
+                                    type="transaction"
+                                    value={transaction.hash}
+                                />
                             </Section>
                         </Col>
 
                         <Section type="form-bottom">
-                            <Button isLoading={false} isDisabled={false} text="Go to dashboard" theme="light" onPress={() => Router.goToDashboard()} />
+                            <Button
+                                isLoading={false}
+                                isDisabled={false}
+                                text="Go to dashboard"
+                                theme="light"
+                                onPress={() => Router.goToDashboard()}
+                            />
                         </Section>
                     </Section>
                 )}

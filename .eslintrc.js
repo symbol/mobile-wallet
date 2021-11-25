@@ -1,8 +1,5 @@
 module.exports = {
-    extends: [
-        'eslint:recommended', 
-        'plugin:prettier/recommended'
-    ],
+    extends: ['plugin:react/recommended', 'plugin:prettier/recommended'],
     plugins: ['react'],
     parser: 'babel-eslint',
     parserOptions: {
@@ -18,18 +15,12 @@ module.exports = {
     },
     rules: {
         'sort-imports': [
-            'error', 
-            { 
-                ignoreDeclarationSort: true 
-            }
-        ],
-        'no-unused-vars': [
-            'warn',
+            'error',
             {
-                varsIgnorePattern: 'React',
+                ignoreDeclarationSort: true,
             },
         ],
-        'no-useless-escape': 'warn',
-        'no-empty': 'off',
+        'no-unused-vars': 'error',
+        'react/prop-types': 'off',
     },
 };

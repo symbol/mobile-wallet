@@ -18,7 +18,6 @@ interface Props {
 type State = {};
 
 export default class C extends Component<Props, State> {
-
     render() {
         const { children, type, style = {}, align, theme } = this.props;
         let globalStyle = {};
@@ -53,7 +52,8 @@ export default class C extends Component<Props, State> {
         if (typeof align === 'string') globalStyle.textAlign = align;
 
         if (type !== 'warning' && type !== 'error') {
-            if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
+            if (theme === 'light')
+                globalStyle.color = GlobalStyles.color.onLight.TEXT;
             else globalStyle.color = GlobalStyles.color.onDark.TEXT;
         }
 

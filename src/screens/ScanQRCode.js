@@ -4,7 +4,14 @@
  */
 
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import translate from '@src/locales/i18n';
 import QRScanner from '@src/components/atoms/QRScanner';
 import { Router } from '@src/Router';
@@ -15,7 +22,7 @@ import { Button, Title } from '@src/components';
 import SymbolPageView from '@src/components/organisms/SymbolPageView';
 import FadeView from '@src/components/organisms/FadeView';
 import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';
-import {createPasscode} from "@src/utils/passcode";
+import { createPasscode } from '@src/utils/passcode';
 
 type State = {
     showWarning: boolean,
@@ -120,8 +127,8 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 24,
         fontWeight: '100',
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
         flexWrap: 'wrap',
     },
 
@@ -130,15 +137,15 @@ const styles = StyleSheet.create({
         width: '70%',
         fontWeight: '100',
         fontSize: 24,
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
     },
 
     wrongPassword: {
         color: '#ee0000',
         fontSize: 16,
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
     },
 
     titleTextNoIcon: {
@@ -239,11 +246,17 @@ class ScanQRCode extends Component<Props, State> {
         try {
             const mnemonicQR = MnemonicQR.fromJSON(mnemonicFixed);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
-            store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonicQR.mnemonicPlainText });
+            store.dispatch({
+                type: 'wallet/setMnemonic',
+                payload: mnemonicQR.mnemonicPlainText,
+            });
             createPasscode(this.props.componentId);
         } catch (e) {
             if (e.message === 'Could not parse mnemonic pass phrase.') {
-                this.setState({ encryptedQR: mnemonicFixed, showPassword: true });
+                this.setState({
+                    encryptedQR: mnemonicFixed,
+                    showPassword: true,
+                });
             } else {
                 this.setState({ showWarning: true });
             }
@@ -259,7 +272,10 @@ class ScanQRCode extends Component<Props, State> {
         try {
             const decryptedQR = MnemonicQR.fromJSON(encryptedQR, password);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
-            store.dispatch({ type: 'wallet/setMnemonic', payload: decryptedQR.mnemonicPlainText });
+            store.dispatch({
+                type: 'wallet/setMnemonic',
+                payload: decryptedQR.mnemonicPlainText,
+            });
             createPasscode(this.props.componentId);
         } catch {
             this.setState({ wrongPassword: true, password: '' });
@@ -267,15 +283,32 @@ class ScanQRCode extends Component<Props, State> {
     };
 
     render() {
-        const { showWarning, wrongPassword, showPassword, password } = this.state;
+        const {
+            showWarning,
+            wrongPassword,
+            showPassword,
+            password,
+        } = this.state;
         if (showPassword) {
             return (
                 <SymbolGradientContainer noPadding style={styles.container}>
-                    <Image style={styles.mesh} source={require('@src/assets/background1.png')} />
+                    <Image
+                        style={styles.mesh}
+                        source={require('@src/assets/background1.png')}
+                    />
                     <FadeView style={styles.pageContainer}>
                         <View style={styles.topBar}>
-                            <TouchableOpacity style={styles.topButtonContainer} onPress={() => Router.goBack(this.props.componentId)}>
-                                <Image style={styles.topButtons} source={require('@src/assets/icons/back_dark.png')} resizeMode="center" />
+                            <TouchableOpacity
+                                style={styles.topButtonContainer}
+                                onPress={() =>
+                                    Router.goBack(this.props.componentId)
+                                }
+                            >
+                                <Image
+                                    style={styles.topButtons}
+                                    source={require('@src/assets/icons/back_dark.png')}
+                                    resizeMode="center"
+                                />
                             </TouchableOpacity>
                         </View>
                         <ScrollView style={styles.scrollView}>
@@ -289,10 +322,16 @@ class ScanQRCode extends Component<Props, State> {
                                     placeholder={'Enter password for qr'}
                                     returnKeyType="next"
                                     secureTextEntry={true}
-                                    onChangeText={password => this.setState({ password })}
+                                    onChangeText={password =>
+                                        this.setState({ password })
+                                    }
                                     value={password}
                                 />
-                                {wrongPassword && <Text style={styles.wrongPassword}>Wrong password</Text>}
+                                {wrongPassword && (
+                                    <Text style={styles.wrongPassword}>
+                                        Wrong password
+                                    </Text>
+                                )}
                             </View>
                         </ScrollView>
 
@@ -321,16 +360,24 @@ class ScanQRCode extends Component<Props, State> {
                     isError={false}
                     buttons={[
                         {
-                            title: translate('ImportWallet.ImportOptions.buttonTitleQr'),
+                            title: translate(
+                                'ImportWallet.ImportOptions.buttonTitleQr'
+                            ),
                             style: styles.button,
-                            onPress: () => this.setState({ showWarning: false }),
+                            onPress: () =>
+                                this.setState({ showWarning: false }),
                             icon: require('@src/assets/icons/qr_light.png'),
                         },
                     ]}
                 />
             );
         } else {
-            return <QRScanner onDataHandler={this.onRead} closeFn={this.onCloseQR} />;
+            return (
+                <QRScanner
+                    onDataHandler={this.onRead}
+                    closeFn={this.onCloseQR}
+                />
+            );
         }
     }
 }

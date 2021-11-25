@@ -11,7 +11,10 @@ export class AddressBookSecureStorage extends BaseSecureStorage {
      */
 
     static async saveAddressBook(addressBook: AddressBook) {
-        return await this.secureSaveAsync(this.CONTACTS_KEY, addressBook.toJSON());
+        return await this.secureSaveAsync(
+            this.CONTACTS_KEY,
+            addressBook.toJSON()
+        );
     }
 
     /**
@@ -20,7 +23,9 @@ export class AddressBookSecureStorage extends BaseSecureStorage {
      */
     static async retrieveAddressBook(): AddressBook {
         try {
-            const addressBook = await this.secureRetrieveAsync(this.CONTACTS_KEY);
+            const addressBook = await this.secureRetrieveAsync(
+                this.CONTACTS_KEY
+            );
             return AddressBook.fromJSON(addressBook);
         } catch {
             return new AddressBook();

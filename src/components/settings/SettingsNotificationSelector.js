@@ -31,32 +31,35 @@ class SettingsNotificationSelector extends Component {
 
     onSelect = notification => {
         store
-            .dispatchAction({ type: 'settings/saveSelectedSyncInterval', payload: notification })
+            .dispatchAction({
+                type: 'settings/saveSelectedSyncInterval',
+                payload: notification,
+            })
             .then(_ => this.closeModal());
     };
 
     render() {
         const { data, isBoxOpen } = this.state;
         const { selectedSyncInterval } = this.props.settings;
-		const list = data.map(el => ({value: el, label: el}));
+        const list = data.map(el => ({ value: el, label: el }));
 
         return (
             <View>
-				<Dropdown 
-					list={list}
-					title={translate('Settings.notification.title')}
-					value={selectedSyncInterval}
-					onChange={this.onSelect}
-				>
-					<SettingsListItem
-						title={translate('Settings.notification.title')}
-						icon={require('@src/assets/icons/ic-notification.png')}
-						isSelector={true}
-						isDropdown={true}
-						itemValue={selectedSyncInterval}
-						onPress={this.openModal}
-					/>
-				</Dropdown>
+                <Dropdown
+                    list={list}
+                    title={translate('Settings.notification.title')}
+                    value={selectedSyncInterval}
+                    onChange={this.onSelect}
+                >
+                    <SettingsListItem
+                        title={translate('Settings.notification.title')}
+                        icon={require('@src/assets/icons/ic-notification.png')}
+                        isSelector={true}
+                        isDropdown={true}
+                        itemValue={selectedSyncInterval}
+                        onPress={this.openModal}
+                    />
+                </Dropdown>
             </View>
         );
     }
