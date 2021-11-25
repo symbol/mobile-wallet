@@ -1,7 +1,9 @@
 console.log('[-] Fixing iOS RN Images workaround...');
 const fs = require('fs');
 
-const MAIN_FILE_PATH = __dirname + '/../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m';
+const MAIN_FILE_PATH =
+    __dirname +
+    '/../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m';
 
 fs.readFile(MAIN_FILE_PATH, 'utf8', function(err, data) {
     const formatted = data.replace(

@@ -1,9 +1,6 @@
 export default {
-	namespace: 'mosaic',
-	state: {
-	},
-	mutations: {
-	},
-	actions: {
-	}
-}
+    namespace: 'mosaic',
+    state: {},
+    mutations: {},
+    actions: {},
+};

@@ -9,10 +9,15 @@ import { Router } from '@src/Router';
 class SettingsPasscodeSelector extends Component {
     onSelect = payload => {
         const setPasscode = () => {
-            store.dispatchAction({ type: 'settings/saveIsPasscodeSelected', payload: payload }).then(_ => {
-                console.log('saved');
-                Router.goToDashboard({});
-            });
+            store
+                .dispatchAction({
+                    type: 'settings/saveIsPasscodeSelected',
+                    payload: payload,
+                })
+                .then(() => {
+                    console.log('saved');
+                    Router.goToDashboard({});
+                });
         };
 
         if (payload) {
@@ -41,7 +46,11 @@ class SettingsPasscodeSelector extends Component {
         return (
             <View>
                 <SettingsListItem
-                    title={isPasscodeSelected ? translate('Settings.passcode.turnOffPasscode') : translate('Settings.passcode.turnOnPasscode')}
+                    title={
+                        isPasscodeSelected
+                            ? translate('Settings.passcode.turnOffPasscode')
+                            : translate('Settings.passcode.turnOnPasscode')
+                    }
                     icon={require('@src/assets/icons/ic-passcode.png')}
                     isSwitch={true}
                     itemValue={isPasscodeSelected}

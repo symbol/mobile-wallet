@@ -11,9 +11,18 @@ export class MnemonicSecureStorage extends BaseSecureStorage {
      * @param index
      * @returns {Promise<string | null>}
      */
-    static async saveMnemonic(mnemonic: string, index: number = -1): Promise<MnemonicModel> {
-        const mnemonicModel: MnemonicModel = { mnemonic: mnemonic, lastIndexDerived: index };
-        await this.secureSaveAsync(this.MNEMONIC_KEY, JSON.stringify(mnemonicModel));
+    static async saveMnemonic(
+        mnemonic: string,
+        index: number = -1
+    ): Promise<MnemonicModel> {
+        const mnemonicModel: MnemonicModel = {
+            mnemonic: mnemonic,
+            lastIndexDerived: index,
+        };
+        await this.secureSaveAsync(
+            this.MNEMONIC_KEY,
+            JSON.stringify(mnemonicModel)
+        );
         return mnemonicModel;
     }
 
@@ -37,7 +46,10 @@ export class MnemonicSecureStorage extends BaseSecureStorage {
     static async increaseLastBipDerivedPath(): Promise<MnemonicModel> {
         const mnemonicModel = await this.retrieveMnemonic();
         mnemonicModel.lastIndexDerived += 1;
-        return this.saveMnemonic(mnemonicModel.mnemonic, mnemonicModel.lastIndexDerived);
+        return this.saveMnemonic(
+            mnemonicModel.mnemonic,
+            mnemonicModel.lastIndexDerived
+        );
     }
 
     /**
@@ -47,7 +59,10 @@ export class MnemonicSecureStorage extends BaseSecureStorage {
     static async decreaseLastBipDerivedPath(): Promise<MnemonicModel> {
         const mnemonicModel = await this.retrieveMnemonic();
         mnemonicModel.lastIndexDerived -= 1;
-        return this.saveMnemonic(mnemonicModel.mnemonic, mnemonicModel.lastIndexDerived);
+        return this.saveMnemonic(
+            mnemonicModel.mnemonic,
+            mnemonicModel.lastIndexDerived
+        );
     }
 
     /**

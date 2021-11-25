@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { AddressBook } from 'symbol-address-book/AddressBook';
 
@@ -18,19 +18,25 @@ class Transaction extends Component<Props> {
 
     trunc = (text, cut, lengthFirst, lengthSecond) => {
         if (cut === 'middle' && lengthFirst + lengthSecond < text.length) {
-			return text.substring(0, lengthFirst) + '...' + text.substring(text.length - lengthSecond, text.length);
-		}
+            return (
+                text.substring(0, lengthFirst) +
+                '...' +
+                text.substring(text.length - lengthSecond, text.length)
+            );
+        }
         if (cut === 'end' && lengthFirst < text.length) {
-			return text.substring(0, lengthFirst) + '...';
-		}
+            return text.substring(0, lengthFirst) + '...';
+        }
 
-		return text;
+        return text;
     };
 
     render = () => {
         const { type, length = 5, children } = this.props;
         if (typeof children !== 'string') {
-            console.error(`Failed to trunc text. ${typeof children} is not a "string"`);
+            console.error(
+                `Failed to trunc text. ${typeof children} is not a "string"`
+            );
             return '';
         }
         switch (type) {

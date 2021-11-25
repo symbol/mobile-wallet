@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { menuItems } from '@src/config';
-import { NavigationMenu, GradientBackground } from '@src/components';
+import { GradientBackground, NavigationMenu } from '@src/components';
 import NodeDownOverlay from '@src/components/organisms/NodeDownOverlay';
 import Home from '@src/screens/Home';
 import History from '@src/screens/History';
@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
     tabWrapper: {
         flex: 1,
-	},
+    },
     contentContainer: {
         flex: 1,
         marginBottom: 10,
@@ -63,20 +63,32 @@ class Dashboard extends Component<Props, State> {
                 break;
         }
         return (
-			<GradientBackground theme="light" noPadding>
-				<View style={styles.tabWrapper}>
-					<Tab
-						{...this.props}
-						contentStyle={styles.contentContainer}
-						onOpenMenu={() => this.setState({ isSidebarShown: true })}
-						onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
-						changeTab={this.onTabChange}
-					/>
-				</View>
-                <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
-                <Sidebar componentId={componentId} isVisible={this.state.isSidebarShown} onHide={() => this.setState({ isSidebarShown: false })} />
+            <GradientBackground theme="light" noPadding>
+                <View style={styles.tabWrapper}>
+                    <Tab
+                        {...this.props}
+                        contentStyle={styles.contentContainer}
+                        onOpenMenu={() =>
+                            this.setState({ isSidebarShown: true })
+                        }
+                        onOpenSettings={() =>
+                            Router.goToSettings({}, this.props.componentId)
+                        }
+                        changeTab={this.onTabChange}
+                    />
+                </View>
+                <NavigationMenu
+                    menuItemList={menuItems}
+                    onChange={this.onTabChange}
+                    value={currentTab}
+                />
+                <Sidebar
+                    componentId={componentId}
+                    isVisible={this.state.isSidebarShown}
+                    onHide={() => this.setState({ isSidebarShown: false })}
+                />
                 {!isNodeUp && <NodeDownOverlay />}
-			</GradientBackground>
+            </GradientBackground>
         );
     }
 }

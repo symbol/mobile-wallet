@@ -234,7 +234,7 @@ class GraphicComponent extends Component {
             return str;
         }
         console.error('Failed to trunc string. Provided value is not a string');
-        
+
         return str;
     }
 
@@ -300,8 +300,7 @@ class GraphicComponent extends Component {
             mosaicAliasName = mosaic.mosaicAliasName.length
                 ? mosaic.mosaicAliasName[0]
                 : 'N/A';
-        }
-        else {
+        } else {
             mosaicAliasName = mosaic.mosaicAliasName
                 ? mosaic.mosaicAliasName
                 : 'N/A';
