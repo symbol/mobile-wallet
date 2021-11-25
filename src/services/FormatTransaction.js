@@ -299,11 +299,7 @@ export class FormatTransaction {
         };
     };
 
-    static namespaceRegistration = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static namespaceRegistration = async transaction => {
         return {
             transactionType: transaction.type,
             registrationType:
@@ -323,7 +319,7 @@ export class FormatTransaction {
         };
     };
 
-    static addressAlias = async (transaction, network, preLoadedMosaics) => {
+    static addressAlias = async (transaction, network) => {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const namespaceNames = await namespaceHttp
@@ -344,7 +340,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicAlias = async (transaction, network, preLoadedMosaics) => {
+    static mosaicAlias = async (transaction, network) => {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const namespaceNames = await namespaceHttp
@@ -365,11 +361,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicDefinition = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static mosaicDefinition = async (transaction, network) => {
         const resolvedMosaic = await NamespaceService.resolveMosaicId(
             transaction.mosaicId,
             network
@@ -387,11 +379,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicSupplyChange = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static mosaicSupplyChange = async (transaction, network) => {
         const resolvedMosaic = await NamespaceService.resolveMosaicId(
             transaction.mosaicId,
             network
@@ -405,11 +393,7 @@ export class FormatTransaction {
         };
     };
 
-    static multisigAccountModification = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static multisigAccountModification = async (transaction, network) => {
         const [addressAdditions, addressDeletions] = await Promise.all([
             Promise.all(
                 transaction.addressAdditions.map(address => {
@@ -489,7 +473,7 @@ export class FormatTransaction {
         };
     };
 
-    static secretProof = async (transaction, network, preLoadedMosaics) => {
+    static secretProof = async (transaction, network) => {
         const resolvedAddress = await NamespaceService.resolveAddress(
             transaction.recipientAddress,
             network
@@ -505,11 +489,7 @@ export class FormatTransaction {
         };
     };
 
-    static accountAddressRestriction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static accountAddressRestriction = async (transaction, network) => {
         const [addressAdditions, addressDeletions] = await Promise.all([
             Promise.all(
                 transaction.restrictionAdditions.map(address => {
@@ -532,11 +512,7 @@ export class FormatTransaction {
         };
     };
 
-    static accountMosaicRestriction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static accountMosaicRestriction = async transaction => {
         return {
             transactionType: transaction.type,
             restrictionType:
@@ -550,11 +526,7 @@ export class FormatTransaction {
         };
     };
 
-    static accountOperationRestriction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static accountOperationRestriction = async transaction => {
         return {
             transactionType: transaction.type,
             restrictionType:
@@ -570,11 +542,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicAddressRestriction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static mosaicAddressRestriction = async (transaction, network) => {
         const [resolvedMosaic, targetAddress] = await Promise.all([
             NamespaceService.resolveMosaicId(transaction.mosaicId, network),
             NamespaceService.resolveAddress(transaction.targetAddress, network),
@@ -596,11 +564,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicGlobalRestriction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static mosaicGlobalRestriction = async (transaction, network) => {
         const referenceMosaicId =
             transaction.referenceMosaicId.toHex() === '0000000000000000'
                 ? transaction.mosaicId
@@ -626,7 +590,7 @@ export class FormatTransaction {
         };
     };
 
-    static accountMetadata = async (transaction, network, preLoadedMosaics) => {
+    static accountMetadata = async (transaction, network) => {
         const resolvedAddress = await NamespaceService.resolveAddress(
             transaction.targetAddress,
             network
@@ -641,7 +605,7 @@ export class FormatTransaction {
         };
     };
 
-    static mosaicMetadata = async (transaction, network, preLoadedMosaics) => {
+    static mosaicMetadata = async (transaction, network) => {
         const [resolvedMosaic, resolvedAddress] = await Promise.all([
             NamespaceService.resolveMosaicId(
                 transaction.targetMosaicId,
@@ -666,11 +630,7 @@ export class FormatTransaction {
         };
     };
 
-    static namespaceMetadata = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static namespaceMetadata = async (transaction, network) => {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const [namespaces, resolvedAddress] = await Promise.all([
@@ -692,7 +652,7 @@ export class FormatTransaction {
         };
     };
 
-    static votingKeyLink = async (transaction, network, preLoadedMosaics) => {
+    static votingKeyLink = async (transaction, network) => {
         return {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
@@ -706,7 +666,7 @@ export class FormatTransaction {
         };
     };
 
-    static vrfKeyLink = async (transaction, network, preLoadedMosaics) => {
+    static vrfKeyLink = async (transaction, network) => {
         return {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
@@ -718,7 +678,7 @@ export class FormatTransaction {
         };
     };
 
-    static nodeKeyLink = async (transaction, network, preLoadedMosaics) => {
+    static nodeKeyLink = async (transaction, network) => {
         return {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
@@ -730,7 +690,7 @@ export class FormatTransaction {
         };
     };
 
-    static accountKeyLink = async (transaction, network, preLoadedMosaics) => {
+    static accountKeyLink = async (transaction, network) => {
         return {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],

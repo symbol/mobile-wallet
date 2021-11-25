@@ -230,12 +230,10 @@ export default class Dropdown extends Component<Props, State> {
             placeholder = 'Please select..',
             title,
             customInputReneder,
-            customItemReneder,
             isLoading,
             modalInnerRenderer,
             children,
             showTitle = true,
-            ...rest
         } = this.props;
         const { isSelectorOpen } = this.state;
         let inputStyles = [];

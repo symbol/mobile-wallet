@@ -121,7 +121,7 @@ class Harvest extends Component<Props, State> {
                     selectedNodeUrl: node,
                 });
             })
-            .catch(e => {
+            .catch(() => {
                 this.setState({ selectedNodeUrl: null });
                 Router.showMessage({
                     message: translate(
@@ -132,7 +132,7 @@ class Harvest extends Component<Props, State> {
             });
     };
 
-    startHarvesting = async _ => {
+    startHarvesting = async () => {
         const callBack = async () => {
             const { selectedNode } = this.state;
             this.setState({ isLoading: true });
@@ -148,7 +148,7 @@ class Harvest extends Component<Props, State> {
         showPasscode(this.props.componentId, callBack);
     };
 
-    activateHarvesting = async _ => {
+    activateHarvesting = async () => {
         const callBack = async () => {
             const { selectedNode } = this.state;
             this.setState({ isLoading: true });
@@ -164,7 +164,7 @@ class Harvest extends Component<Props, State> {
         showPasscode(this.props.componentId, callBack);
     };
 
-    stopHarvesting = async _ => {
+    stopHarvesting = async () => {
         const callBack = async () => {
             this.setState({ isLoading: true });
             await store.dispatchAction({ type: 'harvesting/stopHarvesting' });
@@ -173,7 +173,7 @@ class Harvest extends Component<Props, State> {
         showPasscode(this.props.componentId, callBack);
     };
 
-    onViewLinkedKeysClick = async _ => {
+    onViewLinkedKeysClick = async () => {
         Router.goToShowLinkedKeys({}, this.props.componentId);
     };
 

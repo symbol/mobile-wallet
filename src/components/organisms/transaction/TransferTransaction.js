@@ -4,9 +4,7 @@ import BaseTransactionItem from '@src/components/organisms/transaction/BaseTrans
 import translate from '@src/locales/i18n';
 import type { TransferTransactionModel } from '@src/storage/models/TransactionModel';
 import {
-    Button,
     Icon,
-    Row,
     SecretView,
     Section,
     TableView,
@@ -17,8 +15,6 @@ import { filterCurrencyMosaic } from '@src/utils/filter';
 import { StyleSheet, View } from 'react-native';
 import TransactionService from '@src/services/TransactionService';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { showPasscode } from '@src/utils/passcode';
-import { call } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
     amountOutgoing: {
@@ -195,8 +191,8 @@ class TransferTransaction extends BaseTransactionItem<Props> {
     };
 
     renderDetails = () => {
-        const { messageDecrypted, decrypting } = this.state;
-        const { transaction, selectedAccountAddress } = this.props;
+        const { messageDecrypted } = this.state;
+        const { transaction } = this.props;
         const parsedData = {};
 
         if (this.hasCustomMosaics()) parsedData.mosaics = transaction.mosaics;

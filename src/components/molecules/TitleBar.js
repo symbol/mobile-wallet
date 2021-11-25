@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Col, Icon, Row, Section, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import translate from '@src/locales/i18n';
-import { BASE_SCREEN_NAME, Router } from '@src/Router';
 
 const styles = StyleSheet.create({
     root: {
         width: '100%',
         height: 72,
         marginTop: 2,
-        //backgroundColor: '#f005',
     },
     iconLeft: {
-        //backgroundColor: '#f005',
         height: '100%',
         paddingEnd: GlobalStyles.section.title.paddingLeft / 2,
         paddingStart: GlobalStyles.section.title.paddingLeft / 2,

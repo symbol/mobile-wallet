@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import PopupModal from '@src/components/molecules/PopupModal';
 import Input from '@src/components/controls/Input';
 import { Button, Section } from '@src/components';
-
-const styles = StyleSheet.create({});
 
 type Props = {
     showModal: boolean,

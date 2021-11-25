@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import type { MosaicAliasTransactionModel } from '@src/storage/models/TransactionModel';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
 import { Text } from '@src/components';
 import { View } from 'react-native';
 import TableView from '@src/components/organisms/TableView';
-import { NamespaceHttp, RepositoryFactoryHttp } from 'symbol-sdk';
 import { connect } from 'react-redux';
 
 type Props = {

@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { BackHandler, Image, Text, TouchableOpacity, View } from 'react-native';
+import { BackHandler, Image, Text, TouchableOpacity } from 'react-native';
 import PINCode from '@haskkor/react-native-pincode';
 import styles from './Passcode.styl';
 import translate from '@src/locales/i18n';
@@ -84,7 +84,7 @@ class Passcode extends Component<Props, State> {
     };
 
     updateSecurity = (securityMode: string, postLoginFunc: () => void) => {
-        AsyncCache.setIsPasscodeSelected(securityMode !== 'none').then(_ => {
+        AsyncCache.setIsPasscodeSelected(securityMode !== 'none').then(() => {
             postLoginFunc();
         });
     };

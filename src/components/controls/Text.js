@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import GlobalStyles from '../../styles/GlobalStyles';
-import { Address } from 'symbol-sdk';
 
 type Type = 'title' | 'title-small' | 'subtitle' | 'alert' | 'bold';
 

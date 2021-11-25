@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { act, render, wait } from '@testing-library/react-native';
+import { render, wait } from '@testing-library/react-native';
 import QRScannerHOC from '../index';
 import DummyQRHostComponent from '../testHelper/DummyHostComponent';
 

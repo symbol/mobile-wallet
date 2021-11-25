@@ -14,7 +14,7 @@ class SettingsPasscodeSelector extends Component {
                     type: 'settings/saveIsPasscodeSelected',
                     payload: payload,
                 })
-                .then(_ => {
+                .then(() => {
                     console.log('saved');
                     Router.goToDashboard({});
                 });

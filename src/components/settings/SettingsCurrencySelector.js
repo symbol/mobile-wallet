@@ -34,11 +34,11 @@ class SettingsCurrencySelector extends Component {
                 type: 'settings/saveSelectedCurrency',
                 payload: currency,
             })
-            .then(_ => this.closeModal());
+            .then(() => this.closeModal());
     };
 
     render() {
-        const { data, isCurrencyBoxOpen } = this.state;
+        const { data } = this.state;
         const { selectedCurrency } = this.props.settings;
         const list = data.map(el => ({ value: el, label: el }));
         return (

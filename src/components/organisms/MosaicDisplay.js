@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Linking, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Col, Icon, Row, Text } from '@src/components';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 

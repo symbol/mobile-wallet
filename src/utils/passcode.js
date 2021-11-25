@@ -24,7 +24,7 @@ const createPasscode = componentId => {
                 type: 'settings/saveIsPasscodeSelected',
                 payload: true,
             })
-            .then(_ => {
+            .then(() => {
                 Router.goToWalletLoading({});
             });
     };

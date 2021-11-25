@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    Image,
-    RefreshControl,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
     Button,
     GradientBackground,
-    Icon,
     Input,
-    ListContainer,
-    ListItem,
     Section,
-    TableView,
     TitleBar,
-    Trunc,
 } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';

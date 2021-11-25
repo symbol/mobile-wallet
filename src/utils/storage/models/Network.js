@@ -29,15 +29,6 @@ Network.schema = {
     },
 };
 
-const PublicAttributes = {
-    name: 'name',
-    networkID: 'networkID',
-    nodeURL: 'nodeURL',
-    generationHash: 'generationHash',
-    networkCurrency: 'networkCurrency',
-    nodeType: 'nodeType',
-};
-
 const getNetworks = (realmInstance: any): Observable<Network[]> => {
     return from(
         realmInstance.then(realm => {

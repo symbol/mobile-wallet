@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
     GradientBackground,
     LinkExplorer,
@@ -56,9 +56,8 @@ class AccountDetails extends Component<Props, State> {
             componentId,
             accountType,
             path,
-            isPasscodeSelected,
         } = this.props;
-        const { contactQR, isLoading } = this.state;
+        const { isLoading } = this.state;
         const seedIndex =
             accountType === 'hd'
                 ? getAccountIndexFromDerivationPath(path, networkType)

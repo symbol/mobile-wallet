@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
     Button,
     Col,
@@ -12,11 +12,9 @@ import {
     Text,
     TitleBar,
 } from '@src/components';
-import translate from '@src/locales/i18n';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
-import { getExplorerURL } from '@src/config/environment';
 import { showPasscode } from '@src/utils/passcode';
 
 const styles = StyleSheet.create({

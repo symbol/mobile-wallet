@@ -36,7 +36,7 @@ export default class Contact extends Component<Props> {
                 type: 'addressBook/selectContact',
                 payload: contact,
             })
-            .then(_ => Router.goToContactProfile({}, this.props.componentId));
+            .then(() => Router.goToContactProfile({}, this.props.componentId));
     }
 
     render() {

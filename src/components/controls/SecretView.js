@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { CopyView, FadeView, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import { Router } from '@src/Router';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 
@@ -69,7 +68,7 @@ export default class SecretView extends Component<Props, State> {
     };
 
     render = () => {
-        const { children, style = {}, theme, title, component } = this.props;
+        const { children, style = {}, theme, title } = this.props;
         const { isSecretShown, counter } = this.state;
 
         if (isSecretShown)

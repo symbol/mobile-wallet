@@ -17,7 +17,7 @@ export default class SettingsLogout extends Component {
     };
 
     doLogout = () => {
-        logout().then(_ => {
+        logout().then(() => {
             Router.goToCreateOrImport({});
         });
     };

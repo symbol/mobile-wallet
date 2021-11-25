@@ -4,19 +4,15 @@ import {
     AggregateTransaction,
     LockFundsTransaction,
     MosaicAliasTransaction,
-    NamespaceHttp,
     NamespaceRegistrationTransaction,
     Order,
-    Page,
     PublicAccount,
-    RepositoryFactory,
     RepositoryFactoryHttp,
     Transaction,
     TransactionGroup,
     TransactionHttp,
     TransferTransaction,
 } from 'symbol-sdk';
-import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type {
     AggregateTransactionModel,
@@ -30,9 +26,7 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
 import MosaicService from '@src/services/MosaicService';
 import type { DirectionFilter } from '@src/store/transaction';
-import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 
 export default class FetchTransactionService {
     /**
@@ -231,7 +225,7 @@ export default class FetchTransactionService {
 
     /**
      * Transform a symbol account to an account Model
-     * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
+     * @returns Promise<TransactionModel>
      * @param transaction
      * @param network
      * @param preLoadedMosaics
@@ -422,14 +416,12 @@ export default class FetchTransactionService {
      * Populates namespace transaction Model
      * @param transactionModel
      * @param transaction
-     * @param network
      * @returns {Promise<void>}
      * @private
      */
     static async _populateNamespaceRegistrationTransactionModel(
         transactionModel: TransactionModel,
-        transaction: NamespaceRegistrationTransaction,
-        network: NetworkModel
+        transaction: NamespaceRegistrationTransaction
     ): Promise<NamespaceRegistrationTransactionModel> {
         const namespace = transaction.namespaceName;
         return {

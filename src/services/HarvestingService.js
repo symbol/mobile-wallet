@@ -213,7 +213,7 @@ export default class HarvestingService {
                         payload: harvestedBlockStats,
                     });
                 },
-                error: err => {},
+                error: () => {},
             });
     }
 

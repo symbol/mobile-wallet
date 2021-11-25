@@ -10,10 +10,8 @@ import styles from '../ConfirmModal/confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import Button from '@src/components/controls/Button';
-import { Checkbox, Col, Section, Text } from '@src/components';
+import { Section, Text } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { testIDs } from '@src/components/molecules/CheckableTextLink';
-import CheckBox from 'react-native-check-box';
 import translate from '@src/locales/i18n';
 
 type Props = {
@@ -42,10 +40,9 @@ const ConfirmModal = (props: Props) => {
         onBack,
         showClose,
         onClose,
-        noPadding,
         confirmDisabled,
     } = props;
-    const contentStyle = noPadding ? {} : styles.contentBody;
+
     return (
         <Modal
             animationType="fade"

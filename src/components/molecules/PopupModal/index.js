@@ -9,7 +9,6 @@ import { Modal, View } from 'react-native';
 import styles from './popupmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
-import Text from '@src/components/controls/Section';
 
 type Props = {
     children: Node,

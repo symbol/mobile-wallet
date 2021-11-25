@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import translate from '@src/locales/i18n';
 import styles from './Settings.styl';
 import { Router } from '@src/Router';
@@ -7,11 +7,9 @@ import { Router } from '@src/Router';
 import {
     SettingsAboutNem,
     SettingsBackup,
-    SettingsCurrencySelector,
     SettingsLanguageSelector,
     SettingsLogout,
     SettingsNodeSelector,
-    SettingsNotificationSelector,
     SettingsPasscodeSelector,
     SymbolPageView,
 } from '@src/components';

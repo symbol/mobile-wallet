@@ -34,7 +34,7 @@ class LinkExplorer extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, type, value } = this.props;
+        const { type, value } = this.props;
         let text = translate('link.blockExplorer');
         let route = '';
 

@@ -97,7 +97,7 @@ export default {
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
-            ]).catch(e => {
+            ]).catch(() => {
                 commit({ type: 'harvesting/resetState' });
             });
         },
@@ -235,7 +235,7 @@ export default {
         },
         activateHarvesting: async (
             { state, dispatchAction },
-            { nodePublicKey, harvestingNode }
+            { harvestingNode }
         ) => {
             try {
                 const harvestingModel = await HarvestingSecureStorage.getHarvestingModel(

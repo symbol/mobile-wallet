@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    RefreshControl,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
     Button,
     Dropdown,
     GradientBackground,
     Icon,
-    Input,
-    ListContainer,
-    ListItem,
     Row,
     Section,
-    TableView,
     TitleBar,
     Trunc,
 } from '@src/components';

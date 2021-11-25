@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { ManagerHandler, Section } from '@src/components';
+import { Section } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({

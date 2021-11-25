@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    ActivityIndicator,
     Image,
     ScrollView,
     StyleSheet,
@@ -339,7 +338,7 @@ const WizardStepView = (props: Props) => {
             );
     };
 
-    const Background = props => {
+    const Background = () => {
         if (theme === 'light')
             return (
                 <Image
@@ -371,7 +370,7 @@ const WizardStepView = (props: Props) => {
         return null;
     };
 
-    const TopBar = props => {
+    const TopBar = () => {
         const iconBackSrc =
             theme === 'light'
                 ? require('@src/assets/icons/back_light.png')
@@ -431,7 +430,7 @@ const WizardStepView = (props: Props) => {
         );
     };
 
-    const Title = props => {
+    const Title = () => {
         const titleContainertStyle =
             iconAlign === 'left'
                 ? styles.titleContainerColumn

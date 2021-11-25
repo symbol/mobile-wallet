@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-    ActivityIndicator,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { Col, PriceChart, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { connect } from 'react-redux';

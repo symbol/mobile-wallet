@@ -121,7 +121,6 @@ type Props = {
     separateErrorButtons: boolean,
     onClose: () => any,
     onBack: () => any,
-    onSettings: () => any,
 };
 
 const WizardStepView = (props: Props) => {
@@ -140,7 +139,6 @@ const WizardStepView = (props: Props) => {
         separateErrorButtons,
         onClose,
         onBack,
-        onSettings,
     } = props;
 
     const Footer = footer;

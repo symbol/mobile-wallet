@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import type { Element } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { ElementProps } from 'react';

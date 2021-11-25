@@ -1,36 +1,15 @@
 import React, { Component } from 'react';
-import {
-    Image,
-    Linking,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import {
-    Col,
-    Icon,
-    LinkExplorer,
-    Row,
-    Section,
-    TableView,
-    Text,
-    Trunc,
-} from '@src/components';
+import { StyleSheet, View } from 'react-native';
+import { Col, LinkExplorer, Row, Text, Trunc } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
-import { getExplorerURL } from '@src/config/environment';
 import TransactionIcon from '@src/components/controls/TransactionIcon';
 
 const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
-        // height: 60,
         borderRadius: 6,
-        // marginTop: 0,
-        // marginBottom: 8,
-        // padding: 17,
-        // paddingTop: 8,
         backgroundColor: GlobalStyles.color.WHITE,
     },
     date: {

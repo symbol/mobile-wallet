@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    StyleSheet,
-    TouchableOpacity,
-    TouchableOpacityComponent,
-    View,
-} from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import translate from '@src/locales/i18n';
 import PopupModal from '@src/components/molecules/PopupModal';
 import {
     Button,
-    Dropdown,
     Input,
     ManagerHandler,
     Row,
@@ -114,14 +107,14 @@ class SettingsNodeSelector extends Component {
         });
         store
             .dispatchAction({ type: 'network/changeNode', payload: node })
-            .then(_ => {
+            .then(() => {
                 this.closeModal();
                 this.setState({
                     error: null,
                     loading: null,
                 });
             })
-            .catch(e => {
+            .catch(() => {
                 this.setState({
                     error: 'Node not working',
                     loading: null,
@@ -131,9 +124,6 @@ class SettingsNodeSelector extends Component {
 
     renderItem = item => {
         const isActive = item.item.value === this.props.selectedNode;
-        // const style = isActive
-        // 	? styles.itemActive
-        // 	: styles.item;
 
         return (
             <TouchableOpacity
@@ -191,12 +181,7 @@ class SettingsNodeSelector extends Component {
             selectedTab,
             isConfirmModalOpen,
         } = this.state;
-        const {
-            selectedNode,
-            selectedNetwork,
-            testnetNodes,
-            mainnetNodes,
-        } = this.props;
+        const { selectedNetwork, testnetNodes, mainnetNodes } = this.props;
 
         const nodes = {
             mainnet: mainnetNodes.map(node => ({ value: node, label: node })),

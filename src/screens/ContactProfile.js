@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import {
-    Button,
     GradientBackground,
     Icon,
     QRImage,
@@ -17,8 +16,6 @@ import { IContact } from 'symbol-address-book/IContact';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import Row from '@src/components/controls/Row';
-
-const styles = StyleSheet.create({});
 
 type Props = {
     componentId: string,
@@ -53,7 +50,7 @@ class ContactProfile extends Component<Props, State> {
     confirmRemove = id => {
         store
             .dispatchAction({ type: 'addressBook/removeContact', payload: id })
-            .then(_ => Router.goBack(this.props.componentId));
+            .then(() => Router.goBack(this.props.componentId));
     };
 
     cancelRemove = () => {

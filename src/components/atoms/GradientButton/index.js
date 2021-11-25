@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     AccessibilityTrait,
-    ActivityIndicator,
     GestureResponderEvent,
     Image,
     ImageSourcePropType,
@@ -37,7 +36,6 @@ class GradientButton extends Component<Props> {
         const {
             title,
             fill,
-            loading,
             accessibilityLabel,
             disabled,
             isLoading,

@@ -166,7 +166,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     type: 'transfer/signAggregateBonded',
                     payload: transaction,
                 })
-                .then(_ => {
+                .then(() => {
                     store.dispatchAction({
                         type: 'transaction/changeFilters',
                         payload: {},
@@ -383,7 +383,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
             );
         } else {
             return (
-                <FadeView style={styles.signFormContainer} style={{ flex: 1 }}>
+                <FadeView style={[styles.signFormContainer, { flex: 1 }]}>
                     <RandomImage style={styles.randomImage} isContainer>
                         <Text
                             style={styles.textCaution}

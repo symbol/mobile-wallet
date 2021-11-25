@@ -18,7 +18,6 @@ class CustomFlashMessage extends Component<Props> {
         return (
             <View style={styles.container}>
                 <FlashMessage
-                    position="top"
                     animationDuration={200}
                     floating={true}
                     position={{ top: getStatusBarHeight() }}

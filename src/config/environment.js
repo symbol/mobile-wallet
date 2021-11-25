@@ -3,7 +3,6 @@
  * @flow
  */
 import {
-    NISNodes,
     aboutURL,
     currencies,
     defaultNetworkType,
@@ -23,7 +22,6 @@ import {
     syncIntervals,
 } from 'react-native-env-json';
 import { NetworkType } from 'symbol-sdk';
-import { languageNames } from '@src/locales/i18n';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 // Session timeout

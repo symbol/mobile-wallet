@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BackHandler, View } from 'react-native';
+import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import { Dropdown } from '@src/components';
 import translate, { languageNames } from '@src/locales/i18n';
@@ -35,14 +35,14 @@ class SettingsLanguageSelector extends Component {
                 type: 'settings/saveSelectedLanguage',
                 payload: language,
             })
-            .then(_ => {
+            .then(() => {
                 this.closeModal();
                 Router.goToDashboard({});
             });
     };
 
     render() {
-        const { data, isBoxOpen } = this.state;
+        const { data } = this.state;
         const { selectedLanguage } = this.props.settings;
         const list = getDropdownListFromObjct(data);
 

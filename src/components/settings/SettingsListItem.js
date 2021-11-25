@@ -6,14 +6,13 @@ import styles from './SettingsListItem.styl';
 
 type Props = {
     title: string,
-    icon: any,
     itemValue?: string | boolean,
     rightIcon?: ?number,
     onPress?: () => void | null,
     onValueChange?: (value: boolean) => void,
 };
 
-const selector = (value, icon) => (
+const selector = value => (
     <View style={styles.dropDownSelector}>
         <Text style={styles.dropDownSelectorText}>
             {value.length > 20 ? value.substring(0, 20 - 3) + '...' : value}
@@ -28,7 +27,6 @@ const selector = (value, icon) => (
 export default class SettingsListItem extends Component<Props> {
     render() {
         const {
-            icon,
             title,
             isSwitch,
             isSelector,
@@ -44,7 +42,6 @@ export default class SettingsListItem extends Component<Props> {
         return (
             <ViewComponent onPress={onPress} style={styles.itemContainer}>
                 <View style={styles.itemTitle}>
-                    {/* <Image source={icon} style={styles.itemIcon} /> */}
                     <Text
                         style={[
                             styles.itemTitleText,

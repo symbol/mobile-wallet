@@ -111,10 +111,7 @@ export default {
             commit({ type: 'transfer/setTransactionHash', payload: payload });
         },
 
-        broadcastTransaction: async (
-            { commit, state, dispatchAction },
-            payload
-        ) => {
+        broadcastTransaction: async ({ commit, state }, payload) => {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
@@ -135,10 +132,7 @@ export default {
             }
         },
 
-        signAggregateBonded: async (
-            { commit, state, dispatchAction },
-            payload
-        ) => {
+        signAggregateBonded: async ({ commit, state }, payload) => {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
@@ -158,10 +152,7 @@ export default {
             }
         },
 
-        broadcastSignedTransaction: async (
-            { commit, state, dispatchAction },
-            payload
-        ) => {
+        broadcastSignedTransaction: async ({ state }, payload) => {
             try {
                 await TransactionService.broadcastSignedTransaction(
                     payload,
@@ -172,10 +163,7 @@ export default {
             }
         },
 
-        broadcastCosignatureSignedTransaction: async (
-            { commit, state, dispatchAction },
-            payload
-        ) => {
+        broadcastCosignatureSignedTransaction: async ({ state }, payload) => {
             try {
                 await TransactionService.broadcastCosignatureSignedTransaction(
                     payload,

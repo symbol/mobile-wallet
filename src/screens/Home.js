@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import {
     AccountBalanceWidget,
     BasicAlert,
     Col,
     GradientBackground,
-    Icon,
     ListContainer,
     ListItem,
     PluginList,
@@ -24,7 +16,6 @@ import {
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
-import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
@@ -49,16 +40,11 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     notifications: {
-        //marginBottom: 10,
-        //marginTop: 100,
-        //flex: 1,
         maxHeight: '50%',
         height: null,
         flexShrink: 1,
     },
-    pluginList: {
-        //flexGrow: 1
-    },
+    pluginList: {},
 });
 
 type Props = {
@@ -74,7 +60,7 @@ class Home extends Component<Props, State> {
         store.dispatchAction({ type: 'account/loadAllData' });
     };
 
-    renderNotification = ({ item, index }) => {
+    renderNotification = ({ item }) => {
         return (
             <ListItem onPress={item.handler ? item.handler : () => {}}>
                 <Row justify="space-between">
@@ -110,7 +96,6 @@ class Home extends Component<Props, State> {
             onOpenMenu,
             onOpenSettings,
             changeTab,
-            isLoading,
             isMultisig,
         } = this.props;
 

@@ -38,7 +38,7 @@ export default {
         },
     },
     actions: {
-        initState: async ({ commit, state }) => {
+        initState: async ({ commit }) => {
             const selectedLanguage = await AsyncCache.getSelectedLanguage();
             commit({
                 type: 'settings/setSelectedLanguage',
@@ -60,30 +60,30 @@ export default {
                 payload: isPasscodeSelected,
             });
         },
-        saveSelectedCurrency: async ({ commit, state }, payload) => {
+        saveSelectedCurrency: async ({ commit }, payload) => {
             await AsyncCache.setSelectedCurrency(payload);
             commit({ type: 'settings/setSelectedCurrency', payload: payload });
         },
-        saveSelectedLanguage: async ({ commit, state }, payload) => {
+        saveSelectedLanguage: async ({ commit }, payload) => {
             await AsyncCache.setSelectedLanguage(payload);
             await setI18nConfig(payload);
             commit({ type: 'settings/setSelectedLanguage', payload: payload });
         },
-        saveSelectedSyncInterval: async ({ commit, state }, payload) => {
+        saveSelectedSyncInterval: async ({ commit }, payload) => {
             await AsyncCache.setSelectedSyncInterval(payload);
             commit({
                 type: 'settings/setSelectedSyncInterval',
                 payload: payload,
             });
         },
-        saveIsPasscodeSelected: async ({ commit, state }, payload) => {
+        saveIsPasscodeSelected: async ({ commit }, payload) => {
             await AsyncCache.setIsPasscodeSelected(payload);
             commit({
                 type: 'settings/setIsPasscodeSelected',
                 payload: payload,
             });
         },
-        saveSetSelectedNISNode: async ({ commit, state }, payload) => {
+        saveSetSelectedNISNode: async ({ commit }, payload) => {
             await AsyncCache.setIsPasscodeSelected(payload);
             commit({ type: 'settings/setSelectedNISNode', payload: payload });
         },

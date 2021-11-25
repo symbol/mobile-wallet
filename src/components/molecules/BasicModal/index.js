@@ -9,7 +9,6 @@ import { Modal, View } from 'react-native';
 import styles from './confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
-import { Section, Text } from '@src/components';
 
 type Props = {
     children: Node,
@@ -27,9 +26,7 @@ const BasicModal = (props: Props) => {
         children,
         isModalOpen,
         handleClose,
-        showTopbar,
         title,
-        text,
         showBack,
         onBack,
         showClose,

@@ -80,7 +80,7 @@ export default class OptInService {
                         resolve(res.amount);
                     });
                 })
-                .catch(e => {
+                .catch(() => {
                     resolve(0);
                 });
         });

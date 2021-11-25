@@ -1,5 +1,3 @@
-import { Directions } from 'react-native-gesture-handler';
-
 /**
  * Symbol branding colors
  */

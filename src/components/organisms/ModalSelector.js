@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    Image,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import Card from '@src/components/atoms/Card';
 import translate from '@src/locales/i18n';

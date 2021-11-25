@@ -46,7 +46,6 @@ class Mosaics extends Component<Props, State> {
     render() {
         const {
             ownedMosaics,
-            nativeMosaicNamespaceName,
             onOpenMenu,
             onOpenSettings,
             isLoading,
@@ -78,7 +77,6 @@ class Mosaics extends Component<Props, State> {
                         keyExtractor={(item, index) => '' + index + 'mosaics'}
                         refreshControl={
                             <RefreshControl
-                                //refresh control used for the Pull to Refresh
                                 refreshing={isLoading}
                                 onRefresh={() => this.refresh()}
                             />
@@ -86,7 +84,6 @@ class Mosaics extends Component<Props, State> {
                     />
                 </ListContainer>
             </GradientBackground>
-            //</ImageBackground>
         );
     }
 }

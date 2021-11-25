@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
-import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { Dropdown } from '@src/components';
-import translate, { getLocales } from '@src/locales/i18n';
+import translate from '@src/locales/i18n';
 import { getValidSyncIntervals } from '@src/config/environment';
 import store from '@src/store';
 import { connect } from 'react-redux';
@@ -35,11 +34,11 @@ class SettingsNotificationSelector extends Component {
                 type: 'settings/saveSelectedSyncInterval',
                 payload: notification,
             })
-            .then(_ => this.closeModal());
+            .then(() => this.closeModal());
     };
 
     render() {
-        const { data, isBoxOpen } = this.state;
+        const { data } = this.state;
         const { selectedSyncInterval } = this.props.settings;
         const list = data.map(el => ({ value: el, label: el }));
 

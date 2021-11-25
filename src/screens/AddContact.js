@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import {
     Button,
     GradientBackground,
-    ImageBackground,
     Input,
     InputAddress,
     Section,
@@ -60,7 +59,7 @@ class AddContact extends Component<Props, State> {
                 type: 'addressBook/addContact',
                 payload: contact,
             })
-            .then(_ => Router.goBack(this.props.componentId));
+            .then(() => Router.goBack(this.props.componentId));
     };
 
     update = id => {
@@ -82,7 +81,7 @@ class AddContact extends Component<Props, State> {
                 type: 'addressBook/updateContact',
                 payload: contact,
             })
-            .then(_ => Router.goBack(this.props.componentId));
+            .then(() => Router.goBack(this.props.componentId));
     };
 
     componentDidMount() {
@@ -92,8 +91,6 @@ class AddContact extends Component<Props, State> {
             this.onAddressChange(address);
             this.onChangeField('name')(name);
         } else if (selectedContact) {
-            this.state.update = true;
-            this.state.isAddressValid = true;
             this.setState({
                 address: selectedContact.address,
                 name: selectedContact.name,
@@ -102,6 +99,8 @@ class AddContact extends Component<Props, State> {
                 label: selectedContact.label,
                 notes: selectedContact.notes,
                 id: selectedContact.id,
+                update: true,
+                isAddressValid: true,
             });
         }
     }
@@ -137,7 +136,6 @@ class AddContact extends Component<Props, State> {
             name,
             phone,
             email,
-            label,
             notes,
             id,
             isAddressValid,

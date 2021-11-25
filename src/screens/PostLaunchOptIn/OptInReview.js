@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import {
-    BackHandler,
-    Linking,
-    RefreshControl,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { BackHandler, Linking, StyleSheet } from 'react-native';
 import {
     Button,
-    Checkbox,
     Col,
     GradientBackground,
     Icon,
-    Input,
-    ListContainer,
-    ListItem,
     Row,
     Section,
     TableView,
@@ -33,7 +22,6 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import NetworkService from '@src/services/NetworkService';
 import { PublicAccount } from 'symbol-sdk';
 import CheckableTextLink from '@src/components/molecules/CheckableTextLink';
-import { getExplorerURL } from '@src/config/environment';
 
 const styles = StyleSheet.create({
     list: {
@@ -100,7 +88,7 @@ class OptInReview extends Component<Props, State> {
             isLoading,
             isError,
         } = this.props;
-        const { sent, showReview, isTacAccepted } = this.state;
+        const { sent, isTacAccepted } = this.state;
         let data = {};
         if (selectedOptInStatus.isMultisig) {
             const networkType = NetworkService.getNetworkTypeFromModel({

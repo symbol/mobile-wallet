@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
     GradientBackground,
-    LinkExplorer,
-    LinkFaucet,
-    QRImage,
-    Row,
     Section,
     TableView,
-    Text,
     TitleBar,
 } from '@src/components';
 import { Router } from '@src/Router';

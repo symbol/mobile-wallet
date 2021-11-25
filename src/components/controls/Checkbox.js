@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import {
     ActivityIndicator,
     Image,
-    Modal,
     StyleSheet,
     Text,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon, LoadingAnimationFlexible, Row } from '@src/components';
-import translate from '@src/locales/i18n';
+import { Row } from '@src/components';
 
 const styles = StyleSheet.create({
     root: {
-        //backgroundColor: '#f005',
         paddingRight: 8,
     },
     fullWidth: {

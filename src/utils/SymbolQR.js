@@ -3,19 +3,9 @@
  * @flow
  */
 
-import {
-    MnemonicQR,
-    QRCodeGenerator,
-    QRCodeType,
-    TransactionQR,
-} from 'symbol-qr-library';
-
+import { MnemonicQR, QRCodeGenerator } from 'symbol-qr-library';
 import { NetworkType, Password, PublicAccount } from 'symbol-sdk';
-import Observable, { of } from 'rxjs';
-
-import { map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { MnemonicPassPhrase } from 'symbol-hd-wallets';
+import Observable from 'rxjs';
 
 /**
  * Creates an Mnemonic QR based on  mnemonic and password.

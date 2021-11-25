@@ -4,9 +4,7 @@
  */
 
 import React, { Component } from 'react';
-
 import { Text } from 'react-native';
-
 import styles from './ImportOptions.styl';
 import translate from '@src/locales/i18n';
 import SymbolPageView from '@src/components/organisms/SymbolPageView';
@@ -26,7 +24,7 @@ class ImportOptions extends Component<Props, State> {
     };
 
     render() {
-        const { isLoading, error } = this.state;
+        const { error } = this.state;
         const buttons = [
             {
                 title: translate(

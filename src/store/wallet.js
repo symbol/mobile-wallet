@@ -189,10 +189,7 @@ export default {
                 payload: true,
             });
         },
-        createHdAccount: async (
-            { commit, state, dispatchAction },
-            { index, name }
-        ) => {
+        createHdAccount: async ({ state, dispatchAction }, { index, name }) => {
             let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
             if (!index) {
                 index = await AccountService.getNextIndex(
@@ -213,7 +210,7 @@ export default {
             });
         },
         createPkAccount: async (
-            { commit, state, dispatchAction },
+            { state, dispatchAction },
             { privateKey, name }
         ) => {
             const accountModel = AccountService.createFromPrivateKey(
@@ -228,14 +225,11 @@ export default {
                 payload: accountModel.id,
             });
         },
-        removeAccount: async ({ commit, dispatchAction, state }, id) => {
+        removeAccount: async ({ dispatchAction, state }, id) => {
             await AccountService.removeAccountById(id, state.network.network);
             await dispatchAction({ type: 'wallet/reloadAccounts' });
         },
-        renameAccount: async (
-            { commit, dispatchAction, state },
-            { id, newName }
-        ) => {
+        renameAccount: async ({ commit, state }, { id, newName }) => {
             const accounts = await AccountService.renameAccount(
                 id,
                 newName,
@@ -252,7 +246,7 @@ export default {
             commit({ type: 'wallet/setAccounts', payload: accounts });
         },
         updateDelegatedHarvestingInfo: async (
-            { commit, dispatchAction, state },
+            { commit, state },
             { id, isPersistentDelReqSent, harvestingNode }
         ) => {
             const accounts = await AccountService.updateDelegatedHarvestingInfo(

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Col, Icon, PriceChart, Row, Text } from '@src/components';
+import { Col, Icon, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 import { BASE_SCREEN_NAME, Router } from '@src/Router';
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 
@@ -13,10 +12,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingTop: 17,
         paddingBottom: 17,
-        //backgroundColor: '#f005',
-        //backgroundColor: '#fff1',//GlobalStyles.color.SECONDARY,
-        //borderTopColor:  '#fff2',//GlobalStyles.color.PINK,
-        //borderTopWidth: 1
     },
     item: {
         padding: 5,
@@ -46,12 +41,6 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
 });
-
-type Plugin = {
-    text: string,
-    iconName: string,
-    name: string,
-};
 
 type Props = {
     menuItemList: MenuItem[],

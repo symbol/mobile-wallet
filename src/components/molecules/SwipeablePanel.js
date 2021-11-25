@@ -33,8 +33,6 @@ type SwipeablePanelProps = {
     allowTouchOutside?: boolean,
 };
 
-type MaybeAnimated<T> = T | Animated.Value;
-
 type SwipeablePanelState = {
     status: number,
     showComponent: boolean,
@@ -72,8 +70,8 @@ class SwipeablePanel extends Component<
         this.animatedValueY = 0;
 
         this._panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderGrant: (evt, gestureState) => {
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: () => {
                 this.state.pan.setOffset({
                     x: 0,
                     y: this.animatedValueY,
@@ -114,7 +112,7 @@ class SwipeablePanel extends Component<
                     else this._animateTo(0);
                 } else this._animateTo(this.state.status);
             },
-            onMoveShouldSetPanResponder: (_, gestureState) => {
+            onMoveShouldSetPanResponder: () => {
                 return true;
             },
         });

@@ -349,7 +349,7 @@ class Send extends Component<Props, State> {
     };
 
     render = () => {
-        const { ownedMosaics, isOwnedMosaicsLoading, network } = this.props;
+        const { ownedMosaics, isOwnedMosaicsLoading } = this.props;
         const {
             recipientAddress,
             mosaicName,

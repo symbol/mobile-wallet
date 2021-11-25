@@ -6,7 +6,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import Warning from '../index';
-import translate from '@src/utils/i18n';
 
 const mockAlert = jest.fn();
 jest.doMock('react-native/Libraries/Alert/Alert', () => ({
@@ -31,7 +30,7 @@ test('renders enter warning component correctly', () => {
 test('render proper alert', () => {
     const mockHandler = jest.fn();
 
-    const { baseElement } = render(
+    render(
         <Warning
             message="foo"
             okButtonText="ignore"

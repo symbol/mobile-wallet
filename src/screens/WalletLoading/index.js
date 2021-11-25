@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { Image, ImageBackground, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import Video from 'react-native-video';
 import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
 import translate from '@src/locales/i18n';
@@ -25,7 +25,7 @@ class WalletLoading extends Component {
         } else {
             store
                 .dispatchAction({ type: 'wallet/saveWallet' })
-                .then(_ => {
+                .then(() => {
                     Router.goToDashboard({});
                 })
                 .finally(() => {
@@ -35,8 +35,6 @@ class WalletLoading extends Component {
     };
 
     render() {
-        const image = { uri: '@src/assets/mesh1.png' };
-
         return (
             <GradientContainer
                 start={{ x: 1, y: 0 }}

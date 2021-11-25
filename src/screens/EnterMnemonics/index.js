@@ -72,7 +72,7 @@ class EnterMnemonics extends Component {
 
     // $FlowFixMe
     onChange = ({ nativeEvent: { text } }) => {
-        const { wordlist, mnemonics, reset } = this.state;
+        const { wordlist, reset } = this.state;
         let changeText = text;
         let isReset = reset;
 

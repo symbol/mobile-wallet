@@ -33,7 +33,7 @@ export default class LinkFaucet extends Component<Props, State> {
     };
 
     render = () => {
-        const { style = {}, value } = this.props;
+        const { value } = this.props;
         let text = translate('link.faucet');
         let route = '?recipient=' + value;
 

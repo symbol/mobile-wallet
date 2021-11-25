@@ -1,11 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import { Section } from '@src/components';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import GlobalStyles from '../../styles/GlobalStyles';
 
 const styles = StyleSheet.create({

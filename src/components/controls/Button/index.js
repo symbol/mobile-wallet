@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import GlobalStyles from '@src/styles/GlobalStyles';
+import { StyleSheet } from 'react-native';
 import GradientButtonLight from './GradientButtonLight/index.js';
 import GradientButtonDark from './GradientButtonDark/index.js';
 
 const styles = StyleSheet.create({
-    root: {
-        //width: '100%',
-    },
     fullWidth: {
         width: '100%',
     },
@@ -34,7 +30,7 @@ export default class Input extends Component<Props, State> {
             fullWidth,
             ...rest
         } = this.props;
-        let rootStyle = [styles.root, style];
+        let rootStyle = [style];
 
         if (fullWidth) rootStyle.push(styles.fullWidth);
 

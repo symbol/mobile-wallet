@@ -160,7 +160,7 @@ export default {
                 console.log(e);
             }
         },
-        changeNode: async ({ commit, state, dispatchAction }, payload) => {
+        changeNode: async ({ commit, dispatchAction }, payload) => {
             const network = await NetworkService.getNetworkModelFromNode(
                 payload
             );

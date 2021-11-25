@@ -18,7 +18,7 @@ import { Router } from '@src/Router';
 import store from '@src/store';
 import { MnemonicQR } from 'symbol-qr-library';
 import Input from '@src/components/atoms/Input';
-import { Button, Title } from '@src/components';
+import { Button } from '@src/components';
 import SymbolPageView from '@src/components/organisms/SymbolPageView';
 import FadeView from '@src/components/organisms/FadeView';
 import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';

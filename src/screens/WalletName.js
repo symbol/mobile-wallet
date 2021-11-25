@@ -1,4 +1,4 @@
-import React, { Component, Props } from 'react';
+import React, { Component } from 'react';
 import {
     Image,
     ScrollView,
@@ -241,16 +241,12 @@ class WalletName extends Component {
         const onSettings = null;
         const footerTitle = null;
 
-        const iconBackSrc =
-            theme === 'light'
-                ? require('@src/assets/icons/back_light.png')
-                : require('@src/assets/icons/back_dark.png');
         const iconSettingsSrc =
             theme === 'light'
                 ? require('@src/assets/icons/settings_light.png')
                 : require('@src/assets/icons/settings_dark.png');
 
-        const Title = props => {
+        const Title = () => {
             const titleContainertStyle =
                 iconAlign === 'left'
                     ? styles.titleContainerColumn

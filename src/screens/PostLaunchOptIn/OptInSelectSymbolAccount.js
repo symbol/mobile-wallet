@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 import {
     FlatList,
     Image,
-    RefreshControl,
     StyleSheet,
     TouchableOpacity,
     View,
 } from 'react-native';
 import {
-    Button,
     GradientBackground,
     Icon,
-    Input,
     ListContainer,
     ListItem,
-    Section,
-    TableView,
     TitleBar,
     Trunc,
 } from '@src/components';
@@ -58,7 +53,7 @@ type State = {};
 class OptInSelectSymbolAccount extends Component<Props, State> {
     state = {};
 
-    renderAccountItem = ({ item, index }) => {
+    renderAccountItem = ({ item }) => {
         const { network } = this.props;
         return (
             <ListItem>

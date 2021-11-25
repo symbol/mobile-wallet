@@ -3,8 +3,6 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { LineChart } from 'react-native-chart-kit';
 import { FadeView } from '@src/components';
-import store from '@src/store';
-import GlobalStyles from '@src/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
     root: {

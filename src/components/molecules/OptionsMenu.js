@@ -1,15 +1,11 @@
-import React, { Component, useRef } from 'react';
+import React, { Component } from 'react';
 import {
-    ActivityIndicator,
     FlatList,
-    Modal,
     StyleSheet,
     TouchableHighlight,
     TouchableOpacity,
-    View,
 } from 'react-native';
 import Popover from 'react-native-popover-view';
-import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row, Text } from '@src/components';
 
 const styles = StyleSheet.create({
@@ -76,7 +72,6 @@ export default class OptionsMenu extends Component<Props, State> {
     render = () => {
         const { style = {}, list = [], children } = this.props;
         const { isVisible } = this.state;
-        let touchable;
 
         return (
             <>

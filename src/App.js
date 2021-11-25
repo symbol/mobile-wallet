@@ -3,7 +3,7 @@
  * @flow
  */
 import React from 'react';
-import { Platform, Text, TextInput } from 'react-native';
+import { Text, TextInput } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';

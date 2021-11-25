@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const stylus = require('stylus');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const css2rn = require('css-to-react-native-transform').default;
 
 function process(src, filename) {

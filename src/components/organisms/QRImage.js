@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import {
-    Image,
-    Text as NativeText,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import { Col, ManagerHandler, Row, Section, Text } from '@src/components';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Col, ManagerHandler, Text } from '@src/components';
 import PasswordModal from '@src/components/molecules/PasswordModal';
 import { showPasscode } from '@src/utils/passcode';
-import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import NetworkService from '@src/services/NetworkService';
-import { AccountQR, AddressQR, ContactQR } from 'symbol-qr-library';
+import { AccountQR, AddressQR } from 'symbol-qr-library';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import TransactionService from '@src/services/TransactionService';
 
@@ -36,7 +29,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 5,
         paddingHorizontal: 10,
-        //borderWidth: 1,
         borderColor: GlobalStyles.color.PRIMARY,
         color: GlobalStyles.color.PRIMARY,
     },

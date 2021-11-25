@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon, Row, Section, SymbolPageView, Text } from '@src/components';
 import { Router } from '@src/Router';
 import QRService from '@src/services/QRService';

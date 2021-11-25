@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     FlatList,
     Image,
-    RefreshControl,
     StyleSheet,
     TouchableOpacity,
     View,
@@ -26,12 +25,7 @@ import Presentation from '@src/screens/PostLaunchOptIn/Presentation';
 import store from '@src/store';
 import { Router } from '@src/Router';
 import BasicModal from '@src/components/molecules/BasicModal';
-import OptInService from '@src/services/OptInService';
 import nem from 'nem-sdk';
-import type { NIS1Account } from '@src/services/OptInService';
-import { AddressQR, ContactQR } from 'symbol-qr-library';
-import NetworkService from '@src/services/NetworkService';
-import { PublicAccount } from 'symbol-sdk';
 import Trunc from '@src/components/organisms/Trunc';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
@@ -107,7 +101,7 @@ class Welcome extends Component<Props, State> {
         Router.goToNIS1AccountDetails({}, this.props.componentId);
     };
 
-    handleDeleteAccount = (item, index) => {
+    handleDeleteAccount = () => {
         const { removeSelectedAccount } = this.state;
         store.dispatchAction({
             type: 'optin/removeNIS1Account',

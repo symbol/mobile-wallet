@@ -1,12 +1,4 @@
-import {
-    AccountQR,
-    AddressQR,
-    ContactQR,
-    QRCodeGenerator,
-    QRCodeType,
-    SignedTransactionQR,
-    TransactionQR,
-} from 'symbol-qr-library';
+import { AccountQR, QRCodeGenerator, QRCodeType } from 'symbol-qr-library';
 import {
     Address,
     CosignatureSignedTransaction,
@@ -76,7 +68,7 @@ export default class {
         }
     };
 
-    static parseSignedTransaction = async (data, network) => {
+    static parseSignedTransaction = async data => {
         const mapper = (dto: any) =>
             new SignedTransaction(
                 dto.payload,
@@ -94,7 +86,7 @@ export default class {
         return qr.singedTransaction;
     };
 
-    static parseCosignatureSignedTransaction = async (data, network) => {
+    static parseCosignatureSignedTransaction = async data => {
         const mapper = (dto: any) =>
             new CosignatureSignedTransaction(
                 dto.parentHash,

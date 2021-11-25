@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import {
-    Button,
-    GradientBackground,
-    ImageBackground,
-    Section,
-    TitleBar,
-} from '@src/components';
+import { Button, GradientBackground, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 import Contact from '@src/components/organisms/Contact';
@@ -19,15 +12,6 @@ type Props = {
 
 type State = {};
 
-const styles = StyleSheet.create({
-    button: {
-        marginLeft: '10%',
-        marginRight: '10%',
-        marginTop: 10,
-        top: -100,
-    },
-});
-
 class AddressBookPage extends Component<Props, State> {
     state = {};
 
@@ -37,7 +21,7 @@ class AddressBookPage extends Component<Props, State> {
                 type: 'addressBook/selectContact',
                 payload: null,
             })
-            .then(_ => Router.goToAddContact({}, this.props.componentId));
+            .then(() => Router.goToAddContact({}, this.props.componentId));
     };
 
     render() {
@@ -57,7 +41,7 @@ class AddressBookPage extends Component<Props, State> {
                 }
             >
                 <Section type="list" isScrollable>
-                    {addressBook.getAllContacts().map(contact => {
+                    {addressBook.getAllContacts().map((contact, index) => {
                         return (
                             <Contact
                                 {...this.props}
@@ -68,6 +52,7 @@ class AddressBookPage extends Component<Props, State> {
                                 email={contact.email}
                                 label={contact.label}
                                 notes={contact.notes}
+                                key={'addr' + index}
                             />
                         );
                     })}

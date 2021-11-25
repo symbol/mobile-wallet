@@ -16,7 +16,6 @@ import {
     View,
 } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-
 import styles from './slider.styl';
 import * as DeviceUtil from '@src/utils/Device';
 
@@ -35,10 +34,6 @@ const paginationContainerBottom = {
 };
 
 type Props = {|
-    skipLabel?: string,
-    doneLabel?: string,
-    nextLabel?: string,
-    prevLabel?: string,
     dotStyle?: ViewStyleProp,
     activeDotStyle?: ViewStyleProp,
     buttonStyle?: ViewStyleProp,
@@ -46,10 +41,6 @@ type Props = {|
     paginationStyle?: ViewStyleProp,
     hidePagination?: boolean,
     bottomButton?: boolean,
-    showDoneButton?: boolean,
-    showSkipButton?: boolean,
-    showNextButton?: boolean,
-    showPrevButton?: boolean,
     renderNextButton: () => void,
     renderPrevButton: () => void,
     renderDoneButton: () => void,
@@ -77,19 +68,11 @@ class Slider extends Component<Props, State> {
         dotStyle: {
             backgroundColor: '#ffffff44',
         },
-        skipLabel: 'Skip',
-        doneLabel: 'Done',
-        nextLabel: 'Next',
-        prevLabel: 'Back',
         bottomButton: false,
         buttonStyle: null,
         buttonTextStyle: null,
         hidePagination: false,
         paginationStyle: null,
-        showDoneButton: true,
-        showNextButton: true,
-        showSkipButton: false,
-        showPrevButton: false,
         autoScrollInterval: 6000,
     };
 
@@ -381,28 +364,13 @@ class Slider extends Component<Props, State> {
 
     render() {
         // Separate props used by the component to props passed to FlatList
-        const {
-            hidePagination,
-            showDoneButton,
-            showNextButton,
-            activeDotStyle,
-            dotStyle,
-            skipLabel,
-            doneLabel,
-            nextLabel,
-            prevLabel,
-            buttonStyle,
-            buttonTextStyle,
-            renderItem,
-            slides,
-            style,
-            ...otherProps
-        } = this.props;
+        const { hidePagination, slides, style, ...otherProps } = this.props;
         const { width } = this.state;
 
         return (
             <View style={style}>
                 <FlatList
+                    {...otherProps}
                     ref={ref => {
                         this.slidingFlatList = ref;
                     }}
@@ -416,7 +384,6 @@ class Slider extends Component<Props, State> {
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     extraData={width}
                     onLayout={this.onLayout}
-                    {...otherProps}
                 />
                 {!hidePagination && this.renderPagination()}
             </View>

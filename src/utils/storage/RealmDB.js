@@ -21,8 +21,6 @@ import Address from './models/Address';
 import Block from './models/Block';
 import AddressBook, * as AddressBookModel from './models/AddressBook';
 
-import type { NetworkInfo } from './models/Network';
-
 const secureSaveAsync = async (key: string, value: string) => {
     return RNSecureStorage.set(key, value, {
         accessible: ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY, // iOS only

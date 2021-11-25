@@ -63,7 +63,7 @@ export default {
         },
     },
     actions: {
-        load: async ({ commit, dispatchAction, state }, payload) => {
+        load: async ({ commit, state }) => {
             commit({ type: 'optin/setError', payload: null });
             commit({ type: 'optin/setLoading', payload: true });
             const nis1Accounts = await OptInService.getNISAccounts(
@@ -72,14 +72,11 @@ export default {
             commit({ type: 'optin/setNisAccounts', payload: nis1Accounts });
             commit({ type: 'optin/setLoading', payload: false });
         },
-        addPrivateKey: async ({ commit, dispatchAction, state }, payload) => {
+        addPrivateKey: async ({ dispatchAction }, payload) => {
             await OptInService.addNISAccount(payload);
             await dispatchAction({ type: 'optin/load' });
         },
-        removeNIS1Account: async (
-            { commit, dispatchAction, state },
-            payload
-        ) => {
+        removeNIS1Account: async ({ dispatchAction }, payload) => {
             await OptInService.removeNIS1Account(payload);
             await dispatchAction({ type: 'optin/load' });
         },
@@ -148,7 +145,7 @@ export default {
             });
             commit({ type: 'optin/setLoading', payload: false });
         },
-        doOptIn: async ({ commit, state }, payload) => {
+        doOptIn: async ({ commit, state }) => {
             commit({ type: 'optin/setLoading', payload: true });
             try {
                 if (state.optin.selectedOptInStatus.isMultisig) {

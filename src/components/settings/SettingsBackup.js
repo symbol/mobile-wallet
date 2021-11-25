@@ -7,13 +7,6 @@ import { showPasscode } from '@src/utils/passcode';
 
 export default class SettingsBackup extends Component {
     onPress = () => {
-        const callBack = () => {
-            Router.goToGenerateBackup(
-                { isBackup: true },
-                this.props.componentId
-            );
-        };
-
         showPasscode(
             this.props.componentId,
             () =>

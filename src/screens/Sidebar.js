@@ -11,8 +11,6 @@ import {
 import {
     Button,
     Col,
-    Container,
-    FadeView,
     GradientBackground,
     Icon,
     Input,
@@ -30,7 +28,6 @@ import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import PopupModal from '@src/components/molecules/PopupModal';
-import RNFetchBlob from 'rn-fetch-blob';
 import { downloadFile } from '@src/utils/donwload';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import { showPasscode } from '@src/utils/passcode';
@@ -206,7 +203,7 @@ class Sidebar extends Component<Props, State> {
         });
     };
 
-    handleRenameAccount = _ => {
+    handleRenameAccount = () => {
         const { editingAccountId, newName } = this.state;
         store.dispatchAction({
             type: 'wallet/renameAccount',
@@ -258,7 +255,6 @@ class Sidebar extends Component<Props, State> {
             balance,
             nativeMosaicNamespace,
             isLoading,
-            networkType,
         } = this.props;
         const options = [
             {
@@ -297,16 +293,11 @@ class Sidebar extends Component<Props, State> {
                     : decimalBalance
                 : '..';
 
-        const path = selectedAccount.path;
-        const index = getAccountIndexFromDerivationPath(path, networkType);
         return (
             <SymbolGradientContainer
                 style={styles.selectedAccountBox}
                 noPadding
             >
-                {/* <Text type="bold" style={styles.selectedIndex}>
-					{selectedAccount.type === 'hd' ? '' + index : '⚷'}
-				</Text> */}
                 <Image
                     source={require('@src/assets/backgrounds/connector.png')}
                     style={styles.connectorImage}
@@ -370,14 +361,7 @@ class Sidebar extends Component<Props, State> {
         );
     };
 
-    renderAccountSelectorItem = ({
-        name,
-        balance,
-        address = 'n/a',
-        id,
-        type,
-        path,
-    }) => {
+    renderAccountSelectorItem = ({ name, id, type, path }) => {
         const {
             networkType,
             nativeMosaicNamespace,
@@ -437,9 +421,6 @@ class Sidebar extends Component<Props, State> {
                         <Icon name="options_light" size="small" />
                     </OptionsMenu>
                 </Row>
-                {/*<Text type="regular" align="left" theme="light">
-                    <Trunc type="address">{address}</Trunc>
-                </Text>*/}
                 <Row justify="space-between" fullWidth>
                     <Text
                         type="regular"
@@ -494,12 +475,7 @@ class Sidebar extends Component<Props, State> {
 
     render = () => {
         const { accounts, selectedAccount, isVisible, isLoading } = this.props;
-        const {
-            isNameModalOpen,
-            newName,
-            savingPaperWallet,
-            isRemoveModalOpen,
-        } = this.state;
+        const { isNameModalOpen, newName, isRemoveModalOpen } = this.state;
         const menuItems = [
             {
                 iconName: 'add_filled_light',

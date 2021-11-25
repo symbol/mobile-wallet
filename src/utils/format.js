@@ -1,4 +1,4 @@
-import { LocalDate, LocalDateTime } from 'js-joda';
+import { LocalDateTime } from 'js-joda';
 import translate from '@src/locales/i18n';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
@@ -22,8 +22,6 @@ export const formatDate = (date: LocalDateTime): string => {
         dateObj.getDate(),
         2
     )}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
-    // const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
-    // return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
 };
 
 export const pad = (num, size) => {

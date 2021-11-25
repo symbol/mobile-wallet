@@ -7,7 +7,6 @@ import {
     View,
 } from 'react-native';
 import {
-    Col,
     CopyView,
     FadeView,
     Row,
@@ -17,7 +16,6 @@ import {
 import GlobalStyles from '../../styles/GlobalStyles';
 import Video from 'react-native-video';
 import { Router } from '@src/Router';
-import TextTicker from 'react-native-text-ticker';
 import store from '@src/store';
 import { connect } from 'react-redux';
 

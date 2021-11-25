@@ -31,7 +31,7 @@ export default {
         },
     },
     actions: {
-        loadAddressBook: async ({ commit, dispatchAction, state }) => {
+        loadAddressBook: async ({ commit }) => {
             const addressBook = await AddressBookSecureStorage.retrieveAddressBook();
             commit({
                 type: 'addressBook/setAddressBook',
@@ -50,7 +50,7 @@ export default {
             await dispatchAction({ type: 'addressBook/loadAddressBook' });
         },
 
-        selectContact: async ({ commit, dispatchAction, state }, contact) => {
+        selectContact: async ({ commit }, contact) => {
             await commit({
                 type: 'addressBook/setSelectedContact',
                 payload: contact,

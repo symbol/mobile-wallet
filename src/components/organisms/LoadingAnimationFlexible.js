@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import FadeView from './FadeView';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
     container: {

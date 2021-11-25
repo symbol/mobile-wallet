@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Row, Text } from '@src/components';
+import { Text } from '@src/components';
 import { StyleSheet, View } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
@@ -17,7 +17,6 @@ import {
     UInt64,
 } from 'symbol-sdk';
 import TransactionService from '@src/services/TransactionService';
-import _ from 'lodash';
 import { Router } from '@src/Router';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -100,7 +99,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                     type: 'transfer/signAggregateBonded',
                     payload: transaction,
                 })
-                .then(_ => {
+                .then(() => {
                     this.showCosignatureMessage(
                         translate('notification.newCosignatureAdded')
                     );
@@ -179,7 +178,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     };
 
     renderDetails = () => {
-        const { transaction, isLoading, isMultisig } = this.props;
+        const { transaction } = this.props;
         const table = { innerTxs: transaction.innerTransactions.length };
         if (this.needsSignature()) {
             table.signature = translate('table.signDescription'); //TODO: remove when inner transactions presentation is ready
