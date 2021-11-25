@@ -186,7 +186,7 @@ class TableView extends Component<Props> {
     renderItem = (key, value) => {
         let ItemTemplate;
 
-        Object.keys(renderTypeMap).find(itemType =>
+        Object.keys(renderTypeMap).forEach(itemType =>
             renderTypeMap[itemType].find(el => {
                 if (el === key) {
                     const renderer = this['render_' + itemType];
