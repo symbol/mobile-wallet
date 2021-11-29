@@ -675,7 +675,7 @@
 		"title": "Add Account",
 		"name": "Account name",
 		"type": "Account type",
-		"seed": "Seed index (blank for automatic increase)",
+		"seed": "Seed account index (blank for automatic increase)",
 		"fromSeed": "Add seed account from mnemonics",
 		"createSeed": "Add account",
 		"fromPk": "Import account by private key",
