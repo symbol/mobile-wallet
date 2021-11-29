@@ -13,7 +13,7 @@
     "build:android:prod": "cd ./android && gradlew assembleProdRelease",
     "test": "jest",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint:fix": "eslint . --fix --color",
     "postinstall": "./scripts/post-install.sh"
   },
   "dependencies": {
@@ -147,6 +147,7 @@
     "flow-bin": "0.119.1",
     "husky": "^4.3.0",
     "jest": "^24.9.0",
+    "lint-staged": "10.5.4",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^1.19.1",
     "react-native-env-json": "^1.1.0",
@@ -212,7 +213,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js, jsx, ts, tsx, json}": [
+      "npm run lint:fix",
+      "git add"
+    ]
   }
 }
