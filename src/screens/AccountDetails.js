@@ -49,6 +49,7 @@ class AccountDetails extends Component<Props, State> {
     render = () => {
         const {
 			accountName,
+            accountAliasNames,
 			address,
 			publicKey,
 			privateKey,
@@ -67,6 +68,7 @@ class AccountDetails extends Component<Props, State> {
             address,
             publicKey,
             privateKey,
+            accountAliasNames,
             ...(seedIndex ? { seedIndex } : null),
             balance,
         };
@@ -95,7 +97,7 @@ class AccountDetails extends Component<Props, State> {
 							/> */}
 						</Row>
                     </Section>
-                    <TableView componentId={componentId} data={data} />
+                    <TableView hideEmpty componentId={componentId} data={data} />
                     <Section type="form-item">
                         <LinkExplorer type="account" value={this.props.address} />
                     </Section>
@@ -111,6 +113,7 @@ class AccountDetails extends Component<Props, State> {
 }
 
 export default connect(state => ({
+    accountAliasNames: state.account.names,
     accountName: state.wallet.selectedAccount.name,
     accountType: state.wallet.selectedAccount.type,
     address: state.account.selectedAccountAddress,

@@ -39,6 +39,7 @@ const renderTypeMap = {
 	amount: ['amount', 'resolvedFee'],
 	secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
 	mosaics: ['mosaics'],
+	namespaces: ['accountAliasNames'],
 	ecryption: ['messageEncrypted'],
 	transactionType: [
 		'transactionType', 
@@ -128,6 +129,18 @@ class TableView extends Component<Props> {
 					<Text type="regular" theme="light"><Trunc type="namespaceName">{el.mosaicName}</Trunc></Text>
 				</Row>
 				{this.render_amount(el.amount / Math.pow(10, el.divisibility))}
+		</Row>));
+		return <Text type="regular" theme="light">{translate('table.null')}</Text>
+	}
+
+	render_namespaces = (value) => {
+		const namespaces = Array.isArray(value) ? value : [];
+		if(namespaces.length)
+			return namespaces.map((el, index) => (<Row justify="space-between" fullWidth style={styles.mosaic} key={'' + index + 'tv-ns'}>
+				<Row align="center">
+					<Icon name="namespace_light" size="small" style={{marginRight: 8}}/>
+					<Text type="regular" theme="light"><Trunc type="namespaceNameBigger">{el}</Trunc></Text>
+				</Row>
 		</Row>));
 		return <Text type="regular" theme="light">{translate('table.null')}</Text>
 	}

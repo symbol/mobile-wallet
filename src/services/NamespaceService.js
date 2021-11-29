@@ -1,4 +1,4 @@
-import { Address, MosaicId, NamespaceHttp, NamespaceId } from 'symbol-sdk';
+import { AccountNames, Address, MosaicId, NamespaceHttp, NamespaceId } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 
 export default class NamespaceService {
@@ -51,5 +51,14 @@ export default class NamespaceService {
         const names = aliasNames.length > 0 ? aliasNames : [];
 
         return names;
+    }
+
+    static async getAccountsNames(
+        addresses: Array<Address>,
+        network: NetworkModel
+    ): Promise<Array<AccountNames>> {
+        return new NamespaceHttp(network.node)
+            .getAccountsNames(addresses)
+            .toPromise();
     }
 }

@@ -393,6 +393,7 @@
 		}
 	},
 	"table": {
+		"accountAliasNames": "Alias Names",
 		"innerTransactionNo": "Inner Transaction #",
 		"signature": "Signature",
 		"signDescription": "You can use Symbol Desktop Wallet or Symbol CLI to review and sign this transaction.",

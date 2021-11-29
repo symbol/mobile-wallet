@@ -1,4 +1,5 @@
 import AccountService from '@src/services/AccountService';
+import NamespaceService from '@src/services/NamespaceService';
 import { of } from 'rxjs';
 import { GlobalListener } from '@src/store/index';
 import { RepositoryFactoryHttp, Address } from 'symbol-sdk';
@@ -19,6 +20,7 @@ export default {
         cosignatoryOf: [],
         pendingSignature: false,
         multisigGraphInfo: [],
+        names: []
     },
     mutations: {
         setRefreshingObs(state, payload) {
@@ -53,6 +55,10 @@ export default {
             state.account.multisigGraphInfo = payload;
             return state;
         },
+        setNames(state, payload) {
+            state.account.names = payload;
+            return state;
+        },
     },
     actions: {
         loadAllData: async ({ commit, dispatchAction, state }, reset) => {
@@ -67,6 +73,7 @@ export default {
                     commit({ type: 'account/setOwnedMosaics', payload: [] });
                 }
                 await dispatchAction({ type: 'account/loadBalance' });
+                await dispatchAction({ type: 'account/loadAccountNames' });
                 await dispatchAction({ type: 'transaction/init' });
                 if (state.account.refreshingObs) {
                     state.account.refreshingObs.unsubscribe();
@@ -136,5 +143,18 @@ export default {
                 )
                 .toPromise();
         },
+        loadAccountNames: async ({ commit, state }) => {
+            const address = Address.createFromRawAddress(
+                AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network)
+            );
+            const accountsNames = await NamespaceService.getAccountsNames([address], state.network.selectedNetwork);
+            const currentAccountNames = accountsNames.find(accountNames => accountNames.address.equals(address));
+
+            if (currentAccountNames) {
+                const formattedCurrentAccountNames = currentAccountNames.names.map(namespace => namespace.name);
+                console.log({formattedCurrentAccountNames})
+                commit({ type: 'account/setNames', payload: formattedCurrentAccountNames });
+            }
+        }
     },
 };

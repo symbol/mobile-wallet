@@ -40,6 +40,8 @@ class Transaction extends Component<Props> {
                 return this.trunc(children, 'middle', 6, 3);
             case 'namespaceName':
                 return this.trunc(children, 'middle', 6, 6);
+            case 'namespaceNameBigger':
+                return this.trunc(children, 'middle', 10, 10);
             default:
                 return this.trunc(children, 'end', length);
         }

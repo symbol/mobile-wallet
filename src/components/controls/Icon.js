@@ -53,7 +53,8 @@ type IconName = 'none'
 	| 'false_light'
 	| 'copy'
 	| 'close'
-	| 'optin';
+	| 'optin'
+	| 'namespace_light';
 
 type Size = 'large'
 	| 'big'
@@ -241,6 +242,9 @@ export default class C extends Component<Props, State> {
 				break;
 			case 'optin':
 				source = require('@src/assets/icons/optin.png');
+				break;
+			case 'namespace_light':
+				source = require('@src/assets/icons/namespace.png');
 				break;
 			default:
                 source = require('@src/assets/icons/ic-about.png');
