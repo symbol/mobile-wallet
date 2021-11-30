@@ -108,14 +108,12 @@ class CreateAccount extends Component {
                 icon = 'history';
                 break;
             case 'addAccount':
-                action = () =>
-                    Router.goToCreateAccount(payload, this.props.componentId);
+                action = () => Router.goToCreateAccount(payload, this.props.componentId);
                 text = 'Add Account';
                 icon = 'wallet_filled_light';
                 break;
             case 'addContact':
-                action = () =>
-                    Router.goToAddContact(payload, this.props.componentId);
+                action = () => Router.goToAddContact(payload, this.props.componentId);
                 text = 'Add Contact';
                 icon = 'contact_light';
                 break;
@@ -152,37 +150,14 @@ class CreateAccount extends Component {
         }
 
         return (
-            <Section
-                type="form-item"
-                style={
-                    count > 1
-                        ? styles.buttonWrapper
-                        : styles.buttonWrapperLarger
-                }
-            >
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => action()}
-                    activeOpacity={0.5}
-                >
-                    <Row
-                        align="center"
-                        justify={buttonJustify}
-                        style={styles.buttonContent}
-                        fullWidth={count === 1}
-                    >
-                        <Icon
-                            size="small"
-                            name={icon}
-                            style={styles.buttonIcon}
-                        />
+            <Section type="form-item" style={count > 1 ? styles.buttonWrapper : styles.buttonWrapperLarger}>
+                <TouchableOpacity style={styles.button} onPress={() => action()} activeOpacity={0.5}>
+                    <Row align="center" justify={buttonJustify} style={styles.buttonContent} fullWidth={count === 1}>
+                        <Icon size="small" name={icon} style={styles.buttonIcon} />
                         <Text
                             type="bold"
                             theme="light"
-                            style={[
-                                styles.buttonText,
-                                count > 1 && styles.buttonTextSmaller,
-                            ]}
+                            style={[styles.buttonText, count > 1 && styles.buttonTextSmaller]}
                             align={count === 1 ? 'center' : 'left'}
                             wrap
                         >
@@ -206,11 +181,7 @@ class CreateAccount extends Component {
         try {
             const type = QRService.getQrType(res);
             console.log('QR response', res);
-            const data = await QRService.parseQrJson(
-                res,
-                this.props.network,
-                password
-            );
+            const data = await QRService.parseQrJson(res, this.props.network, password);
             console.log(data);
             if (data.type === 'error') throw Error(data.error);
             switch (type) {
@@ -269,8 +240,7 @@ class CreateAccount extends Component {
                     };
             }
         } catch (e) {
-            if (e.message === 'No password')
-                this.setState({ showPasswordModal: true, res });
+            if (e.message === 'No password') this.setState({ showPasswordModal: true, res });
             else if (e.message === 'Invalid password') {
                 this.setState({ showPasswordModal: true, res });
                 this.showDecryptErrorMessage();
@@ -287,17 +257,7 @@ class CreateAccount extends Component {
     };
 
     render = () => {
-        const {
-            title,
-            isLoading,
-            isError,
-            errorMessage,
-            text,
-            showPasswordModal,
-            buttons,
-            payload,
-            warning,
-        } = this.state;
+        const { title, isLoading, isError, errorMessage, text, showPasswordModal, buttons, payload, warning } = this.state;
         const buttonsJustify = buttons.length > 1 ? 'space-between' : 'center';
 
         return (
@@ -327,14 +287,7 @@ class CreateAccount extends Component {
                     </Section>
                     <Section type="form-bottom">
                         <Row wrap justify={buttonsJustify}>
-                            {buttons.map((button, index) =>
-                                this.renderButton(
-                                    button,
-                                    payload,
-                                    index,
-                                    buttons.length
-                                )
-                            )}
+                            {buttons.map((button, index) => this.renderButton(button, payload, index, buttons.length))}
                         </Row>
                     </Section>
                 </Section>

@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-    Button,
-    Col,
-    Container,
-    FadeView,
-    LoadingAnimationFlexible,
-    Section,
-    Text,
-} from '@src/components';
+import { Button, Col, Container, FadeView, LoadingAnimationFlexible, Section, Text } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 
@@ -48,23 +40,9 @@ export default class GradientBackground extends Component<Props, State> {
     state = {};
 
     render() {
-        const {
-            children,
-            style = {},
-            name,
-            theme = 'dark',
-            noPadding,
-            dataManager = {},
-            onBack,
-            componentId,
-            titleBar,
-        } = this.props;
+        const { children, style = {}, name, theme = 'dark', noPadding, dataManager = {}, onBack, componentId, titleBar } = this.props;
         const {} = this.state;
-        const goBack = onBack
-            ? onBack
-            : componentId
-            ? () => Router.goBack(componentId)
-            : null;
+        const goBack = onBack ? onBack : componentId ? () => Router.goBack(componentId) : null;
 
         let source;
         const imageName = name + '_' + theme;
@@ -107,10 +85,7 @@ export default class GradientBackground extends Component<Props, State> {
                     {!dataManager.isLoading && !dataManager.isError && children}
                     {dataManager.isLoading && !dataManager.isError && (
                         <View style={styles.loading}>
-                            <LoadingAnimationFlexible
-                                isFade
-                                text={translate('LoadingText')}
-                            />
+                            <LoadingAnimationFlexible isFade text={translate('LoadingText')} />
                         </View>
                     )}
                     {dataManager.isError && (
@@ -122,30 +97,18 @@ export default class GradientBackground extends Component<Props, State> {
                                 <Text type="bold" theme="light" align="center">
                                     {dataManager.errorMessage}
                                 </Text>
-                                <Text
-                                    type="regular"
-                                    theme="light"
-                                    align="center"
-                                >
+                                <Text type="regular" theme="light" align="center">
                                     {dataManager.errorDescription}
                                 </Text>
                             </Section>
                             {dataManager.fetch && (
                                 <Section type="form-item">
-                                    <Button
-                                        theme={theme}
-                                        text="Try again"
-                                        onPress={() => dataManager.fetch()}
-                                    />
+                                    <Button theme={theme} text="Try again" onPress={() => dataManager.fetch()} />
                                 </Section>
                             )}
                             {goBack && (
                                 <Section type="form-item">
-                                    <Button
-                                        theme={theme}
-                                        text="Go back"
-                                        onPress={goBack}
-                                    />
+                                    <Button theme={theme} text="Go back" onPress={goBack} />
                                 </Section>
                             )}
                         </Col>
@@ -166,17 +129,13 @@ export default class GradientBackground extends Component<Props, State> {
                 >
                     {!noPadding && (
                         <Container>
-                            {!!source && (
-                                <Image style={styles.image} source={source} />
-                            )}
+                            {!!source && <Image style={styles.image} source={source} />}
                             {Content()}
                         </Container>
                     )}
                     {!!noPadding && (
                         <>
-                            {!!source && (
-                                <Image style={styles.image} source={source} />
-                            )}
+                            {!!source && <Image style={styles.image} source={source} />}
                             {Content()}
                         </>
                     )}

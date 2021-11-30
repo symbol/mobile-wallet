@@ -28,9 +28,7 @@ test('should not render camera by default', async () => {
     mockPlatform('ios');
 
     const WrappedComponent = QRScannerHOC(DummyQRHostComponent);
-    const { queryByTestId } = render(
-        <WrappedComponent {...mockQRScannerProps} />
-    );
+    const { queryByTestId } = render(<WrappedComponent {...mockQRScannerProps} />);
 
     await wait(() => {
         expect(queryByTestId('mocked-camera')).toBeFalsy();
@@ -41,9 +39,7 @@ test('render camera correctly on iOS', async () => {
     mockPlatform('ios');
 
     const WrappedComponent = QRScannerHOC(DummyQRHostComponent);
-    const { baseElement, queryByTestId } = render(
-        <WrappedComponent {...mockQRScannerProps} enableScannerOnStart />
-    );
+    const { baseElement, queryByTestId } = render(<WrappedComponent {...mockQRScannerProps} enableScannerOnStart />);
 
     await wait(() => {
         expect(queryByTestId('mocked-camera')).toBeTruthy();
@@ -52,22 +48,17 @@ test('render camera correctly on iOS', async () => {
 });
 
 test('render camera correctly on android', async () => {
-    jest.doMock(
-        'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
-        () => ({
-            PERMISSIONS: {
-                CAMERA: 'mock_camera',
-            },
-            RESULTS: { GRANTED: 'granted' },
-            request: () => Promise.resolve('granted'),
-        })
-    );
+    jest.doMock('react-native/Libraries/PermissionsAndroid/PermissionsAndroid', () => ({
+        PERMISSIONS: {
+            CAMERA: 'mock_camera',
+        },
+        RESULTS: { GRANTED: 'granted' },
+        request: () => Promise.resolve('granted'),
+    }));
     mockPlatform('android');
 
     const WrappedComponent = QRScannerHOC(DummyQRHostComponent);
-    const { baseElement, queryByTestId } = render(
-        <WrappedComponent {...mockQRScannerProps} enableScannerOnStart />
-    );
+    const { baseElement, queryByTestId } = render(<WrappedComponent {...mockQRScannerProps} enableScannerOnStart />);
     await wait(() => {
         expect(queryByTestId('mocked-camera')).toBeTruthy();
         expect(baseElement).toMatchSnapshot();

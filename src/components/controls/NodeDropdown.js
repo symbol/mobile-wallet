@@ -52,15 +52,10 @@ export default class MosaicDropdown extends Component<Props, State> {
             <Input
                 value={this.state.customNodeUrlInput}
                 placeholder={translate('Settings.node.costomNode')}
-                nativePlaceholder={translate(
-                    'Settings.node.customNodeURLInputPlaceholder'
-                )}
+                nativePlaceholder={translate('Settings.node.customNodeURLInputPlaceholder')}
                 errorMessage={translate('Settings.node.errorInvalidUrl')}
                 isError={this.state.isInvalidUrl}
-                showSubmit={
-                    !this.state.isInvalidUrl &&
-                    this.state.customNodeUrlInput.length
-                }
+                showSubmit={!this.state.isInvalidUrl && this.state.customNodeUrlInput.length}
                 theme="light"
                 style={styles.input}
                 onChangeText={text => this.onChangeText(text)}
@@ -70,9 +65,7 @@ export default class MosaicDropdown extends Component<Props, State> {
     };
 
     onChangeText = nodeUrl => {
-        const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?(:\d{1,4})?$/gm.test(
-            nodeUrl
-        );
+        const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?(:\d{1,4})?$/gm.test(nodeUrl);
         this.setState({
             customNodeUrlInput: nodeUrl,
             isInvalidUrl: !validUrl,

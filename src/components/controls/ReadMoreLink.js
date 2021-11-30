@@ -30,14 +30,8 @@ export default class ReadMoreLink extends Component<Props, State> {
                     </Text>
                     <Row justify="space-between" align="end" fullWidth>
                         <Col style={{ flex: 1, marginTop: 10 }}>
-                            <TouchableOpacity
-                                onPress={() => this.onPress(this.props.url)}
-                            >
-                                <Text
-                                    theme="light"
-                                    align="right"
-                                    style={styles.link}
-                                >
+                            <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
+                                <Text theme="light" align="right" style={styles.link}>
                                     {translate('news.readMore')}
                                 </Text>
                             </TouchableOpacity>
@@ -49,14 +43,8 @@ export default class ReadMoreLink extends Component<Props, State> {
             return (
                 <Row justify="space-between" align="end" fullWidth>
                     <Col style={{ flex: 1, marginTop: 10 }}>
-                        <TouchableOpacity
-                            onPress={() => this.onPress(this.props.url)}
-                        >
-                            <Text
-                                theme="light"
-                                align="right"
-                                style={styles.link}
-                            >
+                        <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
+                            <Text theme="light" align="right" style={styles.link}>
                                 {translate('news.readMore')}
                             </Text>
                         </TouchableOpacity>

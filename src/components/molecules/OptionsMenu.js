@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-    FlatList,
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity,
-} from 'react-native';
+import { FlatList, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Popover from 'react-native-popover-view';
 import { Icon, Row, Text } from '@src/components';
 
@@ -51,16 +46,9 @@ export default class OptionsMenu extends Component<Props, State> {
 
     renderItem = item => {
         return (
-            <TouchableHighlight
-                underlayColor="#0001"
-                onPress={() => this.onPressItem(item)}
-            >
+            <TouchableHighlight underlayColor="#0001" onPress={() => this.onPressItem(item)}>
                 <Row style={styles.listItem} align="center">
-                    <Icon
-                        style={styles.icon}
-                        name={item.item.iconName}
-                        size="small"
-                    />
+                    <Icon style={styles.icon} name={item.item.iconName} size="small" />
                     <Text style={styles.label} type="bold" theme="light">
                         {item.item.label}
                     </Text>
@@ -77,10 +65,7 @@ export default class OptionsMenu extends Component<Props, State> {
             <>
                 <Popover
                     from={
-                        <TouchableOpacity
-                            style={style}
-                            onPress={() => this.setState({ isVisible: true })}
-                        >
+                        <TouchableOpacity style={style} onPress={() => this.setState({ isVisible: true })}>
                             {children}
                         </TouchableOpacity>
                     }

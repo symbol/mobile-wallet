@@ -54,9 +54,7 @@ class GenerateBackup extends Component {
                 icon="security"
                 theme="dark"
             >
-                <Text style={styles.textContent}>
-                    {translate('CreateWallet.GenerateBackup.description')}
-                </Text>
+                <Text style={styles.textContent}>{translate('CreateWallet.GenerateBackup.description')}</Text>
             </SymbolPageView>
         );
     }

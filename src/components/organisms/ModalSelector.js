@@ -21,10 +21,7 @@ export default class ModalSelector extends Component<Props> {
         return (
             <TouchableOpacity
                 onPress={() => onSelect(item)}
-                style={[
-                    styles.selectItem,
-                    selectedItem === item ? styles.selectItemActive : '',
-                ]}
+                style={[styles.selectItem, selectedItem === item ? styles.selectItemActive : '']}
             >
                 <Text style={styles.itemText}>{item}</Text>
             </TouchableOpacity>
@@ -39,25 +36,13 @@ export default class ModalSelector extends Component<Props> {
         return (
             <BottomModal isModalOpen={isModalOpen} onClose={onClose}>
                 <Card style={styles.bottomCard}>
-                    <TouchableOpacity
-                        onPress={onClose}
-                        style={GlobalStyles.closeButton}
-                    >
-                        <Image
-                            style={styles.closeIcon}
-                            source={require('@src/assets/icons/ic-close-black.png')}
-                        />
+                    <TouchableOpacity onPress={onClose} style={GlobalStyles.closeButton}>
+                        <Image style={styles.closeIcon} source={require('@src/assets/icons/ic-close-black.png')} />
                     </TouchableOpacity>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>
-                            {translate('Settings.currency.selectBoxTitle')}
-                        </Text>
+                        <Text style={styles.title}>{translate('Settings.currency.selectBoxTitle')}</Text>
                     </View>
-                    <FlatList
-                        data={data}
-                        renderItem={this.renderItem}
-                        keyExtractor={this.keyExtractor}
-                    />
+                    <FlatList data={data} renderItem={this.renderItem} keyExtractor={this.keyExtractor} />
                 </Card>
             </BottomModal>
         );

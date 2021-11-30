@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    GradientBackground,
-    Section,
-    TableView,
-    TitleBar,
-} from '@src/components';
+import { GradientBackground, Section, TableView, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -48,11 +43,7 @@ class NIS1AccountDetails extends Component<Props, State> {
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
-                <TitleBar
-                    theme="light"
-                    onBack={() => Router.goBack(this.props.componentId)}
-                    title="NIS1 Account Details"
-                />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="NIS1 Account Details" />
                 <Section type="form" style={styles.list} isScrollable>
                     <TableView componentId={componentId} data={data} />
                 </Section>

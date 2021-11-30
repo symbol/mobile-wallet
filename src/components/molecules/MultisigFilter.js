@@ -11,20 +11,10 @@ type Props = {
 
 class MultisigFilter extends Component<Props> {
     formatAddress = address => {
-        return (
-            address.substring(0, 6) +
-            '...' +
-            address.substring(address.length - 3, address.length)
-        );
+        return address.substring(0, 6) + '...' + address.substring(address.length - 3, address.length);
     };
     render() {
-        const {
-            cosignatoryOf,
-            selectedAccountAddress,
-            selected,
-            onSelect,
-            ...rest
-        } = this.props;
+        const { cosignatoryOf, selectedAccountAddress, selected, onSelect, ...rest } = this.props;
         const allMultisigAccounts = [
             {
                 value: selectedAccountAddress,

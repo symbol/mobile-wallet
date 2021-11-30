@@ -68,20 +68,12 @@ class Dashboard extends Component<Props, State> {
                     <Tab
                         {...this.props}
                         contentStyle={styles.contentContainer}
-                        onOpenMenu={() =>
-                            this.setState({ isSidebarShown: true })
-                        }
-                        onOpenSettings={() =>
-                            Router.goToSettings({}, this.props.componentId)
-                        }
+                        onOpenMenu={() => this.setState({ isSidebarShown: true })}
+                        onOpenSettings={() => Router.goToSettings({}, this.props.componentId)}
                         changeTab={this.onTabChange}
                     />
                 </View>
-                <NavigationMenu
-                    menuItemList={menuItems}
-                    onChange={this.onTabChange}
-                    value={currentTab}
-                />
+                <NavigationMenu menuItemList={menuItems} onChange={this.onTabChange} value={currentTab} />
                 <Sidebar
                     componentId={componentId}
                     isVisible={this.state.isSidebarShown}

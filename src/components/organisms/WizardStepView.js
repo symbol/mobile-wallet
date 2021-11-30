@@ -147,9 +147,7 @@ const WizardStepView = (props: Props) => {
         if (lightTheme)
             return (
                 <View style={styles.rootContainer}>
-                    {!isLoading && (
-                        <View style={styles.container}>{props.children}</View>
-                    )}
+                    {!isLoading && <View style={styles.container}>{props.children}</View>}
                     {isLoading && <LoadingAnimation />}
                 </View>
             );
@@ -157,18 +155,12 @@ const WizardStepView = (props: Props) => {
             return (
                 <View style={styles.rootContainer}>
                     {!isLoading && (
-                        <SymbolGradientContainer
-                            noPadding
-                            style={styles.container}
-                        >
+                        <SymbolGradientContainer noPadding style={styles.container}>
                             {props.children}
                         </SymbolGradientContainer>
                     )}
                     {isLoading && (
-                        <SymbolGradientContainer
-                            noPadding
-                            style={styles.rootContainer}
-                        >
+                        <SymbolGradientContainer noPadding style={styles.rootContainer}>
                             <LoadingAnimation />
                         </SymbolGradientContainer>
                     )}
@@ -182,12 +174,7 @@ const WizardStepView = (props: Props) => {
 
     return (
         <Container>
-            {lightTheme && (
-                <Image
-                    style={styles.mesh}
-                    source={require('../../assets/mesh.png')}
-                />
-            )}
+            {lightTheme && <Image style={styles.mesh} source={require('../../assets/mesh.png')} />}
 
             <View style={styles.pageContainer}>
                 <View style={styles.titleContainer}>
@@ -207,132 +194,101 @@ const WizardStepView = (props: Props) => {
                     {!isLoading && !isError && children}
 
                     {/* Error message */}
-                    {isError && (
-                        <Text style={styles.error}>{errorMessage}</Text>
-                    )}
+                    {isError && <Text style={styles.error}>{errorMessage}</Text>}
                 </View>
                 <View>
                     {/* Footer title */}
-                    {!isLoading && !isError && footerTitle && (
-                        <Text style={styles.footerTitle}>{footerTitle}</Text>
-                    )}
+                    {!isLoading && !isError && footerTitle && <Text style={styles.footerTitle}>{footerTitle}</Text>}
 
                     {/* Buttons */}
-                    {!isLoading &&
-                        !isError &&
-                        buttons &&
-                        buttons.length === 1 && (
+                    {!isLoading && !isError && buttons && buttons.length === 1 && (
+                        <GradientButton
+                            style={styles.buttons}
+                            title={buttons[0].title}
+                            isDisabled={buttons[0].disabled}
+                            testID={buttons[0].testID}
+                            icon={buttons[0].icon}
+                            onPress={buttons[0].onPress}
+                        />
+                    )}
+                    {!separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
+                        <CompoundButton
+                            style={styles.buttons}
+                            titleLeft={buttons[0].title}
+                            titleRight={buttons[1].title}
+                            disabled={buttons[0].disabled || buttons[1].disabled}
+                            iconLeft={buttons[0].icon}
+                            iconRight={buttons[1].icon}
+                            onPressLeft={buttons[0].onPress}
+                            onPressRight={buttons[1].onPress}
+                        />
+                    )}
+                    {separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
+                        <View style={styles.buttons}>
                             <GradientButton
-                                style={styles.buttons}
+                                style={styles.button}
                                 title={buttons[0].title}
                                 isDisabled={buttons[0].disabled}
                                 testID={buttons[0].testID}
                                 icon={buttons[0].icon}
                                 onPress={buttons[0].onPress}
+                                isLoading={buttons[0].isLoading}
                             />
-                        )}
-                    {!separateButtons &&
-                        !isLoading &&
-                        !isError &&
-                        buttons &&
-                        buttons.length === 2 && (
-                            <CompoundButton
-                                style={styles.buttons}
-                                titleLeft={buttons[0].title}
-                                titleRight={buttons[1].title}
-                                disabled={
-                                    buttons[0].disabled || buttons[1].disabled
-                                }
-                                iconLeft={buttons[0].icon}
-                                iconRight={buttons[1].icon}
-                                onPressLeft={buttons[0].onPress}
-                                onPressRight={buttons[1].onPress}
+                            <GradientButton
+                                style={styles.button}
+                                title={buttons[1].title}
+                                isDisabled={buttons[1].disabled}
+                                testID={buttons[1].testID}
+                                icon={buttons[1].icon}
+                                onPress={buttons[1].onPress}
+                                isLoading={buttons[1].isLoading}
                             />
-                        )}
-                    {separateButtons &&
-                        !isLoading &&
-                        !isError &&
-                        buttons &&
-                        buttons.length === 2 && (
-                            <View style={styles.buttons}>
-                                <GradientButton
-                                    style={styles.button}
-                                    title={buttons[0].title}
-                                    isDisabled={buttons[0].disabled}
-                                    testID={buttons[0].testID}
-                                    icon={buttons[0].icon}
-                                    onPress={buttons[0].onPress}
-                                    isLoading={buttons[0].isLoading}
-                                />
-                                <GradientButton
-                                    style={styles.button}
-                                    title={buttons[1].title}
-                                    isDisabled={buttons[1].disabled}
-                                    testID={buttons[1].testID}
-                                    icon={buttons[1].icon}
-                                    onPress={buttons[1].onPress}
-                                    isLoading={buttons[1].isLoading}
-                                />
-                            </View>
-                        )}
+                        </View>
+                    )}
 
                     {/* Buttons shown while error */}
-                    {!isLoading &&
-                        isError &&
-                        errorButtons &&
-                        errorButtons.length === 1 && (
+                    {!isLoading && isError && errorButtons && errorButtons.length === 1 && (
+                        <GradientButton
+                            style={styles.buttons}
+                            title={errorButtons[0].title}
+                            disabled={errorButtons[0].disabled}
+                            testID={errorButtons[0].testID}
+                            icon={errorButtons[0].icon}
+                            onPress={errorButtons[0].onPress}
+                        />
+                    )}
+                    {!separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
+                        <CompoundButton
+                            style={styles.buttons}
+                            titleLeft={errorButtons[0].title}
+                            titleRight={errorButtons[1].title}
+                            disabled={errorButtons[0].disabled || errorButtons[1].disabled}
+                            iconLeft={errorButtons[0].icon}
+                            iconRight={errorButtons[1].icon}
+                            onPressLeft={errorButtons[0].onPress}
+                            onPressRight={errorButtons[1].onPress}
+                        />
+                    )}
+                    {separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
+                        <View style={styles.buttons}>
                             <GradientButton
-                                style={styles.buttons}
+                                style={styles.button}
                                 title={errorButtons[0].title}
                                 disabled={errorButtons[0].disabled}
                                 testID={errorButtons[0].testID}
                                 icon={errorButtons[0].icon}
                                 onPress={errorButtons[0].onPress}
                             />
-                        )}
-                    {!separateErrorButtons &&
-                        !isLoading &&
-                        isError &&
-                        errorButtons &&
-                        errorButtons.length === 2 && (
-                            <CompoundButton
-                                style={styles.buttons}
-                                titleLeft={errorButtons[0].title}
-                                titleRight={errorButtons[1].title}
-                                disabled={
-                                    errorButtons[0].disabled ||
-                                    errorButtons[1].disabled
-                                }
-                                iconLeft={errorButtons[0].icon}
-                                iconRight={errorButtons[1].icon}
-                                onPressLeft={errorButtons[0].onPress}
-                                onPressRight={errorButtons[1].onPress}
+                            <GradientButton
+                                style={styles.button}
+                                title={errorButtons[1].title}
+                                disabled={errorButtons[1].disabled}
+                                testID={errorButtons[1].testID}
+                                icon={errorButtons[1].icon}
+                                onPress={errorButtons[1].onPress}
                             />
-                        )}
-                    {separateErrorButtons &&
-                        !isLoading &&
-                        isError &&
-                        errorButtons &&
-                        errorButtons.length === 2 && (
-                            <View style={styles.buttons}>
-                                <GradientButton
-                                    style={styles.button}
-                                    title={errorButtons[0].title}
-                                    disabled={errorButtons[0].disabled}
-                                    testID={errorButtons[0].testID}
-                                    icon={errorButtons[0].icon}
-                                    onPress={errorButtons[0].onPress}
-                                />
-                                <GradientButton
-                                    style={styles.button}
-                                    title={errorButtons[1].title}
-                                    disabled={errorButtons[1].disabled}
-                                    testID={errorButtons[1].testID}
-                                    icon={errorButtons[1].icon}
-                                    onPress={errorButtons[1].onPress}
-                                />
-                            </View>
-                        )}
+                        </View>
+                    )}
 
                     {/* Footer */}
                     {!isLoading && !isError && footer && <Footer />}

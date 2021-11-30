@@ -4,15 +4,7 @@
  */
 
 import React from 'react';
-import {
-    ActivityIndicator,
-    Image,
-    Platform,
-    Text,
-    TouchableNativeFeedback,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { ActivityIndicator, Image, Platform, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import styles from './compoundbutton.styl';
@@ -50,11 +42,7 @@ const CompoundButton = (props: Props) => {
         testIDRight,
     } = props;
     const buttonStyles = [styles.button];
-    const {
-        gradient__colors: gradientColorsObj,
-        gradient__start: gradientStart,
-        gradient__end: gradientEnd,
-    } = styles;
+    const { gradient__colors: gradientColorsObj, gradient__start: gradientStart, gradient__end: gradientEnd } = styles;
     const gradientColors = [gradientColorsObj.start, gradientColorsObj.end];
     const textStyles = [styles.text];
 
@@ -106,10 +94,7 @@ const CompoundButton = (props: Props) => {
                         {...otherNativeProps}
                     >
                         {loading ? (
-                            <ActivityIndicator
-                                style={styles.loading}
-                                color="white"
-                            />
+                            <ActivityIndicator style={styles.loading} color="white" />
                         ) : (
                             <View style={styles.buttonContent}>
                                 <Image style={styles.icon} source={iconLeft} />
@@ -148,10 +133,7 @@ const CompoundButton = (props: Props) => {
                         {...otherNativeProps}
                     >
                         {loading ? (
-                            <ActivityIndicator
-                                style={styles.loading}
-                                color="white"
-                            />
+                            <ActivityIndicator style={styles.loading} color="white" />
                         ) : (
                             <View style={styles.buttonContent}>
                                 <Image style={styles.icon} source={iconRight} />

@@ -60,16 +60,8 @@ export default class SecretLockGraphic extends GraphicComponent {
                     address={this.props.recipientAddress}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleLock
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
-                {this.hasMosaic && (
-                    <CircleMosaics
-                        x={this.getCircleIconPositionX(1)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
+                <CircleLock x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
+                {this.hasMosaic && <CircleMosaics x={this.getCircleIconPositionX(1)} y={this.circleIconPositionY} />}
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

@@ -4,14 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import translate from '@src/locales/i18n';
 import QRScanner from '@src/components/atoms/QRScanner';
 import { Router } from '@src/Router';
@@ -283,32 +276,15 @@ class ScanQRCode extends Component<Props, State> {
     };
 
     render() {
-        const {
-            showWarning,
-            wrongPassword,
-            showPassword,
-            password,
-        } = this.state;
+        const { showWarning, wrongPassword, showPassword, password } = this.state;
         if (showPassword) {
             return (
                 <SymbolGradientContainer noPadding style={styles.container}>
-                    <Image
-                        style={styles.mesh}
-                        source={require('@src/assets/background1.png')}
-                    />
+                    <Image style={styles.mesh} source={require('@src/assets/background1.png')} />
                     <FadeView style={styles.pageContainer}>
                         <View style={styles.topBar}>
-                            <TouchableOpacity
-                                style={styles.topButtonContainer}
-                                onPress={() =>
-                                    Router.goBack(this.props.componentId)
-                                }
-                            >
-                                <Image
-                                    style={styles.topButtons}
-                                    source={require('@src/assets/icons/back_dark.png')}
-                                    resizeMode="center"
-                                />
+                            <TouchableOpacity style={styles.topButtonContainer} onPress={() => Router.goBack(this.props.componentId)}>
+                                <Image style={styles.topButtons} source={require('@src/assets/icons/back_dark.png')} resizeMode="center" />
                             </TouchableOpacity>
                         </View>
                         <ScrollView style={styles.scrollView}>
@@ -322,16 +298,10 @@ class ScanQRCode extends Component<Props, State> {
                                     placeholder={'Enter password for qr'}
                                     returnKeyType="next"
                                     secureTextEntry={true}
-                                    onChangeText={password =>
-                                        this.setState({ password })
-                                    }
+                                    onChangeText={password => this.setState({ password })}
                                     value={password}
                                 />
-                                {wrongPassword && (
-                                    <Text style={styles.wrongPassword}>
-                                        Wrong password
-                                    </Text>
-                                )}
+                                {wrongPassword && <Text style={styles.wrongPassword}>Wrong password</Text>}
                             </View>
                         </ScrollView>
 
@@ -360,24 +330,16 @@ class ScanQRCode extends Component<Props, State> {
                     isError={false}
                     buttons={[
                         {
-                            title: translate(
-                                'ImportWallet.ImportOptions.buttonTitleQr'
-                            ),
+                            title: translate('ImportWallet.ImportOptions.buttonTitleQr'),
                             style: styles.button,
-                            onPress: () =>
-                                this.setState({ showWarning: false }),
+                            onPress: () => this.setState({ showWarning: false }),
                             icon: require('@src/assets/icons/qr_light.png'),
                         },
                     ]}
                 />
             );
         } else {
-            return (
-                <QRScanner
-                    onDataHandler={this.onRead}
-                    closeFn={this.onCloseQR}
-                />
-            );
+            return <QRScanner onDataHandler={this.onRead} closeFn={this.onCloseQR} />;
         }
     }
 }

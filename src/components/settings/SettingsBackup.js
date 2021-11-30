@@ -11,10 +11,7 @@ export default class SettingsBackup extends Component {
             this.props.componentId,
             () =>
                 setTimeout(() => {
-                    Router.goToGenerateBackup(
-                        { isBackup: true },
-                        this.props.componentId
-                    );
+                    Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
                 }),
             500
         );

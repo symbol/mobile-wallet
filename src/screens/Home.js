@@ -122,12 +122,7 @@ class Home extends Component<Props, State> {
                 theme="light"
                 fade={true}
                 titleBar={
-                    <TitleBar
-                        theme="light"
-                        title={accountName}
-                        onOpenMenu={() => onOpenMenu()}
-                        onSettings={() => onOpenSettings()}
-                    />
+                    <TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
                 }
             >
                 {showWarning && (
@@ -154,21 +149,12 @@ class Home extends Component<Props, State> {
                         <AccountBalanceWidget componentId={componentId} />
                     </Section>
 
-                    <PluginList
-                        componentId={componentId}
-                        theme="light"
-                        style={styles.pluginList}
-                    />
+                    <PluginList componentId={componentId} theme="light" style={styles.pluginList} />
 
-                    <ListContainer
-                        style={styles.notifications}
-                        isScrollable={false}
-                    >
+                    <ListContainer style={styles.notifications} isScrollable={false}>
                         <FlatList
                             // style={{ height: '100%' }}
-                            keyExtractor={(item, index) =>
-                                '' + index + 'h-notif'
-                            }
+                            keyExtractor={(item, index) => '' + index + 'h-notif'}
                             data={notifications}
                             renderItem={this.renderNotification}
                         />

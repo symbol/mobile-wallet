@@ -27,12 +27,7 @@ class MosaicAliasTransaction extends BaseTransactionItem<Props> {
             <View>
                 <TableView
                     data={{
-                        namespace:
-                            'Name: ' +
-                            transaction.namespaceName +
-                            '\n' +
-                            'ID: ' +
-                            transaction.namespaceId,
+                        namespace: 'Name: ' + transaction.namespaceName + '\n' + 'ID: ' + transaction.namespaceId,
                         mosaicId: transaction.mosaicId,
                     }}
                 />

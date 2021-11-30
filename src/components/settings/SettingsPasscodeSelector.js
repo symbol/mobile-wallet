@@ -47,9 +47,7 @@ class SettingsPasscodeSelector extends Component {
             <View>
                 <SettingsListItem
                     title={
-                        isPasscodeSelected
-                            ? translate('Settings.passcode.turnOffPasscode')
-                            : translate('Settings.passcode.turnOnPasscode')
+                        isPasscodeSelected ? translate('Settings.passcode.turnOffPasscode') : translate('Settings.passcode.turnOnPasscode')
                     }
                     icon={require('@src/assets/icons/ic-passcode.png')}
                     isSwitch={true}

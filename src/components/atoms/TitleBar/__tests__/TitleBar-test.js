@@ -20,9 +20,7 @@ test('renders a title text', () => {
 test('renders a child instead of title', () => {
     const title = 'Title';
     const child = <View testID="title-child" />;
-    const { queryByTestId } = render(
-        <TitleBar title={title}>{child}</TitleBar>
-    );
+    const { queryByTestId } = render(<TitleBar title={title}>{child}</TitleBar>);
 
     expect(queryByTestId('title-text')).toBeFalsy();
     expect(queryByTestId('title-child')).toBeTruthy();
@@ -36,9 +34,7 @@ test('renders a back button when showBack is set', () => {
 
 test('invokes given on-back event on pressing back', () => {
     const onBackPressed = jest.fn();
-    const { getByTestId } = render(
-        <TitleBar showBack onBack={onBackPressed} />
-    );
+    const { getByTestId } = render(<TitleBar showBack onBack={onBackPressed} />);
 
     fireEvent.press(getByTestId('back-button'));
 
@@ -63,15 +59,7 @@ test('invokes given on-close event on pressing close', () => {
 test('renders correctly', () => {
     const onBackPressed = jest.fn();
     const onClosed = jest.fn();
-    const { baseElement } = render(
-        <TitleBar
-            title="MOCK-TITLE"
-            showBack
-            onBack={onBackPressed}
-            showClose
-            onClose={onClosed}
-        />
-    );
+    const { baseElement } = render(<TitleBar title="MOCK-TITLE" showBack onBack={onBackPressed} showClose onClose={onClosed} />);
 
     expect(baseElement).toMatchSnapshot();
 });

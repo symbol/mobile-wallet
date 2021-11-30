@@ -1,8 +1,5 @@
 module.exports = {
-    presets: [
-        'module:metro-react-native-babel-preset',
-        'module:react-native-env-json',
-    ],
+    presets: ['module:metro-react-native-babel-preset', 'module:react-native-env-json'],
     plugins: [
         '@babel/plugin-proposal-export-default-from',
         '@babel/plugin-proposal-export-namespace-from',

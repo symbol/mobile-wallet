@@ -58,11 +58,7 @@ class PluginList extends Component<Props, State> {
 
     onOpen = name => {
         console.log(this.props.componentId);
-        Router.goToScreen(
-            `${BASE_SCREEN_NAME}.${name}`,
-            {},
-            this.props.componentId
-        );
+        Router.goToScreen(`${BASE_SCREEN_NAME}.${name}`, {}, this.props.componentId);
     };
 
     render = () => {
@@ -96,12 +92,7 @@ class PluginList extends Component<Props, State> {
             <View style={[styles.root, style]}>
                 <Row justify="center" align="center" wrap>
                     {pluginList.map((item, index) => (
-                        <Col
-                            align="center"
-                            justify="center"
-                            style={styles.item}
-                            key={'' + index + 'plugin'}
-                        >
+                        <Col align="center" justify="center" style={styles.item} key={'' + index + 'plugin'}>
                             <TouchableOpacity
                                 style={styles.circle}
                                 onPress={() => this.onOpen(item.name)}
@@ -112,16 +103,9 @@ class PluginList extends Component<Props, State> {
                                     style={styles.gradient}
                                     start={{ x: 0, y: 0 }}
                                     end={{ x: 1, y: 0 }}
-                                    colors={[
-                                        GlobalStyles.color.WHITE,
-                                        GlobalStyles.color.DARKWHITE,
-                                    ]}
+                                    colors={[GlobalStyles.color.WHITE, GlobalStyles.color.DARKWHITE]}
                                 >
-                                    <Icon
-                                        name={item.iconName}
-                                        size="medium"
-                                        style={styles.icon}
-                                    />
+                                    <Icon name={item.iconName} size="medium" style={styles.icon} />
                                 </LinearGradient>
                                 {/* </Col> */}
                             </TouchableOpacity>

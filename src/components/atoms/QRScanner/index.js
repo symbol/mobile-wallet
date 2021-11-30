@@ -27,14 +27,8 @@ export default class ScanQR extends Component {
         const { closeFn } = this.props;
         return (
             <View style={styles.bottomContainer}>
-                <TouchableOpacity
-                    onPress={closeFn}
-                    style={styles.topContainerStyle}
-                >
-                    <Image
-                        style={styles.closeIcon}
-                        source={require('@src/assets/icons/close_dark.png')}
-                    />
+                <TouchableOpacity onPress={closeFn} style={styles.topContainerStyle}>
+                    <Image style={styles.closeIcon} source={require('@src/assets/icons/close_dark.png')} />
                 </TouchableOpacity>
             </View>
         );

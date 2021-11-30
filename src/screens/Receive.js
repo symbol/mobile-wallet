@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    CopyView,
-    GradientBackground,
-    Input,
-    QRImage,
-    Section,
-    TitleBar,
-} from '@src/components';
+import { Button, CopyView, GradientBackground, Input, QRImage, Section, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
@@ -66,13 +58,7 @@ class Receive extends Component<Props, State> {
     };
 
     render = () => {
-        const {
-            recipientAddress,
-            amount,
-            message,
-            isQrVisible,
-            isLoading,
-        } = this.state;
+        const { recipientAddress, amount, message, isQrVisible, isLoading } = this.state;
 
         const onQrReady = () => {
             this.setState({ isQrVisible: true, isLoading: false });
@@ -80,11 +66,7 @@ class Receive extends Component<Props, State> {
 
         return (
             <GradientBackground name="mesh_small_2" theme="light">
-                <TitleBar
-                    theme="light"
-                    onBack={() => Router.goBack(this.props.componentId)}
-                    title={translate('plugin.receive')}
-                />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={translate('plugin.receive')} />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <Section type="center">
@@ -100,11 +82,7 @@ class Receive extends Component<Props, State> {
                         </Section>
                     </Section>
                     <Section type="form-item">
-                        <CopyView
-                            theme="light"
-                            placeholder={translate('table.address')}
-                            fullWidth
-                        >
+                        <CopyView theme="light" placeholder={translate('table.address')} fullWidth>
                             {recipientAddress}
                         </CopyView>
                     </Section>
@@ -126,9 +104,7 @@ class Receive extends Component<Props, State> {
                     </Section>
                     <Section type="form-item">
                         <Button
-                            text={translate(
-                                'CreateWallet.SetPassword.submitButton'
-                            )}
+                            text={translate('CreateWallet.SetPassword.submitButton')}
                             isLoading={isLoading}
                             theme="light"
                             onPress={() => this.updateImgQR()}

@@ -22,22 +22,9 @@ type Props = {
 };
 
 const BasicModal = (props: Props) => {
-    const {
-        children,
-        isModalOpen,
-        handleClose,
-        title,
-        showBack,
-        onBack,
-        showClose,
-    } = props;
+    const { children, isModalOpen, handleClose, title, showBack, onBack, showClose } = props;
     return (
-        <Modal
-            animationType="fade"
-            transparent
-            visible={isModalOpen}
-            onRequestClose={handleClose}
-        >
+        <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
 
             <View style={styles.modalWrapper}>

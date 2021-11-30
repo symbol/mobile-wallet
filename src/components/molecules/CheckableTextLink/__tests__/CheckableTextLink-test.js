@@ -5,10 +5,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import {
-    NonEmptyItems,
-    WithMockError,
-} from '../../../../../../shared/utils/TestUtils';
+import { NonEmptyItems, WithMockError } from '../../../../../../shared/utils/TestUtils';
 import CheckableTextLink, { testIDs } from '../index';
 
 // This is a redundant test since flow will warn you about this.
@@ -19,13 +16,7 @@ test('fails if there are no children', () => {
 
         expect(() => {
             // $FlowFixMe - Forcing null child for this component.
-            render(
-                <CheckableTextLink
-                    isChecked
-                    onChecked={onChecked}
-                    linksMap={{}}
-                />
-            );
+            render(<CheckableTextLink isChecked onChecked={onChecked} linksMap={{}} />);
         }).toThrow();
     });
 });
@@ -51,17 +42,11 @@ test('render all children correctly', () => {
     };
     const onChecked = jest.fn();
     const { getByTestId } = render(
-        <CheckableTextLink
-            isChecked
-            onChecked={onChecked}
-            linksMap={validLinks}
-        >
+        <CheckableTextLink isChecked onChecked={onChecked} linksMap={validLinks}>
             {validChildContent}
         </CheckableTextLink>
     );
-    const nonSpaceChildren = getByTestId(
-        testIDs.textContainer
-    ).props.children.filter(NonEmptyItems);
+    const nonSpaceChildren = getByTestId(testIDs.textContainer).props.children.filter(NonEmptyItems);
     const expectedChildCount = validChildContent.split(' ').length;
 
     expect(nonSpaceChildren.length).toBe(expectedChildCount);
@@ -78,11 +63,7 @@ test('renders correct number of normal texts', () => {
     };
     const onChecked = jest.fn();
     const { getAllByTestId } = render(
-        <CheckableTextLink
-            isChecked
-            onChecked={onChecked}
-            linksMap={validLinks}
-        >
+        <CheckableTextLink isChecked onChecked={onChecked} linksMap={validLinks}>
             {validChildContent}
         </CheckableTextLink>
     );
@@ -112,17 +93,11 @@ test('render correct number of link texts', () => {
     };
     const onChecked = jest.fn();
     const { getByTestId, getAllByTestId } = render(
-        <CheckableTextLink
-            isChecked
-            onChecked={onChecked}
-            linksMap={validLinks}
-        >
+        <CheckableTextLink isChecked onChecked={onChecked} linksMap={validLinks}>
             {validChildContent}
         </CheckableTextLink>
     );
-    const nonSpaceChildren = getByTestId(
-        testIDs.textContainer
-    ).props.children.filter(NonEmptyItems);
+    const nonSpaceChildren = getByTestId(testIDs.textContainer).props.children.filter(NonEmptyItems);
     const normalTextItems = getAllByTestId(testIDs.textNormal);
 
     expect(nonSpaceChildren.length - normalTextItems.length).toBe(3);
@@ -149,20 +124,12 @@ test('renders active links correctly', () => {
     };
     const onChecked = jest.fn();
     const { getByTestId } = render(
-        <CheckableTextLink
-            isChecked
-            onChecked={onChecked}
-            linksMap={validLinks}
-        >
+        <CheckableTextLink isChecked onChecked={onChecked} linksMap={validLinks}>
             {validChildContent}
         </CheckableTextLink>
     );
-    const nonSpaceChildren = getByTestId(
-        testIDs.textContainer
-    ).props.children.filter(NonEmptyItems);
-    const activeLinks = nonSpaceChildren.filter(
-        lb => lb.props.disabled === false
-    );
+    const nonSpaceChildren = getByTestId(testIDs.textContainer).props.children.filter(NonEmptyItems);
+    const activeLinks = nonSpaceChildren.filter(lb => lb.props.disabled === false);
 
     expect(activeLinks.length).toBe(1);
 });
@@ -183,11 +150,7 @@ test('renders correctly', () => {
     };
     const onChecked = jest.fn();
     const { baseElement } = render(
-        <CheckableTextLink
-            isChecked
-            onChecked={onChecked}
-            linksMap={validLinks}
-        >
+        <CheckableTextLink isChecked onChecked={onChecked} linksMap={validLinks}>
             {validChildContent}
         </CheckableTextLink>
     );

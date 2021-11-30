@@ -1,9 +1,6 @@
 module.exports = {
     preset: '@testing-library/react-native',
-    setupFilesAfterEnv: [
-        '@testing-library/react-native/cleanup-after-each.js',
-        '<rootDir>/src/shared/jest/mock-react-async-storage.js',
-    ],
+    setupFilesAfterEnv: ['@testing-library/react-native/cleanup-after-each.js', '<rootDir>/src/shared/jest/mock-react-async-storage.js'],
     setupFiles: [
         '<rootDir>/src/shared/jest/mock-react-native-localize.js',
         '<rootDir>/src/shared/jest/mock-react-native-netinfo.js',

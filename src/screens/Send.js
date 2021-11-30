@@ -90,11 +90,7 @@ class Send extends Component<Props, State> {
             console.error('Alert("Invalid recipient address")');
             return false;
         }
-        if (
-            +this.props.ownedMosaics.find(
-                mosaic => mosaic.mosaicId === this.state.mosaicName
-            ).amount < +this.state.amount
-        ) {
+        if (+this.props.ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName).amount < +this.state.amount) {
             console.error('Alert("Invalid amount")');
             return false;
         }
@@ -116,13 +112,8 @@ class Send extends Component<Props, State> {
         if (!nativeMosaic) {
             return false;
         }
-        const selectedMosaic = ownedMosaics.find(
-            mosaic => mosaic.mosaicId === this.state.mosaicName
-        );
-        const parsedAmount = resoveAmount(
-            selectedMosaic.amount,
-            selectedMosaic.divisibility
-        );
+        const selectedMosaic = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
+        const parsedAmount = resoveAmount(selectedMosaic.amount, selectedMosaic.divisibility);
         const sendingAmount = parseFloat(this.state.amount);
         const fee = parseFloat(this.state.fee);
         // Basic check amount not greater than what user has
@@ -135,10 +126,7 @@ class Send extends Component<Props, State> {
         }
         // Case sending same mosaic than currency mosaic
 
-        return !(
-            selectedMosaic.mosaicId === network.currencyMosaicId &&
-            parsedAmount <= sendingAmount + this.state.maxFeeList.current
-        );
+        return !(selectedMosaic.mosaicId === network.currencyMosaicId && parsedAmount <= sendingAmount + this.state.maxFeeList.current);
     };
 
     updateMaxFee = async () => {
@@ -156,9 +144,7 @@ class Send extends Component<Props, State> {
                     resoveAmount(
                         await Store.dispatchAction({
                             type: 'transfer/getMaxFee',
-                            payload: this.prepareTansaction(
-                                defaultFeesConfig[key]
-                            ),
+                            payload: this.prepareTansaction(defaultFeesConfig[key]),
                         }),
                         network.currencyDivisibility
                     ),
@@ -177,14 +163,8 @@ class Send extends Component<Props, State> {
 
     prepareTansaction = fee => {
         const { ownedMosaics } = this.props;
-        const mosaic: MosaicModel = _.cloneDeep(
-            ownedMosaics.find(
-                mosaic => mosaic.mosaicId === this.state.mosaicName
-            )
-        );
-        mosaic.amount =
-            parseFloat(this.state.amount || '0') *
-            Math.pow(10, mosaic.divisibility);
+        const mosaic: MosaicModel = _.cloneDeep(ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName));
+        mosaic.amount = parseFloat(this.state.amount || '0') * Math.pow(10, mosaic.divisibility);
 
         return {
             recipientAddress: this.state.recipientAddress,
@@ -249,17 +229,14 @@ class Send extends Component<Props, State> {
         const standardComma = val.replace(/,/, '.');
         let [integer, decimal] = standardComma.split('.');
         const { ownedMosaics } = this.props;
-        const selectedMosaic = ownedMosaics.find(
-            mosaic => mosaic.mosaicId === this.state.mosaicName
-        );
+        const selectedMosaic = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
         if (decimal) {
             decimal = decimal.slice(0, selectedMosaic.divisibility);
         }
         if (integer === '' && decimal) {
             integer = '0';
         }
-        let final =
-            '' + Math.abs(parseInt(integer)) + (decimal ? '.' + decimal : '');
+        let final = '' + Math.abs(parseInt(integer)) + (decimal ? '.' + decimal : '');
         if (standardComma.endsWith('.') && !decimal) {
             final = final + '.';
         }
@@ -321,9 +298,7 @@ class Send extends Component<Props, State> {
             let accountInfo;
             try {
                 accountInfo = await new AccountHttp(network.node)
-                    .getAccountInfo(
-                        Address.createFromRawAddress(recipientAddress)
-                    )
+                    .getAccountInfo(Address.createFromRawAddress(recipientAddress))
                     .toPromise();
             } catch (e) {}
             this.setState({ loadingEncrypted: false });
@@ -379,8 +354,7 @@ class Send extends Component<Props, State> {
             },
             {
                 value: defaultFeesConfig.normal,
-                label:
-                    translate('fees.recommended') + ' - ' + maxFeeList.normal,
+                label: translate('fees.recommended') + ' - ' + maxFeeList.normal,
             },
             {
                 value: defaultFeesConfig.fast,
@@ -394,11 +368,7 @@ class Send extends Component<Props, State> {
             this.renderConfirmTransaction()
         ) : (
             <GradientBackground name="mesh_small_2" theme="light">
-                <TitleBar
-                    theme="light"
-                    onBack={() => Router.goBack(this.props.componentId)}
-                    title="Send"
-                />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Send" />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <InputAddress
@@ -422,9 +392,7 @@ class Send extends Component<Props, State> {
                             editable={true}
                             isLoading={isOwnedMosaicsLoading}
                             list={mosaicList}
-                            onChange={mosaicName =>
-                                this.onMosaicChange(mosaicName)
-                            }
+                            onChange={mosaicName => this.onMosaicChange(mosaicName)}
                         />
                     </Section>
                     <Section type="form-item">
@@ -447,9 +415,7 @@ class Send extends Component<Props, State> {
                             value={message}
                             placeholder={translate('table.messageText')}
                             theme="light"
-                            onChangeText={message =>
-                                this.onMessageChange(message)
-                            }
+                            onChangeText={message => this.onMessageChange(message)}
                         />
                     </Section>
                     <Section type="form-item">
@@ -459,9 +425,7 @@ class Send extends Component<Props, State> {
                             value={isEncrypted}
                             title={translate('table.encrypted')}
                             theme="light"
-                            onChange={isEncrypted =>
-                                this.onMessageEncryptedChange(isEncrypted)
-                            }
+                            onChange={isEncrypted => this.onMessageEncryptedChange(isEncrypted)}
                         />
                     </Section>
                     <Section type="form-item">

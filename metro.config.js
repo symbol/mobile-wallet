@@ -31,9 +31,7 @@ module.exports = (async () => {
     } = await getDefaultConfig();
     return {
         transformer: {
-            babelTransformerPath: require.resolve(
-                'react-native-stylus-transformer'
-            ),
+            babelTransformerPath: require.resolve('react-native-stylus-transformer'),
         },
         resolver: {
             extraNodeModules: extraNodeModules,

@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import {
-    Col,
-    Container,
-    LoadingAnimationFlexible,
-    Section,
-    Text,
-} from '@src/components';
+import { Col, Container, LoadingAnimationFlexible, Section, Text } from '@src/components';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
@@ -65,71 +59,39 @@ export default class GradientBackground extends Component<Props, State> {
             noLoadingText,
         } = this.props;
         const {} = this.state;
-        const buttonStyle =
-            theme === 'dark' ? styles.buttonLight : styles.buttonDark;
-        const goBack = onBack
-            ? onBack
-            : componentId
-            ? () => Router.goBack(componentId)
-            : null;
+        const buttonStyle = theme === 'dark' ? styles.buttonLight : styles.buttonDark;
+        const goBack = onBack ? onBack : componentId ? () => Router.goBack(componentId) : null;
         const Cont = allowContainer ? Container : View;
         return (
             <Cont>
                 {!dataManager.isLoading && !dataManager.isError && children}
-                {(dataManager.isLoading || dataManager.isError) && (
-                    <View style={styles.hidden}>{children}</View>
-                )}
+                {(dataManager.isLoading || dataManager.isError) && <View style={styles.hidden}>{children}</View>}
 
                 <View style={styles.onTop}>
                     {dataManager.isLoading && !dataManager.isError && (
-                        <LoadingAnimationFlexible
-                            isFade
-                            text={
-                                noLoadingText ? ' ' : translate('LoadingText')
-                            }
-                            theme={theme}
-                        />
+                        <LoadingAnimationFlexible isFade text={noLoadingText ? ' ' : translate('LoadingText')} theme={theme} />
                     )}
                     {dataManager.isError && (
-                        <Col
-                            justify="center"
-                            align="center"
-                            fullHeight
-                            style={style}
-                        >
+                        <Col justify="center" align="center" fullHeight style={style}>
                             <Section type="form-item">
                                 <Text type="bold" theme={theme} align="center">
                                     Error
                                 </Text>
                                 {!!dataManager.errorMessage && (
-                                    <Text
-                                        type="bold"
-                                        theme={theme}
-                                        align="center"
-                                    >
+                                    <Text type="bold" theme={theme} align="center">
                                         {dataManager.errorMessage}
                                     </Text>
                                 )}
                                 {!!dataManager.errorDescription && (
-                                    <Text
-                                        type="regular"
-                                        theme={theme}
-                                        align="center"
-                                    >
+                                    <Text type="regular" theme={theme} align="center">
                                         {dataManager.errorDescription}
                                     </Text>
                                 )}
                             </Section>
                             {dataManager.fetch && (
                                 <Section type="form-item">
-                                    <TouchableOpacity
-                                        onPress={() => dataManager.fetch()}
-                                    >
-                                        <Text
-                                            theme={theme}
-                                            type="bold"
-                                            style={buttonStyle}
-                                        >
+                                    <TouchableOpacity onPress={() => dataManager.fetch()}>
+                                        <Text theme={theme} type="bold" style={buttonStyle}>
                                             Try again
                                         </Text>
                                     </TouchableOpacity>
@@ -138,11 +100,7 @@ export default class GradientBackground extends Component<Props, State> {
                             {goBack && (
                                 <Section type="form-item">
                                     <TouchableOpacity onPress={goBack}>
-                                        <Text
-                                            theme={theme}
-                                            type="bold"
-                                            style={buttonStyle}
-                                        >
+                                        <Text theme={theme} type="bold" style={buttonStyle}>
                                             Go back
                                         </Text>
                                     </TouchableOpacity>

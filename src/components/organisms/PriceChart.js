@@ -42,8 +42,7 @@ class PriceChart extends Component<Props, State> {
                                 backgroundGradientFromOpacity: 0,
                                 backgroundGradientToOpacity: 0,
                                 decimalPlaces: 2,
-                                color: (opacity = 1) =>
-                                    `rgba(255, 255, 255, ${opacity})`,
+                                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                 labelColor: () => `rgba(255, 255, 255, 0)`,
                                 strokeWidth: 1.5,
                                 style: {

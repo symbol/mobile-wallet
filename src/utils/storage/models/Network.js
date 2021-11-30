@@ -76,10 +76,7 @@ const addNetwork = (
     );
 };
 
-const getNetworkByNodeURL = (
-    realmInstance: any,
-    nodeURL: string
-): Observable<NetworkInfo> => {
+const getNetworkByNodeURL = (realmInstance: any, nodeURL: string): Observable<NetworkInfo> => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -91,11 +88,7 @@ const getNetworkByNodeURL = (
     );
 };
 
-const getNetworkByKey = (
-    realmInstance: any,
-    key: string,
-    value: any
-): Observable<Network> => {
+const getNetworkByKey = (realmInstance: any, key: string, value: any): Observable<Network> => {
     return from(
         realmInstance.then(realm => {
             try {

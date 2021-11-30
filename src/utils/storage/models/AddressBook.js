@@ -17,20 +17,13 @@ AddressBook.schema = {
     },
 };
 
-const getFromAddressBook = (
-    realmInstance: any,
-    name: string,
-    networkType: number
-): Observable<AddressBook[]> => {
+const getFromAddressBook = (realmInstance: any, name: string, networkType: number): Observable<AddressBook[]> => {
     return from(
         realmInstance.then(relam => {
             try {
                 return relam
                     .objects('AddressBook')
-                    .filtered(
-                        `networkType = ${networkType} AND address CONTAINS[c] $0 OR name CONTAINS[c]  $0`,
-                        name
-                    );
+                    .filtered(`networkType = ${networkType} AND address CONTAINS[c] $0 OR name CONTAINS[c]  $0`, name);
             } catch (error) {
                 throw error;
             }
@@ -38,16 +31,11 @@ const getFromAddressBook = (
     );
 };
 
-const getAliasFromAddressBook = (
-    realmInstance: any,
-    address: string
-): Observable<AddressBook> => {
+const getAliasFromAddressBook = (realmInstance: any, address: string): Observable<AddressBook> => {
     return from(
         realmInstance.then(relam => {
             try {
-                return relam
-                    .objects('AddressBook')
-                    .filtered('address CONTAINS[c] $0', address);
+                return relam.objects('AddressBook').filtered('address CONTAINS[c] $0', address);
             } catch (error) {
                 throw error;
             }
@@ -55,12 +43,7 @@ const getAliasFromAddressBook = (
     );
 };
 
-const addToAddressBook = (
-    realmInstance: any,
-    name: string,
-    address: string,
-    networkType: number
-): Observable => {
+const addToAddressBook = (realmInstance: any, name: string, address: string, networkType: number): Observable => {
     return from(
         realmInstance.then(relam => {
             try {

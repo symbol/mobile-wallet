@@ -7,22 +7,12 @@
 import React, { Component } from 'react';
 import type { Element } from 'react';
 import type { ScrollEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import {
-    FlatList,
-    I18nManager,
-    Platform,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { FlatList, I18nManager, Platform, Text, TouchableOpacity, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import styles from './slider.styl';
 import * as DeviceUtil from '@src/utils/Device';
 
-const {
-    width: windowWidth,
-    height: windowHeight,
-} = DeviceUtil.getWindowDimensions();
+const { width: windowWidth, height: windowHeight } = DeviceUtil.getWindowDimensions();
 const isAndroidRTL = I18nManager.isRTL && Platform.OS === 'android';
 
 const listDirection = {
@@ -154,10 +144,7 @@ class Slider extends Component<Props, State> {
 
     startAutoPlay = () => {
         const { autoScrollInterval } = this.props;
-        this.timerId = setInterval(
-            this.autoScrollToNextPage,
-            autoScrollInterval
-        );
+        this.timerId = setInterval(this.autoScrollToNextPage, autoScrollInterval);
     };
 
     stopAutoPlay = () => {
@@ -175,13 +162,7 @@ class Slider extends Component<Props, State> {
         const { renderItem } = this.props;
         return (
             <View style={{ width, height }}>
-                {renderItem ? (
-                    renderItem(props)
-                ) : (
-                    <Text style={styles.errorText}>
-                        renderItem() not implemented
-                    </Text>
-                )}
+                {renderItem ? renderItem(props) : <Text style={styles.errorText}>renderItem() not implemented</Text>}
             </View>
         );
     };
@@ -207,42 +188,19 @@ class Slider extends Component<Props, State> {
         );
 
         if (bottomButton) {
-            const defaultButtonStyle =
-                name === 'Skip' || name === 'Prev'
-                    ? { backgroundColor: 'transparent' }
-                    : null;
-            content = (
-                <View
-                    style={[
-                        styles.bottomButton,
-                        defaultButtonStyle,
-                        buttonStyle,
-                    ]}
-                >
-                    {content}
-                </View>
-            );
+            const defaultButtonStyle = name === 'Skip' || name === 'Prev' ? { backgroundColor: 'transparent' } : null;
+            content = <View style={[styles.bottomButton, defaultButtonStyle, buttonStyle]}>{content}</View>;
         }
 
         return content;
     };
 
-    renderOuterButton = (
-        content: Element<*>,
-        name: string,
-        onPress: () => void
-    ) => {
+    renderOuterButton = (content: Element<*>, name: string, onPress: () => void) => {
         const { bottomButton, buttonStyle } = this.props;
-        const defaultButtonStyle =
-            name === 'Skip' || name === 'Prev'
-                ? styles.leftButtonContainer
-                : styles.rightButtonContainer;
+        const defaultButtonStyle = name === 'Skip' || name === 'Prev' ? styles.leftButtonContainer : styles.rightButtonContainer;
         return (
             <View style={!bottomButton && defaultButtonStyle}>
-                <TouchableOpacity
-                    onPress={onPress}
-                    style={bottomButton ? styles.flexOne : buttonStyle}
-                >
+                <TouchableOpacity onPress={onPress} style={bottomButton ? styles.flexOne : buttonStyle}>
                     {content}
                 </TouchableOpacity>
             </View>
@@ -261,49 +219,27 @@ class Slider extends Component<Props, State> {
     renderSkipButton = () => {
         const { onSkip, slides } = this.props;
         // scrollToEnd does not work in RTL so use goToSlide instead
-        return this.renderButton('Skip', () =>
-            onSkip ? onSkip() : this.goToSlide(slides.length - 1)
-        );
+        return this.renderButton('Skip', () => (onSkip ? onSkip() : this.goToSlide(slides.length - 1)));
     };
 
     renderPagination = () => {
         const { activeIndex } = this.state;
-        const {
-            slides,
-            paginationStyle,
-            activeDotStyle,
-            dotStyle,
-        } = this.props;
+        const { slides, paginationStyle, activeDotStyle, dotStyle } = this.props;
         const isLastSlide = activeIndex === slides.length - 1;
         const isFirstSlide = activeIndex === 0;
 
-        const skipBtn =
-            (!isFirstSlide && this.renderPrevButton()) ||
-            (!isLastSlide && this.renderSkipButton());
-        const btn = isLastSlide
-            ? this.renderDoneButton()
-            : this.renderNextButton();
+        const skipBtn = (!isFirstSlide && this.renderPrevButton()) || (!isLastSlide && this.renderSkipButton());
+        const btn = isLastSlide ? this.renderDoneButton() : this.renderNextButton();
 
         return (
-            <View
-                style={[
-                    styles.paginationContainer,
-                    paginationContainerBottom,
-                    paginationStyle,
-                ]}
-            >
+            <View style={[styles.paginationContainer, paginationContainerBottom, paginationStyle]}>
                 <View style={[styles.paginationDots, listDirection]}>
                     {slides.length > 1 &&
                         slides.map((_, i) => (
                             <TouchableOpacity
                                 // eslint-disable-next-line react/no-array-index-key
                                 key={i}
-                                style={[
-                                    styles.dot,
-                                    this.rtlSafeIndex(i) === activeIndex
-                                        ? activeDotStyle
-                                        : dotStyle,
-                                ]}
+                                style={[styles.dot, this.rtlSafeIndex(i) === activeIndex ? activeDotStyle : dotStyle]}
                                 onPress={() => this.onPaginationPress(i)}
                             />
                         ))}

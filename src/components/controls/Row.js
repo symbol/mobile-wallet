@@ -56,20 +56,11 @@ type State = {};
 
 export default class Row extends Component<Props, State> {
     render() {
-        const {
-            children,
-            style = {},
-            justify,
-            align,
-            wrap,
-            fullWidth,
-        } = this.props;
+        const { children, style = {}, justify, align, wrap, fullWidth } = this.props;
         const stylesArray = [styles.main];
 
-        if (typeof justify === 'string')
-            stylesArray.push(styles['justify-' + justify]);
-        if (typeof align === 'string')
-            stylesArray.push(styles['align-' + align]);
+        if (typeof justify === 'string') stylesArray.push(styles['justify-' + justify]);
+        if (typeof align === 'string') stylesArray.push(styles['align-' + align]);
         if (wrap) stylesArray.push(styles.wrap);
         if (fullWidth) stylesArray.push(styles.fullWidth);
 

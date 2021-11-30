@@ -39,20 +39,12 @@ class ShowQRCode extends Component {
 
             try {
                 const accounts = store.getState().wallet.accounts;
-                const paperWallet = await AccountService.generatePaperWallet(
-                    store.getState().wallet.mnemonic,
-                    accounts,
-                    network
-                );
+                const paperWallet = await AccountService.generatePaperWallet(store.getState().wallet.mnemonic, accounts, network);
                 const uniqueVal = new Date()
                     .getTime()
                     .toString()
                     .slice(9);
-                downloadFile(
-                    paperWallet,
-                    `symbol-wallet-${uniqueVal}.pdf`,
-                    'base64'
-                )
+                downloadFile(paperWallet, `symbol-wallet-${uniqueVal}.pdf`, 'base64')
                     .then(() => {
                         this.setState({ isLoading: false, downloaded: true });
                     })
@@ -87,9 +79,7 @@ class ShowQRCode extends Component {
         return (
             <View style={styles.contentContainer}>
                 <Image style={styles.qr} {...imgProps} />
-                <Text style={styles.textContent}>
-                    Unable to save paper wallet
-                </Text>
+                <Text style={styles.textContent}>Unable to save paper wallet</Text>
             </View>
         );
     };

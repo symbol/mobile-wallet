@@ -49,12 +49,7 @@ class SettingsNIS1NodeSelector extends Component {
         }));
         return (
             <View>
-                <Dropdown
-                    list={parsedData}
-                    title={translate('optin.NISNode')}
-                    value={selectedNISNode}
-                    onChange={this.onSelect}
-                >
+                <Dropdown list={parsedData} title={translate('optin.NISNode')} value={selectedNISNode} onChange={this.onSelect}>
                     <SettingsListItem
                         title={translate('optin.NISNode')}
                         icon={require('@src/assets/icons/ic-mainnet.png')}

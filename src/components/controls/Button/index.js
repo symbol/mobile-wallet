@@ -20,32 +20,13 @@ type State = {};
 
 export default class Input extends Component<Props, State> {
     render() {
-        const {
-            style = {},
-            theme,
-            isLoading,
-            isDisabled,
-            onPress,
-            text,
-            fullWidth,
-            ...rest
-        } = this.props;
+        const { style = {}, theme, isLoading, isDisabled, onPress, text, fullWidth, ...rest } = this.props;
         let rootStyle = [style];
 
         if (fullWidth) rootStyle.push(styles.fullWidth);
 
-        const Button =
-            theme === 'light' ? GradientButtonLight : GradientButtonDark;
+        const Button = theme === 'light' ? GradientButtonLight : GradientButtonDark;
 
-        return (
-            <Button
-                style={rootStyle}
-                loading={isLoading}
-                disabled={isDisabled || isLoading}
-                onPress={onPress}
-                title={text}
-                {...rest}
-            />
-        );
+        return <Button style={rootStyle} loading={isLoading} disabled={isDisabled || isLoading} onPress={onPress} title={text} {...rest} />;
     }
 }

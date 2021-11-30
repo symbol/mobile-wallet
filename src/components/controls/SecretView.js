@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Text as NativeText,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Text as NativeText, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CopyView, FadeView, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { showPasscode } from '@src/utils/passcode';
@@ -79,12 +74,7 @@ export default class SecretView extends Component<Props, State> {
                             {children}
                         </CopyView>
                         <View style={styles.progressBar}>
-                            <View
-                                style={[
-                                    { width: counter * 10 + '%' },
-                                    styles.progressBarInner,
-                                ]}
-                            />
+                            <View style={[{ width: counter * 10 + '%' }, styles.progressBarInner]} />
                         </View>
                     </Row>
                 </FadeView>

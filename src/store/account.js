@@ -58,10 +58,7 @@ export default {
         loadAllData: async ({ commit, dispatchAction, state }, reset) => {
             try {
                 commit({ type: 'account/setLoading', payload: true });
-                const address = AccountService.getAddressByAccountModelAndNetwork(
-                    state.wallet.selectedAccount,
-                    state.network.network
-                );
+                const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
                 commit({
                     type: 'account/setSelectedAccountAddress',
                     payload: address,
@@ -85,14 +82,8 @@ export default {
             }
         },
         loadBalance: async ({ commit, state }) => {
-            const address = await AccountService.getAddressByAccountModelAndNetwork(
-                state.wallet.selectedAccount,
-                state.network.network
-            );
-            const {
-                balance,
-                ownedMosaics,
-            } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(
+            const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(
                 address,
                 state.network.selectedNetwork
             );
@@ -100,22 +91,13 @@ export default {
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
         loadCosignatoryOf: async ({ commit, state }) => {
-            const address = AccountService.getAddressByAccountModelAndNetwork(
-                state.wallet.selectedAccount,
-                state.network.network
-            );
-            const msigInfo = await AccountService.getCosignatoryOfByAddress(
-                address,
-                state.network.selectedNetwork
-            );
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            const msigInfo = await AccountService.getCosignatoryOfByAddress(address, state.network.selectedNetwork);
             let multisigAccountGraph = state.account.multisigGraphInfo;
 
             // find account signers
             if (multisigAccountGraph !== undefined) {
-                const accountSigners = AccountService.getSigners(
-                    Address.createFromRawAddress(address),
-                    multisigAccountGraph
-                );
+                const accountSigners = AccountService.getSigners(Address.createFromRawAddress(address), multisigAccountGraph);
                 let allSigners = [];
                 accountSigners.forEach(signer => {
                     allSigners.push(signer.address.pretty());
@@ -128,29 +110,15 @@ export default {
                 });
                 allSigners = _.uniq(allSigners);
                 allSigners.forEach(signer => {
-                    if (
-                        !msigInfo.cosignatoryOf.some(
-                            cosignatory => cosignatory == signer
-                        ) &&
-                        signer !== address
-                    ) {
+                    if (!msigInfo.cosignatoryOf.some(cosignatory => cosignatory == signer) && signer !== address) {
                         msigInfo.cosignatoryOf.push(signer);
                     }
                 });
             }
             for (let cosignatoryOf of msigInfo.cosignatoryOf) {
-                GlobalListener.addConfirmed(
-                    cosignatoryOf,
-                    state.account.cosignatoryOf.length > 0
-                );
-                GlobalListener.addUnconfirmed(
-                    cosignatoryOf,
-                    state.account.cosignatoryOf.length > 0
-                );
-                GlobalListener.addPartial(
-                    cosignatoryOf,
-                    state.account.cosignatoryOf.length > 0
-                );
+                GlobalListener.addConfirmed(cosignatoryOf, state.account.cosignatoryOf.length > 0);
+                GlobalListener.addUnconfirmed(cosignatoryOf, state.account.cosignatoryOf.length > 0);
+                GlobalListener.addPartial(cosignatoryOf, state.account.cosignatoryOf.length > 0);
             }
             commit({
                 type: 'account/setCosignatoryOf',
@@ -163,18 +131,11 @@ export default {
         },
         // load multisig tree data
         loadMultisigTree: async ({ commit, state }) => {
-            const address = AccountService.getAddressByAccountModelAndNetwork(
-                state.wallet.selectedAccount,
-                state.network.network
-            );
-            const repositoryFactory = new RepositoryFactoryHttp(
-                state.network.selectedNode
-            );
+            const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
+            const repositoryFactory = new RepositoryFactoryHttp(state.network.selectedNode);
             const multisigRepo = repositoryFactory.createMultisigRepository();
             await multisigRepo
-                .getMultisigAccountGraphInfo(
-                    Address.createFromRawAddress(address)
-                )
+                .getMultisigAccountGraphInfo(Address.createFromRawAddress(address))
                 .pipe(
                     map(g => {
                         commit({

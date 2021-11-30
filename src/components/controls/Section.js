@@ -11,15 +11,7 @@ const styles = StyleSheet.create({
     },
 });
 
-type Type =
-    | 'title'
-    | 'subtitle'
-    | 'text'
-    | 'center'
-    | 'button'
-    | 'form'
-    | 'form-without-padding'
-    | 'form-item';
+type Type = 'title' | 'subtitle' | 'text' | 'center' | 'button' | 'form' | 'form-without-padding' | 'form-item';
 
 interface Props {
     type: Type;
@@ -69,10 +61,7 @@ export default class Text extends Component<Props, State> {
         return !isScrollable ? (
             <View style={[globalStyle, style]}>{children}</View>
         ) : (
-            <ScrollView
-                style={[styles.scrollWrapper, style]}
-                contentContainerStyle={[styles.scrollContent]}
-            >
+            <ScrollView style={[styles.scrollWrapper, style]} contentContainerStyle={[styles.scrollContent]}>
                 <View style={[globalStyle]}>{children}</View>
             </ScrollView>
         );

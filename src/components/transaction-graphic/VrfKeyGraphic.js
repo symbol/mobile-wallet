@@ -44,18 +44,8 @@ export default class VrfKeyGraphic extends GraphicComponent {
                     address={this.props.linkedAccountAddress}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                {this.isLinkAction && (
-                    <CircleKey
-                        x={this.getCircleIconPositionX(0)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
-                {!this.isLinkAction && (
-                    <CircleKeyUnlink
-                        x={this.getCircleIconPositionX(0)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
+                {this.isLinkAction && <CircleKey x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />}
+                {!this.isLinkAction && <CircleKeyUnlink x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />}
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

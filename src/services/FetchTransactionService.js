@@ -35,26 +35,18 @@ export default class FetchTransactionService {
      * @param network
      * @returns {Promise<void>}
      */
-    static async hasAddressPendingSignatures(
-        address: string,
-        network: NetworkModel
-    ) {
+    static async hasAddressPendingSignatures(address: string, network: NetworkModel) {
         const transactionHttp = new TransactionHttp(network.node);
         // FIXME: Workaround with bad performance
         const accountHttp = new AccountHttp(network.node);
         let accountInfo;
         try {
-            accountInfo = await accountHttp
-                .getAccountInfo(Address.createFromRawAddress(address))
-                .toPromise();
+            accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(address)).toPromise();
         } catch {
             return false;
         }
         if (!accountInfo.publicKey) return false;
-        const publicAccount = PublicAccount.createFromPublicKey(
-            accountInfo.publicKey,
-            NetworkService.getNetworkTypeFromModel(network)
-        );
+        const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
         const transactionsData = await transactionHttp
             .search({
                 pageNumber: 1,
@@ -65,17 +57,8 @@ export default class FetchTransactionService {
             .toPromise();
         for (let transaction: Transaction of transactionsData.data) {
             if (transaction instanceof AggregateTransaction) {
-                const txModel = await this._populateAggregateTransactionModel(
-                    {},
-                    transaction,
-                    network
-                );
-                if (
-                    txModel.cosignaturePublicKeys.indexOf(
-                        publicAccount.publicKey
-                    ) === -1 &&
-                    txModel.status !== 'confirmed'
-                ) {
+                const txModel = await this._populateAggregateTransactionModel({}, transaction, network);
+                if (txModel.cosignaturePublicKeys.indexOf(publicAccount.publicKey) === -1 && txModel.status !== 'confirmed') {
                     return true;
                 }
             }
@@ -106,9 +89,7 @@ export default class FetchTransactionService {
             const accountHttp = new AccountHttp(network.node);
             let accountInfo;
             try {
-                accountInfo = await accountHttp
-                    .getAccountInfo(address)
-                    .toPromise();
+                accountInfo = await accountHttp.getAccountInfo(address).toPromise();
                 baseSearchCriteria.signerPublicKey = accountInfo.publicKey;
             } catch {
                 return [];
@@ -136,11 +117,7 @@ export default class FetchTransactionService {
         };
         let allTransactions;
         if (page === 1) {
-            const [
-                confirmedTransactions,
-                partialTransactions,
-                unconfirmedTransactions,
-            ] = await Promise.all([
+            const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
                 transactionHttp.search(confirmedSearchCriteria).toPromise(),
                 transactionHttp.search(partialSearchCriteria).toPromise(),
                 transactionHttp.search(unconfirmedSearchCriteria).toPromise(),
@@ -148,49 +125,22 @@ export default class FetchTransactionService {
 
             let multisigPartialSearchCriteria = partialSearchCriteria;
             for (const cosigner of cosignatoryOf) {
-                multisigPartialSearchCriteria.address = Address.createFromRawAddress(
-                    cosigner
-                );
-                const multisigTransactions = await transactionHttp
-                    .search(multisigPartialSearchCriteria)
-                    .toPromise();
+                multisigPartialSearchCriteria.address = Address.createFromRawAddress(cosigner);
+                const multisigTransactions = await transactionHttp.search(multisigPartialSearchCriteria).toPromise();
                 for (const transaction of multisigTransactions.data) {
-                    if (
-                        !partialTransactions.data.some(
-                            tx =>
-                                transaction.transactionInfo.hash ===
-                                tx.transactionInfo.hash
-                        )
-                    ) {
+                    if (!partialTransactions.data.some(tx => transaction.transactionInfo.hash === tx.transactionInfo.hash)) {
                         partialTransactions.data.push(transaction);
                     }
                 }
             }
 
-            allTransactions = [
-                ...partialTransactions.data,
-                ...unconfirmedTransactions.data,
-                ...confirmedTransactions.data,
-            ];
+            allTransactions = [...partialTransactions.data, ...unconfirmedTransactions.data, ...confirmedTransactions.data];
         } else {
-            const confirmedTxs = await transactionHttp
-                .search(confirmedSearchCriteria)
-                .toPromise();
+            const confirmedTxs = await transactionHttp.search(confirmedSearchCriteria).toPromise();
             allTransactions = confirmedTxs.data;
         }
-        const preLoadedMosaics = await this._preLoadMosaics(
-            allTransactions,
-            network
-        );
-        return Promise.all(
-            allTransactions.map(tx =>
-                this.symbolTransactionToTransactionModel(
-                    tx,
-                    network,
-                    preLoadedMosaics
-                )
-            )
-        );
+        const preLoadedMosaics = await this._preLoadMosaics(allTransactions, network);
+        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network, preLoadedMosaics)));
     }
 
     /**
@@ -200,10 +150,7 @@ export default class FetchTransactionService {
      * @returns {Promise<$TupleMap<Promise<MosaicModel>[]>>}
      * @private
      */
-    static async _preLoadMosaics(
-        transactions: Transaction[],
-        network: NetworkModel
-    ) {
+    static async _preLoadMosaics(transactions: Transaction[], network: NetworkModel) {
         const mosaics = {};
         for (let transaction of transactions) {
             if (transaction instanceof TransferTransaction) {
@@ -213,9 +160,7 @@ export default class FetchTransactionService {
             }
         }
         const mosaicModels = await Promise.all(
-            Object.values(mosaics).map(mosaic =>
-                MosaicService.getMosaicModelFromMosaicId(mosaic, network)
-            )
+            Object.values(mosaics).map(mosaic => MosaicService.getMosaicModelFromMosaicId(mosaic, network))
         );
         return mosaicModels.reduce((acc, mosaicModel) => {
             acc[mosaicModel.mosaicId] = mosaicModel;
@@ -239,44 +184,20 @@ export default class FetchTransactionService {
             type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
             signerAddress: transaction.signer.address.pretty(),
-            deadline: formatTransactionLocalDateTime(
-                transaction.deadline.toLocalDateTime(network.epochAdjustment)
-            ),
+            deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             hash: transaction.transactionInfo.hash,
             fee: transaction.maxFee.toString(),
         };
         if (transaction instanceof TransferTransaction) {
-            transactionModel = await this._populateTransferTransactionModel(
-                transactionModel,
-                transaction,
-                network,
-                preLoadedMosaics
-            );
+            transactionModel = await this._populateTransferTransactionModel(transactionModel, transaction, network, preLoadedMosaics);
         } else if (transaction instanceof LockFundsTransaction) {
-            transactionModel = await this._populateFundsLockTransactionModel(
-                transactionModel,
-                transaction,
-                network,
-                preLoadedMosaics
-            );
+            transactionModel = await this._populateFundsLockTransactionModel(transactionModel, transaction, network, preLoadedMosaics);
         } else if (transaction instanceof AggregateTransaction) {
-            transactionModel = await this._populateAggregateTransactionModel(
-                transactionModel,
-                transaction,
-                network
-            );
+            transactionModel = await this._populateAggregateTransactionModel(transactionModel, transaction, network);
         } else if (transaction instanceof NamespaceRegistrationTransaction) {
-            transactionModel = await this._populateNamespaceRegistrationTransactionModel(
-                transactionModel,
-                transaction,
-                network
-            );
+            transactionModel = await this._populateNamespaceRegistrationTransactionModel(transactionModel, transaction, network);
         } else if (transaction instanceof MosaicAliasTransaction) {
-            transactionModel = await this._populateMosaicAliasTransactionModel(
-                transactionModel,
-                transaction,
-                network
-            );
+            transactionModel = await this._populateMosaicAliasTransactionModel(transactionModel, transaction, network);
         }
         return transactionModel;
     }
@@ -305,10 +226,7 @@ export default class FetchTransactionService {
                     amount: mosaic.amount.toString(),
                 };
             } else {
-                mosaicModel = await MosaicService.getMosaicModelFromMosaicId(
-                    mosaic,
-                    network
-                );
+                mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
             }
             mosaicModels.push(mosaicModel);
         }
@@ -341,20 +259,14 @@ export default class FetchTransactionService {
         preLoadedMosaics?
     ): Promise<FundsLockTransaction> {
         let mosaicModel;
-        if (
-            preLoadedMosaics &&
-            preLoadedMosaics[transaction.mosaic.id.toHex()]
-        ) {
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
             mosaicModel = preLoadedMosaics[transaction.mosaic.id.toHex()];
             mosaicModel = {
                 ...preLoadedMosaics[transaction.mosaic.id.toHex()],
                 amount: transaction.mosaic.amount.toString(),
             };
         } else {
-            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(
-                transaction.mosaic,
-                network
-            );
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
         }
         return {
             ...transactionModel,
@@ -392,14 +304,10 @@ export default class FetchTransactionService {
                 )
                 .toPromise();
             innerTransactionModels = await Promise.all(
-                fullTransactionData.innerTransactions.map(innerTx =>
-                    this.symbolTransactionToTransactionModel(innerTx, network)
-                )
+                fullTransactionData.innerTransactions.map(innerTx => this.symbolTransactionToTransactionModel(innerTx, network))
             );
         } catch (e) {}
-        const cosignaturePublicKeys = transaction.cosignatures.map(
-            cosignature => cosignature.signer.publicKey
-        );
+        const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
         if (transaction.signer) {
             cosignaturePublicKeys.push(transaction.signer.publicKey);
         }
@@ -449,9 +357,7 @@ export default class FetchTransactionService {
         const mosaicId = transaction.mosaicId;
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-        const namespaceInfo = await namespaceHttp
-            .getNamespacesNames([transaction.namespaceId])
-            .toPromise();
+        const namespaceInfo = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
 
         return {
             ...transactionModel,

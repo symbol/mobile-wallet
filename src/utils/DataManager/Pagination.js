@@ -2,16 +2,9 @@ const PAGE_SIZE = 15;
 
 export default class Pagination {
     constructor({ name, fetchFunction, pageInfo = {}, errorMessage }) {
-        if (typeof name !== 'string')
-            throw Error('Failed to construct Pagination. Name is not provided');
-        if (typeof fetchFunction !== 'function')
-            throw Error(
-                'Cannot create Pagination. Fetch function is not provided'
-            );
-        if (pageInfo === null || typeof pageInfo !== 'object')
-            throw Error(
-                'Cannot create Pagination. "pageInfo" is not an "object"'
-            );
+        if (typeof name !== 'string') throw Error('Failed to construct Pagination. Name is not provided');
+        if (typeof fetchFunction !== 'function') throw Error('Cannot create Pagination. Fetch function is not provided');
+        if (pageInfo === null || typeof pageInfo !== 'object') throw Error('Cannot create Pagination. "pageInfo" is not an "object"');
 
         this.name = name;
         this.fetchFunction = fetchFunction;
@@ -189,10 +182,7 @@ export default class Pagination {
                 for (const key in pageInfo) this.pageInfo[key] = pageInfo[key];
             }
             await this.fetch();
-        } else
-            console.error(
-                `[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`
-            );
+        } else console.error(`[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`);
 
         this.store.commit({
             type: `${this.namespace}/setDataManager_${this.name}`,
@@ -215,9 +205,7 @@ export default class Pagination {
     addLatestItem = (item, keyName) => {
         if (this.isLive) {
             if (this.data?.length && this.data[0][keyName] === item[keyName])
-                console.error(
-                    '[Pagination]: attempted to add duplicate item as a latest item'
-                );
+                console.error('[Pagination]: attempted to add duplicate item as a latest item');
             else {
                 const data = [item, ...this.data];
 

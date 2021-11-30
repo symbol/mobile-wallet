@@ -29,202 +29,104 @@ export class FormatTransaction {
         switch (transaction.type) {
             case TransactionType.AGGREGATE_BONDED:
             case TransactionType.AGGREGATE_COMPLETE:
-                return FormatTransaction.aggregate(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                return FormatTransaction.aggregate(transaction, network, preLoadedMosaics);
 
             case TransactionType.TRANSFER:
-                formattedTansaction = await FormatTransaction.transferTransaction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.transferTransaction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ADDRESS_ALIAS:
-                formattedTansaction = await FormatTransaction.addressAlias(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.addressAlias(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_ALIAS:
-                formattedTansaction = await FormatTransaction.mosaicAlias(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicAlias(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.NAMESPACE_REGISTRATION:
-                formattedTansaction = await FormatTransaction.namespaceRegistration(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.namespaceRegistration(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_DEFINITION:
-                formattedTansaction = await FormatTransaction.mosaicDefinition(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicDefinition(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_SUPPLY_CHANGE:
-                formattedTansaction = await FormatTransaction.mosaicSupplyChange(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicSupplyChange(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.SECRET_LOCK:
-                formattedTansaction = await FormatTransaction.secretLock(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.secretLock(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.HASH_LOCK:
-                formattedTansaction = await FormatTransaction.hashLock(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.hashLock(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.SECRET_PROOF:
-                formattedTansaction = await FormatTransaction.secretProof(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.secretProof(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.VRF_KEY_LINK:
-                formattedTansaction = await FormatTransaction.vrfKeyLink(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.vrfKeyLink(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ACCOUNT_KEY_LINK:
-                formattedTansaction = await FormatTransaction.accountKeyLink(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.accountKeyLink(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.NODE_KEY_LINK:
-                formattedTansaction = await FormatTransaction.nodeKeyLink(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.nodeKeyLink(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.VOTING_KEY_LINK:
-                formattedTansaction = await FormatTransaction.votingKeyLink(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.votingKeyLink(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-                formattedTansaction = await FormatTransaction.mosaicGlobalRestriction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicGlobalRestriction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-                formattedTansaction = await FormatTransaction.mosaicAddressRestriction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicAddressRestriction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-                formattedTansaction = await FormatTransaction.accountOperationRestriction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.accountOperationRestriction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-                formattedTansaction = await FormatTransaction.accountAddressRestriction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.accountAddressRestriction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-                formattedTansaction = await FormatTransaction.accountMosaicRestriction(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.accountMosaicRestriction(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-                formattedTansaction = await FormatTransaction.multisigAccountModification(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.multisigAccountModification(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.ACCOUNT_METADATA:
-                formattedTansaction = await FormatTransaction.accountMetadata(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.accountMetadata(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.NAMESPACE_METADATA:
-                formattedTansaction = await FormatTransaction.namespaceMetadata(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.namespaceMetadata(transaction, network, preLoadedMosaics);
                 break;
 
             case TransactionType.MOSAIC_METADATA:
-                formattedTansaction = await FormatTransaction.mosaicMetadata(
-                    transaction,
-                    network,
-                    preLoadedMosaics
-                );
+                formattedTansaction = await FormatTransaction.mosaicMetadata(transaction, network, preLoadedMosaics);
                 break;
         }
 
-        return FormatTransaction.base(
-            transaction,
-            formattedTansaction,
-            network
-        );
+        return FormatTransaction.base(transaction, formattedTansaction, network);
     };
 
     static base = async (transaction, formattedTansaction, network) => {
         return {
             transactionType: transaction.type,
-            deadline: formatTransactionLocalDateTime(
-                transaction.deadline.toLocalDateTime(network.epochAdjustment)
-            ),
+            deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             signerAddress: transaction.signer.address.pretty(),
             ...formattedTansaction,
         };
@@ -234,28 +136,18 @@ export class FormatTransaction {
         let formattedInnerTransactions = [];
 
         for (const innerTransaction of transaction.innerTransactions) {
-            formattedInnerTransactions.push(
-                await FormatTransaction.format(
-                    innerTransaction,
-                    network,
-                    preLoadedMosaics
-                )
-            );
+            formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, network, preLoadedMosaics));
         }
 
         const info = {
             transactionType: transaction.type,
-            deadline: formatTransactionLocalDateTime(
-                transaction.deadline.toLocalDateTime(network.epochAdjustment)
-            ),
+            deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             signerAddress: transaction.signer.address.pretty(),
             hash: transaction.hash,
         };
 
         if (transaction.type === TransactionType.AGGREGATE_BONDED) {
-            info.receivedCosignatures = transaction.cosignatures.map(
-                signature => signature.signer.address.pretty()
-            );
+            info.receivedCosignatures = transaction.cosignatures.map(signature => signature.signer.address.pretty());
         }
 
         return {
@@ -264,11 +156,7 @@ export class FormatTransaction {
         };
     };
 
-    static transferTransaction = async (
-        transaction,
-        network,
-        preLoadedMosaics
-    ) => {
+    static transferTransaction = async (transaction, network, preLoadedMosaics) => {
         const mosaicModels: MosaicModel[] = [];
         for (let mosaic of transaction.mosaics) {
             let mosaicModel;
@@ -278,10 +166,7 @@ export class FormatTransaction {
                     amount: mosaic.amount.toString(),
                 };
             } else {
-                mosaicModel = await MosaicService.getMosaicModelFromMosaicId(
-                    mosaic,
-                    network
-                );
+                mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
             }
             mosaicModels.push(mosaicModel);
         }
@@ -302,34 +187,19 @@ export class FormatTransaction {
     static namespaceRegistration = async transaction => {
         return {
             transactionType: transaction.type,
-            registrationType:
-                Constants.NamespaceRegistrationType[
-                    transaction.registrationType
-                ],
+            registrationType: Constants.NamespaceRegistrationType[transaction.registrationType],
             namespaceName: transaction.namespaceName,
             namespaceId: transaction.namespaceId.toHex(),
-            parentId:
-                typeof transaction.parentId !== 'undefined'
-                    ? transaction.parentId?.toHex()
-                    : '',
-            duration:
-                typeof transaction.duration !== 'undefined'
-                    ? transaction.duration?.compact()
-                    : Constants.Message.UNLIMITED,
+            parentId: typeof transaction.parentId !== 'undefined' ? transaction.parentId?.toHex() : '',
+            duration: typeof transaction.duration !== 'undefined' ? transaction.duration?.compact() : Constants.Message.UNLIMITED,
         };
     };
 
     static addressAlias = async (transaction, network) => {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-        const namespaceNames = await namespaceHttp
-            .getNamespacesNames([transaction.namespaceId])
-            .toPromise();
-        const namespaceName = namespaceNames.find(
-            namespace =>
-                namespace.namespaceId.toHex() ===
-                transaction.namespaceId.toHex()
-        );
+        const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
+        const namespaceName = namespaceNames.find(namespace => namespace.namespaceId.toHex() === transaction.namespaceId.toHex());
 
         return {
             transactionType: transaction.type,
@@ -343,14 +213,8 @@ export class FormatTransaction {
     static mosaicAlias = async (transaction, network) => {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
-        const namespaceNames = await namespaceHttp
-            .getNamespacesNames([transaction.namespaceId])
-            .toPromise();
-        const namespaceName = namespaceNames.find(
-            namespace =>
-                namespace.namespaceId.toHex() ===
-                transaction.namespaceId.toHex()
-        );
+        const namespaceNames = await namespaceHttp.getNamespacesNames([transaction.namespaceId]).toPromise();
+        const namespaceName = namespaceNames.find(namespace => namespace.namespaceId.toHex() === transaction.namespaceId.toHex());
 
         return {
             transactionType: transaction.type,
@@ -362,10 +226,7 @@ export class FormatTransaction {
     };
 
     static mosaicDefinition = async (transaction, network) => {
-        const resolvedMosaic = await NamespaceService.resolveMosaicId(
-            transaction.mosaicId,
-            network
-        );
+        const resolvedMosaic = await NamespaceService.resolveMosaicId(transaction.mosaicId, network);
 
         return {
             transactionType: transaction.type,
@@ -380,10 +241,7 @@ export class FormatTransaction {
     };
 
     static mosaicSupplyChange = async (transaction, network) => {
-        const resolvedMosaic = await NamespaceService.resolveMosaicId(
-            transaction.mosaicId,
-            network
-        );
+        const resolvedMosaic = await NamespaceService.resolveMosaicId(transaction.mosaicId, network);
 
         return {
             transactionType: transaction.type,
@@ -418,19 +276,13 @@ export class FormatTransaction {
 
     static hashLock = async (transaction, network, preLoadedMosaics?) => {
         let mosaicModel;
-        if (
-            preLoadedMosaics &&
-            preLoadedMosaics[transaction.mosaic.id.toHex()]
-        ) {
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
             mosaicModel = {
                 ...preLoadedMosaics[transaction.mosaic.id.toHex()],
                 amount: transaction.mosaic.amount.toString(),
             };
         } else {
-            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(
-                transaction.mosaic,
-                network
-            );
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
         }
 
         return {
@@ -443,46 +295,33 @@ export class FormatTransaction {
 
     static secretLock = async (transaction, network, preLoadedMosaics?) => {
         let mosaicModel;
-        if (
-            preLoadedMosaics &&
-            preLoadedMosaics[transaction.mosaic.id.toHex()]
-        ) {
+        if (preLoadedMosaics && preLoadedMosaics[transaction.mosaic.id.toHex()]) {
             mosaicModel = {
                 ...preLoadedMosaics[transaction.mosaic.id.toHex()],
                 amount: transaction.mosaic.amount.toString(),
             };
         } else {
-            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(
-                transaction.mosaic,
-                network
-            );
+            mosaicModel = await MosaicService.getMosaicModelFromMosaicId(transaction.mosaic, network);
         }
 
-        const [resolvedAddress] = await Promise.all([
-            NamespaceService.resolveAddress(transaction.recipientAddress),
-        ]);
+        const [resolvedAddress] = await Promise.all([NamespaceService.resolveAddress(transaction.recipientAddress)]);
 
         return {
             transactionType: transaction.type,
             duration: transaction.duration.compact(),
             secret: transaction.secret,
             recipientAddress: resolvedAddress,
-            hashAlgorithm:
-                Constants.LockHashAlgorithm[transaction.hashAlgorithm],
+            hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm],
             mosaics: [mosaicModel],
         };
     };
 
     static secretProof = async (transaction, network) => {
-        const resolvedAddress = await NamespaceService.resolveAddress(
-            transaction.recipientAddress,
-            network
-        );
+        const resolvedAddress = await NamespaceService.resolveAddress(transaction.recipientAddress, network);
 
         return {
             transactionType: transaction.type,
-            hashAlgorithm:
-                Constants.LockHashAlgorithm[transaction.hashAlgorithm],
+            hashAlgorithm: Constants.LockHashAlgorithm[transaction.hashAlgorithm],
             recipientAddress: resolvedAddress,
             secret: transaction.secret,
             proof: transaction.proof,
@@ -505,8 +344,7 @@ export class FormatTransaction {
 
         return {
             transactionType: transaction.type,
-            restrictionType:
-                Constants.AddressRestrictionFlag[transaction.restrictionFlags],
+            restrictionType: Constants.AddressRestrictionFlag[transaction.restrictionFlags],
             restrictionAddressAdditions: addressAdditions,
             restrictionAddressDeletions: addressDeletions,
         };
@@ -515,30 +353,18 @@ export class FormatTransaction {
     static accountMosaicRestriction = async transaction => {
         return {
             transactionType: transaction.type,
-            restrictionType:
-                Constants.MosaicRestrictionFlag[transaction.restrictionFlags],
-            restrictionMosaicAdditions: transaction.restrictionAdditions.map(
-                restriction => restriction.id.toHex()
-            ),
-            restrictionMosaicDeletions: transaction.restrictionDeletions.map(
-                restriction => restriction.id.toHex()
-            ),
+            restrictionType: Constants.MosaicRestrictionFlag[transaction.restrictionFlags],
+            restrictionMosaicAdditions: transaction.restrictionAdditions.map(restriction => restriction.id.toHex()),
+            restrictionMosaicDeletions: transaction.restrictionDeletions.map(restriction => restriction.id.toHex()),
         };
     };
 
     static accountOperationRestriction = async transaction => {
         return {
             transactionType: transaction.type,
-            restrictionType:
-                Constants.OperationRestrictionFlag[
-                    transaction.restrictionFlags
-                ],
-            restrictionOperationAdditions: transaction.restrictionAdditions.map(
-                operation => operation
-            ),
-            restrictionOperationDeletions: transaction.restrictionDeletions.map(
-                operation => operation
-            ),
+            restrictionType: Constants.OperationRestrictionFlag[transaction.restrictionFlags],
+            restrictionOperationAdditions: transaction.restrictionAdditions.map(operation => operation),
+            restrictionOperationDeletions: transaction.restrictionDeletions.map(operation => operation),
         };
     };
 
@@ -548,10 +374,7 @@ export class FormatTransaction {
             NamespaceService.resolveAddress(transaction.targetAddress, network),
         ]);
 
-        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(
-            resolvedMosaic,
-            network
-        );
+        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(resolvedMosaic, network);
 
         return {
             transactionType: transaction.type,
@@ -566,24 +389,15 @@ export class FormatTransaction {
 
     static mosaicGlobalRestriction = async (transaction, network) => {
         const referenceMosaicId =
-            transaction.referenceMosaicId.toHex() === '0000000000000000'
-                ? transaction.mosaicId
-                : transaction.referenceMosaicId;
-        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(
-            referenceMosaicId,
-            network
-        );
+            transaction.referenceMosaicId.toHex() === '0000000000000000' ? transaction.mosaicId : transaction.referenceMosaicId;
+        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(referenceMosaicId, network);
 
         return {
             transactionType: transaction.type,
             restrictionKey: transaction.restrictionKey.toHex(),
-            newRestrictionType:
-                Constants.MosaicRestrictionType[transaction.newRestrictionType],
+            newRestrictionType: Constants.MosaicRestrictionType[transaction.newRestrictionType],
             newRestrictionValue: transaction.newRestrictionValue.compact(),
-            previousRestrictionType:
-                Constants.MosaicRestrictionType[
-                    transaction.previousRestrictionType
-                ],
+            previousRestrictionType: Constants.MosaicRestrictionType[transaction.previousRestrictionType],
             previousRestrictionValue: transaction.previousRestrictionValue.compact(),
             referenceMosaicId: referenceMosaicId.toHex(),
             mosaicAliasNames,
@@ -591,10 +405,7 @@ export class FormatTransaction {
     };
 
     static accountMetadata = async (transaction, network) => {
-        const resolvedAddress = await NamespaceService.resolveAddress(
-            transaction.targetAddress,
-            network
-        );
+        const resolvedAddress = await NamespaceService.resolveAddress(transaction.targetAddress, network);
 
         return {
             transactionType: transaction.type,
@@ -607,17 +418,11 @@ export class FormatTransaction {
 
     static mosaicMetadata = async (transaction, network) => {
         const [resolvedMosaic, resolvedAddress] = await Promise.all([
-            NamespaceService.resolveMosaicId(
-                transaction.targetMosaicId,
-                network
-            ),
+            NamespaceService.resolveMosaicId(transaction.targetMosaicId, network),
             NamespaceService.resolveAddress(transaction.targetAddress, network),
         ]);
 
-        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(
-            resolvedMosaic,
-            network
-        );
+        const mosaicAliasNames = await NamespaceService.getMosaicAliasNames(resolvedMosaic, network);
 
         return {
             transactionType: transaction.type,
@@ -634,9 +439,7 @@ export class FormatTransaction {
         const repositoryFactory = new RepositoryFactoryHttp(network.node);
         const namespaceHttp = repositoryFactory.createNamespaceRepository();
         const [namespaces, resolvedAddress] = await Promise.all([
-            namespaceHttp
-                .getNamespacesNames([transaction.targetNamespaceId])
-                .toPromise(),
+            namespaceHttp.getNamespacesNames([transaction.targetNamespaceId]).toPromise(),
             NamespaceService.resolveAddress(transaction.targetAddress),
         ]);
         const namespaceNames = namespaces.map(namespace => namespace.name);
@@ -657,10 +460,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(
-                transaction.linkedPublicKey,
-                network.networkType
-            ).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
             startEpoch: transaction.startEpoch,
             endEpoch: transaction.endEpoch,
         };
@@ -671,10 +471,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(
-                transaction.linkedPublicKey,
-                network.networkType
-            ).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
         };
     };
 
@@ -683,10 +480,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(
-                transaction.linkedPublicKey,
-                network.networkType
-            ).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
         };
     };
 
@@ -695,10 +489,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(
-                transaction.linkedPublicKey,
-                network.networkType
-            ).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
         };
     };
 }

@@ -77,16 +77,11 @@ const getWallets = (realmInstance: any): Observable<Wallet[]> => {
     );
 };
 
-const getWalletByNetwork = (
-    realmInstance: any,
-    type: number
-): Observable<Wallet[]> => {
+const getWalletByNetwork = (realmInstance: any, type: number): Observable<Wallet[]> => {
     return from(
         realmInstance.then(realm => {
             try {
-                return realm
-                    .objects('Wallet')
-                    .filtered(`networkType == ${type}`);
+                return realm.objects('Wallet').filtered(`networkType == ${type}`);
             } catch (err) {
                 throw err;
             }
@@ -94,11 +89,7 @@ const getWalletByNetwork = (
     );
 };
 
-const updateWalletBipIndex = (
-    realmInstance: any,
-    type: number,
-    index: number
-) => {
+const updateWalletBipIndex = (realmInstance: any, type: number, index: number) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -120,11 +111,7 @@ const updateWalletBipIndex = (
     );
 };
 
-const updateMnemonicBackupStatus = (
-    realmInstance: any,
-    type: number,
-    isMnemonicExported: boolean
-) => {
+const updateMnemonicBackupStatus = (realmInstance: any, type: number, isMnemonicExported: boolean) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -146,12 +133,7 @@ const updateMnemonicBackupStatus = (
     );
 };
 
-const updateWallet = (
-    realmInstance: any,
-    updateField: string,
-    value: any,
-    type: string
-) => {
+const updateWallet = (realmInstance: any, updateField: string, value: any, type: string) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -173,13 +155,6 @@ const updateWallet = (
     );
 };
 
-export {
-    createWallet,
-    getWallets,
-    getWalletByNetwork,
-    updateWalletBipIndex,
-    updateMnemonicBackupStatus,
-    updateWallet,
-};
+export { createWallet, getWallets, getWalletByNetwork, updateWalletBipIndex, updateMnemonicBackupStatus, updateWallet };
 
 export default Wallet;

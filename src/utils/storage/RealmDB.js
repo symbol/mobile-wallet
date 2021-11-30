@@ -36,10 +36,7 @@ const secureRetrieveObservable = (key: string): Observable<string> => {
 };
 
 const saveAsync = async (data: Object = {}) => {
-    const metadataArray = Object.entries(data).map(([key, value]) => [
-        key,
-        value,
-    ]);
+    const metadataArray = Object.entries(data).map(([key, value]) => [key, value]);
     return AsyncCache.multiSet(metadataArray);
 };
 
@@ -91,73 +88,49 @@ const realmInstance = Realm.open({
  * Account modal methods with realm instance
  *
  */
-const createAccount = (...params: Array<any>) =>
-    AccountModel.createAccount(realmInstance, ...params);
-const getLocalAccounts = (...params: Array<any>) =>
-    AccountModel.getLocalAccounts(realmInstance, ...params);
-const getLocalAccountByAddress = (...params: Array<any>) =>
-    AccountModel.getLocalAccountByAddress(realmInstance, ...params);
-const updateLocalAccounts = (...params: Array<any>) =>
-    AccountModel.updateLocalAccounts(realmInstance, ...params);
-const updateAccountName = (...params: Array<any>) =>
-    AccountModel.updateAccountName(realmInstance, ...params);
-const updateAccountStatus = (...params: Array<any>) =>
-    AccountModel.updateAccountStatus(realmInstance, ...params);
-const getLocalAccountByNetwork = (...params: Array<any>) =>
-    AccountModel.getLocalAccountByNetwork(realmInstance, ...params);
-const updateAccount = (...params: Array<any>) =>
-    AccountModel.updateAccount(realmInstance, ...params);
-const updateAllAccountsIndices = (...params: Array<any>) =>
-    AccountModel.updateAllAccountsIndices(realmInstance, ...params);
+const createAccount = (...params: Array<any>) => AccountModel.createAccount(realmInstance, ...params);
+const getLocalAccounts = (...params: Array<any>) => AccountModel.getLocalAccounts(realmInstance, ...params);
+const getLocalAccountByAddress = (...params: Array<any>) => AccountModel.getLocalAccountByAddress(realmInstance, ...params);
+const updateLocalAccounts = (...params: Array<any>) => AccountModel.updateLocalAccounts(realmInstance, ...params);
+const updateAccountName = (...params: Array<any>) => AccountModel.updateAccountName(realmInstance, ...params);
+const updateAccountStatus = (...params: Array<any>) => AccountModel.updateAccountStatus(realmInstance, ...params);
+const getLocalAccountByNetwork = (...params: Array<any>) => AccountModel.getLocalAccountByNetwork(realmInstance, ...params);
+const updateAccount = (...params: Array<any>) => AccountModel.updateAccount(realmInstance, ...params);
+const updateAllAccountsIndices = (...params: Array<any>) => AccountModel.updateAllAccountsIndices(realmInstance, ...params);
 
 /**
  * Mosaic modal methods with realm instance
  *
  */
-const getLocalMosaics = (...params: Array<any>) =>
-    MosaicModel.getLocalMosaics(realmInstance, ...params);
-const updateMosaicInfo = (...params: Array<any>) =>
-    MosaicModel.updateMosaicInfo(realmInstance, ...params);
+const getLocalMosaics = (...params: Array<any>) => MosaicModel.getLocalMosaics(realmInstance, ...params);
+const updateMosaicInfo = (...params: Array<any>) => MosaicModel.updateMosaicInfo(realmInstance, ...params);
 
 /**
  * Network modal methods with realm instance
  *
  */
-const addNetwork = (...params: Array<any>) =>
-    NetworkModel.addNetwork(realmInstance, ...params);
-const getNetworks = (...params: Array<any>) =>
-    NetworkModel.getNetworks(realmInstance, ...params);
-const getNetworkByKey = (...params: Array<any>) =>
-    NetworkModel.getNetworkByKey(realmInstance, ...params);
-const getNetworkByNodeURL = (...params: Array<any>) =>
-    NetworkModel.getNetworkByNodeURL(realmInstance, ...params);
+const addNetwork = (...params: Array<any>) => NetworkModel.addNetwork(realmInstance, ...params);
+const getNetworks = (...params: Array<any>) => NetworkModel.getNetworks(realmInstance, ...params);
+const getNetworkByKey = (...params: Array<any>) => NetworkModel.getNetworkByKey(realmInstance, ...params);
+const getNetworkByNodeURL = (...params: Array<any>) => NetworkModel.getNetworkByNodeURL(realmInstance, ...params);
 
 /**
  * Wallet modal methods with realm instance
  *
  */
-const createWallet = (...params: Array<any>) =>
-    WalletModel.createWallet(realmInstance, ...params);
-const getWalletByNetwork = (...params: Array<any>) =>
-    WalletModel.getWalletByNetwork(realmInstance, ...params);
-const getWallets = (...params: Array<any>) =>
-    WalletModel.getWallets(realmInstance, ...params);
-const updateWalletBipIndex = (...params: Array<any>) =>
-    WalletModel.updateWalletBipIndex(realmInstance, ...params);
-const updateMnemonicBackupStatus = (...params: Array<any>) =>
-    WalletModel.updateMnemonicBackupStatus(realmInstance, ...params);
-const updateWallet = (...params: Array<any>) =>
-    WalletModel.updateWallet(realmInstance, ...params);
+const createWallet = (...params: Array<any>) => WalletModel.createWallet(realmInstance, ...params);
+const getWalletByNetwork = (...params: Array<any>) => WalletModel.getWalletByNetwork(realmInstance, ...params);
+const getWallets = (...params: Array<any>) => WalletModel.getWallets(realmInstance, ...params);
+const updateWalletBipIndex = (...params: Array<any>) => WalletModel.updateWalletBipIndex(realmInstance, ...params);
+const updateMnemonicBackupStatus = (...params: Array<any>) => WalletModel.updateMnemonicBackupStatus(realmInstance, ...params);
+const updateWallet = (...params: Array<any>) => WalletModel.updateWallet(realmInstance, ...params);
 
 /**
  * AddressBook model methods with realm instance
  */
-const addToAddressBook = (...params: Array<any>) =>
-    AddressBookModel.addToAddressBook(realmInstance, ...params);
-const getFromAddressBook = (...params: Array<any>) =>
-    AddressBookModel.getFromAddressBook(realmInstance, ...params);
-const getAliasFromAddressBook = (...params: Array<any>) =>
-    AddressBookModel.getAliasFromAddressBook(realmInstance, ...params);
+const addToAddressBook = (...params: Array<any>) => AddressBookModel.addToAddressBook(realmInstance, ...params);
+const getFromAddressBook = (...params: Array<any>) => AddressBookModel.getFromAddressBook(realmInstance, ...params);
+const getAliasFromAddressBook = (...params: Array<any>) => AddressBookModel.getAliasFromAddressBook(realmInstance, ...params);
 
 /**
  * Exports all modal methods
@@ -194,9 +167,4 @@ export {
  * Exports utility methods
  *
  */
-export {
-    secureSaveAsync,
-    saveAsync,
-    secureRetrieveAsync,
-    secureRetrieveObservable,
-};
+export { secureSaveAsync, saveAsync, secureRetrieveAsync, secureRetrieveObservable };

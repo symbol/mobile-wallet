@@ -89,15 +89,11 @@ class GraphicComponent extends Component {
     }
 
     get circlesCount() {
-        return Array.isArray(this.circleIconsToDisplay)
-            ? this.circleIconsToDisplay.reduce((acc, value) => acc + value)
-            : 0;
+        return Array.isArray(this.circleIconsToDisplay) ? this.circleIconsToDisplay.reduce((acc, value) => acc + value) : 0;
     }
 
     get transactionType() {
-        return this.getTranslation(
-            `transactionTypes.transactionDescriptor_${this.props.transactionType}`
-        );
+        return this.getTranslation(`transactionTypes.transactionDescriptor_${this.props.transactionType}`);
     }
 
     get signer() {
@@ -116,15 +112,11 @@ class GraphicComponent extends Component {
         };
 
         if (typeof hash !== 'string') {
-            console.error(
-                'Failed to convert hash to color. Hash is not a String'
-            );
+            console.error('Failed to convert hash to color. Hash is not a String');
             return color;
         }
         if (hash.length < 3) {
-            console.error(
-                'Failed to convert hash to color. Hash string length < 3'
-            );
+            console.error('Failed to convert hash to color. Hash string length < 3');
             return color;
         }
 
@@ -178,12 +170,9 @@ class GraphicComponent extends Component {
 
             let totalHex = 0;
 
-            for (const char of string)
-                totalHex += charset.indexOf(char.toLowerCase());
+            for (const char of string) totalHex += charset.indexOf(char.toLowerCase());
 
-            return Math.trunc(
-                (totalHex * 255) / ((charset.length - 1) * string.length)
-            );
+            return Math.trunc((totalHex * 255) / ((charset.length - 1) * string.length));
         };
 
         const hashLength = hash.length;
@@ -193,9 +182,7 @@ class GraphicComponent extends Component {
         const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
         const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
 
-        color.R = isHex
-            ? hexToRGB(strRed)
-            : charsetToRGB(strRed.substring(2, 3));
+        color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
         color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
         color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
 
@@ -225,10 +212,7 @@ class GraphicComponent extends Component {
     truncString(str, strLen = 4) {
         if (typeof str === 'string') {
             if (str.length > strLen * 2) {
-                return `${str.substring(0, strLen)}...${str.substring(
-                    str.length - strLen,
-                    str.length
-                )}`;
+                return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
             }
 
             return str;
@@ -244,11 +228,7 @@ class GraphicComponent extends Component {
         const stackedAddress = [
             splittedAddress[0] + '-' + splittedAddress[1] + '-',
             splittedAddress[2] + '-' + splittedAddress[3] + '-',
-            splittedAddress[4] +
-                '-' +
-                splittedAddress[5] +
-                '-' +
-                splittedAddress[6],
+            splittedAddress[4] + '-' + splittedAddress[5] + '-' + splittedAddress[6],
         ];
 
         return stackedAddress;
@@ -274,16 +254,10 @@ class GraphicComponent extends Component {
                 break;
             case 2:
                 if (this.circleIconsToDisplay[2]) {
-                    if (
-                        this.circleIconsToDisplay[0] &&
-                        this.circleIconsToDisplay[1]
-                    ) {
+                    if (this.circleIconsToDisplay[0] && this.circleIconsToDisplay[1]) {
                         return this.circlesIconsPositionsX[circlesCount - 1][2];
                     }
-                    if (
-                        this.circleIconsToDisplay[0] ||
-                        this.circleIconsToDisplay[1]
-                    ) {
+                    if (this.circleIconsToDisplay[0] || this.circleIconsToDisplay[1]) {
                         return this.circlesIconsPositionsX[circlesCount - 1][1];
                     }
 
@@ -297,13 +271,9 @@ class GraphicComponent extends Component {
         let mosaicAliasName;
 
         if (Array.isArray(mosaic.mosaicAliasName)) {
-            mosaicAliasName = mosaic.mosaicAliasName.length
-                ? mosaic.mosaicAliasName[0]
-                : 'N/A';
+            mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
         } else {
-            mosaicAliasName = mosaic.mosaicAliasName
-                ? mosaic.mosaicAliasName
-                : 'N/A';
+            mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
         }
 
         return mosaicAliasName !== 'N/A' ? mosaicAliasName : mosaic.mosaicId;

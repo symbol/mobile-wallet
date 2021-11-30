@@ -17,9 +17,7 @@ type Props = View.propTypes.style & {
 
 const TextLink = (props: Props) => {
     const { children, disabled, href, style, accessibilityLabel } = props;
-    const defaultTextStyle = disabled
-        ? styles.disabledTextStyle
-        : styles.activeTextStyle;
+    const defaultTextStyle = disabled ? styles.disabledTextStyle : styles.activeTextStyle;
     const opacity = disabled ? 1.0 : 0.85;
 
     return (

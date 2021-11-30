@@ -81,9 +81,7 @@ class BalanceWidget extends Component<Props, State> {
                         </Row>
                         <Row justify="center" style={styles.bottomContainer}>
                             <Text style={styles.fiatText}>{fiat} |</Text>
-                            <Text style={styles.priceChange}>
-                                {priceChange}
-                            </Text>
+                            <Text style={styles.priceChange}>{priceChange}</Text>
                         </Row>
                     </Col>
                 )}

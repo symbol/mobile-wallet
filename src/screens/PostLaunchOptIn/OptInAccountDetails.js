@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    Dropdown,
-    GradientBackground,
-    Icon,
-    Row,
-    Section,
-    TitleBar,
-    Trunc,
-} from '@src/components';
+import { Button, Dropdown, GradientBackground, Icon, Row, Section, TitleBar, Trunc } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -84,9 +75,7 @@ class OptInAccountDetails extends Component<Props, State> {
             const { nis1Accounts } = this.props;
             store.dispatchAction({
                 type: 'optin/loadNIS1Account',
-                payload: nis1Accounts
-                    .map(account => account.address)
-                    .indexOf(account),
+                payload: nis1Accounts.map(account => account.address).indexOf(account),
             });
         }
     };
@@ -94,20 +83,10 @@ class OptInAccountDetails extends Component<Props, State> {
     start = () => {
         const { selectedOptInStatus } = this.props;
         if (!selectedOptInStatus.isMultisig)
-            Router.goToOptInSelectSymbolAccount(
-                { welcomeComponentId: this.props.welcomeComponentId },
-                this.props.componentId
-            );
+            Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
         else if (!selectedOptInStatus.destination)
-            Router.goToOptinSelectSymbolMultisigDestination(
-                { welcomeComponentId: this.props.welcomeComponentId },
-                this.props.componentId
-            );
-        else
-            Router.goToOptInFinish(
-                { welcomeComponentId: this.props.welcomeComponentId },
-                this.props.componentId
-            );
+            Router.goToOptinSelectSymbolMultisigDestination({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        else Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     hasUserSigned = () => {
@@ -136,22 +115,11 @@ class OptInAccountDetails extends Component<Props, State> {
             type: network,
         });
         const publicAccount = selectedOptInStatus.destination
-            ? PublicAccount.createFromPublicKey(
-                  selectedOptInStatus.destination,
-                  networkType
-              )
+            ? PublicAccount.createFromPublicKey(selectedOptInStatus.destination, networkType)
             : null;
         return (
-            <GradientBackground
-                name="connector_small"
-                theme="light"
-                dataManager={dataManager}
-            >
-                <TitleBar
-                    theme="light"
-                    title={translate('optin.statusTitle')}
-                    onBack={() => Router.goBack(componentId)}
-                />
+            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+                <TitleBar theme="light" title={translate('optin.statusTitle')} onBack={() => Router.goBack(componentId)} />
                 <Text
                     style={{
                         paddingLeft: 30,
@@ -171,19 +139,13 @@ class OptInAccountDetails extends Component<Props, State> {
                                 {translate('optin.selectedNISAddress')}
                             </Text>
                             <Dropdown
-                                value={
-                                    selectedNIS1MultisigAccount
-                                        ? selectedNIS1MultisigAccount
-                                        : selectedNIS1Account.address
-                                }
+                                value={selectedNIS1MultisigAccount ? selectedNIS1MultisigAccount : selectedNIS1Account.address}
                                 showTitle={false}
                                 title={translate('optin.selectAccount')}
                                 theme="light"
                                 editable={true}
                                 list={addresses}
-                                onChange={address =>
-                                    this.onChangeOptInAccount(address)
-                                }
+                                onChange={address => this.onChangeOptInAccount(address)}
                             />
                         </Section>
                     )}
@@ -200,50 +162,29 @@ class OptInAccountDetails extends Component<Props, State> {
                             <Text type={'bold'} theme={'light'}>
                                 {translate('optin.destination')}
                             </Text>
-                            <CopyView>
-                                {publicAccount.address.pretty()}
-                            </CopyView>
+                            <CopyView>{publicAccount.address.pretty()}</CopyView>
                         </Section>
                     )}
                     <Section type="form-item">
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.optInStatus')}
                         </Text>
-                        <Text
-                            type={'regular'}
-                            theme={'light'}
-                            style={[
-                                styles.status,
-                                styles['status' + selectedOptInStatus.status],
-                            ]}
-                        >
+                        <Text type={'regular'} theme={'light'} style={[styles.status, styles['status' + selectedOptInStatus.status]]}>
                             {translate(
                                 'optin.status' +
                                     selectedOptInStatus.status +
-                                    (this.hasUserSigned() &&
-                                    selectedOptInStatus.status !== 6
-                                        ? 'signed'
-                                        : '')
+                                    (this.hasUserSigned() && selectedOptInStatus.status !== 6 ? 'signed' : '')
                             )}
                         </Text>
                     </Section>
                     {selectedOptInStatus.error != null &&
-                        (selectedOptInStatus.status === 1 ||
-                            selectedOptInStatus.status === 3 ||
-                            selectedOptInStatus.status === 4) && (
+                        (selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && (
                             <Section type="form-item">
                                 <Text type={'bold'} theme={'light'}>
                                     {translate('optin.lastOptInFailed')}
                                 </Text>
-                                <Text
-                                    type={'regular'}
-                                    theme={'light'}
-                                    style={styles.error}
-                                >
-                                    {translate(
-                                        'optin.error' +
-                                            selectedOptInStatus.error
-                                    )}
+                                <Text type={'regular'} theme={'light'} style={styles.error}>
+                                    {translate('optin.error' + selectedOptInStatus.error)}
                                 </Text>
                             </Section>
                         )}
@@ -251,28 +192,14 @@ class OptInAccountDetails extends Component<Props, State> {
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.optInAmount')}
                         </Text>
-                        <Row
-                            justify="space-between"
-                            fullWidth
-                            style={styles.mosaic}
-                        >
+                        <Row justify="space-between" fullWidth style={styles.mosaic}>
                             <Row align="center">
-                                <Icon
-                                    name="mosaic_custom"
-                                    size="small"
-                                    style={{ marginRight: 8 }}
-                                />
+                                <Icon name="mosaic_custom" size="small" style={{ marginRight: 8 }} />
                                 <Text type="regular" theme="light">
-                                    <Trunc type="namespaceName">
-                                        {'symbol.xym'}
-                                    </Trunc>
+                                    <Trunc type="namespaceName">{'symbol.xym'}</Trunc>
                                 </Text>
                             </Row>
-                            <Text
-                                type="regular"
-                                theme="light"
-                                style={styles.amount}
-                            >
+                            <Text type="regular" theme="light" style={styles.amount}>
                                 {selectedOptInStatus.balance}
                             </Text>
                         </Row>
@@ -284,9 +211,7 @@ class OptInAccountDetails extends Component<Props, State> {
                             </Text>
                         </Section>
                     )}
-                    {(selectedOptInStatus.status === 1 ||
-                        selectedOptInStatus.status === 3 ||
-                        selectedOptInStatus.status === 4) &&
+                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) &&
                         !this.hasUserSigned() &&
                         selectedOptInStatus.balance >= 2 && (
                             <Section type="form-bottom">

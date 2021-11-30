@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    GradientBackground,
-    Input,
-    Section,
-    TitleBar,
-} from '@src/components';
+import { Button, GradientBackground, Input, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -53,10 +47,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
             payload: multisigAccount.publicKey,
         });
         // Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
-        Router.goToOptInFinish(
-            { welcomeComponentId: this.props.welcomeComponentId },
-            this.props.componentId
-        );
+        Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     onChangePubKey = pubkey => {
@@ -67,10 +58,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
             const networkType = NetworkService.getNetworkTypeFromModel({
                 type: selectedNetworkType,
             });
-            publicAccount = PublicAccount.createFromPublicKey(
-                pubkey,
-                networkType
-            );
+            publicAccount = PublicAccount.createFromPublicKey(pubkey, networkType);
         } catch (e) {}
         if (publicAccount && pubkey.length === 64) {
             this.setState({
@@ -106,9 +94,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
                             value={destination}
                             theme="light"
                             onChangeText={v => this.onChangePubKey(v)}
-                            nativePlaceholder={translate(
-                                'optin.publicKeyPlaceholder'
-                            )}
+                            nativePlaceholder={translate('optin.publicKeyPlaceholder')}
                         />
                     </Section>
                     {multisigAccount && (
@@ -120,12 +106,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
                         </Section>
                     )}
                     <Section type="form-bottom">
-                        <Button
-                            isDisabled={!multisigAccount}
-                            text={translate('optin.next')}
-                            theme="light"
-                            onPress={() => this.finish()}
-                        />
+                        <Button isDisabled={!multisigAccount} text={translate('optin.next')} theme="light" onPress={() => this.finish()} />
                     </Section>
                 </Section>
             </GradientBackground>

@@ -32,23 +32,9 @@ interface Props {
 // For eg., colors for primary, secondary and accent. Maybe a global dark or light theme
 class GradientButton extends Component<Props> {
     render() {
-        const {
-            title,
-            fill,
-            loading,
-            accessibilityLabel,
-            disabled,
-            onPress,
-            testID,
-            style,
-            icon,
-        } = this.props;
+        const { title, fill, loading, accessibilityLabel, disabled, onPress, testID, style, icon } = this.props;
         const buttonStyles = [styles.button, fill || styles.button__fill];
-        const {
-            gradient__colors: gradientColorsObj,
-            gradient__start: gradientStart,
-            gradient__end: gradientEnd,
-        } = styles;
+        const { gradient__colors: gradientColorsObj, gradient__start: gradientStart, gradient__end: gradientEnd } = styles;
         const gradientColors = [
             disabled ? 'transparent' : gradientColorsObj.start,
             disabled ? 'transparent' : gradientColorsObj.center,
@@ -59,14 +45,8 @@ class GradientButton extends Component<Props> {
         const accessibilityTraits: AccessibilityTrait[] = ['button'];
 
         if (disabled) {
-            buttonStyles.push(
-                styles.button__disabled,
-                fill && styles.button__fill__disabled
-            );
-            textStyles.push(
-                styles.text__disabled,
-                fill && styles.text__fill_disabled
-            );
+            buttonStyles.push(styles.button__disabled, fill && styles.button__fill__disabled);
+            textStyles.push(styles.text__disabled, fill && styles.text__fill_disabled);
             accessibilityTraits.push('disabled');
         }
 
@@ -80,8 +60,7 @@ class GradientButton extends Component<Props> {
             otherNativeProps = { activeOpacity: 0.6 };
         }
 
-        const titleLabel =
-            Platform.OS === 'android' ? title.toLocaleUpperCase() : title;
+        const titleLabel = Platform.OS === 'android' ? title.toLocaleUpperCase() : title;
 
         return (
             <View
@@ -116,10 +95,7 @@ class GradientButton extends Component<Props> {
                     >
                         {loading ? (
                             <View style={styles.buttonContent}>
-                                <Image
-                                    style={styles.loader}
-                                    source={require('@src/assets/loader.gif')}
-                                />
+                                <Image style={styles.loader} source={require('@src/assets/loader.gif')} />
                             </View>
                         ) : (
                             <View style={styles.buttonContent}>

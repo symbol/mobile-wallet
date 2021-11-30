@@ -65,38 +65,20 @@ export default class BaseTransactionItem extends Component<Props, State> {
         return (
             <View style={styles.transactionPreview}>
                 <Row justify="start" fullWidth>
-                    <Col
-                        justify="center"
-                        align="center"
-                        style={styles.iconContainer}
-                    >
-                        <TransactionIcon
-                            size="small"
-                            name={this.iconName()}
-                            style={styles.icon}
-                        />
+                    <Col justify="center" align="center" style={styles.iconContainer}>
+                        <TransactionIcon size="small" name={this.iconName()} style={styles.icon} />
                     </Col>
                     <Col grow>
                         <Row justify="space-between">
                             <Text type="regular" theme="light">
                                 {this.title()}
                             </Text>
-                            <Text
-                                type="regular"
-                                theme="light"
-                                style={styles.date}
-                            >
-                                {transaction.status === 'unconfirmed'
-                                    ? 'Unconfirmed'
-                                    : date}
+                            <Text type="regular" theme="light" style={styles.date}>
+                                {transaction.status === 'unconfirmed' ? 'Unconfirmed' : date}
                             </Text>
                         </Row>
                         <Row justify="space-between" align="center">
-                            <Text
-                                type="bold"
-                                theme="light"
-                                style={styles.address}
-                            >
+                            <Text type="bold" theme="light" style={styles.address}>
                                 {this.renderAddress()}
                             </Text>
                             <Row style={styles.value} align="center">
@@ -108,10 +90,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
                 {showDetails && (
                     <View style={{ paddingVertical: 16 }}>
                         {this.renderDetails()}
-                        <View
-                            justify="space-between"
-                            style={{ paddingBottom: 16 }}
-                        >
+                        <View justify="space-between" style={{ paddingBottom: 16 }}>
                             <Text type="bold" theme="light">
                                 {translate('history.transaction.hash')}:
                             </Text>
@@ -120,10 +99,7 @@ export default class BaseTransactionItem extends Component<Props, State> {
                             </Text>
                         </View>
                         <Row justify="start" style={{ alignItems: 'flex-end' }}>
-                            <LinkExplorer
-                                type="transaction"
-                                value={transaction.hash}
-                            />
+                            <LinkExplorer type="transaction" value={transaction.hash} />
                         </Row>
                     </View>
                 )}

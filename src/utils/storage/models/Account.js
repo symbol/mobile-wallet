@@ -32,14 +32,8 @@ class Account extends Realm.Object {
 
     // $FlowFixMe
     get networkCurrency() {
-        const lookupID = AccountMosaicBalance.CreateAccountMosaicID(
-            this.address,
-            this.networkCurrencyHex
-        );
-        return this.mosaicBalances.filtered(
-            'accountMosaicId = $0',
-            lookupID
-        )[0];
+        const lookupID = AccountMosaicBalance.CreateAccountMosaicID(this.address, this.networkCurrencyHex);
+        return this.mosaicBalances.filtered('accountMosaicId = $0', lookupID)[0];
     }
 
     // $FlowFixMe
@@ -47,10 +41,7 @@ class Account extends Realm.Object {
         const { networkCurrency } = this;
 
         // TODO: delegate this to container or repository than calculating it
-        const divisibility =
-            networkCurrency && networkCurrency.mosaic
-                ? 10 ** networkCurrency.mosaic.divisibility
-                : 1;
+        const divisibility = networkCurrency && networkCurrency.mosaic ? 10 ** networkCurrency.mosaic.divisibility : 1;
         return networkCurrency ? networkCurrency.balance / divisibility : 0;
     }
 
@@ -58,9 +49,7 @@ class Account extends Realm.Object {
     get currencyDivisibility() {
         const { networkCurrency } = this;
 
-        return networkCurrency && networkCurrency.mosaic
-            ? networkCurrency.mosaic.divisibility
-            : 2;
+        return networkCurrency && networkCurrency.mosaic ? networkCurrency.mosaic.divisibility : 2;
     }
 }
 
@@ -101,9 +90,7 @@ const createAccount = async (
     return from(
         realmInstance.then(realm => {
             try {
-                const accountLength = realm
-                    .objects('Account')
-                    .filtered(`networkType == ${networkType}`).length;
+                const accountLength = realm.objects('Account').filtered(`networkType == ${networkType}`).length;
                 realm.write(() => {
                     realm.create('Account', {
                         label: label,
@@ -143,10 +130,7 @@ const getLocalAccounts = (realmInstance: any): Observable<Account[]> => {
     );
 };
 
-const getLocalAccountByAddress = (
-    realmInstance: any,
-    plainAddress: string
-): Observable<Account[]> => {
+const getLocalAccountByAddress = (realmInstance: any, plainAddress: string): Observable<Account[]> => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -158,10 +142,7 @@ const getLocalAccountByAddress = (
     );
 };
 
-const getLocalAccountByNetwork = (
-    realmInstance: any,
-    type: number
-): Observable<Account[]> => {
+const getLocalAccountByNetwork = (realmInstance: any, type: number): Observable<Account[]> => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -176,24 +157,16 @@ const getLocalAccountByNetwork = (
     );
 };
 
-const updateLocalAccounts = (
-    realmInstance: any,
-    accounts: Array<AccountInfo>
-) => {
+const updateLocalAccounts = (realmInstance: any, accounts: Array<AccountInfo>) => {
     return from(
         realmInstance.then(realm => {
             realm.write(() => {
                 try {
                     accounts.forEach(account => {
-                        const tempAccount: Account = realm.objectForPrimaryKey(
-                            'Account',
-                            account.address.plain()
-                        );
+                        const tempAccount: Account = realm.objectForPrimaryKey('Account', account.address.plain());
                         tempAccount.networkType = account.address.networkType;
                         tempAccount.multisigInfo = account.multisigInfo;
-                        tempAccount.linkedAccount =
-                            account.accountType ===
-                            (AccountType.Main || AccountType.Remote);
+                        tempAccount.linkedAccount = account.accountType === (AccountType.Main || AccountType.Remote);
                         tempAccount.mosaicBalances = asMosaicBalances(account);
                         tempAccount.importance = account.importance.compact();
                         tempAccount.importanceHeight = account.importanceHeight.compact();
@@ -208,20 +181,14 @@ const updateLocalAccounts = (
     );
 };
 
-const updateAllAccountsIndices = (
-    realmInstance: any,
-    accounts: Array<Account>
-) => {
+const updateAllAccountsIndices = (realmInstance: any, accounts: Array<Account>) => {
     return from(
         realmInstance.then(realm => {
             const updatedAddresses = [];
             realm.write(() => {
                 try {
                     accounts.forEach((account, index) => {
-                        const tempAccount: Account = realm.objectForPrimaryKey(
-                            'Account',
-                            account.address
-                        );
+                        const tempAccount: Account = realm.objectForPrimaryKey('Account', account.address);
                         tempAccount.order = index;
                         updatedAddresses.push(account.address);
                     });
@@ -235,11 +202,7 @@ const updateAllAccountsIndices = (
     );
 };
 
-const updateAccountName = (
-    realmInstance: any,
-    label: string,
-    address: string
-) => {
+const updateAccountName = (realmInstance: any, label: string, address: string) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -262,11 +225,7 @@ const updateAccountName = (
 };
 
 // TODO: update to a generalised method
-const updateAccountStatus = (
-    realmInstance: any,
-    status: boolean,
-    address: string
-) => {
+const updateAccountStatus = (realmInstance: any, status: boolean, address: string) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -288,12 +247,7 @@ const updateAccountStatus = (
     );
 };
 
-const updateAccount = (
-    realmInstance: any,
-    updateField: string,
-    value: any,
-    address: string
-) => {
+const updateAccount = (realmInstance: any, updateField: string, value: any, address: string) => {
     return from(
         realmInstance.then(realm => {
             try {
@@ -317,10 +271,7 @@ const updateAccount = (
 
 const asMosaicBalances = (account: AccountInfo) => {
     return account.mosaics.map((mosaic: Mosaic) => {
-        const accountMosaicId = AccountMosaicBalance.CreateAccountMosaicID(
-            account.address.plain(),
-            mosaic.id.toHex()
-        );
+        const accountMosaicId = AccountMosaicBalance.CreateAccountMosaicID(account.address.plain(), mosaic.id.toHex());
 
         return {
             accountMosaicId: accountMosaicId,

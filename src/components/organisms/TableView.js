@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-    CopyView,
-    Icon,
-    Row,
-    SecretView,
-    Section,
-    Text,
-    Trunc,
-} from '@src/components';
+import { CopyView, Icon, Row, SecretView, Section, Text, Trunc } from '@src/components';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -39,11 +31,7 @@ const renderTypeMap = {
     secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
     mosaics: ['mosaics'],
     ecryption: ['messageEncrypted'],
-    transactionType: [
-        'transactionType',
-        '_restrictionOperationAdditions',
-        '_restrictionOperationDeletions',
-    ],
+    transactionType: ['transactionType', '_restrictionOperationAdditions', '_restrictionOperationDeletions'],
     translate: [
         'registrationType',
         'aliasAction',
@@ -87,8 +75,7 @@ class TableView extends Component<Props> {
     };
 
     render_copyButton = value => {
-        if (typeof value === 'string')
-            return <CopyView theme="light">{value}</CopyView>;
+        if (typeof value === 'string') return <CopyView theme="light">{value}</CopyView>;
         else
             return (
                 <Text type="regular" theme="light">
@@ -99,11 +86,7 @@ class TableView extends Component<Props> {
 
     render_secret = value => {
         return (
-            <SecretView
-                componentId={this.props.componentId}
-                title="Show "
-                theme="light"
-            >
+            <SecretView componentId={this.props.componentId} title="Show " theme="light">
                 {value}
             </SecretView>
         );
@@ -155,25 +138,14 @@ class TableView extends Component<Props> {
         const mosaics = Array.isArray(value) ? value : [];
         if (mosaics.length)
             return mosaics.map((el, index) => (
-                <Row
-                    justify="space-between"
-                    fullWidth
-                    style={styles.mosaic}
-                    key={'' + index + 'tv-mosaics'}
-                >
+                <Row justify="space-between" fullWidth style={styles.mosaic} key={'' + index + 'tv-mosaics'}>
                     <Row align="center">
-                        <Icon
-                            name="mosaic_custom"
-                            size="small"
-                            style={{ marginRight: 8 }}
-                        />
+                        <Icon name="mosaic_custom" size="small" style={{ marginRight: 8 }} />
                         <Text type="regular" theme="light">
                             <Trunc type="namespaceName">{el.mosaicName}</Trunc>
                         </Text>
                     </Row>
-                    {this.render_amount(
-                        el.amount / Math.pow(10, el.divisibility)
-                    )}
+                    {this.render_amount(el.amount / Math.pow(10, el.divisibility))}
                 </Row>
             ));
         return (
@@ -195,18 +167,14 @@ class TableView extends Component<Props> {
                         ItemTemplate = renderer(value);
                         return true;
                     } else {
-                        console.error(
-                            `Table item renderer "${'render_' +
-                                itemType}" is not implemented`
-                        );
+                        console.error(`Table item renderer "${'render_' + itemType}" is not implemented`);
                         return false;
                     }
                 }
             })
         );
 
-        if (!ItemTemplate && typeof value === 'object' && value !== null)
-            return this.renderTable(value, key);
+        if (!ItemTemplate && typeof value === 'object' && value !== null) return this.renderTable(value, key);
         return ItemTemplate ? (
             ItemTemplate
         ) : (
@@ -233,12 +201,7 @@ class TableView extends Component<Props> {
 
         if (data === null || typeof data !== 'object') return null;
 
-        if (
-            Array.isArray(data) &&
-            data.length &&
-            typeof data[0] !== 'object' &&
-            key
-        ) {
+        if (Array.isArray(data) && data.length && typeof data[0] !== 'object' && key) {
             return data.map(value => this.renderItem('_' + key, value));
         }
 
@@ -252,19 +215,12 @@ class TableView extends Component<Props> {
         return _data.map(
             (el, item) =>
                 (!hideEmpty || this.valueExists(el.value)) && (
-                    <Section
-                        type={sectionType}
-                        style={[sectionStyle, style]}
-                        key={'' + item + 'table' + el.key}
-                    >
+                    <Section type={sectionType} style={[sectionStyle, style]} key={'' + item + 'table' + el.key}>
                         <Item>
                             <Text type="bold" theme="light" style={titleStyle}>
-                                {translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}
-                                :
+                                {translate(`${TRANSLATION_ROOT_KEY}.${el.key}`)}:
                             </Text>
-                            <View style={contentStyle}>
-                                {this.renderItem(el.key, el.value)}
-                            </View>
+                            <View style={contentStyle}>{this.renderItem(el.key, el.value)}</View>
                         </Item>
                     </Section>
                 )

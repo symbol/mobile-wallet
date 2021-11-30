@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    Col,
-    GradientBackground,
-    Icon,
-    LinkExplorer,
-    Row,
-    Section,
-    TableView,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { Button, Col, GradientBackground, Icon, LinkExplorer, Row, Section, TableView, Text, TitleBar } from '@src/components';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
@@ -53,14 +42,7 @@ class ConfirmTransaction extends Component<Props, State> {
     };
 
     render = () => {
-        const {
-            isLoading,
-            isError,
-            errorMessage,
-            isSuccessfullySent,
-            transaction,
-            onBack,
-        } = this.props;
+        const { isLoading, isError, errorMessage, isSuccessfullySent, transaction, onBack } = this.props;
         const {} = this.state;
 
         const hardCodedDataManager = {
@@ -82,28 +64,13 @@ class ConfirmTransaction extends Component<Props, State> {
             : () => Router.goBack(this.props.componentId);
 
         return (
-            <GradientBackground
-                name="connector"
-                theme="light"
-                dataManager={hardCodedDataManager}
-                onBack={onBack}
-            >
-                <TitleBar
-                    theme="light"
-                    onBack={backFunction}
-                    title="Confirm Transaction"
-                />
+            <GradientBackground name="connector" theme="light" dataManager={hardCodedDataManager} onBack={onBack}>
+                <TitleBar theme="light" onBack={backFunction} title="Confirm Transaction" />
                 {isPreviewShown && (
                     <Section type="form" style={styles.list} isScrollable>
                         <TableView data={preview} />
                         <Section type="form-bottom">
-                            <Button
-                                isLoading={false}
-                                isDisabled={false}
-                                text="Confirm"
-                                theme="light"
-                                onPress={() => this.submit()}
-                            />
+                            <Button isLoading={false} isDisabled={false} text="Confirm" theme="light" onPress={() => this.submit()} />
                         </Section>
                     </Section>
                 )}
@@ -112,11 +79,7 @@ class ConfirmTransaction extends Component<Props, State> {
                         <Col justify="center" style={{ marginTop: '15%' }}>
                             <Section type="form-item">
                                 <Row justify="space-between" align="end">
-                                    <Text
-                                        type="alert"
-                                        theme="light"
-                                        style={{ paddingBottom: 0 }}
-                                    >
+                                    <Text type="alert" theme="light" style={{ paddingBottom: 0 }}>
                                         Success!
                                     </Text>
                                     <Icon name="success" size="big" />
@@ -124,15 +87,11 @@ class ConfirmTransaction extends Component<Props, State> {
                             </Section>
                             <Section type="form-item">
                                 <Text type="bold" theme="light">
-                                    Transaction succesfully sent. Pending to be
-                                    confirmed by the network
+                                    Transaction succesfully sent. Pending to be confirmed by the network
                                 </Text>
                             </Section>
                             <Section type="form-item">
-                                <LinkExplorer
-                                    type="transaction"
-                                    value={transaction.hash}
-                                />
+                                <LinkExplorer type="transaction" value={transaction.hash} />
                             </Section>
                         </Col>
 

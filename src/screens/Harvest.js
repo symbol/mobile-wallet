@@ -1,19 +1,6 @@
 import React, { Component } from 'react';
-import {
-    Text as NativeText,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import {
-    Button,
-    GradientBackground,
-    NodeDropdown,
-    Row,
-    Section,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { Text as NativeText, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, GradientBackground, NodeDropdown, Row, Section, Text, TitleBar } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { connect } from 'react-redux';
 import HarvestingService from '@src/services/HarvestingService';
@@ -124,9 +111,7 @@ class Harvest extends Component<Props, State> {
             .catch(() => {
                 this.setState({ selectedNodeUrl: null });
                 Router.showMessage({
-                    message: translate(
-                        'Settings.nisNode.errorBadNodeDescription'
-                    ),
+                    message: translate('Settings.nisNode.errorBadNodeDescription'),
                     type: 'danger',
                 });
             });
@@ -193,13 +178,10 @@ class Harvest extends Component<Props, State> {
         } = this.props;
         const { selectedNodeUrl, isLoading } = this.state;
         const notEnoughBalance = balance < minRequiredBalance;
-        const notEnoughBalanceTitle = translate(
-            'harvest.minBalanceRequirement',
-            { balance: minRequiredBalance + ' ' + nativeMosaicNamespace }
-        );
-        const zeroImportanceTitle = translate(
-            'harvest.nonZeroImportanceRequirement'
-        );
+        const notEnoughBalanceTitle = translate('harvest.minBalanceRequirement', {
+            balance: minRequiredBalance + ' ' + nativeMosaicNamespace,
+        });
+        const zeroImportanceTitle = translate('harvest.nonZeroImportanceRequirement');
         const url = getHarvestingPrerequisitesUrl();
         let statusStyle;
         switch (status) {
@@ -273,10 +255,7 @@ class Harvest extends Component<Props, State> {
                             </Text>
                         </Row>
                         {status !== 'INACTIVE' && (
-                            <TouchableOpacity
-                                onPress={() => this.onViewLinkedKeysClick()}
-                                style={{ textAlign: 'right', width: '100%' }}
-                            >
+                            <TouchableOpacity onPress={() => this.onViewLinkedKeysClick()} style={{ textAlign: 'right', width: '100%' }}>
                                 <NativeText
                                     style={{
                                         textAlign: 'right',
@@ -306,68 +285,45 @@ class Harvest extends Component<Props, State> {
                         </Section>
                     )}
 
-                    <Section
-                        type="form-bottom"
-                        style={[styles.card, styles.bottom]}
-                    >
-                        {!notEnoughBalance &&
-                            status === 'INACTIVE' &&
-                            accountImportance !== '0%' && (
-                                <>
-                                    <Section type="form-item">
-                                        <NodeDropdown
-                                            theme="light"
-                                            list={this.getHarvestingNodesDropDown()}
-                                            title={translate(
-                                                'harvest.selectNode'
-                                            )}
-                                            value={selectedNodeUrl}
-                                            onChange={
-                                                this.onSelectHarvestingNode
-                                            }
-                                        />
-                                    </Section>
-                                    <Section type="form-item">
-                                        <Button
-                                            isLoading={isLoading}
-                                            isDisabled={
-                                                !selectedNodeUrl ||
-                                                notEnoughBalance
-                                            }
-                                            text={translate(
-                                                'harvest.startHarvesting'
-                                            )}
-                                            theme="light"
-                                            onPress={() =>
-                                                this.startHarvesting()
-                                            }
-                                        />
-                                    </Section>
-                                </>
-                            )}
+                    <Section type="form-bottom" style={[styles.card, styles.bottom]}>
+                        {!notEnoughBalance && status === 'INACTIVE' && accountImportance !== '0%' && (
+                            <>
+                                <Section type="form-item">
+                                    <NodeDropdown
+                                        theme="light"
+                                        list={this.getHarvestingNodesDropDown()}
+                                        title={translate('harvest.selectNode')}
+                                        value={selectedNodeUrl}
+                                        onChange={this.onSelectHarvestingNode}
+                                    />
+                                </Section>
+                                <Section type="form-item">
+                                    <Button
+                                        isLoading={isLoading}
+                                        isDisabled={!selectedNodeUrl || notEnoughBalance}
+                                        text={translate('harvest.startHarvesting')}
+                                        theme="light"
+                                        onPress={() => this.startHarvesting()}
+                                    />
+                                </Section>
+                            </>
+                        )}
                         {!notEnoughBalance && status !== 'INACTIVE' && (
                             <View>
                                 <Section type="form-item">
                                     <Button
                                         isLoading={isLoading}
-                                        isDisabled={
-                                            status !== 'KEYS_LINKED' ||
-                                            !harvestingModel
-                                        }
+                                        isDisabled={status !== 'KEYS_LINKED' || !harvestingModel}
                                         text={translate('harvest.activate')}
                                         theme="light"
-                                        onPress={() =>
-                                            this.activateHarvesting()
-                                        }
+                                        onPress={() => this.activateHarvesting()}
                                     />
                                 </Section>
                                 <Section type="form-item">
                                     <Button
                                         isLoading={isLoading}
                                         isDisabled={false}
-                                        text={translate(
-                                            'harvest.stopHarvesting'
-                                        )}
+                                        text={translate('harvest.stopHarvesting')}
                                         theme="dark"
                                         onPress={() => this.stopHarvesting()}
                                     />
@@ -377,18 +333,12 @@ class Harvest extends Component<Props, State> {
 
                         {notEnoughBalance && (
                             <Section type="form-item">
-                                <ReadMoreLink
-                                    url={url}
-                                    title={notEnoughBalanceTitle}
-                                ></ReadMoreLink>
+                                <ReadMoreLink url={url} title={notEnoughBalanceTitle}></ReadMoreLink>
                             </Section>
                         )}
 
                         {!notEnoughBalance && accountImportance == '0%' && (
-                            <ReadMoreLink
-                                url={url}
-                                title={zeroImportanceTitle}
-                            ></ReadMoreLink>
+                            <ReadMoreLink url={url} title={zeroImportanceTitle}></ReadMoreLink>
                         )}
                     </Section>
                 </Section>
@@ -408,11 +358,8 @@ export default connect(state => ({
     totalFeesEarned: state.harvesting.harvestedBlockStats.totalFeesEarned,
     harvestingModel: state.harvesting.harvestingModel,
     nodes: state.harvesting.nodes,
-    selectedNode: state.network.selectedNetwork
-        ? state.network.selectedNetwork.node
-        : '',
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
     selectedAccountAddress: state.account.selectedAccountAddress,
-    networkCurrencyDivisibility:
-        state.network.selectedNetwork.currencyDivisibility,
+    networkCurrencyDivisibility: state.network.selectedNetwork.currencyDivisibility,
     accountImportance: state.harvesting.accountImportance,
 }))(Harvest);

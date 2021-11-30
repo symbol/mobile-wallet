@@ -3,14 +3,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import SettingsListItem from '@src/components/settings/SettingsListItem';
 import translate from '@src/locales/i18n';
 import PopupModal from '@src/components/molecules/PopupModal';
-import {
-    Button,
-    Input,
-    ManagerHandler,
-    Row,
-    Section,
-    Text,
-} from '@src/components';
+import { Button, Input, ManagerHandler, Row, Section, Text } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -126,14 +119,8 @@ class SettingsNodeSelector extends Component {
         const isActive = item.item.value === this.props.selectedNode;
 
         return (
-            <TouchableOpacity
-                onPress={() => this.onSelectNode(item.item.value)}
-                style={styles.item}
-            >
-                <Text
-                    type={isActive ? 'bold' : 'regular'}
-                    style={{ color: GlobalStyles.color.PRIMARY }}
-                >
+            <TouchableOpacity onPress={() => this.onSelectNode(item.item.value)} style={styles.item}>
+                <Text type={isActive ? 'bold' : 'regular'} style={{ color: GlobalStyles.color.PRIMARY }}>
                     {item.item.label}
                 </Text>
             </TouchableOpacity>
@@ -141,9 +128,7 @@ class SettingsNodeSelector extends Component {
     };
 
     isValidNode = node => {
-        return /^(https?:\/\/)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]+\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(
-            node
-        );
+        return /^(https?:\/\/)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]+\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(node);
     };
 
     renderCustomNode = () => {
@@ -155,9 +140,7 @@ class SettingsNodeSelector extends Component {
                         value={customNode}
                         placeholder={translate('Settings.node.costomNode')}
                         theme="light"
-                        onChangeText={message =>
-                            this.setState({ customNode: message })
-                        }
+                        onChangeText={message => this.setState({ customNode: message })}
                     />
                 </Section>
                 <Section type="form-item">
@@ -174,13 +157,7 @@ class SettingsNodeSelector extends Component {
     };
 
     render = () => {
-        const {
-            isModalOpen,
-            error,
-            loading,
-            selectedTab,
-            isConfirmModalOpen,
-        } = this.state;
+        const { isModalOpen, error, loading, selectedTab, isConfirmModalOpen } = this.state;
         const { selectedNetwork, testnetNodes, mainnetNodes } = this.props;
 
         const nodes = {
@@ -210,12 +187,7 @@ class SettingsNodeSelector extends Component {
                         <Section type="form-item">
                             <Row style={styles.tabs}>
                                 <TouchableOpacity
-                                    style={[
-                                        { marginRight: 16 },
-                                        styles.tab,
-                                        selectedTab === 'mainnet' &&
-                                            styles.activeTab,
-                                    ]}
+                                    style={[{ marginRight: 16 }, styles.tab, selectedTab === 'mainnet' && styles.activeTab]}
                                     onPress={() =>
                                         this.setState({
                                             selectedTab: 'mainnet',
@@ -227,12 +199,7 @@ class SettingsNodeSelector extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    style={[
-                                        { marginRight: 16 },
-                                        styles.tab,
-                                        selectedTab === 'testnet' &&
-                                            styles.activeTab,
-                                    ]}
+                                    style={[{ marginRight: 16 }, styles.tab, selectedTab === 'testnet' && styles.activeTab]}
                                     onPress={() => this.onSelectTestnet()}
                                 >
                                     <Text type="bold" theme="light">
@@ -240,15 +207,8 @@ class SettingsNodeSelector extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    style={[
-                                        { marginRight: 16 },
-                                        styles.tab,
-                                        selectedTab === 'custom' &&
-                                            styles.activeTab,
-                                    ]}
-                                    onPress={() =>
-                                        this.setState({ selectedTab: 'custom' })
-                                    }
+                                    style={[{ marginRight: 16 }, styles.tab, selectedTab === 'custom' && styles.activeTab]}
+                                    onPress={() => this.setState({ selectedTab: 'custom' })}
                                 >
                                     <Text type="bold" theme="light">
                                         Custom
@@ -257,15 +217,8 @@ class SettingsNodeSelector extends Component {
                             </Row>
                         </Section>
                         {loading && (
-                            <ManagerHandler
-                                dataManager={{ isLoading: !!loading }}
-                                noLoadingText
-                                theme="light"
-                            >
-                                <Section
-                                    type="form-item"
-                                    style={{ height: '100%' }}
-                                />
+                            <ManagerHandler dataManager={{ isLoading: !!loading }} noLoadingText theme="light">
+                                <Section type="form-item" style={{ height: '100%' }} />
                             </ManagerHandler>
                         )}
                         {!loading && (
@@ -275,23 +228,15 @@ class SettingsNodeSelector extends Component {
                                         style={styles.list}
                                         data={nodes[selectedTab]}
                                         renderItem={this.renderItem}
-                                        keyExtractor={(item, index) =>
-                                            '' + index + 'nodes'
-                                        }
+                                        keyExtractor={(item, index) => '' + index + 'nodes'}
                                     />
                                 )}
-                                {selectedTab === 'custom' &&
-                                    this.renderCustomNode()}
+                                {selectedTab === 'custom' && this.renderCustomNode()}
                             </Section>
                         )}
                         <Section type="form-item">
                             {error && (
-                                <Text
-                                    type={'regular'}
-                                    align={'center'}
-                                    theme={'light'}
-                                    style={styles.error}
-                                >
+                                <Text type={'regular'} align={'center'} theme={'light'} style={styles.error}>
                                     {error}
                                 </Text>
                             )}
@@ -325,9 +270,7 @@ class SettingsNodeSelector extends Component {
                         showTopbar={true}
                         title={translate('settings.logoutConfirm2Title')}
                         text={translate('settings.changeTestnetNode')}
-                        onSuccess={() =>
-                            this.setState({ isConfirmModalOpen: false })
-                        }
+                        onSuccess={() => this.setState({ isConfirmModalOpen: false })}
                     />
                 </PopupModal>
             </View>
@@ -336,12 +279,8 @@ class SettingsNodeSelector extends Component {
 }
 
 export default connect(state => ({
-    selectedNode: state.network.selectedNetwork
-        ? state.network.selectedNetwork.node
-        : '',
-    selectedNetwork: state.network.selectedNetwork
-        ? state.network.selectedNetwork.type
-        : '',
+    selectedNode: state.network.selectedNetwork ? state.network.selectedNetwork.node : '',
+    selectedNetwork: state.network.selectedNetwork ? state.network.selectedNetwork.type : '',
     testnetNodes: state.network.testnetNodes || [],
     mainnetNodes: state.network.mainnetNodes || [],
 }))(SettingsNodeSelector);

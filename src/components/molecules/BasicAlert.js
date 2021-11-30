@@ -15,9 +15,5 @@ type Props = {
 
 export default function BasicAlert(props: Props) {
     const { title, message, actions } = props;
-    return (
-        <View>
-            {Alert.alert(title, message, actions, { cancelable: true })}
-        </View>
-    );
+    return <View>{Alert.alert(title, message, actions, { cancelable: true })}</View>;
 }

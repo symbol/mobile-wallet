@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { Node } from 'react';
 import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';
 import FadeView from '@src/components/organisms/FadeView';
@@ -289,13 +282,8 @@ const WizardStepView = (props: Props) => {
     const Container = props => {
         if (theme === 'light')
             return (
-                <View
-                    style={[styles.container, styles.containerLight]}
-                    source={require('@src/assets/terms.png')}
-                >
-                    {!isLoading && !isFade && (
-                        <View style={styles.container}>{props.children}</View>
-                    )}
+                <View style={[styles.container, styles.containerLight]} source={require('@src/assets/terms.png')}>
+                    {!isLoading && !isFade && <View style={styles.container}>{props.children}</View>}
                     {!isLoading && isFade && (
                         <FadeView style={styles.container} duration={300}>
                             {props.children}
@@ -306,14 +294,8 @@ const WizardStepView = (props: Props) => {
             );
         if (theme === 'dark2')
             return (
-                <SymbolGradientContainer
-                    noPadding
-                    style={styles.container}
-                    source={require('@src/assets/settings.png')}
-                >
-                    {!isLoading && !isFade && (
-                        <View style={styles.container}>{props.children}</View>
-                    )}
+                <SymbolGradientContainer noPadding style={styles.container} source={require('@src/assets/settings.png')}>
+                    {!isLoading && !isFade && <View style={styles.container}>{props.children}</View>}
                     {!isLoading && isFade && (
                         <FadeView style={styles.container} duration={300}>
                             {props.children}
@@ -325,9 +307,7 @@ const WizardStepView = (props: Props) => {
         else
             return (
                 <SymbolGradientContainer noPadding style={styles.container}>
-                    {!isLoading && !isFade && (
-                        <View style={styles.container}>{props.children}</View>
-                    )}
+                    {!isLoading && !isFade && <View style={styles.container}>{props.children}</View>}
                     {!isLoading && isFade && (
                         <FadeView style={styles.container} duration={300}>
                             {props.children}
@@ -339,91 +319,38 @@ const WizardStepView = (props: Props) => {
     };
 
     const Background = () => {
-        if (theme === 'light')
-            return (
-                <Image
-                    style={styles.mesh}
-                    source={require('@src/assets/backgroun4.png')}
-                />
-            );
-        if (theme === 'dark')
-            return (
-                <Image
-                    style={styles.mesh}
-                    source={require('@src/assets/background1.png')}
-                />
-            );
-        if (theme === 'dark2')
-            return (
-                <Image
-                    style={styles.mesh}
-                    source={require('@src/assets/background2.png')}
-                />
-            );
-        if (theme === 'dark3')
-            return (
-                <Image
-                    style={styles.background3}
-                    source={require('@src/assets/background3.png')}
-                />
-            );
+        if (theme === 'light') return <Image style={styles.mesh} source={require('@src/assets/backgroun4.png')} />;
+        if (theme === 'dark') return <Image style={styles.mesh} source={require('@src/assets/background1.png')} />;
+        if (theme === 'dark2') return <Image style={styles.mesh} source={require('@src/assets/background2.png')} />;
+        if (theme === 'dark3') return <Image style={styles.background3} source={require('@src/assets/background3.png')} />;
         return null;
     };
 
     const TopBar = () => {
         const iconBackSrc =
-            theme === 'light'
-                ? require('@src/assets/icons/back_light.png')
-                : require('@src/assets/icons/ic-back-white.png');
-        const iconCloseSrc =
-            theme === 'light'
-                ? require('@src/assets/icons/close_light.png')
-                : require('@src/assets/icons/close_dark.png');
+            theme === 'light' ? require('@src/assets/icons/back_light.png') : require('@src/assets/icons/ic-back-white.png');
+        const iconCloseSrc = theme === 'light' ? require('@src/assets/icons/close_light.png') : require('@src/assets/icons/close_dark.png');
         const iconSettingsSrc =
-            theme === 'light'
-                ? require('@src/assets/icons/settings_light.png')
-                : require('@src/assets/icons/settings_dark.png');
+            theme === 'light' ? require('@src/assets/icons/settings_light.png') : require('@src/assets/icons/settings_dark.png');
         return (
             <View style={styles.topBar}>
                 {onBack && (
-                    <TouchableOpacity
-                        style={styles.topButtonContainer}
-                        onPress={onBack}
-                    >
-                        <Image
-                            style={{ height: 18, width: 18 }}
-                            source={iconBackSrc}
-                        />
+                    <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
+                        <Image style={{ height: 18, width: 18 }} source={iconBackSrc} />
                     </TouchableOpacity>
                 )}
 
                 {onClose && (
-                    <TouchableOpacity
-                        style={styles.topButtonContainer}
-                        onPress={onClose}
-                    >
-                        <Image
-                            style={styles.topButtons}
-                            source={iconCloseSrc}
-                            resizeMode="center"
-                        />
+                    <TouchableOpacity style={styles.topButtonContainer} onPress={onClose}>
+                        <Image style={styles.topButtons} source={iconCloseSrc} resizeMode="center" />
                     </TouchableOpacity>
                 )}
 
-                {!(onBack || onClose) && (
-                    <View style={styles.topButtonContainer}></View>
-                )}
+                {!(onBack || onClose) && <View style={styles.topButtonContainer}></View>}
 
                 {onSettings && (
-                    <TouchableOpacity
-                        style={styles.topButtonContainer}
-                        onPress={onSettings}
-                    >
-                        <Image
-                            style={[styles.topButtons]}
-                            source={iconSettingsSrc}
-                            resizeMode="center"
-                        />
+                    <TouchableOpacity style={styles.topButtonContainer} onPress={onSettings}>
+                        <Image style={[styles.topButtons]} source={iconSettingsSrc} resizeMode="center" />
                     </TouchableOpacity>
                 )}
             </View>
@@ -431,12 +358,8 @@ const WizardStepView = (props: Props) => {
     };
 
     const Title = () => {
-        const titleContainertStyle =
-            iconAlign === 'left'
-                ? styles.titleContainerColumn
-                : styles.titleContainerRow;
-        const titleTextStyle =
-            theme === 'light' ? styles.titleTextLight : styles.titleTextDark;
+        const titleContainertStyle = iconAlign === 'left' ? styles.titleContainerColumn : styles.titleContainerRow;
+        const titleTextStyle = theme === 'light' ? styles.titleTextLight : styles.titleTextDark;
 
         let iconSrc;
         let iconSize = { width: 55, height: 55 };
@@ -471,24 +394,11 @@ const WizardStepView = (props: Props) => {
 
         return (
             <View style={titleContainertStyle}>
-                {iconSrc && iconAlign === 'left' && (
-                    <Image
-                        style={[styles.icon, styles.iconAlignLeft, iconSize]}
-                        source={iconSrc}
-                    />
-                )}
-                <Text
-                    style={[
-                        titleTextStyle,
-                        !iconSrc && styles.titleTextNoIcon,
-                        iconAlign === 'left' && styles.titleTextFullWidth,
-                    ]}
-                >
+                {iconSrc && iconAlign === 'left' && <Image style={[styles.icon, styles.iconAlignLeft, iconSize]} source={iconSrc} />}
+                <Text style={[titleTextStyle, !iconSrc && styles.titleTextNoIcon, iconAlign === 'left' && styles.titleTextFullWidth]}>
                     {title}
                 </Text>
-                {iconSrc && iconAlign !== 'left' && (
-                    <Image style={[styles.icon, iconSize]} source={iconSrc} />
-                )}
+                {iconSrc && iconAlign !== 'left' && <Image style={[styles.icon, iconSize]} source={iconSrc} />}
             </View>
         );
     };
@@ -498,10 +408,7 @@ const WizardStepView = (props: Props) => {
         return <GradientButton {...props} />;
     };
 
-    const footerStyle =
-        buttons && buttons.length === 1 && !footer
-            ? [styles.footer, styles.footerBigger]
-            : styles.footer;
+    const footerStyle = buttons && buttons.length === 1 && !footer ? [styles.footer, styles.footerBigger] : styles.footer;
 
     return (
         <Container>
@@ -509,20 +416,14 @@ const WizardStepView = (props: Props) => {
             <View style={styles.pageContainer}>
                 <TopBar />
                 {!noScroll && (
-                    <ScrollView
-                        style={[styles.scrollView, style]}
-                        persistentScrollbar={true}
-                    >
+                    <ScrollView style={[styles.scrollView, style]} persistentScrollbar={true}>
                         <Title />
                         <View style={styles.titleContainer}>{/* Title */}</View>
                         <View style={styles.content} duration={100}>
                             {/* Loading animation */}
                             {isLoading && !isError && (
                                 <View style={{ flex: 1, alignItems: 'center' }}>
-                                    <Image
-                                        style={[styles.loading, styles.center]}
-                                        source={require('@src/assets/loading.gif')}
-                                    />
+                                    <Image style={[styles.loading, styles.center]} source={require('@src/assets/loading.gif')} />
                                 </View>
                             )}
 
@@ -532,9 +433,7 @@ const WizardStepView = (props: Props) => {
                             {/* Error message */}
                             {isError && (
                                 <View style={{ flex: 1, alignItems: 'center' }}>
-                                    <Text style={[styles.error, styles.center]}>
-                                        {errorMessage}
-                                    </Text>
+                                    <Text style={[styles.error, styles.center]}>{errorMessage}</Text>
                                 </View>
                             )}
                         </View>
@@ -548,50 +447,53 @@ const WizardStepView = (props: Props) => {
                         <View style={styles.content} duration={100}>
                             {/* Loading animation */}
                             {isLoading && !isError && (
-                                <Image
-                                    style={[styles.loading, styles.center]}
-                                    source={require('@src/assets/loading.gif')}
-                                />
+                                <Image style={[styles.loading, styles.center]} source={require('@src/assets/loading.gif')} />
                             )}
 
                             {/* Content */}
                             {!isLoading && !isError && children}
 
                             {/* Error message */}
-                            {isError && (
-                                <Text style={[styles.error, styles.center]}>
-                                    {errorMessage}
-                                </Text>
-                            )}
+                            {isError && <Text style={[styles.error, styles.center]}>{errorMessage}</Text>}
                         </View>
                     </View>
                 )}
 
-                {!(
-                    footerTitle ||
-                    buttons ||
-                    footer ||
-                    (isError && errorButtons)
-                ) && <View style={styles.footerEmpty}></View>}
-                {(footerTitle ||
-                    buttons ||
-                    footer ||
-                    (isError && errorButtons)) && (
+                {!(footerTitle || buttons || footer || (isError && errorButtons)) && <View style={styles.footerEmpty}></View>}
+                {(footerTitle || buttons || footer || (isError && errorButtons)) && (
                     <View style={footerStyle}>
                         {/* Footer title */}
-                        {!isLoading && !isError && footerTitle && (
-                            <Text style={styles.footerTitle}>
-                                {footerTitle}
-                            </Text>
-                        )}
+                        {!isLoading && !isError && footerTitle && <Text style={styles.footerTitle}>{footerTitle}</Text>}
 
                         {/* Buttons */}
-                        {!isLoading &&
-                            !isError &&
-                            buttons &&
-                            buttons.length === 1 && (
+                        {!isLoading && !isError && buttons && buttons.length === 1 && (
+                            <Button
+                                style={styles.buttons}
+                                title={buttons[0].title}
+                                disabled={buttons[0].disabled}
+                                isLoading={buttons[0].isLoading}
+                                testID={buttons[0].testID}
+                                icon={buttons[0].icon}
+                                onPress={buttons[0].onPress}
+                            />
+                        )}
+                        {!separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
+                            <CompoundButton
+                                style={styles.buttons}
+                                titleLeft={buttons[0].title}
+                                titleRight={buttons[1].title}
+                                disabled={buttons[0].disabled || buttons[1].disabled}
+                                isLoading={buttons[0].isLoading || buttons[1].isLoading}
+                                iconLeft={buttons[0].icon}
+                                iconRight={buttons[1].icon}
+                                onPressLeft={buttons[0].onPress}
+                                onPressRight={buttons[1].onPress}
+                            />
+                        )}
+                        {separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
+                            <View style={styles.buttons}>
                                 <Button
-                                    style={styles.buttons}
+                                    style={styles.button}
                                     title={buttons[0].title}
                                     disabled={buttons[0].disabled}
                                     isLoading={buttons[0].isLoading}
@@ -599,114 +501,61 @@ const WizardStepView = (props: Props) => {
                                     icon={buttons[0].icon}
                                     onPress={buttons[0].onPress}
                                 />
-                            )}
-                        {!separateButtons &&
-                            !isLoading &&
-                            !isError &&
-                            buttons &&
-                            buttons.length === 2 && (
-                                <CompoundButton
-                                    style={styles.buttons}
-                                    titleLeft={buttons[0].title}
-                                    titleRight={buttons[1].title}
-                                    disabled={
-                                        buttons[0].disabled ||
-                                        buttons[1].disabled
-                                    }
-                                    isLoading={
-                                        buttons[0].isLoading ||
-                                        buttons[1].isLoading
-                                    }
-                                    iconLeft={buttons[0].icon}
-                                    iconRight={buttons[1].icon}
-                                    onPressLeft={buttons[0].onPress}
-                                    onPressRight={buttons[1].onPress}
+                                <Button
+                                    style={styles.button}
+                                    title={buttons[1].title}
+                                    disabled={buttons[1].disabled}
+                                    isLoading={buttons[1].isLoading}
+                                    testID={buttons[1].testID}
+                                    icon={buttons[1].icon}
+                                    onPress={buttons[1].onPress}
                                 />
-                            )}
-                        {separateButtons &&
-                            !isLoading &&
-                            !isError &&
-                            buttons &&
-                            buttons.length === 2 && (
-                                <View style={styles.buttons}>
-                                    <Button
-                                        style={styles.button}
-                                        title={buttons[0].title}
-                                        disabled={buttons[0].disabled}
-                                        isLoading={buttons[0].isLoading}
-                                        testID={buttons[0].testID}
-                                        icon={buttons[0].icon}
-                                        onPress={buttons[0].onPress}
-                                    />
-                                    <Button
-                                        style={styles.button}
-                                        title={buttons[1].title}
-                                        disabled={buttons[1].disabled}
-                                        isLoading={buttons[1].isLoading}
-                                        testID={buttons[1].testID}
-                                        icon={buttons[1].icon}
-                                        onPress={buttons[1].onPress}
-                                    />
-                                </View>
-                            )}
+                            </View>
+                        )}
 
                         {/* Buttons shown while error */}
-                        {!isLoading &&
-                            isError &&
-                            errorButtons &&
-                            errorButtons.length === 1 && (
+                        {!isLoading && isError && errorButtons && errorButtons.length === 1 && (
+                            <Button
+                                style={styles.buttons}
+                                title={errorButtons[0].title}
+                                disabled={errorButtons[0].disabled}
+                                testID={errorButtons[0].testID}
+                                icon={errorButtons[0].icon}
+                                onPress={errorButtons[0].onPress}
+                            />
+                        )}
+                        {!separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
+                            <CompoundButton
+                                style={styles.buttons}
+                                titleLeft={errorButtons[0].title}
+                                titleRight={errorButtons[1].title}
+                                disabled={errorButtons[0].disabled || errorButtons[1].disabled}
+                                iconLeft={errorButtons[0].icon}
+                                iconRight={errorButtons[1].icon}
+                                onPressLeft={errorButtons[0].onPress}
+                                onPressRight={errorButtons[1].onPress}
+                            />
+                        )}
+                        {separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
+                            <View style={styles.buttons}>
                                 <Button
-                                    style={styles.buttons}
+                                    style={styles.button}
                                     title={errorButtons[0].title}
                                     disabled={errorButtons[0].disabled}
                                     testID={errorButtons[0].testID}
                                     icon={errorButtons[0].icon}
                                     onPress={errorButtons[0].onPress}
                                 />
-                            )}
-                        {!separateErrorButtons &&
-                            !isLoading &&
-                            isError &&
-                            errorButtons &&
-                            errorButtons.length === 2 && (
-                                <CompoundButton
-                                    style={styles.buttons}
-                                    titleLeft={errorButtons[0].title}
-                                    titleRight={errorButtons[1].title}
-                                    disabled={
-                                        errorButtons[0].disabled ||
-                                        errorButtons[1].disabled
-                                    }
-                                    iconLeft={errorButtons[0].icon}
-                                    iconRight={errorButtons[1].icon}
-                                    onPressLeft={errorButtons[0].onPress}
-                                    onPressRight={errorButtons[1].onPress}
+                                <Button
+                                    style={styles.button}
+                                    title={errorButtons[1].title}
+                                    disabled={errorButtons[1].disabled}
+                                    testID={errorButtons[1].testID}
+                                    icon={errorButtons[1].icon}
+                                    onPress={errorButtons[1].onPress}
                                 />
-                            )}
-                        {separateErrorButtons &&
-                            !isLoading &&
-                            isError &&
-                            errorButtons &&
-                            errorButtons.length === 2 && (
-                                <View style={styles.buttons}>
-                                    <Button
-                                        style={styles.button}
-                                        title={errorButtons[0].title}
-                                        disabled={errorButtons[0].disabled}
-                                        testID={errorButtons[0].testID}
-                                        icon={errorButtons[0].icon}
-                                        onPress={errorButtons[0].onPress}
-                                    />
-                                    <Button
-                                        style={styles.button}
-                                        title={errorButtons[1].title}
-                                        disabled={errorButtons[1].disabled}
-                                        testID={errorButtons[1].testID}
-                                        icon={errorButtons[1].icon}
-                                        onPress={errorButtons[1].onPress}
-                                    />
-                                </View>
-                            )}
+                            </View>
+                        )}
 
                         {/* Footer */}
                         {!isLoading && !isError && footer && <Footer />}

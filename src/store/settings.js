@@ -1,8 +1,4 @@
-import {
-    getDefaultCurrency,
-    getDefaultLanguage,
-    getDefaultSyncInterval,
-} from '@src/config/environment';
+import { getDefaultCurrency, getDefaultLanguage, getDefaultSyncInterval } from '@src/config/environment';
 import { AsyncCache } from '@src/utils/storage/AsyncCache';
 import { setI18nConfig } from '@src/locales/i18n';
 

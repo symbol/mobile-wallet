@@ -11,13 +11,8 @@ export class HarvestingSecureStorage extends BaseSecureStorage {
      * @param id
      * @param model
      */
-    static async saveHarvestingModel(
-        id: string,
-        model: HarvestingModel
-    ): Promise<any> {
-        const harvestingString = await this.secureRetrieveAsync(
-            this.HARVESTING_KEY
-        );
+    static async saveHarvestingModel(id: string, model: HarvestingModel): Promise<any> {
+        const harvestingString = await this.secureRetrieveAsync(this.HARVESTING_KEY);
         let harvestingModelsPerAccount;
         try {
             harvestingModelsPerAccount = JSON.parse(harvestingString) || {};
@@ -25,26 +20,18 @@ export class HarvestingSecureStorage extends BaseSecureStorage {
             harvestingModelsPerAccount = {};
         }
         harvestingModelsPerAccount[id] = model;
-        return this.secureSaveAsync(
-            this.HARVESTING_KEY,
-            JSON.stringify(harvestingModelsPerAccount)
-        );
+        return this.secureSaveAsync(this.HARVESTING_KEY, JSON.stringify(harvestingModelsPerAccount));
     }
 
     /**
      * Get harvesting model
      * @returns {Promise<HarvestingModel | null>}
      */
-    static async getHarvestingModel(
-        id: string
-    ): Promise<HarvestingModel | null> {
-        const harvestingString = await this.secureRetrieveAsync(
-            this.HARVESTING_KEY
-        );
+    static async getHarvestingModel(id: string): Promise<HarvestingModel | null> {
+        const harvestingString = await this.secureRetrieveAsync(this.HARVESTING_KEY);
         let harvestingModel;
         try {
-            const harvestingModelsPerAccount =
-                JSON.parse(harvestingString) || {};
+            const harvestingModelsPerAccount = JSON.parse(harvestingString) || {};
             harvestingModel = harvestingModelsPerAccount[id] || null;
         } catch (e) {
             return null;

@@ -27,9 +27,7 @@ class ImportOptions extends Component<Props, State> {
         const { error } = this.state;
         const buttons = [
             {
-                title: translate(
-                    'ImportWallet.ImportOptions.buttonTitleRestoreMnemonics'
-                ),
+                title: translate('ImportWallet.ImportOptions.buttonTitleRestoreMnemonics'),
                 style: styles.button,
                 onPress: this.enterMnemonic,
                 icon: require('@src/assets/icons/mnemonics_light.png'),
@@ -54,9 +52,7 @@ class ImportOptions extends Component<Props, State> {
                 isError={!!error}
                 errorMessage={error}
             >
-                <Text style={styles.textContent}>
-                    {translate('ImportWallet.ImportOptions.contentPlaceholder')}
-                </Text>
+                <Text style={styles.textContent}>{translate('ImportWallet.ImportOptions.contentPlaceholder')}</Text>
             </SymbolPageView>
         );
     }

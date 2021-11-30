@@ -52,61 +52,30 @@ const generateIconButton = (
     onPress: () => void
 ) => {
     return (
-        <TouchableOpacity
-            testID={testID}
-            style={touchableStyle}
-            onPress={onPress}
-        >
+        <TouchableOpacity testID={testID} style={touchableStyle} onPress={onPress}>
             <Image style={iconStyle} source={iconRes} resizeMode="center" />
         </TouchableOpacity>
     );
 };
 
 function TitleBar(props: Props) {
-    const {
-        title,
-        children,
-        titleTextStyle,
-        showBack,
-        onBack,
-        showClose,
-        onClose,
-        style,
-        theme,
-        alignLeft,
-    } = props;
+    const { title, children, titleTextStyle, showBack, onBack, showClose, onClose, style, theme, alignLeft } = props;
 
     const barTheme: titleTheme = themeMap.get(theme) || lightTheme;
 
     let backButton = null;
     if (showBack) {
-        backButton = generateIconButton(
-            'back-button',
-            styles.leftIconContainer,
-            barTheme.backIconRes,
-            styles.icon,
-            onBack
-        );
+        backButton = generateIconButton('back-button', styles.leftIconContainer, barTheme.backIconRes, styles.icon, onBack);
     } else
         backButton = (
             <View style={styles.leftIconContainer}>
-                <View
-                    style={styles.icon}
-                    source={barTheme.backIconRes}
-                    resizeMode="center"
-                />
+                <View style={styles.icon} source={barTheme.backIconRes} resizeMode="center" />
             </View>
         );
 
     let closeButton = null;
     if (showClose) {
-        closeButton = generateIconButton(
-            'close-button',
-            styles.rightIconContainer,
-            barTheme.closeIconRes,
-            styles.icon,
-            onClose
-        );
+        closeButton = generateIconButton('close-button', styles.rightIconContainer, barTheme.closeIconRes, styles.icon, onClose);
     }
 
     let titleBarContent = children;
@@ -116,12 +85,7 @@ function TitleBar(props: Props) {
         titleBarContent = (
             <Text
                 testID="title-text"
-                style={[
-                    styles.title,
-                    titleStyle,
-                    alignLeft && styles.titleAlignLeft,
-                    theme === 'light' && styles.titleLight,
-                ]}
+                style={[styles.title, titleStyle, alignLeft && styles.titleAlignLeft, theme === 'light' && styles.titleLight]}
                 allowFontScaling={false}
             >
                 {title}

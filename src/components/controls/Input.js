@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Text as AdvancedText, Icon } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -107,8 +101,7 @@ export default class Input extends Component<Props, State> {
         if (typeof align === 'string') globalStyle.textAlign = align;
 
         if (theme === 'light') {
-            (placeholderTextColor = GlobalStyles.color.GREY4),
-                (_inputStyle = styles.inputLight);
+            (placeholderTextColor = GlobalStyles.color.GREY4), (_inputStyle = styles.inputLight);
             placeholderStyle = styles.placeholderLight;
             nativePlaceholderSet = nativePlaceholder ? nativePlaceholder : '';
         } else {
@@ -125,9 +118,7 @@ export default class Input extends Component<Props, State> {
 
         return (
             <View style={rootStyle}>
-                {(!!value || theme === 'light') && (
-                    <Text style={placeholderStyle}>{placeholder}</Text>
-                )}
+                {(!!value || theme === 'light') && <Text style={placeholderStyle}>{placeholder}</Text>}
                 <View style={styles.inputContainer}>
                     <TextInput
                         {...rest}
@@ -140,12 +131,7 @@ export default class Input extends Component<Props, State> {
                         underlineColorAndroid="transparent"
                     />
                     {!!showSubmit && (
-                        <TouchableOpacity
-                            style={styles.iconContainer}
-                            onPress={() =>
-                                !!onSubmitEditing && onSubmitEditing()
-                            }
-                        >
+                        <TouchableOpacity style={styles.iconContainer} onPress={() => !!onSubmitEditing && onSubmitEditing()}>
                             <Icon name="check" />
                         </TouchableOpacity>
                     )}

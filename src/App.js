@@ -15,19 +15,14 @@ import store from '@src/store';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { deletePasscode } from '@src/utils/passcode';
-import {
-    CURRENT_DATA_SCHEMA,
-    migrateDataSchema,
-} from '@src/utils/DataSchemaMigrations';
+import { CURRENT_DATA_SCHEMA, migrateDataSchema } from '@src/utils/DataSchemaMigrations';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
 let appStateTime: number = Date.now();
 
 const isSessionExpired = (lastKnownTime: number) => {
-    return (
-        Date.now() > lastKnownTime + Number(Config.getSessionTimeoutInMillis())
-    );
+    return Date.now() > lastKnownTime + Number(Config.getSessionTimeoutInMillis());
 };
 
 export const handleAppStateChange = async (nextAppState: any) => {
@@ -67,8 +62,7 @@ export const startApp = async () => {
     if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) {
         SplashScreen.hide();
         Router.goToWalletLoading({
-            promiseToRun: async () =>
-                await migrateDataSchema(dataSchemaVersion),
+            promiseToRun: async () => await migrateDataSchema(dataSchemaVersion),
             callbackAction: launchWallet,
         });
     } else {
@@ -132,11 +126,6 @@ export const setGlobalCustomFont = () => {
 };
 
 export const logout = async () => {
-    await Promise.all([
-        deletePasscode(),
-        AsyncCache.removeAll(),
-        MnemonicSecureStorage.clear(),
-        AccountSecureStorage.clear(),
-    ]);
+    await Promise.all([deletePasscode(), AsyncCache.removeAll(), MnemonicSecureStorage.clear(), AccountSecureStorage.clear()]);
     return initStore();
 };

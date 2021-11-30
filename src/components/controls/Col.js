@@ -57,21 +57,11 @@ type State = {};
 
 export default class Col extends Component<Props, State> {
     render() {
-        const {
-            children,
-            style = {},
-            justify,
-            align,
-            wrap,
-            grow,
-            fullHeight,
-        } = this.props;
+        const { children, style = {}, justify, align, wrap, grow, fullHeight } = this.props;
         const stylesArray = [styles.main];
 
-        if (typeof justify === 'string')
-            stylesArray.push(styles['justify-' + justify]);
-        if (typeof align === 'string')
-            stylesArray.push(styles['align-' + align]);
+        if (typeof justify === 'string') stylesArray.push(styles['justify-' + justify]);
+        if (typeof align === 'string') stylesArray.push(styles['align-' + align]);
         if (wrap) stylesArray.push(styles.wrap);
         if (grow) stylesArray.push(styles.grow);
         if (fullHeight) stylesArray.push(styles.fullHeight);

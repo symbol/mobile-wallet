@@ -18,10 +18,7 @@ class TransferGraphic extends GraphicComponent {
     }
 
     get hasMessage() {
-        return (
-            typeof this.props.messageText === 'string' &&
-            this.props.messageText.length > 0
-        );
+        return typeof this.props.messageText === 'string' && this.props.messageText.length > 0;
     }
 
     get hasNativeMosaic() {
@@ -33,15 +30,11 @@ class TransferGraphic extends GraphicComponent {
     }
 
     get nativeMosaic() {
-        return this.props.mosaics.find(
-            mosaic => mosaic.mosaicId === this.nativeMosaicId
-        );
+        return this.props.mosaics.find(mosaic => mosaic.mosaicId === this.nativeMosaicId);
     }
 
     get mosaicList() {
-        return this.props.mosaics.filter(
-            mosaic => mosaic.mosaicId !== this.nativeMosaicId
-        );
+        return this.props.mosaics.filter(mosaic => mosaic.mosaicId !== this.nativeMosaicId);
     }
 
     render() {
@@ -75,24 +68,9 @@ class TransferGraphic extends GraphicComponent {
                 <G>
                     <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
                 </G>
-                {this.hasMessage && (
-                    <CircleMessage
-                        x={this.getCircleIconPositionX(0)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
-                {this.hasMosaic && (
-                    <CircleMosaics
-                        x={this.getCircleIconPositionX(1)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
-                {this.hasNativeMosaic && (
-                    <CircleNativeMosaic
-                        x={this.getCircleIconPositionX(2)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
+                {this.hasMessage && <CircleMessage x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />}
+                {this.hasMosaic && <CircleMosaics x={this.getCircleIconPositionX(1)} y={this.circleIconPositionY} />}
+                {this.hasNativeMosaic && <CircleNativeMosaic x={this.getCircleIconPositionX(2)} y={this.circleIconPositionY} />}
                 <G>
                     <Text
                         x={this.transactionTypeTextPositionX}

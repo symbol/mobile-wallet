@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-    GradientBackground,
-    Icon,
-    QRImage,
-    Section,
-    TableView,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { GradientBackground, Icon, QRImage, Section, TableView, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
@@ -48,9 +40,7 @@ class ContactProfile extends Component<Props, State> {
     };
 
     confirmRemove = id => {
-        store
-            .dispatchAction({ type: 'addressBook/removeContact', payload: id })
-            .then(() => Router.goBack(this.props.componentId));
+        store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(() => Router.goBack(this.props.componentId));
     };
 
     cancelRemove = () => {
@@ -77,19 +67,11 @@ class ContactProfile extends Component<Props, State> {
 
         return (
             <GradientBackground name="mesh_small" theme="light">
-                <TitleBar
-                    theme="light"
-                    onBack={() => Router.goBack(this.props.componentId)}
-                    title={selectedContact.name}
-                />
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
                 <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Section type="center">
-                            <QRImage
-                                type="address"
-                                accountName={selectedContact.name}
-                                address={selectedContact.address}
-                            />
+                            <QRImage type="address" accountName={selectedContact.name} address={selectedContact.address} />
                         </Section>
                     </Section>
                     <Section>
@@ -100,11 +82,7 @@ class ContactProfile extends Component<Props, State> {
                             {/* <Button text="Edit Contact" theme="light" onPress={() => this.submit()} /> */}
                             <TouchableOpacity onPress={() => this.submit()}>
                                 <Row align="center" justify="start">
-                                    <Icon
-                                        name="edit_primary"
-                                        size="small"
-                                        style={{ marginRight: 8 }}
-                                    />
+                                    <Icon name="edit_primary" size="small" style={{ marginRight: 8 }} />
                                     <Text
                                         style={{
                                             color: GlobalStyles.color.PRIMARY,
@@ -121,11 +99,7 @@ class ContactProfile extends Component<Props, State> {
                         <Section type="button">
                             <TouchableOpacity onPress={() => this.remove()}>
                                 <Row align="center" justify="start">
-                                    <Icon
-                                        name="delete_primary"
-                                        size="small"
-                                        style={{ marginRight: 8 }}
-                                    />
+                                    <Icon name="delete_primary" size="small" style={{ marginRight: 8 }} />
                                     <Text
                                         style={{
                                             color: GlobalStyles.color.PRIMARY,

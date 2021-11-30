@@ -33,11 +33,7 @@ class AddressBookPage extends Component<Props, State> {
                 name="mesh"
                 theme="light"
                 titleBar={
-                    <TitleBar
-                        theme="light"
-                        title={translate('addressBook.title')}
-                        onBack={() => Router.goBack(this.props.componentId)}
-                    />
+                    <TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)} />
                 }
             >
                 <Section type="list" isScrollable>
@@ -60,11 +56,7 @@ class AddressBookPage extends Component<Props, State> {
                 <Section type="form-bottom">
                     <Section type="list">
                         <Section type="form-item">
-                            <Button
-                                text={translate('addressBook.addContact')}
-                                theme="light"
-                                onPress={() => this.submit()}
-                            />
+                            <Button text={translate('addressBook.addContact')} theme="light" onPress={() => this.submit()} />
                         </Section>
                     </Section>
                 </Section>

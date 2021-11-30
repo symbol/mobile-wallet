@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { ImageBackground, StyleSheet } from 'react-native';
-import {
-    Button,
-    Col,
-    Container,
-    FadeView,
-    LoadingAnimation,
-    Section,
-    Text,
-} from '@src/components';
+import { Button, Col, Container, FadeView, LoadingAnimation, Section, Text } from '@src/components';
 import { Router } from '@src/Router';
 
 const styles = StyleSheet.create({
@@ -30,21 +22,9 @@ export default class C extends Component<Props, State> {
     state = {};
 
     render() {
-        const {
-            children,
-            style = {},
-            imageStyle,
-            name,
-            dataManager = {},
-            onBack,
-            componentId,
-        } = this.props;
+        const { children, style = {}, imageStyle, name, dataManager = {}, onBack, componentId } = this.props;
         const {} = this.state;
-        const goBack = onBack
-            ? onBack
-            : componentId
-            ? () => Router.goBack(componentId)
-            : null;
+        const goBack = onBack ? onBack : componentId ? () => Router.goBack(componentId) : null;
 
         let source;
         switch (name) {
@@ -67,17 +47,9 @@ export default class C extends Component<Props, State> {
         }
         return (
             <FadeView style={styles.root} duration={200}>
-                <ImageBackground
-                    source={source}
-                    style={[styles.root, style]}
-                    imageStyle={imageStyle}
-                >
-                    {!dataManager.isLoading && !dataManager.isError && (
-                        <Container>{children}</Container>
-                    )}
-                    {dataManager.isLoading && !dataManager.isError && (
-                        <LoadingAnimation />
-                    )}
+                <ImageBackground source={source} style={[styles.root, style]} imageStyle={imageStyle}>
+                    {!dataManager.isLoading && !dataManager.isError && <Container>{children}</Container>}
+                    {dataManager.isLoading && !dataManager.isError && <LoadingAnimation />}
                     {dataManager.isError && (
                         <Col justify="center" align="center" fullHeight>
                             <Section type="form-item">
@@ -87,30 +59,18 @@ export default class C extends Component<Props, State> {
                                 <Text type="bold" theme="light" align="center">
                                     {dataManager.errorMessage}
                                 </Text>
-                                <Text
-                                    type="regular"
-                                    theme="light"
-                                    align="center"
-                                >
+                                <Text type="regular" theme="light" align="center">
                                     {dataManager.errorDescription}
                                 </Text>
                             </Section>
                             {dataManager.fetch && (
                                 <Section type="form-item">
-                                    <Button
-                                        theme={theme}
-                                        text="Try again"
-                                        onPress={() => dataManager.fetch()}
-                                    />
+                                    <Button theme={theme} text="Try again" onPress={() => dataManager.fetch()} />
                                 </Section>
                             )}
                             {goBack && (
                                 <Section type="form-item">
-                                    <Button
-                                        theme={theme}
-                                        text="Go back"
-                                        onPress={goBack}
-                                    />
+                                    <Button theme={theme} text="Go back" onPress={goBack} />
                                 </Section>
                             )}
                         </Col>

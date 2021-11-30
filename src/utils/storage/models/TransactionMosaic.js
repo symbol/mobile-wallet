@@ -7,10 +7,7 @@ import Realm from 'realm';
 import { UInt64 } from 'symbol-sdk';
 
 class TransactionMosaic extends Realm.Object {
-    static CreateTransactionMosaicID = (
-        transactionId: string,
-        mosaicId: string
-    ) => {
+    static CreateTransactionMosaicID = (transactionId: string, mosaicId: string) => {
         return `${transactionId}-${mosaicId}`.toLowerCase();
     };
 

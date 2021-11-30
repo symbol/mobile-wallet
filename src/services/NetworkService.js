@@ -1,16 +1,5 @@
-import {
-    ChainHttp,
-    NetworkConfiguration,
-    NetworkHttp,
-    NetworkType,
-    NodeHttp,
-    RepositoryFactoryHttp,
-    TransactionFees,
-} from 'symbol-sdk';
-import type {
-    AppNetworkType,
-    NetworkModel,
-} from '@src/storage/models/NetworkModel';
+import { ChainHttp, NetworkConfiguration, NetworkHttp, NetworkType, NodeHttp, RepositoryFactoryHttp, TransactionFees } from 'symbol-sdk';
+import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkModel';
 import { durationStringToSeconds } from '@src/utils/format';
 import { timeout } from 'rxjs/operators';
 import { getStatisticsServiceURL } from '@src/config/environment';
@@ -70,18 +59,13 @@ export default class NetworkService {
             networkType,
             generationHash: networkProps.network.generationHashSeed,
             node: node,
-            currencyMosaicId: networkProps.chain.currencyMosaicId
-                .replace('0x', '')
-                .replace(/'/g, ''),
+            currencyMosaicId: networkProps.chain.currencyMosaicId.replace('0x', '').replace(/'/g, ''),
             currencyDivisibility: networkCurrency.currency.divisibility,
             chainHeight: chainInfo.height.compact(),
-            blockGenerationTargetTime: this._blockGenerationTargetTime(
-                networkProps
-            ),
+            blockGenerationTargetTime: this._blockGenerationTargetTime(networkProps),
             epochAdjustment: parseInt(networkProps.network.epochAdjustment),
             transactionFees: transactionFees,
-            defaultDynamicFeeMultiplier:
-                networkProps.chain.defaultDynamicFeeMultiplier || 1000,
+            defaultDynamicFeeMultiplier: networkProps.chain.defaultDynamicFeeMultiplier || 1000,
             networkCurrency: {
                 namespaceName: networkCurrency.currency.namespaceId.fullName,
                 namespaceId: networkCurrency.currency.namespaceId.id.toHex(),
@@ -106,9 +90,7 @@ export default class NetworkService {
         return (
             (networkConfiguration &&
                 networkConfiguration.chain &&
-                durationStringToSeconds(
-                    networkConfiguration.chain.blockGenerationTargetTime
-                )) ||
+                durationStringToSeconds(networkConfiguration.chain.blockGenerationTargetTime)) ||
             defaultValue
         );
     }
@@ -148,16 +130,9 @@ export default class NetworkService {
      * @param networkType 'mainnet | testnet'
      * @param nodeSearchCriteria NodeSearchCriteria
      */
-    static async getNodeList(
-        networkType: AppNetworkType,
-        { limit, nodeFilter }: NodeSearchCriteria
-    ) {
+    static async getNodeList(networkType: AppNetworkType, { limit, nodeFilter }: NodeSearchCriteria) {
         return new Promise(resolve => {
-            fetch(
-                `${getStatisticsServiceURL(
-                    networkType
-                )}nodes?filter=${nodeFilter}&limit=${limit}`
-            )
+            fetch(`${getStatisticsServiceURL(networkType)}nodes?filter=${nodeFilter}&limit=${limit}`)
                 .then(response => response.json())
                 .then(responseData => {
                     resolve(responseData);
@@ -179,11 +154,7 @@ export default class NetworkService {
             limit: 30,
         };
 
-        const nodes =
-            (await NetworkService.getNodeList(
-                networkType,
-                nodeSearchCriteria
-            )) || [];
+        const nodes = (await NetworkService.getNodeList(networkType, nodeSearchCriteria)) || [];
         let nodeUrls = [];
 
         for (const node of nodes) {

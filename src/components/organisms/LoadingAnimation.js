@@ -59,14 +59,8 @@ const LoadingAnimation = (props: Props) => {
                         <View style={styles.spinnerWrapper}>
                             <ActivityIndicator size="large" color="#ff00ff" />
                         </View>
-                        {!text && (
-                            <Text style={styles.loadingText}>
-                                {translate('LoadingText')}
-                            </Text>
-                        )}
-                        {text && text.length > 0 && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
+                        {!text && <Text style={styles.loadingText}>{translate('LoadingText')}</Text>}
+                        {text && text.length > 0 && <Text style={styles.loadingText}>{text}</Text>}
                     </View>
                 </FadeView>
             )}
@@ -76,14 +70,8 @@ const LoadingAnimation = (props: Props) => {
                         <View style={styles.spinnerWrapper}>
                             <ActivityIndicator size="large" color="#ff00ff" />
                         </View>
-                        {!text && (
-                            <Text style={styles.loadingText}>
-                                {translate('LoadingText')}
-                            </Text>
-                        )}
-                        {text && text.length > 0 && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
+                        {!text && <Text style={styles.loadingText}>{translate('LoadingText')}</Text>}
+                        {text && text.length > 0 && <Text style={styles.loadingText}>{text}</Text>}
                     </View>
                 </View>
             )}

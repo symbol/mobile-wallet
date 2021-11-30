@@ -263,8 +263,7 @@ export default class C extends Component<Props, State> {
                 break;
         }
 
-        if (!source)
-            return <View style={[_style, style, { paddingHorizontal: 17 }]} />;
+        if (!source) return <View style={[_style, style, { paddingHorizontal: 17 }]} />;
         return <Image style={[_style, style]} source={source} />;
     }
 }

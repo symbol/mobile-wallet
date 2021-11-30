@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-    GradientBackground,
-    LinkExplorer,
-    LinkFaucet,
-    QRImage,
-    Row,
-    Section,
-    TableView,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { GradientBackground, LinkExplorer, LinkFaucet, QRImage, Row, Section, TableView, Text, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -46,22 +36,9 @@ class AccountDetails extends Component<Props, State> {
     };
 
     render = () => {
-        const {
-            accountName,
-            address,
-            publicKey,
-            privateKey,
-            balance,
-            networkType,
-            componentId,
-            accountType,
-            path,
-        } = this.props;
+        const { accountName, address, publicKey, privateKey, balance, networkType, componentId, accountType, path } = this.props;
         const { isLoading } = this.state;
-        const seedIndex =
-            accountType === 'hd'
-                ? getAccountIndexFromDerivationPath(path, networkType)
-                : null;
+        const seedIndex = accountType === 'hd' ? getAccountIndexFromDerivationPath(path, networkType) : null;
         const data = {
             accountName,
             seedIndex,
@@ -72,40 +49,22 @@ class AccountDetails extends Component<Props, State> {
             balance,
         };
         return (
-            <GradientBackground
-                name="mesh_small_2"
-                theme="light"
-                dataManager={{ isLoading }}
-            >
-                <TitleBar
-                    theme="light"
-                    onBack={() => Router.goBack(this.props.componentId)}
-                    title="Account Details"
-                />
+            <GradientBackground name="mesh_small_2" theme="light" dataManager={{ isLoading }}>
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title="Account Details" />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <Row justify="center">
                             {accountType === 'optin' && (
                                 <View style={styles.alert}>
-                                    <Text
-                                        type="subtitle"
-                                        align="center"
-                                        theme="dark"
-                                    >
-                                        {translate(
-                                            'unsortedKeys.opt_in_account_alert'
-                                        )}
+                                    <Text type="subtitle" align="center" theme="dark">
+                                        {translate('unsortedKeys.opt_in_account_alert')}
                                     </Text>
                                 </View>
                             )}
                         </Row>
                         {/* {contactQR && <Image style={styles.qr} source={{ uri: contactQR }} />} */}
                         <Row justify="center">
-                            <QRImage
-                                type="address"
-                                accountName={accountName}
-                                address={address}
-                            />
+                            <QRImage type="address" accountName={accountName} address={address} />
                             {/* <QRImage
 								type="privateKey"
 								privateKey={privateKey}
@@ -114,10 +73,7 @@ class AccountDetails extends Component<Props, State> {
                     </Section>
                     <TableView componentId={componentId} data={data} />
                     <Section type="form-item">
-                        <LinkExplorer
-                            type="account"
-                            value={this.props.address}
-                        />
+                        <LinkExplorer type="account" value={this.props.address} />
                     </Section>
                     {networkType === 'testnet' && (
                         <Section type="form-item">

@@ -2,10 +2,7 @@
  * @format
  * @flow
  */
-import {
-    deleteUserPinCode,
-    hasUserSetPinCode,
-} from '@haskkor/react-native-pincode';
+import { deleteUserPinCode, hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import store from '@src/store';
 import { Router } from '@src/Router';
 

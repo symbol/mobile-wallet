@@ -59,19 +59,13 @@ const setActiveLocalelanguage = (languageTag, isRTL) => {
     i18n.fallbacks = true;
 };
 
-const getLocaleLanguage = (
-    languageCode: ?string
-): { languageTag: string, isRTL: boolean } => {
+const getLocaleLanguage = (languageCode: ?string): { languageTag: string, isRTL: boolean } => {
     if (languageCode === undefined || languageCode === null) {
         return fallbackLanguage;
     }
 
-    const languageTranslation = Object.keys(translationGetters).filter(
-        item => languageCode === item
-    );
-    return languageTranslation.length > 0
-        ? { languageTag: languageCode, isRTL: false }
-        : fallbackLanguage;
+    const languageTranslation = Object.keys(translationGetters).filter(item => languageCode === item);
+    return languageTranslation.length > 0 ? { languageTag: languageCode, isRTL: false } : fallbackLanguage;
 };
 
 const getLocales = (): Array<string> => {

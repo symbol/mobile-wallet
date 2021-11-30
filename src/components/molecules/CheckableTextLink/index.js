@@ -32,20 +32,14 @@ type Props = {
 const CheckableTextLink = (props: Props) => {
     const { isChecked, onChecked, children, linksMap } = props;
     if (children === undefined || children === null) {
-        throw new Error(
-            'children cannot be null or undefined for a checkableTextLink!'
-        );
+        throw new Error('children cannot be null or undefined for a checkableTextLink!');
     }
 
     const content = children.split(/{(\w+)}/gi).map(item => {
         const linkInfo = linksMap[item];
         if (linkInfo !== undefined) {
             return (
-                <TextLink
-                    key={`${item}`}
-                    disabled={!linkInfo.active}
-                    href={linkInfo.href}
-                >
+                <TextLink key={`${item}`} disabled={!linkInfo.active} href={linkInfo.href}>
                     {linkInfo.text}
                 </TextLink>
             );

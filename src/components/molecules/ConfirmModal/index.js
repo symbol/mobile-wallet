@@ -44,12 +44,7 @@ const ConfirmModal = (props: Props) => {
     } = props;
 
     return (
-        <Modal
-            animationType="fade"
-            transparent
-            visible={isModalOpen}
-            onRequestClose={handleClose}
-        >
+        <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
 
             <View style={styles.modalWrapper}>
@@ -70,12 +65,7 @@ const ConfirmModal = (props: Props) => {
                         )}
                         <Section type="form" style={{ flex: null }}>
                             <Section type="form-item">
-                                <Text
-                                    type="regular"
-                                    theme="light"
-                                    align="center"
-                                    wrap
-                                >
+                                <Text type="regular" theme="light" align="center" wrap>
                                     {text}
                                 </Text>
                             </Section>
@@ -95,16 +85,13 @@ const ConfirmModal = (props: Props) => {
                                     <TouchableOpacity onPress={onClose}>
                                         <Text
                                             style={{
-                                                color:
-                                                    GlobalStyles.color.PRIMARY,
+                                                color: GlobalStyles.color.PRIMARY,
                                             }}
                                             theme="light"
                                             type="bold"
                                             align="center"
                                         >
-                                            {translate(
-                                                'Settings.passcode.alertTextCancel'
-                                            )}
+                                            {translate('Settings.passcode.alertTextCancel')}
                                         </Text>
                                     </TouchableOpacity>
                                 </Section>

@@ -17,49 +17,17 @@ export default class Transaction extends Component<Props> {
         const { transaction, showDetails, componentId } = this.props;
         switch (transaction.type) {
             case 'transfer':
-                return (
-                    <TransferTransaction
-                        transaction={transaction}
-                        showDetails={showDetails}
-                        componentId={componentId}
-                    />
-                );
+                return <TransferTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
             case 'fundsLock':
-                return (
-                    <FundsLockTransaction
-                        transaction={transaction}
-                        showDetails={showDetails}
-                    />
-                );
+                return <FundsLockTransaction transaction={transaction} showDetails={showDetails} />;
             case 'aggregate':
-                return (
-                    <AggregateTransaction
-                        transaction={transaction}
-                        showDetails={showDetails}
-                        componentId={componentId}
-                    />
-                );
+                return <AggregateTransaction transaction={transaction} showDetails={showDetails} componentId={componentId} />;
             case 'namespace':
-                return (
-                    <NamespaceRegistrationTransaction
-                        transaction={transaction}
-                        showDetails={showDetails}
-                    />
-                );
+                return <NamespaceRegistrationTransaction transaction={transaction} showDetails={showDetails} />;
             case 'mosaicAlias':
-                return (
-                    <MosaicAliasTransaction
-                        transaction={transaction}
-                        showDetails={showDetails}
-                    />
-                );
+                return <MosaicAliasTransaction transaction={transaction} showDetails={showDetails} />;
             default:
-                return (
-                    <BaseTransactionItem
-                        transaction={transaction}
-                        showDetails={showDetails}
-                    />
-                );
+                return <BaseTransactionItem transaction={transaction} showDetails={showDetails} />;
         }
     }
 }

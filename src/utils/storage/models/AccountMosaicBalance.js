@@ -18,11 +18,7 @@ class AccountMosaicBalance extends Realm.Object {
     }
 
     get currencyCode() {
-        return (
-            (this.mosaic.namespaces.length > 0 &&
-                this.mosaic.namespaces[0].name.split('.').pop()) ||
-            ''
-        );
+        return (this.mosaic.namespaces.length > 0 && this.mosaic.namespaces[0].name.split('.').pop()) || '';
     }
 }
 

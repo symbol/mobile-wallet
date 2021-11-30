@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-    ActivityIndicator,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Row } from '@src/components';
 
@@ -71,24 +64,12 @@ type State = {};
 
 export default class Dropdown extends Component<Props, State> {
     onChange = () => {
-        if (typeof this.props.onChange === 'function')
-            this.props.onChange(!this.props.value);
+        if (typeof this.props.onChange === 'function') this.props.onChange(!this.props.value);
         else console.error('Checkbox error. onChange callback is not provided');
     };
 
     render = () => {
-        const {
-            style = {},
-            theme,
-            fullWidth,
-            value,
-            title,
-            checkedTitle,
-            uncheckedTitle,
-            children,
-            disabled,
-            loading,
-        } = this.props;
+        const { style = {}, theme, fullWidth, value, title, checkedTitle, uncheckedTitle, children, disabled, loading } = this.props;
         const checkboxStyles = [styles.checkbox];
         let rootStyle = [styles.root, style];
         let titleStyle = {};
@@ -106,30 +87,14 @@ export default class Dropdown extends Component<Props, State> {
         if (!!value === false && uncheckedTitle) titleText = uncheckedTitle;
 
         return (
-            <TouchableOpacity
-                disabled={disabled}
-                style={rootStyle}
-                onPress={() => this.onChange()}
-            >
+            <TouchableOpacity disabled={disabled} style={rootStyle} onPress={() => this.onChange()}>
                 <Row align="center">
                     <View style={checkboxStyles}>
-                        {!!value && !loading && (
-                            <Image
-                                style={styles.icon}
-                                source={require('@src/assets/icons/check.png')}
-                            />
-                        )}
-                        {loading && (
-                            <ActivityIndicator
-                                size="small"
-                                color={GlobalStyles.color.PINK}
-                            />
-                        )}
+                        {!!value && !loading && <Image style={styles.icon} source={require('@src/assets/icons/check.png')} />}
+                        {loading && <ActivityIndicator size="small" color={GlobalStyles.color.PINK} />}
                     </View>
                     <View style={styles.titleContainer}>
-                        {!children && (
-                            <Text style={titleStyle}>{titleText}</Text>
-                        )}
+                        {!children && <Text style={titleStyle}>{titleText}</Text>}
                         {children}
                     </View>
                 </Row>

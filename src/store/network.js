@@ -88,10 +88,7 @@ export default {
             await dispatchAction({ type: 'network/loadNodeList' });
 
             const networkType = getDefaultNetworkType();
-            const nodeList =
-                networkType === 'mainnet'
-                    ? state.network.mainnetNodes
-                    : state.network.testnetNodes;
+            const nodeList = networkType === 'mainnet' ? state.network.mainnetNodes : state.network.testnetNodes;
 
             // verify selected node availability
             if (selectedNode) {
@@ -111,9 +108,7 @@ export default {
 
             // If selectedNode exists, set network
             if (selectedNode) {
-                const network = await NetworkService.getNetworkModelFromNode(
-                    selectedNode
-                );
+                const network = await NetworkService.getNetworkModelFromNode(selectedNode);
                 try {
                     const nisNodes = getNISNodes(network.type);
                     await dispatchAction({
@@ -161,9 +156,7 @@ export default {
             }
         },
         changeNode: async ({ commit, dispatchAction }, payload) => {
-            const network = await NetworkService.getNetworkModelFromNode(
-                payload
-            );
+            const network = await NetworkService.getNetworkModelFromNode(payload);
             try {
                 const nisNodes = getNISNodes(network.type);
                 await dispatchAction({
@@ -201,9 +194,7 @@ export default {
                 try {
                     isUp = await NetworkService.isNetworkUp(selectedNetwork);
                 } catch {
-                    isUp =
-                        state.network.nodeFailedAttempts <
-                        MAX_FAILED_NODE_ATTEMPTS;
+                    isUp = state.network.nodeFailedAttempts < MAX_FAILED_NODE_ATTEMPTS;
                 }
                 if (isUp) {
                     commit({
@@ -221,10 +212,7 @@ export default {
         },
         registerNodeCheckJob: async ({ state, commit, dispatchAction }) => {
             if (!state.network.checkNodeJob) {
-                const job = setInterval(
-                    () => dispatchAction({ type: 'network/checkNetwork' }),
-                    NETWORK_JOB_INTERVAL
-                );
+                const job = setInterval(() => dispatchAction({ type: 'network/checkNetwork' }), NETWORK_JOB_INTERVAL);
                 commit({ type: 'network/setCheckNodeJob', payload: job });
             }
         },

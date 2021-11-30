@@ -49,18 +49,8 @@ export default class MosaicAliasGraphic extends GraphicComponent {
                     mosaic={this.mosaic}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                {this.isLinkAction && (
-                    <CircleNamespace
-                        x={this.getCircleIconPositionX(0)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
-                {!this.isLinkAction && (
-                    <CircleNamespaceUnlink
-                        x={this.getCircleIconPositionX(0)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
+                {this.isLinkAction && <CircleNamespace x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />}
+                {!this.isLinkAction && <CircleNamespaceUnlink x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />}
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

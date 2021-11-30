@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-    ActivityIndicator,
-    FlatList,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { Text as AdvancedText, Icon, Row, Trunc } from '@src/components';
 import TitleBar from '@src/components/atoms/TitleBar';
@@ -157,11 +148,7 @@ export default class Dropdown extends Component<Props, State> {
 
     getselectedOption = (value, list) => {
         const selectedOption = list.find(el => el.value === value);
-        return !!selectedOption
-            ? selectedOption
-            : value
-            ? { label: value, value }
-            : null;
+        return !!selectedOption ? selectedOption : value ? { label: value, value } : null;
     };
 
     getIconPosition = (k, offset) => {
@@ -179,19 +166,16 @@ export default class Dropdown extends Component<Props, State> {
 
     openSelector = () => {
         this.setState({ isSelectorOpen: true });
-        typeof this.props.onOpenSelector === 'function' &&
-            this.props.onOpenSelector();
+        typeof this.props.onOpenSelector === 'function' && this.props.onOpenSelector();
     };
 
     closeSelector = () => {
         this.setState({ isSelectorOpen: false });
-        typeof this.props.onCloseSelector === 'function' &&
-            this.props.onCloseSelector();
+        typeof this.props.onCloseSelector === 'function' && this.props.onCloseSelector();
     };
 
     onChange = value => {
-        if (typeof this.props.onChange === 'function')
-            this.props.onChange(value);
+        if (typeof this.props.onChange === 'function') this.props.onChange(value);
         this.closeSelector();
     };
 
@@ -202,10 +186,7 @@ export default class Dropdown extends Component<Props, State> {
         if (isActive) textStyles.push(styles.listItemTextActive);
 
         return (
-            <TouchableOpacity
-                style={styles.listItem}
-                onPress={() => this.onChange(item.item.value)}
-            >
+            <TouchableOpacity style={styles.listItem} onPress={() => this.onChange(item.item.value)}>
                 {!customItemReneder ? (
                     <Text style={textStyles}>{item.item.label}</Text>
                 ) : (
@@ -262,67 +243,30 @@ export default class Dropdown extends Component<Props, State> {
 
         return (
             <View style={rootStyle}>
-                {!children && showTitle && (
-                    <Text style={titleStyle}>{title}</Text>
-                )}
+                {!children && showTitle && <Text style={titleStyle}>{title}</Text>}
                 {!children && (
-                    <TouchableOpacity
-                        style={inputStyles}
-                        onPress={() => !isLoading && this.openSelector()}
-                    >
+                    <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
                             (!customInputReneder ? (
-                                <Text style={styles.inputText}>
-                                    {!isLoading && (
-                                        <Trunc length={36}>
-                                            {selectedOption.label}
-                                        </Trunc>
-                                    )}
-                                </Text>
+                                <Text style={styles.inputText}>{!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}</Text>
                             ) : (
                                 customInputReneder(selectedOption)
                             ))}
-                        {!selectedOption && (
-                            <Text style={styles.placeholder}>
-                                {placeholder}
-                            </Text>
-                        )}
-                        <View
-                            style={[
-                                styles.icon,
-                                this.getIconPosition(
-                                    iconWrapperWidth,
-                                    iconOffset
-                                ),
-                            ]}
-                        >
+                        {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
+                        <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />
                         </View>
                     </TouchableOpacity>
                 )}
-                {children && (
-                    <TouchableOpacity onPress={() => this.openSelector()}>
-                        {children}
-                    </TouchableOpacity>
-                )}
+                {children && <TouchableOpacity onPress={() => this.openSelector()}>{children}</TouchableOpacity>}
 
-                <Modal
-                    animationType="fade"
-                    transparent
-                    visible={isSelectorOpen}
-                    onRequestClose={() => this.closeSelector()}
-                >
-                    <TouchableWithoutFeedback
-                        onPress={() => this.closeSelector()}
-                    >
+                <Modal animationType="fade" transparent visible={isSelectorOpen} onRequestClose={() => this.closeSelector()}>
+                    <TouchableWithoutFeedback onPress={() => this.closeSelector()}>
                         <View style={styles.modalOverlay} />
                     </TouchableWithoutFeedback>
                     <View style={styles.modalWrapper}>
                         <View style={styles.modal}>
-                            <Row
-                                justify="center"
-                                style={styles.modalTitleContainer}
-                            >
+                            <Row justify="center" style={styles.modalTitleContainer}>
                                 <TitleBar
                                     style={styles.titleBar}
                                     titleTextStyle={styles.titleText}
@@ -333,19 +277,9 @@ export default class Dropdown extends Component<Props, State> {
                                     alignLeft
                                 />
                             </Row>
-                            {!!list.length && (
-                                <FlatList
-                                    data={list}
-                                    renderItem={this.renderItem}
-                                    keyExtractor={item => item.value}
-                                />
-                            )}
+                            {!!list.length && <FlatList data={list} renderItem={this.renderItem} keyExtractor={item => item.value} />}
                             {!list.length && !modalInnerRenderer && (
-                                <AdvancedText
-                                    type="regular"
-                                    align="center"
-                                    theme="light"
-                                >
+                                <AdvancedText type="regular" align="center" theme="light">
                                     Nothing to show
                                 </AdvancedText>
                             )}
@@ -353,13 +287,7 @@ export default class Dropdown extends Component<Props, State> {
                         </View>
                     </View>
                 </Modal>
-                {isLoading && (
-                    <ActivityIndicator
-                        size="small"
-                        color={GlobalStyles.color.PINK}
-                        style={styles.loading}
-                    />
-                )}
+                {isLoading && <ActivityIndicator size="small" color={GlobalStyles.color.PINK} style={styles.loading} />}
             </View>
         );
     };

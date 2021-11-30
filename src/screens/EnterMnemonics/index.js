@@ -4,14 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import {
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import * as bip39 from 'bip39';
 import * as _ from 'lodash';
@@ -36,10 +29,7 @@ class EnterMnemonics extends Component {
 
     constructor(props: Props) {
         super(props);
-        const language =
-            props.language in bip39.wordlists
-                ? props.language
-                : DEFAULT_LANGUAGE;
+        const language = props.language in bip39.wordlists ? props.language : DEFAULT_LANGUAGE;
         const wordlist = bip39.wordlists[language];
         this.state = {
             mnemonics: [],
@@ -62,8 +52,7 @@ class EnterMnemonics extends Component {
         if (key === ' ') {
             const { text } = this.state;
             // eslint-disable-next-line no-unused-expressions
-            text.toLowerCase().trim().length > 1 &&
-                this.validateAndAddToMnemonics(text.toLowerCase().trim());
+            text.toLowerCase().trim().length > 1 && this.validateAndAddToMnemonics(text.toLowerCase().trim());
             return;
         }
         // $FlowFixMe
@@ -163,12 +152,8 @@ class EnterMnemonics extends Component {
     // $FlowFixMe
     renderMnemonicItem = (item, props) => {
         const { viewType } = props;
-        const itemStyle =
-            viewType === 'chip' ? styles.suggestionChip : styles.orderedChip;
-        const itemTextStyle =
-            viewType === 'chip'
-                ? styles.suggestionChipText
-                : styles.orderedChipText;
+        const itemStyle = viewType === 'chip' ? styles.suggestionChip : styles.orderedChip;
+        const itemTextStyle = viewType === 'chip' ? styles.suggestionChipText : styles.orderedChipText;
         return (
             // $FlowFixMe
             <TouchableOpacity style={itemStyle} {...props}>
@@ -204,25 +189,11 @@ class EnterMnemonics extends Component {
 
     render() {
         // $FlowFixMe
-        const {
-            mnemonics,
-            suggestions,
-            validMnemonic,
-            text,
-            showWarning,
-        } = this.state;
+        const { mnemonics, suggestions, validMnemonic, text, showWarning } = this.state;
         const mnemonicsContainerStyle =
-            mnemonics.length < this.maxMnemonicsAllowed
-                ? styles.orderedMnemonics
-                : styles.orderedMnemonicsFinal;
+            mnemonics.length < this.maxMnemonicsAllowed ? styles.orderedMnemonics : styles.orderedMnemonicsFinal;
         return (
-            <GradientContainer
-                start={{ x: 1, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                angle={135}
-                useAngle
-                style={styles.gradientContainer}
-            >
+            <GradientContainer start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} angle={135} useAngle style={styles.gradientContainer}>
                 <TitleBar
                     title={translate('ImportWallet.EnterMnemonics.title')}
                     theme="dark"
@@ -230,18 +201,11 @@ class EnterMnemonics extends Component {
                     onBack={() => Router.goBack(this.props.componentId)}
                 />
                 {showWarning && (
-                    <Warning
-                        hideWarning={this.hideWarning}
-                        message={translate(
-                            'ImportWallet.EnterMnemonics.error.invalidMnemonics'
-                        )}
-                    />
+                    <Warning hideWarning={this.hideWarning} message={translate('ImportWallet.EnterMnemonics.error.invalidMnemonics')} />
                 )}
 
                 <View style={styles.contentContainer}>
-                    <Text style={styles.textContent}>
-                        {translate('ImportWallet.EnterMnemonics.content')}
-                    </Text>
+                    <Text style={styles.textContent}>{translate('ImportWallet.EnterMnemonics.content')}</Text>
                     <Card style={styles.orderedMnemonicsCard}>
                         <ScrollView style={styles.orderedMnemonicsScrollView}>
                             <View style={mnemonicsContainerStyle}>
@@ -260,8 +224,7 @@ class EnterMnemonics extends Component {
                                         },
                                     });
                                 })}
-                                {mnemonics.length <
-                                    this.maxMnemonicsAllowed && (
+                                {mnemonics.length < this.maxMnemonicsAllowed && (
                                     // $FlowFixMe
                                     <TextInput
                                         testID="textInput"
@@ -295,9 +258,7 @@ class EnterMnemonics extends Component {
                     </View>
                     {!validMnemonic ? (
                         <Text testID="invalidMnemonic" style={styles.error}>
-                            {translate(
-                                'ImportWallet.EnterMnemonics.error.invalidMnemonic'
-                            )}
+                            {translate('ImportWallet.EnterMnemonics.error.invalidMnemonic')}
                         </Text>
                     ) : null}
                     <GradientButton

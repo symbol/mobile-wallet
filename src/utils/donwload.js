@@ -18,9 +18,7 @@ export const downloadFile = async (file, filename, encoding) => {
 };
 
 const downloadAndroid = async (file, filename, encoding) => {
-    return PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-    ).then(async value => {
+    return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE).then(async value => {
         if (value) return saveFile(file, filename, 'android', encoding);
         else {
             const result = await requestWritePermission();
@@ -38,19 +36,12 @@ const downloadAndroid = async (file, filename, encoding) => {
 
 const requestWritePermission = async (): Promise<boolean> => {
     try {
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-            {
-                title: translate('CreateWallet.ShowQRCode.permissionTitle'),
-                message: translate('CreateWallet.ShowQRCode.permissionMessage'),
-                buttonNegative: translate(
-                    'CreateWallet.ShowQRCode.permissionTextCancel'
-                ),
-                buttonPositive: translate(
-                    'CreateWallet.ShowQRCode.permissionTextOk'
-                ),
-            }
-        );
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+            title: translate('CreateWallet.ShowQRCode.permissionTitle'),
+            message: translate('CreateWallet.ShowQRCode.permissionMessage'),
+            buttonNegative: translate('CreateWallet.ShowQRCode.permissionTextCancel'),
+            buttonPositive: translate('CreateWallet.ShowQRCode.permissionTextOk'),
+        });
         return granted === PermissionsAndroid.RESULTS.GRANTED;
     } catch (err) {
         return false;
@@ -60,18 +51,10 @@ const requestWritePermission = async (): Promise<boolean> => {
 const saveFile = (data, filename, platform, encoding) => {
     const { dirs } = RNFetchBlob.fs;
     return RNFetchBlob.fs
-        .writeFile(
-            `${
-                platform === 'ios' ? dirs.DocumentDir : dirs.DownloadDir
-            }/${filename}`,
-            data,
-            encoding
-        )
+        .writeFile(`${platform === 'ios' ? dirs.DocumentDir : dirs.DownloadDir}/${filename}`, data, encoding)
         .then(() => {
             if (platform === 'ios') {
-                RNFetchBlob.ios.previewDocument(
-                    `${dirs.DocumentDir}/${filename}`
-                );
+                RNFetchBlob.ios.previewDocument(`${dirs.DocumentDir}/${filename}`);
             }
             Router.showMessage({
                 message: translate('unsortedKeys.fileSavedToDirectoryMessage', {

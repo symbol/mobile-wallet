@@ -14,9 +14,7 @@ class AccountIcon extends GraphicComponent {
     }
 
     get formattedAddress() {
-        return this.isUserAddress
-            ? translate('unsortedKeys.currentAccount')
-            : this.truncString(this.props.address);
+        return this.isUserAddress ? translate('unsortedKeys.currentAccount') : this.truncString(this.props.address);
     }
 
     get stackedAddress() {
@@ -29,40 +27,15 @@ class AccountIcon extends GraphicComponent {
 
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width={this._width}
-                height={this._height}
-                viewBox={'0 0 261.333 131.313'}
-            >
-                <Rect
-                    x="25.266"
-                    y="107.646"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    fill="none"
-                    width="207.333"
-                    height="23.667"
-                />
+            <G version="1.1" x={this._x} y={this._y} width={this._width} height={this._height} viewBox={'0 0 261.333 131.313'}>
+                <Rect x="25.266" y="107.646" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="207.333" height="23.667" />
                 {!this.props.hideCaption && this.isUserAddress && (
-                    <Text
-                        x="130"
-                        y="122.8457"
-                        style={this.styles.text}
-                        textAnchor="middle"
-                    >
+                    <Text x="130" y="122.8457" style={this.styles.text} textAnchor="middle">
                         {this.formattedAddress}
                     </Text>
                 )}
                 {!this.props.hideCaption && !this.isUserAddress && (
-                    <Text
-                        x="120"
-                        y="122.8457"
-                        style={this.styles.textSmaller}
-                        textAnchor="middle"
-                    >
+                    <Text x="120" y="122.8457" style={this.styles.textSmaller} textAnchor="middle">
                         <TSpan x="130" dy="-9">
                             {this.stackedAddress[0]}
                         </TSpan>

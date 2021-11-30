@@ -18,10 +18,7 @@ export const formatDate = (date: LocalDateTime): string => {
     ];
 
     const dateObj = new Date(date);
-    return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(
-        dateObj.getDate(),
-        2
-    )}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
+    return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(dateObj.getDate(), 2)}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
 };
 
 export const pad = (num, size) => {
@@ -103,18 +100,11 @@ export const formatSeconds = (second: number): string => {
     return result;
 };
 
-export const durationToRelativeTime = (
-    durationInBlocks: number,
-    blockGenerationTargetTime: number
-): string => {
+export const durationToRelativeTime = (durationInBlocks: number, blockGenerationTargetTime: number): string => {
     try {
         const isDurationNegative = durationInBlocks < 0;
-        const absoluteDuration = isDurationNegative
-            ? durationInBlocks * -1
-            : durationInBlocks;
-        const relativeTime = formatSeconds(
-            absoluteDuration * blockGenerationTargetTime
-        );
+        const absoluteDuration = isDurationNegative ? durationInBlocks * -1 : durationInBlocks;
+        const relativeTime = formatSeconds(absoluteDuration * blockGenerationTargetTime);
         const prefix = isDurationNegative ? '- ' : '';
         return `${prefix}${relativeTime}`;
     } catch (error) {
@@ -127,15 +117,10 @@ export const shortifyAddress = (address: string): string => {
     return `${address.slice(0, 6)}-...-${address.slice(42)}`;
 };
 
-export const getAccountIndexFromDerivationPath = (
-    path: string,
-    network: AppNetworkType
-): number => {
+export const getAccountIndexFromDerivationPath = (path: string, network: AppNetworkType): number => {
     const startPath = network === 'testnet' ? "m/44'/1'/" : "m/44'/4343'/";
     const endPath = "'/0'/0'";
-    return path
-        ? parseInt(path.replace(startPath, '').replace(endPath, ''))
-        : null;
+    return path ? parseInt(path.replace(startPath, '').replace(endPath, '')) : null;
 };
 
 export const resoveAmount = (rawAmount, divisibility) => {

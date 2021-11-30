@@ -57,9 +57,7 @@ const updateMosaicInfo = (
                 try {
                     let mosaic = realm.objectForPrimaryKey('Mosaic', hexId);
                     if (mosaic === undefined || mosaic === null) {
-                        console.log(
-                            `Unknown mosaic [${hexId}], adding entry...`
-                        );
+                        console.log(`Unknown mosaic [${hexId}], adding entry...`);
                         mosaic = realm.create('Mosaic', { hexId: hexId });
                     }
 

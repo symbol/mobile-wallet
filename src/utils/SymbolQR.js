@@ -13,16 +13,8 @@ import Observable from 'rxjs';
  * @param plain
  * @param {Password} password
  */
-const generateMnemonicQR = (
-    plain: string,
-    plainPassword?: string
-): Observable => {
-    const exportMnemonic = new MnemonicQR(
-        plain,
-        NetworkType.MAIN_NET,
-        'no-chain-id',
-        plainPassword
-    );
+const generateMnemonicQR = (plain: string, plainPassword?: string): Observable => {
+    const exportMnemonic = new MnemonicQR(plain, NetworkType.MAIN_NET, 'no-chain-id', plainPassword);
     return exportMnemonic.toString('svg');
 };
 
@@ -34,19 +26,9 @@ const generateMnemonicQR = (
  * @param networkType
  * @param generationHash
  */
-const generateAddressQR = (
-    name: string,
-    publicKey: string,
-    networkType: NetworkType,
-    generationHash: string
-): Observable => {
+const generateAddressQR = (name: string, publicKey: string, networkType: NetworkType, generationHash: string): Observable => {
     const account = PublicAccount.createFromPublicKey(publicKey, networkType);
-    const request = QRCodeGenerator.createAddContact(
-        name,
-        account,
-        networkType,
-        generationHash
-    );
+    const request = QRCodeGenerator.createAddContact(name, account, networkType, generationHash);
     return request.toString('svg');
 };
 

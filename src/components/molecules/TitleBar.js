@@ -47,25 +47,14 @@ interface State {
 
 export default class PluginList extends Component<Props, State> {
     render = () => {
-        const {
-            style = {},
-            theme,
-            onOpenMenu,
-            onBack,
-            onClose,
-            onSettings,
-            title,
-            buttons,
-        } = this.props;
+        const { style = {}, theme, onOpenMenu, onBack, onClose, onSettings, title, buttons } = this.props;
         const iconBackName = theme === 'light' ? 'back_light' : 'back_dark';
 
         const iconCloseName = theme === 'light' ? 'close_light' : 'close_dark';
 
-        const iconSettingsName =
-            theme === 'light' ? 'settings_filled_light' : 'settings_dark';
+        const iconSettingsName = theme === 'light' ? 'settings_filled_light' : 'settings_dark';
 
-        const iconMenuName =
-            theme === 'light' ? 'wallet_filled_light' : 'options_dark';
+        const iconMenuName = theme === 'light' ? 'wallet_filled_light' : 'options_dark';
 
         const leftIconStyle = onBack ? styles.iconLeftOld : {};
 
@@ -76,55 +65,35 @@ export default class PluginList extends Component<Props, State> {
                 <Row justify="space-between" align="center" style={styles.root}>
                     <Row justify="start" align="center">
                         {!!onOpenMenu && (
-                            <TouchableOpacity
-                                style={[styles.iconLeft, leftIconStyle]}
-                                onPress={onOpenMenu}
-                            >
+                            <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onOpenMenu}>
                                 <Icon name={iconMenuName} size="small" />
                             </TouchableOpacity>
                         )}
                         {!!onBack && (
-                            <TouchableOpacity
-                                style={[styles.iconLeft, leftIconStyle]}
-                                onPress={onBack}
-                            >
+                            <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onBack}>
                                 <Icon name={iconBackName} />
                             </TouchableOpacity>
                         )}
                         {!onBack && !onOpenMenu && <Icon name="none" />}
                     </Row>
                     <Col style={{ flex: 1 }} align="center" justify="center">
-                        <Text
-                            type="title-small"
-                            theme={theme}
-                            wrap
-                            align="center"
-                            style={{ maxWidth: '80%' }}
-                        >
+                        <Text type="title-small" theme={theme} wrap align="center" style={{ maxWidth: '80%' }}>
                             {title}
                         </Text>
                     </Col>
                     <Row justify="end" align="center">
                         {buttons}
                         {!!onSettings && (
-                            <TouchableOpacity
-                                style={[styles.iconRight, rightIconStyle]}
-                                onPress={onSettings}
-                            >
+                            <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
                                 <Icon name={iconSettingsName} size="small" />
                             </TouchableOpacity>
                         )}
                         {!!onClose && (
-                            <TouchableOpacity
-                                style={[styles.iconRight, rightIconStyle]}
-                                onPress={onClose}
-                            >
+                            <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onClose}>
                                 <Icon name={iconCloseName} size="small" />
                             </TouchableOpacity>
                         )}
-                        {!onSettings && !onClose && !buttons && (
-                            <Icon name="none" />
-                        )}
+                        {!onSettings && !onClose && !buttons && <Icon name="none" />}
                     </Row>
                 </Row>
             </Section>

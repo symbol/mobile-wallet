@@ -124,15 +124,12 @@ class Welcome extends Component<Props, State> {
     }
 
     onButtonPress() {
-        if (this.state.step < this.slides.length - 1)
-            this.slider.current?.onNextPress();
+        if (this.state.step < this.slides.length - 1) this.slider.current?.onNextPress();
         else this.props.onFinish();
     }
 
     getButtonText() {
-        return this.state.step < this.slides.length - 1
-            ? translate('optin.next')
-            : translate('optin.getStarted');
+        return this.state.step < this.slides.length - 1 ? translate('optin.next') : translate('optin.getStarted');
     }
 
     onSlideChange(index) {
@@ -179,11 +176,7 @@ class Welcome extends Component<Props, State> {
                 />
                 <Section type="form-bottom">
                     <Section type="text">
-                        <Button
-                            theme="light"
-                            text={this.getButtonText()}
-                            onPress={() => this.onButtonPress()}
-                        />
+                        <Button theme="light" text={this.getButtonText()} onPress={() => this.onButtonPress()} />
                     </Section>
                 </Section>
             </Section>

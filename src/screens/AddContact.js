@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    GradientBackground,
-    Input,
-    InputAddress,
-    Section,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { Button, GradientBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -131,16 +123,7 @@ class AddContact extends Component<Props, State> {
     };
 
     render() {
-        let {
-            address,
-            name,
-            phone,
-            email,
-            notes,
-            id,
-            isAddressValid,
-            isAddressTaken,
-        } = this.state;
+        let { address, name, phone, email, notes, id, isAddressValid, isAddressTaken } = this.state;
 
         return (
             <GradientBackground name="mesh_small" theme="light">
@@ -160,12 +143,7 @@ class AddContact extends Component<Props, State> {
                 )}
                 <Section type="form" isScrollable>
                     <Section type="form-item">
-                        <Input
-                            value={name}
-                            placeholder={translate('table.name')}
-                            theme="light"
-                            onChangeText={this.onChangeField('name')}
-                        />
+                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={this.onChangeField('name')} />
                         {name.length === 0 && (
                             <Text theme="light" style={styles.warning}>
                                 {translate('addressBook.nameWarning')}
@@ -178,9 +156,7 @@ class AddContact extends Component<Props, State> {
                             placeholder={translate('table.address')}
                             theme="light"
                             fullWidth
-                            onChangeText={address =>
-                                this.onAddressChange(address)
-                            }
+                            onChangeText={address => this.onAddressChange(address)}
                             showAddressBook={false}
                         />
                         {!isAddressValid && (
@@ -222,16 +198,10 @@ class AddContact extends Component<Props, State> {
                         <Section type="form-bottom">
                             <Section type="button">
                                 <Button
-                                    text={translate(
-                                        'CreateNewAccount.submitButton'
-                                    )}
+                                    text={translate('CreateNewAccount.submitButton')}
                                     theme="light"
                                     onPress={() => this.submit()}
-                                    isDisabled={
-                                        !isAddressValid ||
-                                        name.length < 1 ||
-                                        isAddressTaken
-                                    }
+                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
                                 />
                             </Section>
                         </Section>
@@ -240,16 +210,10 @@ class AddContact extends Component<Props, State> {
                         <Section type="form-bottom">
                             <Section type="button">
                                 <Button
-                                    text={translate(
-                                        'addressBook.updateContact'
-                                    )}
+                                    text={translate('addressBook.updateContact')}
                                     theme="light"
                                     onPress={() => this.update(id)}
-                                    isDisabled={
-                                        !isAddressValid ||
-                                        name.length < 1 ||
-                                        isAddressTaken
-                                    }
+                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
                                 />
                             </Section>
                         </Section>

@@ -44,27 +44,13 @@ export default class Contact extends Component<Props> {
             <TouchableOpacity onPress={() => this.onPress(this.props)}>
                 <Card style={styles.root}>
                     <Row align="center">
-                        <Icon
-                            name="contact_light"
-                            style={{ marginRight: 16 }}
-                        />
+                        <Icon name="contact_light" style={{ marginRight: 16 }} />
                         <Col grow>
-                            <Text
-                                theme="light"
-                                type="bold"
-                                style={styles.title}
-                            >
+                            <Text theme="light" type="bold" style={styles.title}>
                                 {this.props.name}
                             </Text>
-                            <Text
-                                theme="light"
-                                type="regular"
-                                align={'left'}
-                                style={styles.content}
-                            >
-                                <Trunc type="mosaicId">
-                                    {this.props.address}
-                                </Trunc>
+                            <Text theme="light" type="regular" align={'left'} style={styles.content}>
+                                <Trunc type="mosaicId">{this.props.address}</Trunc>
                             </Text>
                         </Col>
                     </Row>

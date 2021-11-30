@@ -1,10 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-    getDefaultCurrency,
-    getDefaultLanguage,
-    getDefaultNetworkType,
-    getDefaultSyncInterval,
-} from '@src/config/environment';
+import { getDefaultCurrency, getDefaultLanguage, getDefaultNetworkType, getDefaultSyncInterval } from '@src/config/environment';
 
 export class AsyncCache {
     static DATA_SCHEMA_VERSION = 'dataSchemaVersion';

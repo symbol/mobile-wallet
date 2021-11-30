@@ -28,13 +28,7 @@ class FadeView extends Component {
         const { viewOpacity } = this.state;
         const { style } = this.props;
 
-        return (
-            <Animated.View
-                style={[{ opacity: viewOpacity }].concat(style || [])}
-            >
-                {this.props.children}
-            </Animated.View>
-        );
+        return <Animated.View style={[{ opacity: viewOpacity }].concat(style || [])}>{this.props.children}</Animated.View>;
     }
 }
 
@@ -42,14 +36,8 @@ FadeView.propTypes = {
     onFadeComplete: PropTypes.func,
     duration: PropTypes.number,
     delay: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-        PropTypes.object,
-        PropTypes.array,
-    ]),
-    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-        .isRequired,
+    style: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.object, PropTypes.array]),
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
 };
 
 export default FadeView;

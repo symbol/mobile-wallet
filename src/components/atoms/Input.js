@@ -49,24 +49,11 @@ type Props = {
 };
 
 const Input = (props: Props) => {
-    const {
-        inputLabel,
-        placeholder,
-        returnKeyType,
-        innerRef,
-        inputLabelStyle,
-        inputStyle,
-        value,
-        ...rest
-    } = props;
+    const { inputLabel, placeholder, returnKeyType, innerRef, inputLabelStyle, inputStyle, value, ...rest } = props;
 
     return (
         <View style={styles.inputContainer}>
-            {!!value && (
-                <Text style={[styles.inputLabel, inputLabelStyle]}>
-                    {inputLabel}
-                </Text>
-            )}
+            {!!value && <Text style={[styles.inputLabel, inputLabelStyle]}>{inputLabel}</Text>}
             <TextInput
                 {...rest}
                 value={value}

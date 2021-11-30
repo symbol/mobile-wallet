@@ -1,10 +1,7 @@
 // Mock. TODO: remove
 class MarketService {
     static getPriceChartData = () => {
-        return fetch(
-            'https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168',
-            { method: 'GET' }
-        )
+        return fetch('https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168', { method: 'GET' })
             .then(response => response.json())
             .then(responseJson => responseJson.Data.map(el => el.close))
             .catch(error => {

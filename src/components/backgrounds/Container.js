@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Platform,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    View,
-} from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -25,11 +19,7 @@ export default class ComponentName extends Component<Props, State> {
         const { children, style } = this.props;
 
         if (Platform.OS === 'ios') {
-            return (
-                <SafeAreaView style={[styles.container, style]}>
-                    {children}
-                </SafeAreaView>
-            );
+            return <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>;
         }
 
         return <View style={[styles.container, style]}>{children}</View>;

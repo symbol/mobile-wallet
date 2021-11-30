@@ -25,19 +25,14 @@ export default class OptInService {
     /**
      * Get NIS1 account private keys
      */
-    static async getNISAccounts(
-        network: AppNetworkType
-    ): Promise<NIS1Account[]> {
-        const privateKeys =
-            (await NIS1AccountSecureStorage.retrieveAccounts()) || [];
+    static async getNISAccounts(network: AppNetworkType): Promise<NIS1Account[]> {
+        const privateKeys = (await NIS1AccountSecureStorage.retrieveAccounts()) || [];
         return privateKeys.map(privateKey => {
             const keyPair = nem.crypto.keyPair.create(privateKey);
             const publicKey = keyPair.publicKey.toString();
             const address = nem.utils.format.pubToAddress(
                 publicKey,
-                network === 'testnet'
-                    ? nem.model.network.data.testnet.id
-                    : nem.model.network.data.mainnet.id
+                network === 'testnet' ? nem.model.network.data.testnet.id : nem.model.network.data.mainnet.id
             );
             return {
                 address: address,
@@ -70,11 +65,7 @@ export default class OptInService {
      */
     static async getNISAccountOptInBalance(address: string): Promise<number> {
         return new Promise(resolve => {
-            fetch(
-                this.getOptInConfig('mainnet').snapshotInfoApi +
-                    'balance?address=' +
-                    address
-            )
+            fetch(this.getOptInConfig('mainnet').snapshotInfoApi + 'balance?address=' + address)
                 .then(rawBalance => {
                     rawBalance.json().then(res => {
                         resolve(res.amount);
@@ -86,14 +77,8 @@ export default class OptInService {
         });
     }
 
-    static async fetchNIS1Data(
-        address: string,
-        network: AppNetworkType
-    ): Promise<any> {
-        return nem.com.requests.account.data(
-            this.getOptInConfig(network).NIS.endpoint,
-            address
-        );
+    static async fetchNIS1Data(address: string, network: AppNetworkType): Promise<any> {
+        return nem.com.requests.account.data(this.getOptInConfig(network).NIS.endpoint, address);
     }
 
     /**
@@ -111,16 +96,9 @@ export default class OptInService {
         const balance = await this.getNISAccountOptInBalance(address);
         const accountData = await this.fetchNIS1Data(address, network);
         if (accountData.meta.cosignatories.length > 0) {
-            const cache = new MultisigCache(
-                accountData,
-                this.getOptInConfig(network)
-            );
+            const cache = new MultisigCache(accountData, this.getOptInConfig(network));
             await cache.loadFromChain();
-            const statusCode = await status(
-                accountData,
-                this.getOptInConfig(network),
-                cache
-            );
+            const statusCode = await status(accountData, this.getOptInConfig(network), cache);
             const destination = cache.multisigDestinationPublicKey;
             return {
                 isMultisig: true,
@@ -131,24 +109,15 @@ export default class OptInService {
                 multisigDTOs: cache.multisigDTOs,
             };
         } else {
-            const cache = new NormalCache(
-                accountData,
-                this.getOptInConfig(network)
-            );
+            const cache = new NormalCache(accountData, this.getOptInConfig(network));
             await cache.loadFromChain();
-            const statusCode = await status(
-                accountData,
-                this.getOptInConfig(network),
-                cache
-            );
+            const statusCode = await status(accountData, this.getOptInConfig(network), cache);
             return {
                 isMultisig: false,
                 balance: balance,
                 status: statusCode,
                 error: cache.errorDTO ? cache.errorDTO.code : null,
-                destination: cache.simpleDTO
-                    ? cache.simpleDTO.destination
-                    : null,
+                destination: cache.simpleDTO ? cache.simpleDTO.destination : null,
             };
         }
     }
@@ -156,17 +125,9 @@ export default class OptInService {
     /**
      * Get NIS1 account balance
      */
-    static async doSimpleOptIn(
-        nis1Account: NIS1Account,
-        destination: AccountModel,
-        network: AppNetworkType
-    ): Promise<string> {
+    static async doSimpleOptIn(nis1Account: NIS1Account, destination: AccountModel, network: AppNetworkType): Promise<string> {
         const simpleDTO = buildSimpleDTO(destination.id);
-        const result = await broadcastDTO(
-            nis1Account.privateKey,
-            simpleDTO,
-            this.getOptInConfig(network)
-        );
+        const result = await broadcastDTO(nis1Account.privateKey, simpleDTO, this.getOptInConfig(network));
         if (result !== 'SUCCESS') {
             throw new Error(result);
         }
@@ -183,11 +144,7 @@ export default class OptInService {
         network: AppNetworkType
     ): Promise<string> {
         const multisigDTO = buildMultisigDTO(origin, destination);
-        const result = await broadcastDTO(
-            nis1CosignerPrivateKey,
-            multisigDTO,
-            this.getOptInConfig(network)
-        );
+        const result = await broadcastDTO(nis1CosignerPrivateKey, multisigDTO, this.getOptInConfig(network));
         if (result !== 'SUCCESS') {
             throw new Error(result);
         }
@@ -203,15 +160,12 @@ export default class OptInService {
                             port: 7890,
                         },
                         network: nem.model.network.data.testnet.id,
-                        configAddress:
-                            'TAXF5HUGBKGSC3MOJCRXN5LLKFBY43LXI3DE2YLS',
-                        errorAccountPublicKey:
-                            'dd215238aab71f375fc79455e2fe0e3c4f96ba7dadd5f3c102979c6958b9c337',
+                        configAddress: 'TAXF5HUGBKGSC3MOJCRXN5LLKFBY43LXI3DE2YLS',
+                        errorAccountPublicKey: 'dd215238aab71f375fc79455e2fe0e3c4f96ba7dadd5f3c102979c6958b9c337',
                     },
                     SYM: {
                         network: NetworkType.TEST_NET,
-                        generationHash:
-                            '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
+                        generationHash: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
                     },
                     snapshotInfoApi: 'http://post-optin.symboldev.com/',
                 };
@@ -223,15 +177,12 @@ export default class OptInService {
                             port: 7890,
                         },
                         network: nem.model.network.data.mainnet.id,
-                        configAddress:
-                            'NAQ7RCYM4PRUAKA7AMBLN4NPBJEJMRCHHJYAVA72',
-                        errorAccountPublicKey:
-                            'dd215238aab71f375fc79455e2fe0e3c4f96ba7dadd5f3c102979c6958b9c337',
+                        configAddress: 'NAQ7RCYM4PRUAKA7AMBLN4NPBJEJMRCHHJYAVA72',
+                        errorAccountPublicKey: 'dd215238aab71f375fc79455e2fe0e3c4f96ba7dadd5f3c102979c6958b9c337',
                     },
                     SYM: {
                         network: NetworkType.MAIN_NET,
-                        generationHash:
-                            '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
+                        generationHash: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
                     },
                     snapshotInfoApi: 'http://post-optin.symboldev.com/',
                 };

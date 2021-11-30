@@ -86,11 +86,7 @@ export default {
             setTimeout(() => {
                 commit({ type: 'transaction/setLoadingNext', payload: true });
             });
-            if (
-                (!state.account.cosignatoryOf ||
-                    !state.account.cosignatoryOf.length) &&
-                state.account.multisigGraphInfo !== undefined
-            ) {
+            if ((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined) {
                 await dispatchAction({ type: 'account/loadCosignatoryOf' });
             }
             const nextPage = state.transaction.page + 1;
@@ -136,10 +132,7 @@ export default {
                 payload: subscription,
             });
         },
-        changeFilters: async (
-            { commit, state, dispatchAction },
-            { addressFilter, directionFilter }
-        ) => {
+        changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, directionFilter }) => {
             if (state.transaction.subscription) {
                 state.transaction.subscription.unsubscribe();
             }
@@ -162,10 +155,7 @@ export default {
                 state.network.selectedNetwork
             );
             for (let address of state.account.cosignatoryOf) {
-                let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(
-                    address,
-                    state.network.selectedNetwork
-                );
+                let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(address, state.network.selectedNetwork);
                 has = has || cosigHas;
             }
             commit({ type: 'transaction/setPendingSignature', payload: has });

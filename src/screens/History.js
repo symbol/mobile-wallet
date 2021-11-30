@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
-import {
-    Dropdown,
-    EmptyListMessage,
-    GradientBackground,
-    ListContainer,
-    ListItem,
-    Row,
-    Section,
-    TitleBar,
-} from '@src/components';
+import { Dropdown, EmptyListMessage, GradientBackground, ListContainer, ListItem, Row, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
@@ -91,10 +82,7 @@ class History extends Component<Props, State> {
             <ListItem onPress={() => this.showDetails(index)}>
                 <Transaction
                     transaction={item}
-                    showDetails={
-                        showingDetailsIndex === index &&
-                        item.type !== 'aggregate'
-                    }
+                    showDetails={showingDetailsIndex === index && item.type !== 'aggregate'}
                     componentId={this.props.componentId}
                 />
             </ListItem>
@@ -156,11 +144,7 @@ class History extends Component<Props, State> {
                         </Row>
                     </Section>
                 </Section>
-                <ListContainer
-                    style={styles.list}
-                    isScrollable={false}
-                    isLoading={isLoading}
-                >
+                <ListContainer style={styles.list} isScrollable={false} isLoading={isLoading}>
                     <FlatList
                         data={transactions}
                         renderItem={this.renderTransactionItem(showingDetails)}
@@ -178,14 +162,9 @@ class History extends Component<Props, State> {
                         }
                     />
                 </ListContainer>
-                {currentTransaction &&
-                    currentTransaction.type === 'aggregate' && (
-                        <AggregateTransactionDetails
-                            transaction={currentTransaction}
-                            onClose={() => this.showDetails(-1)}
-                            {...this.props}
-                        />
-                    )}
+                {currentTransaction && currentTransaction.type === 'aggregate' && (
+                    <AggregateTransactionDetails transaction={currentTransaction} onClose={() => this.showDetails(-1)} {...this.props} />
+                )}
             </GradientBackground>
         );
     }

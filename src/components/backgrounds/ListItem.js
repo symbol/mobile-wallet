@@ -29,10 +29,7 @@ export default class GradientBackground extends PureComponent<Props, State> {
         return (
             <>
                 {onPress && (
-                    <TouchableOpacity
-                        style={[styles.root, style]}
-                        onPress={onPress}
-                    >
+                    <TouchableOpacity style={[styles.root, style]} onPress={onPress}>
                         <View style={styles.inner}>{children}</View>
                     </TouchableOpacity>
                 )}

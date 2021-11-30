@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
-import {
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import {
-    CopyView,
-    FadeView,
-    Row,
-    SymbolGradientContainer,
-    Text,
-} from '@src/components';
+import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { CopyView, FadeView, Row, SymbolGradientContainer, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import Video from 'react-native-video';
 import { Router } from '@src/Router';
@@ -105,80 +93,37 @@ class BalanceWidget extends Component<Props, State> {
     };
 
     render = () => {
-        const {
-            address,
-            nativeMosaicNamespaceName,
-            balance,
-            isLoading,
-        } = this.props;
+        const { address, nativeMosaicNamespaceName, balance, isLoading } = this.props;
         const isBalanceHuge = balance.toString().length > 12;
         const BalanceContainer = isBalanceHuge ? ScrollView : Row;
         const Container = isLoading === true ? View : TouchableOpacity;
 
         return (
-            <SymbolGradientContainer
-                style={[styles.root, isLoading && styles.noPadding]}
-                noPadding
-                noScroll
-            >
+            <SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
                 <ScrollView
                     style={styles.scrollView}
                     contentContainerStyle={styles.scrollViewContent}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={isLoading}
-                            onRefresh={() => this.reload()}
-                        />
-                    }
+                    refreshControl={<RefreshControl refreshing={isLoading} onRefresh={() => this.reload()} />}
                 >
-                    <Container
-                        activeOpacity={0.9}
-                        onPress={() => this.onWidgetPress()}
-                    >
+                    <Container activeOpacity={0.9} onPress={() => this.onWidgetPress()}>
                         {!isLoading && (
                             <View>
                                 <CopyView style={styles.address} theme="dark">
                                     {address}
                                 </CopyView>
-                                <Row
-                                    align="end"
-                                    justify="space-between"
-                                    fullWidth
-                                >
+                                <Row align="end" justify="space-between" fullWidth>
                                     <Text style={styles.mosaic} theme="dark">
                                         {nativeMosaicNamespaceName}
                                     </Text>
                                     {
-                                        <BalanceContainer
-                                            horizontal={true}
-                                            style={{ marginLeft: 16 }}
-                                        >
+                                        <BalanceContainer horizontal={true} style={{ marginLeft: 16 }}>
                                             <Row>
-                                                <Text
-                                                    style={styles.balance}
-                                                    theme="dark"
-                                                >
-                                                    {
-                                                        ('' + balance).split(
-                                                            '.'
-                                                        )[0]
-                                                    }
+                                                <Text style={styles.balance} theme="dark">
+                                                    {('' + balance).split('.')[0]}
                                                 </Text>
-                                                {('' + balance).split(
-                                                    '.'
-                                                )[1] && (
-                                                    <Text
-                                                        style={
-                                                            styles.balanceLight
-                                                        }
-                                                        theme="dark"
-                                                    >
-                                                        .
-                                                        {
-                                                            (
-                                                                '' + balance
-                                                            ).split('.')[1]
-                                                        }
+                                                {('' + balance).split('.')[1] && (
+                                                    <Text style={styles.balanceLight} theme="dark">
+                                                        .{('' + balance).split('.')[1]}
                                                     </Text>
                                                 )}
                                             </Row>

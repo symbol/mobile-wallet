@@ -89,22 +89,11 @@ export class CreateOrImport extends Component {
                     showDoneButton={false}
                 />
                 <View style={styles.bottomCard}>
-                    <GradientButton
-                        title={translate('INTRO_createWalletButton')}
-                        onPress={this.createWallet}
-                    />
+                    <GradientButton title={translate('INTRO_createWalletButton')} onPress={this.createWallet} />
                     <View style={styles.row}>
-                        <Text style={styles.buttonTextNormal}>
-                            {translate('INTRO_alreadyHaveWallet')}
-                        </Text>
-                        <TouchableHighlight
-                            style={styles.buttonLink}
-                            onPress={this.importWallet}
-                            underlayColor="#EEEEEE"
-                        >
-                            <Text style={styles.buttonTextLink}>
-                                {translate('INTRO_importWalletButton')}
-                            </Text>
+                        <Text style={styles.buttonTextNormal}>{translate('INTRO_alreadyHaveWallet')}</Text>
+                        <TouchableHighlight style={styles.buttonLink} onPress={this.importWallet} underlayColor="#EEEEEE">
+                            <Text style={styles.buttonTextLink}>{translate('INTRO_importWalletButton')}</Text>
                         </TouchableHighlight>
                     </View>
                 </View>

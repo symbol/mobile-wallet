@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import { BackHandler, Linking, StyleSheet } from 'react-native';
-import {
-    Button,
-    Col,
-    GradientBackground,
-    Icon,
-    Row,
-    Section,
-    TableView,
-    TitleBar,
-    Trunc,
-} from '@src/components';
+import { Button, Col, GradientBackground, Icon, Row, Section, TableView, TitleBar, Trunc } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -94,10 +84,7 @@ class OptInReview extends Component<Props, State> {
             const networkType = NetworkService.getNetworkTypeFromModel({
                 type: network,
             });
-            const publicAccount = PublicAccount.createFromPublicKey(
-                selectedMultisigDestinationAccount,
-                networkType
-            );
+            const publicAccount = PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType);
             data = {
                 optinAddress: selectedNIS1Account.address,
                 optinNIS1Multisig: selectedNIS1MultisigAccount,
@@ -107,10 +94,7 @@ class OptInReview extends Component<Props, State> {
         } else {
             data = {
                 optinAddress: selectedNIS1Account.address,
-                optinDestination: AccountService.getAddressByAccountModelAndNetwork(
-                    selectedSymbolAccount,
-                    network
-                ),
+                optinDestination: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
             };
         }
         const hardCodedDataManager = {
@@ -134,16 +118,8 @@ class OptInReview extends Component<Props, State> {
         };
 
         return (
-            <GradientBackground
-                name="connector_small"
-                theme="light"
-                dataManager={hardCodedDataManager}
-            >
-                <TitleBar
-                    theme="light"
-                    title={translate('optin.reviewTitle')}
-                    onBack={() => this.goBack()}
-                />
+            <GradientBackground name="connector_small" theme="light" dataManager={hardCodedDataManager}>
+                <TitleBar theme="light" title={translate('optin.reviewTitle')} onBack={() => this.goBack()} />
                 {!sent && (
                     <Section type="form" style={styles.list} isScrollable>
                         <TableView componentId={componentId} data={data} />
@@ -151,28 +127,14 @@ class OptInReview extends Component<Props, State> {
                             <Text type={'bold'} theme={'light'}>
                                 {translate('optin.optInAmount')}
                             </Text>
-                            <Row
-                                justify="space-between"
-                                fullWidth
-                                style={styles.mosaic}
-                            >
+                            <Row justify="space-between" fullWidth style={styles.mosaic}>
                                 <Row align="center">
-                                    <Icon
-                                        name="mosaic_custom"
-                                        size="small"
-                                        style={{ marginRight: 8 }}
-                                    />
+                                    <Icon name="mosaic_custom" size="small" style={{ marginRight: 8 }} />
                                     <Text type="regular" theme="light">
-                                        <Trunc type="namespaceName">
-                                            {'symbol.xym'}
-                                        </Trunc>
+                                        <Trunc type="namespaceName">{'symbol.xym'}</Trunc>
                                     </Text>
                                 </Row>
-                                <Text
-                                    type="regular"
-                                    theme="light"
-                                    style={styles.amount}
-                                >
+                                <Text type="regular" theme="light" style={styles.amount}>
                                     {selectedOptInStatus.balance}
                                 </Text>
                             </Row>
@@ -181,27 +143,14 @@ class OptInReview extends Component<Props, State> {
                             <Text type={'bold'} theme={'light'}>
                                 {translate('optin.fee')}
                             </Text>
-                            <Row
-                                justify="space-between"
-                                fullWidth
-                                style={styles.mosaic}
-                            >
+                            <Row justify="space-between" fullWidth style={styles.mosaic}>
                                 <Row align="center">
                                     <Text type="regular" theme="light">
-                                        <Trunc type="namespaceName">
-                                            {'XEM'}
-                                        </Trunc>
+                                        <Trunc type="namespaceName">{'XEM'}</Trunc>
                                     </Text>
                                 </Row>
-                                <Text
-                                    type="regular"
-                                    theme="light"
-                                    style={styles.amountNegative}
-                                >
-                                    -
-                                    {selectedOptInStatus.isMultisig
-                                        ? 0.35
-                                        : 0.2}
+                                <Text type="regular" theme="light" style={styles.amountNegative}>
+                                    -{selectedOptInStatus.isMultisig ? 0.35 : 0.2}
                                 </Text>
                             </Row>
                         </Section>
@@ -223,12 +172,7 @@ class OptInReview extends Component<Props, State> {
                                 text={translate('optin.send')}
                                 disabled={!isTacAccepted}
                                 theme="light"
-                                onPress={() =>
-                                    showPasscode(
-                                        this.props.componentId,
-                                        this.finish
-                                    )
-                                }
+                                onPress={() => showPasscode(this.props.componentId, this.finish)}
                             />
                         </Section>
                     </Section>
@@ -238,11 +182,7 @@ class OptInReview extends Component<Props, State> {
                         <Col justify="center" style={{ marginTop: '15%' }}>
                             <Section type="form-item">
                                 <Row justify="space-between" align="end">
-                                    <Text
-                                        type="alert"
-                                        theme="light"
-                                        style={{ paddingBottom: 0 }}
-                                    >
+                                    <Text type="alert" theme="light" style={{ paddingBottom: 0 }}>
                                         Success!
                                     </Text>
                                     <Icon name="success" size="big" />
@@ -257,13 +197,7 @@ class OptInReview extends Component<Props, State> {
                         </Col>
 
                         <Section type="form-bottom">
-                            <Button
-                                isLoading={false}
-                                isDisabled={false}
-                                text="Go to menu"
-                                theme="light"
-                                onPress={() => this.goBack()}
-                            />
+                            <Button isLoading={false} isDisabled={false} text="Go to menu" theme="light" onPress={() => this.goBack()} />
                         </Section>
                     </Section>
                 )}
@@ -278,8 +212,7 @@ export default connect(state => ({
     selectedOptInStatus: state.optin.selectedOptInStatus,
     selectedSymbolAccount: state.optin.selectedSymbolAccount,
     selectedNIS1MultisigAccount: state.optin.selectedNIS1MultisigAccount,
-    selectedMultisigDestinationAccount:
-        state.optin.selectedMultisigDestinationAccount,
+    selectedMultisigDestinationAccount: state.optin.selectedMultisigDestinationAccount,
     symbolAccounts: state.wallet.accounts,
     network: state.network.selectedNetwork.type,
     isLoading: state.optin.loading,

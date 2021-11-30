@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-    Button,
-    Dropdown,
-    GradientBackground,
-    Input,
-    InputAddress,
-    Section,
-    Text,
-    TitleBar,
-} from '@src/components';
+import { Button, Dropdown, GradientBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { isPrivateKeyValid } from '@src/utils/account';
@@ -80,9 +71,7 @@ class CreateAccount extends Component {
         const _privateKey = val || privateKey;
 
         this.setState({
-            isPrivateKeyAlreadyExists: !!accounts.find(
-                account => account.privateKey === _privateKey
-            ),
+            isPrivateKeyAlreadyExists: !!accounts.find(account => account.privateKey === _privateKey),
         });
     };
 
@@ -92,9 +81,7 @@ class CreateAccount extends Component {
         const _name = val || name;
 
         this.setState({
-            isNameAlreadyExists: !!accounts.find(
-                account => account.name === _name
-            ),
+            isNameAlreadyExists: !!accounts.find(account => account.name === _name),
         });
     };
 
@@ -140,16 +127,8 @@ class CreateAccount extends Component {
         } = this.state;
 
         return (
-            <GradientBackground
-                dataManager={{ isLoading: loading }}
-                name="mesh_small_2"
-                theme="light"
-            >
-                <TitleBar
-                    theme="light"
-                    onBack={() => this.goBack()}
-                    title={translate('createAccount.title')}
-                />
+            <GradientBackground dataManager={{ isLoading: loading }} name="mesh_small_2" theme="light">
+                <TitleBar theme="light" onBack={() => this.goBack()} title={translate('createAccount.title')} />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <Input
@@ -161,9 +140,7 @@ class CreateAccount extends Component {
                         />
                         {isNameAlreadyExists && (
                             <Text theme="light" style={styles.warning}>
-                                {translate(
-                                    'createAccount.errorAccountNameExist'
-                                )}
+                                {translate('createAccount.errorAccountNameExist')}
                             </Text>
                         )}
                     </Section>
@@ -195,9 +172,7 @@ class CreateAccount extends Component {
                                 placeholder={translate('createAccount.seed')}
                                 theme="light"
                                 fullWidth
-                                onChangeText={val =>
-                                    this.handleIndexChange(val)
-                                }
+                                onChangeText={val => this.handleIndexChange(val)}
                             />
                         </Section>
                     )}
@@ -206,11 +181,7 @@ class CreateAccount extends Component {
                             <Button
                                 text={translate('createAccount.createSeed')}
                                 theme="light"
-                                disabled={
-                                    !isNameValid ||
-                                    isNameAlreadyExists ||
-                                    !isIndexValid
-                                }
+                                disabled={!isNameValid || isNameAlreadyExists || !isIndexValid}
                                 onPress={() => this.createSeedAccount()}
                                 loading={loading}
                             />
@@ -226,22 +197,16 @@ class CreateAccount extends Component {
                                     fullWidth
                                     qrType="privateKey"
                                     showAddressBook={false}
-                                    onChangeText={val =>
-                                        this.handlePkChange(val)
-                                    }
+                                    onChangeText={val => this.handlePkChange(val)}
                                 />
                                 {isPrivateKeyAlreadyExists && (
                                     <Text theme="light" style={styles.warning}>
-                                        {translate(
-                                            'createAccount.errorPrivateKeyExist'
-                                        )}
+                                        {translate('createAccount.errorPrivateKeyExist')}
                                     </Text>
                                 )}
                                 {!isPkValid && privateKey.length > 0 && (
                                     <Text theme="light" style={styles.warning}>
-                                        {translate(
-                                            'createAccount.errorInvalidPrivateKey'
-                                        )}
+                                        {translate('createAccount.errorInvalidPrivateKey')}
                                     </Text>
                                 )}
                             </Section>
@@ -259,12 +224,7 @@ class CreateAccount extends Component {
                             <Button
                                 text={translate('createAccount.createPk')}
                                 theme="light"
-                                disabled={
-                                    !isNameValid ||
-                                    isNameAlreadyExists ||
-                                    isPrivateKeyAlreadyExists ||
-                                    !isPkValid
-                                }
+                                disabled={!isNameValid || isNameAlreadyExists || isPrivateKeyAlreadyExists || !isPkValid}
                                 loading={loading}
                                 onPress={() => this.createPrivateKeyAccount()}
                             />

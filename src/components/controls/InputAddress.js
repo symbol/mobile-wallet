@@ -49,8 +49,7 @@ class InputAccount extends Component<Props, State> {
 
     importWithAddressBook = address => {
         setTimeout(() => {
-            if (typeof this.props.onChangeText === 'function')
-                this.props.onChangeText(address);
+            if (typeof this.props.onChangeText === 'function') this.props.onChangeText(address);
         }, 1000);
     };
 
@@ -59,12 +58,7 @@ class InputAccount extends Component<Props, State> {
             const contactQR = ContactQR.fromJSON(res.data);
             const { network } = this.props;
             const networkType = NetworkService.getNetworkTypeFromModel(network);
-            this.props.onChangeText(
-                PublicAccount.createFromPublicKey(
-                    contactQR.accountPublicKey,
-                    networkType
-                ).address.pretty()
-            );
+            this.props.onChangeText(PublicAccount.createFromPublicKey(contactQR.accountPublicKey, networkType).address.pretty());
             return;
         } catch (e) {
             console.log(e);
@@ -98,10 +92,7 @@ class InputAccount extends Component<Props, State> {
             this.setState({ pkQRData: null });
         } catch (e) {
             console.log(e);
-            if (
-                e.message === 'Could not parse account information.' &&
-                typeof password !== 'string'
-            ) {
+            if (e.message === 'Could not parse account information.' && typeof password !== 'string') {
                 this.props.onChangeText('');
                 this.setState({ showPasswordModal: true });
             } else if (e.message === 'Could not parse account information.') {
@@ -155,15 +146,7 @@ class InputAccount extends Component<Props, State> {
     };
 
     render = () => {
-        const {
-            style = {},
-            fullWidth,
-            errorMessage,
-            showAddressBook = true,
-            showQR = true,
-            qrType = 'address',
-            ...rest
-        } = this.props;
+        const { style = {}, fullWidth, errorMessage, showAddressBook = true, showQR = true, qrType = 'address', ...rest } = this.props;
         const { showPasswordModal } = this.state;
 
         let rootStyle = [styles.root, style];
@@ -190,11 +173,7 @@ class InputAccount extends Component<Props, State> {
                     {...rest}
                     errorMessage={errorMessage}
                     fullWidth={fullWidth}
-                    inputStyle={this.getInputStyle(
-                        numberOfIcons,
-                        iconTouchableWidth,
-                        iconOffset
-                    )}
+                    inputStyle={this.getInputStyle(numberOfIcons, iconTouchableWidth, iconOffset)}
                 />
                 {/* <TouchableOpacity
 					style={[styles.icon, this.getIconPosition(2, iconTouchableWidth, iconOffset, !!errorMessage)]}
@@ -204,15 +183,7 @@ class InputAccount extends Component<Props, State> {
 				</TouchableOpacity> */}
                 {showQR && (
                     <TouchableOpacity
-                        style={[
-                            styles.icon,
-                            this.getIconPosition(
-                                showAddressBook ? 1 : 0,
-                                iconTouchableWidth,
-                                iconOffset,
-                                !!errorMessage
-                            ),
-                        ]}
+                        style={[styles.icon, this.getIconPosition(showAddressBook ? 1 : 0, iconTouchableWidth, iconOffset, !!errorMessage)]}
                         onPress={() => this.importWithQR(qrCallback)}
                     >
                         <Icon name="qr" size={iconSize} />
@@ -222,19 +193,9 @@ class InputAccount extends Component<Props, State> {
                     <Dropdown
                         title="Select Contact"
                         editable={true}
-                        style={[
-                            styles.icon,
-                            this.getIconPosition(
-                                0,
-                                iconTouchableWidth,
-                                iconOffset,
-                                !!errorMessage
-                            ),
-                        ]}
+                        style={[styles.icon, this.getIconPosition(0, iconTouchableWidth, iconOffset, !!errorMessage)]}
                         list={addressBookList}
-                        onChange={address =>
-                            this.importWithAddressBook(address)
-                        }
+                        onChange={address => this.importWithAddressBook(address)}
                     >
                         <Icon name="address_book" size={iconSize} />
                     </Dropdown>

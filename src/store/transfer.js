@@ -56,12 +56,9 @@ export default {
         },
 
         getMaxFee: async ({ state }, payload) => {
-            const networkType = NetworkService.getNetworkTypeFromModel(
-                state.network.selectedNetwork
-            );
+            const networkType = NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork);
             const dummyAccount = Account.generateNewAccount(networkType);
-            const recipientAddress =
-                payload.recipientAddress || dummyAccount.address.plain();
+            const recipientAddress = payload.recipientAddress || dummyAccount.address.plain();
             const transactionModel = {
                 type: 'transfer',
                 recipientAddress: recipientAddress,
@@ -75,11 +72,7 @@ export default {
                 dummyAccount,
                 state.network.selectedNetwork
             );
-            const ttxWithFee = TransactionService.calculateMaxFee(
-                ttx,
-                state.network.selectedNetwork,
-                transactionModel.fee
-            );
+            const ttxWithFee = TransactionService.calculateMaxFee(ttx, state.network.selectedNetwork, transactionModel.fee);
             return ttxWithFee.maxFee.compact();
         },
 
@@ -154,10 +147,7 @@ export default {
 
         broadcastSignedTransaction: async ({ state }, payload) => {
             try {
-                await TransactionService.broadcastSignedTransaction(
-                    payload,
-                    state.network.selectedNetwork
-                );
+                await TransactionService.broadcastSignedTransaction(payload, state.network.selectedNetwork);
             } catch (e) {
                 console.log(e);
             }
@@ -165,10 +155,7 @@ export default {
 
         broadcastCosignatureSignedTransaction: async ({ state }, payload) => {
             try {
-                await TransactionService.broadcastCosignatureSignedTransaction(
-                    payload,
-                    state.network.selectedNetwork
-                );
+                await TransactionService.broadcastCosignatureSignedTransaction(payload, state.network.selectedNetwork);
             } catch (e) {
                 console.log(e);
             }

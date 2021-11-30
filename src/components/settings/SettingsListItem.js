@@ -14,42 +14,21 @@ type Props = {
 
 const selector = value => (
     <View style={styles.dropDownSelector}>
-        <Text style={styles.dropDownSelectorText}>
-            {value.length > 20 ? value.substring(0, 20 - 3) + '...' : value}
-        </Text>
-        <Image
-            source={require('@src/assets/icons/ic-chevron-down-white.png')}
-            style={styles.dropDownSelectorIcon}
-        />
+        <Text style={styles.dropDownSelectorText}>{value.length > 20 ? value.substring(0, 20 - 3) + '...' : value}</Text>
+        <Image source={require('@src/assets/icons/ic-chevron-down-white.png')} style={styles.dropDownSelectorIcon} />
     </View>
 );
 
 export default class SettingsListItem extends Component<Props> {
     render() {
-        const {
-            title,
-            isSwitch,
-            isSelector,
-            isDropdown,
-            itemValue,
-            color,
-            onPress,
-            onValueChange,
-        } = this.props;
+        const { title, isSwitch, isSelector, isDropdown, itemValue, color, onPress, onValueChange } = this.props;
 
         const ViewComponent = isDropdown ? View : TouchableOpacity;
 
         return (
             <ViewComponent onPress={onPress} style={styles.itemContainer}>
                 <View style={styles.itemTitle}>
-                    <Text
-                        style={[
-                            styles.itemTitleText,
-                            { color: color || '#fff' },
-                        ]}
-                    >
-                        {title}
-                    </Text>
+                    <Text style={[styles.itemTitleText, { color: color || '#fff' }]}>{title}</Text>
                 </View>
                 {isSelector && selector(itemValue)}
                 {isSwitch && (

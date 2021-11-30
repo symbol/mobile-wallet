@@ -134,21 +134,16 @@ const getNativeMosaicId = (): string[] => {
     return nativeMosaicId;
 };
 
-const getWhitelistedPublicKeys = (
-    network: 'mainnnet' | 'testnet' = 'testnet'
-): string[] => {
+const getWhitelistedPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
     return optInWhiteList[network];
 };
 
-const getFinanceBotPublicKeys = (
-    network: 'mainnnet' | 'testnet' = 'testnet'
-): string[] => {
+const getFinanceBotPublicKeys = (network: 'mainnnet' | 'testnet' = 'testnet'): string[] => {
     return nglFinanceBot[network];
 };
 
 const getHarvestingPrerequisitesUrl = (): string => {
-    const prerequisitesURL =
-        'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
+    const prerequisitesURL = 'https://docs.symbolplatform.com/guides/harvesting/activating-delegated-harvesting-wallet.html#prerequisites';
     return prerequisitesURL;
 };
 

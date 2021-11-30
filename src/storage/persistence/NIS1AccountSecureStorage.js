@@ -16,13 +16,9 @@ export class NIS1AccountSecureStorage extends BaseSecureStorage {
             accounts = JSON.parse(raw);
         } catch (e) {}
         if (!accounts) accounts = [];
-        if (accounts.find(account => account.privateKey === privateKey))
-            return accounts;
+        if (accounts.find(account => account.privateKey === privateKey)) return accounts;
         accounts.push({ privateKey: privateKey, address: '' });
-        await this.secureSaveAsync(
-            this.NIS1ACCOUNTS_KEY,
-            JSON.stringify(accounts)
-        );
+        await this.secureSaveAsync(this.NIS1ACCOUNTS_KEY, JSON.stringify(accounts));
         return accounts;
     }
 
@@ -34,10 +30,7 @@ export class NIS1AccountSecureStorage extends BaseSecureStorage {
         const privateKeys = await this.retrieveAccounts();
         const filtered = privateKeys.filter(pk => pk !== privateKey);
         const accountsFiltered = filtered.map(pk => ({ privateKey: pk }));
-        await this.secureSaveAsync(
-            this.NIS1ACCOUNTS_KEY,
-            JSON.stringify(accountsFiltered)
-        );
+        await this.secureSaveAsync(this.NIS1ACCOUNTS_KEY, JSON.stringify(accountsFiltered));
     }
 
     /**
@@ -46,9 +39,7 @@ export class NIS1AccountSecureStorage extends BaseSecureStorage {
      */
     static async retrieveAccounts(): Promise<string[]> {
         try {
-            const accounts = JSON.parse(
-                await this.secureRetrieveAsync(this.NIS1ACCOUNTS_KEY)
-            );
+            const accounts = JSON.parse(await this.secureRetrieveAsync(this.NIS1ACCOUNTS_KEY));
             return accounts.map(account => account.privateKey);
         } catch (e) {
             return [];

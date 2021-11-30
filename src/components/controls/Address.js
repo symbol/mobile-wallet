@@ -20,22 +20,14 @@ type State = {};
 
 class AddressComponent extends Component<Props, State> {
     render() {
-        const {
-            children,
-            type,
-            style = {},
-            align,
-            theme,
-            addressBook,
-        } = this.props;
+        const { children, type, style = {}, align, theme, addressBook } = this.props;
         let globalStyle = {};
         const address = Address.createFromRawAddress(children);
         let addressChange = children.slice(0, 13) + '...';
         addressBook.getAllContacts().map(contact => {
             if (address.address === contact.address) {
                 addressChange = contact.name;
-                if (addressChange.length > 16)
-                    addressChange = contact.name.slice(0, 16) + '...';
+                if (addressChange.length > 16) addressChange = contact.name.slice(0, 16) + '...';
             }
         });
 
@@ -62,8 +54,7 @@ class AddressComponent extends Component<Props, State> {
 
         if (typeof align === 'string') globalStyle.textAlign = align;
 
-        if (theme === 'light')
-            globalStyle.color = GlobalStyles.color.onLight.TEXT;
+        if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
         else globalStyle.color = GlobalStyles.color.onDark.TEXT;
 
         return <Text style={[globalStyle, style]}>{addressChange}</Text>;

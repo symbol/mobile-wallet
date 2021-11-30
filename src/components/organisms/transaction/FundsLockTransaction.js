@@ -13,9 +13,7 @@ export default class FundsLockTransaction extends BaseTransactionItem<Props> {
         const { transaction } = this.props;
         return (
             <Text type="regular" theme="light">
-                {translate('history.transaction.amountLocked')}:{' '}
-                {transaction.mosaic.amount /
-                    Math.pow(10, transaction.mosaic.divisibility)}
+                {translate('history.transaction.amountLocked')}: {transaction.mosaic.amount / Math.pow(10, transaction.mosaic.divisibility)}
             </Text>
         );
     };

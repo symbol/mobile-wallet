@@ -1,11 +1,7 @@
 export default class DataSet {
     constructor({ name, fetchFunction, errorMessage }) {
-        if (typeof name !== 'string')
-            throw Error('Failed to construct Pagination. Name is not provided');
-        if (typeof fetchFunction !== 'function')
-            throw Error(
-                'Cannot create Pagination. Fetch function is not provided'
-            );
+        if (typeof name !== 'string') throw Error('Failed to construct Pagination. Name is not provided');
+        if (typeof fetchFunction !== 'function') throw Error('Cannot create Pagination. Fetch function is not provided');
 
         this.name = name;
         this.fetchFunction = fetchFunction;

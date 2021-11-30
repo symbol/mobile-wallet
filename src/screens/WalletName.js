@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import translate from '@src/locales/i18n';
 import GradientButton from '@src/components/atoms/GradientButton';
 import GradientButtonLight from '@src/components/atoms/GradientButtonLight';
@@ -242,19 +235,11 @@ class WalletName extends Component {
         const footerTitle = null;
 
         const iconSettingsSrc =
-            theme === 'light'
-                ? require('@src/assets/icons/settings_light.png')
-                : require('@src/assets/icons/settings_dark.png');
+            theme === 'light' ? require('@src/assets/icons/settings_light.png') : require('@src/assets/icons/settings_dark.png');
 
         const Title = () => {
-            const titleContainertStyle =
-                iconAlign === 'left'
-                    ? styles.titleContainerColumn
-                    : styles.titleContainerRow;
-            const titleTextStyle =
-                theme === 'light'
-                    ? styles.titleTextLight
-                    : styles.titleTextDark;
+            const titleContainertStyle = iconAlign === 'left' ? styles.titleContainerColumn : styles.titleContainerRow;
+            const titleTextStyle = theme === 'light' ? styles.titleTextLight : styles.titleTextDark;
 
             let iconSrc;
             let iconSize = { width: 55, height: 55 };
@@ -268,30 +253,9 @@ class WalletName extends Component {
 
             return (
                 <View style={titleContainertStyle}>
-                    {iconSrc && iconAlign === 'left' && (
-                        <Image
-                            style={[
-                                styles.icon,
-                                styles.iconAlignLeft,
-                                iconSize,
-                            ]}
-                            source={iconSrc}
-                        />
-                    )}
-                    <Text
-                        style={[
-                            titleTextStyle,
-                            !iconSrc && styles.titleTextNoIcon,
-                        ]}
-                    >
-                        {title}
-                    </Text>
-                    {iconSrc && iconAlign !== 'left' && (
-                        <Image
-                            style={[styles.icon, iconSize]}
-                            source={iconSrc}
-                        />
-                    )}
+                    {iconSrc && iconAlign === 'left' && <Image style={[styles.icon, styles.iconAlignLeft, iconSize]} source={iconSrc} />}
+                    <Text style={[titleTextStyle, !iconSrc && styles.titleTextNoIcon]}>{title}</Text>
+                    {iconSrc && iconAlign !== 'left' && <Image style={[styles.icon, iconSize]} source={iconSrc} />}
                 </View>
             );
         };
@@ -301,22 +265,15 @@ class WalletName extends Component {
             return <GradientButton {...props} />;
         };
 
-        const footerStyle = buttons &&
-            buttons.length === 1 && [styles.footer, styles.footerBigger];
+        const footerStyle = buttons && buttons.length === 1 && [styles.footer, styles.footerBigger];
 
         return (
             <SymbolGradientContainer noPadding style={styles.container}>
-                <Image
-                    style={styles.mesh}
-                    source={require('@src/assets/background1.png')}
-                />
+                <Image style={styles.mesh} source={require('@src/assets/background1.png')} />
                 <FadeView style={styles.pageContainer}>
                     <View style={styles.topBar}>
                         {onBack && (
-                            <TouchableOpacity
-                                style={styles.topButtonContainer}
-                                onPress={onBack}
-                            >
+                            <TouchableOpacity style={styles.topButtonContainer} onPress={onBack}>
                                 <Image
                                     style={styles.topButtons}
                                     source={require('@src/assets/icons/ic-back-white.png')}
@@ -326,15 +283,8 @@ class WalletName extends Component {
                         )}
 
                         {onSettings && (
-                            <TouchableOpacity
-                                style={styles.topButtonContainer}
-                                onPress={onSettings}
-                            >
-                                <Image
-                                    style={[styles.topButtons]}
-                                    source={iconSettingsSrc}
-                                    resizeMode="center"
-                                />
+                            <TouchableOpacity style={styles.topButtonContainer} onPress={onSettings}>
+                                <Image style={[styles.topButtons]} source={iconSettingsSrc} resizeMode="center" />
                             </TouchableOpacity>
                         )}
                     </View>
@@ -346,12 +296,8 @@ class WalletName extends Component {
 
                             {/* Content */}
                             <Input
-                                inputLabel={translate(
-                                    'CreateWallet.WalletName.inputLabel'
-                                )}
-                                placeholder={translate(
-                                    'CreateWallet.WalletName.inputPlaceholder'
-                                )}
+                                inputLabel={translate('CreateWallet.WalletName.inputLabel')}
+                                placeholder={translate('CreateWallet.WalletName.inputPlaceholder')}
                                 returnKeyType="next"
                                 onChangeText={this.handleInputChange}
                                 testID={testIDs.walletName}

@@ -163,10 +163,7 @@ export class TermsAndPrivacy extends Component<Props, State> {
         Router.goToCreateOrImport({}, this.props.componentId);
     };
 
-    renderCheckableText = (
-        isChecked: boolean,
-        isShowingTermsContent: boolean
-    ) => {
+    renderCheckableText = (isChecked: boolean, isShowingTermsContent: boolean) => {
         const termsConfirmText = translate('TERMS_agreeText');
         const links = {
             terms: {
@@ -182,11 +179,7 @@ export class TermsAndPrivacy extends Component<Props, State> {
         };
 
         return (
-            <CheckableTextLink
-                isChecked={isChecked}
-                onChecked={this.onTermsToggle}
-                linksMap={links}
-            >
+            <CheckableTextLink isChecked={isChecked} onChecked={this.onTermsToggle} linksMap={links}>
                 {termsConfirmText}
             </CheckableTextLink>
         );
@@ -195,12 +188,8 @@ export class TermsAndPrivacy extends Component<Props, State> {
     render() {
         const { isTermsChecked, isShowingTermsContent } = this.state;
         //Router.goToDashboard({}, this.props.componentId);
-        const title = translate(
-            isShowingTermsContent ? 'TERMS_title' : 'PRIVACY_title'
-        );
-        const scrollableContent = translate(
-            isShowingTermsContent ? 'TERMS_content' : 'PRIVACY_content'
-        );
+        const title = translate(isShowingTermsContent ? 'TERMS_title' : 'PRIVACY_title');
+        const scrollableContent = translate(isShowingTermsContent ? 'TERMS_content' : 'PRIVACY_content');
         const buttons = [
             {
                 title: translate('TERMS_confirmButton'),
@@ -210,19 +199,11 @@ export class TermsAndPrivacy extends Component<Props, State> {
         ];
 
         return (
-            <SymbolPageView
-                title={title}
-                buttons={buttons}
-                theme="light"
-                icon="document"
-            >
+            <SymbolPageView title={title} buttons={buttons} theme="light" icon="document">
                 <View>
                     <Text style={styles.content}>{scrollableContent}</Text>
                 </View>
-                {this.renderCheckableText(
-                    isTermsChecked,
-                    isShowingTermsContent
-                )}
+                {this.renderCheckableText(isTermsChecked, isShowingTermsContent)}
             </SymbolPageView>
         );
     }

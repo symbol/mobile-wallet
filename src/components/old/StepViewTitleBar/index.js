@@ -53,52 +53,25 @@ const generateIconButton = (
     onPress: () => void
 ) => {
     return (
-        <TouchableOpacity
-            testID={testID}
-            style={touchableStyle}
-            onPress={onPress}
-        >
+        <TouchableOpacity testID={testID} style={touchableStyle} onPress={onPress}>
             <Image style={iconStyle} source={iconRes} resizeMode="center" />
         </TouchableOpacity>
     );
 };
 
 function TitleBar(props: Props) {
-    const {
-        title,
-        children,
-        titleTextStyle,
-        showBack,
-        onBack,
-        showClose,
-        onClose,
-        style,
-        theme,
-        alignLeft,
-    } = props;
+    const { title, children, titleTextStyle, showBack, onBack, showClose, onClose, style, theme, alignLeft } = props;
 
     const barTheme: titleTheme = themeMap.get(theme) || lightTheme;
 
     let backButton = null;
     if (showBack) {
-        backButton = generateIconButton(
-            'back-button',
-            styles.leftIconContainer,
-            barTheme.backIconRes,
-            styles.icon,
-            onBack
-        );
+        backButton = generateIconButton('back-button', styles.leftIconContainer, barTheme.backIconRes, styles.icon, onBack);
     }
 
     let closeButton = null;
     if (showClose) {
-        closeButton = generateIconButton(
-            'close-button',
-            styles.rightIconContainer,
-            barTheme.closeIconRes,
-            styles.icon,
-            onClose
-        );
+        closeButton = generateIconButton('close-button', styles.rightIconContainer, barTheme.closeIconRes, styles.icon, onClose);
     }
 
     let titleBarContent = children;
@@ -106,15 +79,7 @@ function TitleBar(props: Props) {
     if (titleBarContent === undefined || titleBarContent === null) {
         const titleStyle = { color: barTheme.textColor, ...titleTextStyle };
         titleBarContent = (
-            <Text
-                testID="title-text"
-                style={[
-                    styles.title,
-                    titleStyle,
-                    alignLeft && styles.titleAlignLeft,
-                ]}
-                allowFontScaling={false}
-            >
+            <Text testID="title-text" style={[styles.title, titleStyle, alignLeft && styles.titleAlignLeft]} allowFontScaling={false}>
                 {title}
             </Text>
         );

@@ -11,9 +11,7 @@ import TextLink, { testIDs } from '../index';
 test('renders text as link button', () => {
     const text = 'LINK';
     const onLinkPressed = jest.fn();
-    const { getByTestId } = render(
-        <TextLink href={onLinkPressed}>{text}</TextLink>
-    );
+    const { getByTestId } = render(<TextLink href={onLinkPressed}>{text}</TextLink>);
 
     expect(getByTestId(testIDs.text).props.children).toBe(text);
 });
@@ -21,9 +19,7 @@ test('renders text as link button', () => {
 test('fires on-press event on tap', () => {
     const text = 'LINK';
     const onLinkPressed = jest.fn();
-    const { getByTestId } = render(
-        <TextLink href={onLinkPressed}>{text}</TextLink>
-    );
+    const { getByTestId } = render(<TextLink href={onLinkPressed}>{text}</TextLink>);
 
     fireEvent.press(getByTestId(testIDs.button));
 
@@ -47,9 +43,7 @@ test('will not fire on-press event if disabled', () => {
 test('renders correctly', () => {
     const text = 'LINK';
     const onLinkPressed = jest.fn();
-    const { baseElement } = render(
-        <TextLink href={onLinkPressed}>{text}</TextLink>
-    );
+    const { baseElement } = render(<TextLink href={onLinkPressed}>{text}</TextLink>);
 
     expect(baseElement).toMatchSnapshot();
 });

@@ -39,12 +39,7 @@ const PopupModal = (props: Props) => {
     } = props;
     const contentStyle = noPadding ? {} : styles.contentBody;
     return (
-        <Modal
-            animationType="fade"
-            transparent
-            visible={isModalOpen}
-            onRequestClose={handleClose}
-        >
+        <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
 
             <View style={styles.modalWrapper}>

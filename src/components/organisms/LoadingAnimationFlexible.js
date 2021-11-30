@@ -47,10 +47,7 @@ type Props = {
 const LoadingAnimation = (props: Props) => {
     const { style, text, theme = 'light', isFade = false } = props;
 
-    const color =
-        theme === 'light'
-            ? GlobalStyles.color.SECONDARY
-            : GlobalStyles.color.WHITE;
+    const color = theme === 'light' ? GlobalStyles.color.SECONDARY : GlobalStyles.color.WHITE;
 
     return (
         <View style={[styles.container, style]}>
@@ -60,12 +57,8 @@ const LoadingAnimation = (props: Props) => {
                         <View style={styles.spinnerWrapper}>
                             <ActivityIndicator size="large" color={color} />
                         </View>
-                        {!text && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
-                        {text && text.length > 0 && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
+                        {!text && <Text style={styles.loadingText}>{text}</Text>}
+                        {text && text.length > 0 && <Text style={styles.loadingText}>{text}</Text>}
                     </View>
                 </FadeView>
             )}
@@ -75,12 +68,8 @@ const LoadingAnimation = (props: Props) => {
                         <View style={styles.spinnerWrapper}>
                             <ActivityIndicator size="large" color={color} />
                         </View>
-                        {!text && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
-                        {text && text.length > 0 && (
-                            <Text style={styles.loadingText}>{text}</Text>
-                        )}
+                        {!text && <Text style={styles.loadingText}>{text}</Text>}
+                        {text && text.length > 0 && <Text style={styles.loadingText}>{text}</Text>}
                     </View>
                 </View>
             )}

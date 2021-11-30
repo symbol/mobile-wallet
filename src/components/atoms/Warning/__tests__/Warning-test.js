@@ -15,14 +15,7 @@ jest.doMock('react-native/Libraries/Alert/Alert', () => ({
 test('renders enter warning component correctly', () => {
     const mockHandler = jest.fn();
 
-    const { baseElement } = render(
-        <Warning
-            message="foo"
-            okButtonText="ignore"
-            hideWarning={mockHandler}
-            onIgnore={mockHandler}
-        />
-    );
+    const { baseElement } = render(<Warning message="foo" okButtonText="ignore" hideWarning={mockHandler} onIgnore={mockHandler} />);
 
     expect(baseElement).toMatchSnapshot();
 });
@@ -30,14 +23,7 @@ test('renders enter warning component correctly', () => {
 test('render proper alert', () => {
     const mockHandler = jest.fn();
 
-    render(
-        <Warning
-            message="foo"
-            okButtonText="ignore"
-            hideWarning={mockHandler}
-            onIgnore={mockHandler}
-        />
-    );
+    render(<Warning message="foo" okButtonText="ignore" hideWarning={mockHandler} onIgnore={mockHandler} />);
 
     // TODO: Ideally, the below eventArgs should be where expect.anything() is now.
     // let eventArgs = [

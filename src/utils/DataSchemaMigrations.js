@@ -27,19 +27,9 @@ const migrateOptIn = async () => {
     await MnemonicSecureStorage.saveMnemonic(mnemonic);
     let mnemonicModel = await MnemonicSecureStorage.retrieveMnemonic();
 
-    const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(
-        mnemonicModel.mnemonic,
-        0,
-        'Seed account 1',
-        'mainnet'
-    );
+    const mainnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'mainnet');
     await AccountSecureStorage.createNewAccount(mainnetAccountModel);
-    const testnetAccountModel = AccountService.createFromMnemonicAndIndex(
-        mnemonicModel.mnemonic,
-        0,
-        'Seed account 1',
-        'testnet'
-    );
+    const testnetAccountModel = AccountService.createFromMnemonicAndIndex(mnemonicModel.mnemonic, 0, 'Seed account 1', 'testnet');
     await AccountSecureStorage.createNewAccount(testnetAccountModel);
 
     const mainnetOptinAccounts = {};
@@ -56,9 +46,6 @@ const migrateOptIn = async () => {
 
     const mainnetList = getWhitelistedPublicKeys('mainnet');
     for (let publicKey of mainnetList) {
-        if (mainnetOptinAccounts[publicKey])
-            await AccountSecureStorage.createNewAccount(
-                mainnetOptinAccounts[publicKey]
-            );
+        if (mainnetOptinAccounts[publicKey]) await AccountSecureStorage.createNewAccount(mainnetOptinAccounts[publicKey]);
     }
 };

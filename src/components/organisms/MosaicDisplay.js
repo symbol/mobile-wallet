@@ -24,18 +24,13 @@ export default class MosaicDisplay extends Component<Props> {
         return (
             <View style={styles.transactionPreview}>
                 <Row justify="start" fullWidth>
-                    <Col
-                        justify="center"
-                        align="center"
-                        style={{ marginRight: 16 }}
-                    >
+                    <Col justify="center" align="center" style={{ marginRight: 16 }}>
                         <Icon name={iconName} />
                     </Col>
                     <Col grow>
                         <Row justify="space-between">
                             <Text type="regular" theme="light">
-                                {mosaic.mosaicId}{' '}
-                                {mosaic.expired ? ' (expired)' : ''}
+                                {mosaic.mosaicId} {mosaic.expired ? ' (expired)' : ''}
                             </Text>
                             {/* <Text type="regular" theme="light">
 								{mosaic.divisibility}
@@ -46,8 +41,7 @@ export default class MosaicDisplay extends Component<Props> {
                                 {mosaic.mosaicName}
                             </Text>
                             <Text type="bold" theme="light">
-                                {mosaic.amount /
-                                    Math.pow(10, mosaic.divisibility)}
+                                {mosaic.amount / Math.pow(10, mosaic.divisibility)}
                             </Text>
                         </Row>
                     </Col>

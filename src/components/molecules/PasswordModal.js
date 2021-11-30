@@ -37,8 +37,7 @@ export default class PasswordModal extends Component<Props> {
                 title={title}
                 showClose={true}
                 onClose={() => {
-                    typeof this.props.onClose === 'function' &&
-                        this.props.onClose();
+                    typeof this.props.onClose === 'function' && this.props.onClose();
                     this.setState({ showDecryptModal: false });
                 }}
             >
@@ -55,11 +54,7 @@ export default class PasswordModal extends Component<Props> {
                         />
                     </Section>
                     <Section type="form-bottom">
-                        <Button
-                            text="Submit"
-                            theme="light"
-                            onPress={() => this.onSubmit()}
-                        />
+                        <Button text="Submit" theme="light" onPress={() => this.onSubmit()} />
                     </Section>
                 </Section>
             </PopupModal>

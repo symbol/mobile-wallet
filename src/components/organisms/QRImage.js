@@ -90,22 +90,12 @@ class QRImage extends Component<Props, State> {
 
         switch (type) {
             case 'address':
-                image = await this.getAddressQR(
-                    accountName,
-                    address,
-                    networkType,
-                    generationHash
-                );
+                image = await this.getAddressQR(accountName, address, networkType, generationHash);
                 title = 'Address';
                 break;
             case 'transaction':
                 title = 'Transaction';
-                image = await this.getTransactionQR(
-                    recipientAddress,
-                    amount,
-                    network,
-                    message
-                );
+                image = await this.getTransactionQR(recipientAddress, amount, network, message);
                 break;
             case 'mnemonic':
                 title = 'Mnemonic';
@@ -124,38 +114,18 @@ class QRImage extends Component<Props, State> {
         }, 1000);
     };
 
-    getAddressQR = async (
-        accountName,
-        address,
-        networkType,
-        generationHash
-    ) => {
+    getAddressQR = async (accountName, address, networkType, generationHash) => {
         try {
-            const addressQR = new AddressQR(
-                accountName,
-                address,
-                networkType,
-                generationHash
-            );
+            const addressQR = new AddressQR(accountName, address, networkType, generationHash);
             return addressQR.toBase64().toPromise();
         } catch (e) {
             console.error(e);
         }
     };
 
-    getPrivateKeyQR = async (
-        privateKey,
-        password,
-        networkType,
-        generationHash
-    ) => {
+    getPrivateKeyQR = async (privateKey, password, networkType, generationHash) => {
         try {
-            const privateKeyQR = new AccountQR(
-                privateKey,
-                networkType,
-                generationHash,
-                password
-            );
+            const privateKeyQR = new AccountQR(privateKey, networkType, generationHash, password);
             return privateKeyQR.toBase64().toPromise();
         } catch (e) {
             console.error(e);
@@ -164,12 +134,7 @@ class QRImage extends Component<Props, State> {
 
     getTransactionQR = async (recipientAddress, amount, network, message) => {
         try {
-            return TransactionService.getReceiveSvgQRData(
-                recipientAddress,
-                amount,
-                network,
-                message
-            );
+            return TransactionService.getReceiveSvgQRData(recipientAddress, amount, network, message);
         } catch (e) {
             console.error(e);
         }
@@ -184,12 +149,7 @@ class QRImage extends Component<Props, State> {
         });
         this.setState({ counter: 0 });
         setTimeout(async () => {
-            const image = await this.getPrivateKeyQR(
-                privateKey,
-                password,
-                networkType,
-                generationHash
-            );
+            const image = await this.getPrivateKeyQR(privateKey, password, networkType, generationHash);
             this.setState({ image });
             this.onShowClick();
             this.setState({ isLoading: false });
@@ -217,43 +177,19 @@ class QRImage extends Component<Props, State> {
 
     render = () => {
         const { style = {}, type, isQrVisible = true } = this.props;
-        const {
-            isLoading,
-            image,
-            title,
-            isSecretShown,
-            counter,
-            showPasswordModal,
-        } = this.state;
+        const { isLoading, image, title, isSecretShown, counter, showPasswordModal } = this.state;
 
         const QR = (
             <>
-                {!!image && isQrVisible && (
-                    <Image style={styles.qr} source={{ uri: image }} />
-                )}
+                {!!image && isQrVisible && <Image style={styles.qr} source={{ uri: image }} />}
                 {!image && isQrVisible && <View style={styles.qr} />}
-                {!isQrVisible && (
-                    <Col
-                        justify="center"
-                        align="center"
-                        fullHeight
-                        style={[styles.qr, styles.hiddenQR]}
-                    />
-                )}
+                {!isQrVisible && <Col justify="center" align="center" fullHeight style={[styles.qr, styles.hiddenQR]} />}
             </>
         );
 
         const ShowButton = (
-            <TouchableOpacity
-                style={[styles.qr, { padding: 7 }]}
-                onPress={() => this.setState({ showPasswordModal: true })}
-            >
-                <Col
-                    justify="center"
-                    align="center"
-                    fullHeight
-                    style={styles.hiddenQR}
-                >
+            <TouchableOpacity style={[styles.qr, { padding: 7 }]} onPress={() => this.setState({ showPasswordModal: true })}>
+                <Col justify="center" align="center" fullHeight style={styles.hiddenQR}>
                     <Text type="bold" style={styles.showButton} align="center">
                         Show
                     </Text>
@@ -261,21 +197,12 @@ class QRImage extends Component<Props, State> {
             </TouchableOpacity>
         );
 
-        const Content =
-            type !== 'privateKey' || isSecretShown ? QR : ShowButton;
+        const Content = type !== 'privateKey' || isSecretShown ? QR : ShowButton;
 
         return (
             <>
-                <Col
-                    justify="center"
-                    alighn="center"
-                    style={[styles.root, style]}
-                >
-                    <ManagerHandler
-                        dataManager={{ isLoading }}
-                        theme="light"
-                        noLoadingText
-                    >
+                <Col justify="center" alighn="center" style={[styles.root, style]}>
+                    <ManagerHandler dataManager={{ isLoading }} theme="light" noLoadingText>
                         {Content}
                     </ManagerHandler>
                     <Text theme="light" type="bold" align="center">
@@ -304,8 +231,6 @@ class QRImage extends Component<Props, State> {
 
 export default connect(state => ({
     network: state.network.selectedNetwork,
-    networkType: NetworkService.getNetworkTypeFromModel(
-        state.network.selectedNetwork
-    ),
+    networkType: NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork),
     generationHash: state.network.generationHash,
 }))(QRImage);
