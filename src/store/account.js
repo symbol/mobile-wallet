@@ -152,7 +152,6 @@ export default {
 
             if (currentAccountNames) {
                 const formattedCurrentAccountNames = currentAccountNames.names.map(namespace => namespace.name);
-                console.log({formattedCurrentAccountNames})
                 commit({ type: 'account/setNames', payload: formattedCurrentAccountNames });
             }
         }
