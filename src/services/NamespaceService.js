@@ -34,7 +34,7 @@ export default class NamespaceService {
         return names;
     }
 
-    static async getAccountsNames(addresses: Address[], network: NetworkModel): Promise<AccountNames[]> {
+    static getAccountsNames(addresses: Address[], network: NetworkModel): Promise<AccountNames[]> {
         return new NamespaceHttp(network.node).getAccountsNames(addresses).toPromise();
     }
 }
