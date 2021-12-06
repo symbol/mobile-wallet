@@ -18,7 +18,7 @@ export default class NamespaceService {
         return mosaicId.id;
     }
 
-    static async getMosaicAliasNames(mosaicId: MosaicId, network: NetworkModel): Promise<Array<string>> {
+    static async getMosaicAliasNames(mosaicId: MosaicId, network: NetworkModel): Promise<string[]> {
         const mosaicNames = await new NamespaceHttp(network.node).getMosaicsNames([mosaicId]).toPromise();
 
         const formattedMosaicNames = mosaicNames.map(mosaicName => ({
@@ -34,7 +34,7 @@ export default class NamespaceService {
         return names;
     }
 
-    static async getAccountsNames(addresses: Array<Address>, network: NetworkModel): Promise<Array<AccountNames>> {
+    static async getAccountsNames(addresses: Address[], network: NetworkModel): Promise<AccountNames[]> {
         return new NamespaceHttp(network.node).getAccountsNames(addresses).toPromise();
     }
 }
