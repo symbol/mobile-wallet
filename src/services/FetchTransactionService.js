@@ -1,38 +1,32 @@
 import {
-    Address,
-    TransactionHttp,
-    TransactionGroup,
-    Transaction,
-    TransferTransaction,
-    LockFundsTransaction,
-    AggregateTransaction,
-    NamespaceRegistrationTransaction,
-    MosaicAliasTransaction,
-    Page,
-    RepositoryFactory,
-    NamespaceHttp,
-    Order,
     AccountHttp,
+    Address,
+    AggregateTransaction,
+    LockFundsTransaction,
+    MosaicAliasTransaction,
+    NamespaceRegistrationTransaction,
+    Order,
     PublicAccount,
     RepositoryFactoryHttp,
+    Transaction,
+    TransactionGroup,
+    TransactionHttp,
+    TransferTransaction,
 } from 'symbol-sdk';
-import type { AccountOriginType } from '@src/storage/models/AccountModel';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type {
     AggregateTransactionModel,
+    MosaicAliasTransactionModel,
+    NamespaceRegistrationTransactionModel,
     TransactionModel,
     TransferTransactionModel,
-    NamespaceRegistrationTransactionModel,
-    MosaicAliasTransactionModel,
 } from '@src/storage/models/TransactionModel';
 import { formatTransactionLocalDateTime } from '@src/utils/format';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import FundsLockTransaction from '@src/components/organisms/transaction/FundsLockTransaction';
 import MosaicService from '@src/services/MosaicService';
 import type { DirectionFilter } from '@src/store/transaction';
-import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 
 export default class FetchTransactionService {
     /**
@@ -54,7 +48,12 @@ export default class FetchTransactionService {
         if (!accountInfo.publicKey) return false;
         const publicAccount = PublicAccount.createFromPublicKey(accountInfo.publicKey, NetworkService.getNetworkTypeFromModel(network));
         const transactionsData = await transactionHttp
-            .search({ pageNumber: 1, pageSize: 100, group: TransactionGroup.Partial, address: publicAccount.address })
+            .search({
+                pageNumber: 1,
+                pageSize: 100,
+                group: TransactionGroup.Partial,
+                address: publicAccount.address,
+            })
             .toPromise();
         for (let transaction: Transaction of transactionsData.data) {
             if (transaction instanceof AggregateTransaction) {
@@ -101,9 +100,21 @@ export default class FetchTransactionService {
             baseSearchCriteria.address = address;
         }
 
-        const confirmedSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Confirmed, pageSize: 25 };
-        const partialSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Partial, pageSize: 100 };
-        const unconfirmedSearchCriteria = { ...baseSearchCriteria, group: TransactionGroup.Unconfirmed, pageSize: 100 };
+        const confirmedSearchCriteria = {
+            ...baseSearchCriteria,
+            group: TransactionGroup.Confirmed,
+            pageSize: 25,
+        };
+        const partialSearchCriteria = {
+            ...baseSearchCriteria,
+            group: TransactionGroup.Partial,
+            pageSize: 100,
+        };
+        const unconfirmedSearchCriteria = {
+            ...baseSearchCriteria,
+            group: TransactionGroup.Unconfirmed,
+            pageSize: 100,
+        };
         let allTransactions;
         if (page === 1) {
             const [confirmedTransactions, partialTransactions, unconfirmedTransactions] = await Promise.all([
@@ -113,15 +124,15 @@ export default class FetchTransactionService {
             ]);
 
             let multisigPartialSearchCriteria = partialSearchCriteria;
-            for(const cosigner of cosignatoryOf){
+            for (const cosigner of cosignatoryOf) {
                 multisigPartialSearchCriteria.address = Address.createFromRawAddress(cosigner);
-                const multisigTransactions =  await transactionHttp.search(multisigPartialSearchCriteria).toPromise();
-                for(const transaction of multisigTransactions.data){
-                    if(!partialTransactions.data.some((tx)=>transaction.transactionInfo.hash ===  tx.transactionInfo.hash)){
+                const multisigTransactions = await transactionHttp.search(multisigPartialSearchCriteria).toPromise();
+                for (const transaction of multisigTransactions.data) {
+                    if (!partialTransactions.data.some(tx => transaction.transactionInfo.hash === tx.transactionInfo.hash)) {
                         partialTransactions.data.push(transaction);
                     }
                 }
-            };
+            }
 
             allTransactions = [...partialTransactions.data, ...unconfirmedTransactions.data, ...confirmedTransactions.data];
         } else {
@@ -148,7 +159,9 @@ export default class FetchTransactionService {
                 }
             }
         }
-        const mosaicModels = await Promise.all(Object.values(mosaics).map(mosaic => MosaicService.getMosaicModelFromMosaicId(mosaic, network)));
+        const mosaicModels = await Promise.all(
+            Object.values(mosaics).map(mosaic => MosaicService.getMosaicModelFromMosaicId(mosaic, network))
+        );
         return mosaicModels.reduce((acc, mosaicModel) => {
             acc[mosaicModel.mosaicId] = mosaicModel;
             return acc;
@@ -157,12 +170,16 @@ export default class FetchTransactionService {
 
     /**
      * Transform a symbol account to an account Model
-     * @returns {{privateKey: string, name: string, id: string, type: AccountOriginType}}
+     * @returns Promise<TransactionModel>
      * @param transaction
      * @param network
      * @param preLoadedMosaics
      */
-    static async symbolTransactionToTransactionModel(transaction: Transaction, network: NetworkModel, preLoadedMosaics): Promise<TransactionModel> {
+    static async symbolTransactionToTransactionModel(
+        transaction: Transaction,
+        network: NetworkModel,
+        preLoadedMosaics
+    ): Promise<TransactionModel> {
         let transactionModel: TransactionModel = {
             type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
@@ -216,7 +233,10 @@ export default class FetchTransactionService {
         return {
             ...transactionModel,
             type: 'transfer',
-            recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.pretty() : transaction.recipientAddress.id.toHex(),
+            recipientAddress:
+                transaction.recipientAddress instanceof Address
+                    ? transaction.recipientAddress.pretty()
+                    : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type === 0x01,
             mosaics: mosaicModels,
@@ -279,8 +299,8 @@ export default class FetchTransactionService {
                     transaction.isConfirmed()
                         ? TransactionGroup.Confirmed
                         : transaction.isUnconfirmed()
-                            ? TransactionGroup.Unconfirmed
-                            : TransactionGroup.Partial
+                        ? TransactionGroup.Unconfirmed
+                        : TransactionGroup.Partial
                 )
                 .toPromise();
             innerTransactionModels = await Promise.all(
@@ -304,14 +324,12 @@ export default class FetchTransactionService {
      * Populates namespace transaction Model
      * @param transactionModel
      * @param transaction
-     * @param network
      * @returns {Promise<void>}
      * @private
      */
     static async _populateNamespaceRegistrationTransactionModel(
         transactionModel: TransactionModel,
-        transaction: NamespaceRegistrationTransaction,
-        network: NetworkModel
+        transaction: NamespaceRegistrationTransaction
     ): Promise<NamespaceRegistrationTransactionModel> {
         const namespace = transaction.namespaceName;
         return {

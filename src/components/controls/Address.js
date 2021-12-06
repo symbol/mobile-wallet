@@ -19,7 +19,6 @@ interface Props {
 type State = {};
 
 class AddressComponent extends Component<Props, State> {
-
     render() {
         const { children, type, style = {}, align, theme, addressBook } = this.props;
         let globalStyle = {};

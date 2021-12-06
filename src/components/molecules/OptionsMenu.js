@@ -1,7 +1,6 @@
-import React, { Component, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableHighlight, Modal, FlatList, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Popover from 'react-native-popover-view';
-import GlobalStyles from '@src/styles/GlobalStyles';
 import { Icon, Row, Text } from '@src/components';
 
 const styles = StyleSheet.create({
@@ -61,7 +60,6 @@ export default class OptionsMenu extends Component<Props, State> {
     render = () => {
         const { style = {}, list = [], children } = this.props;
         const { isVisible } = this.state;
-        let touchable;
 
         return (
             <>
@@ -74,8 +72,14 @@ export default class OptionsMenu extends Component<Props, State> {
                     isVisible={isVisible}
                     animationConfig={{ duration: 200 }}
                     arrowStyle={{ backgroundColor: 'transparent' }}
-                    onRequestClose={() => this.setState({ isVisible: false })}>
-                    <FlatList style={styles.root} data={list} renderItem={this.renderItem} keyExtractor={(item, index) => item.label + index} />
+                    onRequestClose={() => this.setState({ isVisible: false })}
+                >
+                    <FlatList
+                        style={styles.root}
+                        data={list}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => item.label + index}
+                    />
                 </Popover>
             </>
         );

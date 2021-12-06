@@ -3,19 +3,19 @@
  * @flow
  */
 import React from 'react';
-import { Text, TextInput, Platform } from 'react-native';
+import { Text, TextInput } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
 import { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
-import {AsyncCache} from './utils/storage/AsyncCache';
+import { AsyncCache } from './utils/storage/AsyncCache';
 import store from '@src/store';
 import { MnemonicSecureStorage } from '@src/storage/persistence/MnemonicSecureStorage';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import { deletePasscode } from '@src/utils/passcode';
-import {CURRENT_DATA_SCHEMA, migrateDataSchema} from "@src/utils/DataSchemaMigrations";
+import { CURRENT_DATA_SCHEMA, migrateDataSchema } from '@src/utils/DataSchemaMigrations';
 
 // Handle passcode after 30 secs of inactivity
 let appState: string = '';
@@ -79,7 +79,11 @@ const launchWallet = async () => {
 
     if (mnemonic) {
         scheduleBackgroundJob();
-        if (isPin) Router.showPasscode({ resetPasscode: false, onSuccess: () => Router.goToDashboard() });
+        if (isPin)
+            Router.showPasscode({
+                resetPasscode: false,
+                onSuccess: () => Router.goToDashboard(),
+            });
         else Router.goToDashboard();
     } else {
         Router.goToTermsAndPrivacy({});

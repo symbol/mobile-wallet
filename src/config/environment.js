@@ -3,27 +3,25 @@
  * @flow
  */
 import {
-    sessionTimeoutInSeconds,
-    marketCurrencyName,
-    explorerURL,
-    statisticsServiceURL,
-    faucetURL,
     aboutURL,
     currencies,
-    lanugages,
-    syncIntervals,
-    nodeTypes,
-    networks,
-    defaultSyncInterval,
-    optinEnv,
-    NISNodes,
     defaultNetworkType,
+    defaultSyncInterval,
+    explorerURL,
+    faucetURL,
+    lanugages,
+    marketCurrencyName,
     nativeMosaicId,
-    optInWhiteList,
+    networks,
     nglFinanceBot,
+    nodeTypes,
+    optInWhiteList,
+    optinEnv,
+    sessionTimeoutInSeconds,
+    statisticsServiceURL,
+    syncIntervals,
 } from 'react-native-env-json';
 import { NetworkType } from 'symbol-sdk';
-import { languageNames } from '@src/locales/i18n';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 // Session timeout

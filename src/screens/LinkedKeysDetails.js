@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Section, GradientBackground, TitleBar, LinkFaucet, LinkExplorer, Text, TableView, QRImage, Row } from '@src/components';
+import { StyleSheet } from 'react-native';
+import { GradientBackground, Section, TableView, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
 import GlobalStyles from '@src/styles/GlobalStyles';

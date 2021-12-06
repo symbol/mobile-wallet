@@ -49,10 +49,7 @@ class NamespaceRegistrationGraphic extends GraphicComponent {
                     namespace={this.namespace}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleAdd
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleAdd x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <G>
                     <Text
                         x={this.transactionTypeTextPositionX}

@@ -1,62 +1,51 @@
 import React, { Component } from 'react';
-import { 
-	StyleSheet, 
-	Text,
-} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Dropdown, Row, Input } from '@src/components';
+import { Dropdown, Input, Row } from '@src/components';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
-	name: {
-		fontSize: 12,
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '400'
-	},
-	balance: {
-		fontSize: 12,
-		color: GlobalStyles.color.GREY3
-	},
+    name: {
+        fontSize: 12,
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '400',
+    },
+    balance: {
+        fontSize: 12,
+        color: GlobalStyles.color.GREY3,
+    },
     input: {
         marginHorizontal: 20,
         marginTop: 10,
-        marginBottom: 0
-    }
+        marginBottom: 0,
+    },
 });
 
-
-interface Props {
-
-};
+interface Props {}
 type State = {
-    customNodeUrlInput: string;
-    isInvalidUrl: Boolean;
+    customNodeUrlInput: string,
+    isInvalidUrl: Boolean,
 };
-
 
 export default class MosaicDropdown extends Component<Props, State> {
     state = {
         customNodeUrlInput: '',
-        isInvalidUrl: false
+        isInvalidUrl: false,
     };
 
     constructor(props) {
         super(props);
         this.dropdown = React.createRef();
-    };
+    }
 
-	renderItem = (item) => {
-		return (
-			<Row style={styles.root} justify ="space-between">
-				<Text style={styles.name}>
-					{item.label}
-				</Text>
-				<Text style={styles.balance}>
-					{item.balance}
-				</Text>
-			</Row>
-		);
-	};
+    renderItem = item => {
+        return (
+            <Row style={styles.root} justify="space-between">
+                <Text style={styles.name}>{item.label}</Text>
+                <Text style={styles.balance}>{item.balance}</Text>
+            </Row>
+        );
+    };
 
     renderModalInner = () => {
         return (
@@ -71,24 +60,24 @@ export default class MosaicDropdown extends Component<Props, State> {
                 style={styles.input}
                 onChangeText={text => this.onChangeText(text)}
                 onSubmitEditing={() => this.onSubmit()}
-            /> 
+            />
         );
     };
 
-    onChangeText = (nodeUrl) => {
+    onChangeText = nodeUrl => {
         const validUrl = /^((https?:\/\/))[\w-]+(\.[\w-]+)+\.?(:\d{1,4})?$/gm.test(nodeUrl);
         this.setState({
             customNodeUrlInput: nodeUrl,
-            isInvalidUrl: !validUrl
+            isInvalidUrl: !validUrl,
         });
     };
 
     clearCustomNodeUrlInput = () => {
         this.setState({
             customNodeUrlInput: '',
-            isInvalidUrl: false
+            isInvalidUrl: false,
         });
-    }
+    };
 
     onSubmit = () => {
         if (!this.state.isInvalidUrl && this.state.customNodeUrlInput.length) {
@@ -98,15 +87,17 @@ export default class MosaicDropdown extends Component<Props, State> {
     };
 
     render = () => {
-		const { ...rest } = this.props;
+        const { ...rest } = this.props;
 
-        return <Dropdown 
-            modalInnerRenderer={this.renderModalInner}
-            onOpenSelector={this.clearCustomNodeUrlInput}
-            onCloseSelector={this.clearCustomNodeUrlInput}
-            inputStyle={{borderWidth: 1}}
-            ref={this.dropdown} 
-            {...rest} 
-        />
+        return (
+            <Dropdown
+                modalInnerRenderer={this.renderModalInner}
+                onOpenSelector={this.clearCustomNodeUrlInput}
+                onCloseSelector={this.clearCustomNodeUrlInput}
+                inputStyle={{ borderWidth: 1 }}
+                ref={this.dropdown}
+                {...rest}
+            />
+        );
     };
 }

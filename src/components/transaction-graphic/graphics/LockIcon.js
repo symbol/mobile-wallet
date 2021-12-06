@@ -13,30 +13,10 @@ export default class LockIcon extends GraphicComponent {
 
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width={this._width}
-                height={this._height}
-                viewBox={this.viewBox}
-            >
-                <Rect
-                    x="25.266"
-                    y="107.646"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    fill="none"
-                    width="207.333"
-                    height="23.667"
-                />
+            <G version="1.1" x={this._x} y={this._y} width={this._width} height={this._height} viewBox={this.viewBox}>
+                <Rect x="25.266" y="107.646" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="207.333" height="23.667" />
                 {!this.props.hideCaption && (
-                    <Text
-                        x="130"
-                        y="122.8457"
-                        style={this.styles.text}
-                        textAnchor="middle"
-                    >
+                    <Text x="130" y="122.8457" style={this.styles.text} textAnchor="middle">
                         {this.truncatedLockName}
                     </Text>
                 )}
@@ -48,14 +28,7 @@ export default class LockIcon extends GraphicComponent {
                     s0.392,0.606,0.356,0.944v54.52c0,0.75-0.605,1.355-1.354,1.355H95.826L95.826,101.078z M97.216,98.388h68.346V46.611H97.216V98.388
                     z M131.372,15.805c-12.276,0-22.325,10.031-22.325,22.325v5.737h44.633V38.13C153.679,25.836,143.647,15.805,131.372,15.805z"
                 />
-                <Rect
-                    id="plane"
-                    x="96.325"
-                    y="45.491"
-                    fill="#44004E"
-                    width="70.699"
-                    height="53.865"
-                />
+                <Rect id="plane" x="96.325" y="45.491" fill="#44004E" width="70.699" height="53.865" />
                 <Path
                     id="key"
                     fill="#FFFFFF"

@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Router } from '@src/Router';
@@ -13,16 +13,11 @@ class CustomFlashMessage extends Component<Props> {
         const { componentId } = this.props;
         setTimeout(() => Router.closeOverlay(componentId), 2400);
     };
-    
+
     render() {
         return (
             <View style={styles.container}>
-				<FlashMessage 
-					position="top" 
-					animationDuration={200}
-					floating={true}
-					position={{top: getStatusBarHeight()}}
-				/>
+                <FlashMessage animationDuration={200} floating={true} position={{ top: getStatusBarHeight() }} />
             </View>
         );
     }

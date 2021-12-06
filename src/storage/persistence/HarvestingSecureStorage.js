@@ -1,5 +1,4 @@
 import { BaseSecureStorage } from '@src/storage/persistence/BaseSecureStorage';
-import type { AccountModel } from '@src/storage/models/AccountModel';
 import type { HarvestingModel } from '@src/storage/models/HarvestingModel';
 
 export class HarvestingSecureStorage extends BaseSecureStorage {
@@ -26,7 +25,7 @@ export class HarvestingSecureStorage extends BaseSecureStorage {
 
     /**
      * Get harvesting model
-     * @returns {Promise<AccountModel[]>}
+     * @returns {Promise<HarvestingModel | null>}
      */
     static async getHarvestingModel(id: string): Promise<HarvestingModel | null> {
         const harvestingString = await this.secureRetrieveAsync(this.HARVESTING_KEY);

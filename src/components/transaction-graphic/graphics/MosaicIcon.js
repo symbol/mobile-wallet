@@ -4,15 +4,11 @@ import { Defs, G, LinearGradient, Path, Stop, Text } from 'react-native-svg';
 
 export default class MosaicIcon extends GraphicComponent {
     get iconColor() {
-        return this.getIconColorFromHex(
-            this.props.mosaicId || this.props.mosaic.mosaicId
-        );
+        return this.getIconColorFromHex(this.props.mosaicId || this.props.mosaic.mosaicId);
     }
 
     get truncatedMosaicId() {
-        return this.truncString(
-            this.props.mosaicId || this.props.mosaic.mosaicId
-        );
+        return this.truncString(this.props.mosaicId || this.props.mosaic.mosaicId);
     }
 
     get truncatedMosaicName() {
@@ -29,22 +25,9 @@ export default class MosaicIcon extends GraphicComponent {
 
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width={this._width}
-                height={this._height}
-                viewBox={this.viewBox}
-            >
+            <G version="1.1" x={this._x} y={this._y} width={this._width} height={this._height} viewBox={this.viewBox}>
                 <Defs>
-                    <LinearGradient
-                        id="connector-gradient"
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                    >
+                    <LinearGradient id="connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <Stop offset="0%" stopColor="rgb(255, 255, 255)" />
                         <Stop offset="100%" stopColor="rgb(196, 182, 208)" />
                     </LinearGradient>
@@ -87,12 +70,7 @@ export default class MosaicIcon extends GraphicComponent {
                     />
                 </G>
                 {!this.props.hideCaption && (
-                    <Text
-                        x="130"
-                        y="122.8457"
-                        style={this.styles.text}
-                        textAnchor="middle"
-                    >
+                    <Text x="130" y="122.8457" style={this.styles.text} textAnchor="middle">
                         {this.truncatedMosaicName}
                     </Text>
                 )}

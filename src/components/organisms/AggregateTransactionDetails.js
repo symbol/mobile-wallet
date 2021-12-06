@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-    BackHandler,
-    Dimensions,
-    FlatList,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { BackHandler, Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
     Button,
     Checkbox,
@@ -166,7 +159,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     type: 'transfer/signAggregateBonded',
                     payload: transaction,
                 })
-                .then(_ => {
+                .then(() => {
                     store.dispatchAction({
                         type: 'transaction/changeFilters',
                         payload: {},
@@ -177,14 +170,8 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
     needsSignature = () => {
         const { transaction, selectedAccount, isMultisig } = this.props;
-        const accountPubKey = getPublicKeyFromPrivateKey(
-            selectedAccount.privateKey
-        );
-        return (
-            !isMultisig &&
-            transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 &&
-            transaction.status !== 'confirmed'
-        );
+        const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
+        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
     };
 
     onClose() {
@@ -209,11 +196,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
         return (
             <Section style={count - 1 === index && styles.contentBottom}>
                 <View style={styles.graphicItem} key={'graphic' + index}>
-                    <TransactionGraphic
-                        index={index}
-                        expand={expand}
-                        {...item}
-                    />
+                    <TransactionGraphic index={index} expand={expand} {...item} />
                 </View>
             </Section>
         );
@@ -224,18 +207,12 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
         return (
             <FadeView style={{ flex: 1 }}>
-                <ListContainer
-                    isScrollable={true}
-                    isLoading={isLoading || !fullTransaction}
-                    style={styles.infoTable}
-                >
+                <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={styles.infoTable}>
                     {fullTransaction && (
                         <FlatList
                             data={fullTransaction.innerTransactions}
                             renderItem={this.renderTransactionItem}
-                            keyExtractor={(item, index) =>
-                                '' + index + 'details'
-                            }
+                            keyExtractor={(item, index) => '' + index + 'details'}
                             contentContainerStyle={{ flexGrow: 1 }}
                         />
                     )}
@@ -252,10 +229,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 {fullTransaction && (
                     <FlatList
                         data={fullTransaction.innerTransactions}
-                        renderItem={this.renderGraphicItem(
-                            expandGraphic,
-                            fullTransaction.innerTransactions.length
-                        )}
+                        renderItem={this.renderGraphicItem(expandGraphic, fullTransaction.innerTransactions.length)}
                         keyExtractor={(item, index) => '' + index + 'details'}
                         contentContainerStyle={{ flexGrow: 1 }}
                     />
@@ -269,21 +243,14 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
         return (
             <FadeView style={{ flex: 1 }}>
-                <ListContainer
-                    isScrollable={true}
-                    isLoading={isLoading || !fullTransaction}
-                    style={styles.infoTable}
-                >
+                <ListContainer isScrollable={true} isLoading={isLoading || !fullTransaction} style={styles.infoTable}>
                     {fullTransaction && (
                         <>
                             <ListItem>
                                 <TableView data={fullTransaction.info} />
                             </ListItem>
                             <ListItem>
-                                <LinkExplorer
-                                    type="transaction"
-                                    value={fullTransaction.info.hash}
-                                />
+                                <LinkExplorer type="transaction" value={fullTransaction.info.hash} />
                             </ListItem>
                         </>
                     )}
@@ -293,22 +260,13 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     renderSign() {
-        const {
-            showLastWarning,
-            userUnderstand,
-            showBlacklistForm,
-            blacklistAccountName,
-        } = this.state;
+        const { showLastWarning, userUnderstand, showBlacklistForm, blacklistAccountName } = this.state;
 
         if (!showLastWarning && !showBlacklistForm) {
             return (
                 <Section type="form" style={styles.acceptanceForm}>
                     <Section type="form-item">
-                        <Text type="bold">
-                            {translate(
-                                'history.cosignFormTitleRequireSignature'
-                            )}
-                        </Text>
+                        <Text type="bold">{translate('history.cosignFormTitleRequireSignature')}</Text>
                     </Section>
                     <Section type="form-item">
                         <Button
@@ -337,89 +295,54 @@ class AggregateTransactionDetails extends Component<Props, State> {
             return (
                 <Section type="form" style={styles.acceptanceForm}>
                     <Section type="form-item">
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.setState({ showBlacklistForm: false })
-                            }
-                        >
+                        <TouchableOpacity onPress={() => this.setState({ showBlacklistForm: false })}>
                             <Row align="center">
-                                <Icon
-                                    name="back_dark"
-                                    size="small"
-                                    style={{ marginRight: 10 }}
-                                />
-                                <Text type="bold">
-                                    {translate(
-                                        'history.cosignFormTitleBlacklist'
-                                    )}
-                                </Text>
+                                <Icon name="back_dark" size="small" style={{ marginRight: 10 }} />
+                                <Text type="bold">{translate('history.cosignFormTitleBlacklist')}</Text>
                             </Row>
                         </TouchableOpacity>
                     </Section>
                     <Section type="form-item">
                         <Input
                             value={blacklistAccountName}
-                            placeholder={translate(
-                                'history.cosignFormInputNote'
-                            )}
+                            placeholder={translate('history.cosignFormInputNote')}
                             theme="light"
-                            onChangeText={value =>
-                                this.setState({ blacklistAccountName: value })
-                            }
+                            onChangeText={value => this.setState({ blacklistAccountName: value })}
                         />
                     </Section>
                     <Section type="form-item">
                         <Button
-                            text={translate(
-                                'history.cosignFormButtonBlacklist'
-                            )}
+                            text={translate('history.cosignFormButtonBlacklist')}
                             theme="dark"
-                            onPress={() =>
-                                this.setState({ showLastWarning: false })
-                            }
+                            onPress={() => this.setState({ showLastWarning: false })}
                         />
                     </Section>
                 </Section>
             );
         } else {
             return (
-                <FadeView style={styles.signFormContainer} style={{ flex: 1 }}>
+                <FadeView style={[styles.signFormContainer, { flex: 1 }]}>
                     <RandomImage style={styles.randomImage} isContainer>
-                        <Text
-                            style={styles.textCaution}
-                            type="title"
-                            theme="dark"
-                            align="center"
-                        >
+                        <Text style={styles.textCaution} type="title" theme="dark" align="center">
                             {translate('history.caution')}
                         </Text>
                     </RandomImage>
                     <Section type="form" style={styles.signForm} isScrollable>
                         <Section type="form-bottom">
                             <Section type="form-item">
-                                <Text type="bold">
-                                    {translate(
-                                        'history.cosignFormTitleLastWarning'
-                                    )}
-                                </Text>
+                                <Text type="bold">{translate('history.cosignFormTitleLastWarning')}</Text>
                             </Section>
                             <Section type="form-item">
                                 <Checkbox
                                     value={userUnderstand}
-                                    title={translate(
-                                        'history.cosignFormCheckbox'
-                                    )}
+                                    title={translate('history.cosignFormCheckbox')}
                                     theme="dark"
-                                    onChange={value =>
-                                        this.setState({ userUnderstand: value })
-                                    }
+                                    onChange={value => this.setState({ userUnderstand: value })}
                                 />
                             </Section>
                             <Section type="form-item">
                                 <Button
-                                    text={translate(
-                                        'history.cosignFormButtonReviewAgain'
-                                    )}
+                                    text={translate('history.cosignFormButtonReviewAgain')}
                                     theme="light"
                                     onPress={() =>
                                         this.setState({
@@ -446,14 +369,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     render() {
-        const {
-            isActive,
-            showLastWarning,
-            isLoading,
-            selectedTab,
-            fullTransaction,
-            needsSignature,
-        } = this.state;
+        const { isActive, showLastWarning, isLoading, selectedTab, fullTransaction, needsSignature } = this.state;
         let Content = null;
 
         switch (selectedTab) {
@@ -476,19 +392,11 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 onPressCloseButton={() => this.onClose()}
                 style={{ backgroundColor: '#f3f4f8' }}
             >
-                <TitleBar
-                    theme="light"
-                    title={translate('history.transactionDetails')}
-                    onClose={() => this.onClose()}
-                />
+                <TitleBar theme="light" title={translate('history.transactionDetails')} onClose={() => this.onClose()} />
                 {!showLastWarning && (
                     <Row style={styles.tabs}>
                         <TouchableOpacity
-                            style={[
-                                styles.tab,
-                                selectedTab === 'innerTransactions' &&
-                                    styles.activeTab,
-                            ]}
+                            style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
                             onPress={() =>
                                 this.setState({
                                     selectedTab: 'innerTransactions',
@@ -500,13 +408,8 @@ class AggregateTransactionDetails extends Component<Props, State> {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[
-                                styles.tab,
-                                selectedTab === 'info' && styles.activeTab,
-                            ]}
-                            onPress={() =>
-                                this.setState({ selectedTab: 'info' })
-                            }
+                            style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
+                            onPress={() => this.setState({ selectedTab: 'info' })}
                         >
                             <Text type="bold" theme="light">
                                 {translate('history.infoTransactionTab')}
@@ -515,12 +418,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     </Row>
                 )}
                 {(isLoading || !fullTransaction) && (
-                    <LoadingAnimationFlexible
-                        isFade
-                        style={{ position: 'relative', height: '80%' }}
-                        text={' '}
-                        theme="light"
-                    />
+                    <LoadingAnimationFlexible isFade style={{ position: 'relative', height: '80%' }} text={' '} theme="light" />
                 )}
                 {!showLastWarning && !isLoading && fullTransaction && Content}
                 {needsSignature && !isLoading && this.renderSign()}

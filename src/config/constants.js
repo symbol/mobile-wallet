@@ -43,24 +43,18 @@ export class Constants {
         [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
         [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
         [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Mosaic Supply Change',
-        [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]:
-            'Multisig Account Modification',
+        [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modification',
         [TransactionType.AGGREGATE_COMPLETE]: 'Aggregate Complete',
         [TransactionType.AGGREGATE_BONDED]: 'Aggregate Bonded',
         [TransactionType.HASH_LOCK]: 'Hash Lock',
         [TransactionType.SECRET_LOCK]: 'Secret Lock',
         [TransactionType.SECRET_PROOF]: 'Secret Proof',
-        [TransactionType.ACCOUNT_ADDRESS_RESTRICTION]:
-            'Account Address Restriction',
-        [TransactionType.ACCOUNT_MOSAIC_RESTRICTION]:
-            'Account Mosaic Restriction',
-        [TransactionType.ACCOUNT_OPERATION_RESTRICTION]:
-            'Account Operation Restriction',
+        [TransactionType.ACCOUNT_ADDRESS_RESTRICTION]: 'Account Address Restriction',
+        [TransactionType.ACCOUNT_MOSAIC_RESTRICTION]: 'Account Mosaic Restriction',
+        [TransactionType.ACCOUNT_OPERATION_RESTRICTION]: 'Account Operation Restriction',
         [TransactionType.ACCOUNT_KEY_LINK]: 'Account Key Link',
-        [TransactionType.MOSAIC_ADDRESS_RESTRICTION]:
-            'Mosaic Address Restriction',
-        [TransactionType.MOSAIC_GLOBAL_RESTRICTION]:
-            'Mosaic Global Restriction',
+        [TransactionType.MOSAIC_ADDRESS_RESTRICTION]: 'Mosaic Address Restriction',
+        [TransactionType.MOSAIC_GLOBAL_RESTRICTION]: 'Mosaic Global Restriction',
         [TransactionType.ACCOUNT_METADATA]: 'Account Metadata',
         [TransactionType.MOSAIC_METADATA]: 'Mosaic Metadata',
         [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata',
@@ -154,14 +148,10 @@ export class Constants {
     };
 
     static AddressRestrictionFlag = {
-        [AddressRestrictionFlag.AllowIncomingAddress]:
-            'v_AllowIncomingAddresses',
-        [AddressRestrictionFlag.AllowOutgoingAddress]:
-            'v_AllowOutgoingAddresses',
-        [AddressRestrictionFlag.BlockIncomingAddress]:
-            'v_BlockIncomingAddresses',
-        [AddressRestrictionFlag.BlockOutgoingAddress]:
-            'v_BlockOutgoingAddresses',
+        [AddressRestrictionFlag.AllowIncomingAddress]: 'v_AllowIncomingAddresses',
+        [AddressRestrictionFlag.AllowOutgoingAddress]: 'v_AllowOutgoingAddresses',
+        [AddressRestrictionFlag.BlockIncomingAddress]: 'v_BlockIncomingAddresses',
+        [AddressRestrictionFlag.BlockOutgoingAddress]: 'v_BlockOutgoingAddresses',
     };
 
     static MosaicRestrictionFlag = {
@@ -170,10 +160,8 @@ export class Constants {
     };
 
     static OperationRestrictionFlag = {
-        [OperationRestrictionFlag.AllowOutgoingTransactionType]:
-            'v_AllowOutgoingTransactions',
-        [OperationRestrictionFlag.BlockOutgoingTransactionType]:
-            'v_BlockOutgoingTransactions',
+        [OperationRestrictionFlag.AllowOutgoingTransactionType]: 'v_AllowOutgoingTransactions',
+        [OperationRestrictionFlag.BlockOutgoingTransactionType]: 'v_BlockOutgoingTransactions',
     };
 
     static MosaicRestrictionEntryType = {

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Linking } from 'react-native';
-import { Section, GradientBackground, TitleBar, Text, Button, TableView, LinkExplorer, Icon, Row, Col } from '@src/components';
-import translate from '@src/locales/i18n';
+import { StyleSheet } from 'react-native';
+import { Button, Col, GradientBackground, Icon, LinkExplorer, Row, Section, TableView, Text, TitleBar } from '@src/components';
 import Store from '@src/store';
 import { Router } from '@src/Router';
 import { connect } from 'react-redux';
-import { getExplorerURL } from '@src/config/environment';
-import {showPasscode} from "@src/utils/passcode";
+import { showPasscode } from '@src/utils/passcode';
 
 const styles = StyleSheet.create({
     transactionPreview: {
@@ -53,7 +51,9 @@ class ConfirmTransaction extends Component<Props, State> {
             errorMessage,
         };
 
-        const preview = Object.keys(transaction).filter(key => key !== "fee").map(key => ({ key, value: transaction[key] }));
+        const preview = Object.keys(transaction)
+            .filter(key => key !== 'fee')
+            .map(key => ({ key, value: transaction[key] }));
 
         const isPreviewShown = !isLoading && !isError && !isSuccessfullySent;
 
@@ -96,7 +96,13 @@ class ConfirmTransaction extends Component<Props, State> {
                         </Col>
 
                         <Section type="form-bottom">
-                            <Button isLoading={false} isDisabled={false} text="Go to dashboard" theme="light" onPress={() => Router.goToDashboard()} />
+                            <Button
+                                isLoading={false}
+                                isDisabled={false}
+                                text="Go to dashboard"
+                                theme="light"
+                                onPress={() => Router.goToDashboard()}
+                            />
                         </Section>
                     </Section>
                 )}

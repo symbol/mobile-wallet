@@ -45,10 +45,7 @@ class MosaicSupplyChangeGraphic extends GraphicComponent {
                     mosaic={this.mosaic}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleEdit
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleEdit x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <G>
                     <Text
                         x={this.transactionTypeTextPositionX}

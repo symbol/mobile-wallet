@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import {Button, GradientBackground, ImageBackground, Section, TitleBar} from '@src/components';
+import { Button, GradientBackground, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 import Contact from '@src/components/organisms/Contact';
 import store from '@src/store';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 
 type Props = {
     componentId: string,
@@ -13,20 +12,16 @@ type Props = {
 
 type State = {};
 
-const styles = StyleSheet.create({
-    button: {
-        marginLeft: '10%',
-        marginRight: '10%',
-        marginTop: 10,
-        top: -100,
-    },
-});
-
 class AddressBookPage extends Component<Props, State> {
     state = {};
 
     submit = () => {
-        store.dispatchAction({ type: 'addressBook/selectContact', payload: null }).then(_ => Router.goToAddContact({}, this.props.componentId));
+        store
+            .dispatchAction({
+                type: 'addressBook/selectContact',
+                payload: null,
+            })
+            .then(() => Router.goToAddContact({}, this.props.componentId));
     };
 
     render() {
@@ -37,10 +32,12 @@ class AddressBookPage extends Component<Props, State> {
             <GradientBackground
                 name="mesh"
                 theme="light"
-                titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)}/>}
+                titleBar={
+                    <TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)} />
+                }
             >
                 <Section type="list" isScrollable>
-                    {addressBook.getAllContacts().map(contact => {
+                    {addressBook.getAllContacts().map((contact, index) => {
                         return (
                             <Contact
                                 {...this.props}
@@ -51,16 +48,17 @@ class AddressBookPage extends Component<Props, State> {
                                 email={contact.email}
                                 label={contact.label}
                                 notes={contact.notes}
+                                key={'addr' + index}
                             />
                         );
                     })}
                 </Section>
                 <Section type="form-bottom">
-					<Section type="list">
-						<Section type="form-item">
-							<Button text={translate('addressBook.addContact')} theme="light" onPress={() => this.submit()} />
-						</Section>
-					</Section>
+                    <Section type="list">
+                        <Section type="form-item">
+                            <Button text={translate('addressBook.addContact')} theme="light" onPress={() => this.submit()} />
+                        </Section>
+                    </Section>
                 </Section>
             </GradientBackground>
         );

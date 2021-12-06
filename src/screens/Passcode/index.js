@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { Image, View, Text, TouchableOpacity, BackHandler } from 'react-native';
+import { BackHandler, Image, Text, TouchableOpacity } from 'react-native';
 import PINCode from '@haskkor/react-native-pincode';
 import styles from './Passcode.styl';
 import translate from '@src/locales/i18n';
@@ -44,7 +44,11 @@ class Passcode extends Component<Props, State> {
         const isPinSet = await getPasscodeStatus();
         const isTouchIDEnabled = isPinSet;
 
-        this.setState({ isPinSet: isPinSet, isTouchIDEnabled: isTouchIDEnabled, isLoading: false });
+        this.setState({
+            isPinSet: isPinSet,
+            isTouchIDEnabled: isTouchIDEnabled,
+            isLoading: false,
+        });
     };
 
     handleCancel = async () => {
@@ -77,15 +81,13 @@ class Passcode extends Component<Props, State> {
     };
 
     updateSecurity = (securityMode: string, postLoginFunc: () => void) => {
-        AsyncCache.setIsPasscodeSelected(securityMode !== 'none').then(_ => {
+        AsyncCache.setIsPasscodeSelected(securityMode !== 'none').then(() => {
             postLoginFunc();
         });
     };
 
     renderCustomDeleteIcon = () => {
-        return (
-            <Image style={styles.iconDelete} source={require('@src/assets/icons/ic-delete.png')} />
-        );
+        return <Image style={styles.iconDelete} source={require('@src/assets/icons/ic-delete.png')} />;
     };
 
     renderCustomCancel = () => {
@@ -103,15 +105,10 @@ class Passcode extends Component<Props, State> {
         const type = isPinSet ? 'enter' : 'choose';
 
         return (
-            <GradientContainer
-                colorSchema='normal'
-                style={styles.gradientContainer}>
+            <GradientContainer colorSchema="normal" style={styles.gradientContainer}>
                 {!isLoading && (
                     <React.Fragment>
-                        <Image
-                            style={styles.icon}
-                            source={require('@src/assets/icons/lock.png')}
-                        />
+                        <Image style={styles.icon} source={require('@src/assets/icons/lock.png')} />
 
                         <PINCode
                             status={type}

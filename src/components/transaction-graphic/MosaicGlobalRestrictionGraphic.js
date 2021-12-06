@@ -40,10 +40,7 @@ export default class MosaicGlobalRestrictionGraphic extends GraphicComponent {
                     mosaic={this.mosaic}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleRestriction
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleRestriction x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

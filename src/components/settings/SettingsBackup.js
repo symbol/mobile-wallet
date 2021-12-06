@@ -7,10 +7,6 @@ import { showPasscode } from '@src/utils/passcode';
 
 export default class SettingsBackup extends Component {
     onPress = () => {
-        const callBack = () => {
-            Router.goToGenerateBackup({ isBackup: true }, this.props.componentId);
-        };
-
         showPasscode(
             this.props.componentId,
             () =>
@@ -24,7 +20,11 @@ export default class SettingsBackup extends Component {
     render() {
         return (
             <View>
-                <SettingsListItem title={translate('Settings.backup')} icon={require('@src/assets/icons/ic-backup-white.png')} onPress={this.onPress} />
+                <SettingsListItem
+                    title={translate('Settings.backup')}
+                    icon={require('@src/assets/icons/ic-backup-white.png')}
+                    onPress={this.onPress}
+                />
             </View>
         );
     }

@@ -58,7 +58,7 @@ export default {
         getMaxFee: async ({ state }, payload) => {
             const networkType = NetworkService.getNetworkTypeFromModel(state.network.selectedNetwork);
             const dummyAccount = Account.generateNewAccount(networkType);
-            const recipientAddress =  payload.recipientAddress || dummyAccount.address.plain();
+            const recipientAddress = payload.recipientAddress || dummyAccount.address.plain();
             const transactionModel = {
                 type: 'transfer',
                 recipientAddress: recipientAddress,
@@ -67,7 +67,11 @@ export default {
                 mosaics: payload.mosaics,
                 fee: payload.fee,
             };
-            const ttx = await TransactionService.transactionModelToTransactionObject(transactionModel, dummyAccount, state.network.selectedNetwork);
+            const ttx = await TransactionService.transactionModelToTransactionObject(
+                transactionModel,
+                dummyAccount,
+                state.network.selectedNetwork
+            );
             const ttxWithFee = TransactionService.calculateMaxFee(ttx, state.network.selectedNetwork, transactionModel.fee);
             return ttxWithFee.maxFee.compact();
         },
@@ -81,7 +85,10 @@ export default {
                 mosaics: payload.mosaics,
                 fee: payload.fee,
             };
-            const maxFee = await dispatchAction({ type: 'transfer/getMaxFee', payload });
+            const maxFee = await dispatchAction({
+                type: 'transfer/getMaxFee',
+                payload,
+            });
 
             commit({
                 type: 'transfer/setTransaction',
@@ -97,34 +104,48 @@ export default {
             commit({ type: 'transfer/setTransactionHash', payload: payload });
         },
 
-        broadcastTransaction: async ({ commit, state, dispatchAction }, payload) => {
+        broadcastTransaction: async ({ commit, state }, payload) => {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
-                await TransactionService.signAndBroadcastTransactionModel(payload, state.wallet.selectedAccount, state.network.selectedNetwork);
+                await TransactionService.signAndBroadcastTransactionModel(
+                    payload,
+                    state.wallet.selectedAccount,
+                    state.network.selectedNetwork
+                );
                 commit({ type: 'transfer/setLoading', payload: false });
                 commit({ type: 'transfer/setSuccessfullySent', payload: true });
             } catch (e) {
                 console.log(e);
                 commit({ type: 'transfer/setError', payload: true });
-                commit({ type: 'transfer/setErrorMessage', payload: ErrorHandler.getMessage(e.message) });
+                commit({
+                    type: 'transfer/setErrorMessage',
+                    payload: ErrorHandler.getMessage(e.message),
+                });
             }
         },
 
-        signAggregateBonded: async ({ commit, state, dispatchAction }, payload) => {
+        signAggregateBonded: async ({ commit, state }, payload) => {
             try {
                 commit({ type: 'transfer/setLoading', payload: true });
                 commit({ type: 'transfer/setError', payload: false });
-                await TransactionService.cosignAndBroadcastAggregateTransactionModel(payload, state.wallet.selectedAccount, state.network.selectedNetwork);
+                await TransactionService.cosignAndBroadcastAggregateTransactionModel(
+                    payload,
+                    state.wallet.selectedAccount,
+                    state.network.selectedNetwork
+                );
                 commit({ type: 'transfer/setLoading', payload: false });
                 commit({ type: 'transfer/setSuccessfullySent', payload: true });
             } catch (e) {
                 console.log(e);
-                commit({ type: 'transfer/setError', payload: ErrorHandler.getMessage(e) });
+                commit({
+                    type: 'transfer/setError',
+                    payload: ErrorHandler.getMessage(e),
+                });
             }
         },
 
-        broadcastSignedTransaction: async ({ commit, state, dispatchAction }, payload) => {
+        broadcastSignedTransaction: async ({ state }, payload) => {
             try {
                 await TransactionService.broadcastSignedTransaction(payload, state.network.selectedNetwork);
             } catch (e) {
@@ -132,7 +153,7 @@ export default {
             }
         },
 
-        broadcastCosignatureSignedTransaction: async ({ commit, state, dispatchAction }, payload) => {
+        broadcastCosignatureSignedTransaction: async ({ state }, payload) => {
             try {
                 await TransactionService.broadcastCosignatureSignedTransaction(payload, state.network.selectedNetwork);
             } catch (e) {

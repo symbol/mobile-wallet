@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Row, Icon, Trunc, Dropdown } from '@src/components';
+import { StyleSheet } from 'react-native';
+import { Button, Dropdown, GradientBackground, Icon, Row, Section, TitleBar, Trunc } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -67,17 +67,25 @@ class OptInAccountDetails extends Component<Props, State> {
     onChangeOptInAccount = account => {
         const { selectedNIS1Account } = this.props;
         if (account !== selectedNIS1Account.address) {
-            store.dispatchAction({ type: 'optin/loadNIS1MultisigAccount', payload: account });
+            store.dispatchAction({
+                type: 'optin/loadNIS1MultisigAccount',
+                payload: account,
+            });
         } else {
             const { nis1Accounts } = this.props;
-            store.dispatchAction({ type: 'optin/loadNIS1Account', payload: nis1Accounts.map(account => account.address).indexOf(account) });
+            store.dispatchAction({
+                type: 'optin/loadNIS1Account',
+                payload: nis1Accounts.map(account => account.address).indexOf(account),
+            });
         }
     };
 
     start = () => {
         const { selectedOptInStatus } = this.props;
-        if (!selectedOptInStatus.isMultisig) Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
-        else if (!selectedOptInStatus.destination) Router.goToOptinSelectSymbolMultisigDestination({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        if (!selectedOptInStatus.isMultisig)
+            Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
+        else if (!selectedOptInStatus.destination)
+            Router.goToOptinSelectSymbolMultisigDestination({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
         else Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
@@ -89,21 +97,39 @@ class OptInAccountDetails extends Component<Props, State> {
     };
 
     render() {
-        const { isLoading, componentId, selectedNIS1Account, selectedNIS1MultisigAccount, selectedOptInStatus, optinAddresses, network } = this.props;
+        const {
+            isLoading,
+            componentId,
+            selectedNIS1Account,
+            selectedNIS1MultisigAccount,
+            selectedOptInStatus,
+            optinAddresses,
+            network,
+        } = this.props;
         const dataManager = { isLoading };
         const addresses = optinAddresses.map((address, index) => ({
             label: address + (index === 0 ? ' - Primary' : ' - Multisig'),
             value: address,
         }));
-        const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
-        const publicAccount =
-            selectedOptInStatus.destination
-                ? PublicAccount.createFromPublicKey(selectedOptInStatus.destination, networkType)
-                : null;
+        const networkType = NetworkService.getNetworkTypeFromModel({
+            type: network,
+        });
+        const publicAccount = selectedOptInStatus.destination
+            ? PublicAccount.createFromPublicKey(selectedOptInStatus.destination, networkType)
+            : null;
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
                 <TitleBar theme="light" title={translate('optin.statusTitle')} onBack={() => Router.goBack(componentId)} />
-                <Text style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 20 }} theme="light" type={'bold'} align={'center'}>
+                <Text
+                    style={{
+                        paddingLeft: 30,
+                        paddingRight: 30,
+                        marginBottom: 20,
+                    }}
+                    theme="light"
+                    type={'bold'}
+                    align={'center'}
+                >
                     {translate('optin.optInDetailsDescription')}
                 </Text>
                 <Section type="form" style={styles.list} isScrollable>
@@ -145,20 +171,23 @@ class OptInAccountDetails extends Component<Props, State> {
                         </Text>
                         <Text type={'regular'} theme={'light'} style={[styles.status, styles['status' + selectedOptInStatus.status]]}>
                             {translate(
-                                'optin.status' + selectedOptInStatus.status + (this.hasUserSigned() && selectedOptInStatus.status !== 6 ? 'signed' : '')
+                                'optin.status' +
+                                    selectedOptInStatus.status +
+                                    (this.hasUserSigned() && selectedOptInStatus.status !== 6 ? 'signed' : '')
                             )}
                         </Text>
                     </Section>
-                    {selectedOptInStatus.error != null && (selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && (
-                        <Section type="form-item">
-                            <Text type={'bold'} theme={'light'}>
-                                {translate('optin.lastOptInFailed')}
-                            </Text>
-                            <Text type={'regular'} theme={'light'} style={styles.error}>
-                                {translate('optin.error' + selectedOptInStatus.error)}
-                            </Text>
-                        </Section>
-                    )}
+                    {selectedOptInStatus.error != null &&
+                        (selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && (
+                            <Section type="form-item">
+                                <Text type={'bold'} theme={'light'}>
+                                    {translate('optin.lastOptInFailed')}
+                                </Text>
+                                <Text type={'regular'} theme={'light'} style={styles.error}>
+                                    {translate('optin.error' + selectedOptInStatus.error)}
+                                </Text>
+                            </Section>
+                        )}
                     <Section type="form-item">
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.optInAmount')}
@@ -182,20 +211,22 @@ class OptInAccountDetails extends Component<Props, State> {
                             </Text>
                         </Section>
                     )}
-                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) && !this.hasUserSigned() && selectedOptInStatus.balance >= 2 && (
-                        <Section type="form-bottom">
-                            <Button
-                                isDisabled={
-                                    selectedOptInStatus.status === 2 ||
-                                    selectedOptInStatus.status === 5 ||
-                                    selectedOptInStatus.status === 6
-                                }
-                                text={translate('optin.start')}
-                                theme="light"
-                                onPress={() => this.start()}
-                            />
-                        </Section>
-                    )}
+                    {(selectedOptInStatus.status === 1 || selectedOptInStatus.status === 3 || selectedOptInStatus.status === 4) &&
+                        !this.hasUserSigned() &&
+                        selectedOptInStatus.balance >= 2 && (
+                            <Section type="form-bottom">
+                                <Button
+                                    isDisabled={
+                                        selectedOptInStatus.status === 2 ||
+                                        selectedOptInStatus.status === 5 ||
+                                        selectedOptInStatus.status === 6
+                                    }
+                                    text={translate('optin.start')}
+                                    theme="light"
+                                    onPress={() => this.start()}
+                                />
+                            </Section>
+                        )}
                 </Section>
             </GradientBackground>
             //</ImageBackground>

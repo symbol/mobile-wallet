@@ -9,7 +9,6 @@ import { Modal, View } from 'react-native';
 import styles from './confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
-import {Text, Section} from '@src/components';
 
 type Props = {
     children: Node,
@@ -23,7 +22,7 @@ type Props = {
 };
 
 const BasicModal = (props: Props) => {
-    const { children, isModalOpen, handleClose, showTopbar, title, text, showBack, onBack, showClose } = props;
+    const { children, isModalOpen, handleClose, title, showBack, onBack, showClose } = props;
     return (
         <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
@@ -42,7 +41,7 @@ const BasicModal = (props: Props) => {
                             title={title}
                             alignLeft
                         />
-                            {children}
+                        {children}
                     </View>
                 </Card>
             </View>

@@ -1,7 +1,16 @@
 import nem from 'nem-sdk';
 import { NIS1AccountSecureStorage } from '@src/storage/persistence/NIS1AccountSecureStorage';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
-import { broadcastDTO, buildSimpleDTO, buildMultisigDTO, MultisigCache, NormalCache, OptinConfig, status, StatusCode } from 'symbol-post-launch-optin-module';
+import {
+    MultisigCache,
+    NormalCache,
+    OptinConfig,
+    StatusCode,
+    broadcastDTO,
+    buildMultisigDTO,
+    buildSimpleDTO,
+    status,
+} from 'symbol-post-launch-optin-module';
 import { NetworkType } from 'symbol-sdk';
 import type { AccountModel } from '@src/storage/models/AccountModel';
 import store from '@src/store';
@@ -25,7 +34,11 @@ export default class OptInService {
                 publicKey,
                 network === 'testnet' ? nem.model.network.data.testnet.id : nem.model.network.data.mainnet.id
             );
-            return { address: address, privateKey: privateKey, publicKey: publicKey };
+            return {
+                address: address,
+                privateKey: privateKey,
+                publicKey: publicKey,
+            };
         });
     }
 
@@ -58,7 +71,7 @@ export default class OptInService {
                         resolve(res.amount);
                     });
                 })
-                .catch(e => {
+                .catch(() => {
                     resolve(0);
                 });
         });

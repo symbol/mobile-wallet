@@ -22,15 +22,15 @@ import {
     UInt64,
     VrfKeyLinkTransaction,
 } from 'symbol-sdk';
-import type {NetworkModel} from '@src/storage/models/NetworkModel';
-import type {AccountModel} from '@src/storage/models/AccountModel';
+import type { NetworkModel } from '@src/storage/models/NetworkModel';
+import type { AccountModel } from '@src/storage/models/AccountModel';
 import AccountService from '@src/services/AccountService';
-import type {HarvestedBlock, HarvestedBlockStats, HarvestingStatus} from '@src/store/harvesting';
-import {map, reduce} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import type { HarvestedBlock, HarvestedBlockStats, HarvestingStatus } from '@src/store/harvesting';
+import { map, reduce } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import NetworkService from '@src/services/NetworkService';
-import {HarvestingSecureStorage} from '@src/storage/persistence/HarvestingSecureStorage';
-import type {HarvestingModel} from '@src/storage/models/HarvestingModel';
+import { HarvestingSecureStorage } from '@src/storage/persistence/HarvestingSecureStorage';
+import type { HarvestingModel } from '@src/storage/models/HarvestingModel';
 
 export default class HarvestingService {
     /**
@@ -91,7 +91,12 @@ export default class HarvestingService {
     /**
      * Get harvested blocks
      */
-    static async getHarvestedBlocks(account: AccountModel, network: NetworkModel, pageNumber = 0, pageSize = 25): Promise<HarvestedBlock[]> {
+    static async getHarvestedBlocks(
+        account: AccountModel,
+        network: NetworkModel,
+        pageNumber = 0,
+        pageSize = 25
+    ): Promise<HarvestedBlock[]> {
         const receiptRepository = new ReceiptHttp(network.node);
 
         const rawAddress = AccountService.getAddressByAccountModelAndNetwork(account, network.type);
@@ -112,7 +117,10 @@ export default class HarvestingService {
             blockNo: t.height,
             fee: t.receipts.find(r => r.targetAddress.plain() === targetAddress.plain())?.amount,
         }));
-        const pageInfo = { isLastPage: pageTxStatement.isLastPage, pageNumber: pageTxStatement.pageNumber };
+        const pageInfo = {
+            isLastPage: pageTxStatement.isLastPage,
+            pageNumber: pageTxStatement.pageNumber,
+        };
         return { harvestedBlocks, pageInfo };
     }
 
@@ -155,9 +163,12 @@ export default class HarvestingService {
             .subscribe({
                 next: harvestedBlockStats => {
                     harvestedBlockStats.totalFeesEarned = harvestedBlockStats.totalFeesEarned.compact() / Math.pow(10, 6);
-                    commit({ type: 'harvesting/setHarvestedBlockStats', payload: harvestedBlockStats });
+                    commit({
+                        type: 'harvesting/setHarvestedBlockStats',
+                        payload: harvestedBlockStats,
+                    });
                 },
-                error: err => {},
+                error: () => {},
             });
     }
 
@@ -218,19 +229,22 @@ export default class HarvestingService {
             },
         ];
     }
-    static async getAccountImportance(node: string, accountAddress: string, networkCurrencyDivisibility, selectedNode){
-        try{
+    static async getAccountImportance(node: string, accountAddress: string, networkCurrencyDivisibility, selectedNode) {
+        try {
             const accountHttp = new AccountHttp(node);
             const accountInfo = await accountHttp.getAccountInfo(Address.createFromRawAddress(accountAddress)).toPromise();
-            if(!accountInfo){
-                return '0%'
+            if (!accountInfo) {
+                return '0%';
             }
             const networkInfo = await NetworkService.getNetworkModelFromNode(selectedNode);
             if (!networkCurrencyDivisibility || !networkInfo.totalChainImportance) {
                 return 'N/A';
             }
-            return {networkInfo: networkInfo, importance: accountInfo.importance.compact()};
-        }catch(err){
+            return {
+                networkInfo: networkInfo,
+                importance: accountInfo.importance.compact(),
+            };
+        } catch (err) {
             console.log(err);
             return;
         }
@@ -249,7 +263,13 @@ export default class HarvestingService {
         const remoteAccount = Account.generateNewAccount(networkType);
 
         const maxFee = UInt64.fromUint(1000000);
-        const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), vrfAccount.publicKey, LinkAction.Link, networkType, maxFee);
+        const vrfTx = VrfKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            vrfAccount.publicKey,
+            LinkAction.Link,
+            networkType,
+            maxFee
+        );
         const remoteTx = AccountKeyLinkTransaction.create(
             Deadline.create(network.epochAdjustment, 2),
             remoteAccount.publicKey,
@@ -257,7 +277,13 @@ export default class HarvestingService {
             networkType,
             maxFee
         );
-        const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), nodePublicKey, LinkAction.Link, networkType, maxFee);
+        const nodeTx = NodeKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            nodePublicKey,
+            LinkAction.Link,
+            networkType,
+            maxFee
+        );
 
         const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
         const currentSigner = account.publicAccount;
@@ -291,7 +317,13 @@ export default class HarvestingService {
 
         const maxFee = UInt64.fromUint(1000000);
         console.log(keys);
-        const vrfTx = VrfKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.vrf.publicKey, LinkAction.Unlink, networkType, maxFee);
+        const vrfTx = VrfKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            keys.vrf.publicKey,
+            LinkAction.Unlink,
+            networkType,
+            maxFee
+        );
         const remoteTx = AccountKeyLinkTransaction.create(
             Deadline.create(network.epochAdjustment, 2),
             keys.linked.publicKey,
@@ -299,7 +331,13 @@ export default class HarvestingService {
             networkType,
             maxFee
         );
-        const nodeTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), keys.node.publicKey, LinkAction.Unlink, networkType, maxFee);
+        const nodeTx = NodeKeyLinkTransaction.create(
+            Deadline.create(network.epochAdjustment, 2),
+            keys.node.publicKey,
+            LinkAction.Unlink,
+            networkType,
+            maxFee
+        );
 
         const account = Account.createFromPrivateKey(accountModel.privateKey, networkType);
         const currentSigner = account.publicAccount;
@@ -351,7 +389,12 @@ export default class HarvestingService {
      * @param nodePublicKey
      * @returns {Promise<void>}
      */
-    static async doHarvesting(action: 'START' | 'STOP' | 'SWAP', accountModel: AccountModel, network: NetworkModel, nodePublicKey?: string) {
+    static async doHarvesting(
+        action: 'START' | 'STOP' | 'SWAP',
+        accountModel: AccountModel,
+        network: NetworkModel,
+        nodePublicKey?: string
+    ) {
         const networkType = NetworkService.getNetworkTypeFromModel(network);
         const txs = await this._getTransactions(action, accountModel, network, nodePublicKey);
         console.log(txs);
@@ -438,7 +481,13 @@ export default class HarvestingService {
                 networkType,
                 maxFee
             );
-            const nodeLinkTx = NodeKeyLinkTransaction.create(Deadline.create(network.epochAdjustment, 2), nodePublicKey, LinkAction.Link, networkType, maxFee);
+            const nodeLinkTx = NodeKeyLinkTransaction.create(
+                Deadline.create(network.epochAdjustment, 2),
+                nodePublicKey,
+                LinkAction.Link,
+                networkType,
+                maxFee
+            );
             txsToBeAggregated.push(accountKeyLinkTx, vrfKeyLinkTx, nodeLinkTx);
         }
 
@@ -486,7 +535,10 @@ export default class HarvestingService {
             websocketInjected: WebSocket,
         });
         const listener = repositoryFactory.createListener();
-        const transactionService = new TransactionService(repositoryFactory.createTransactionRepository(), repositoryFactory.createReceiptRepository());
+        const transactionService = new TransactionService(
+            repositoryFactory.createTransactionRepository(),
+            repositoryFactory.createReceiptRepository()
+        );
         return listener.open().then(() => {
             transactionService.announce(first, listener).subscribe(
                 () => {

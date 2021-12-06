@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { Text, View, ScrollView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
 import GradientButton from '@src/components/atoms/GradientButton';
 import styles from './ShowMnemonics.styl';
@@ -47,7 +47,12 @@ class ShowMnemonics extends Component {
     render() {
         return (
             <GradientContainer start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} angle={135} useAngle style={styles.gradientContainer}>
-                <TitleBar title={translate('CreateWallet.ShowMnemonics.title')} theme="dark" showBack onBack={() => Router.goBack(this.props.componentId)} />
+                <TitleBar
+                    title={translate('CreateWallet.ShowMnemonics.title')}
+                    theme="dark"
+                    showBack
+                    onBack={() => Router.goBack(this.props.componentId)}
+                />
                 <View style={styles.contentContainer}>
                     <Text style={styles.textContent}>{translate('CreateWallet.ShowMnemonics.description')}</Text>
                     <Card style={styles.orderedMnemonics}>

@@ -1,4 +1,4 @@
-import {Listener} from "symbol-sdk";
+import { Listener } from 'symbol-sdk';
 
 export class CommonHelpers {
     /**

@@ -1,8 +1,8 @@
 import AccountService from '@src/services/AccountService';
 import { of } from 'rxjs';
 import { GlobalListener } from '@src/store/index';
-import { RepositoryFactoryHttp, Address } from 'symbol-sdk';
-import { map, catchError } from 'rxjs/operators';
+import { Address, RepositoryFactoryHttp } from 'symbol-sdk';
+import { catchError, map } from 'rxjs/operators';
 import _ from 'lodash';
 
 export default {
@@ -59,7 +59,10 @@ export default {
             try {
                 commit({ type: 'account/setLoading', payload: true });
                 const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-                commit({ type: 'account/setSelectedAccountAddress', payload: address });
+                commit({
+                    type: 'account/setSelectedAccountAddress',
+                    payload: address,
+                });
                 await dispatchAction({ type: 'account/loadMultisigTree' });
                 if (reset) {
                     await dispatchAction({ type: 'account/loadCosignatoryOf' });
@@ -80,7 +83,10 @@ export default {
         },
         loadBalance: async ({ commit, state }) => {
             const address = await AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(address, state.network.selectedNetwork);
+            const { balance, ownedMosaics } = await AccountService.getBalanceAndOwnedMosaicsFromAddress(
+                address,
+                state.network.selectedNetwork
+            );
             commit({ type: 'account/setBalance', payload: balance });
             commit({ type: 'account/setOwnedMosaics', payload: ownedMosaics });
         },
@@ -114,8 +120,14 @@ export default {
                 GlobalListener.addUnconfirmed(cosignatoryOf, state.account.cosignatoryOf.length > 0);
                 GlobalListener.addPartial(cosignatoryOf, state.account.cosignatoryOf.length > 0);
             }
-            commit({ type: 'account/setCosignatoryOf', payload: msigInfo.cosignatoryOf });
-            commit({ type: 'account/setIsMultisig', payload: msigInfo.isMultisig });
+            commit({
+                type: 'account/setCosignatoryOf',
+                payload: msigInfo.cosignatoryOf,
+            });
+            commit({
+                type: 'account/setIsMultisig',
+                payload: msigInfo.isMultisig,
+            });
         },
         // load multisig tree data
         loadMultisigTree: async ({ commit, state }) => {
@@ -126,11 +138,17 @@ export default {
                 .getMultisigAccountGraphInfo(Address.createFromRawAddress(address))
                 .pipe(
                     map(g => {
-                        commit({ type: 'account/setMultisigGraphInfo', payload: g.multisigEntries });
+                        commit({
+                            type: 'account/setMultisigGraphInfo',
+                            payload: g.multisigEntries,
+                        });
                         return of(g);
                     }),
                     catchError(() => {
-                        commit({ type: 'account/setMultisigGraphInfo', payload: undefined });
+                        commit({
+                            type: 'account/setMultisigGraphInfo',
+                            payload: undefined,
+                        });
                         return of([]);
                     })
                 )

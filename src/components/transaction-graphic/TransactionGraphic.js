@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    index: number;
-    expand: boolean;
+    index: number,
+    expand: boolean,
 };
 
 export default function TransactionGraphic(props: Props) {
@@ -62,8 +62,7 @@ export default function TransactionGraphic(props: Props) {
         setExpanded(props.expand);
     }, [props.expand]);
 
-    const transactionNumber =
-            typeof props.index === 'number' ? props.index + 1 + '' : null;
+    const transactionNumber = typeof props.index === 'number' ? props.index + 1 + '' : null;
     const tableData = _.omit(props, [
         'index',
         'expand',
@@ -78,7 +77,7 @@ export default function TransactionGraphic(props: Props) {
 
     const toggle = () => {
         setExpanded(value => !value);
-    }
+    };
 
     const renderGraphic = () => {
         switch (props.transactionType) {
@@ -150,41 +149,24 @@ export default function TransactionGraphic(props: Props) {
         }
 
         return null;
-    }
+    };
 
     return (
-        <TouchableOpacity
-            onPress={() => toggle()}
-            style={[styles.fullWidth, styles.center]}
-        >
+        <TouchableOpacity onPress={() => toggle()} style={[styles.fullWidth, styles.center]}>
             {transactionNumber && (
-                <Text
-                    type="regular"
-                    theme="light"
-                    style={styles.transactionNumber}
-                >
+                <Text type="regular" theme="light" style={styles.transactionNumber}>
                     {transactionNumber}
                 </Text>
             )}
             {renderGraphic()}
             {!expanded && (
-                <Row
-                    style={styles.expand}
-                    align="center"
-                    justify="center"
-                    fullWidth
-                >
+                <Row style={styles.expand} align="center" justify="center" fullWidth>
                     <Icon name="expand" size="small" />
                 </Row>
             )}
             {expanded && (
                 <Section style={[styles.fullWidth, styles.tableContainer]}>
-                    <TableView
-                        smaller
-                        hideEmpty
-                        style={styles.fullWidth}
-                        data={tableData}
-                    />
+                    <TableView smaller hideEmpty style={styles.fullWidth} data={tableData} />
                 </Section>
             )}
         </TouchableOpacity>

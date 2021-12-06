@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Row, Text } from '@src/components';
+import { Text } from '@src/components';
 import { StyleSheet, View } from 'react-native';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
 import BaseTransactionItem from '@src/components/organisms/transaction/BaseTransactionItem';
@@ -11,13 +11,8 @@ import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import { getFinanceBotPublicKeys } from '@src/config/environment';
 import Icon from '@src/components/controls/Icon';
-import {
-    AggregateTransaction as SdkAggregateTransaction,
-    TransactionType,
-    UInt64,
-} from 'symbol-sdk';
+import { AggregateTransaction as SdkAggregateTransaction, TransactionType, UInt64 } from 'symbol-sdk';
 import TransactionService from '@src/services/TransactionService';
-import _ from 'lodash';
 import { Router } from '@src/Router';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -38,58 +33,40 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
 
     async componentDidMount() {
         const { selectedNode, transaction } = this.props;
-        TransactionService.getTransaction(transaction.hash, selectedNode).then(
-            async tx => {
-                this.setState({ fullTransaction: tx });
-            }
-        );
+        TransactionService.getTransaction(transaction.hash, selectedNode).then(async tx => {
+            this.setState({ fullTransaction: tx });
+        });
     }
 
     isPostLaunchOptIn = () => {
-        return (
-            getFinanceBotPublicKeys(this.props.network).indexOf(
-                this.props.transaction.signTransactionObject.signer.publicKey
-            ) >= 0
-        );
+        return getFinanceBotPublicKeys(this.props.network).indexOf(this.props.transaction.signTransactionObject.signer.publicKey) >= 0;
     };
 
     postLaunchAmount = () => {
         if (!this.state) return 0;
         const transaction: SdkAggregateTransaction = this.state.fullTransaction;
-        const innerTransactions =
-            transaction && transaction.innerTransactions
-                ? transaction.innerTransactions
-                : [];
+        const innerTransactions = transaction && transaction.innerTransactions ? transaction.innerTransactions : [];
         const currentAddress = this.props.address.replace(/-/g, '');
-        const filteredTransactions = innerTransactions.filter(
-            innerTransaction => {
-                return (
-                    innerTransaction.type === TransactionType.TRANSFER &&
-                    innerTransaction.recipientAddress &&
-                    innerTransaction.recipientAddress?.plain() ===
-                        currentAddress &&
-                    innerTransaction.mosaics?.length
-                );
-            }
-        );
-        const mosaics = filteredTransactions.map(
-            transaction => transaction.mosaics[0]
-        );
+        const filteredTransactions = innerTransactions.filter(innerTransaction => {
+            return (
+                innerTransaction.type === TransactionType.TRANSFER &&
+                innerTransaction.recipientAddress &&
+                innerTransaction.recipientAddress?.plain() === currentAddress &&
+                innerTransaction.mosaics?.length
+            );
+        });
+        const mosaics = filteredTransactions.map(transaction => transaction.mosaics[0]);
         let sumAmount = UInt64.fromNumericString('0');
         mosaics.forEach(mosaic => (sumAmount = sumAmount.add(mosaic.amount)));
         return sumAmount.compact() / Math.pow(10, 6);
     };
 
     iconName = () => {
-        return this.isPostLaunchOptIn()
-            ? 'postLaunchOptIn'
-            : this.props.transaction.type;
+        return this.isPostLaunchOptIn() ? 'postLaunchOptIn' : this.props.transaction.type;
     };
 
     title = () => {
-        return this.isPostLaunchOptIn()
-            ? translate('optin.title')
-            : translate('transactionTypes.' + this.props.transaction.type);
+        return this.isPostLaunchOptIn() ? translate('optin.title') : translate('transactionTypes.' + this.props.transaction.type);
     };
 
     sign() {
@@ -100,10 +77,8 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
                     type: 'transfer/signAggregateBonded',
                     payload: transaction,
                 })
-                .then(_ => {
-                    this.showCosignatureMessage(
-                        translate('notification.newCosignatureAdded')
-                    );
+                .then(() => {
+                    this.showCosignatureMessage(translate('notification.newCosignatureAdded'));
                     store.dispatchAction({
                         type: 'transaction/changeFilters',
                         payload: {},
@@ -115,31 +90,18 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     // check if the transaction needs to be Signed from current signer
     needsSignature = () => {
         if (this.isPostLaunchOptIn()) return false;
-        const {
-            transaction,
-            selectedAccount,
-            isMultisig,
-            cosignatoryOf,
-        } = this.props;
-        const accountPubKey = getPublicKeyFromPrivateKey(
-            selectedAccount.privateKey
-        );
-        const cosignerAddresses = transaction.innerTransactions.map(
-            t => t.signerAddress
-        );
+        const { transaction, selectedAccount, isMultisig, cosignatoryOf } = this.props;
+        const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
+        const cosignerAddresses = transaction.innerTransactions.map(t => t.signerAddress);
         const cosignRequired = cosignerAddresses.find(c => {
             if (c) {
-                return (
-                    cosignatoryOf &&
-                    cosignatoryOf.some(address => address === c)
-                );
+                return cosignatoryOf && cosignatoryOf.some(address => address === c);
             }
             return false;
         });
         return (
             !isMultisig &&
-            ((transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 &&
-                transaction.status !== 'confirmed') ||
+            ((transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed') ||
                 (this.hasMissSignatures() && cosignRequired !== undefined))
         );
     };
@@ -150,20 +112,14 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
         return (
             transaction?.transactionInfo != null &&
             transaction?.transactionInfo.merkleComponentHash !== undefined &&
-            transaction?.transactionInfo.merkleComponentHash.startsWith(
-                '000000000000'
-            )
+            transaction?.transactionInfo.merkleComponentHash.startsWith('000000000000')
         );
     };
 
     renderAction = () => {
         if (this.needsSignature()) {
             return (
-                <Text
-                    type="regular"
-                    theme="light"
-                    style={styles.waitingSignature}
-                >
+                <Text type="regular" theme="light" style={styles.waitingSignature}>
                     {translate('history.transaction.waitingSignature')}
                 </Text>
             );
@@ -179,7 +135,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     };
 
     renderDetails = () => {
-        const { transaction, isLoading, isMultisig } = this.props;
+        const { transaction } = this.props;
         const table = { innerTxs: transaction.innerTransactions.length };
         if (this.needsSignature()) {
             table.signature = translate('table.signDescription'); //TODO: remove when inner transactions presentation is ready
@@ -189,22 +145,11 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
             const amount = this.postLaunchAmount();
             return (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Icon
-                        style={{ width: 75, height: 50, marginBottom: 10 }}
-                        size="big"
-                        name="optin"
-                    />
-                    <Text
-                        style={{ flex: 1 }}
-                        type="regular"
-                        align="right"
-                        theme="light"
-                    >
+                    <Icon style={{ width: 75, height: 50, marginBottom: 10 }} size="big" name="optin" />
+                    <Text style={{ flex: 1 }} type="regular" align="right" theme="light">
                         {transaction.status === 'confirmed'
                             ? translate('optin.postLaunchTransactionText')
-                            : translate(
-                                  'optin.postLaunchTransactionTextUnconfirmed'
-                              )}{' '}
+                            : translate('optin.postLaunchTransactionTextUnconfirmed')}{' '}
                         {amount}
                     </Text>
                 </View>

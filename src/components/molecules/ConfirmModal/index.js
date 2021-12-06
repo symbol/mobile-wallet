@@ -5,16 +5,14 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { Modal, View, TouchableOpacity } from 'react-native';
+import { Modal, TouchableOpacity, View } from 'react-native';
 import styles from '../ConfirmModal/confirmmodal.styl';
 import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import Button from '@src/components/controls/Button';
-import {Text, Col, Section, Checkbox} from '@src/components';
+import { Section, Text } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { testIDs } from '@src/components/molecules/CheckableTextLink';
-import CheckBox from "react-native-check-box";
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 
 type Props = {
     children: Node,
@@ -30,8 +28,21 @@ type Props = {
 };
 
 const ConfirmModal = (props: Props) => {
-    const { children, isModalOpen, handleClose, onSuccess, showTopbar, title, text, showBack, onBack, showClose, onClose, noPadding, confirmDisabled } = props;
-    const contentStyle = noPadding ? {} : styles.contentBody;
+    const {
+        children,
+        isModalOpen,
+        handleClose,
+        onSuccess,
+        showTopbar,
+        title,
+        text,
+        showBack,
+        onBack,
+        showClose,
+        onClose,
+        confirmDisabled,
+    } = props;
+
     return (
         <Modal animationType="fade" transparent visible={isModalOpen} onRequestClose={handleClose}>
             <View style={styles.modalOverlay} />
@@ -60,12 +71,26 @@ const ConfirmModal = (props: Props) => {
                             </Section>
                             {children}
                             <Section type="form-item">
-                                <Button style={styles.button} title="Confirm" theme="light" fullWidth={false} disabled={confirmDisabled} onPress={onSuccess} />
+                                <Button
+                                    style={styles.button}
+                                    title="Confirm"
+                                    theme="light"
+                                    fullWidth={false}
+                                    disabled={confirmDisabled}
+                                    onPress={onSuccess}
+                                />
                             </Section>
                             {onClose && (
                                 <Section type="button">
                                     <TouchableOpacity onPress={onClose}>
-                                        <Text style={{ color: GlobalStyles.color.PRIMARY }} theme="light" type="bold" align="center">
+                                        <Text
+                                            style={{
+                                                color: GlobalStyles.color.PRIMARY,
+                                            }}
+                                            theme="light"
+                                            type="bold"
+                                            align="center"
+                                        >
                                             {translate('Settings.passcode.alertTextCancel')}
                                         </Text>
                                     </TouchableOpacity>

@@ -1,6 +1,6 @@
 import { BaseSecureStorage } from '@src/storage/persistence/BaseSecureStorage';
 import type { AccountModel } from '@src/storage/models/AccountModel';
-import type {AppNetworkType} from "@src/storage/models/NetworkModel";
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 export class AccountSecureStorage extends BaseSecureStorage {
     /** ACCOUNTS DB KEY **/

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
-import { GradientBackground, TitleBar, MosaicDisplay, ListContainer, ListItem } from '@src/components';
+import { GradientBackground, ListContainer, ListItem, MosaicDisplay, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import store from '@src/store';
@@ -29,35 +29,33 @@ class Mosaics extends Component<Props, State> {
         );
     };
 
-    refresh = async() => {
+    refresh = async () => {
         await store.dispatchAction({ type: 'account/loadBalance' });
     };
 
     render() {
-        const { ownedMosaics, nativeMosaicNamespaceName, onOpenMenu, onOpenSettings, isLoading } = this.props;
+        const { ownedMosaics, onOpenMenu, onOpenSettings, isLoading } = this.props;
         const dataManager = { isLoading };
         const {} = this.state;
 
         return (
             <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
-                <TitleBar theme="light" title={translate('mosaics.title')} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+                <TitleBar
+                    theme="light"
+                    title={translate('mosaics.title')}
+                    onOpenMenu={() => onOpenMenu()}
+                    onSettings={() => onOpenSettings()}
+                />
                 <ListContainer type="list" style={styles.list} isScrollable={true}>
                     <FlatList
                         data={ownedMosaics}
                         renderItem={this.renderMosaicItem}
                         onEndReachedThreshold={0.9}
                         keyExtractor={(item, index) => '' + index + 'mosaics'}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={isLoading}
-                                onRefresh={() => this.refresh()}
-                            />
-                        }
+                        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={() => this.refresh()} />}
                     />
                 </ListContainer>
             </GradientBackground>
-            //</ImageBackground>
         );
     }
 }

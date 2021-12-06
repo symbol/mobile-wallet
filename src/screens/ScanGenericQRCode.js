@@ -28,7 +28,7 @@ class ScanGenericQRCode extends Component<Props> {
         callCallback && onClose();
     };
 
-    onRead = (res) => {
+    onRead = res => {
         const { onRead } = this.props;
         Router.closeOverlay(this.props.componentId);
         onRead(res);

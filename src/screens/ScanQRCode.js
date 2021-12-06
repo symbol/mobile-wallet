@@ -4,18 +4,18 @@
  */
 
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import translate from '@src/locales/i18n';
 import QRScanner from '@src/components/atoms/QRScanner';
 import { Router } from '@src/Router';
 import store from '@src/store';
 import { MnemonicQR } from 'symbol-qr-library';
 import Input from '@src/components/atoms/Input';
-import { Button, Title } from '@src/components';
+import { Button } from '@src/components';
 import SymbolPageView from '@src/components/organisms/SymbolPageView';
 import FadeView from '@src/components/organisms/FadeView';
 import SymbolGradientContainer from '@src/components/organisms/SymbolGradientContainer';
-import {createPasscode} from "@src/utils/passcode";
+import { createPasscode } from '@src/utils/passcode';
 
 type State = {
     showWarning: boolean,
@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 24,
         fontWeight: '100',
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
         flexWrap: 'wrap',
     },
 
@@ -130,15 +130,15 @@ const styles = StyleSheet.create({
         width: '70%',
         fontWeight: '100',
         fontSize: 24,
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
     },
 
     wrongPassword: {
         color: '#ee0000',
         fontSize: 16,
-		fontFamily: 'NotoSans-SemiBold',
-		fontWeight: '600',
+        fontFamily: 'NotoSans-SemiBold',
+        fontWeight: '600',
     },
 
     titleTextNoIcon: {
@@ -239,11 +239,17 @@ class ScanQRCode extends Component<Props, State> {
         try {
             const mnemonicQR = MnemonicQR.fromJSON(mnemonicFixed);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
-            store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonicQR.mnemonicPlainText });
+            store.dispatch({
+                type: 'wallet/setMnemonic',
+                payload: mnemonicQR.mnemonicPlainText,
+            });
             createPasscode(this.props.componentId);
         } catch (e) {
             if (e.message === 'Could not parse mnemonic pass phrase.') {
-                this.setState({ encryptedQR: mnemonicFixed, showPassword: true });
+                this.setState({
+                    encryptedQR: mnemonicFixed,
+                    showPassword: true,
+                });
             } else {
                 this.setState({ showWarning: true });
             }
@@ -259,7 +265,10 @@ class ScanQRCode extends Component<Props, State> {
         try {
             const decryptedQR = MnemonicQR.fromJSON(encryptedQR, password);
             store.dispatch({ type: 'wallet/setName', payload: 'Root account' });
-            store.dispatch({ type: 'wallet/setMnemonic', payload: decryptedQR.mnemonicPlainText });
+            store.dispatch({
+                type: 'wallet/setMnemonic',
+                payload: decryptedQR.mnemonicPlainText,
+            });
             createPasscode(this.props.componentId);
         } catch {
             this.setState({ wrongPassword: true, password: '' });
