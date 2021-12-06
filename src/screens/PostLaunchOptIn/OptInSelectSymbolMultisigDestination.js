@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Trunc, Icon } from '@src/components';
+import { StyleSheet } from 'react-native';
+import { Button, GradientBackground, Input, Section, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -42,7 +42,10 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
 
     finish = () => {
         const { multisigAccount } = this.state;
-        store.dispatch({ type: 'optin/setSelectedMultisigDestinationAccount', payload: multisigAccount.publicKey });
+        store.dispatch({
+            type: 'optin/setSelectedMultisigDestinationAccount',
+            payload: multisigAccount.publicKey,
+        });
         // Router.goToOptInSelectSymbolAccount({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
         Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
@@ -52,7 +55,9 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
         let publicAccount;
         try {
             const { selectedNetworkType } = this.props;
-            const networkType = NetworkService.getNetworkTypeFromModel({ type: selectedNetworkType });
+            const networkType = NetworkService.getNetworkTypeFromModel({
+                type: selectedNetworkType,
+            });
             publicAccount = PublicAccount.createFromPublicKey(pubkey, networkType);
         } catch (e) {}
         if (publicAccount && pubkey.length === 64) {
@@ -75,13 +80,22 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
 
         return (
             <GradientBackground name="connector_small" theme="light">
-                <TitleBar theme="light" title={translate('optin.selectMultisigSymbolAccountTitle')} onBack={() => Router.goBack(componentId)} />
+                <TitleBar
+                    theme="light"
+                    title={translate('optin.selectMultisigSymbolAccountTitle')}
+                    onBack={() => Router.goBack(componentId)}
+                />
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item">
                         <Text type={'bold'} theme={'light'}>
                             {translate('optin.enterDestinationMultisigAccount')}
                         </Text>
-                        <Input value={destination} theme="light" onChangeText={v => this.onChangePubKey(v)} nativePlaceholder={translate('optin.publicKeyPlaceholder')}/>
+                        <Input
+                            value={destination}
+                            theme="light"
+                            onChangeText={v => this.onChangePubKey(v)}
+                            nativePlaceholder={translate('optin.publicKeyPlaceholder')}
+                        />
                     </Section>
                     {multisigAccount && (
                         <Section type="form-item">

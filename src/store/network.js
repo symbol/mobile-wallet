@@ -33,7 +33,7 @@ export default {
                 namespaceId: '',
                 mosaicId: '',
                 divisibility: 6,
-            }
+            },
         },
         mainnetNodes: [],
         testnetNodes: [],
@@ -111,11 +111,20 @@ export default {
                 const network = await NetworkService.getNetworkModelFromNode(selectedNode);
                 try {
                     const nisNodes = getNISNodes(network.type);
-                    await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+                    await dispatchAction({
+                        type: 'settings/saveSetSelectedNISNode',
+                        payload: nisNodes[0],
+                    });
                 } catch {}
-                commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+                commit({
+                    type: 'network/setGenerationHash',
+                    payload: network.generationHash,
+                });
                 commit({ type: 'network/setNetwork', payload: network.type });
-                commit({ type: 'network/setSelectedNode', payload: selectedNode });
+                commit({
+                    type: 'network/setSelectedNode',
+                    payload: selectedNode,
+                });
                 commit({ type: 'network/setIsLoaded', payload: true });
                 commit({
                     type: 'network/setSelectedNetwork',
@@ -130,28 +139,40 @@ export default {
                 // load nodes list from statistic service
                 const [testnetNodes, mainnetNodes] = await Promise.all([
                     NetworkService.getSelectorNodeList('testnet'),
-                    NetworkService.getSelectorNodeList('mainnet')
-                ])
+                    NetworkService.getSelectorNodeList('mainnet'),
+                ]);
 
                 // Assign nodes on the state
-                commit({ type: 'network/setTestnetNodes', payload: testnetNodes });
-                commit({ type: 'network/setMainnetNodes', payload: mainnetNodes });
-            } catch(e) {
+                commit({
+                    type: 'network/setTestnetNodes',
+                    payload: testnetNodes,
+                });
+                commit({
+                    type: 'network/setMainnetNodes',
+                    payload: mainnetNodes,
+                });
+            } catch (e) {
                 console.log(e);
             }
         },
-        changeNode: async ({ commit, state, dispatchAction }, payload) => {
+        changeNode: async ({ commit, dispatchAction }, payload) => {
             const network = await NetworkService.getNetworkModelFromNode(payload);
             try {
                 const nisNodes = getNISNodes(network.type);
-                await dispatchAction({type: 'settings/saveSetSelectedNISNode', payload: nisNodes[0]});
+                await dispatchAction({
+                    type: 'settings/saveSetSelectedNISNode',
+                    payload: nisNodes[0],
+                });
             } catch {}
             await AsyncCache.setSelectedNode(payload);
             commit({
                 type: 'network/setSelectedNetwork',
                 payload: network,
             });
-            commit({ type: 'network/setGenerationHash', payload: network.generationHash });
+            commit({
+                type: 'network/setGenerationHash',
+                payload: network.generationHash,
+            });
             commit({ type: 'network/setNetwork', payload: network.type });
             commit({ type: 'network/setSelectedNode', payload: payload });
             commit({ type: 'network/setIsLoaded', payload: true });
@@ -161,7 +182,10 @@ export default {
         updateChainHeight: async ({ state, commit }, payload) => {
             const selectedNetwork = state.network.selectedNetwork;
             selectedNetwork.chainHeight = payload;
-            commit({ type: 'network/setSelectedNetwork', payload: selectedNetwork });
+            commit({
+                type: 'network/setSelectedNetwork',
+                payload: selectedNetwork,
+            });
         },
         checkNetwork: async ({ state, commit }) => {
             const selectedNetwork = state.network.selectedNetwork;
@@ -173,9 +197,15 @@ export default {
                     isUp = state.network.nodeFailedAttempts < MAX_FAILED_NODE_ATTEMPTS;
                 }
                 if (isUp) {
-                    commit({ type: 'network/setNodeFailedAttempts', payload: 0 });
+                    commit({
+                        type: 'network/setNodeFailedAttempts',
+                        payload: 0,
+                    });
                 } else {
-                    commit({ type: 'network/setNodeFailedAttempts', payload: state.network.nodeFailedAttempts + 1 });
+                    commit({
+                        type: 'network/setNodeFailedAttempts',
+                        payload: state.network.nodeFailedAttempts + 1,
+                    });
                 }
             }
             commit({ type: 'network/setIsUp', payload: isUp });

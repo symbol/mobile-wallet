@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, TextInput, ScrollView, Platform } from 'react-native';
+import { Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import * as bip39 from 'bip39';
 import * as _ from 'lodash';
@@ -18,7 +18,7 @@ import { Router } from '@src/Router';
 import TitleBar from '@src/components/atoms/TitleBar';
 import Card from '@src/components/atoms/Card';
 import store from '@src/store';
-import {createPasscode} from "@src/utils/passcode";
+import { createPasscode } from '@src/utils/passcode';
 
 const INITIAL_TEXT = ' ';
 const DEFAULT_LANGUAGE = 'english';
@@ -61,7 +61,7 @@ class EnterMnemonics extends Component {
 
     // $FlowFixMe
     onChange = ({ nativeEvent: { text } }) => {
-        const { wordlist, mnemonics, reset } = this.state;
+        const { wordlist, reset } = this.state;
         let changeText = text;
         let isReset = reset;
 
@@ -175,7 +175,10 @@ class EnterMnemonics extends Component {
     createWallet = async () => {
         const { mnemonics } = this.state;
         store.dispatch({ type: 'wallet/setName', payload: 'Imported wallet' });
-        store.dispatch({ type: 'wallet/setMnemonic', payload: mnemonics.join(' ') });
+        store.dispatch({
+            type: 'wallet/setMnemonic',
+            payload: mnemonics.join(' '),
+        });
         createPasscode(this.props.componentId);
         // Router go to pre-dashboard
     };
@@ -187,15 +190,18 @@ class EnterMnemonics extends Component {
     render() {
         // $FlowFixMe
         const { mnemonics, suggestions, validMnemonic, text, showWarning } = this.state;
-        const mnemonicsContainerStyle = mnemonics.length < this.maxMnemonicsAllowed ? styles.orderedMnemonics : styles.orderedMnemonicsFinal;
+        const mnemonicsContainerStyle =
+            mnemonics.length < this.maxMnemonicsAllowed ? styles.orderedMnemonics : styles.orderedMnemonicsFinal;
         return (
             <GradientContainer start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} angle={135} useAngle style={styles.gradientContainer}>
-                <TitleBar title={translate('ImportWallet.EnterMnemonics.title')} theme="dark" showBack onBack={() => Router.goBack(this.props.componentId)} />
+                <TitleBar
+                    title={translate('ImportWallet.EnterMnemonics.title')}
+                    theme="dark"
+                    showBack
+                    onBack={() => Router.goBack(this.props.componentId)}
+                />
                 {showWarning && (
-                    <Warning
-                        hideWarning={this.hideWarning}
-                        message={translate('ImportWallet.EnterMnemonics.error.invalidMnemonics')}
-                    />
+                    <Warning hideWarning={this.hideWarning} message={translate('ImportWallet.EnterMnemonics.error.invalidMnemonics')} />
                 )}
 
                 <View style={styles.contentContainer}>
@@ -211,7 +217,10 @@ class EnterMnemonics extends Component {
                                         key: key,
                                         testID: testid,
                                         onPress: () => {
-                                            this.mnemonicOnClick({ item, index });
+                                            this.mnemonicOnClick({
+                                                item,
+                                                index,
+                                            });
                                         },
                                     });
                                 })}
@@ -252,7 +261,12 @@ class EnterMnemonics extends Component {
                             {translate('ImportWallet.EnterMnemonics.error.invalidMnemonic')}
                         </Text>
                     ) : null}
-                    <GradientButton testID="submit" title={translate('ImportWallet.EnterMnemonics.button')} style={styles.button} onPress={this.onPress} />
+                    <GradientButton
+                        testID="submit"
+                        title={translate('ImportWallet.EnterMnemonics.button')}
+                        style={styles.button}
+                        onPress={this.onPress}
+                    />
                 </View>
             </GradientContainer>
         );

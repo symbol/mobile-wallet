@@ -49,22 +49,9 @@ export default class NodeKeyLinkGraphic extends GraphicComponent {
                     address={this.props.signerAddress}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleEdit
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
-                {this.isAddressAdditions && (
-                    <CircleAccount
-                        x={this.getCircleIconPositionX(1)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
-                {this.isAddressDeletions && (
-                    <CircleAccountRemove
-                        x={this.getCircleIconPositionX(2)}
-                        y={this.circleIconPositionY}
-                    />
-                )}
+                <CircleEdit x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
+                {this.isAddressAdditions && <CircleAccount x={this.getCircleIconPositionX(1)} y={this.circleIconPositionY} />}
+                {this.isAddressDeletions && <CircleAccountRemove x={this.getCircleIconPositionX(2)} y={this.circleIconPositionY} />}
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

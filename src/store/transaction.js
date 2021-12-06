@@ -6,8 +6,8 @@ export type DirectionFilter = 'SENT' | 'RECEIVED' | 'ALL';
 export default {
     namespace: 'transaction',
     state: {
-		loading: false,
-		isNextLoading: false,
+        loading: false,
+        isNextLoading: false,
         subscription: null,
         addressFilter: '',
         directionFilter: 'ALL',
@@ -20,11 +20,11 @@ export default {
         setLoading(state, payload) {
             state.transaction.loading = payload;
             return state;
-		},
-		setLoadingNext(state, payload) {
-			state.transaction.isNextLoading = payload;
+        },
+        setLoadingNext(state, payload) {
+            state.transaction.isNextLoading = payload;
             return state;
-		},
+        },
         setSubscription(state, payload) {
             state.transaction.subscription = payload;
             return state;
@@ -60,11 +60,16 @@ export default {
     },
     actions: {
         init: async ({ commit, state, dispatchAction }) => {
-            commit({ type: 'transaction/setAddressFilter', payload: state.account.selectedAccountAddress });
+            commit({
+                type: 'transaction/setAddressFilter',
+                payload: state.account.selectedAccountAddress,
+            });
             await dispatchAction({ type: 'transaction/reset' });
             try {
                 await dispatchAction({ type: 'transaction/loadNextPage' });
-                await dispatchAction({ type: 'transaction/checkPendingSignatures' });
+                await dispatchAction({
+                    type: 'transaction/checkPendingSignatures',
+                });
             } catch (e) {
                 await dispatchAction({ type: 'transaction/reset' });
             }
@@ -76,12 +81,12 @@ export default {
             commit({ type: 'transaction/setTransactions', payload: [] });
         },
         loadNextPage: async ({ commit, state }) => {
-			if (state.transaction.loading) return;
-			commit({ type: 'transaction/setLoading', payload: true });
+            if (state.transaction.loading) return;
+            commit({ type: 'transaction/setLoading', payload: true });
             setTimeout(() => {
-				commit({ type: 'transaction/setLoadingNext', payload: true });
-			});
-            if((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined ){
+                commit({ type: 'transaction/setLoadingNext', payload: true });
+            });
+            if ((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined) {
                 await dispatchAction({ type: 'account/loadCosignatoryOf' });
             }
             const nextPage = state.transaction.page + 1;
@@ -96,33 +101,59 @@ export default {
             ).subscribe(
                 transactions => {
                     if (transactions.length === 0) {
-                        commit({ type: 'transaction/setIsLastPage', payload: true });
+                        commit({
+                            type: 'transaction/setIsLastPage',
+                            payload: true,
+                        });
                     } else {
-                        commit({ type: 'transaction/addTransactions', payload: transactions });
+                        commit({
+                            type: 'transaction/addTransactions',
+                            payload: transactions,
+                        });
                     }
                     commit({ type: 'transaction/setPage', payload: nextPage });
-					commit({ type: 'transaction/setLoading', payload: false });
-					commit({ type: 'transaction/setLoadingNext', payload: false })
+                    commit({ type: 'transaction/setLoading', payload: false });
+                    commit({
+                        type: 'transaction/setLoadingNext',
+                        payload: false,
+                    });
                 },
                 error => {
-					console.log(error);
-					commit({ type: 'transaction/setLoadingNext', payload: false });
+                    console.log(error);
+                    commit({
+                        type: 'transaction/setLoadingNext',
+                        payload: false,
+                    });
                     commit({ type: 'transaction/setLoading', payload: false });
-				}
+                }
             );
-            commit({ type: 'transaction/setSubscription', payload: subscription });
+            commit({
+                type: 'transaction/setSubscription',
+                payload: subscription,
+            });
         },
         changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, directionFilter }) => {
             if (state.transaction.subscription) {
                 state.transaction.subscription.unsubscribe();
             }
             dispatchAction({ type: 'transaction/reset' });
-            if (addressFilter) commit({ type: 'transaction/setAddressFilter', payload: addressFilter });
-            if (directionFilter) commit({ type: 'transaction/setDirectionFilter', payload: directionFilter });
+            if (addressFilter)
+                commit({
+                    type: 'transaction/setAddressFilter',
+                    payload: addressFilter,
+                });
+            if (directionFilter)
+                commit({
+                    type: 'transaction/setDirectionFilter',
+                    payload: directionFilter,
+                });
             dispatchAction({ type: 'transaction/loadNextPage' });
         },
         checkPendingSignatures: async ({ commit, state }) => {
-            let has = await FetchTransactionService.hasAddressPendingSignatures(state.account.selectedAccountAddress, state.network.selectedNetwork);
+            let has = await FetchTransactionService.hasAddressPendingSignatures(
+                state.account.selectedAccountAddress,
+                state.network.selectedNetwork
+            );
             for (let address of state.account.cosignatoryOf) {
                 let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(address, state.network.selectedNetwork);
                 has = has || cosigHas;

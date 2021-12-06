@@ -35,10 +35,7 @@ export default class AccountOperationRestrictionGraphic extends GraphicComponent
                     address={this.props.signerAddress}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleRestriction
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleRestriction x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

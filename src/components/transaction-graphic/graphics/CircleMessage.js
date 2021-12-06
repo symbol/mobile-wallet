@@ -9,34 +9,14 @@ export default class CircleMessage extends GraphicComponent {
 
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width="38.5px"
-                height="38.167px"
-                viewBox="0 0 38.5 38.167"
-            >
+            <G version="1.1" x={this._x} y={this._y} width="38.5px" height="38.167px" viewBox="0 0 38.5 38.167">
                 <Defs>
-                    <LinearGradient
-                        id={this.gradientId}
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                    >
+                    <LinearGradient id={this.gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
                         <Stop offset="0%" stopColor={this.stopColor1} />
                         <Stop offset="100%" stopColor={this.stopColor2} />
                     </LinearGradient>
                 </Defs>
-                <Circle
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    fill={`url(#${this.gradientId})`}
-                    cx="19.115"
-                    cy="19.094"
-                    r="17.26"
-                />
+                <Circle fill-rule="evenodd" clip-rule="evenodd" fill={`url(#${this.gradientId})`} cx="19.115" cy="19.094" r="17.26" />
                 <G>
                     <Path
                         fill-rule="evenodd"

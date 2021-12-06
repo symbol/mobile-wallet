@@ -1,26 +1,24 @@
-import { LocalDate, LocalDateTime } from 'js-joda';
+import { LocalDateTime } from 'js-joda';
 import translate from '@src/locales/i18n';
-import type {AppNetworkType} from "@src/storage/models/NetworkModel";
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
 
 export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
     return `${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
 };
 
 export const formatDate = (date: LocalDateTime): string => {
-	const days = [
+    const days = [
         translate('date.sunday'),
-		translate('date.monday'),
-		translate('date.tuesday'),
-		translate('date.wednesday'),
-		translate('date.thursday'),
-		translate('date.friday'),
-		translate('date.saturday')
-	];
+        translate('date.monday'),
+        translate('date.tuesday'),
+        translate('date.wednesday'),
+        translate('date.thursday'),
+        translate('date.friday'),
+        translate('date.saturday'),
+    ];
 
-	const dateObj = new Date(date);
-	return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(dateObj.getDate(), 2)}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
-	// const dt = LocalDate.of(+dateObj.getFullYear(), +dateObj.getMonth(), +dateObj.getDate())
-	// return `${dt.dayOfWeek()}, ${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
+    const dateObj = new Date(date);
+    return `${days[dateObj.getDay()].slice(0, 3)}, ${pad(dateObj.getDate(), 2)}/${pad(dateObj.getMonth() + 1, 2)}/${dateObj.getFullYear()}`;
 };
 
 export const pad = (num, size) => {

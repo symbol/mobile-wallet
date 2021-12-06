@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal, FlatList, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, FlatList, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Icon, Row, Text as AdvancedText, Trunc } from '@src/components';
+import { Text as AdvancedText, Icon, Row, Trunc } from '@src/components';
 import TitleBar from '@src/components/atoms/TitleBar';
 
 const styles = StyleSheet.create({
     root: {
         //backgroundColor: '#f005',
-	},
-	titleBar: {
-		marginTop: 12
-	},
+    },
+    titleBar: {
+        marginTop: 12,
+    },
     fullWidth: {
         width: '100%',
     },
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 14,
         paddingHorizontal: 16,
-        height: 46
+        height: 46,
     },
     inputText: {
         fontSize: 12,
@@ -148,7 +148,7 @@ export default class Dropdown extends Component<Props, State> {
 
     getselectedOption = (value, list) => {
         const selectedOption = list.find(el => el.value === value);
-        return !!selectedOption ? selectedOption : (value ? { label: value, value } : null);
+        return !!selectedOption ? selectedOption : value ? { label: value, value } : null;
     };
 
     getIconPosition = (k, offset) => {
@@ -187,7 +187,15 @@ export default class Dropdown extends Component<Props, State> {
 
         return (
             <TouchableOpacity style={styles.listItem} onPress={() => this.onChange(item.item.value)}>
-                {!customItemReneder ? <Text style={textStyles}>{item.item.label}</Text> : customItemReneder({ ...item.item, isActive, isListItem: true })}
+                {!customItemReneder ? (
+                    <Text style={textStyles}>{item.item.label}</Text>
+                ) : (
+                    customItemReneder({
+                        ...item.item,
+                        isActive,
+                        isListItem: true,
+                    })
+                )}
             </TouchableOpacity>
         );
     };
@@ -203,12 +211,10 @@ export default class Dropdown extends Component<Props, State> {
             placeholder = 'Please select..',
             title,
             customInputReneder,
-            customItemReneder,
             isLoading,
             modalInnerRenderer,
             children,
             showTitle = true,
-            ...rest
         } = this.props;
         const { isSelectorOpen } = this.state;
         let inputStyles = [];
@@ -241,13 +247,11 @@ export default class Dropdown extends Component<Props, State> {
                 {!children && (
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
-                            (!customInputReneder 
-                                ? <Text style={styles.inputText}>
-                                    {!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}
-                                </Text> 
-                                : customInputReneder(selectedOption)
-                            )
-                        }
+                            (!customInputReneder ? (
+                                <Text style={styles.inputText}>{!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}</Text>
+                            ) : (
+                                customInputReneder(selectedOption)
+                            ))}
                         {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
                         <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />

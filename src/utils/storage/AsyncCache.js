@@ -1,10 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-    getDefaultCurrency,
-    getDefaultLanguage,
-    getDefaultNetworkType,
-    getDefaultSyncInterval,
-} from '@src/config/environment';
+import { getDefaultCurrency, getDefaultLanguage, getDefaultNetworkType, getDefaultSyncInterval } from '@src/config/environment';
 
 export class AsyncCache {
     static DATA_SCHEMA_VERSION = 'dataSchemaVersion';
@@ -112,6 +107,6 @@ export class AsyncCache {
             this.remove(this.SELECTED_NOTIFICATION_KEY),
             this.remove(this.SELECTED_PASSCODE_KEY),
             this.remove(this.SELECTED_NODE_KEY),
-        ])
-    }
+        ]);
+    };
 }

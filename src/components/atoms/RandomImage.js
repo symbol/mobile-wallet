@@ -15,9 +15,7 @@ const imageSources = [
 ];
 
 const RandomImage = props => {
-    const randomImageIndex = Math.floor(
-        Math.random() * imageSources.length 
-    );
+    const randomImageIndex = Math.floor(Math.random() * imageSources.length);
     const source = imageSources[randomImageIndex];
 
     return props.children ? (

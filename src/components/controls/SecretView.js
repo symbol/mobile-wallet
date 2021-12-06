@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Text as NativeText, TouchableOpacity, StyleSheet, View } from 'react-native';
-import { Row, Text, CopyView, FadeView } from '@src/components';
+import { Text as NativeText, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { CopyView, FadeView, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
-import { Router } from '@src/Router';
 import { showPasscode } from '@src/utils/passcode';
-import translate from "@src/locales/i18n";
+import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
     showButton: {
@@ -64,7 +63,7 @@ export default class SecretView extends Component<Props, State> {
     };
 
     render = () => {
-        const { children, style = {}, theme, title, component } = this.props;
+        const { children, style = {}, theme, title } = this.props;
         const { isSecretShown, counter } = this.state;
 
         if (isSecretShown)

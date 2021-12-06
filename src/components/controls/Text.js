@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import GlobalStyles from '../../styles/GlobalStyles';
-import { Address } from 'symbol-sdk';
 
 type Type = 'title' | 'title-small' | 'subtitle' | 'alert' | 'bold';
 
@@ -18,7 +17,6 @@ interface Props {
 type State = {};
 
 export default class C extends Component<Props, State> {
-
     render() {
         const { children, type, style = {}, align, theme } = this.props;
         let globalStyle = {};

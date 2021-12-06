@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { isEqual } from 'lodash';
 
 import GradientContainer from '@src/components/organisms/SymbolGradientContainer';
@@ -15,7 +15,7 @@ import Card from '@src/components/atoms/Card';
 import TitleBar from '@src/components/atoms/TitleBar';
 import { Router } from '@src/Router';
 import store from '@src/store';
-import {createPasscode} from "@src/utils/passcode";
+import { createPasscode } from '@src/utils/passcode';
 
 const testIDs = {
     listItemVerifiedMnemonics: 'list-item-mnemonic',
@@ -91,7 +91,12 @@ class VerifyMnemonics extends Component {
         const { verifiedMnemonics } = this.state;
         // $FlowFixMe
         return verifiedMnemonics.map((item: PassPhraseItem) => (
-            <TouchableOpacity testID={item.key} style={styles.orderedChip} onPress={() => this.addItemVerifiedMnemonic(item, verifiedMnemonics)} key={item.id}>
+            <TouchableOpacity
+                testID={item.key}
+                style={styles.orderedChip}
+                onPress={() => this.addItemVerifiedMnemonic(item, verifiedMnemonics)}
+                key={item.id}
+            >
                 <Text style={styles.orderedChipText}>{item.key}</Text>
             </TouchableOpacity>
         ));
@@ -105,7 +110,8 @@ class VerifyMnemonics extends Component {
                 testID={item.key}
                 style={styles.unorderedChip}
                 onPress={() => this.addItemUnverifiedMnemonic(item, unverifiedMnemonics)}
-                key={item.id}>
+                key={item.id}
+            >
                 <Text style={styles.unorderedChipText}>{item.key}</Text>
             </TouchableOpacity>
         ));
@@ -121,7 +127,12 @@ class VerifyMnemonics extends Component {
         const { isInvalidOrder } = this.state;
         return (
             <GradientContainer start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} angle={135} useAngle style={styles.gradientContainer}>
-                <TitleBar title={translate('CreateWallet.VerifyMnemonics.title')} theme="dark" showBack onBack={() => Router.goBack(this.props.componentId)} />
+                <TitleBar
+                    title={translate('CreateWallet.VerifyMnemonics.title')}
+                    theme="dark"
+                    showBack
+                    onBack={() => Router.goBack(this.props.componentId)}
+                />
                 <ScrollView>
                     <View style={styles.contentContainer}>
                         {this.renderMnemonicNoteText()}

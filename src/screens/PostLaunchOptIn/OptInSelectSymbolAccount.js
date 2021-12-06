@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { GradientBackground, TitleBar, ListContainer, ListItem, Section, Button, Input, TableView, Trunc, Icon } from '@src/components';
+import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { GradientBackground, Icon, ListContainer, ListItem, TitleBar, Trunc } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
@@ -40,7 +40,7 @@ type State = {};
 class OptInSelectSymbolAccount extends Component<Props, State> {
     state = {};
 
-    renderAccountItem = ({ item, index }) => {
+    renderAccountItem = ({ item }) => {
         const { network } = this.props;
         return (
             <ListItem>
@@ -56,14 +56,21 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
     };
 
     finish = (account: string) => {
-        store.dispatch({ type: 'optin/setSelectedSymbolAccount', payload: account });
+        store.dispatch({
+            type: 'optin/setSelectedSymbolAccount',
+            payload: account,
+        });
         Router.goToOptInFinish({ welcomeComponentId: this.props.welcomeComponentId }, this.props.componentId);
     };
 
     render() {
         const { componentId, symbolAccounts, selectedOptInStatus, selectedMultisigDestinationAccount, network } = this.props;
-        const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
-        const publicAccount = selectedOptInStatus.isMultisig ? PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType) : null;
+        const networkType = NetworkService.getNetworkTypeFromModel({
+            type: network,
+        });
+        const publicAccount = selectedOptInStatus.isMultisig
+            ? PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType)
+            : null;
         return (
             <GradientBackground name="connector_small" theme="light">
                 <TitleBar theme="light" title={translate('optin.selectSymbolAccountTitle')} onBack={() => Router.goBack(componentId)} />

@@ -5,14 +5,7 @@ import { G, Line, Polygon } from 'react-native-svg';
 export default class Arrow extends GraphicComponent {
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width="302px"
-                height="27px"
-                viewBox="0 0 302 27"
-            >
+            <G version="1.1" x={this._x} y={this._y} width="302px" height="27px" viewBox="0 0 302 27">
                 <Line
                     style={this.styles.arrowBody}
                     fill="none"

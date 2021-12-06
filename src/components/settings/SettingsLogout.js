@@ -7,7 +7,7 @@ import { Router } from '@src/Router';
 import { logout } from '@src/App';
 import { showPasscode } from '@src/utils/passcode';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
-import {Checkbox, Section} from "@src/components";
+import { Checkbox, Section } from '@src/components';
 
 export default class SettingsLogout extends Component {
     state = {
@@ -17,7 +17,7 @@ export default class SettingsLogout extends Component {
     };
 
     doLogout = () => {
-        logout().then(_ => {
+        logout().then(() => {
             Router.goToCreateOrImport({});
         });
     };
@@ -28,7 +28,10 @@ export default class SettingsLogout extends Component {
 
     onPress = () => {
         const callback = () => {
-            this.setState({ isConfirmModalOpen: true, isBackUpConfirmed: false });
+            this.setState({
+                isConfirmModalOpen: true,
+                isBackUpConfirmed: false,
+            });
         };
         showPasscode(this.props.componentId, callback);
     };

@@ -3,18 +3,9 @@
  * @flow
  */
 
-import {QRCodeGenerator, MnemonicQR, QRCodeType, TransactionQR} from 'symbol-qr-library';
-
-import {
-    Password,
-    PublicAccount,
-    NetworkType,
-} from 'symbol-sdk';
-import Observable, {of} from 'rxjs';
-
-import {switchMap, mergeMap, map} from 'rxjs/operators';
-
-import {MnemonicPassPhrase} from 'symbol-hd-wallets';
+import { MnemonicQR, QRCodeGenerator } from 'symbol-qr-library';
+import { NetworkType, Password, PublicAccount } from 'symbol-sdk';
+import Observable from 'rxjs';
 
 /**
  * Creates an Mnemonic QR based on  mnemonic and password.
@@ -23,12 +14,7 @@ import {MnemonicPassPhrase} from 'symbol-hd-wallets';
  * @param {Password} password
  */
 const generateMnemonicQR = (plain: string, plainPassword?: string): Observable => {
-    const exportMnemonic = new MnemonicQR(
-        plain,
-        NetworkType.MAIN_NET,
-        'no-chain-id',
-        plainPassword,
-    );
+    const exportMnemonic = new MnemonicQR(plain, NetworkType.MAIN_NET, 'no-chain-id', plainPassword);
     return exportMnemonic.toString('svg');
 };
 
@@ -42,12 +28,7 @@ const generateMnemonicQR = (plain: string, plainPassword?: string): Observable =
  */
 const generateAddressQR = (name: string, publicKey: string, networkType: NetworkType, generationHash: string): Observable => {
     const account = PublicAccount.createFromPublicKey(publicKey, networkType);
-    const request = QRCodeGenerator.createAddContact(
-        name,
-        account,
-        networkType,
-        generationHash
-    );
+    const request = QRCodeGenerator.createAddContact(name, account, networkType, generationHash);
     return request.toString('svg');
 };
 

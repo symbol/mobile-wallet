@@ -1,32 +1,17 @@
 import React, { Component } from 'react';
-import {BackHandler, RefreshControl, StyleSheet, View, TouchableOpacity, Linking} from 'react-native';
-import {
-    GradientBackground,
-    TitleBar,
-    ListContainer,
-    ListItem,
-    Section,
-    Button,
-    Input,
-    TableView,
-    Trunc,
-    Col,
-    Row,
-    Icon,
-    Checkbox
-} from '@src/components';
+import { BackHandler, Linking, StyleSheet } from 'react-native';
+import { Button, Col, GradientBackground, Icon, Row, Section, TableView, TitleBar, Trunc } from '@src/components';
 import { connect } from 'react-redux';
 import translate from '@src/locales/i18n';
 import Text from '@src/components/controls/Text';
 import { Router } from '@src/Router';
 import AccountService from '@src/services/AccountService';
-import store from "@src/store";
-import {showPasscode} from "@src/utils/passcode";
-import GlobalStyles from "@src/styles/GlobalStyles";
-import NetworkService from "@src/services/NetworkService";
-import {PublicAccount} from "symbol-sdk";
-import CheckableTextLink from "@src/components/molecules/CheckableTextLink";
-import {getExplorerURL} from "@src/config/environment";
+import store from '@src/store';
+import { showPasscode } from '@src/utils/passcode';
+import GlobalStyles from '@src/styles/GlobalStyles';
+import NetworkService from '@src/services/NetworkService';
+import { PublicAccount } from 'symbol-sdk';
+import CheckableTextLink from '@src/components/molecules/CheckableTextLink';
 
 const styles = StyleSheet.create({
     list: {
@@ -42,8 +27,8 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.color.WHITE,
         borderRadius: 5,
         paddingVertical: 8,
-        paddingHorizontal: 16
-    }
+        paddingHorizontal: 16,
+    },
 });
 
 type Props = {
@@ -78,15 +63,27 @@ class OptInReview extends Component<Props, State> {
     };
 
     onOpenUrl = () => {
-        Linking.openURL("https://symbolplatform.com/terms-conditions/");
-    }
+        Linking.openURL('https://symbolplatform.com/terms-conditions/');
+    };
 
     render() {
-        const { componentId, selectedNIS1MultisigAccount, selectedMultisigDestinationAccount, selectedNIS1Account, selectedOptInStatus, selectedSymbolAccount, network, isLoading, isError } = this.props;
-        const { sent, showReview, isTacAccepted } = this.state;
+        const {
+            componentId,
+            selectedNIS1MultisigAccount,
+            selectedMultisigDestinationAccount,
+            selectedNIS1Account,
+            selectedOptInStatus,
+            selectedSymbolAccount,
+            network,
+            isLoading,
+            isError,
+        } = this.props;
+        const { sent, isTacAccepted } = this.state;
         let data = {};
         if (selectedOptInStatus.isMultisig) {
-            const networkType = NetworkService.getNetworkTypeFromModel({ type: network });
+            const networkType = NetworkService.getNetworkTypeFromModel({
+                type: network,
+            });
             const publicAccount = PublicAccount.createFromPublicKey(selectedMultisigDestinationAccount, networkType);
             data = {
                 optinAddress: selectedNIS1Account.address,
@@ -132,10 +129,14 @@ class OptInReview extends Component<Props, State> {
                             </Text>
                             <Row justify="space-between" fullWidth style={styles.mosaic}>
                                 <Row align="center">
-                                    <Icon name="mosaic_custom" size="small" style={{marginRight: 8}}/>
-                                    <Text type="regular" theme="light"><Trunc type="namespaceName">{"symbol.xym"}</Trunc></Text>
+                                    <Icon name="mosaic_custom" size="small" style={{ marginRight: 8 }} />
+                                    <Text type="regular" theme="light">
+                                        <Trunc type="namespaceName">{'symbol.xym'}</Trunc>
+                                    </Text>
                                 </Row>
-                                <Text type="regular" theme="light" style={styles.amount}>{selectedOptInStatus.balance}</Text>
+                                <Text type="regular" theme="light" style={styles.amount}>
+                                    {selectedOptInStatus.balance}
+                                </Text>
                             </Row>
                         </Section>
                         <Section type="form-item">
@@ -144,18 +145,35 @@ class OptInReview extends Component<Props, State> {
                             </Text>
                             <Row justify="space-between" fullWidth style={styles.mosaic}>
                                 <Row align="center">
-                                    <Text type="regular" theme="light"><Trunc type="namespaceName">{"XEM"}</Trunc></Text>
+                                    <Text type="regular" theme="light">
+                                        <Trunc type="namespaceName">{'XEM'}</Trunc>
+                                    </Text>
                                 </Row>
-                                <Text type="regular" theme="light" style={styles.amountNegative}>-{selectedOptInStatus.isMultisig ? 0.35 : 0.2}</Text>
+                                <Text type="regular" theme="light" style={styles.amountNegative}>
+                                    -{selectedOptInStatus.isMultisig ? 0.35 : 0.2}
+                                </Text>
                             </Row>
                         </Section>
                         <Section type="form-item">
-                            <CheckableTextLink isChecked={isTacAccepted} onChecked={() => this.setState({ isTacAccepted: !isTacAccepted })} linksMap={links}>
+                            <CheckableTextLink
+                                isChecked={isTacAccepted}
+                                onChecked={() =>
+                                    this.setState({
+                                        isTacAccepted: !isTacAccepted,
+                                    })
+                                }
+                                linksMap={links}
+                            >
                                 {termsConfirmText}
                             </CheckableTextLink>
                         </Section>
                         <Section type="form-bottom">
-                            <Button text={translate('optin.send')} disabled={!isTacAccepted} theme="light" onPress={() => showPasscode(this.props.componentId, this.finish)} />
+                            <Button
+                                text={translate('optin.send')}
+                                disabled={!isTacAccepted}
+                                theme="light"
+                                onPress={() => showPasscode(this.props.componentId, this.finish)}
+                            />
                         </Section>
                     </Section>
                 )}

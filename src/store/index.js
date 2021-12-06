@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import wallet from '@src/store/wallet';
 import settings from '@src/store/settings';
@@ -37,7 +37,8 @@ const createModuleReducer = (module, state = {}, action) => {
         return state;
     }
 
-    if (module.namespace === namespace && typeof module.mutations[mutation] === 'function') return module.mutations[mutation](state, action.payload);
+    if (module.namespace === namespace && typeof module.mutations[mutation] === 'function')
+        return module.mutations[mutation](state, action.payload);
 
     return state;
 };

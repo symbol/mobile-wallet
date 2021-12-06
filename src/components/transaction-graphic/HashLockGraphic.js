@@ -40,10 +40,7 @@ export default class HashLockGraphic extends GraphicComponent {
                     lockName={'' + this.props.duration}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleMosaics
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleMosaics x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

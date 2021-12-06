@@ -17,30 +17,10 @@ export default class NamespaceIcon extends GraphicComponent {
 
     render() {
         return (
-            <G
-                version="1.1"
-                x={this._x}
-                y={this._y}
-                width={this._width}
-                height={this._height}
-                viewBox={this.viewBox}
-            >
-                <Rect
-                    x="25.266"
-                    y="107.646"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    fill="none"
-                    width="207.333"
-                    height="23.667"
-                />
+            <G version="1.1" x={this._x} y={this._y} width={this._width} height={this._height} viewBox={this.viewBox}>
+                <Rect x="25.266" y="107.646" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="207.333" height="23.667" />
                 {!this.props.hideCaption && (
-                    <Text
-                        x="130"
-                        y="122.8457"
-                        style={this.styles.text}
-                        textAnchor="middle"
-                    >
+                    <Text x="130" y="122.8457" style={this.styles.text} textAnchor="middle">
                         {this.truncatedNamespaceName}
                     </Text>
                 )}

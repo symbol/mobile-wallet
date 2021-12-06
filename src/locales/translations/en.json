@@ -612,7 +612,7 @@
 			"hash": "Hash",
 			"amountLocked": "Amount locked",
 			"sign": "Sign",
-			"waitingSignature": "Waiting your signature"
+			"waitingSignature": "Awaiting your signature"
 		},
 		"transactionDetails": "Transaction Details",
 		"innerTransactionTab": "Inner Transactions",
@@ -627,8 +627,8 @@
 		"cosignFormInputNote": "Note",
 		"cosignFormButtonBlacklist": "Blacklist",
 		"cosignFormButtonArchive": "Archive",
-		"cosignFormTitleLastWarning": "You are about to sign this transaction. Please review it carefully and sign it only if you understand it. Otherwise, it can lead to the loss of all of your funds.",
-		"cosignFormCheckbox": "I acknowledge that I have reviewed and understand transaction details and it's inner transactions",
+		"cosignFormTitleLastWarning": "You are about to sign this transaction. Please review it carefully and sign it ONLY if you understand it. Otherwise, it can lead to the loss of all of your funds.",
+		"cosignFormCheckbox": "I acknowledge that I have reviewed and understand the transaction's details and its inner transactions",
 		"cosignFormButtonReviewAgain": "Review transaction again",
 		"caution": "CAUTION"
 	},
@@ -666,11 +666,11 @@
 		"remove": "Remove",
 		"details": "Details",
 		"removeAccount": "Remove account",
-		"removeAccountText": "Are you sure you want to remove the account from the local storage",
+		"removeAccountText": "Are you sure you want to remove the account from the local storage?",
 		"hideAccountTitle": "Hide Account",
 		"removeAccountTitle": "Remove Account",
 		"hideAccountDescription": "Are you sure you want to hide this account? It is a mnemonic seed account and you can restore it back anytime using the \"Add account\" button. No funds will be lost.",
-		"removeAccountDescription": "Are you sure you want to remove this account from the wallet? This is not a mnemonic seed account. Make sure you have the private key of this account otherwise you may lose access and funds"
+		"removeAccountDescription": "Are you sure you want to remove this account from the wallet? This is not a mnemonic seed account. Make sure you have the private key of this account otherwise you may lose access to the funds"
 	},
 	"createAccount": {
 		"title": "Add Account",
@@ -681,8 +681,8 @@
 		"createSeed": "Add account",
 		"fromPk": "Import account by private key",
 		"createPk": "Import",
-		"errorAccountNameExist": "Account with such name already exists",
-		"errorPrivateKeyExist": "This account already in the wallet",
+		"errorAccountNameExist": "Account with the same name already exists",
+		"errorPrivateKeyExist": "This account is already in the wallet",
 		"errorInvalidPrivateKey": "Invalid private key"
 	},
 	"settings": {
@@ -691,7 +691,7 @@
 		"logoutConfirmDesc": "By logging out the data on the device will be removed. You should have a back up before proceeding",
 		"logoutConfirmCheck": "I have backed up all the accounts under this profile",
 		"logoutConfirm2Title": "Warning",
-		"logoutConfirm2Desc": "You won't be able to access again to your wallet unless you have a back up. Are you sure do you want to continue?"
+		"logoutConfirm2Desc": "You won't be able to access again your wallet unless you have a back up. Are you sure you want to continue?"
 	},
 	"qr": {
 		"scannerTitle": "Symbol QR Scanner",
@@ -749,7 +749,7 @@
 	},
 	"optin": {
 		"title": "Post-launch opt-in",
-		"welcomeDescription": "List of imported NIS1 accounts. Choose one or import it to check it's status and start the opt-in process",
+		"welcomeDescription": "List of imported NIS1 accounts. Choose one or import it to check its status and start the opt-in process",
 		"importQR": "Import using QR",
 		"importPrivateKey": "Import using private key",
 		"qrPassword": "Decrypt QR code",
@@ -773,7 +773,7 @@
 		"review": "Review opt-in",
 		"selectSymbolAccountTitle": "Select symbol account",
 		"selectSymbolAccountDescription": "Select a symbol account to receive the opt-in funds. Here is the list the accounts inside your wallet:",
-		"selectCosignerSymbolDescription": "Select a symbol account that is cosigner of the account above:",
+		"selectCosignerSymbolDescription": "Select a symbol account that is a cosigner of the account above:",
 		"destinationMultisigAccount": "Symbol destination multisig address:",
 		"enterDestinationMultisigAccount": "Enter your destination Symbol account's public key. This account must be a multisig and must have the same amount of cosigners as the current NIS1 multisig account.",
 		"reviewTitle": "Review opt-in",
@@ -801,7 +801,7 @@
 		"presentationSlide2Title": "Eligible Account",
 		"presentationSlide2Text": "You can receive equivalent XYM for each XEM held during the snapshot at block height #3,105,500.",
 		"presentationSlide3Title": "Claim Your XYM",
-		"presentationSlide3Text": "Import your accounts now to check their eligbility; or start the opt-in process.",
+		"presentationSlide3Text": "Import your accounts now to check their eligibility or start the opt-in process.",
 		"presentationSlide3Note": "Note: it can take up to thirty (30) days for your XYM to successfully appear in your wallet.",
 		"noBalance": "You didn't have enough XEM in Snapshot or you already claimed them in a pre-launch opt-in.",
 		"postLaunchTransactionText": "The amount you have received:",

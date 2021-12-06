@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    Modal,
-    Image,
-    ActivityIndicator
-} from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import {Icon, LoadingAnimationFlexible, Row} from '@src/components';
-import translate from "@src/locales/i18n";
+import { Row } from '@src/components';
 
 const styles = StyleSheet.create({
     root: {
-        //backgroundColor: '#f005',
         paddingRight: 8,
     },
     fullWidth: {
@@ -51,7 +40,7 @@ const styles = StyleSheet.create({
         color: GlobalStyles.color.SECONDARY,
         fontFamily: 'NotoSans-Regular',
         textAlign: 'center',
-        fontSize: 12
+        fontSize: 12,
     },
     titleDark: {
         color: GlobalStyles.color.WHITE,
@@ -101,12 +90,8 @@ export default class Dropdown extends Component<Props, State> {
             <TouchableOpacity disabled={disabled} style={rootStyle} onPress={() => this.onChange()}>
                 <Row align="center">
                     <View style={checkboxStyles}>
-                        {!!value && !loading &&
-                            <Image style={styles.icon} source={require('@src/assets/icons/check.png')} />
-                        }
-                        {loading &&
-                            <ActivityIndicator size="small" color={GlobalStyles.color.PINK} />
-                        }
+                        {!!value && !loading && <Image style={styles.icon} source={require('@src/assets/icons/check.png')} />}
+                        {loading && <ActivityIndicator size="small" color={GlobalStyles.color.PINK} />}
                     </View>
                     <View style={styles.titleContainer}>
                         {!children && <Text style={titleStyle}>{titleText}</Text>}

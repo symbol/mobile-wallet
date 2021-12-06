@@ -1,15 +1,4 @@
-import {
-    AccountHttp,
-    Account,
-    Address,
-    NetworkType,
-    Mosaic,
-    MosaicHttp,
-    NamespaceHttp,
-    MultisigHttp,
-    MosaicId,
-    UInt64,
-} from 'symbol-sdk';
+import { Account, AccountHttp, Address, Mosaic, MosaicHttp, MosaicId, MultisigHttp, NamespaceHttp, NetworkType, UInt64 } from 'symbol-sdk';
 import { ExtendedKey, MnemonicPassPhrase, Network, Wallet } from 'symbol-hd-wallets';
 import type { AccountModel, AccountOriginType, MultisigAccountInfo } from '@src/storage/models/AccountModel';
 import type { MnemonicModel } from '@src/storage/models/MnemonicModel';
@@ -87,7 +76,12 @@ export default class AccountService {
     /**
      * Updates persistent del request sent
      */
-    static async updateDelegatedHarvestingInfo(id: string, isPersistentDelReqSent: boolean, harvestingNode: string, network: AppNetworkType): string {
+    static async updateDelegatedHarvestingInfo(
+        id: string,
+        isPersistentDelReqSent: boolean,
+        harvestingNode: string,
+        network: AppNetworkType
+    ): string {
         const allAccounts = await AccountSecureStorage.getAllAccountsByNetwork(network);
         const account = allAccounts.find(account => account.id === id);
         if (!account) return;
@@ -106,7 +100,13 @@ export default class AccountService {
      * @param curve
      * @returns {AccountModel}
      */
-    static createFromMnemonicAndIndex(mnemonic: string, index: number, name: string, network: AppNetworkType, curve = Network.SYMBOL): AccountModel {
+    static createFromMnemonicAndIndex(
+        mnemonic: string,
+        index: number,
+        name: string,
+        network: AppNetworkType,
+        curve = Network.SYMBOL
+    ): AccountModel {
         const mnemonicPassPhrase = new MnemonicPassPhrase(mnemonic);
         const seed = mnemonicPassPhrase.toSeed().toString('hex');
         const extKey = ExtendedKey.createFromSeed(seed, curve);
@@ -135,7 +135,10 @@ export default class AccountService {
      * @param network
      * @returns {Promise<number>}
      */
-    static async getBalanceAndOwnedMosaicsFromAddress(address: string, network: NetworkModel): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
+    static async getBalanceAndOwnedMosaicsFromAddress(
+        address: string,
+        network: NetworkModel
+    ): Promise<{ balance: number, ownedMosaics: MosaicModel[] }> {
         try {
             const accountInfo = await new AccountHttp(network.node).getAccountInfo(Address.createFromRawAddress(address)).toPromise();
             let amount = 0,
@@ -211,9 +214,14 @@ export default class AccountService {
      * @param network
      * @returns {Promise<*[]>}
      */
-    static async getCosignatoryOfByAddress(address: string, network: NetworkModel): Promise<{ cosignatoryOf: string[], isMultisig: boolean }> {
+    static async getCosignatoryOfByAddress(
+        address: string,
+        network: NetworkModel
+    ): Promise<{ cosignatoryOf: string[], isMultisig: boolean }> {
         try {
-            const multisigInfo = await new MultisigHttp(network.node).getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise();
+            const multisigInfo = await new MultisigHttp(network.node)
+                .getMultisigAccountInfo(Address.createFromRawAddress(address))
+                .toPromise();
             return {
                 cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.pretty()),
                 isMultisig: multisigInfo.cosignatoryAddresses.length > 0,
@@ -330,7 +338,9 @@ export default class AccountService {
                     )
                 );
             }
-            currentSigner.parentSigners = parentSigners.filter(ps => currentMultisigAccountInfo.multisigAddresses.some(msa => msa.equals(ps.address)));
+            currentSigner.parentSigners = parentSigners.filter(ps =>
+                currentMultisigAccountInfo.multisigAddresses.some(msa => msa.equals(ps.address))
+            );
         }
         return [currentSigner, ...parentSigners];
     }

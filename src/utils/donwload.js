@@ -27,7 +27,7 @@ const downloadAndroid = async (file, filename, encoding) => {
             } else {
                 Router.showMessage({
                     message: translate('unsortedKeys.writePermissionsNeeded'),
-                    type: 'danger'
+                    type: 'danger',
                 });
             }
         }
@@ -57,13 +57,10 @@ const saveFile = (data, filename, platform, encoding) => {
                 RNFetchBlob.ios.previewDocument(`${dirs.DocumentDir}/${filename}`);
             }
             Router.showMessage({
-                message: translate(
-                    'unsortedKeys.fileSavedToDirectoryMessage',
-                    {
-                        folder: platform === 'ios' ? 'Documents' : 'Downloads'
-                    }
-                ),
-                type: 'success'
+                message: translate('unsortedKeys.fileSavedToDirectoryMessage', {
+                    folder: platform === 'ios' ? 'Documents' : 'Downloads',
+                }),
+                type: 'success',
             });
         })
         .catch(() => {

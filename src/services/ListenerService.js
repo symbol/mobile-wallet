@@ -55,7 +55,10 @@ export default class ListenerService {
                 });
 
                 this.listener.newBlock().subscribe(block => {
-                    store.dispatchAction({ type: 'network/updateChainHeight', payload: block.height.compact() });
+                    store.dispatchAction({
+                        type: 'network/updateChainHeight',
+                        payload: block.height.compact(),
+                    });
                 });
             });
     };

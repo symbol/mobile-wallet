@@ -39,10 +39,7 @@ export default class AccountMetadataGraphic extends GraphicComponent {
                     address={this.props.targetAddress}
                 />
                 <Arrow x={this.arrowPositionX} y={this.arrowPositionY} />
-                <CircleMetadata
-                    x={this.getCircleIconPositionX(0)}
-                    y={this.circleIconPositionY}
-                />
+                <CircleMetadata x={this.getCircleIconPositionX(0)} y={this.circleIconPositionY} />
                 <Text
                     x={this.transactionTypeTextPositionX}
                     y={this.transactionTypeTextPositionY}

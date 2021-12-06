@@ -92,7 +92,7 @@ export default {
                 dispatchAction({ type: 'harvesting/loadHarvestedBlocksStats' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingModel' }),
                 dispatchAction({ type: 'harvesting/loadHarvestingNodes' }),
-            ]).catch(e => {
+            ]).catch(() => {
                 commit({ type: 'harvesting/resetState' });
             });
         },
@@ -107,16 +107,27 @@ export default {
         },
         loadAccountImportance: async ({ commit, state }) => {
             try {
-                const {importance, networkInfo} = await HarvestingService.getAccountImportance(state.network.selectedNetwork.node, state.account.selectedAccountAddress,  state.network.selectedNetwork.currencyDivisibility, state.network.selectedNetwork.node || '');
+                const { importance, networkInfo } = await HarvestingService.getAccountImportance(
+                    state.network.selectedNetwork.node,
+                    state.account.selectedAccountAddress,
+                    state.network.selectedNetwork.currencyDivisibility,
+                    state.network.selectedNetwork.node || ''
+                );
                 const totalChainImportance = parseInt(networkInfo.totalChainImportance.toString().replace(/'/g, '')) || 0;
                 const relativeImportance = importance > 0 ? importance / totalChainImportance : importance;
                 const formatOptions: Intl.NumberFormatOptions = {
                     maximumFractionDigits: state.network.selectedNetwork.currencyDivisibility,
                     style: 'percent',
                 };
-                commit({ type: 'harvesting/setAccountImportance', payload: relativeImportance.toLocaleString(undefined, formatOptions).toString() });
+                commit({
+                    type: 'harvesting/setAccountImportance',
+                    payload: relativeImportance.toLocaleString(undefined, formatOptions).toString(),
+                });
             } catch (e) {
-                commit({ type: 'harvesting/setAccountImportance', payload: '0%' });
+                commit({
+                    type: 'harvesting/setAccountImportance',
+                    payload: '0%',
+                });
                 console.log(e);
             }
         },
@@ -126,19 +137,32 @@ export default {
                 commit({ type: 'harvesting/setNodes', payload: nodes });
             } catch (e) {
                 console.log(e);
-                commit({ type: 'harvesting/setNodes', payload: HarvestingService.getHarvestingNodeList() });
+                commit({
+                    type: 'harvesting/setNodes',
+                    payload: HarvestingService.getHarvestingNodeList(),
+                });
             }
         },
         loadHarvestingModel: async ({ commit, state }) => {
             const harvestingModel = await HarvestingSecureStorage.getHarvestingModel(state.wallet.selectedAccount.id);
-            commit({ type: 'harvesting/setHarvestingModel', payload: harvestingModel });
+            commit({
+                type: 'harvesting/setHarvestingModel',
+                payload: harvestingModel,
+            });
         },
         loadHarvestedBlocks: async ({ commit, state }) => {
             const harvestedBlocks = await HarvestingService.getHarvestedBlocks(state.wallet.selectedAccount, state.network.selectedNetwork);
-            commit({ type: 'harvesting/setHarvestedBlocks', payload: harvestedBlocks });
+            commit({
+                type: 'harvesting/setHarvestedBlocks',
+                payload: harvestedBlocks,
+            });
         },
         loadHarvestedBlocksStats: async ({ commit, state }) => {
-            await HarvestingService.getHarvestedBlocksStats(state.wallet.selectedAccount, state.network.selectedNetwork, commit).toPromise();
+            await HarvestingService.getHarvestedBlocksStats(
+                state.wallet.selectedAccount,
+                state.network.selectedNetwork,
+                commit
+            ).toPromise();
         },
         startHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
             try {
@@ -170,14 +194,18 @@ export default {
             }
             dispatchAction({ type: 'harvesting/init' });
         },
-        activateHarvesting: async ({ state, dispatchAction }, { nodePublicKey, harvestingNode }) => {
+        activateHarvesting: async ({ state, dispatchAction }, { harvestingNode }) => {
             try {
                 const harvestingModel = await HarvestingSecureStorage.getHarvestingModel(state.wallet.selectedAccount.id);
                 if (!harvestingModel) {
                     console.log('Harvesting model not model saved');
                     return;
                 }
-                await HarvestingService.sendPersistentHarvestingRequest(harvestingModel, state.wallet.selectedAccount, state.network.selectedNetwork);
+                await HarvestingService.sendPersistentHarvestingRequest(
+                    harvestingModel,
+                    state.wallet.selectedAccount,
+                    state.network.selectedNetwork
+                );
                 await dispatchAction({
                     type: 'wallet/updateDelegatedHarvestingInfo',
                     payload: {

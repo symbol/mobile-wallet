@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, Linking } from 'react-native';
-import { Text, Section, Col, Row } from '@src/components';
+import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Col, Row, Section, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 
