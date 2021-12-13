@@ -3,7 +3,7 @@
  * @flow
  */
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { NativeModules, Platform, Text, TextInput } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
@@ -58,6 +58,10 @@ export const startApp = async () => {
 
     const selectedLanguage = await AsyncCache.getSelectedLanguage();
     setI18nConfig(selectedLanguage);
+
+    if (Platform.OS === 'android') {
+        NativeModules.InAppUpdate.checkUpdate();
+    }
 
     if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) {
         SplashScreen.hide();

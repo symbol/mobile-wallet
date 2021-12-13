@@ -212,6 +212,8 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
+    implementation 'com.google.android.play:core:1.7.3'
+    implementation 'com.android.support:design:27.1.1'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
