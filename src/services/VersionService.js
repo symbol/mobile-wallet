@@ -1,19 +1,38 @@
-import { Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
+import VersionInfo from 'react-native-version-info';
 
 const PRODUCT_BUNDLE_IDENTIFIER = 'com.nemgrouplimited.symbolwallet';
 
 export class VersionService {
-    static async checkAppVersionIsUpToDate(): Promise<boolean> {
-        if (Platform.OS === 'ios') {
-            const countryCode = 'us';
-            const endpoint = `https://itunes.apple.com/${countryCode}/lookup?bundleId=${PRODUCT_BUNDLE_IDENTIFIER}`;
-            const version = fetch(endpoint)
-                .then(response => response.json())
-                .then(json => json.results[0].version);
+    static get appVersion() {
+        return VersionInfo.appVersion;
+    }
 
-            return version !== '0.0'; // TDOD: add compare to the current app version
+    // Fetch latest version from App Store API and compare with the "CFBundleShortVersionString"
+    static async checkIOSNeedsUpdate(): Promise<boolean> {
+        try {
+            const endpoint = `https://itunes.apple.com/us/lookup?bundleId=${PRODUCT_BUNDLE_IDENTIFIER}`;
+            const data = await fetch(endpoint).then(response => response.json());
+            const latestAppVersion = data.results[0].version;
+
+            return latestAppVersion !== VersionService.appVersion;
+        } catch {
+            return false;
         }
+    }
 
-        return true;
+    // Delegate version check to the InAppUpdate Android native module
+    static async checkAndroidNeedsUpdate(): Promise<null> {
+        NativeModules.InAppUpdate.checkUpdate();
+
+        return null;
+    }
+
+    static checkAppNeedsUpdate(): Promise<boolean | null> {
+        if (Platform.OS === 'android') {
+            return VersionService.checkAndroidNeedsUpdate();
+        } else {
+            return VersionService.checkIOSNeedsUpdate();
+        }
     }
 }

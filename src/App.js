@@ -3,11 +3,12 @@
  * @flow
  */
 import React from 'react';
-import { NativeModules, Platform, Text, TextInput } from 'react-native';
+import { Alert, Text, TextInput } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
+import { VersionService } from '@src/services/VersionService';
 import { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
 import { AsyncCache } from './utils/storage/AsyncCache';
@@ -70,9 +71,14 @@ export const startApp = async () => {
         SplashScreen.hide();
     }
 
-    if (Platform.OS === 'android') {
-        NativeModules.InAppUpdate.checkUpdate();
-    }
+    VersionService.checkAppNeedsUpdate().then(
+        appNeedsUpdate =>
+            appNeedsUpdate === true &&
+            Alert.alert(
+                'New version of Symbol Wallet is available on App Store',
+                'We strongly recommend that you update to the latest version!'
+            )
+    );
 };
 
 const launchWallet = async () => {
