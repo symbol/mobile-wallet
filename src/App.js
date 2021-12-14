@@ -59,10 +59,6 @@ export const startApp = async () => {
     const selectedLanguage = await AsyncCache.getSelectedLanguage();
     setI18nConfig(selectedLanguage);
 
-    if (Platform.OS === 'android') {
-        NativeModules.InAppUpdate.checkUpdate();
-    }
-
     if (dataSchemaVersion !== CURRENT_DATA_SCHEMA) {
         SplashScreen.hide();
         Router.goToWalletLoading({
@@ -72,6 +68,10 @@ export const startApp = async () => {
     } else {
         await launchWallet();
         SplashScreen.hide();
+    }
+
+    if (Platform.OS === 'android') {
+        NativeModules.InAppUpdate.checkUpdate();
     }
 };
 
