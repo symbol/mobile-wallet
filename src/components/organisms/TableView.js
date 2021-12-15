@@ -152,7 +152,7 @@ class TableView extends Component<Props> {
                     <Row align="center">
                         <Icon name="mosaic_custom" size="small" style={styles.icon} />
                         <Text type="regular" theme="light">
-                            <Trunc type="namespaceName">{el.mosaicName}</Trunc>
+                            <Trunc type="mosaicId">{el.mosaicName}</Trunc>
                         </Text>
                     </Row>
                     {this.render_amount(el.amount / Math.pow(10, el.divisibility))}
@@ -168,12 +168,12 @@ class TableView extends Component<Props> {
     render_namespaces = value => {
         const namespaces = Array.isArray(value) ? value : [];
         if (namespaces.length)
-            return namespaces.map((el, index) => (
+            return namespaces.map((namespaceName, index) => (
                 <Row justify="space-between" fullWidth style={[styles.assets, styles.namespaces]} key={'' + index + 'tv-ns'}>
                     <Row align="center">
                         <Icon name="namespace_light" size="small" style={styles.icon} />
                         <Text type="regular" theme="light">
-                            <Trunc type="namespaceNameBigger">{el}</Trunc>
+                            <Trunc type="namespaceName">{namespaceName}</Trunc>
                         </Text>
                     </Row>
                 </Row>
