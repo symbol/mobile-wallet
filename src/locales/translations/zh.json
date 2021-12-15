@@ -717,7 +717,9 @@
 		"announce_success": "交易成功宣布",
 		"nothingToShow": "Nothing to show",
 		"currentAccount": "你",
-		"currentAddress": "你的地址"
+		"currentAddress": "你的地址",
+		"alertNewVersionAppStoreTitle": "The new version of Symbol Wallet is available in the App Store",
+		"alertNewVersionAppStoreBody": "We strongly recommend that you update to the latest version!"
 	},
 	"addressBook": {
 		"addressTakenWarning": "地址属于另一个联系人"

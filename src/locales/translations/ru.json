@@ -743,7 +743,9 @@
 		"noPublicKeyWarning": "Не удается зашифровать сообщение: адрес не имеет публичного ключа",
 		"nothingToShow": "Пусто",
 		"currentAccount": "Вы",
-		"currentAddress": "Ваш адрес"
+		"currentAddress": "Ваш адрес",
+		"alertNewVersionAppStoreTitle": "В App Store доступна новая версия мобильного кошелька Symbol",
+		"alertNewVersionAppStoreBody": "Мы настоятельно рекомендуем Вам обновиться до последней версии!"
 	},
 	"optin": {
 		"title": "Пост Лаунч Опт-Ин",

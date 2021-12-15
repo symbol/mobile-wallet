@@ -9,7 +9,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
 import { VersionService } from '@src/services/VersionService';
-import { setI18nConfig } from './locales/i18n';
+import translate, { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
 import { AsyncCache } from './utils/storage/AsyncCache';
 import store from '@src/store';
@@ -74,10 +74,7 @@ export const startApp = async () => {
     VersionService.checkAppNeedsUpdate().then(
         appNeedsUpdate =>
             appNeedsUpdate === true &&
-            Alert.alert(
-                'New version of Symbol Wallet is available on App Store',
-                'We strongly recommend that you update to the latest version!'
-            )
+            Alert.alert(translate('unsortedKeys.alertNewVersionAppStoreTitle'), translate('unsortedKeys.alertNewVersionAppStoreBody'))
     );
 };
 
