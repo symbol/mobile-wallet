@@ -30,6 +30,7 @@ const renderTypeMap = {
     amount: ['amount', 'resolvedFee'],
     secret: ['privateKey', 'remotePrivateKey', 'vrfPrivateKey'],
     mosaics: ['mosaics'],
+    namespaces: ['accountAliasNames'],
     ecryption: ['messageEncrypted'],
     transactionType: ['transactionType', '_restrictionOperationAdditions', '_restrictionOperationDeletions'],
     translate: [
@@ -46,12 +47,21 @@ const styles = StyleSheet.create({
     amount: {
         color: GlobalStyles.color.SECONDARY,
     },
-    mosaic: {
-        backgroundColor: GlobalStyles.color.DARKWHITE,
+    assets: {
         borderRadius: 5,
         paddingVertical: 2,
         paddingHorizontal: 16,
         marginBottom: 2,
+    },
+    mosaic: {
+        backgroundColor: GlobalStyles.color.DARKWHITE,
+    },
+    namespaces: {
+        backgroundColor: 'transparent',
+        paddingHorizontal: 8,
+    },
+    icon: {
+        marginRight: 8,
     },
 });
 
@@ -138,14 +148,34 @@ class TableView extends Component<Props> {
         const mosaics = Array.isArray(value) ? value : [];
         if (mosaics.length)
             return mosaics.map((el, index) => (
-                <Row justify="space-between" fullWidth style={styles.mosaic} key={'' + index + 'tv-mosaics'}>
+                <Row justify="space-between" fullWidth style={[styles.assets, styles.mosaic]} key={'' + index + 'tv-mosaics'}>
                     <Row align="center">
-                        <Icon name="mosaic_custom" size="small" style={{ marginRight: 8 }} />
+                        <Icon name="mosaic_custom" size="small" style={styles.icon} />
                         <Text type="regular" theme="light">
-                            <Trunc type="namespaceName">{el.mosaicName}</Trunc>
+                            <Trunc type="mosaicId">{el.mosaicName}</Trunc>
                         </Text>
                     </Row>
                     {this.render_amount(el.amount / Math.pow(10, el.divisibility))}
+                </Row>
+            ));
+        return (
+            <Text type="regular" theme="light">
+                {translate('table.null')}
+            </Text>
+        );
+    };
+
+    render_namespaces = value => {
+        const namespaces = Array.isArray(value) ? value : [];
+        if (namespaces.length)
+            return namespaces.map((namespaceName, index) => (
+                <Row justify="space-between" fullWidth style={[styles.assets, styles.namespaces]} key={'' + index + 'tv-ns'}>
+                    <Row align="center">
+                        <Icon name="namespace_light" size="small" style={styles.icon} />
+                        <Text type="regular" theme="light">
+                            <Trunc type="namespaceName">{namespaceName}</Trunc>
+                        </Text>
+                    </Row>
                 </Row>
             ));
         return (

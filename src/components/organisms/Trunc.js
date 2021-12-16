@@ -37,9 +37,9 @@ class Transaction extends Component<Props> {
             case 'address':
                 return this.formatAddress(children);
             case 'mosaicId':
-                return this.trunc(children, 'middle', 6, 3);
-            case 'namespaceName':
                 return this.trunc(children, 'middle', 6, 6);
+            case 'namespaceName':
+                return this.trunc(children, 'middle', 10, 10);
             default:
                 return this.trunc(children, 'end', length);
         }
