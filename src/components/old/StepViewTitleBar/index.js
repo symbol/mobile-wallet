@@ -18,13 +18,13 @@ export type titleTheme = {
 };
 
 const lightTheme: titleTheme = {
-    textColor: GlobalStyles.color.onLight.TITLE,
+    textColor: GlobalStyles.color.lightmode.TITLE,
     backIconRes: require('@src/assets/icons/ic-back-black.png'),
     closeIconRes: require('@src/assets/icons/close_light.png'),
 };
 
 const darkTheme: titleTheme = {
-    textColor: GlobalStyles.color.onDark.TITLE,
+    textColor: GlobalStyles.color.darkmode.TITLE,
     backIconRes: require('@src/assets/icons/ic-back-white.png'),
     closeIconRes: require('@src/assets/icons/close_dark.png'),
 };

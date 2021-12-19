@@ -27,16 +27,6 @@ import { defaultFeesConfig } from '@src/config/fees';
 import { AccountHttp, Address } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
-        width: '100%',
-        height: 60,
-        borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#fff5',
-    },
     warning: {
         color: GlobalStyles.color.RED,
     },

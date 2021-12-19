@@ -81,7 +81,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                 case 'nativeMosaicIncoming':
                     if (value.value !== 0)
                         items.push(
-                            <Text type="bold" theme="light" style={[styles.amountIncoming, styles.bold, { marginLeft: 5 }]}>
+                            <Text type="bold" theme="darkmode" style={[styles.amountIncoming, styles.bold, { marginLeft: 5 }]}>
                                 {value.value}
                             </Text>
                         );
@@ -89,7 +89,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                 case 'nativeMosaicOutgoing':
                     if (value.value !== 0)
                         items.push(
-                            <Text type="bold" theme="light" style={[styles.amountOutgoing, styles.bold, { marginLeft: 5 }]}>
+                            <Text type="bold" theme="darkmode" style={[styles.amountOutgoing, styles.bold, { marginLeft: 5 }]}>
                                 {'-' + value.value}
                             </Text>
                         );
@@ -139,7 +139,7 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                 {!!transaction.messageEncrypted && !!transaction.messageText && transaction.messageText.length > 0 && (
                     <View justify="space-between">
                         <Section type="form-item">
-                            <Text type="bold" theme="light" style={styles.bold}>
+                            <Text type="bold" theme="darkmode" style={styles.bold}>
                                 {translate('history.transaction.message')}:
                             </Text>
                             {this.canBeDecrypted() && (
@@ -147,13 +147,13 @@ class TransferTransaction extends BaseTransactionItem<Props> {
                                     componentId={this.props.componentId}
                                     preShowFn={() => this.decryptMessage()}
                                     title={translate('history.transaction.decrypt')}
-                                    theme="light"
+                                    theme="darkmode"
                                 >
                                     {messageDecrypted}
                                 </SecretView>
                             )}
                             {!this.canBeDecrypted() && (
-                                <Text type="regular" theme="light">
+                                <Text type="regular" theme="darkmode">
                                     {translate('history.transaction.encrypted')}
                                 </Text>
                             )}

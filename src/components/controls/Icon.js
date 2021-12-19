@@ -109,11 +109,14 @@ export default class C extends Component<Props, State> {
             case 'settings_filled_light':
                 source = require('@src/assets/icons/settings_filled_light.png');
                 break;
-            case 'settings_dark':
-                source = require('@src/assets/icons/settings_dark.png');
+            case 'settings_darkmode':
+                source = require('design-system/assets/icons/Gear.png');
                 break;
             case 'wallet_filled_light':
                 source = require('@src/assets/icons/wallet_filled_light.png');
+                break;
+            case 'wallet_darkmode':
+                source = require('design-system/assets/icons/Wallet.png');
                 break;
             case 'paste':
                 source = require('@src/assets/icons/clipboard.png');

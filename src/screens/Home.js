@@ -19,16 +19,6 @@ import store from '@src/store';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
-        width: '100%',
-        height: 60,
-        borderRadius: 6,
-        marginTop: 4,
-        marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
-        backgroundColor: '#ffff',
-    },
     scrollView: {
         flex: 1,
         flexDirection: 'column',
@@ -64,15 +54,15 @@ class Home extends Component<Props, State> {
         return (
             <ListItem onPress={item.handler ? item.handler : () => {}}>
                 <Row justify="space-between">
-                    <Text type="regular" theme="light">
+                    <Text type="regular" theme="darkmode">
                         {item.title}
                     </Text>
-                    <Text type="regular" theme="light">
+                    <Text type="regular" theme="darkmode">
                         {/* DateTime */}
                     </Text>
                 </Row>
                 <Row justify="space-between">
-                    <Text type="bold" theme="light">
+                    <Text type="bold" theme="darkmode">
                         {item.description}
                     </Text>
                 </Row>
@@ -118,11 +108,10 @@ class Home extends Component<Props, State> {
 
         return (
             <GradientBackground
-                name="connector_small"
-                theme="light"
+                theme="darkmode"
                 fade={true}
                 titleBar={
-                    <TitleBar theme="light" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
+                    <TitleBar theme="darkmode" title={accountName} onOpenMenu={() => onOpenMenu()} onSettings={() => onOpenSettings()} />
                 }
             >
                 {showWarning && (
@@ -149,7 +138,7 @@ class Home extends Component<Props, State> {
                         <AccountBalanceWidget componentId={componentId} />
                     </Section>
 
-                    <PluginList componentId={componentId} theme="light" style={styles.pluginList} />
+                    <PluginList componentId={componentId} theme="darkmode" style={styles.pluginList} />
 
                     <ListContainer style={styles.notifications} isScrollable={false}>
                         <FlatList

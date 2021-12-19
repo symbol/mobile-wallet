@@ -73,10 +73,21 @@ export default class GradientBackground extends Component<Props, State> {
                 break;
         }
 
-        const gradientColors =
-            theme === 'light'
-                ? [GlobalStyles.color.DARKWHITE, GlobalStyles.color.DARKWHITE]
-                : [GlobalStyles.color.PRIMARY, GlobalStyles.color.SECONDARY];
+        let gradientColors;
+
+        switch (theme) {
+            case 'light':
+                gradientColors = [GlobalStyles.color.DARKWHITE, GlobalStyles.color.DARKWHITE];
+                break;
+            case 'darkmode':
+                gradientColors = [GlobalStyles.color.darkmode.BACKGROUND_MAIN, GlobalStyles.color.darkmode.BACKGROUND_MAIN];
+                break;
+            default:
+                gradientColors = [GlobalStyles.color.PRIMARY, GlobalStyles.color.SECONDARY];
+                break;
+        }
+
+        console.log({ theme, gradientColors });
 
         const Content = () => {
             return (

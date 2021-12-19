@@ -111,11 +111,10 @@ class History extends Component<Props, State> {
 
         return (
             <GradientBackground
-                name="connector_small"
-                theme="light"
+                theme="darkmode"
                 titleBar={
                     <TitleBar
-                        theme="light"
+                        theme="darkmode"
                         title={translate('history.title')}
                         onOpenMenu={() => onOpenMenu()}
                         onSettings={() => onOpenSettings()}
@@ -126,7 +125,7 @@ class History extends Component<Props, State> {
                     <Section type="form-item">
                         <Row fullWidth>
                             <Dropdown
-                                theme="light"
+                                theme="darkmode"
                                 style={styles.filter}
                                 list={allFilters}
                                 title={translate('history.filter')}
@@ -135,7 +134,7 @@ class History extends Component<Props, State> {
                             />
                             {cosignatoryOf.length > 0 && (
                                 <MultisigFilter
-                                    theme="light"
+                                    theme="darkmode"
                                     style={styles.filterRight}
                                     selected={addressFilter}
                                     onSelect={v => this.onSelectMultisig(v)}

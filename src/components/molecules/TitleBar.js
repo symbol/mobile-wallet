@@ -52,9 +52,9 @@ export default class PluginList extends Component<Props, State> {
 
         const iconCloseName = theme === 'light' ? 'close_light' : 'close_dark';
 
-        const iconSettingsName = theme === 'light' ? 'settings_filled_light' : 'settings_dark';
+        const iconSettingsName = theme === 'light' ? 'settings_filled_light' : 'settings_darkmode';
 
-        const iconMenuName = theme === 'light' ? 'wallet_filled_light' : 'options_dark';
+        const iconMenuName = theme === 'light' ? 'wallet_filled_light' : 'wallet_darkmode';
 
         const leftIconStyle = onBack ? styles.iconLeftOld : {};
 

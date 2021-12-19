@@ -1,3 +1,5 @@
+import DesignSystemStyles from 'design-system/build/json/styles.json';
+
 /**
  * Symbol branding colors
  */
@@ -25,7 +27,7 @@ export default {
         ...COLORS,
 
         // On Light Background
-        onLight: {
+        lightmode: {
             TITLE: COLORS.PINK,
             TEXT: COLORS.SECONDARY,
 
@@ -39,10 +41,13 @@ export default {
             CONTROL_TEXT: COLORS.WHITE,
             CONTROL_TEXT_ACTIVE: COLORS.WHITE,
             CONTROL_TEXT_DISABLED: COLORS.WHITE,
+
+            BACKGROUND_MAIN: DesignSystemStyles.ColorLightmodeBgMain,
+            BACKGROUND_CARD: DesignSystemStyles.ColorLightmodeFormBg,
         },
 
         // On Dark Background
-        onDark: {
+        darkmode: {
             TITLE: COLORS.WHITE,
             TEXT: COLORS.WHITE,
 
@@ -56,6 +61,14 @@ export default {
             CONTROL_TEXT: COLORS.WHITE,
             CONTROL_TEXT_ACTIVE: COLORS.WHITE,
             CONTROL_TEXT_DISABLED: COLORS.WHITE,
+
+            BACKGROUND_MENU: DesignSystemStyles.ColorDarkmodeBgMain,
+            BACKGROUND_MAIN: DesignSystemStyles.ColorDarkmodeBgGray,
+            BACKGROUND_CARD: '#f1f3f41a',
+            BACKGROUND_CARD2: DesignSystemStyles.ColorDarkmodeBgDark,
+            BACKGROUND_HERO: DesignSystemStyles.ColorDarkmodeLogoBg,
+            BACKGROUND_FORM: DesignSystemStyles.ColorDarkmodeFormBg,
+            ACCENT_FORM: DesignSystemStyles.ColorDarkmodeFormAccent,
         },
     },
 
@@ -176,10 +189,6 @@ export default {
             paddingTop: 17,
             paddingBottom: 17,
         },
-    },
-
-    menu: {
-        icon: {},
     },
 
     controls: {

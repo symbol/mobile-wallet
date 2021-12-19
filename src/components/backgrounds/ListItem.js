@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         paddingTop: 18.1,
         paddingBottom: 16,
         borderBottomWidth: 2,
-        borderBottomColor: GlobalStyles.color.DARKWHITE,
+        borderBottomColor: GlobalStyles.color.darkmode.BACKGROUND_CARD,
     },
 });
 

@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
     currencyText: {
         fontSize: 15,
         marginBottom: 8,
-        color: GlobalStyles.color.onDark.TEXT,
+        color: GlobalStyles.color.darkmode.TEXT,
     },
     balanceText: {
         fontFamily: 'NotoSans-SemiBold',
         fontSize: 36,
-        color: GlobalStyles.color.onDark.TEXT,
+        color: GlobalStyles.color.darkmode.TEXT,
     },
     bottomContainer: {
         marginTop: 3,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     fiatText: {
         fontSize: 15,
-        color: GlobalStyles.color.onDark.TEXT,
+        color: GlobalStyles.color.darkmode.TEXT,
     },
     priceChange: {
         fontSize: 15,

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginBottom: 8,
         paddingBottom: 1,
-        backgroundColor: GlobalStyles.color.WHITE,
+        backgroundColor: GlobalStyles.color.darkmode.BACKGROUND_CARD,
         flex: 1,
     },
     section: {

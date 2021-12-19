@@ -4,11 +4,10 @@ import { Col, Icon, Row, Text } from '@src/components';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 
 const styles = StyleSheet.create({
-    transactionPreview: {
+    mosaicPreview: {
         width: '100%',
         borderRadius: 6,
         marginTop: 0,
-        backgroundColor: '#fffd',
     },
 });
 
@@ -22,14 +21,14 @@ export default class MosaicDisplay extends Component<Props> {
         const iconName = isNative ? 'mosaic_native' : 'mosaic_custom';
 
         return (
-            <View style={styles.transactionPreview}>
+            <View style={styles.mosaicPreview}>
                 <Row justify="start" fullWidth>
                     <Col justify="center" align="center" style={{ marginRight: 16 }}>
                         <Icon name={iconName} />
                     </Col>
                     <Col grow>
                         <Row justify="space-between">
-                            <Text type="regular" theme="light">
+                            <Text type="regular" theme="darkmode">
                                 {mosaic.mosaicId} {mosaic.expired ? ' (expired)' : ''}
                             </Text>
                             {/* <Text type="regular" theme="light">
@@ -37,10 +36,10 @@ export default class MosaicDisplay extends Component<Props> {
 							</Text> */}
                         </Row>
                         <Row justify="space-between">
-                            <Text type="bold" theme="light">
+                            <Text type="bold" theme="darkmode">
                                 {mosaic.mosaicName}
                             </Text>
-                            <Text type="bold" theme="light">
+                            <Text type="bold" theme="darkmode">
                                 {mosaic.amount / Math.pow(10, mosaic.divisibility)}
                             </Text>
                         </Row>

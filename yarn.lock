@@ -4194,6 +4194,10 @@ des.js@^1.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
 
+"design-system@github:symbol/design-system#v0.1.2":
+  version "0.1.2"
+  resolved "https://codeload.github.com/symbol/design-system/tar.gz/cfe825af032284d01980031c5eb4d39bc7b5eb04"
+
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"

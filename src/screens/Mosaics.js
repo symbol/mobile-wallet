@@ -39,9 +39,9 @@ class Mosaics extends Component<Props, State> {
         const {} = this.state;
 
         return (
-            <GradientBackground name="connector_small" theme="light" dataManager={dataManager}>
+            <GradientBackground theme="darkmode" dataManager={dataManager}>
                 <TitleBar
-                    theme="light"
+                    theme="darkmode"
                     title={translate('mosaics.title')}
                     onOpenMenu={() => onOpenMenu()}
                     onSettings={() => onOpenSettings()}
