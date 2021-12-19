@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
-import { Dropdown, EmptyListMessage, GradientBackground, ListContainer, ListItem, Row, Section, TitleBar } from '@src/components';
+import {
+    AggregateTransactionDetails,
+    Dropdown,
+    EmptyListMessage,
+    GradientBackground,
+    ListContainer,
+    ListItem,
+    Row,
+    Section,
+    TitleBar,
+    TransactionItem,
+} from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
-import Transaction from '@src/components/organisms/transaction';
-import { AggregateTransactionDetails } from '@src/components';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
@@ -80,7 +89,7 @@ class History extends Component<Props, State> {
     renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
         return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <Transaction
+                <TransactionItem
                     transaction={item}
                     showDetails={showingDetailsIndex === index && item.type !== 'aggregate'}
                     componentId={this.props.componentId}

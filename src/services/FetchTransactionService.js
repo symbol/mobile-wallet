@@ -27,6 +27,7 @@ import FundsLockTransaction from '@src/components/organisms/transaction/FundsLoc
 import MosaicService from '@src/services/MosaicService';
 import type { DirectionFilter } from '@src/store/transaction';
 import NetworkService from '@src/services/NetworkService';
+import { FormatTransaction } from '@src/services/FormatTransaction';
 
 export default class FetchTransactionService {
     /**
@@ -140,7 +141,7 @@ export default class FetchTransactionService {
             allTransactions = confirmedTxs.data;
         }
         const preLoadedMosaics = await this._preLoadMosaics(allTransactions, network);
-        return Promise.all(allTransactions.map(tx => this.symbolTransactionToTransactionModel(tx, network, preLoadedMosaics)));
+        return Promise.all(allTransactions.map(tx => FormatTransaction.format(tx, network, preLoadedMosaics)));
     }
 
     /**
