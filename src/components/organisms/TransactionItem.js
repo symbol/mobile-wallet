@@ -6,6 +6,7 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
 import { filterCurrencyMosaic } from '@src/utils/filter';
+import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
 
@@ -34,6 +35,15 @@ const styles = StyleSheet.create({
     valueAmountIncoming: {
         color: GlobalStyles.color.GREEN,
     },
+    valuePendingSignature: {
+        color: GlobalStyles.color.BLUE,
+        fontSize: 11,
+    },
+    valueAggregateInner: {
+        borderRadius: 6,
+        backgroundColor: GlobalStyles.color.DARKWHITE,
+        paddingHorizontal: 6,
+    },
     table: {
         marginTop: 14,
     },
@@ -48,12 +58,13 @@ const ValueType = {
     HasMessage: 'hasMessage',
     HasCustomMosaic: 'hasCustomMosaic',
     AggregateInner: 'aggregateInner',
+    AggregatePendingSignature: 'AggregatePendingSignature',
     Other: 'other',
 };
 
 interface Value {
     type: ValueType;
-    value: string | number | boolean;
+    value?: string | number;
 }
 
 type Props = {
@@ -92,25 +103,40 @@ function TransactionItem(props: Props) {
         if (hasCustomMosaic) {
             values.push({
                 type: ValueType.HasCustomMosaic,
-                value: true,
             });
         }
         if (hasMessage) {
             values.push({
                 type: ValueType.HasMessage,
-                value: true,
             });
         }
     } else if (transactionType === TransactionType.AGGREGATE_BONDED || transactionType === TransactionType.AGGREGATE_COMPLETE) {
-        values.push({
-            type: ValueType.AggregateInner,
-            value: {
-                txCount: transaction.innerTransactions.length,
-                txIcons: _.sortedUniq(transaction.innerTransactions)
-                    .map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
-                    .slice(0, 4),
-            },
-        });
+        const { transaction, selectedAccount, isMultisig, cosignatoryOf } = props;
+        const accountPublicKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
+        const cosignerAddresses = transaction.innerTransactions.map(tx => tx.signerAddress);
+        const cosignRequired = !!cosignerAddresses.find(
+            cosignerAddress => cosignerAddress && cosignatoryOf && cosignatoryOf.some(address => address === cosignerAddress)
+        );
+        const hasMissingSignatures = transaction?.transactionInfo?.merkleComponentHash.startsWith('000000000000');
+        const signedByCurrentAccount = !!transaction.cosignaturePublicKeys.find(publicKey => publicKey === accountPublicKey);
+        const needsSignature =
+            !isMultisig && ((!signedByCurrentAccount && transaction.status !== 'confirmed') || (hasMissingSignatures && cosignRequired));
+
+        if (needsSignature) {
+            values.push({
+                type: ValueType.AggregatePendingSignature,
+            });
+        } else {
+            values.push({
+                type: ValueType.AggregateInner,
+                value: {
+                    txCount: transaction.innerTransactions.length,
+                    txIcons: _.uniq(
+                        transaction.innerTransactions.map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
+                    ).slice(0, 5),
+                },
+            });
+        }
     } else if (
         transactionType === TransactionType.NAMESPACE_REGISTRATION ||
         transactionType === TransactionType.ADDRESS_ALIAS ||
@@ -173,13 +199,18 @@ function TransactionItem(props: Props) {
                                             {value.value}
                                         </Text>
                                     )}
+                                    {value.type === ValueType.AggregatePendingSignature && (
+                                        <Text type="regular" theme="light" style={styles.valuePendingSignature}>
+                                            {translate('history.transaction.waitingSignature')}
+                                        </Text>
+                                    )}
                                     {value.type === ValueType.AggregateInner && (
-                                        <Row>
-                                            <Text type="bold" theme="light" style={styles.valueOther}>
+                                        <Row align="center" style={styles.valueAggregateInner}>
+                                            <Text type="regular" theme="light" style={styles.valueOther}>
                                                 {value.value.txCount}
                                             </Text>
                                             {value.value.txIcons.map((txIcon, key) => (
-                                                <Icon size="mini" name={txIcon} key={'tx-inner-i' + key} />
+                                                <Icon size="mini" name={txIcon} style={styles.valueContainer} key={'tx-inner-i' + key} />
                                             ))}
                                         </Row>
                                     )}
@@ -204,4 +235,8 @@ function TransactionItem(props: Props) {
 export default connect(state => ({
     network: state.network.selectedNetwork,
     currentAddress: state.transaction.addressFilter,
+    selectedAccount: state.wallet.selectedAccount,
+    isMultisig: state.account.isMultisig,
+    address: state.account.selectedAccountAddress,
+    cosignatoryOf: state.account.cosignatoryOf,
 }))(TransactionItem);

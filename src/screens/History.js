@@ -99,7 +99,7 @@ class History extends Component<Props, State> {
             <ListItem onPress={() => this.showDetails(index)}>
                 <TransactionItem
                     transaction={item}
-                    showDetails={showingDetailsIndex === index && this.isAggregate(item)}
+                    showDetails={showingDetailsIndex === index && !this.isAggregate(item)}
                     componentId={this.props.componentId}
                 />
             </ListItem>

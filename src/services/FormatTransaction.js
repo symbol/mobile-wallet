@@ -129,6 +129,7 @@ export class FormatTransaction {
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             signerAddress: transaction.signer.address.pretty(),
             ...formattedTansaction,
+            hash: transaction.hash || transaction.transactionInfo?.hash,
         };
     };
 

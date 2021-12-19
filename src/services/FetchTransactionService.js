@@ -159,8 +159,9 @@ export default class FetchTransactionService {
                             : TransactionGroup.Partial
                     )
                     .toPromise()
+                    .catch(e => console.log('Failed to fetch aggregate transaction', e))
                     .then(fullTransactionData => FormatTransaction.format(fullTransactionData, network, preLoadedMosaics))
-                    .catch(console.error);
+                    .catch(e => console.log('Failed to format aggregate transaction', e));
             })
         );
     }

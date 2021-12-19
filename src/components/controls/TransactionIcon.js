@@ -29,7 +29,6 @@ const transactionIcons = {
     incoming: require('@src/assets/icons/transaction/incoming.png'),
     outgoing: require('@src/assets/icons/transaction/outgoing.png'),
     aggregate: require('@src/assets/icons/transaction/aggregate.png'),
-    fundsLock: require('@src/assets/icons/transaction/fundsLock.png'),
     namespace: require('@src/assets/icons/transaction/namespace.png'),
     mosaicAlias: require('@src/assets/icons/transaction/namespace.png'),
     postLaunchOptIn: require('@src/assets/icons/transaction/optin-transaction.png'),

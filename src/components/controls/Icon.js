@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { TransactionType } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
     large: {
@@ -241,6 +242,84 @@ export default class C extends Component<Props, State> {
             case 'namespace_light':
                 source = require('@src/assets/icons/namespace.png');
                 break;
+
+            case `transaction_${TransactionType.TRANSFER}`:
+                source = require('@src/assets/icons/transaction/transfer.png');
+                break;
+            case `transaction_${TransactionType.TRANSFER}_incoming`:
+                source = require('@src/assets/icons/transaction/incoming.png');
+                break;
+            case `transaction_${TransactionType.TRANSFER}_outgoing`:
+                source = require('@src/assets/icons/transaction/outgoing.png');
+                break;
+            case `transaction_${TransactionType.AGGREGATE_BONDED}`:
+            case `transaction_${TransactionType.AGGREGATE_COMPLETE}`:
+                source = require('@src/assets/icons/transaction/aggregate.png');
+                break;
+            case `transaction_${TransactionType.ADDRESS_ALIAS}`:
+                source = require('@src/assets/icons/transaction/namespace.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_ALIAS}`:
+                source = require('@src/assets/icons/transaction/namespace.png');
+                break;
+            case `transaction_${TransactionType.NAMESPACE_REGISTRATION}`:
+                source = require('@src/assets/icons/transaction/namespace.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_DEFINITION}`:
+                source = require('@src/assets/icons/transaction/mosaic.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_SUPPLY_CHANGE}`:
+                source = require('@src/assets/icons/transaction/mosaic.png');
+                break;
+            case `transaction_${TransactionType.SECRET_LOCK}`:
+                source = require('@src/assets/icons/transaction/cross-chain.png');
+                break;
+            case `transaction_${TransactionType.HASH_LOCK}`:
+                source = require('@src/assets/icons/transaction/lock.png');
+                break;
+            case `transaction_${TransactionType.SECRET_PROOF}`:
+                source = require('@src/assets/icons/transaction/cross-chain.png');
+                break;
+            case `transaction_${TransactionType.VRF_KEY_LINK}`:
+                source = require('@src/assets/icons/transaction/key.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_KEY_LINK}`:
+                source = require('@src/assets/icons/transaction/key.png');
+                break;
+            case `transaction_${TransactionType.NODE_KEY_LINK}`:
+                source = require('@src/assets/icons/transaction/key.png');
+                break;
+            case `transaction_${TransactionType.VOTING_KEY_LINK}`:
+                source = require('@src/assets/icons/transaction/key.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_GLOBAL_RESTRICTION}`:
+                source = require('@src/assets/icons/transaction/mosaic-restriction.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_ADDRESS_RESTRICTION}`:
+                source = require('@src/assets/icons/transaction/mosaic-restriction.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_OPERATION_RESTRICTION}`:
+                source = require('@src/assets/icons/transaction/account-restriction.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_ADDRESS_RESTRICTION}`:
+                source = require('@src/assets/icons/transaction/account-restriction.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_MOSAIC_RESTRICTION}`:
+                source = require('@src/assets/icons/transaction/account-restriction.png');
+                break;
+            case `transaction_${TransactionType.MULTISIG_ACCOUNT_MODIFICATION}`:
+                source = require('@src/assets/icons/transaction/multisig.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_METADATA}`:
+                source = require('@src/assets/icons/transaction/metadata.png');
+                break;
+            case `transaction_${TransactionType.NAMESPACE_METADATA}`:
+                source = require('@src/assets/icons/transaction/metadata.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_METADATA}`:
+                source = require('@src/assets/icons/transaction/metadata.png');
+                break;
+
             default:
                 source = require('@src/assets/icons/ic-about.png');
                 break;
