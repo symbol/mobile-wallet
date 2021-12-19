@@ -47,6 +47,7 @@ const ValueType = {
     AmountOutgoing: 'amountOutgoing',
     HasMessage: 'hasMessage',
     HasCustomMosaic: 'hasCustomMosaic',
+    AggregateInner: 'aggregateInner',
     Other: 'other',
 };
 
@@ -100,7 +101,16 @@ function TransactionItem(props: Props) {
                 value: true,
             });
         }
-    } else if (transactionType === TransactionType.AGGREGATE_BONDED) {
+    } else if (transactionType === TransactionType.AGGREGATE_BONDED || transactionType === TransactionType.AGGREGATE_COMPLETE) {
+        values.push({
+            type: ValueType.AggregateInner,
+            value: {
+                txCount: transaction.innerTransactions.length,
+                txIcons: _.sortedUniq(transaction.innerTransactions)
+                    .map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
+                    .slice(0, 4),
+            },
+        });
     } else if (
         transactionType === TransactionType.NAMESPACE_REGISTRATION ||
         transactionType === TransactionType.ADDRESS_ALIAS ||
@@ -146,6 +156,8 @@ function TransactionItem(props: Props) {
                         <Row style={styles.value} align="center">
                             {values.map((value, index) => (
                                 <View style={styles.valueContainer} key={'tx-i-v' + index}>
+                                    {value.type === ValueType.HasCustomMosaic && <Icon size="mini" name="mosaics_filled" />}
+                                    {value.type === ValueType.HasMessage && <Icon size="mini" name="message_filled" />}
                                     {value.type === ValueType.AmountIncoming && (
                                         <Text type="bold" theme="light" style={styles.valueAmountIncoming}>
                                             {value.value}
@@ -161,8 +173,16 @@ function TransactionItem(props: Props) {
                                             {value.value}
                                         </Text>
                                     )}
-                                    {value.type === ValueType.HasCustomMosaic && <Icon size="mini" name="mosaics_filled" />}
-                                    {value.type === ValueType.HasMessage && <Icon size="mini" name="message_filled" />}
+                                    {value.type === ValueType.AggregateInner && (
+                                        <Row>
+                                            <Text type="bold" theme="light" style={styles.valueOther}>
+                                                {value.value.txCount}
+                                            </Text>
+                                            {value.value.txIcons.map((txIcon, key) => (
+                                                <Icon size="mini" name={txIcon} key={'tx-inner-i' + key} />
+                                            ))}
+                                        </Row>
+                                    )}
                                 </View>
                             ))}
                         </Row>

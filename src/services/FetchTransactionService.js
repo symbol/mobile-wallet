@@ -11,6 +11,7 @@ import {
     Transaction,
     TransactionGroup,
     TransactionHttp,
+    TransactionType,
     TransferTransaction,
 } from 'symbol-sdk';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
@@ -141,7 +142,27 @@ export default class FetchTransactionService {
             allTransactions = confirmedTxs.data;
         }
         const preLoadedMosaics = await this._preLoadMosaics(allTransactions, network);
-        return Promise.all(allTransactions.map(tx => FormatTransaction.format(tx, network, preLoadedMosaics)));
+
+        return Promise.all(
+            allTransactions.map(async transaction => {
+                if (transaction.type !== TransactionType.AGGREGATE_BONDED && transaction.type !== TransactionType.AGGREGATE_COMPLETE) {
+                    return FormatTransaction.format(transaction, network, preLoadedMosaics);
+                }
+
+                return new TransactionHttp(network.node)
+                    .getTransaction(
+                        transaction.transactionInfo.id,
+                        transaction.isConfirmed()
+                            ? TransactionGroup.Confirmed
+                            : transaction.isUnconfirmed()
+                            ? TransactionGroup.Unconfirmed
+                            : TransactionGroup.Partial
+                    )
+                    .toPromise()
+                    .then(fullTransactionData => FormatTransaction.format(fullTransactionData, network, preLoadedMosaics))
+                    .catch(console.error);
+            })
+        );
     }
 
     /**

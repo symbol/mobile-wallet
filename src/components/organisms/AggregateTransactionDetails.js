@@ -27,6 +27,7 @@ import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { showPasscode } from '@src/utils/passcode';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import _ from 'lodash';
 
 const FULL_HEIGHT = Dimensions.get('window').height;
 
@@ -240,6 +241,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
     renderTabInfo() {
         const { isLoading, fullTransaction } = this.state;
+        const tabledata = _.omit(fullTransaction, ['innerTransactions', 'signTransactionObject', 'cosignaturePublicKeys', 'fee']);
 
         return (
             <FadeView style={{ flex: 1 }}>
@@ -247,10 +249,10 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     {fullTransaction && (
                         <>
                             <ListItem>
-                                <TableView data={fullTransaction.info} />
+                                <TableView data={tabledata} />
                             </ListItem>
                             <ListItem>
-                                <LinkExplorer type="transaction" value={fullTransaction.info.hash} />
+                                <LinkExplorer type="transaction" value={fullTransaction.hash} />
                             </ListItem>
                         </>
                     )}
