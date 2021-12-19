@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     transactionPreview: {
         width: '100%',
         borderRadius: 6,
-        backgroundColor: GlobalStyles.color.WHITE,
     },
     date: {
         fontSize: 10,
@@ -70,15 +69,15 @@ export default class BaseTransactionItem extends Component<Props, State> {
                     </Col>
                     <Col grow>
                         <Row justify="space-between">
-                            <Text type="regular" theme="light">
+                            <Text type="regular" theme="darkmode">
                                 {this.title()}
                             </Text>
-                            <Text type="regular" theme="light" style={styles.date}>
+                            <Text type="regular" theme="darkmode" style={styles.date}>
                                 {transaction.status === 'unconfirmed' ? 'Unconfirmed' : date}
                             </Text>
                         </Row>
                         <Row justify="space-between" align="center">
-                            <Text type="bold" theme="light" style={styles.address}>
+                            <Text type="bold" theme="darkmode" style={styles.address}>
                                 {this.renderAddress()}
                             </Text>
                             <Row style={styles.value} align="center">
@@ -91,10 +90,10 @@ export default class BaseTransactionItem extends Component<Props, State> {
                     <View style={{ paddingVertical: 16 }}>
                         {this.renderDetails()}
                         <View justify="space-between" style={{ paddingBottom: 16 }}>
-                            <Text type="bold" theme="light">
+                            <Text type="bold" theme="darkmode">
                                 {translate('history.transaction.hash')}:
                             </Text>
-                            <Text type="regular" theme="light">
+                            <Text type="regular" theme="darkmode">
                                 {transaction.hash.slice(0, 24)}...
                             </Text>
                         </View>

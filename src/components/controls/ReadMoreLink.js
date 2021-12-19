@@ -25,13 +25,13 @@ export default class ReadMoreLink extends Component<Props, State> {
         if (title) {
             return (
                 <Section type="form-item">
-                    <Text theme="light" align="center" type="regular">
+                    <Text theme="darkmode" align="center" type="regular">
                         {title}
                     </Text>
                     <Row justify="space-between" align="end" fullWidth>
                         <Col style={{ flex: 1, marginTop: 10 }}>
                             <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
-                                <Text theme="light" align="right" style={styles.link}>
+                                <Text theme="darkmode" align="right" style={styles.link}>
                                     {translate('news.readMore')}
                                 </Text>
                             </TouchableOpacity>
@@ -44,7 +44,7 @@ export default class ReadMoreLink extends Component<Props, State> {
                 <Row justify="space-between" align="end" fullWidth>
                     <Col style={{ flex: 1, marginTop: 10 }}>
                         <TouchableOpacity onPress={() => this.onPress(this.props.url)}>
-                            <Text theme="light" align="right" style={styles.link}>
+                            <Text theme="darkmode" align="right" style={styles.link}>
                                 {translate('news.readMore')}
                             </Text>
                         </TouchableOpacity>

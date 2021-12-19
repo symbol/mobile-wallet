@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { CopyView, FadeView, Row, SymbolGradientContainer, Text } from '@src/components';
+import { CopyView, FadeView, Row, Text } from '@src/components';
 import GlobalStyles from '../../styles/GlobalStyles';
 import Video from 'react-native-video';
 import { Router } from '@src/Router';
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
         padding: 17,
         paddingTop: 8,
         minHeight: 142,
+        backgroundColor: GlobalStyles.color.darkmode.BACKGROUND_HERO,
     },
     scrollView: {},
     scrollViewContent: {
@@ -27,11 +28,11 @@ const styles = StyleSheet.create({
     },
     address: {
         marginRight: -5,
-        opacity: 0.7,
         color: GlobalStyles.color.WHITE,
         fontSize: 1 * 12,
         lineHeight: 1.75 * 12,
         marginBottom: 17,
+        opacity: 1,
     },
     mosaic: {
         fontSize: 1 * 12,
@@ -39,14 +40,12 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     balance: {
-        fontFamily: 'NotoSans-Light',
         fontSize: 2.5 * 12,
         lineHeight: 3.25 * 12,
         marginTop: 20,
         color: GlobalStyles.color.WHITE,
     },
     balanceLight: {
-        fontFamily: 'NotoSans-Light',
         fontSize: 2.5 * 12,
         lineHeight: 3.25 * 12,
         marginTop: 20,
@@ -99,7 +98,7 @@ class BalanceWidget extends Component<Props, State> {
         const Container = isLoading === true ? View : TouchableOpacity;
 
         return (
-            <SymbolGradientContainer style={[styles.root, isLoading && styles.noPadding]} noPadding noScroll>
+            <View style={[styles.root, isLoading && styles.noPadding]}>
                 <ScrollView
                     style={styles.scrollView}
                     contentContainerStyle={styles.scrollViewContent}
@@ -118,11 +117,11 @@ class BalanceWidget extends Component<Props, State> {
                                     {
                                         <BalanceContainer horizontal={true} style={{ marginLeft: 16 }}>
                                             <Row>
-                                                <Text style={styles.balance} theme="dark">
+                                                <Text style={styles.balance} theme="dark" type="bold">
                                                     {('' + balance).split('.')[0]}
                                                 </Text>
                                                 {('' + balance).split('.')[1] && (
-                                                    <Text style={styles.balanceLight} theme="dark">
+                                                    <Text style={styles.balanceLight} theme="dark" type="bold">
                                                         .{('' + balance).split('.')[1]}
                                                     </Text>
                                                 )}
@@ -148,7 +147,7 @@ class BalanceWidget extends Component<Props, State> {
                         </FadeView>
                     )}
                 </ScrollView>
-            </SymbolGradientContainer>
+            </View>
         );
     };
 }

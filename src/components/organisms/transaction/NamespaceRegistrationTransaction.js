@@ -11,7 +11,7 @@ export default class NamespaceRegistrationTransaction extends BaseTransactionIte
     renderAction = () => {
         const { transaction } = this.props;
         return (
-            <Text type="bold" theme="light">
+            <Text type="bold" theme="darkmode">
                 {transaction.namespaceName}
             </Text>
         );

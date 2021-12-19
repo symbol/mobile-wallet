@@ -43,7 +43,7 @@ class CopyView extends Component<Props, State> {
     }
 
     render = () => {
-        const { children, style = {}, placeholder, theme = 'light' } = this.props;
+        const { children, style = {}, placeholder, theme = 'light', type = 'regular' } = this.props;
         let placeholderStyle;
 
         if (theme === 'light') {
@@ -56,7 +56,7 @@ class CopyView extends Component<Props, State> {
             <>
                 {!!placeholder && <Text style={placeholderStyle}>{placeholder}</Text>}
                 <Row align="center" justify="space-between">
-                    <Text type="regular" theme={theme} style={[styles.text, style]}>
+                    <Text type={type} theme={theme} style={[styles.text, style]}>
                         {this.text()}
                     </Text>
                     <TouchableOpacity style={styles.button} onPress={() => this.copyToClipboard(children)}>

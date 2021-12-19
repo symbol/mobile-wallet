@@ -20,9 +20,12 @@ const styles = StyleSheet.create({
     titleDark: {
         color: GlobalStyles.color.WHITE,
     },
-    placeholder: {
-        fontSize: 12,
-        opacity: 0.3,
+    titleDarkmode: {
+        color: GlobalStyles.color.darkmode.TEXT,
+    },
+    textDarkmode: {
+        color: GlobalStyles.color.darkmode.TEXT,
+        opacity: 0.7,
     },
     input: {
         paddingVertical: 14,
@@ -31,8 +34,10 @@ const styles = StyleSheet.create({
     },
     inputText: {
         fontSize: 12,
-        fontFamily: 'NotoSans-SemiBold',
-        fontWeight: '300',
+    },
+    placeholder: {
+        fontSize: 12,
+        opacity: 0.3,
     },
     inputLight: {
         //borderWidth: 1,
@@ -46,6 +51,13 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         color: GlobalStyles.color.PRIMARY,
         backgroundColor: GlobalStyles.color.WHITE,
+    },
+    inputDarkmode: {
+        borderRadius: 6,
+        color: GlobalStyles.color.darkmode.TEXT,
+        backgroundColor: GlobalStyles.color.darkmode.BACKGROUND_FORM,
+        borderWidth: 1,
+        borderColor: GlobalStyles.color.darkmode.ACCENT_FORM,
     },
     icon: {
         position: 'absolute',
@@ -89,13 +101,13 @@ const styles = StyleSheet.create({
         borderColor: GlobalStyles.color.GREY4,
     },
     modalTitleText: {
-        color: GlobalStyles.color.onLight.TEXT,
+        color: GlobalStyles.color.lightmode.TEXT,
         fontFamily: 'NotoSans-SemiBold',
         fontSize: 18,
     },
     listItem: {
         //borderBottomWidth: 1,
-        borderColor: GlobalStyles.color.onLight.TEXT,
+        borderColor: GlobalStyles.color.lightmode.TEXT,
         padding: 12,
     },
     listItemText: {
@@ -219,6 +231,7 @@ export default class Dropdown extends Component<Props, State> {
         const { isSelectorOpen } = this.state;
         let inputStyles = [];
         let titleStyle = {};
+        let textStyle = {};
         let rootStyle = [styles.root, style];
         const iconSize = 'small';
         const iconWrapperWidth = 30;
@@ -231,6 +244,10 @@ export default class Dropdown extends Component<Props, State> {
         if (theme === 'light') {
             inputStyles.push(styles.inputLight);
             titleStyle = styles.titleLight;
+        } else if (theme === 'darkmode') {
+            inputStyles.push(styles.inputDarkmode);
+            titleStyle = styles.titleDarkmode;
+            textStyle = styles.textDarkmode;
         } else {
             inputStyles.push(styles.inputDark);
             titleStyle = styles.titleDark;
@@ -248,11 +265,13 @@ export default class Dropdown extends Component<Props, State> {
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
                             (!customInputReneder ? (
-                                <Text style={styles.inputText}>{!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}</Text>
+                                <Text style={[textStyle, styles.inputText]}>
+                                    {!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}
+                                </Text>
                             ) : (
                                 customInputReneder(selectedOption)
                             ))}
-                        {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
+                        {!selectedOption && <Text style={[textStyle, styles.placeholder]}>{placeholder}</Text>}
                         <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />
                         </View>

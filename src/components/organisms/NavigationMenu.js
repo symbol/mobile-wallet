@@ -8,7 +8,7 @@ import { isIphoneX } from '@src/utils/Device';
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-        backgroundColor: GlobalStyles.color.WHITE,
+        backgroundColor: GlobalStyles.color.darkmode.BACKGROUND_MENU,
     },
     itemBottomLine: {
         padding: 5,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
     },
     activeItem: {
-        borderColor: GlobalStyles.color.PINK,
+        borderColor: GlobalStyles.color.BLUE,
     },
     icon: {
         marginTop: 5,
@@ -80,7 +80,7 @@ export default class NavigationMenu extends Component<Props, State> {
                         <TouchableOpacity onPress={() => onChange(item.name)} key={'' + index + 'nav'}>
                             <Col align="center" justify="space-" style={[itemStyle, item.name === value && styles.activeItem]}>
                                 <Icon name={item.iconName} size="small" style={styles.icon} />
-                                <Text theme="light" style={{ fontSize: 11 }} type={item.name === value ? 'bold' : 'regular'}>
+                                <Text theme="darkmode" style={{ fontSize: 11 }} type={item.name === value ? 'bold' : 'regular'}>
                                     {translate(item.text)}
                                 </Text>
                             </Col>

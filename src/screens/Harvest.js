@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         padding: 17,
         paddingTop: 8,
-        backgroundColor: GlobalStyles.color.WHITE,
+        backgroundColor: GlobalStyles.color.darkmode.BACKGROUND_CARD,
     },
     bottom: {
         paddingTop: 30,
@@ -205,12 +205,11 @@ class Harvest extends Component<Props, State> {
         return (
             //<ImageBackground name="harvest">
             <GradientBackground
-                name="connector_small"
-                theme="light"
+                theme="darkmode"
                 dataManager={{ isLoading }}
                 titleBar={
                     <TitleBar
-                        theme="light"
+                        theme="darkmode"
                         title={translate('harvest.title')}
                         onOpenMenu={() => onOpenMenu()}
                         onSettings={() => onOpenSettings()}
@@ -220,37 +219,37 @@ class Harvest extends Component<Props, State> {
                 <Section type="form" style={styles.list} isScrollable>
                     <Section type="form-item" style={styles.card}>
                         <Row justify="space-between" fullWidth>
-                            <Text type={'bold'} theme={'light'}>
+                            <Text type={'bold'} theme={'darkmode'}>
                                 {translate('harvest.status')}:
                             </Text>
                             <Row align="center">
                                 <View style={statusStyle} />
-                                <Text type={'regular'} theme={'light'}>
+                                <Text type={'regular'} theme={'darkmode'}>
                                     {translate(`harvest.${status}`)}
                                 </Text>
                             </Row>
                         </Row>
                         <Row justify="space-between" fullWidth>
-                            <Text type={'bold'} theme={'light'}>
+                            <Text type={'bold'} theme={'darkmode'}>
                                 {translate('harvest.blocksHarvested')}:
                             </Text>
-                            <Text type={'regular'} theme={'light'}>
+                            <Text type={'regular'} theme={'darkmode'}>
                                 {totalBlockCount}
                             </Text>
                         </Row>
                         <Row justify="space-between" fullWidth>
-                            <Text type={'bold'} theme={'light'}>
+                            <Text type={'bold'} theme={'darkmode'}>
                                 {translate('harvest.feesEarned')}:
                             </Text>
-                            <Text type={'regular'} theme={'light'}>
+                            <Text type={'regular'} theme={'darkmode'}>
                                 {totalFeesEarned.toString()}
                             </Text>
                         </Row>
                         <Row justify="space-between" fullWidth>
-                            <Text type={'bold'} theme={'light'}>
+                            <Text type={'bold'} theme={'darkmode'}>
                                 {translate('harvest.Importance')}:
                             </Text>
-                            <Text type={'regular'} theme={'light'}>
+                            <Text type={'regular'} theme={'darkmode'}>
                                 {accountImportance}
                             </Text>
                         </Row>
@@ -273,12 +272,12 @@ class Harvest extends Component<Props, State> {
                     {status !== 'INACTIVE' && selectedAccount.harvestingNode && (
                         <Section type="form-item" style={styles.card}>
                             <Row justify="space-between" fullWidth>
-                                <Text type={'bold'} theme={'light'}>
+                                <Text type={'bold'} theme={'darkmode'}>
                                     {translate('harvest.linkedNode')}:
                                 </Text>
                             </Row>
                             <Row align="center">
-                                <Text type={'regular'} theme={'light'}>
+                                <Text type={'regular'} theme={'darkmode'}>
                                     {selectedAccount.harvestingNode}
                                 </Text>
                             </Row>
@@ -290,7 +289,7 @@ class Harvest extends Component<Props, State> {
                             <>
                                 <Section type="form-item">
                                     <NodeDropdown
-                                        theme="light"
+                                        theme="darkmode"
                                         list={this.getHarvestingNodesDropDown()}
                                         title={translate('harvest.selectNode')}
                                         value={selectedNodeUrl}
@@ -302,7 +301,7 @@ class Harvest extends Component<Props, State> {
                                         isLoading={isLoading}
                                         isDisabled={!selectedNodeUrl || notEnoughBalance}
                                         text={translate('harvest.startHarvesting')}
-                                        theme="light"
+                                        theme="darkmode"
                                         onPress={() => this.startHarvesting()}
                                     />
                                 </Section>
@@ -315,7 +314,7 @@ class Harvest extends Component<Props, State> {
                                         isLoading={isLoading}
                                         isDisabled={status !== 'KEYS_LINKED' || !harvestingModel}
                                         text={translate('harvest.activate')}
-                                        theme="light"
+                                        theme="darkmode"
                                         onPress={() => this.activateHarvesting()}
                                     />
                                 </Section>
@@ -324,7 +323,7 @@ class Harvest extends Component<Props, State> {
                                         isLoading={isLoading}
                                         isDisabled={false}
                                         text={translate('harvest.stopHarvesting')}
-                                        theme="dark"
+                                        theme="darkmode"
                                         onPress={() => this.stopHarvesting()}
                                     />
                                 </Section>

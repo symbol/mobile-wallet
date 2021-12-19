@@ -54,8 +54,8 @@ class AddressComponent extends Component<Props, State> {
 
         if (typeof align === 'string') globalStyle.textAlign = align;
 
-        if (theme === 'light') globalStyle.color = GlobalStyles.color.onLight.TEXT;
-        else globalStyle.color = GlobalStyles.color.onDark.TEXT;
+        if (theme === 'light') globalStyle.color = GlobalStyles.color.lightmode.TEXT;
+        else globalStyle.color = GlobalStyles.color.darkmode.TEXT;
 
         return <Text style={[globalStyle, style]}>{addressChange}</Text>;
     }

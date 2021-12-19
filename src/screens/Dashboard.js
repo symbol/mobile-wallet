@@ -63,7 +63,7 @@ class Dashboard extends Component<Props, State> {
                 break;
         }
         return (
-            <GradientBackground theme="light" noPadding>
+            <GradientBackground theme="darkmode" noPadding>
                 <View style={styles.tabWrapper}>
                     <Tab
                         {...this.props}

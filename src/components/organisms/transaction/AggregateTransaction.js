@@ -119,7 +119,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
     renderAction = () => {
         if (this.needsSignature()) {
             return (
-                <Text type="regular" theme="light" style={styles.waitingSignature}>
+                <Text type="regular" theme="darkmode" style={styles.waitingSignature}>
                     {translate('history.transaction.waitingSignature')}
                 </Text>
             );
@@ -146,7 +146,7 @@ class AggregateTransaction extends BaseTransactionItem<Props> {
             return (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Icon style={{ width: 75, height: 50, marginBottom: 10 }} size="big" name="optin" />
-                    <Text style={{ flex: 1 }} type="regular" align="right" theme="light">
+                    <Text style={{ flex: 1 }} type="regular" align="right" theme="darkmode">
                         {transaction.status === 'confirmed'
                             ? translate('optin.postLaunchTransactionText')
                             : translate('optin.postLaunchTransactionTextUnconfirmed')}{' '}
