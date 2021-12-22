@@ -551,7 +551,8 @@
 		"transactionDescriptor_17220": "Metadati dello Namespace",
 		"transactionDescriptor_16963": "Collegamento chiave VRF",
 		"transactionDescriptor_16707": "Collegamento chiave di voto",
-		"transactionDescriptor_16972": "Collegamento chiave del nodo"
+		"transactionDescriptor_16972": "Collegamento chiave del nodo",
+		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
 		"monday": "Lunedi",

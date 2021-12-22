@@ -319,6 +319,9 @@ export default class C extends Component<Props, State> {
             case `transaction_${TransactionType.MOSAIC_METADATA}`:
                 source = require('@src/assets/icons/transaction/metadata.png');
                 break;
+            case `transaction_postLaunchOptIn`:
+                source = require('@src/assets/icons/transaction/optin-transaction.png');
+                break;
 
             default:
                 source = require('@src/assets/icons/ic-about.png');

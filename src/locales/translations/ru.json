@@ -557,7 +557,8 @@
 		"transactionDescriptor_17220": "Метаданные простр. имен",
 		"transactionDescriptor_16963": "Привязка VRF ключа",
 		"transactionDescriptor_16707": "Привязка ключа голосования",
-		"transactionDescriptor_16972": "Привязка ключа ноды"
+		"transactionDescriptor_16972": "Привязка ключа ноды",
+		"transactionDescriptor_postLaunchOptIn": "Выплата по Опт-ин"
 	},
 	"date": {
 		"monday": "Понедельник",

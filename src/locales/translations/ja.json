@@ -555,7 +555,8 @@
 		"transactionDescriptor_17220": "ネームスペースメタデータ",
 		"transactionDescriptor_16963": "VRFキーリンク",
 		"transactionDescriptor_16707": "投票キーリンク",
-		"transactionDescriptor_16972": "ノードキーリンク"
+		"transactionDescriptor_16972": "ノードキーリンク",
+		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
 		"monday": "月曜日",

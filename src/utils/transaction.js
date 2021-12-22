@@ -5,11 +5,11 @@ export const transactionAwaitingSignatureByAccount = (transaction, account, mult
     if (transaction.transactionType === TransactionType.AGGREGATE_BONDED) {
         const accountPublicKey = getPublicKeyFromPrivateKey(account.privateKey);
         const transactionSignerAddresses = transaction.innerTransactions.map(innerTransaction => innerTransaction.signerAddress);
-        const cosignRequired = !!transactionSignerAddresses.find(
+        const cosignRequired = transactionSignerAddresses.some(
             transactionSignerAddress => transactionSignerAddress && multisigAddresses?.some(address => address === transactionSignerAddress)
         );
         const transactionHasMissingSignatures = transaction?.transactionInfo?.merkleComponentHash.startsWith('000000000000');
-        const signedByCurrentAccount = !!transaction.cosignaturePublicKeys.find(publicKey => publicKey === accountPublicKey);
+        const signedByCurrentAccount = transaction.cosignaturePublicKeys.some(publicKey => publicKey === accountPublicKey);
 
         return (!signedByCurrentAccount && transaction.status !== 'confirmed') || (transactionHasMissingSignatures && cosignRequired);
     }

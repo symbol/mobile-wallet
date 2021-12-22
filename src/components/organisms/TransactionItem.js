@@ -8,6 +8,7 @@ import translate from '@src/locales/i18n';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { getMosaicRelativeAmount } from '@src/utils/format';
 import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
+import { getFinanceBotPublicKeys } from '@src/config/environment';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
 
@@ -112,7 +113,14 @@ function TransactionItem(props: Props) {
             });
         }
     } else if (transactionType === TransactionType.AGGREGATE_BONDED || transactionType === TransactionType.AGGREGATE_COMPLETE) {
+        const isPostLaunchOptInTransaction = getFinanceBotPublicKeys(network.type).some(
+            publicKey => publicKey === transaction.signTransactionObject?.signer?.publicKey
+        );
         const needsSignature = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+
+        if (isPostLaunchOptInTransaction) {
+            transactionType = 'postLaunchOptIn';
+        }
 
         if (needsSignature) {
             previewValues.push({
