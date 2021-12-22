@@ -80,79 +80,89 @@ function TransactionItem(props: Props) {
     let address = transaction.signerAddress;
     let previewValues: PreviewValue[] = [];
 
-    if (transactionType === TransactionType.TRANSFER) {
-        const incomingTransaction = transaction.recipientAddress === currentAddress;
-        const mosaics = transaction.mosaics;
-        const currencyMosaic = filterCurrencyMosaic(mosaics, network);
-        const hasCustomMosaic = (currencyMosaic && mosaics.length > 1) || (!currencyMosaic && mosaics.length > 0);
-        const hasMessage = !!transaction.messageText;
+    switch (transaction.transactionType) {
+        case TransactionType.TRANSFER: {
+            const incomingTransaction = transaction.recipientAddress === currentAddress;
+            const mosaics = transaction.mosaics;
+            const currencyMosaic = filterCurrencyMosaic(mosaics, network);
+            const hasCustomMosaic = (currencyMosaic && mosaics.length > 1) || (!currencyMosaic && mosaics.length > 0);
+            const hasMessage = !!transaction.messageText;
 
-        transactionType = transactionType + (incomingTransaction ? '_incoming' : '_outgoing');
-        address = incomingTransaction ? transaction.signerAddress : transaction.recipientAddress;
+            transactionType = transactionType + (incomingTransaction ? '_incoming' : '_outgoing');
+            address = incomingTransaction ? transaction.signerAddress : transaction.recipientAddress;
 
-        if (currencyMosaic && incomingTransaction) {
+            if (currencyMosaic && incomingTransaction) {
+                previewValues.push({
+                    type: PreviewValueType.AmountIncoming,
+                    value: getMosaicRelativeAmount(currencyMosaic),
+                });
+            }
+            if (currencyMosaic && !incomingTransaction) {
+                previewValues.push({
+                    type: PreviewValueType.AmountOutgoing,
+                    value: getMosaicRelativeAmount(currencyMosaic),
+                });
+            }
+            if (hasCustomMosaic) {
+                previewValues.push({
+                    type: PreviewValueType.HasCustomMosaic,
+                });
+            }
+            if (hasMessage) {
+                previewValues.push({
+                    type: PreviewValueType.HasMessage,
+                });
+            }
+            break;
+        }
+
+        case TransactionType.AGGREGATE_BONDED:
+        case TransactionType.AGGREGATE_COMPLETE: {
+            const isPostLaunchOptInTransaction = getFinanceBotPublicKeys(network.type).some(
+                publicKey => publicKey === transaction.signTransactionObject?.signer?.publicKey
+            );
+            const needsSignature = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+
+            if (isPostLaunchOptInTransaction) {
+                transactionType = 'postLaunchOptIn';
+            }
+            if (needsSignature) {
+                previewValues.push({
+                    type: PreviewValueType.AggregatePendingSignature,
+                });
+            } else {
+                previewValues.push({
+                    type: PreviewValueType.AggregateInner,
+                    value: {
+                        txCount: transaction.innerTransactions.length,
+                        txIcons: _.uniq(
+                            transaction.innerTransactions.map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
+                        ).slice(0, 5),
+                    },
+                });
+            }
+            break;
+        }
+
+        case TransactionType.NAMESPACE_REGISTRATION:
+        case transactionType === TransactionType.ADDRESS_ALIAS:
+        case transactionType === TransactionType.MOSAIC_ALIAS: {
             previewValues.push({
-                type: PreviewValueType.AmountIncoming,
+                type: PreviewValueType.Other,
+                value: transaction.namespaceName,
+            });
+            break;
+        }
+
+        case TransactionType.HASH_LOCK: {
+            const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+
+            previewValues.push({
+                type: PreviewValueType.Other,
                 value: getMosaicRelativeAmount(currencyMosaic),
             });
+            break;
         }
-        if (currencyMosaic && !incomingTransaction) {
-            previewValues.push({
-                type: PreviewValueType.AmountOutgoing,
-                value: getMosaicRelativeAmount(currencyMosaic),
-            });
-        }
-        if (hasCustomMosaic) {
-            previewValues.push({
-                type: PreviewValueType.HasCustomMosaic,
-            });
-        }
-        if (hasMessage) {
-            previewValues.push({
-                type: PreviewValueType.HasMessage,
-            });
-        }
-    } else if (transactionType === TransactionType.AGGREGATE_BONDED || transactionType === TransactionType.AGGREGATE_COMPLETE) {
-        const isPostLaunchOptInTransaction = getFinanceBotPublicKeys(network.type).some(
-            publicKey => publicKey === transaction.signTransactionObject?.signer?.publicKey
-        );
-        const needsSignature = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
-
-        if (isPostLaunchOptInTransaction) {
-            transactionType = 'postLaunchOptIn';
-        }
-
-        if (needsSignature) {
-            previewValues.push({
-                type: PreviewValueType.AggregatePendingSignature,
-            });
-        } else {
-            previewValues.push({
-                type: PreviewValueType.AggregateInner,
-                value: {
-                    txCount: transaction.innerTransactions.length,
-                    txIcons: _.uniq(
-                        transaction.innerTransactions.map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
-                    ).slice(0, 5),
-                },
-            });
-        }
-    } else if (
-        transactionType === TransactionType.NAMESPACE_REGISTRATION ||
-        transactionType === TransactionType.ADDRESS_ALIAS ||
-        transactionType === TransactionType.MOSAIC_ALIAS
-    ) {
-        previewValues.push({
-            type: PreviewValueType.Other,
-            value: transaction.namespaceName,
-        });
-    } else if (transactionType === TransactionType.HASH_LOCK) {
-        const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
-
-        previewValues.push({
-            type: PreviewValueType.Other,
-            value: getMosaicRelativeAmount(currencyMosaic),
-        });
     }
 
     const iconName = 'transaction_' + transactionType;
