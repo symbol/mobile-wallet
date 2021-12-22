@@ -7,7 +7,7 @@ import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { getMosaicRelativeAmount } from '@src/utils/format';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
+import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
 
@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
 });
 
 /*
- * enum ValueType
+ * enum PreviewValueType
  **/
-const ValueType = {
+const PreviewValueType = {
     AmountIncoming: 'amountIncoming',
     AmountOutgoing: 'amountOutgoing',
     HasMessage: 'hasMessage',
@@ -63,8 +63,8 @@ const ValueType = {
     Other: 'other',
 };
 
-interface Value {
-    type: ValueType;
+interface PreviewValue {
+    type: PreviewValueType;
     value?: string | number;
 }
 
@@ -74,62 +74,53 @@ type Props = {
 };
 
 function TransactionItem(props: Props) {
-    const { transaction, currentAddress, network, showDetails } = props;
+    const { transaction, currentAddress, selectedAccount, network, showDetails, isMultisig, cosignatoryOf } = props;
     let transactionType = transaction.transactionType;
     let address = transaction.signerAddress;
-    let values: Value[] = [];
+    let previewValues: PreviewValue[] = [];
 
     if (transactionType === TransactionType.TRANSFER) {
         const incomingTransaction = transaction.recipientAddress === currentAddress;
         const mosaics = transaction.mosaics;
-        const nativeMosaic = filterCurrencyMosaic(mosaics, network);
-        const hasCustomMosaic = (nativeMosaic && mosaics.length > 1) || (!nativeMosaic && mosaics.length > 0);
+        const currencyMosaic = filterCurrencyMosaic(mosaics, network);
+        const hasCustomMosaic = (currencyMosaic && mosaics.length > 1) || (!currencyMosaic && mosaics.length > 0);
         const hasMessage = !!transaction.messageText;
 
         transactionType = transactionType + (incomingTransaction ? '_incoming' : '_outgoing');
         address = incomingTransaction ? transaction.signerAddress : transaction.recipientAddress;
 
-        if (nativeMosaic && incomingTransaction) {
-            values.push({
-                type: ValueType.AmountIncoming,
-                value: getMosaicRelativeAmount(nativeMosaic),
+        if (currencyMosaic && incomingTransaction) {
+            previewValues.push({
+                type: PreviewValueType.AmountIncoming,
+                value: getMosaicRelativeAmount(currencyMosaic),
             });
         }
-        if (nativeMosaic && !incomingTransaction) {
-            values.push({
-                type: ValueType.AmountOutgoing,
-                value: getMosaicRelativeAmount(nativeMosaic),
+        if (currencyMosaic && !incomingTransaction) {
+            previewValues.push({
+                type: PreviewValueType.AmountOutgoing,
+                value: getMosaicRelativeAmount(currencyMosaic),
             });
         }
         if (hasCustomMosaic) {
-            values.push({
-                type: ValueType.HasCustomMosaic,
+            previewValues.push({
+                type: PreviewValueType.HasCustomMosaic,
             });
         }
         if (hasMessage) {
-            values.push({
-                type: ValueType.HasMessage,
+            previewValues.push({
+                type: PreviewValueType.HasMessage,
             });
         }
     } else if (transactionType === TransactionType.AGGREGATE_BONDED || transactionType === TransactionType.AGGREGATE_COMPLETE) {
-        const { transaction, selectedAccount, isMultisig, cosignatoryOf } = props;
-        const accountPublicKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        const cosignerAddresses = transaction.innerTransactions.map(tx => tx.signerAddress);
-        const cosignRequired = !!cosignerAddresses.find(
-            cosignerAddress => cosignerAddress && cosignatoryOf && cosignatoryOf.some(address => address === cosignerAddress)
-        );
-        const hasMissingSignatures = transaction?.transactionInfo?.merkleComponentHash.startsWith('000000000000');
-        const signedByCurrentAccount = !!transaction.cosignaturePublicKeys.find(publicKey => publicKey === accountPublicKey);
-        const needsSignature =
-            !isMultisig && ((!signedByCurrentAccount && transaction.status !== 'confirmed') || (hasMissingSignatures && cosignRequired));
+        const needsSignature = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
 
         if (needsSignature) {
-            values.push({
-                type: ValueType.AggregatePendingSignature,
+            previewValues.push({
+                type: PreviewValueType.AggregatePendingSignature,
             });
         } else {
-            values.push({
-                type: ValueType.AggregateInner,
+            previewValues.push({
+                type: PreviewValueType.AggregateInner,
                 value: {
                     txCount: transaction.innerTransactions.length,
                     txIcons: _.uniq(
@@ -143,16 +134,16 @@ function TransactionItem(props: Props) {
         transactionType === TransactionType.ADDRESS_ALIAS ||
         transactionType === TransactionType.MOSAIC_ALIAS
     ) {
-        values.push({
-            type: ValueType.Other,
+        previewValues.push({
+            type: PreviewValueType.Other,
             value: transaction.namespaceName,
         });
     } else if (transactionType === TransactionType.HASH_LOCK) {
-        const nativeMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+        const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
 
-        values.push({
-            type: ValueType.Other,
-            value: getMosaicRelativeAmount(nativeMosaic),
+        previewValues.push({
+            type: PreviewValueType.Other,
+            value: getMosaicRelativeAmount(currencyMosaic),
         });
     }
 
@@ -181,36 +172,36 @@ function TransactionItem(props: Props) {
                             <Trunc type="address">{address}</Trunc>
                         </Text>
                         <Row style={styles.value} align="center">
-                            {values.map((value, index) => (
+                            {previewValues.map((previewValue, index) => (
                                 <View style={styles.valueContainer} key={'tx-i-v' + index}>
-                                    {value.type === ValueType.HasCustomMosaic && <Icon size="mini" name="mosaics_filled" />}
-                                    {value.type === ValueType.HasMessage && <Icon size="mini" name="message_filled" />}
-                                    {value.type === ValueType.AmountIncoming && (
+                                    {previewValue.type === PreviewValueType.HasCustomMosaic && <Icon size="mini" name="mosaics_filled" />}
+                                    {previewValue.type === PreviewValueType.HasMessage && <Icon size="mini" name="message_filled" />}
+                                    {previewValue.type === PreviewValueType.AmountIncoming && (
                                         <Text type="bold" theme="light" style={styles.valueAmountIncoming}>
-                                            {value.value}
+                                            {previewValue.value}
                                         </Text>
                                     )}
-                                    {value.type === ValueType.AmountOutgoing && (
+                                    {previewValue.type === PreviewValueType.AmountOutgoing && (
                                         <Text type="bold" theme="light" style={styles.valueAmountOutgoing}>
-                                            -{value.value}
+                                            -{previewValue.value}
                                         </Text>
                                     )}
-                                    {value.type === ValueType.Other && (
+                                    {previewValue.type === PreviewValueType.Other && (
                                         <Text type="bold" theme="light" style={styles.valueOther}>
-                                            {value.value}
+                                            {previewValue.value}
                                         </Text>
                                     )}
-                                    {value.type === ValueType.AggregatePendingSignature && (
+                                    {previewValue.type === PreviewValueType.AggregatePendingSignature && (
                                         <Text type="regular" theme="light" style={styles.valuePendingSignature}>
                                             {translate('history.transaction.waitingSignature')}
                                         </Text>
                                     )}
-                                    {value.type === ValueType.AggregateInner && (
+                                    {previewValue.type === PreviewValueType.AggregateInner && (
                                         <Row align="center" style={styles.valueAggregateInner}>
                                             <Text type="regular" theme="light" style={styles.valueOther}>
-                                                {value.value.txCount}
+                                                {previewValue.value.txCount}
                                             </Text>
-                                            {value.value.txIcons.map((txIcon, key) => (
+                                            {previewValue.value.txIcons.map((txIcon, key) => (
                                                 <Icon size="mini" name={txIcon} style={styles.valueContainer} key={'tx-inner-i' + key} />
                                             ))}
                                         </Row>

@@ -1,3 +1,4 @@
+import { TransactionType } from 'symbol-sdk';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 
 export const transactionAwaitingSignatureByAccount = (transaction, account, multisigAddresses) => {
