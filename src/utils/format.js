@@ -1,6 +1,7 @@
 import { LocalDateTime } from 'js-joda';
 import translate from '@src/locales/i18n';
 import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+import type { MosaicModel } from '@src/storage/models/MosaicModel';
 
 export const formatTransactionLocalDateTime = (dt: LocalDateTime): string => {
     return `${dt.dayOfMonth()}/${dt.monthValue()}/${dt.year()}`;
@@ -123,6 +124,10 @@ export const getAccountIndexFromDerivationPath = (path: string, network: AppNetw
     return path ? parseInt(path.replace(startPath, '').replace(endPath, '')) : null;
 };
 
-export const resoveAmount = (rawAmount, divisibility) => {
-    return rawAmount / Math.pow(10, divisibility);
+export const resoveAmount = (absoluteAmount, divisibility) => {
+    return absoluteAmount / Math.pow(10, divisibility);
+};
+
+export const getMosaicRelativeAmount = (mosaic: MosaicModel) => {
+    return resoveAmount(mosaic.amount, mosaic.divisibility);
 };

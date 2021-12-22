@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CopyView, Icon, Row, SecretView, Section, Text, Trunc } from '@src/components';
+import { getMosaicRelativeAmount } from '@src/utils/format';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -155,7 +156,7 @@ class TableView extends Component<Props> {
                             <Trunc type="mosaicId">{el.mosaicName}</Trunc>
                         </Text>
                     </Row>
-                    {this.render_amount(el.amount / Math.pow(10, el.divisibility))}
+                    {this.render_amount(getMosaicRelativeAmount(el))}
                 </Row>
             ));
         return (

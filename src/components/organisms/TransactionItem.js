@@ -6,6 +6,7 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
 import { filterCurrencyMosaic } from '@src/utils/filter';
+import { getMosaicRelativeAmount } from '@src/utils/format';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
@@ -91,13 +92,13 @@ function TransactionItem(props: Props) {
         if (nativeMosaic && incomingTransaction) {
             values.push({
                 type: ValueType.AmountIncoming,
-                value: nativeMosaic.amount / Math.pow(10, nativeMosaic.divisibility),
+                value: getMosaicRelativeAmount(nativeMosaic),
             });
         }
         if (nativeMosaic && !incomingTransaction) {
             values.push({
                 type: ValueType.AmountOutgoing,
-                value: nativeMosaic.amount / Math.pow(10, nativeMosaic.divisibility),
+                value: getMosaicRelativeAmount(nativeMosaic),
             });
         }
         if (hasCustomMosaic) {
@@ -151,7 +152,7 @@ function TransactionItem(props: Props) {
 
         values.push({
             type: ValueType.Other,
-            value: nativeMosaic.amount / Math.pow(10, nativeMosaic.divisibility),
+            value: getMosaicRelativeAmount(nativeMosaic),
         });
     }
 

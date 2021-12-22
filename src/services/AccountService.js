@@ -7,7 +7,7 @@ import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
 import { SymbolPaperWallet } from 'symbol-paper-wallets';
-import { getAccountIndexFromDerivationPath } from '@src/utils/format';
+import { getAccountIndexFromDerivationPath, getMosaicRelativeAmount } from '@src/utils/format';
 
 export default class AccountService {
     /**
@@ -148,7 +148,7 @@ export default class AccountService {
                 const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
                 if (mosaic.id.toHex() === network.currencyMosaicId) {
                     hasCurrencyMosaic = true;
-                    amount = mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility);
+                    amount = getMosaicRelativeAmount(mosaicModel);
                 }
                 ownedMosaics.push(mosaicModel);
             }
