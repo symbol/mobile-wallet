@@ -149,16 +149,16 @@ export default {
                 });
             dispatchAction({ type: 'transaction/loadNextPage' });
         },
-        checkPendingSignatures: async ({ commit, state }) => {
-            let has = await FetchTransactionService.hasAddressPendingSignatures(
-                state.account.selectedAccountAddress,
-                state.network.selectedNetwork
-            );
-            for (let address of state.account.cosignatoryOf) {
-                let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(address, state.network.selectedNetwork);
-                has = has || cosigHas;
-            }
-            commit({ type: 'transaction/setPendingSignature', payload: has });
+        checkPendingSignatures: async (/*{ commit, state }*/) => {
+            // let has = await FetchTransactionService.hasAddressPendingSignatures(
+            //     state.account.selectedAccountAddress,
+            //     state.network.selectedNetwork
+            // );
+            // for (let address of state.account.cosignatoryOf) {
+            //     let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(address, state.network.selectedNetwork);
+            //     has = has || cosigHas;
+            // }
+            // commit({ type: 'transaction/setPendingSignature', payload: has });
         },
     },
 };
