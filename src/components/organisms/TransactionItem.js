@@ -5,6 +5,7 @@ import { Col, Icon, LinkExplorer, Row, TableView, Text, Trunc } from '@src/compo
 import translate from '@src/locales/i18n';
 import {
     getAggregateTransactionInfoPreview,
+    getHashLockTransactionInfoPreview,
     getNamespaceTransactionInfoPreview,
     getTransferTransactionInfoPreview,
     isOutgoingTransaction,
