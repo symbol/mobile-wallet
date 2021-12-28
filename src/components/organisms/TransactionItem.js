@@ -2,15 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { Col, Icon, LinkExplorer, Row, TableView, Text, Trunc } from '@src/components';
-import GlobalStyles from '@src/styles/GlobalStyles';
-import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import translate from '@src/locales/i18n';
-import { filterCurrencyMosaic } from '@src/utils/filter';
-import { getMosaicRelativeAmount } from '@src/utils/format';
-import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
-import { getFinanceBotPublicKeys } from '@src/config/environment';
+import {
+    getAggregateTransactionInfoPreview,
+    getNamespaceTransactionInfoPreview,
+    getTransferTransactionInfoPreview,
+    isOutgoingTransaction,
+    isPostLaunchOptInTransaction,
+} from '@src/utils/transaction';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
+import GlobalStyles from '@src/styles/GlobalStyles';
+import { TransactionInfoPreviewValueType } from '@src/storage/models/TransactionInfoPreviewModel';
+import type { TransactionInfoPreview } from '@src/storage/models/TransactionInfoPreviewModel';
+import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
 const styles = StyleSheet.create({
     root: {
@@ -51,24 +56,6 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
- * enum PreviewValueType
- **/
-const PreviewValueType = {
-    AmountIncoming: 'amountIncoming',
-    AmountOutgoing: 'amountOutgoing',
-    HasMessage: 'hasMessage',
-    HasCustomMosaic: 'hasCustomMosaic',
-    AggregateInner: 'aggregateInner',
-    AggregatePendingSignature: 'AggregatePendingSignature',
-    Other: 'other',
-};
-
-interface PreviewValue {
-    type: PreviewValueType;
-    value?: string | number;
-}
-
 type Props = {
     transaction: TransactionModel,
     showDetails: boolean,
@@ -78,89 +65,38 @@ function TransactionItem(props: Props) {
     const { transaction, currentAddress, selectedAccount, network, showDetails, isMultisig, cosignatoryOf } = props;
     let transactionType = transaction.transactionType;
     let address = transaction.signerAddress;
-    let previewValues: PreviewValue[] = [];
+    let infoPreview: TransactionInfoPreview = [];
 
     switch (transaction.transactionType) {
         case TransactionType.TRANSFER: {
-            const incomingTransaction = transaction.recipientAddress === currentAddress;
-            const mosaics = transaction.mosaics;
-            const currencyMosaic = filterCurrencyMosaic(mosaics, network);
-            const hasCustomMosaic = (currencyMosaic && mosaics.length > 1) || (!currencyMosaic && mosaics.length > 0);
-            const hasMessage = !!transaction.messageText;
+            const outgoingTransaction = isOutgoingTransaction(transaction, currentAddress);
+            transactionType = transactionType + (outgoingTransaction ? '_outgoing' : '_incoming');
+            address = outgoingTransaction ? transaction.recipientAddress : transaction.signerAddress;
+            infoPreview = getTransferTransactionInfoPreview(transaction, currentAddress, network);
 
-            transactionType = transactionType + (incomingTransaction ? '_incoming' : '_outgoing');
-            address = incomingTransaction ? transaction.signerAddress : transaction.recipientAddress;
-
-            if (currencyMosaic && incomingTransaction) {
-                previewValues.push({
-                    type: PreviewValueType.AmountIncoming,
-                    value: getMosaicRelativeAmount(currencyMosaic),
-                });
-            }
-            if (currencyMosaic && !incomingTransaction) {
-                previewValues.push({
-                    type: PreviewValueType.AmountOutgoing,
-                    value: getMosaicRelativeAmount(currencyMosaic),
-                });
-            }
-            if (hasCustomMosaic) {
-                previewValues.push({
-                    type: PreviewValueType.HasCustomMosaic,
-                });
-            }
-            if (hasMessage) {
-                previewValues.push({
-                    type: PreviewValueType.HasMessage,
-                });
-            }
             break;
         }
 
         case TransactionType.AGGREGATE_BONDED:
         case TransactionType.AGGREGATE_COMPLETE: {
-            const isPostLaunchOptInTransaction = getFinanceBotPublicKeys(network.type).some(
-                publicKey => publicKey === transaction.signTransactionObject?.signer?.publicKey
-            );
-            const needsSignature = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+            const postLaunchOptInTransaction = isPostLaunchOptInTransaction(transaction, network);
+            transactionType = postLaunchOptInTransaction ? 'postLaunchOptIn' : transactionType;
+            infoPreview = getAggregateTransactionInfoPreview(transaction, selectedAccount, isMultisig, cosignatoryOf);
 
-            if (isPostLaunchOptInTransaction) {
-                transactionType = 'postLaunchOptIn';
-            }
-            if (needsSignature) {
-                previewValues.push({
-                    type: PreviewValueType.AggregatePendingSignature,
-                });
-            } else {
-                previewValues.push({
-                    type: PreviewValueType.AggregateInner,
-                    value: {
-                        txCount: transaction.innerTransactions.length,
-                        txIcons: _.uniq(
-                            transaction.innerTransactions.map(innerTransaction => 'transaction_' + innerTransaction.transactionType)
-                        ).slice(0, 5),
-                    },
-                });
-            }
             break;
         }
 
         case TransactionType.NAMESPACE_REGISTRATION:
         case transactionType === TransactionType.ADDRESS_ALIAS:
         case transactionType === TransactionType.MOSAIC_ALIAS: {
-            previewValues.push({
-                type: PreviewValueType.Other,
-                value: transaction.namespaceName,
-            });
+            infoPreview = getNamespaceTransactionInfoPreview(transaction);
+
             break;
         }
 
         case TransactionType.HASH_LOCK: {
-            const currencyMosaic = filterCurrencyMosaic(transaction.mosaics, network);
+            infoPreview = getHashLockTransactionInfoPreview(transaction, network);
 
-            previewValues.push({
-                type: PreviewValueType.Other,
-                value: getMosaicRelativeAmount(currencyMosaic),
-            });
             break;
         }
     }
@@ -190,31 +126,35 @@ function TransactionItem(props: Props) {
                             <Trunc type="address">{address}</Trunc>
                         </Text>
                         <Row style={styles.value} align="center">
-                            {previewValues.map((previewValue, index) => (
+                            {infoPreview.map((previewValue, index) => (
                                 <View style={styles.valueContainer} key={'tx-i-v' + index}>
-                                    {previewValue.type === PreviewValueType.HasCustomMosaic && <Icon size="mini" name="mosaics_filled" />}
-                                    {previewValue.type === PreviewValueType.HasMessage && <Icon size="mini" name="message_filled" />}
-                                    {previewValue.type === PreviewValueType.AmountIncoming && (
+                                    {previewValue.type === TransactionInfoPreviewValueType.HasCustomMosaic && (
+                                        <Icon size="mini" name="mosaics_filled" />
+                                    )}
+                                    {previewValue.type === TransactionInfoPreviewValueType.HasMessage && (
+                                        <Icon size="mini" name="message_filled" />
+                                    )}
+                                    {previewValue.type === TransactionInfoPreviewValueType.AmountIncoming && (
                                         <Text type="bold" theme="light" style={styles.valueAmountIncoming}>
                                             {previewValue.value}
                                         </Text>
                                     )}
-                                    {previewValue.type === PreviewValueType.AmountOutgoing && (
+                                    {previewValue.type === TransactionInfoPreviewValueType.AmountOutgoing && (
                                         <Text type="bold" theme="light" style={styles.valueAmountOutgoing}>
                                             -{previewValue.value}
                                         </Text>
                                     )}
-                                    {previewValue.type === PreviewValueType.Other && (
+                                    {previewValue.type === TransactionInfoPreviewValueType.Other && (
                                         <Text type="bold" theme="light" style={styles.valueOther}>
                                             {previewValue.value}
                                         </Text>
                                     )}
-                                    {previewValue.type === PreviewValueType.AggregatePendingSignature && (
+                                    {previewValue.type === TransactionInfoPreviewValueType.AggregatePendingSignature && (
                                         <Text type="regular" theme="light" style={styles.valuePendingSignature}>
                                             {translate('history.transaction.waitingSignature')}
                                         </Text>
                                     )}
-                                    {previewValue.type === PreviewValueType.AggregateInner && (
+                                    {previewValue.type === TransactionInfoPreviewValueType.AggregateInner && (
                                         <Row align="center" style={styles.valueAggregateInner}>
                                             <Text type="regular" theme="light" style={styles.valueOther}>
                                                 {previewValue.value.txCount}
