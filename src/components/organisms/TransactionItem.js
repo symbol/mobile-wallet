@@ -87,8 +87,8 @@ function TransactionItem(props: Props) {
         }
 
         case TransactionType.NAMESPACE_REGISTRATION:
-        case transactionType === TransactionType.ADDRESS_ALIAS:
-        case transactionType === TransactionType.MOSAIC_ALIAS: {
+        case TransactionType.ADDRESS_ALIAS:
+        case TransactionType.MOSAIC_ALIAS: {
             infoPreview = getNamespaceTransactionInfoPreview(transaction);
 
             break;

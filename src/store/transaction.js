@@ -1,4 +1,5 @@
 import FetchTransactionService from '@src/services/FetchTransactionService';
+import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 import { from } from 'rxjs';
 
 export type DirectionFilter = 'SENT' | 'RECEIVED' | 'ALL';
@@ -149,16 +150,28 @@ export default {
                 });
             dispatchAction({ type: 'transaction/loadNextPage' });
         },
-        checkPendingSignatures: async (/*{ commit, state }*/) => {
-            // let has = await FetchTransactionService.hasAddressPendingSignatures(
-            //     state.account.selectedAccountAddress,
-            //     state.network.selectedNetwork
-            // );
-            // for (let address of state.account.cosignatoryOf) {
-            //     let cosigHas = await FetchTransactionService.hasAddressPendingSignatures(address, state.network.selectedNetwork);
-            //     has = has || cosigHas;
-            // }
-            // commit({ type: 'transaction/setPendingSignature', payload: has });
+        checkPendingSignatures: async ({ commit, state }) => {
+            try {
+                const { cosignatoryOf, isMultisig } = state.account;
+                const { addressFilter, directionFilter } = state.transaction;
+                const { selectedNetwork } = state.network;
+                const { selectedAccount } = state.wallet;
+
+                const transactions = await FetchTransactionService.getTransactionsFromAddress(
+                    addressFilter,
+                    1,
+                    directionFilter,
+                    selectedNetwork,
+                    cosignatoryOf
+                );
+                const transactionAwaitingSignature =
+                    !isMultisig &&
+                    transactions.some(transaction => transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf));
+
+                commit({ type: 'transaction/setPendingSignature', payload: transactionAwaitingSignature });
+            } catch (e) {
+                console.log('Failed to checkPendingSignatures', e);
+            }
         },
     },
 };

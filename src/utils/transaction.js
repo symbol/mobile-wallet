@@ -13,7 +13,7 @@ export const transactionAwaitingSignatureByAccount = (transaction, account, mult
         const cosignRequired = transactionSignerAddresses.some(
             transactionSignerAddress => transactionSignerAddress && multisigAddresses?.some(address => address === transactionSignerAddress)
         );
-        const transactionHasMissingSignatures = transaction?.transactionInfo?.merkleComponentHash.startsWith('000000000000');
+        const transactionHasMissingSignatures = transaction.transactionInfo?.merkleComponentHash.startsWith('000000000000');
         const signedByCurrentAccount = transaction.cosignaturePublicKeys.some(publicKey => publicKey === accountPublicKey);
 
         return (!signedByCurrentAccount && transaction.status !== 'confirmed') || (transactionHasMissingSignatures && cosignRequired);
