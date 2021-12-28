@@ -78,17 +78,22 @@ export const getTransferTransactionInfoPreview = (transaction, address, network)
     const currencyMosaic = filterCurrencyMosaic(mosaics, network);
     const hasCustomMosaic = (currencyMosaic && mosaics.length > 1) || (!currencyMosaic && mosaics.length > 0);
     const hasMessage = !!transaction.messageText;
+    let amount = 0;
 
-    if (currencyMosaic && !outgoingTransaction) {
+    if (currencyMosaic) {
+        amount = getMosaicRelativeAmount(currencyMosaic);
+    }
+
+    if (amount && !outgoingTransaction) {
         infoPreview.push({
             type: TransactionInfoPreviewValueType.AmountIncoming,
-            value: getMosaicRelativeAmount(currencyMosaic),
+            value: amount,
         });
     }
-    if (currencyMosaic && outgoingTransaction) {
+    if (amount && outgoingTransaction) {
         infoPreview.push({
             type: TransactionInfoPreviewValueType.AmountOutgoing,
-            value: getMosaicRelativeAmount(currencyMosaic),
+            value: amount,
         });
     }
     if (hasCustomMosaic) {
