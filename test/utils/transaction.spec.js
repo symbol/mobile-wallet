@@ -26,17 +26,13 @@ describe('transaction utils tests', () => {
     test('transaction should await signature by current account', async () => {
         const cosignaturePublicKeys = [randomAccountPublicKey];
 
-        const info = {
+        const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: 'unconfirmed',
             signerAddress: randomAccountAddress.pretty(),
             hash: '2BBE2C855D65EAE061CD042A2E38C114B9811A7335C8C489A4B6861F0468E183',
             cosignaturePublicKeys,
             fee: '0.12',
-        };
-
-        const formattedTransaction = {
-            ...info,
             innerTransactions: [],
         };
 
@@ -46,17 +42,13 @@ describe('transaction utils tests', () => {
     test('transaction should not await signature by current account', async () => {
         const cosignaturePublicKeys = [randomAccountPublicKey, getPublicKeyFromPrivateKey(currentAccount.privateKey)];
 
-        const info = {
+        const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: 'unconfirmed',
             signerAddress: randomAccountAddress.pretty(),
             hash: '2BBE2C855D65EAE061CD042A2E38C114B9811A7335C8C489A4B6861F0468E183',
             cosignaturePublicKeys,
             fee: '0.12',
-        };
-
-        const formattedTransaction = {
-            ...info,
             innerTransactions: [],
         };
 
@@ -67,7 +59,7 @@ describe('transaction utils tests', () => {
         const financeBotPublicKey = getFinanceBotPublicKeys(network.type)[0];
         const cosignaturePublicKeys = [randomAccountPublicKey];
 
-        const info = {
+        const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: 'unconfirmed',
             signerAddress: randomAccountAddress.pretty(),
@@ -77,10 +69,6 @@ describe('transaction utils tests', () => {
                 signer: PublicAccount.createFromPublicKey(financeBotPublicKey),
             },
             fee: '0.12',
-        };
-
-        const formattedTransaction = {
-            ...info,
             innerTransactions: [],
         };
 
@@ -90,7 +78,7 @@ describe('transaction utils tests', () => {
     test('shoud not be Post-launch Opt-in transaction', async () => {
         const cosignaturePublicKeys = [randomAccountPublicKey];
 
-        const info = {
+        const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: 'unconfirmed',
             signerAddress: randomAccountAddress.pretty(),
@@ -100,10 +88,6 @@ describe('transaction utils tests', () => {
                 signer: PublicAccount.createFromPublicKey(randomAccountPublicKey),
             },
             fee: '0.12',
-        };
-
-        const formattedTransaction = {
-            ...info,
             innerTransactions: [],
         };
 
@@ -184,16 +168,12 @@ describe('transaction utils tests', () => {
             duration: 1,
         };
 
-        const info = {
+        const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_COMPLETE,
             status: 'confirmed',
             signerAddress: currentAccount.address.pretty(),
             hash: '2BBE2C855D65EAE061CD042A2E38C114B9811A7335C8C489A4B6861F0468E183',
             fee: '0.12',
-        };
-
-        const formattedTransaction = {
-            ...info,
             innerTransactions: [formattedTransferTransaction, formattedNamespaceRegistrationTransaction],
         };
 
