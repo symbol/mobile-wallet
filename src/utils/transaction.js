@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TransactionType } from 'symbol-sdk';
+import { Address, TransactionType } from 'symbol-sdk';
 import { getFinanceBotPublicKeys } from '@src/config/environment';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { filterCurrencyMosaic } from '@src/utils/filter';
@@ -13,7 +13,7 @@ export const transactionAwaitingSignatureByAccount = (transaction, account, mult
         const cosignRequired = transactionSignerAddresses.some(
             transactionSignerAddress => transactionSignerAddress && multisigAddresses?.some(address => address === transactionSignerAddress)
         );
-        const transactionHasMissingSignatures = transaction.transactionInfo?.merkleComponentHash.startsWith('000000000000');
+        const transactionHasMissingSignatures = !!transaction.transactionInfo?.merkleComponentHash.startsWith('000000000000');
         const signedByCurrentAccount = transaction.cosignaturePublicKeys.some(publicKey => publicKey === accountPublicKey);
 
         return (!signedByCurrentAccount && transaction.status !== 'confirmed') || (transactionHasMissingSignatures && cosignRequired);
@@ -31,7 +31,7 @@ export const isPostLaunchOptInTransaction = (transaction, network) => {
 };
 
 export const isOutgoingTransaction = (transaction, address) => {
-    return transaction.signerAddress === address;
+    return Address.createFromRawAddress(transaction.signerAddress).equals(Address.createFromRawAddress(address));
 };
 
 export const getAggregateTransactionInfoPreview = (transaction, account, isMultisigAccount, multisigAddresses) => {
