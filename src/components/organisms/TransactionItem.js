@@ -102,7 +102,6 @@ function TransactionItem(props: Props) {
         case TransactionType.NODE_KEY_LINK:
         case TransactionType.VOTING_KEY_LINK:
         case TransactionType.VRF_KEY_LINK: {
-            infoPreview = getNamespaceTransactionInfoPreview(transaction);
             transactionType = transactionType + (isUnlinkActionTransaction(transaction) ? '_unlink' : '');
 
             break;

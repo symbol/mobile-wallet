@@ -7,6 +7,9 @@ import { getMosaicRelativeAmount } from '@src/utils/format';
 import { TransactionInfoPreviewValueType } from '@src/storage/models/TransactionInfoPreviewModel';
 import { Constants } from '@src/config/constants';
 
+/**
+ * Checks whether transaction is awaiting a signature by account.
+ */
 export const transactionAwaitingSignatureByAccount = (transaction, account, multisigAddresses) => {
     if (transaction.transactionType === TransactionType.AGGREGATE_BONDED) {
         const accountPublicKey = getPublicKeyFromPrivateKey(account.privateKey);
@@ -23,6 +26,9 @@ export const transactionAwaitingSignatureByAccount = (transaction, account, mult
     return false;
 };
 
+/**
+ * Checks whether transaction is signed by Post-launch Opt-in bot.
+ */
 export const isPostLaunchOptInTransaction = (transaction, network) => {
     if (TransactionType.AGGREGATE_BONDED) {
         return getFinanceBotPublicKeys(network.type).some(publicKey => publicKey === transaction.signTransactionObject?.signer?.publicKey);
@@ -31,10 +37,16 @@ export const isPostLaunchOptInTransaction = (transaction, network) => {
     return false;
 };
 
+/**
+ * Checks whether transaction is signed by given address.
+ */
 export const isOutgoingTransaction = (transaction, address) => {
     return Address.createFromRawAddress(transaction.signerAddress).equals(Address.createFromRawAddress(address));
 };
 
+/**
+ * Checks whether transaction's LinkAction or AliasAction is 'unlink'.
+ */
 export const isUnlinkActionTransaction = transaction => {
     if (
         transaction.transactionType === TransactionType.ACCOUNT_KEY_LINK ||
@@ -52,6 +64,9 @@ export const isUnlinkActionTransaction = transaction => {
     return false;
 };
 
+/**
+ * Returns Aggregate Bonded and Aggregate Complete transaction info preview. Info preview contains number of inner transactions and its icon names.
+ */
 export const getAggregateTransactionInfoPreview = (transaction, account, isMultisigAccount, multisigAddresses) => {
     if (
         transaction.transactionType !== TransactionType.AGGREGATE_BONDED &&
@@ -83,6 +98,9 @@ export const getAggregateTransactionInfoPreview = (transaction, account, isMulti
     }
 };
 
+/**
+ * Returns Transfer transaction info preview. Info preview can contain transferred amount, a flag whether a transaction has a message and custom mosaic.
+ */
 export const getTransferTransactionInfoPreview = (transaction, address, network) => {
     if (transaction.transactionType !== TransactionType.TRANSFER) {
         throw Error(
@@ -128,6 +146,9 @@ export const getTransferTransactionInfoPreview = (transaction, address, network)
     return infoPreview;
 };
 
+/**
+ * Returns Namespace Registration, Address Alias and Mosaic Alias transaction info preview. Info preview contains namespace name.
+ */
 export const getNamespaceTransactionInfoPreview = transaction => {
     if (
         transaction.transactionType !== TransactionType.NAMESPACE_REGISTRATION &&
@@ -147,6 +168,9 @@ export const getNamespaceTransactionInfoPreview = transaction => {
     ];
 };
 
+/**
+ * Returns Hash Lock transaction info preview. Info preview contains locked amount.
+ */
 export const getHashLockTransactionInfoPreview = (transaction, network) => {
     if (transaction.transactionType !== TransactionType.HASH_LOCK) {
         throw Error(
