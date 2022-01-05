@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { Address, TransactionType } from 'symbol-sdk';
+import { Address, AliasAction, LinkAction, TransactionType } from 'symbol-sdk';
 import { getFinanceBotPublicKeys } from '@src/config/environment';
 import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { filterCurrencyMosaic } from '@src/utils/filter';
 import { getMosaicRelativeAmount } from '@src/utils/format';
 import { TransactionInfoPreviewValueType } from '@src/storage/models/TransactionInfoPreviewModel';
+import { Constants } from '@src/config/constants';
 
 export const transactionAwaitingSignatureByAccount = (transaction, account, multisigAddresses) => {
     if (transaction.transactionType === TransactionType.AGGREGATE_BONDED) {
@@ -32,6 +33,23 @@ export const isPostLaunchOptInTransaction = (transaction, network) => {
 
 export const isOutgoingTransaction = (transaction, address) => {
     return Address.createFromRawAddress(transaction.signerAddress).equals(Address.createFromRawAddress(address));
+};
+
+export const isUnlinkActionTransaction = transaction => {
+    if (
+        transaction.transactionType === TransactionType.ACCOUNT_KEY_LINK ||
+        transaction.transactionType === TransactionType.NODE_KEY_LINK ||
+        transaction.transactionType === TransactionType.VOTING_KEY_LINK ||
+        transaction.transactionType === TransactionType.VRF_KEY_LINK
+    ) {
+        return transaction.linkAction === Constants.LinkAction[LinkAction.Unlink];
+    }
+
+    if (transaction.transactionType === TransactionType.ADDRESS_ALIAS || transaction.transactionType === TransactionType.MOSAIC_ALIAS) {
+        return transaction.aliasAction === Constants.AliasAction[AliasAction.Unlink];
+    }
+
+    return false;
 };
 
 export const getAggregateTransactionInfoPreview = (transaction, account, isMultisigAccount, multisigAddresses) => {

@@ -9,4 +9,5 @@ module.exports = {
     modulePaths: ['<rootDir>'],
     moduleFileExtensions: ['js', 'jsx', 'json', 'styl'],
     testEnvironment: './testEnvironmentContext',
+    testMatch: ['<rootDir>/__tests__/**/*.spec.js'],
 };

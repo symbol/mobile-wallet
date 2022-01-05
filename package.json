@@ -11,7 +11,7 @@
     "reconnect": "adb reverse tcp:8081 tcp:8081",
     "build:android:dev": "react-native run-android --variant=devDebug",
     "build:android:prod": "cd ./android && gradlew assembleProdRelease",
-    "test": "jest --verbose ./test",
+    "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix --color",
     "postinstall": "./scripts/post-install.sh"
@@ -155,10 +155,6 @@
     "react-test-renderer": "16.9.0",
     "rn-nodeify": "^10.2.0",
     "stylus": "^0.54.7"
-  },
-  "jest": {
-    "preset": "react-native",
-    "testMatch": ["**/test/**/*.spec.js"]
   },
   "react-native": {
     "zlib": "browserify-zlib",
