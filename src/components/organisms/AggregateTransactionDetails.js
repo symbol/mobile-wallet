@@ -23,8 +23,8 @@ import {
 import store from '@src/store';
 import TransactionService from '@src/services/TransactionService';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { showPasscode } from '@src/utils/passcode';
+import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import _ from 'lodash';
@@ -170,9 +170,8 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     needsSignature = () => {
-        const { transaction, selectedAccount, isMultisig } = this.props;
-        const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
+        const { transaction, selectedAccount, isMultisig, cosignatoryOf } = this.props;
+        return !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
     };
 
     onClose() {
@@ -434,6 +433,7 @@ export default connect(state => ({
     isLoading: state.transfer.isLoading,
     selectedAccount: state.wallet.selectedAccount,
     isMultisig: state.account.isMultisig,
+    cosignatoryOf: state.account.cosignatoryOf,
     network: state.network.selectedNetwork.type,
     address: state.account.selectedAccountAddress,
 }))(AggregateTransactionDetails);
