@@ -262,6 +262,12 @@ export default class C extends Component<Props, State> {
             case `transaction_${TransactionType.MOSAIC_ALIAS}`:
                 source = require('@src/assets/icons/transaction/namespace.png');
                 break;
+            case `transaction_${TransactionType.ADDRESS_ALIAS}_unlink`:
+                source = require('@src/assets/icons/transaction/namespace.png');
+                break;
+            case `transaction_${TransactionType.MOSAIC_ALIAS}_unlink`:
+                source = require('@src/assets/icons/transaction/namespace.png');
+                break;
             case `transaction_${TransactionType.NAMESPACE_REGISTRATION}`:
                 source = require('@src/assets/icons/transaction/namespace.png');
                 break;
@@ -291,6 +297,18 @@ export default class C extends Component<Props, State> {
                 break;
             case `transaction_${TransactionType.VOTING_KEY_LINK}`:
                 source = require('@src/assets/icons/transaction/key.png');
+                break;
+            case `transaction_${TransactionType.VRF_KEY_LINK}_unlink`:
+                source = require('@src/assets/icons/transaction/key-unlink.png');
+                break;
+            case `transaction_${TransactionType.ACCOUNT_KEY_LINK}_unlink`:
+                source = require('@src/assets/icons/transaction/key-unlink.png');
+                break;
+            case `transaction_${TransactionType.NODE_KEY_LINK}_unlink`:
+                source = require('@src/assets/icons/transaction/key-unlink.png');
+                break;
+            case `transaction_${TransactionType.VOTING_KEY_LINK}_unlink`:
+                source = require('@src/assets/icons/transaction/key-unlink.png');
                 break;
             case `transaction_${TransactionType.MOSAIC_GLOBAL_RESTRICTION}`:
                 source = require('@src/assets/icons/transaction/mosaic-restriction.png');
