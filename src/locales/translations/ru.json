@@ -558,6 +558,12 @@
 		"transactionDescriptor_16963": "Привязка VRF ключа",
 		"transactionDescriptor_16707": "Привязка ключа голосования",
 		"transactionDescriptor_16972": "Привязка ключа ноды",
+		"transactionDescriptor_16974_unlink": "Address alias unlink",
+		"transactionDescriptor_17230_unlink": "Mosaic alias unlink",
+		"transactionDescriptor_16716_unlink": "Account key unlink",
+		"transactionDescriptor_16963_unlink": "VRF key unlink",
+		"transactionDescriptor_16707_unlink": "Voting Key unlink",
+		"transactionDescriptor_16972_unlink": "Node Key unlink",
 		"transactionDescriptor_postLaunchOptIn": "Выплата по Опт-ин"
 	},
 	"date": {

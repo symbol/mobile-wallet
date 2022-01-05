@@ -10,11 +10,13 @@ import {
     getTransferTransactionInfoPreview,
     isOutgoingTransaction,
     isPostLaunchOptInTransaction,
+    isUnlinkActionTransaction,
 } from '@src/utils/transaction';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import { TransactionInfoPreviewValueType } from '@src/storage/models/TransactionInfoPreviewModel';
+import { Constants } from '@src/config/constants';
 import type { TransactionInfoPreview } from '@src/storage/models/TransactionInfoPreviewModel';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 
@@ -91,6 +93,17 @@ function TransactionItem(props: Props) {
         case TransactionType.ADDRESS_ALIAS:
         case TransactionType.MOSAIC_ALIAS: {
             infoPreview = getNamespaceTransactionInfoPreview(transaction);
+            transactionType = transactionType + (isUnlinkActionTransaction(transaction) ? '_unlink' : '');
+
+            break;
+        }
+
+        case TransactionType.ACCOUNT_KEY_LINK:
+        case TransactionType.NODE_KEY_LINK:
+        case TransactionType.VOTING_KEY_LINK:
+        case TransactionType.VRF_KEY_LINK: {
+            infoPreview = getNamespaceTransactionInfoPreview(transaction);
+            transactionType = transactionType + (isUnlinkActionTransaction(transaction) ? '_unlink' : '');
 
             break;
         }
@@ -104,8 +117,8 @@ function TransactionItem(props: Props) {
 
     const iconName = 'transaction_' + transactionType;
     const title = translate('transactionTypes.transactionDescriptor_' + transactionType);
-    const dateOrStatus = transaction.status === 'unconfirmed' ? 'Unconfirmed' : transaction.deadline;
-    const tableData = _.omit(transaction, ['deadline', 'transactionType', 'type', 'messageEncrypted']);
+    const dateOrStatus = transaction.status === Constants.Message.UNCONFIRMED ? Constants.Message.UNCONFIRMED : transaction.deadline;
+    const tableData = _.omit(transaction, ['deadline', 'status', 'transactionType', 'type', 'messageEncrypted']);
 
     return (
         <View style={styles.root}>

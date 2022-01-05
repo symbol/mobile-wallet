@@ -552,6 +552,12 @@
 		"transactionDescriptor_16963": "Enlace de clave VRF",
 		"transactionDescriptor_16707": "Enlace de clave de votación",
 		"transactionDescriptor_16972": "Enlace de clave de nodo",
+		"transactionDescriptor_16974_unlink": "Address alias unlink",
+		"transactionDescriptor_17230_unlink": "Mosaic alias unlink",
+		"transactionDescriptor_16716_unlink": "Account key unlink",
+		"transactionDescriptor_16963_unlink": "VRF key unlink",
+		"transactionDescriptor_16707_unlink": "Voting Key unlink",
+		"transactionDescriptor_16972_unlink": "Node Key unlink",
 		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {

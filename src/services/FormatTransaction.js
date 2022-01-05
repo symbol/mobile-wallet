@@ -127,6 +127,7 @@ export class FormatTransaction {
         return {
             transactionType: transaction.type,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
+            status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
             signerAddress: transaction.signer.address.pretty(),
             ...formattedTansaction,
             hash: transaction.hash || transaction.transactionInfo?.hash,
@@ -147,7 +148,7 @@ export class FormatTransaction {
 
         const info = {
             transactionType: transaction.type,
-            status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
+            status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             signerAddress: transaction.signer.address.pretty(),
             hash: transaction.hash || transaction.transactionInfo?.hash,
