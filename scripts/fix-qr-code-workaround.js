@@ -12,7 +12,7 @@ fs.readFile(MAIN_FILE_PATH, 'utf8', function(err, data) {
     });
 });
 
-const MODULE_FILE_PATH = __dirname + '/../node_modules/symbol-paper-wallets/node_modules/symbol-qr-library/dist/src/QRCode.js';
+const MODULE_FILE_PATH = __dirname + '/../node_modules/symbol-wallets-lib/node_modules/symbol-qr-library/dist/src/QRCode.js';
 
 if (fs.existsSync(MODULE_FILE_PATH)) {
     fs.readFile(MODULE_FILE_PATH, 'utf8', function(err, data) {

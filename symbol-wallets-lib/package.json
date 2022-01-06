@@ -1,0 +1,48 @@
+{
+    "name": "symbol-wallets-lib",
+    "version": "0.1.0",
+    "description": "Symbol Wallets Library",
+    "main": "build/index.js",
+    "scripts": {
+        "prepare": "npm run build",
+        "build": "tsc",
+        "lint": "eslint --cache src/ --ext .ts",
+        "lint:fix": "eslint src/ --ext .ts --fix"
+    },
+    "contributors": [
+        {
+            "name": "Peersyst Technology",
+            "email": "dev@peersyst.com"
+        },
+        {
+            "name": "NEM Software Ltd",
+            "email": "info@nem.software"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/symbol/wallets-lib/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/symbol/wallets-lib.git"
+    },
+    "homepage": "https://github.com/symbol/wallets-lib#readme",
+    "dependencies": {
+        "@pdf-lib/fontkit": "1.0.0",
+        "pdf-lib": "1.10.0",
+        "symbol-qr-library": "^0.13.1-alpha-202010241730"
+    },
+    "devDependencies": {
+        "@types/node": "^13.1.7",
+        "@typescript-eslint/eslint-plugin": "^4.10.0",
+        "@typescript-eslint/parser": "^4.9.0",
+        "rxjs": "^6.5.4",
+        "eslint": "^7.15.0",
+        "eslint-config-prettier": "^6.15.0",
+        "eslint-plugin-header": "^3.1.0",
+        "eslint-plugin-prettier": "^3.2.0",
+        "prettier": "^2.2.1",
+        "prettier-plugin-organize-imports": "^1.1.1",
+        "typescript": "^4.1.2"
+    }
+}

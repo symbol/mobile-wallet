@@ -6,7 +6,7 @@ import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkMo
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
-import { SymbolPaperWallet } from 'symbol-paper-wallets';
+import { SymbolPaperWallet } from 'symbol-wallets-lib';
 import { getAccountIndexFromDerivationPath } from '@src/utils/format';
 
 export default class AccountService {
