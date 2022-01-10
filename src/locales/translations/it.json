@@ -552,12 +552,12 @@
 		"transactionDescriptor_16963": "Collegamento chiave VRF",
 		"transactionDescriptor_16707": "Collegamento chiave di voto",
 		"transactionDescriptor_16972": "Collegamento chiave del nodo",
-		"transactionDescriptor_16974_unlink": "Address alias unlink",
-		"transactionDescriptor_17230_unlink": "Mosaic alias unlink",
-		"transactionDescriptor_16716_unlink": "Account key unlink",
-		"transactionDescriptor_16963_unlink": "VRF key unlink",
-		"transactionDescriptor_16707_unlink": "Voting Key unlink",
-		"transactionDescriptor_16972_unlink": "Node Key unlink",
+		"transactionDescriptor_16974_unlink": "Indirizzo alias scollega",
+		"transactionDescriptor_17230_unlink": "Alias mosaico scollega",
+		"transactionDescriptor_16716_unlink": "Scollega chiave account",
+		"transactionDescriptor_16963_unlink": "Scollegamento chiave VRF",
+		"transactionDescriptor_16707_unlink": "Scollegamento chiave di voto",
+		"transactionDescriptor_16972_unlink": "Scollegamento chiave nodo",
 		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
