@@ -128,8 +128,7 @@ export const getTransferTransactionInfoPreview = (transaction, address, network)
             type: TransactionInfoPreviewValueType.AmountIncoming,
             value: amount,
         });
-    }
-    if (amount && outgoingTransaction) {
+    } else if (amount && outgoingTransaction) {
         infoPreview.push({
             type: TransactionInfoPreviewValueType.AmountOutgoing,
             value: amount,
