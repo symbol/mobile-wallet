@@ -555,7 +555,14 @@
 		"transactionDescriptor_17220": "ネームスペースメタデータ",
 		"transactionDescriptor_16963": "VRFキーリンク",
 		"transactionDescriptor_16707": "投票キーリンク",
-		"transactionDescriptor_16972": "ノードキーリンク"
+		"transactionDescriptor_16972": "ノードキーリンク",
+		"transactionDescriptor_16974_unlink": "アドレスエイリアスリンク解除",
+		"transactionDescriptor_17230_unlink": "モザイクエイリアスリンク解除",
+		"transactionDescriptor_16716_unlink": "アカウントキーリンク解除",
+		"transactionDescriptor_16963_unlink": "VRFキーリンク解除",
+		"transactionDescriptor_16707_unlink": "投票キーリンク解除",
+		"transactionDescriptor_16972_unlink": "ノードキーリンク解除",
+		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
 		"monday": "月曜日",

@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
-import { Dropdown, EmptyListMessage, GradientBackground, ListContainer, ListItem, Row, Section, TitleBar } from '@src/components';
+import {
+    AggregateTransactionDetails,
+    Dropdown,
+    EmptyListMessage,
+    GradientBackground,
+    ListContainer,
+    ListItem,
+    Row,
+    Section,
+    TitleBar,
+    TransactionItem,
+} from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
-import Transaction from '@src/components/organisms/transaction';
-import { AggregateTransactionDetails } from '@src/components';
 import translate from '@src/locales/i18n';
+import { TransactionType } from 'symbol-sdk';
 
 const styles = StyleSheet.create({
     list: {
@@ -77,12 +87,19 @@ class History extends Component<Props, State> {
         }
     };
 
+    isAggregate = transaction => {
+        return (
+            transaction.transactionType === TransactionType.AGGREGATE_BONDED ||
+            transaction.transactionType === TransactionType.AGGREGATE_COMPLETE
+        );
+    };
+
     renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
         return (
             <ListItem onPress={() => this.showDetails(index)}>
-                <Transaction
+                <TransactionItem
                     transaction={item}
-                    showDetails={showingDetailsIndex === index && item.type !== 'aggregate'}
+                    showDetails={showingDetailsIndex === index && !this.isAggregate(item)}
                     componentId={this.props.componentId}
                 />
             </ListItem>
@@ -162,7 +179,7 @@ class History extends Component<Props, State> {
                         }
                     />
                 </ListContainer>
-                {currentTransaction && currentTransaction.type === 'aggregate' && (
+                {currentTransaction && this.isAggregate(currentTransaction) && (
                     <AggregateTransactionDetails transaction={currentTransaction} onClose={() => this.showDetails(-1)} {...this.props} />
                 )}
             </GradientBackground>

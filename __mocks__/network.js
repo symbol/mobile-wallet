@@ -1,0 +1,26 @@
+export const network = {
+    blockGenerationTargetTime: 30,
+    chainHeight: 57530,
+    currencyDivisibility: 6,
+    currencyMosaicId: '3A8416DB2D53B6C8',
+    defaultDynamicFeeMultiplier: '100',
+    epochAdjustment: 1637848847,
+    generationHash: '7FCCD304802016BEBBCD342A332F91FF1F3BB5E902988B352697BE245F48E836',
+    networkCurrency: {
+        divisibility: 6,
+        mosaicId: '3A8416DB2D53B6C8',
+        namespaceId: 'E74B99BA41F4AFEE',
+        namespaceName: 'symbol.xym',
+    },
+    networkType: 152,
+    node: 'https://sym-test-02.opening-line.jp:3001',
+    totalChainImportance: `7'842'928'625'000'000`,
+    transactionFees: {
+        averageFeeMultiplier: 7735,
+        highestFeeMultiplier: 1136363,
+        lowestFeeMultiplier: 0,
+        medianFeeMultiplier: 100,
+        minFeeMultiplier: 10,
+    },
+    type: 'testnet',
+};

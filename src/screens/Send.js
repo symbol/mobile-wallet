@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { isAddressValid } from '@src/utils/validators';
 import { filterCurrencyMosaic } from '@src/utils/filter';
-import { resoveAmount } from '@src/utils/format';
+import { getMosaicRelativeAmount, resoveAmount } from '@src/utils/format';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import translate from '@src/locales/i18n';
 import { defaultFeesConfig } from '@src/config/fees';
@@ -113,7 +113,7 @@ class Send extends Component<Props, State> {
             return false;
         }
         const selectedMosaic = ownedMosaics.find(mosaic => mosaic.mosaicId === this.state.mosaicName);
-        const parsedAmount = resoveAmount(selectedMosaic.amount, selectedMosaic.divisibility);
+        const parsedAmount = getMosaicRelativeAmount(selectedMosaic);
         const sendingAmount = parseFloat(this.state.amount);
         const fee = parseFloat(this.state.fee);
         // Basic check amount not greater than what user has
@@ -344,7 +344,7 @@ class Send extends Component<Props, State> {
             .map(mosaic => ({
                 value: mosaic.mosaicId,
                 label: mosaic.mosaicName,
-                balance: resoveAmount(mosaic.amount, mosaic.divisibility),
+                balance: getMosaicRelativeAmount(mosaic),
             }));
 
         const feeList = [

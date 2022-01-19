@@ -546,7 +546,14 @@
 		"transactionDescriptor_17220": "命名空间元数据",
 		"transactionDescriptor_16963": "可验证随机函数主要链接",
 		"transactionDescriptor_16707": "投票主要链接",
-		"transactionDescriptor_16972": "节点主要链接"
+		"transactionDescriptor_16972": "节点主要链接",
+		"transactionDescriptor_16974_unlink": "Address alias unlink",
+		"transactionDescriptor_17230_unlink": "Mosaic alias unlink",
+		"transactionDescriptor_16716_unlink": "Account key unlink",
+		"transactionDescriptor_16963_unlink": "VRF key unlink",
+		"transactionDescriptor_16707_unlink": "Voting Key unlink",
+		"transactionDescriptor_16972_unlink": "Node Key unlink",
+		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
 		"monday": "星期一",
