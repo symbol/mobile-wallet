@@ -34,6 +34,8 @@ export class Constants {
         INACTIVE: 'v_inactive',
         UNKNOWN: 'v_unknown',
         EXPIRED: 'v_expired',
+        UNCONFIRMED: 'unconfirmed',
+        CONFIRMED: 'confirmed',
     };
 
     static TransactionType = {

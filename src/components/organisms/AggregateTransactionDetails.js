@@ -23,10 +23,11 @@ import {
 import store from '@src/store';
 import TransactionService from '@src/services/TransactionService';
 import type { AggregateTransactionModel } from '@src/storage/models/TransactionModel';
-import { getPublicKeyFromPrivateKey } from '@src/utils/account';
 import { showPasscode } from '@src/utils/passcode';
+import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import _ from 'lodash';
 
 const FULL_HEIGHT = Dimensions.get('window').height;
 
@@ -169,9 +170,8 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     needsSignature = () => {
-        const { transaction, selectedAccount, isMultisig } = this.props;
-        const accountPubKey = getPublicKeyFromPrivateKey(selectedAccount.privateKey);
-        return !isMultisig && transaction.cosignaturePublicKeys.indexOf(accountPubKey) === -1 && transaction.status !== 'confirmed';
+        const { transaction, selectedAccount, isMultisig, cosignatoryOf } = this.props;
+        return !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
     };
 
     onClose() {
@@ -240,6 +240,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
     renderTabInfo() {
         const { isLoading, fullTransaction } = this.state;
+        const tabledata = _.omit(fullTransaction, ['innerTransactions', 'signTransactionObject', 'cosignaturePublicKeys', 'fee']);
 
         return (
             <FadeView style={{ flex: 1 }}>
@@ -247,10 +248,10 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     {fullTransaction && (
                         <>
                             <ListItem>
-                                <TableView data={fullTransaction.info} />
+                                <TableView data={tabledata} />
                             </ListItem>
                             <ListItem>
-                                <LinkExplorer type="transaction" value={fullTransaction.info.hash} />
+                                <LinkExplorer type="transaction" value={fullTransaction.hash} />
                             </ListItem>
                         </>
                     )}
@@ -432,6 +433,7 @@ export default connect(state => ({
     isLoading: state.transfer.isLoading,
     selectedAccount: state.wallet.selectedAccount,
     isMultisig: state.account.isMultisig,
+    cosignatoryOf: state.account.cosignatoryOf,
     network: state.network.selectedNetwork.type,
     address: state.account.selectedAccountAddress,
 }))(AggregateTransactionDetails);

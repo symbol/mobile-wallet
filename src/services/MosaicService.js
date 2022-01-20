@@ -10,16 +10,17 @@ export default class MosaicService {
      * @return {Promise<{amount: string, mosaicId: string, mosaicName: *, divisibility: *}>}
      */
     static async getMosaicModelFromMosaicId(mosaic: Mosaic, network: NetworkModel): Promise<MosaicModel> {
-        let mosaicInfo = {},
-            mosaicName = {};
+        let mosaicInfo;
+        let mosaicName;
+
         try {
             mosaicInfo = await new MosaicHttp(network.node).getMosaic(mosaic.id).toPromise();
             [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([mosaic.id]).toPromise();
         } catch (e) {
-            console.log(e);
+            console.log('Failed to fetch mosaic info', e);
         }
         //Mosaic info not found -> let's try for its namespace
-        if (!mosaicInfo.divisibility) {
+        if (!mosaicInfo) {
             try {
                 const namespaceInfo = await new NamespaceHttp(network.node).getNamespace(mosaic.id).toPromise();
                 if (namespaceInfo.alias.mosaicId) {
@@ -27,7 +28,7 @@ export default class MosaicService {
                     [mosaicName] = await new NamespaceHttp(network.node).getMosaicsNames([namespaceInfo.alias.mosaicId]).toPromise();
                 }
             } catch (e) {
-                console.log(e);
+                console.log('Failed to fetch mosaic info by namespace id', e);
             }
         }
         return {

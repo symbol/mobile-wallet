@@ -157,9 +157,6 @@
     "rn-nodeify": "^10.2.0",
     "stylus": "^0.54.7"
   },
-  "jest": {
-    "preset": "react-native"
-  },
   "react-native": {
     "zlib": "browserify-zlib",
     "console": "console-browserify",
