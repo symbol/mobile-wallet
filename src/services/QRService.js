@@ -1,3 +1,4 @@
+import { getMosaicRelativeAmount } from '@src/utils/format';
 import { AccountQR, QRCodeGenerator, QRCodeType } from 'symbol-qr-library';
 import { Address, CosignatureSignedTransaction, SignedTransaction, TransactionMapping, TransactionType } from 'symbol-sdk';
 import MosaicService from './MosaicService';
@@ -114,7 +115,7 @@ export default class {
         const mosaicModel = await MosaicService.getMosaicModelFromMosaicId(mosaic, network);
         const formattedMosaic = {
             ...mosaicModel,
-            amount: mosaic.amount.compact() / Math.pow(10, mosaicModel.divisibility),
+            amount: getMosaicRelativeAmount(mosaicModel),
         };
 
         return formattedMosaic;

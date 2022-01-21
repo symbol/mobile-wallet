@@ -127,8 +127,10 @@ export class FormatTransaction {
         return {
             transactionType: transaction.type,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
+            status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
             signerAddress: transaction.signer.address.pretty(),
             ...formattedTansaction,
+            hash: transaction.hash || transaction.transactionInfo?.hash,
         };
     };
 
@@ -139,11 +141,20 @@ export class FormatTransaction {
             formattedInnerTransactions.push(await FormatTransaction.format(innerTransaction, network, preLoadedMosaics));
         }
 
+        const cosignaturePublicKeys = transaction.cosignatures.map(cosignature => cosignature.signer.publicKey);
+        if (transaction.signer) {
+            cosignaturePublicKeys.push(transaction.signer.publicKey);
+        }
+
         const info = {
             transactionType: transaction.type,
+            status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             signerAddress: transaction.signer.address.pretty(),
-            hash: transaction.hash,
+            hash: transaction.hash || transaction.transactionInfo?.hash,
+            cosignaturePublicKeys: cosignaturePublicKeys,
+            signTransactionObject: transaction,
+            fee: transaction.maxFee.toString(),
         };
 
         if (transaction.type === TransactionType.AGGREGATE_BONDED) {
@@ -151,7 +162,7 @@ export class FormatTransaction {
         }
 
         return {
-            info,
+            ...info,
             innerTransactions: formattedInnerTransactions,
         };
     };

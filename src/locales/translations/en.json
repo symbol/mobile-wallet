@@ -530,13 +530,13 @@
 	"transactionTypes": {
 		"unknown": "Type not supported yet",
 		"transfer": "Transfer",
-		"transferFrom": "Transfer from",
-		"transferTo": "Transfer to",
 		"fundsLock": "Funds Lock",
 		"aggregate": "Aggregate",
 		"namespace": "Namespace registration",
 		"mosaicAlias": "Mosaic alias",
 		"transactionDescriptor_16724": "Transfer",
+		"transactionDescriptor_16724_incoming": "Transfer from",
+		"transactionDescriptor_16724_outgoing": "Transfer to",
 		"transactionDescriptor_16718": "Namespace registration",
 		"transactionDescriptor_16974": "Address alias",
 		"transactionDescriptor_17230": "Mosaic alias",
@@ -559,7 +559,14 @@
 		"transactionDescriptor_17220": "Namespace metadata",
 		"transactionDescriptor_16963": "VRF key link",
 		"transactionDescriptor_16707": "Voting Key link",
-		"transactionDescriptor_16972": "Node Key link"
+		"transactionDescriptor_16972": "Node Key link",
+		"transactionDescriptor_16974_unlink": "Address alias unlink",
+		"transactionDescriptor_17230_unlink": "Mosaic alias unlink",
+		"transactionDescriptor_16716_unlink": "Account key unlink",
+		"transactionDescriptor_16963_unlink": "VRF key unlink",
+		"transactionDescriptor_16707_unlink": "Voting Key unlink",
+		"transactionDescriptor_16972_unlink": "Node Key unlink",
+		"transactionDescriptor_postLaunchOptIn": "Opt-in"
 	},
 	"date": {
 		"monday": "Monday",
