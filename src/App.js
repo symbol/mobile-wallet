@@ -70,12 +70,6 @@ export const startApp = async () => {
         await launchWallet();
         SplashScreen.hide();
     }
-
-    VersionService.checkAppNeedsUpdate().then(
-        appNeedsUpdate =>
-            appNeedsUpdate === true &&
-            Alert.alert(translate('unsortedKeys.alertNewVersionAppStoreTitle'), translate('unsortedKeys.alertNewVersionAppStoreBody'))
-    );
 };
 
 const launchWallet = async () => {
@@ -89,12 +83,22 @@ const launchWallet = async () => {
         if (isPin)
             Router.showPasscode({
                 resetPasscode: false,
-                onSuccess: () => Router.goToDashboard(),
+                onSuccess: () => launchScreenAndCheckUpdate(Router.goToDashboard),
             });
-        else Router.goToDashboard();
+        else launchScreenAndCheckUpdate(Router.goToDashboard);
     } else {
-        Router.goToTermsAndPrivacy({});
+        launchScreenAndCheckUpdate(Router.goToTermsAndPrivacy);
     }
+};
+
+const launchScreenAndCheckUpdate = routerCallback => {
+    routerCallback();
+
+    VersionService.checkAppNeedsUpdate().then(
+        appNeedsUpdate =>
+            appNeedsUpdate === true &&
+            Alert.alert(translate('unsortedKeys.alertNewVersionAppStoreTitle'), translate('unsortedKeys.alertNewVersionAppStoreBody'))
+    );
 };
 
 const scheduleBackgroundJob = () => {
