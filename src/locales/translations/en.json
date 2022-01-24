@@ -752,7 +752,9 @@
 		"noPublicKeyWarning": "Can't encrypt message: Address doesn't have a public key",
 		"nothingToShow": "Nothing to show",
 		"currentAccount": "You",
-		"currentAddress": "Your address"
+		"currentAddress": "Your address",
+		"alertNewVersionAppStoreTitle": "The new version of Symbol Wallet is available in the App Store",
+		"alertNewVersionAppStoreBody": "We strongly recommend that you update to the latest version!"
 	},
 	"optin": {
 		"title": "Post-launch opt-in",

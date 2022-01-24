@@ -135,7 +135,7 @@ export class Router {
             };
         }
 
-        this.screens.forEach(([key, ScreenComponent]) =>
+        Router.screens.forEach(([key, ScreenComponent]) =>
             Navigation.registerComponent(key, () => WrappedComponentWithStore(gestureHandlerRootHOC(ScreenComponent)))
         );
 
@@ -143,58 +143,58 @@ export class Router {
     }
 
     static goToTermsAndPrivacy(passProps, parentComponent?) {
-        return this.goToScreen(TERMS_AND_PRIVACY_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(TERMS_AND_PRIVACY_SCREEN, passProps, parentComponent);
     }
     static goToCreateOrImport(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_OR_IMPORT_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(CREATE_OR_IMPORT_SCREEN, passProps, parentComponent);
     }
     static goToWalletName(passProps, parentComponent?) {
-        return this.goToScreen(WALLET_NAME_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(WALLET_NAME_SCREEN, passProps, parentComponent);
     }
     static goToGenerateBackup(passProps, parentComponent?) {
-        return this.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(GENERATE_BACKUP_SCREEN, passProps, parentComponent);
     }
     static goToShowQRCode(passProps, parentComponent?) {
-        return this.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SHOW_QR_CODE_SCREEN, passProps, parentComponent);
     }
     static goToDashboard(passProps, parentComponent?) {
-        return this.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(DASHBOARD_SCREEN, passProps, parentComponent);
     }
     static goToVerifyMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(VERIFY_MNEMONICS_SCREEN, passProps, parentComponent);
     }
     static goToShowMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SHOW_MNEMONICS_SCREEN, passProps, parentComponent);
     }
     static goToImportOptions(passProps, parentComponent?) {
-        return this.goToScreen(IMPORT_OPTION_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(IMPORT_OPTION_SCREEN, passProps, parentComponent);
     }
     static goToScanQRCode(passProps, parentComponent?) {
-        return this.goToScreen(SCAN_QR_CODE_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SCAN_QR_CODE_SCREEN, passProps, parentComponent);
     }
     static goToEnterMnemonics(passProps, parentComponent?) {
-        return this.goToScreen(ENTER_MNEMONICS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(ENTER_MNEMONICS_SCREEN, passProps, parentComponent);
     }
     static goToWalletLoading(passProps, parentComponent?) {
-        return this.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(WALLET_LOADING_SCREEN, passProps, parentComponent);
     }
     static goToConfirmTransaction(passProps, parentComponent?) {
-        return this.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(CONFIRM_TRANSACTION_SCREEN, passProps, parentComponent);
     }
     static goToSettings(passProps, parentComponent?) {
-        return this.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SETTINGS_SCREEN, passProps, parentComponent);
     }
     static showPasscode(passProps, parentComponent?) {
-        return this.goToScreen(PASSCODE_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(PASSCODE_SCREEN, passProps, parentComponent);
     }
     static goToHarvest(passProps, parentComponent?) {
-        return this.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(HARVEST_SCREEN, passProps, parentComponent);
     }
     static goToAccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(ACCOUNT_DETAILS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(ACCOUNT_DETAILS_SCREEN, passProps, parentComponent);
     }
     static goToCreateAccount(passProps, parentComponent?) {
-        return this.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(CREATE_ACCOUNT_SCREEN, passProps, parentComponent);
     }
     static scanQRCode(onRead, onClose) {
         const onCloseCallback = typeof onClose === 'function' ? onClose : () => {};
@@ -204,37 +204,37 @@ export class Router {
         });
     }
     static goToAddressBook(passProps, parentComponent?) {
-        return this.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(ADDRESS_BOOK_SCREEN, passProps, parentComponent);
     }
     static goToAddContact(passProps, parentComponent?) {
-        return this.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(ADD_CONTACT_SCREEN, passProps, parentComponent);
     }
     static goToContactProfile(passProps, parentComponent?) {
-        return this.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(CONTACT_PROFILE_SCREEN, passProps, parentComponent);
     }
     static goToSend(passProps, parentComponent?) {
-        return this.goToScreen(SEND_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SEND_SCREEN, passProps, parentComponent);
     }
     static goToShowLinkedKeys(passProps, parentComponent?) {
-        return this.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
+        return Router.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
     }
     static goToOptInWelcome(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_WELCOME, passProps, parentComponent);
+        return Router.goToScreen(OPTIN_WELCOME, passProps, parentComponent);
     }
     static goToOptInAccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_ACCOUNT_DETAIL, passProps, parentComponent);
+        return Router.goToScreen(OPTIN_ACCOUNT_DETAIL, passProps, parentComponent);
     }
     static goToOptInSelectSymbolAccount(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_SYMBOL_ACCOUNT, passProps, parentComponent);
+        return Router.goToScreen(OPTIN_SYMBOL_ACCOUNT, passProps, parentComponent);
     }
     static goToOptInFinish(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_FINISH, passProps, parentComponent);
+        return Router.goToScreen(OPTIN_FINISH, passProps, parentComponent);
     }
     static goToNIS1AccountDetails(passProps, parentComponent?) {
-        return this.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
+        return Router.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
     }
     static goToOptinSelectSymbolMultisigDestination(passProps, parentComponent?) {
-        return this.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
+        return Router.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {
