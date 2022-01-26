@@ -112,7 +112,7 @@
     "symbol-post-launch-optin-module": "1.0.1",
     "symbol-qr-library": "0.14.1-alpha-202103081047",
     "symbol-sdk": "1.0.3",
-    "symbol-wallets-lib": "0.1.0-alpha-202201201957",
+    "symbol-wallets-lib": "0.1.0",
     "timers-browserify": "^1.0.1",
     "tls-browserify": "^0.2.2",
     "tty-browserify": "0.0.0",

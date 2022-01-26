@@ -11180,10 +11180,10 @@ symbol-tree@^3.2.2:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-symbol-wallets-lib@0.1.0-alpha-202201201957:
-  version "0.1.0-alpha-202201201957"
-  resolved "https://registry.yarnpkg.com/symbol-wallets-lib/-/symbol-wallets-lib-0.1.0-alpha-202201201957.tgz#51bc5f87a7a376612a146f41dd85e4d9d93e5f57"
-  integrity sha512-j73TJrQ2WGGOdb2ud5K2JS+6Rakb/R06JmbGW7xnA4V0Bj0ZHzGRvAGAW5cW30Ogn/8DaeXDQR1n4wrJ9jia/A==
+symbol-wallets-lib@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/symbol-wallets-lib/-/symbol-wallets-lib-0.1.0.tgz#5bb451d33b63dd4fcc51f9457fa8338e0e2fb09d"
+  integrity sha512-it1lD9cogjH+JPFD3woCWl+G+JI9deHqoFM/lG82VOnKJsLtHPI/U6veho5Ns2BL93eSVRE5x3YBmvb2/GIsbQ==
   dependencies:
     "@pdf-lib/fontkit" "1.1.1"
     pdf-lib "1.17.1"
