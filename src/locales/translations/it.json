@@ -622,7 +622,7 @@
 		"cosignFormButtonContinue": "Continua con la firma",
 		"cosignFormButtonMarkSpam": "segna come spam",
 		"cosignFormTitleBlacklist": "Bloccare questo indirizzo?",
-		"cosignFormInputNote": "Nota",
+		"cosignFormInputName": "Nombre",
 		"cosignFormButtonBlacklist": "Lista nera",
 		"cosignFormButtonArchive": "Archivio",
 		"cosignFormTitleLastWarning": "Stai per firmare questa transazione. Si prega di leggere attentamente i dettagli di questa transazione prima di firmarla. In caso contrario, potrebbe comportare la perdita di tutti i tuoi fondi.",

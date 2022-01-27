@@ -627,7 +627,7 @@
 		"cosignFormButtonContinue": "署名へ進む",
 		"cosignFormButtonMarkSpam": "スパム認定",
 		"cosignFormTitleBlacklist": "このアドレスをブラックリストに追加しますか？",
-		"cosignFormInputNote": "備考",
+		"cosignFormInputName": "名前",
 		"cosignFormButtonBlacklist": "ブラックリスト",
 		"cosignFormButtonArchive": "アーカイブ",
 		"cosignFormTitleLastWarning": "あなたはこの取引に署名しようとしています。慎重に確認し、取引内容を理解できた場合にのみ署名してください。理解していない場合、あなたは資産のすべてを失う恐れがあります。",

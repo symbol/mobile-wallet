@@ -629,7 +629,7 @@
 		"cosignFormButtonContinue": "Приступить к подписанию транзакции",
 		"cosignFormButtonMarkSpam": "Отметить как спам",
 		"cosignFormTitleBlacklist": "Добавить этот адрес в черный список?",
-		"cosignFormInputNote": "Примечание",
+		"cosignFormInputName": "Имя",
 		"cosignFormButtonBlacklist": "Черный список",
 		"cosignFormButtonArchive": "Архив",
 		"cosignFormTitleLastWarning": "Вы собираетесь подписать эту транзакцию. Внимательно ознакомьтесь с данными этой транзакции, прежде чем её подписывать. В противном случае это может привести к потере всех ваших средств.",

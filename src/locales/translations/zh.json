@@ -617,7 +617,7 @@
 		"cosignFormButtonContinue": "继续签名",
 		"cosignFormButtonMarkSpam": "标记为垃圾邮件",
 		"cosignFormTitleBlacklist": "将此地址列入黑名单？",
-		"cosignFormInputNote": "笔记",
+		"cosignFormInputName": "名称",
 		"cosignFormButtonBlacklist": "黑名单",
 		"cosignFormButtonArchive": "档案",
 		"cosignFormTitleLastWarning": "您即将签署此交易。 请仔细阅读并在您理解后签字。 否则，可能会导致您的所有资金损失。",

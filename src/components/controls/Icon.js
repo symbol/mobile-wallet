@@ -340,6 +340,9 @@ export default class C extends Component<Props, State> {
             case `transaction_postLaunchOptIn`:
                 source = require('@src/assets/icons/transaction/optin-transaction.png');
                 break;
+            case `malicious_contact`:
+                source = require('@src/assets/icons/transaction/malicious_actor_1.png');
+                break;
 
             default:
                 source = require('@src/assets/icons/ic-about.png');

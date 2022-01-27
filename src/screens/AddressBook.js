@@ -32,6 +32,13 @@ class AddressBookPage extends Component<Props, State> {
         addressBookContacts: this.props.addressBook.getWhiteListedContacts(),
     };
 
+    componentDidMount = () => {
+        const { tab } = this.props;
+        if (tab === 'blacklist') {
+            this.onSelectBlackList();
+        }
+    };
+
     submit = () => {
         store
             .dispatchAction({

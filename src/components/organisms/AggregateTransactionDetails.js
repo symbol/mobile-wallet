@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackHandler, Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { BackHandler, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
     Button,
     Checkbox,
@@ -27,8 +27,13 @@ import { showPasscode } from '@src/utils/passcode';
 import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
+import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
-
+import Card from '../atoms/Card';
+import BottomModal from '@src/components/atoms/BottomModal/BottomModal';
+import modalStyles from './ModalSelector.styl';
+import { Router } from '@src/Router';
+import { AddressBook } from 'symbol-address-book/AddressBook';
 const FULL_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
@@ -77,6 +82,16 @@ const styles = StyleSheet.create({
         paddingTop: 17,
         flex: null,
     },
+    blackListedPage: {
+        backgroundColor: GlobalStyles.color.SECONDARY,
+        paddingTop: 1,
+        flex: null,
+    },
+    warningButtons: {
+        backgroundColor: GlobalStyles.color.SECONDARY,
+        paddingTop: 35,
+        flex: null,
+    },
     signFormContainer: {
         backgroundColor: GlobalStyles.color.ORANGE,
     },
@@ -97,10 +112,20 @@ const styles = StyleSheet.create({
         paddingTop: 17,
         flex: null,
     },
+    text: {
+        marginTop: 20,
+        marginLeft: 2,
+        color: '#4C0CBF',
+    },
+    icon: {
+        marginTop: 20,
+        marginLeft: 10,
+    },
 });
 
 type Props = {
     transaction: AggregateTransactionModel,
+    addressBook: AddressBook,
 };
 
 class AggregateTransactionDetails extends Component<Props, State> {
@@ -115,6 +140,9 @@ class AggregateTransactionDetails extends Component<Props, State> {
         needsSignature: false,
         blacklistAccountName: '',
         selectedTab: 'innerTransactions',
+        hasCosignWarning: false,
+        contactGotBlackListed: false,
+        showBlacklistPopup: false,
     };
 
     backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -171,9 +199,83 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
     needsSignature = () => {
         const { transaction, selectedAccount, isMultisig, cosignatoryOf } = this.props;
-        return !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+        const needsSig = !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+        if (needsSig) {
+            this.hasCosignatoryWaning();
+        }
+        return needsSig;
     };
 
+    //
+    hasCosignatoryWaning = () => {
+        const { transaction, address, cosignatoryOf, multisigGraphInfo } = this.props;
+        const { needsSignature } = this.state;
+        const msigAccModificationCurrentAddressAdded =
+            transaction.innerTransactions?.length === 1 &&
+            transaction.innerTransactions[0].type === TransactionType.MULTISIG_ACCOUNT_MODIFICATION &&
+            transaction.innerTransactions[0].addressAdditions.some(addr => [address, ...cosignatoryOf].some(msa => msa === addr.plain()));
+        const hasWarning =
+            (needsSignature && msigAccModificationCurrentAddressAdded) ||
+            (this.multisigAccountGraph && this.isAddressInMultisigTree(multisigGraphInfo, transaction.signerAddress));
+        this.setState({
+            hasCosignWarning: true,
+        });
+        return hasWarning;
+    };
+
+    //
+    isAddressInMultisigTree(multisigAccountGraph, address) {
+        for (const [l, levelAccounts] of multisigAccountGraph) {
+            for (const levelAccount of levelAccounts) {
+                if (
+                    levelAccount.accountAddress.plain() === address ||
+                    levelAccount.cosignatoryAddresses?.some(c => c.plain() === address)
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    blackListContact(contactName, contactAddress) {
+        const { addressBook } = this.props;
+        const contactExists = addressBook.getContactByAddress(contactAddress) !== undefined;
+        if (!contactExists) {
+            const contact = {
+                address: contactAddress,
+                name: contactName,
+                phone: this.state.phone,
+                isBlackListed: true,
+            };
+
+            store
+                .dispatchAction({
+                    type: 'addressBook/addContact',
+                    payload: contact,
+                })
+                .then(() =>
+                    this.setState({
+                        contactGotBlackListed: true,
+                        showBlacklistPopup: true,
+                        showLastWarning: false,
+                    })
+                );
+        } else {
+            Router.showMessage({
+                message: 'contact exists',
+                type: 'danger',
+            });
+        }
+    }
+    onClosePopup() {
+        console.log('onClosePopoup');
+        if (this.state.showBlacklistPopup) {
+            this.setState({
+                showBlacklistPopup: false,
+            });
+        }
+    }
     onClose() {
         const { onClose } = this.props;
         this.setState({
@@ -261,8 +363,8 @@ class AggregateTransactionDetails extends Component<Props, State> {
     }
 
     renderSign() {
-        const { showLastWarning, userUnderstand, showBlacklistForm, blacklistAccountName } = this.state;
-
+        const { showLastWarning, userUnderstand, showBlacklistForm, blacklistAccountName, hasCosignWarning } = this.state;
+        const { transaction } = this.props;
         if (!showLastWarning && !showBlacklistForm) {
             return (
                 <Section type="form" style={styles.acceptanceForm}>
@@ -282,14 +384,15 @@ class AggregateTransactionDetails extends Component<Props, State> {
                             }
                         />
                     </Section>
-                    {/* TODO: uncomment when address book is implemented */}
-                    {/* <Section type="form-item">
-                    <Button 
-                        text={translate('history.cosignFormButtonMarkSpam')}  
-                        theme="dark" 
-                        onPress={() => this.setState({showBlacklistForm: true})} 
-                    />
-                </Section> */}
+                    {hasCosignWarning && (
+                        <Section type="form-item">
+                            <Button
+                                text={translate('history.cosignFormButtonMarkSpam')}
+                                theme="dark"
+                                onPress={() => this.setState({ showBlacklistForm: true })}
+                            />
+                        </Section>
+                    )}
                 </Section>
             );
         } else if (showBlacklistForm) {
@@ -306,7 +409,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                     <Section type="form-item">
                         <Input
                             value={blacklistAccountName}
-                            placeholder={translate('history.cosignFormInputNote')}
+                            placeholder={translate('history.cosignFormInputName')}
                             theme="light"
                             onChangeText={value => this.setState({ blacklistAccountName: value })}
                         />
@@ -315,11 +418,19 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         <Button
                             text={translate('history.cosignFormButtonBlacklist')}
                             theme="dark"
-                            onPress={() => this.setState({ showLastWarning: false })}
+                            onPress={() => this.blackListContact(this.state.blacklistAccountName, transaction.signerAddress)}
                         />
                     </Section>
                 </Section>
             );
+        } else if (hasCosignWarning && contactGotBlackListed) {
+            <FadeView>
+                <Section type="form-item">
+                    <Text theme="light" align="center" type="regular">
+                        {'title'}
+                    </Text>
+                </Section>
+            </FadeView>;
         } else {
             return (
                 <FadeView style={[styles.signFormContainer, { flex: 1 }]}>
@@ -368,9 +479,21 @@ class AggregateTransactionDetails extends Component<Props, State> {
             );
         }
     }
-
+    goToAddressBook() {
+        this.setState({ showBlacklistPopup: false });
+        Router.goToAddressBook({ tab: 'blacklist' }, this.props.componentId);
+    }
     render() {
-        const { isActive, showLastWarning, isLoading, selectedTab, fullTransaction, needsSignature } = this.state;
+        const {
+            isActive,
+            showLastWarning,
+            isLoading,
+            selectedTab,
+            fullTransaction,
+            needsSignature,
+            contactGotBlackListed,
+            showBlacklistPopup,
+        } = this.state;
         let Content = null;
 
         switch (selectedTab) {
@@ -382,49 +505,76 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 Content = this.renderTabInfo();
                 break;
         }
-
-        return (
-            <SwipeablePanel
-                isActive={isActive}
-                fullWidth
-                openLarge
-                onlyLarge
-                onClose={() => this.onClose()}
-                onPressCloseButton={() => this.onClose()}
-                style={{ backgroundColor: '#f3f4f8' }}
-            >
-                <TitleBar theme="light" title={translate('history.transactionDetails')} onClose={() => this.onClose()} />
-                {!showLastWarning && (
-                    <Row style={styles.tabs}>
-                        <TouchableOpacity
-                            style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
-                            onPress={() =>
-                                this.setState({
-                                    selectedTab: 'innerTransactions',
-                                })
-                            }
-                        >
-                            <Text type="bold" theme="light">
-                                {translate('history.innerTransactionTab')}
-                            </Text>
+        if (!contactGotBlackListed) {
+            return (
+                <SwipeablePanel
+                    isActive={isActive}
+                    fullWidth
+                    openLarge
+                    onlyLarge
+                    onClose={() => this.onClose()}
+                    onPressCloseButton={() => this.onClose()}
+                    style={{ backgroundColor: '#f3f4f8' }}
+                >
+                    <TitleBar theme="light" title={translate('history.transactionDetails')} onClose={() => this.onClose()} />
+                    {!showLastWarning && (
+                        <Row style={styles.tabs}>
+                            <TouchableOpacity
+                                style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
+                                onPress={() =>
+                                    this.setState({
+                                        selectedTab: 'innerTransactions',
+                                    })
+                                }
+                            >
+                                <Text type="bold" theme="light">
+                                    {translate('history.innerTransactionTab')}
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
+                                onPress={() => this.setState({ selectedTab: 'info' })}
+                            >
+                                <Text type="bold" theme="light">
+                                    {translate('history.infoTransactionTab')}
+                                </Text>
+                            </TouchableOpacity>
+                        </Row>
+                    )}
+                    {(isLoading || !fullTransaction) && (
+                        <LoadingAnimationFlexible isFade style={{ position: 'relative', height: '80%' }} text={' '} theme="light" />
+                    )}
+                    {!showLastWarning && !isLoading && fullTransaction && Content}
+                    {needsSignature && !isLoading && this.renderSign()}
+                </SwipeablePanel>
+            );
+        } else {
+            return (
+                <BottomModal style={{ height: '100%' }} isModalOpen={showBlacklistPopup} onClose={() => this.onClosePopup()}>
+                    <Card style={(modalStyles.bottomCard, modalStyles.closeButton)}>
+                        <TouchableOpacity style={GlobalStyles.closeButton} onPress={() => this.onClosePopup()}>
+                            <Image style={modalStyles.closeIcon} source={require('@src/assets/icons/ic-close-black.png')} />
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
-                            onPress={() => this.setState({ selectedTab: 'info' })}
-                        >
-                            <Text type="bold" theme="light">
-                                {translate('history.infoTransactionTab')}
-                            </Text>
+                    </Card>
+                    <Text style={modalStyles.titleText}>{'Added to blacklist'}</Text>
+                    <Text style={modalStyles.subtitleText}>
+                        {
+                            'Your blacklist lets you save cryptocurrency addresses that are known scammers. These addresses will be automatically blocked'
+                        }
+                    </Text>
+                    <Section type="form-item">
+                        <TouchableOpacity style={{ position: 'relative', height: '80%' }} onPress={() => this.goToAddressBook()}>
+                            <Row style={(styles.root, modalStyles.link)} align="center">
+                                <Icon name="malicious_contact" size="medium" style={styles.icon} />
+                                <Text type="bold" theme="light" style={styles.text}>
+                                    {'See Blacklist'}
+                                </Text>
+                            </Row>
                         </TouchableOpacity>
-                    </Row>
-                )}
-                {(isLoading || !fullTransaction) && (
-                    <LoadingAnimationFlexible isFade style={{ position: 'relative', height: '80%' }} text={' '} theme="light" />
-                )}
-                {!showLastWarning && !isLoading && fullTransaction && Content}
-                {needsSignature && !isLoading && this.renderSign()}
-            </SwipeablePanel>
-        );
+                    </Section>
+                </BottomModal>
+            );
+        }
     }
 }
 
@@ -436,4 +586,6 @@ export default connect(state => ({
     cosignatoryOf: state.account.cosignatoryOf,
     network: state.network.selectedNetwork.type,
     address: state.account.selectedAccountAddress,
+    multisigGraphInfo: state.account.multisigGraphInfo,
+    addressBook: state.addressBook.addressBook,
 }))(AggregateTransactionDetails);
