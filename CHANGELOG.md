@@ -6,6 +6,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## [v1.4.1][v1.4.1] - 27-Jan-2022
 ### Fixed
 - Corrupted Paper Wallet Backup. [#284](https://github.com/symbol/mobile-wallet/issues/284)
+- Backup saving error. [#145](https://github.com/symbol/mobile-wallet/issues/145)
 ### Changed
 - Upgraded the dependency `symbol-sdk` version to `v1.0.3`.
 
