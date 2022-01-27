@@ -741,6 +741,8 @@
 		"announce_success": "トランザクションは正常に告知されました。",
 		"nothingToShow": "Nothing to show",
 		"currentAccount": "あなた",
-		"currentAddress": "あなたのアドレス"
+		"currentAddress": "あなたのアドレス",
+		"alertNewVersionAppStoreTitle": "新しいバージョンのSymbolウォレットがアプリストアから利用可能です。",
+		"alertNewVersionAppStoreBody": "最新のバージョンにアップデートする事を強く推奨します。"
 	}
 }

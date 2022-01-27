@@ -724,7 +724,9 @@
 		"announce_success": "Transaction announced successfully",
 		"nothingToShow": "Nothing to show",
 		"currentAccount": "Tu",
-		"currentAddress": "Il tuo indirizzo"
+		"currentAddress": "Il tuo indirizzo",
+		"alertNewVersionAppStoreTitle": "La nuova versione di Symbol Wallet è disponibile nell'App Store",
+		"alertNewVersionAppStoreBody": "Consigliamo vivamente di eseguire l'aggiornamento all'ultima versione!"
 	},
 	"addressBook": {
 		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto"

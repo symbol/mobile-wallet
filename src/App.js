@@ -3,12 +3,13 @@
  * @flow
  */
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { Alert, Text, TextInput } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
 import { hasUserSetPinCode } from '@haskkor/react-native-pincode';
 import * as Config from './config/environment';
-import { setI18nConfig } from './locales/i18n';
+import { VersionService } from '@src/services/VersionService';
+import translate, { setI18nConfig } from './locales/i18n';
 import { Router } from './Router';
 import { AsyncCache } from './utils/storage/AsyncCache';
 import store from '@src/store';
@@ -82,12 +83,22 @@ const launchWallet = async () => {
         if (isPin)
             Router.showPasscode({
                 resetPasscode: false,
-                onSuccess: () => Router.goToDashboard(),
+                onSuccess: () => launchScreenAndCheckUpdate(Router.goToDashboard),
             });
-        else Router.goToDashboard();
+        else launchScreenAndCheckUpdate(Router.goToDashboard);
     } else {
-        Router.goToTermsAndPrivacy({});
+        launchScreenAndCheckUpdate(Router.goToTermsAndPrivacy);
     }
+};
+
+const launchScreenAndCheckUpdate = routerCallback => {
+    routerCallback();
+
+    VersionService.checkAppNeedsUpdate().then(
+        appNeedsUpdate =>
+            appNeedsUpdate === true &&
+            Alert.alert(translate('unsortedKeys.alertNewVersionAppStoreTitle'), translate('unsortedKeys.alertNewVersionAppStoreBody'))
+    );
 };
 
 const scheduleBackgroundJob = () => {
