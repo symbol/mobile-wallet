@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackHandler, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { BackHandler, Dimensions, FlatList, Image, Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
     Button,
     Checkbox,
@@ -30,7 +30,6 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import { TransactionType } from 'symbol-sdk';
 import _ from 'lodash';
 import Card from '../atoms/Card';
-import BottomModal from '@src/components/atoms/BottomModal/BottomModal';
 import modalStyles from './ModalSelector.styl';
 import { Router } from '@src/Router';
 import { AddressBook } from 'symbol-address-book/AddressBook';
@@ -121,6 +120,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 10,
     },
+    closeIcon: {
+        top: 20,
+    },
 });
 
 type Props = {
@@ -193,6 +195,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                         type: 'transaction/changeFilters',
                         payload: {},
                     });
+                    this.props.onSign(transaction.signerAddress, transaction.hash);
                 });
         });
     }
@@ -209,18 +212,18 @@ class AggregateTransactionDetails extends Component<Props, State> {
     //
     hasCosignatoryWaning = () => {
         const { transaction, address, cosignatoryOf, multisigGraphInfo } = this.props;
-        const { needsSignature } = this.state;
         const msigAccModificationCurrentAddressAdded =
             transaction.innerTransactions?.length === 1 &&
-            transaction.innerTransactions[0].type === TransactionType.MULTISIG_ACCOUNT_MODIFICATION &&
-            transaction.innerTransactions[0].addressAdditions.some(addr => [address, ...cosignatoryOf].some(msa => msa === addr.plain()));
-        const hasWarning =
-            (needsSignature && msigAccModificationCurrentAddressAdded) ||
-            (this.multisigAccountGraph && this.isAddressInMultisigTree(multisigGraphInfo, transaction.signerAddress));
+            transaction.innerTransactions[0].transactionType === TransactionType.MULTISIG_ACCOUNT_MODIFICATION &&
+            transaction.innerTransactions[0].addressAdditions.some(addr => [address, ...cosignatoryOf].some(msa => msa === addr));
+        const hideWarning =
+            msigAccModificationCurrentAddressAdded ||
+            (multisigGraphInfo && this.isAddressInMultisigTree(multisigGraphInfo, transaction.signerAddress));
+
         this.setState({
-            hasCosignWarning: true,
+            hasCosignWarning: !hideWarning,
         });
-        return hasWarning;
+        return;
     };
 
     //
@@ -269,7 +272,6 @@ class AggregateTransactionDetails extends Component<Props, State> {
         }
     }
     onClosePopup() {
-        console.log('onClosePopoup');
         if (this.state.showBlacklistPopup) {
             this.setState({
                 showBlacklistPopup: false,
@@ -550,10 +552,10 @@ class AggregateTransactionDetails extends Component<Props, State> {
             );
         } else {
             return (
-                <BottomModal style={{ height: '100%' }} isModalOpen={showBlacklistPopup} onClose={() => this.onClosePopup()}>
+                <Modal style={{ height: '100%' }} isModalOpen={showBlacklistPopup} onClose={() => this.onClosePopup()}>
                     <Card style={(modalStyles.bottomCard, modalStyles.closeButton)}>
                         <TouchableOpacity style={GlobalStyles.closeButton} onPress={() => this.onClosePopup()}>
-                            <Image style={modalStyles.closeIcon} source={require('@src/assets/icons/ic-close-black.png')} />
+                            <Image style={GlobalStyles.closeButton} source={require('@src/assets/icons/ic-close-black.png')} />
                         </TouchableOpacity>
                     </Card>
                     <Text style={modalStyles.titleText}>{'Added to blacklist'}</Text>
@@ -572,7 +574,7 @@ class AggregateTransactionDetails extends Component<Props, State> {
                             </Row>
                         </TouchableOpacity>
                     </Section>
-                </BottomModal>
+                </Modal>
             );
         }
     }

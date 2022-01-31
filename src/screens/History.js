@@ -17,6 +17,8 @@ import MultisigFilter from '@src/components/molecules/MultisigFilter';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
 import { TransactionType } from 'symbol-sdk';
+import NewAddressDetected from './NewAddressDetected';
+import { AddressBook } from 'symbol-address-book';
 
 const styles = StyleSheet.create({
     list: {
@@ -35,13 +37,17 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = {};
+type Props = {
+    addressBook: AddressBook,
+};
 
 type State = {};
 
 class History extends Component<Props, State> {
     state = {
         showingDetails: -1,
+        transactionHash: '',
+        transactionSigner: '',
     };
 
     showDetails = index => {
@@ -71,6 +77,11 @@ class History extends Component<Props, State> {
         });
         this.setState({ filterValue });
     };
+
+    checkIfContactExists() {
+        const { transactionSigner } = this.state;
+        return this.props.addressBook.getContactByAddress(transactionSigner) !== undefined;
+    }
 
     onSelectMultisig = multisig => {
         store.dispatchAction({
@@ -106,6 +117,13 @@ class History extends Component<Props, State> {
         );
     };
 
+    handleSign = (transactionSigner, transactionHash) => {
+        this.setState({
+            transactionHash: transactionHash,
+            transactionSigner: transactionSigner,
+        });
+    };
+
     render() {
         const {
             cosignatoryOf,
@@ -117,7 +135,7 @@ class History extends Component<Props, State> {
             directionFilter,
             isNextLoading,
         } = this.props;
-        const { showingDetails } = this.state;
+        const { showingDetails, transactionHash, transactionSigner } = this.state;
         const isLoading = isNextLoading || loading;
         const allFilters = [
             { value: 'ALL', label: translate('all') },
@@ -139,48 +157,60 @@ class History extends Component<Props, State> {
                     />
                 }
             >
-                <Section type="list">
-                    <Section type="form-item">
-                        <Row fullWidth>
-                            <Dropdown
-                                theme="light"
-                                style={styles.filter}
-                                list={allFilters}
-                                title={translate('history.filter')}
-                                value={directionFilter}
-                                onChange={this.onSelectFilter}
-                            />
-                            {cosignatoryOf.length > 0 && (
-                                <MultisigFilter
+                {
+                    <Section type="list">
+                        <Section type="form-item">
+                            <Row fullWidth>
+                                <Dropdown
                                     theme="light"
-                                    style={styles.filterRight}
-                                    selected={addressFilter}
-                                    onSelect={v => this.onSelectMultisig(v)}
+                                    style={styles.filter}
+                                    list={allFilters}
+                                    title={translate('history.filter')}
+                                    value={directionFilter}
+                                    onChange={this.onSelectFilter}
                                 />
-                            )}
-                        </Row>
+                                {cosignatoryOf.length > 0 && (
+                                    <MultisigFilter
+                                        theme="light"
+                                        style={styles.filterRight}
+                                        selected={addressFilter}
+                                        onSelect={v => this.onSelectMultisig(v)}
+                                    />
+                                )}
+                            </Row>
+                        </Section>
                     </Section>
-                </Section>
-                <ListContainer style={styles.list} isScrollable={false} isLoading={isLoading}>
-                    <FlatList
-                        data={transactions}
-                        renderItem={this.renderTransactionItem(showingDetails)}
-                        onEndReachedThreshold={0.9}
-                        onEndReached={this.loadNextPage}
-                        keyExtractor={(item, index) => '' + index + 'history'}
-                        ListEmptyComponent={EmptyListMessage(!isLoading)}
-                        contentContainerStyle={{ flexGrow: 1 }}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={false}
-                                onRefresh={this.onRefresh}
-                            />
-                        }
+                }
+                {
+                    <ListContainer style={styles.list} isScrollable={false} isLoading={isLoading}>
+                        <FlatList
+                            data={transactions}
+                            renderItem={this.renderTransactionItem(showingDetails)}
+                            onEndReachedThreshold={0.9}
+                            onEndReached={this.loadNextPage}
+                            keyExtractor={(item, index) => '' + index + 'history'}
+                            ListEmptyComponent={EmptyListMessage(!isLoading)}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                            refreshControl={
+                                <RefreshControl
+                                    //refresh control used for the Pull to Refresh
+                                    refreshing={false}
+                                    onRefresh={this.onRefresh}
+                                />
+                            }
+                        />
+                    </ListContainer>
+                }
+                {currentTransaction && this.isAggregate(currentTransaction) && !transactionSigner.length && !transactionHash.length && (
+                    <AggregateTransactionDetails
+                        transaction={currentTransaction}
+                        onClose={() => this.showDetails(-1)}
+                        {...this.props}
+                        onSign={this.handleSign}
                     />
-                </ListContainer>
-                {currentTransaction && this.isAggregate(currentTransaction) && (
-                    <AggregateTransactionDetails transaction={currentTransaction} onClose={() => this.showDetails(-1)} {...this.props} />
+                )}
+                {!!transactionSigner.length && !!transactionHash.length && !this.checkIfContactExists() && (
+                    <NewAddressDetected transactionHash={transactionHash} signerAddress={transactionSigner}></NewAddressDetected>
                 )}
             </GradientBackground>
         );
@@ -196,4 +226,5 @@ export default connect(state => ({
     directionFilter: state.transaction.directionFilter,
     loading: state.transaction.loading,
     isNextLoading: state.transaction.isNextLoading,
+    addressBook: state.addressBook.addressBook,
 }))(History);
