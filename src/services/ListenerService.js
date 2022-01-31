@@ -36,7 +36,7 @@ export default class ListenerService {
                 }
             })
             .then(() => {
-                console.log('Listening ' + address.pretty());
+                console.log('Listening ' + address.plain());
 
                 this.addConfirmed(rawAddress);
                 this.addUnconfirmed(rawAddress);

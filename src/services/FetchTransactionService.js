@@ -166,7 +166,7 @@ export default class FetchTransactionService {
         let transactionModel: TransactionModel = {
             type: 'unknown',
             status: transaction.isConfirmed() ? 'confirmed' : 'unconfirmed',
-            signerAddress: transaction.signer.address.pretty(),
+            signerAddress: transaction.signer.address.plain(),
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             hash: transaction.transactionInfo.hash,
             fee: transaction.maxFee.toString(),
@@ -216,7 +216,7 @@ export default class FetchTransactionService {
         return {
             ...transactionModel,
             type: 'transfer',
-            recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.pretty() : transaction.recipientAddress.id.toHex(),
+            recipientAddress: transaction.recipientAddress instanceof Address ? transaction.recipientAddress.plain() : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type === 0x01,
             mosaics: mosaicModels,
