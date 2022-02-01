@@ -45,7 +45,7 @@ export default class AccountService {
      * Generates random mnemonic
      */
     static getAddressByAccountModelAndNetwork(accountModel: AccountModel, network: AppNetworkType): string {
-        return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.pretty();
+        return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.plain();
     }
     /**
      * Generates random mnemonic
@@ -215,7 +215,7 @@ export default class AccountService {
         try {
             const multisigInfo = await new MultisigHttp(network.node).getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise();
             return {
-                cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.pretty()),
+                cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.plain()),
                 isMultisig: multisigInfo.cosignatoryAddresses.length > 0,
             };
         } catch (e) {

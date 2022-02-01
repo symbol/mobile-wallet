@@ -58,7 +58,7 @@ class InputAccount extends Component<Props, State> {
             const contactQR = ContactQR.fromJSON(res.data);
             const { network } = this.props;
             const networkType = NetworkService.getNetworkTypeFromModel(network);
-            this.props.onChangeText(PublicAccount.createFromPublicKey(contactQR.accountPublicKey, networkType).address.pretty());
+            this.props.onChangeText(PublicAccount.createFromPublicKey(contactQR.accountPublicKey, networkType).address.plain());
             return;
         } catch (e) {
             console.log(e);
