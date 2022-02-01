@@ -8,7 +8,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 - Corrupted Paper Wallet Backup. [#284](https://github.com/symbol/mobile-wallet/issues/284)
 - Backup saving error. [#145](https://github.com/symbol/mobile-wallet/issues/145)
 ### Changed
-- Removed dashes from addresses. [#296] (https://github.com/symbol/mobile-wallet/issues/296)
+- Removed dashes from addresses. [#296](https://github.com/symbol/mobile-wallet/issues/296)
 - Upgraded the dependency `symbol-sdk` version to `v1.0.3`.
 
 ## [v1.4.0][v1.4.0] - 12-Nov-2021
