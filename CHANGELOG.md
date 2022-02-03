@@ -7,6 +7,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ### Fixed
 - Corrupted Paper Wallet Backup. [#284](https://github.com/symbol/mobile-wallet/issues/284)
 - Backup saving error. [#145](https://github.com/symbol/mobile-wallet/issues/145)
+- `okhttp` dependency is upgraded to fix Non-SDK errors reported by Google Play Console
+
 ### Changed
 - Removed dashes from addresses. [#296](https://github.com/symbol/mobile-wallet/issues/296)
 - Upgraded the dependency `symbol-sdk` version to `v1.0.3`.
