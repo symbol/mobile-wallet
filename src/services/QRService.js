@@ -74,7 +74,7 @@ export default class {
 
         const formattedMosaic = await this.formatMosaic(transaction.mosaics[0], network);
         const formatedTransaction = {
-            recipientAddress: transaction.recipientAddress.pretty(),
+            recipientAddress: transaction.recipientAddress.plain(),
             message: transaction.message.payload,
             mosaicName: formattedMosaic.mosaicName,
             mosaicId: formattedMosaic.mosaicId,
@@ -101,7 +101,7 @@ export default class {
         const contactQr = QRCodeGenerator.fromJSON(JSON.stringify(data));
         const parsed = {
             ...contactQr,
-            address: Address.createFromPublicKey(contactQr.accountPublicKey, contactQr.networkType).pretty(),
+            address: Address.createFromPublicKey(contactQr.accountPublicKey, contactQr.networkType).plain(),
         };
 
         return parsed;

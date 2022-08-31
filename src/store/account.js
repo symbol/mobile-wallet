@@ -107,11 +107,11 @@ export default {
                 const accountSigners = AccountService.getSigners(Address.createFromRawAddress(address), multisigAccountGraph);
                 let allSigners = [];
                 accountSigners.forEach(signer => {
-                    allSigners.push(signer.address.pretty());
+                    allSigners.push(signer.address.plain());
                     signer.parentSigners.forEach(parent => {
-                        allSigners.push(parent.address.pretty());
+                        allSigners.push(parent.address.plain());
                         parent.parentSigners.forEach(topLevel => {
-                            allSigners.push(topLevel.address.pretty());
+                            allSigners.push(topLevel.address.plain());
                         });
                     });
                 });
