@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { Address } from 'symbol-sdk';
 import translate from '@src/locales/i18n';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
@@ -223,15 +222,7 @@ class GraphicComponent extends Component {
     }
 
     stackAddress(address) {
-        const prettyAddress = Address.createFromRawAddress(address).pretty();
-        const splittedAddress = prettyAddress.split('-');
-        const stackedAddress = [
-            splittedAddress[0] + '-' + splittedAddress[1] + '-',
-            splittedAddress[2] + '-' + splittedAddress[3] + '-',
-            splittedAddress[4] + '-' + splittedAddress[5] + '-' + splittedAddress[6],
-        ];
-
-        return stackedAddress;
+        return address.match(/.{1,15}/g);
     }
 
     getCircleIconPositionX(index) {
