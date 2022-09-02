@@ -73,6 +73,7 @@ export default function TransactionGraphic(props: Props) {
         'deadline',
         'messageEncrypted',
         'hash',
+        'status',
     ]);
 
     const toggle = () => {
