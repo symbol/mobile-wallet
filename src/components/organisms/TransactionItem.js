@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-import { Col, Icon, LinkExplorer, Row, TableView, Text, Trunc } from '@src/components';
+import { AddressDisplay, Col, Icon, LinkExplorer, Row, TableView, Text } from '@src/components';
 import translate from '@src/locales/i18n';
 import {
     getAggregateTransactionInfoPreview,
@@ -135,9 +135,10 @@ function TransactionItem(props: Props) {
                         </Text>
                     </Row>
                     <Row justify="space-between" align="center">
-                        <Text type="bold" theme="light" style={styles.address}>
-                            <Trunc type="address">{address}</Trunc>
-                        </Text>
+                        <AddressDisplay style={styles.address} theme="light" trunc>
+                            {address}
+                        </AddressDisplay>
+
                         <Row style={styles.value} align="center">
                             {infoPreview.map((previewValue, index) => (
                                 <View style={styles.valueContainer} key={'tx-i-v' + index}>

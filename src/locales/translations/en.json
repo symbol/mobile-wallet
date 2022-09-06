@@ -492,6 +492,7 @@
 		"startEpoch": "Start Epoch",
 		"endEpoch": "End Epoch",
 		"receivedCosignatures": "Co-signatures Received",
+		"transactionsAllowed": "Incoming transactions from this contact",
 
 		"v_unlimited": "UNLIMITED",
 		"v_na": "N/A",
@@ -612,6 +613,7 @@
 		"all": "All",
 		"sent": "Sent",
 		"received": "Received",
+		"blocked": "Blocked",
 		"transaction": {
 			"message": "Message",
 			"encrypted": "Encrypted",
@@ -719,9 +721,19 @@
 		"title": "Address book",
 		"addContact": "Add contact",
 		"updateContact": "Update contact",
+		"removeContact": "Remove Contact",
+		"editContact": "Edit Contact",
 		"nameWarning": "Name is required",
+		"addressRequiredWarning": "Address is required",
 		"addressWarning": "Invalid address",
-		"addressTakenWarning": "Address belongs to another contact"
+		"addressTakenWarning": "Address belongs to another contact",
+		"addressCurrentWarning": "This is your current account address",
+		"listType": "List",
+		"allowed": "Allowed",
+		"blocked": "Blocked",
+		"addressBlocked": "Blocked",
+		"whitelist": "White List",
+		"blacklist": "Black List"
 	},
 	"fees": {
 		"slow": "Slow",

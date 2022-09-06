@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import { Button, GradientBackground, Section, TitleBar } from '@src/components';
+import { FlatList, StyleSheet } from 'react-native';
+import { Button, GradientBackground, ListContainer, ListItem, Section, Tabs, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import { Router } from '@src/Router';
 import Contact from '@src/components/organisms/Contact';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
 
-type Props = {
-    componentId: string,
-};
-
-type State = {};
-
-class AddressBookPage extends Component<Props, State> {
-    state = {};
+const styles = StyleSheet.create({
+    tabs: {
+        marginBottom: 26,
+    },
+});
+class AddressBookPage extends Component {
+    state = {
+        listType: 'whitelist',
+    };
 
     submit = () => {
         store
@@ -25,34 +27,39 @@ class AddressBookPage extends Component<Props, State> {
     };
 
     render() {
-        const { addressBook } = this.props;
-        const {} = this.state;
+        const { addressBook, componentId } = this.props;
+        const { listType } = this.state;
+        const tabs = [
+            {
+                value: 'whitelist',
+                label: translate('addressBook.whitelist'),
+            },
+            {
+                value: 'blacklist',
+                label: translate('addressBook.blacklist'),
+            },
+        ];
+        const contactList = addressBook
+            .getAllContacts()
+            .filter(contact => (listType === 'whitelist' ? !contact.isBlackListed : contact.isBlackListed));
 
         return (
             <GradientBackground
                 name="mesh"
                 theme="light"
-                titleBar={
-                    <TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)} />
-                }
+                titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(componentId)} />}
             >
-                <Section type="list" isScrollable>
-                    {addressBook.getAllContacts().map((contact, index) => {
-                        return (
-                            <Contact
-                                {...this.props}
-                                id={contact.id}
-                                name={contact.name}
-                                address={contact.address}
-                                phone={contact.phone}
-                                email={contact.email}
-                                label={contact.label}
-                                notes={contact.notes}
-                                key={'addr' + index}
-                            />
-                        );
-                    })}
-                </Section>
+                <Tabs style={styles.tabs} value={listType} list={tabs} onChange={listType => this.setState({ listType })} />
+                <ListContainer isScrollable={false}>
+                    <FlatList
+                        data={contactList}
+                        renderItem={({ item, index }) => (
+                            <ListItem>
+                                <Contact data={item} componentId={componentId} id={item.id} key={listType + index} />
+                            </ListItem>
+                        )}
+                    />
+                </ListContainer>
                 <Section type="form-bottom">
                     <Section type="list">
                         <Section type="form-item">

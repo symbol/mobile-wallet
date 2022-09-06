@@ -1,35 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Col, Icon, Row, Text, Trunc } from '@src/components';
-import Card from '@src/components/atoms/Card';
 import { Router } from '@src/Router';
 import store from '@src/store';
 
 const styles = StyleSheet.create({
     root: {
         width: '100%',
-        height: 60,
         borderRadius: 6,
         marginTop: 4,
         marginBottom: 4,
-        padding: 17,
-        paddingTop: 8,
         backgroundColor: '#fffe',
     },
 });
 
-type Props = {
-    address: string,
-    name: string,
-    phone: string,
-    email: string,
-    label: string,
-    notes: string,
-    id: string,
-    componentId: string,
-};
-
-export default class Contact extends Component<Props> {
+export default class Contact extends Component {
     onPress(contact) {
         store
             .dispatchAction({
@@ -40,21 +25,24 @@ export default class Contact extends Component<Props> {
     }
 
     render() {
+        const { data } = this.props;
+        const iconName = this.props.data.isBlackListed ? 'contact_blocked_light' : 'contact_light';
+
         return (
-            <TouchableOpacity onPress={() => this.onPress(this.props)}>
-                <Card style={styles.root}>
-                    <Row align="center">
-                        <Icon name="contact_light" style={{ marginRight: 16 }} />
-                        <Col grow>
+            <TouchableOpacity onPress={() => this.onPress(data)}>
+                <Row align="center">
+                    <Icon name={iconName} style={{ marginRight: 16 }} />
+                    <Col grow>
+                        {!!data.name && (
                             <Text theme="light" type="bold" style={styles.title}>
-                                {this.props.name}
+                                {data.name}
                             </Text>
-                            <Text theme="light" type="regular" align={'left'} style={styles.content}>
-                                <Trunc type="mosaicId">{this.props.address}</Trunc>
-                            </Text>
-                        </Col>
-                    </Row>
-                </Card>
+                        )}
+                        <Text theme="light" type="regular" align={'left'} style={styles.content}>
+                            <Trunc type="namespaceName">{data.address}</Trunc>
+                        </Text>
+                    </Col>
+                </Row>
             </TouchableOpacity>
         );
     }

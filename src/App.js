@@ -49,7 +49,7 @@ const initStore = async () => {
         await store.dispatchAction({ type: 'network/initState' });
     } catch {}
     // store.dispatchAction({ type: 'market/loadMarketData' });
-    store.dispatchAction({ type: 'addressBook/loadAddressBook' });
+    await store.dispatchAction({ type: 'addressBook/loadAddressBook' });
 };
 
 export const startApp = async () => {

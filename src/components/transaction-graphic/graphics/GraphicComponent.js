@@ -44,6 +44,10 @@ class GraphicComponent extends Component {
                 fontWeight: 'bold',
                 fill: GlobalStyles.color.SECONDARY,
             },
+            textDanger: {
+                fontWeight: 'bold',
+                fill: GlobalStyles.color.RED,
+            },
             message: {
                 fontSize: 16,
                 fontWeight: 400,

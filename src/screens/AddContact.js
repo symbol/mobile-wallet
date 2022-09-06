@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, GradientBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
+import { Button, Dropdown, GradientBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
 
 import { Router } from '@src/Router';
-import { IContact } from 'symbol-address-book/IContact';
 import { isAddressValid } from '@src/utils/validators';
 import translate from '@src/locales/i18n';
 
@@ -16,14 +15,7 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = {
-    componentId: string,
-    contact: IContact,
-};
-
-type State = {};
-
-class AddContact extends Component<Props, State> {
+class AddContact extends Component {
     state = {
         address: '',
         name: '',
@@ -31,9 +23,11 @@ class AddContact extends Component<Props, State> {
         email: '',
         label: '',
         notes: '',
+        isBlackListed: false,
         update: false,
         isAddressValid: false,
         isAddressTaken: false,
+        isAddressCurrent: false,
     };
 
     submit = () => {
@@ -44,6 +38,7 @@ class AddContact extends Component<Props, State> {
             email: this.state.email,
             label: this.state.label,
             notes: this.state.notes,
+            isBlackListed: this.state.isBlackListed,
         };
 
         store
@@ -62,6 +57,7 @@ class AddContact extends Component<Props, State> {
             email: this.state.email,
             label: this.state.label,
             notes: this.state.notes,
+            isBlackListed: this.state.isBlackListed,
             id: id,
         };
         store.dispatchAction({
@@ -90,6 +86,7 @@ class AddContact extends Component<Props, State> {
                 email: selectedContact.email,
                 label: selectedContact.label,
                 notes: selectedContact.notes,
+                isBlackListed: selectedContact.isBlackListed,
                 id: selectedContact.id,
                 update: true,
                 isAddressValid: true,
@@ -98,7 +95,7 @@ class AddContact extends Component<Props, State> {
     }
 
     onAddressChange = address => {
-        const { network, addressBook } = this.props;
+        const { network, addressBook, currentAddress } = this.props;
         const isValid = isAddressValid(address, network);
         if (isValid) {
             const contact = addressBook.getContactByAddress(address);
@@ -106,14 +103,23 @@ class AddContact extends Component<Props, State> {
                 address: address,
                 isAddressValid: isValid,
                 isAddressTaken: !!contact,
+                isAddressCurrent: address === currentAddress,
             });
         } else {
             this.setState({
                 address: address,
                 isAddressValid: false,
                 isAddressTaken: false,
+                isAddressCurrent: false,
             });
         }
+    };
+
+    onListChange = listType => {
+        this.setState({
+            isBlackListed: listType === 'blacklist',
+            name: listType === 'blacklist' ? '' : this.state.name,
+        });
     };
 
     onChangeField = fieldName => newValue => {
@@ -123,33 +129,69 @@ class AddContact extends Component<Props, State> {
     };
 
     render() {
-        let { address, name, phone, email, notes, id, isAddressValid, isAddressTaken } = this.state;
+        const { address, name, notes, isBlackListed, id, isAddressValid, isAddressTaken, isAddressCurrent } = this.state;
+
+        const listType = isBlackListed ? 'blacklist' : 'whitelist';
+        const listTypeOptions = [
+            {
+                value: 'whitelist',
+                label: translate('addressBook.whitelist'),
+            },
+            {
+                value: 'blacklist',
+                label: translate('addressBook.blacklist'),
+            },
+        ];
+        const isButtonDisabled = !isAddressValid || (!isBlackListed && name.length === 0) || isAddressTaken || isAddressCurrent;
+        let addressWarningText = '';
+        let titleText = translate('addressBook.addContact');
+        let buttonText = translate('CreateNewAccount.submitButton');
+        let buttonAction = () => this.submit();
+
+        if (this.state.update) {
+            titleText = translate('addressBook.updateContact');
+            buttonText = translate('addressBook.updateContact');
+            buttonAction = () => this.update(id);
+        }
+
+        if (!address.length) {
+            addressWarningText = translate('addressBook.addressRequiredWarning');
+        } else if (!isAddressValid) {
+            addressWarningText = translate('addressBook.addressWarning');
+        } else if (isAddressTaken) {
+            addressWarningText = translate('addressBook.addressTakenWarning');
+        } else if (isAddressCurrent) {
+            addressWarningText = translate('addressBook.addressCurrentWarning');
+        }
 
         return (
             <GradientBackground name="mesh_small" theme="light">
-                {!this.state.update && (
-                    <TitleBar
-                        theme="light"
-                        onBack={() => Router.goBack(this.props.componentId)}
-                        title={translate('addressBook.addContact')}
-                    />
-                )}
-                {this.state.update && (
-                    <TitleBar
-                        theme="light"
-                        onBack={() => Router.goBack(this.props.componentId)}
-                        title={translate('addressBook.updateContact')}
-                    />
-                )}
+                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={titleText} />
                 <Section type="form" isScrollable>
                     <Section type="form-item">
-                        <Input value={name} placeholder={translate('table.name')} theme="light" onChangeText={this.onChangeField('name')} />
-                        {name.length === 0 && (
-                            <Text theme="light" style={styles.warning}>
-                                {translate('addressBook.nameWarning')}
-                            </Text>
-                        )}
+                        <Dropdown
+                            title={translate('addressBook.listType')}
+                            theme="light"
+                            value={listType}
+                            list={listTypeOptions}
+                            onChange={listType => this.onListChange(listType)}
+                        />
                     </Section>
+                    {!isBlackListed && (
+                        <Section type="form-item">
+                            <Input
+                                value={name}
+                                placeholder={translate('table.name')}
+                                theme="light"
+                                onChangeText={this.onChangeField('name')}
+                            />
+                            {name.length === 0 && (
+                                <Text theme="light" style={styles.warning}>
+                                    {translate('addressBook.nameWarning')}
+                                </Text>
+                            )}
+                        </Section>
+                    )}
                     <Section type="form-item">
                         <InputAddress
                             value={address}
@@ -159,32 +201,11 @@ class AddContact extends Component<Props, State> {
                             onChangeText={address => this.onAddressChange(address)}
                             showAddressBook={false}
                         />
-                        {!isAddressValid && (
+                        {!!addressWarningText && (
                             <Text theme="light" style={styles.warning}>
-                                {translate('addressBook.addressWarning')}
+                                {addressWarningText}
                             </Text>
                         )}
-                        {isAddressTaken && (
-                            <Text theme="light" style={styles.warning}>
-                                {translate('addressBook.addressTakenWarning')}
-                            </Text>
-                        )}
-                    </Section>
-                    <Section type="form-item">
-                        <Input
-                            value={phone}
-                            placeholder={translate('table.phone')}
-                            theme="light"
-                            onChangeText={this.onChangeField('phone')}
-                        />
-                    </Section>
-                    <Section type="form-item">
-                        <Input
-                            value={email}
-                            placeholder={translate('table.email')}
-                            theme="light"
-                            onChangeText={email => this.setState({ email })}
-                        />
                     </Section>
                     <Section type="form-item">
                         <Input
@@ -194,30 +215,11 @@ class AddContact extends Component<Props, State> {
                             onChangeText={notes => this.setState({ notes })}
                         />
                     </Section>
-                    {!this.state.update && (
-                        <Section type="form-bottom">
-                            <Section type="button">
-                                <Button
-                                    text={translate('CreateNewAccount.submitButton')}
-                                    theme="light"
-                                    onPress={() => this.submit()}
-                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
-                                />
-                            </Section>
+                    <Section type="form-bottom">
+                        <Section type="button">
+                            <Button text={buttonText} theme="light" onPress={buttonAction} isDisabled={isButtonDisabled} />
                         </Section>
-                    )}
-                    {this.state.update && (
-                        <Section type="form-bottom">
-                            <Section type="button">
-                                <Button
-                                    text={translate('addressBook.updateContact')}
-                                    theme="light"
-                                    onPress={() => this.update(id)}
-                                    isDisabled={!isAddressValid || name.length < 1 || isAddressTaken}
-                                />
-                            </Section>
-                        </Section>
-                    )}
+                    </Section>
                 </Section>
             </GradientBackground>
         );
@@ -225,6 +227,7 @@ class AddContact extends Component<Props, State> {
 }
 
 export default connect(state => ({
+    currentAddress: state.account.selectedAccountAddress,
     network: state.network.selectedNetwork,
     addressBook: state.addressBook.addressBook,
     selectedContact: state.addressBook.selectedContact,

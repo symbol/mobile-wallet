@@ -4,24 +4,15 @@ import { GradientBackground, Icon, QRImage, Section, TableView, Text, TitleBar }
 import { connect } from 'react-redux';
 import store from '@src/store';
 import { Router } from '@src/Router';
-import { IContact } from 'symbol-address-book/IContact';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import Row from '@src/components/controls/Row';
+import translate from '@src/locales/i18n';
 
-type Props = {
-    componentId: string,
-    contact: IContact,
-};
-
-type State = {};
-
-class ContactProfile extends Component<Props, State> {
+class ContactProfile extends Component {
     state = {
         address: '',
         name: '',
-        phone: '',
-        email: '',
         label: '',
         notes: '',
         update: false,
@@ -58,10 +49,10 @@ class ContactProfile extends Component<Props, State> {
     render() {
         const { selectedContact } = this.props;
         let { isRemoveModalOpen } = this.state;
+        console.log(selectedContact);
         const list = {
             address: selectedContact.address,
-            phone: selectedContact.phone,
-            email: selectedContact.email,
+            transactionsAllowed: selectedContact.isBlackListed ? translate('addressBook.blocked') : translate('addressBook.allowed'),
             notes: selectedContact.notes,
         };
 
@@ -79,7 +70,6 @@ class ContactProfile extends Component<Props, State> {
                     </Section>
                     <Section type="form-bottom">
                         <Section type="form-item">
-                            {/* <Button text="Edit Contact" theme="light" onPress={() => this.submit()} /> */}
                             <TouchableOpacity onPress={() => this.submit()}>
                                 <Row align="center" justify="start">
                                     <Icon name="edit_primary" size="small" style={{ marginRight: 8 }} />
@@ -91,7 +81,7 @@ class ContactProfile extends Component<Props, State> {
                                         type="bold"
                                         align="left"
                                     >
-                                        Edit Contact
+                                        {translate('addressBook.editContact')}
                                     </Text>
                                 </Row>
                             </TouchableOpacity>
@@ -108,14 +98,11 @@ class ContactProfile extends Component<Props, State> {
                                         type="bold"
                                         align="left"
                                     >
-                                        Remove Contact
+                                        {translate('addressBook.removeContact')}
                                     </Text>
                                 </Row>
                             </TouchableOpacity>
                         </Section>
-                        {/* <Section type="button">
-							<Button text="Remove Contact" theme="dark" onPress={() => this.remove()} />
-						</Section> */}
                     </Section>
                 </Section>
                 <ConfirmModal

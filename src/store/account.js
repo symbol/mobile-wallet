@@ -69,6 +69,7 @@ export default {
                     type: 'account/setSelectedAccountAddress',
                     payload: address,
                 });
+                await dispatchAction({ type: 'addressBook/loadAddressBook' });
                 await dispatchAction({ type: 'account/loadMultisigTree' });
                 if (reset) {
                     await dispatchAction({ type: 'account/loadCosignatoryOf' });

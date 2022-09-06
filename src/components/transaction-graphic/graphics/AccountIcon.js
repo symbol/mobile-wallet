@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GraphicComponent from './GraphicComponent.js';
+import { Trunc } from '@src/components';
 import { G, Path, Rect, TSpan, Text } from 'react-native-svg';
 import translate from '@src/locales/i18n';
 
@@ -9,12 +10,34 @@ class AccountIcon extends GraphicComponent {
         return this.getIconColor(this.props.address);
     }
 
-    get isUserAddress() {
-        return this.props.userAddress === this.props.address;
+    get isBlockedAddress() {
+        const { address, addressBook } = this.props;
+        const contact = addressBook.getContactByAddress(address);
+
+        if (contact && contact.isBlackListed) {
+            return true;
+        }
+
+        return false;
     }
 
-    get formattedAddress() {
-        return this.isUserAddress ? translate('unsortedKeys.currentAccount') : this.truncString(this.props.address);
+    get aliasAddress() {
+        const { address, addressBook, userAddress } = this.props;
+        if (userAddress === address) {
+            return translate('unsortedKeys.currentAccount');
+        }
+
+        const contact = addressBook.getContactByAddress(address);
+
+        if (contact && contact.name && !this.isBlockedAddress) {
+            return Trunc({ type: 'contact-short', children: contact.name });
+        }
+
+        if (this.isBlockedAddress) {
+            return translate('addressBook.addressBlocked');
+        }
+
+        return null;
     }
 
     get stackedAddress() {
@@ -25,16 +48,24 @@ class AccountIcon extends GraphicComponent {
         return this.props.hideCaption ? '115 0 16 105' : '0 0 261.333 131.313';
     }
 
+    get textStyle() {
+        if (this.isBlockedAddress) {
+            return [this.styles.text, this.styles.textDanger];
+        }
+
+        return this.styles.text;
+    }
+
     render() {
         return (
             <G version="1.1" x={this._x} y={this._y} width={this._width} height={this._height} viewBox={'0 0 261.333 131.313'}>
                 <Rect x="25.266" y="107.646" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="207.333" height="23.667" />
-                {!this.props.hideCaption && this.isUserAddress && (
-                    <Text x="130" y="122.8457" style={this.styles.text} textAnchor="middle">
-                        {this.formattedAddress}
+                {!this.props.hideCaption && this.aliasAddress && (
+                    <Text x="130" y="122.8457" style={this.textStyle} textAnchor="middle">
+                        {this.aliasAddress}
                     </Text>
                 )}
-                {!this.props.hideCaption && !this.isUserAddress && (
+                {!this.props.hideCaption && !this.aliasAddress && (
                     <Text x="120" y="122.8457" style={this.styles.textSmaller} textAnchor="middle">
                         <TSpan x="130" dy="-9">
                             {this.stackedAddress[0]}
@@ -138,6 +169,7 @@ class AccountIcon extends GraphicComponent {
 }
 
 export default connect(state => ({
+    addressBook: state.addressBook.addressBook,
     userAddress: state.account.selectedAccountAddress,
     network: state.network.selectedNetwork,
 }))(AccountIcon);

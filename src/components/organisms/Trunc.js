@@ -1,22 +1,10 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { AddressBook } from 'symbol-address-book/AddressBook';
+export default function(props) {
+    const { type, length = 5, children } = props;
 
-type Type = 'address' | 'mosaicId' | 'namespaceName';
-
-interface Props {
-    type: Type;
-    addressBook: AddressBook;
-}
-
-class Transaction extends Component<Props> {
-    formatAddress = address => {
-        const { addressBook } = this.props;
-        const contact = addressBook.getContactByAddress(address);
-        return contact ? contact.name : this.trunc(address, 'middle', 6, 3);
-    };
-
-    trunc = (text, cut, lengthFirst, lengthSecond) => {
+    const trunc = (text, cut, lengthFirst, lengthSecond) => {
+        if (cut === 'start' && lengthFirst < text.length) {
+            return '...' + text.substring(text.length - lengthFirst, text.length);
+        }
         if (cut === 'middle' && lengthFirst + lengthSecond < text.length) {
             return text.substring(0, lengthFirst) + '...' + text.substring(text.length - lengthSecond, text.length);
         }
@@ -27,25 +15,25 @@ class Transaction extends Component<Props> {
         return text;
     };
 
-    render = () => {
-        const { type, length = 5, children } = this.props;
-        if (typeof children !== 'string') {
-            console.error(`Failed to trunc text. ${typeof children} is not a "string"`);
-            return '';
-        }
-        switch (type) {
-            case 'address':
-                return this.formatAddress(children);
-            case 'mosaicId':
-                return this.trunc(children, 'middle', 6, 6);
-            case 'namespaceName':
-                return this.trunc(children, 'middle', 10, 10);
-            default:
-                return this.trunc(children, 'end', length);
-        }
-    };
-}
+    if (typeof children !== 'string') {
+        console.error(`Failed to trunc text. ${typeof children} is not a "string"`);
+        return '';
+    }
 
-export default connect(state => ({
-    addressBook: state.addressBook.addressBook,
-}))(Transaction);
+    switch (type) {
+        case 'address':
+            return trunc(children, 'middle', 6, 3);
+        case 'address-short':
+            return trunc(children, 'start', 3);
+        case 'contact':
+            return trunc(children, 'end', 18);
+        case 'contact-short':
+            return trunc(children, 'end', 12);
+        case 'mosaicId':
+            return trunc(children, 'middle', 6, 6);
+        case 'namespaceName':
+            return trunc(children, 'middle', 10, 10);
+        default:
+            return trunc(children, 'end', length);
+    }
+}
