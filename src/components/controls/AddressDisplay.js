@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const AddressDisplay = props => {
-    const { children, addressBook, currentAddress, showRaw, style, theme, trunc } = props;
+export const AddressDisplay = props => {
+    const { children, addressBook, currentAddress, plain, style, theme, trunc } = props;
     const contact = addressBook.getContactByAddress(children);
     let truncType = trunc && 'address';
     let isBlocked = false;
@@ -29,14 +29,16 @@ const AddressDisplay = props => {
     let prefixTextString = '';
     let suffixTextString = '';
 
-    if (!showRaw && currentAddress === children) {
+    if (!plain && currentAddress === children) {
         prefixTextString = `${translate('unsortedKeys.currentAddress')} (`;
         suffixTextString = ')';
         truncType = trunc && 'address-short';
-    } else if (!showRaw && contact) {
+    } else if (!plain && contact) {
         isBlocked = contact.isBlackListed;
         textString = contact.name;
         truncType = trunc && 'contact';
+    } else if (contact) {
+        isBlocked = contact.isBlackListed;
     }
 
     return (
@@ -46,7 +48,7 @@ const AddressDisplay = props => {
                     {translate('addressBook.addressBlocked')}
                 </Text>
             )}
-            <Text style={style} theme={theme}>
+            <Text style={style} theme={theme} testID="text-display">
                 {prefixTextString}
                 <Trunc type={truncType} length={textString.length}>
                     {textString}

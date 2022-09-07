@@ -18,7 +18,7 @@ type State = {};
 
 export default class C extends Component<Props, State> {
     render() {
-        const { children, type, style = {}, align, theme } = this.props;
+        const { children, type, style = {}, align, theme, ...rest } = this.props;
         let globalStyle = {};
 
         switch (type) {
@@ -55,6 +55,10 @@ export default class C extends Component<Props, State> {
             else globalStyle.color = GlobalStyles.color.onDark.TEXT;
         }
 
-        return <Text style={[globalStyle, style]}>{children}</Text>;
+        return (
+            <Text style={[globalStyle, style]} {...rest}>
+                {children}
+            </Text>
+        );
     }
 }
