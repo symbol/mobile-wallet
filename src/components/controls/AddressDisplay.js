@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import { Row, Text, Trunc } from '@src/components';
@@ -57,6 +58,14 @@ export const AddressDisplay = props => {
             </Text>
         </Row>
     );
+};
+
+AddressDisplay.propsTypes = {
+    children: PropTypes.string.isRequired,
+    plain: PropTypes.bool,
+    style: PropTypes.object,
+    theme: PropTypes.oneOf(['light', 'dark']),
+    trunc: PropTypes.bool,
 };
 
 export default connect(state => ({

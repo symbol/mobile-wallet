@@ -1,4 +1,6 @@
-export default function(props) {
+import PropTypes from 'prop-types';
+
+export default function Trunc(props) {
     const { type, length = 5, children } = props;
 
     const trunc = (text, cut, lengthFirst, lengthSecond) => {
@@ -25,6 +27,8 @@ export default function(props) {
             return trunc(children, 'middle', 6, 3);
         case 'address-short':
             return trunc(children, 'start', 3);
+        case 'address-long':
+            return trunc(children, 'middle', 12, 12);
         case 'contact':
             return trunc(children, 'end', 18);
         case 'contact-short':
@@ -37,3 +41,9 @@ export default function(props) {
             return trunc(children, 'end', length);
     }
 }
+
+Trunc.propsTypes = {
+    children: PropTypes.string.isRequired,
+    length: PropTypes.bool,
+    type: PropTypes.oneOf(['address', 'address-short', 'address-long', 'contact', 'contact-short', 'mosaicId', 'namespaceName']),
+};
