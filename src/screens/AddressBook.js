@@ -62,6 +62,7 @@ export function AddressBookPage(props) {
                             </ListItem>
                         </TouchableOpacity>
                     )}
+                    keyExtractor={(item, index) => 'contact' + index}
                 />
             </ListContainer>
             <Section type="form-bottom">
