@@ -88,6 +88,7 @@ export default class Input extends Component<Props, State> {
             errorMessage,
             showSubmit,
             onSubmitEditing,
+            testID,
             ...rest
         } = this.props;
         let _inputStyle = [];
@@ -129,6 +130,7 @@ export default class Input extends Component<Props, State> {
                         onSubmitEditing={onSubmitEditing}
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
+                        testID={testID}
                     />
                     {!!showSubmit && (
                         <TouchableOpacity style={styles.iconContainer} onPress={() => !!onSubmitEditing && onSubmitEditing()}>

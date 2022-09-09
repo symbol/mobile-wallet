@@ -182,6 +182,7 @@ export class AddContact extends Component {
                                 placeholder={translate('table.name')}
                                 theme="light"
                                 onChangeText={this.onChangeField('name')}
+                                testID="input-name"
                             />
                             {name.length === 0 && (
                                 <Text theme="light" style={styles.warning}>
@@ -198,6 +199,7 @@ export class AddContact extends Component {
                             fullWidth
                             onChangeText={address => this.onAddressChange(address)}
                             showAddressBook={false}
+                            testID="input-address"
                         />
                         {!!addressWarningText && (
                             <Text theme="light" style={styles.warning}>
@@ -210,7 +212,8 @@ export class AddContact extends Component {
                             value={notes}
                             placeholder={translate('table.notes')}
                             theme="light"
-                            onChangeText={notes => this.setState({ notes })}
+                            onChangeText={this.onChangeField('notes')}
+                            testID="input-notes"
                         />
                     </Section>
                     <Section type="form-bottom">
