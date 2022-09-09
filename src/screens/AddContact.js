@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Button, Dropdown, GradientBackground, Input, InputAddress, Section, Text, TitleBar } from '@src/components';
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
-
 import { Router } from '@src/Router';
 import { isAddressValid } from '@src/utils/validators';
 import translate from '@src/locales/i18n';
@@ -15,13 +15,10 @@ const styles = StyleSheet.create({
     },
 });
 
-class AddContact extends Component {
+export class AddContact extends Component {
     state = {
         address: '',
         name: '',
-        phone: '',
-        email: '',
-        label: '',
         notes: '',
         isBlackListed: false,
         update: false,
@@ -30,13 +27,10 @@ class AddContact extends Component {
         isAddressCurrent: false,
     };
 
-    submit = () => {
+    addContact = () => {
         const contact = {
             address: this.state.address,
             name: this.state.name,
-            phone: this.state.phone,
-            email: this.state.email,
-            label: this.state.label,
             notes: this.state.notes,
             isBlackListed: this.state.isBlackListed,
         };
@@ -49,17 +43,15 @@ class AddContact extends Component {
             .then(() => Router.goBack(this.props.componentId));
     };
 
-    update = id => {
+    updateContact = () => {
         const contact = {
             address: this.state.address,
             name: this.state.name,
-            phone: this.state.phone,
-            email: this.state.email,
-            label: this.state.label,
             notes: this.state.notes,
             isBlackListed: this.state.isBlackListed,
-            id: id,
+            id: this.state.id,
         };
+
         store.dispatchAction({
             type: 'addressBook/selectContact',
             payload: contact,
@@ -73,12 +65,17 @@ class AddContact extends Component {
     };
 
     componentDidMount() {
-        const { selectedContact, address, name } = this.props;
+        const { selectedContact, address, name, isBlackListed } = this.props;
+        const isDataProvidedViaProps = address || name || typeof isBlackListed === 'boolean';
+        const isUpdateAction = !!selectedContact;
 
-        if (address && name) {
-            this.onAddressChange(address);
-            this.onChangeField('name')(name);
-        } else if (selectedContact) {
+        if (isDataProvidedViaProps) {
+            this.onAddressChange(address || '');
+            this.onChangeField('name')(name || '');
+            this.setState({
+                isBlackListed: isBlackListed || false,
+            });
+        } else if (isUpdateAction) {
             this.setState({
                 address: selectedContact.address,
                 name: selectedContact.name,
@@ -97,17 +94,18 @@ class AddContact extends Component {
     onAddressChange = address => {
         const { network, addressBook, currentAddress } = this.props;
         const isValid = isAddressValid(address, network);
+
         if (isValid) {
             const contact = addressBook.getContactByAddress(address);
             this.setState({
-                address: address,
+                address,
                 isAddressValid: isValid,
                 isAddressTaken: !!contact,
                 isAddressCurrent: address === currentAddress,
             });
         } else {
             this.setState({
-                address: address,
+                address,
                 isAddressValid: false,
                 isAddressTaken: false,
                 isAddressCurrent: false,
@@ -129,7 +127,7 @@ class AddContact extends Component {
     };
 
     render() {
-        const { address, name, notes, isBlackListed, id, isAddressValid, isAddressTaken, isAddressCurrent } = this.state;
+        const { address, name, notes, isBlackListed, isAddressValid, isAddressTaken, isAddressCurrent } = this.state;
 
         const listType = isBlackListed ? 'blacklist' : 'whitelist';
         const listTypeOptions = [
@@ -146,12 +144,12 @@ class AddContact extends Component {
         let addressWarningText = '';
         let titleText = translate('addressBook.addContact');
         let buttonText = translate('CreateNewAccount.submitButton');
-        let buttonAction = () => this.submit();
+        let buttonAction = () => this.addContact();
 
         if (this.state.update) {
             titleText = translate('addressBook.updateContact');
             buttonText = translate('addressBook.updateContact');
-            buttonAction = () => this.update(id);
+            buttonAction = () => this.updateContact();
         }
 
         if (!address.length) {
@@ -232,3 +230,9 @@ export default connect(state => ({
     addressBook: state.addressBook.addressBook,
     selectedContact: state.addressBook.selectedContact,
 }))(AddContact);
+
+AddContact.propsTypes = {
+    address: PropTypes.string,
+    name: PropTypes.string,
+    isBlackListed: PropTypes.bool,
+};

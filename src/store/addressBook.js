@@ -40,7 +40,7 @@ export default {
         },
 
         addContact: async ({ commit, dispatchAction, state }, contact) => {
-            let addressBook = state.addressBook.addressBook;
+            const addressBook = state.addressBook.addressBook;
             addressBook.addContact(contact);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
             commit({
@@ -58,7 +58,7 @@ export default {
         },
 
         updateContact: async ({ commit, dispatchAction, state }, contact) => {
-            let addressBook = state.addressBook.addressBook;
+            const addressBook = state.addressBook.addressBook;
             addressBook.updateContact(contact.id, contact);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
             commit({
@@ -69,7 +69,7 @@ export default {
         },
 
         removeContact: async ({ commit, dispatchAction, state }, id) => {
-            let addressBook = state.addressBook.addressBook;
+            const addressBook = state.addressBook.addressBook;
             addressBook.removeContact(id);
             await AddressBookSecureStorage.saveAddressBook(addressBook);
             commit({

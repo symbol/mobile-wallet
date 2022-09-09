@@ -44,42 +44,64 @@ describe('screens/AddressBook', () => {
     ];
     const addressBook = new AddressBook(contacts);
 
-    test('renders whitelist', () => {
-        // Act:
-        const screen = render(<AddressBookPage addressBook={addressBook} />);
+    describe('whitelist', () => {
+        test('renders contact list', () => {
+            // Act:
+            const screen = render(<AddressBookPage addressBook={addressBook} />);
 
-        // Assert:
-        expect(screen.queryByText(contacts[0].name)).not.toBeNull();
-        expect(screen.queryByText(contacts[1].name)).toBeNull();
-        expect(screen.queryByText(contacts[2].name)).not.toBeNull();
-    });
-
-    test('renders blacklist', async () => {
-        // Act:
-        const screen = render(<AddressBookPage addressBook={addressBook} />);
-        const tabBlacklistElement = screen.getByText('t_addressBook.blacklist');
-        fireEvent.press(tabBlacklistElement);
-
-        // Assert:
-        expect(screen.queryByText(contacts[0].name)).toBeNull();
-        expect(screen.queryByText(contacts[1].name)).not.toBeNull();
-        expect(screen.queryByText(contacts[2].name)).toBeNull();
-    });
-
-    test('invoke "AddContact" screen when press on button', async () => {
-        // Act:
-        const screen = render(<AddressBookPage addressBook={addressBook} />);
-        const buttonElement = screen.getByText('t_addressBook.addContact');
-        fireEvent.press(buttonElement);
-        await new Promise(setImmediate);
-
-        // Assert:
-        expect(mockDispatchAction).toBeCalledWith({
-            type: 'addressBook/selectContact',
-            payload: null,
+            // Assert:
+            expect(screen.queryByText(contacts[0].name)).not.toBeNull();
+            expect(screen.queryByText(contacts[1].name)).toBeNull();
+            expect(screen.queryByText(contacts[2].name)).not.toBeNull();
         });
-        expect(mockGoToAddContact).toHaveBeenCalledTimes(1);
-        expect(mockGoToContactProfile).toHaveBeenCalledTimes(0);
+
+        test('invoke "AddContact" screen when press on button', async () => {
+            // Act:
+            const screen = render(<AddressBookPage addressBook={addressBook} />);
+            const buttonElement = screen.getByText('t_addressBook.addContact');
+            fireEvent.press(buttonElement);
+            await new Promise(setImmediate);
+
+            // Assert:
+            expect(mockDispatchAction).toBeCalledWith({
+                type: 'addressBook/selectContact',
+                payload: null,
+            });
+            expect(mockGoToAddContact).toBeCalledWith({ isBlackListed: false }, undefined);
+            expect(mockGoToContactProfile).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    describe('blacklist', () => {
+        test('renders blacklist', async () => {
+            // Act:
+            const screen = render(<AddressBookPage addressBook={addressBook} />);
+            const tabBlacklistElement = screen.getByText('t_addressBook.blacklist');
+            fireEvent.press(tabBlacklistElement);
+
+            // Assert:
+            expect(screen.queryByText(contacts[0].name)).toBeNull();
+            expect(screen.queryByText(contacts[1].name)).not.toBeNull();
+            expect(screen.queryByText(contacts[2].name)).toBeNull();
+        });
+
+        test('invoke "AddContact" screen when press on button', async () => {
+            // Act:
+            const screen = render(<AddressBookPage addressBook={addressBook} />);
+            const tabBlacklistElement = screen.getByText('t_addressBook.blacklist');
+            fireEvent.press(tabBlacklistElement);
+            const buttonElement = screen.getByText('t_addressBook.addContact');
+            fireEvent.press(buttonElement);
+            await new Promise(setImmediate);
+
+            // Assert:
+            expect(mockDispatchAction).toBeCalledWith({
+                type: 'addressBook/selectContact',
+                payload: null,
+            });
+            expect(mockGoToAddContact).toBeCalledWith({ isBlackListed: true }, undefined);
+            expect(mockGoToContactProfile).toHaveBeenCalledTimes(0);
+        });
     });
 
     test('invoke "ContactProfile" screen when press on item', async () => {

@@ -43,7 +43,7 @@ export function AddressBookPage(props) {
                 type: 'addressBook/selectContact',
                 payload: null,
             })
-            .then(() => Router.goToAddContact({}, componentId));
+            .then(() => Router.goToAddContact({ isBlackListed: listType === 'blacklist' }, componentId));
 
     return (
         <GradientBackground
