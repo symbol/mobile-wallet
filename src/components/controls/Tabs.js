@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Row, Text } from '@src/components';
 import GlobalStyles from '@src/styles/GlobalStyles';
@@ -7,12 +8,7 @@ const styles = StyleSheet.create({
     root: {
         borderBottomWidth: 2,
         marginBottom: 2,
-    },
-    borderLight: {
         borderColor: GlobalStyles.color.WHITE,
-    },
-    borderDark: {
-        borderColor: GlobalStyles.color.DARKWHITE,
     },
     tab: {
         marginLeft: 36,
@@ -26,13 +22,13 @@ const styles = StyleSheet.create({
 });
 
 export default function Tabs(props) {
-    const { border, list, style, value, onChange } = props;
+    const { list, style, testID, value, onChange } = props;
 
-    const rootStyle = [styles.root, border === 'dark' ? styles.borderDark : styles.borderLight, style];
+    const rootStyle = [styles.root, style];
     const getTabStyle = item => (item.value === value ? [styles.tab, styles.activeTab] : styles.tab);
 
     return (
-        <Row style={rootStyle}>
+        <Row style={rootStyle} testID={testID}>
             {list.map((item, index) => (
                 <TouchableOpacity style={getTabStyle(item)} key={'tab' + index} onPress={() => onChange(item.value)}>
                     <Text type="bold" theme="light">
@@ -43,3 +39,16 @@ export default function Tabs(props) {
         </Row>
     );
 }
+
+Tabs.propsTypes = {
+    list: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.any.isRequired,
+        })
+    ).isRequired,
+    style: PropTypes.object,
+    testID: PropTypes.string,
+    value: PropTypes.any.isRequired,
+    onChange: PropTypes.isRequired,
+};
