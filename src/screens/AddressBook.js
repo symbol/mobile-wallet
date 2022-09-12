@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, ContactItem, GradientBackground, ListContainer, ListItem, Section, Tabs, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
+import { createGoBack } from '@src/utils/navigation';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
@@ -29,7 +30,6 @@ export function AddressBookPage(props) {
         .getAllContacts()
         .filter(contact => (listType === 'whitelist' ? !contact.isBlackListed : contact.isBlackListed));
 
-    const goBack = () => Router.goBack(componentId);
     const openContact = contact =>
         store
             .dispatchAction({
@@ -49,7 +49,7 @@ export function AddressBookPage(props) {
         <GradientBackground
             name="mesh"
             theme="light"
-            titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={goBack} />}
+            titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={createGoBack(componentId)} />}
         >
             <Tabs style={styles.tabs} value={listType} list={tabs} onChange={setListType} />
             <ListContainer isScrollable={false}>

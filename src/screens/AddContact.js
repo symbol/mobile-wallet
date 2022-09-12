@@ -5,8 +5,8 @@ import { Button, Dropdown, GradientBackground, Input, InputAddress, Section, Tex
 import { connect } from 'react-redux';
 import store from '@src/store';
 import GlobalStyles from '@src/styles/GlobalStyles';
-import { Router } from '@src/Router';
 import { isAddressValid } from '@src/utils/validators';
+import { createGoBack } from '@src/utils/navigation';
 import translate from '@src/locales/i18n';
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ export class AddContact extends Component {
                 type: 'addressBook/addContact',
                 payload: contact,
             })
-            .then(() => Router.goBack(this.props.componentId));
+            .then(createGoBack(this.props.componentId));
     };
 
     updateContact = () => {
@@ -61,7 +61,7 @@ export class AddContact extends Component {
                 type: 'addressBook/updateContact',
                 payload: contact,
             })
-            .then(() => Router.goBack(this.props.componentId));
+            .then(createGoBack(this.props.componentId));
     };
 
     componentDidMount() {
@@ -164,7 +164,7 @@ export class AddContact extends Component {
 
         return (
             <GradientBackground name="mesh_small" theme="light">
-                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={titleText} />
+                <TitleBar theme="light" onBack={createGoBack(this.props.componentId)} title={titleText} />
                 <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Dropdown
