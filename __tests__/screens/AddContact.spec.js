@@ -232,4 +232,76 @@ describe('screens/AddContact', () => {
             expect(mockGoBack).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe('list selector', () => {
+        // Arrange:
+        const name = 'Contact Name';
+        const address = account3.address.plain();
+        const props = {
+            name,
+            address,
+            currentAddress,
+            network,
+            addressBook,
+        };
+
+        const runListSelectorTest = async (isBlackListed, listToSelect, expectations) => {
+            // Act:
+            const screen = render(<AddContact isBlackListed={isBlackListed} {...props} />);
+            const dropdownElement = screen.getByTestId('dropdown-selected-label');
+            fireEvent.press(dropdownElement);
+            const listItemElement = screen.getByText(listToSelect);
+            fireEvent.press(listItemElement);
+            const buttonElement = screen.queryByText('t_CreateNewAccount.submitButton');
+            fireEvent.press(buttonElement);
+            await new Promise(setImmediate);
+
+            // Assert:
+            if (expectations.isNameFieldShown) {
+                expect(screen.queryByTestId('input-name')).not.toBeNull();
+            } else {
+                expect(screen.queryByTestId('input-name')).toBeNull();
+            }
+            expect(mockDispatchAction).toBeCalledWith({
+                type: 'addressBook/addContact',
+                payload: expectations.contactToBeAdded,
+            });
+        };
+
+        test('hide name field when select blacklist', async () => {
+            // Arrange:
+            const isBlackListed = false;
+            const listToSelect = 't_addressBook.blacklist';
+
+            // Act + Assert:
+            const expectations = {
+                isNameFieldShown: false,
+                contactToBeAdded: {
+                    name: '',
+                    address,
+                    notes: '',
+                    isBlackListed: true,
+                },
+            };
+            await runListSelectorTest(isBlackListed, listToSelect, expectations);
+        });
+
+        test('show name field when select whitelist', async () => {
+            // Arrange:
+            const isBlackListed = true;
+            const listToSelect = 't_addressBook.whitelist';
+
+            // Act + Assert:
+            const expectations = {
+                isNameFieldShown: true,
+                contactToBeAdded: {
+                    name,
+                    address,
+                    notes: '',
+                    isBlackListed: false,
+                },
+            };
+            await runListSelectorTest(isBlackListed, listToSelect, expectations);
+        });
+    });
 });
