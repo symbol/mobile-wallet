@@ -24,7 +24,7 @@ export default function ContactItem(props) {
             <Icon name={iconName} style={styles.icon} />
             <Col grow>
                 {!!data.name && (
-                    <Text theme="light" type="bold" style={styles.title}>
+                    <Text theme="light" type="bold" style={styles.title} testID="contact-name">
                         {data.name}
                     </Text>
                 )}
@@ -37,5 +37,5 @@ export default function ContactItem(props) {
 }
 
 ContactItem.propsTypes = {
-    data: PropTypes.object,
+    data: PropTypes.object.isRequired,
 };
