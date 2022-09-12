@@ -10,4 +10,7 @@ module.exports = {
     moduleFileExtensions: ['js', 'jsx', 'ts', 'json', 'styl'],
     testEnvironment: './testEnvironmentContext',
     testMatch: ['<rootDir>/__tests__/**/*.spec.js'],
+    collectCoverage: true,
+    collectCoverageFrom: ['src/**/*.js'],
+    coveragePathIgnorePatterns: ['node_modules', 'setupTests.js', '<rootDir>/src/App.js', '<rootDir>/src/config', '.mock.js'],
 };
