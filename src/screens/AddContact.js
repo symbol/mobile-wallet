@@ -27,7 +27,7 @@ export class AddContact extends Component {
         isAddressCurrent: false,
     };
 
-    addContact = () => {
+    addContact = async () => {
         const contact = {
             address: this.state.address,
             name: this.state.name,
@@ -35,15 +35,15 @@ export class AddContact extends Component {
             isBlackListed: this.state.isBlackListed,
         };
 
-        store
-            .dispatchAction({
-                type: 'addressBook/addContact',
-                payload: contact,
-            })
-            .then(createGoBack(this.props.componentId));
+        await store.dispatchAction({
+            type: 'addressBook/addContact',
+            payload: contact,
+        });
+
+        return createGoBack(this.props.componentId)();
     };
 
-    updateContact = () => {
+    updateContact = async () => {
         const contact = {
             address: this.state.address,
             name: this.state.name,
@@ -56,12 +56,12 @@ export class AddContact extends Component {
             type: 'addressBook/selectContact',
             payload: contact,
         });
-        store
-            .dispatchAction({
-                type: 'addressBook/updateContact',
-                payload: contact,
-            })
-            .then(createGoBack(this.props.componentId));
+        await store.dispatchAction({
+            type: 'addressBook/updateContact',
+            payload: contact,
+        });
+
+        return createGoBack(this.props.componentId)();
     };
 
     componentDidMount() {

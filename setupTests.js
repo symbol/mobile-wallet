@@ -1,3 +1,6 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import '@testing-library/react-native/cleanup-after-each';
 import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
@@ -15,3 +18,5 @@ jest.mock('@haskkor/react-native-pincode', () => {
     };
 });
 jest.mock('react-native-qrcode-scanner', () => {});
+
+global.renderConnected = (component, store) => render(<Provider store={store}>{component}</Provider>);

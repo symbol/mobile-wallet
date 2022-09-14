@@ -1,47 +1,50 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
-import { AddContact } from '@src/screens/AddContact';
+import { fireEvent } from '@testing-library/react-native';
+import _ from 'lodash';
+import AddContact from '@src/screens/AddContact';
 import { Router } from '@src/Router';
-import store from '@src/store';
 import { network } from '../../__mocks__/network';
 import { account1, account2, account3 } from '../../__mocks__/account';
+import { getStore } from '../../__mocks__/store';
 import { AddressBook } from 'symbol-address-book';
 
 jest.mock('@src/locales/i18n', () => t => `t_${t}`);
 jest.mock('@src/components/controls/InputAddress', () => jest.requireActual('@src/components/controls/Input'));
 
-const mockDispatchAction = jest.fn().mockResolvedValue(null);
 const mockGoBack = jest.fn();
+const currentAddress = account1.address.plain();
+const contacts = [
+    {
+        name: 'Contact Name',
+        address: account2.address.plain(),
+    },
+];
+let addressBook = new AddressBook(contacts);
 
 beforeEach(() => {
-    store.dispatchAction = mockDispatchAction;
     Router.goBack = mockGoBack;
-    mockDispatchAction.mockClear();
     mockGoBack.mockClear();
+    addressBook = new AddressBook(contacts);
 });
 
 describe('screens/AddContact', () => {
-    // Arrange:
-    const currentAddress = account1.address.plain();
-    const contacts = [
-        {
-            name: 'Contact Name',
-            address: account2.address.plain(),
-        },
-    ];
-    const addressBook = new AddressBook(contacts);
-
     describe('address warnings', () => {
         const runAddressWarningTest = (addressToBeInputted, expectedWarningText) => {
             // Arrange:
-            const props = {
-                currentAddress,
-                network,
-                addressBook,
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
             };
 
             // Act:
-            const screen = render(<AddContact {...props} />);
+            const screen = renderConnected(<AddContact />, getStore(state));
             const addressInputElement = screen.getByTestId('input-address');
             fireEvent.changeText(addressInputElement, addressToBeInputted);
 
@@ -83,15 +86,21 @@ describe('screens/AddContact', () => {
 
         test('renders screen without preselected fields', () => {
             // Arrange:
-            const props = {
-                currentAddress,
-                network,
-                addressBook,
-                selectedContact,
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                    selectedContact,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
             };
 
             // Act:
-            const screen = render(<AddContact {...props} />);
+            const screen = renderConnected(<AddContact />, getStore(state));
 
             // Assert:
             const expectations = {
@@ -110,17 +119,25 @@ describe('screens/AddContact', () => {
         test('renders screen with preselected fields', () => {
             // Arrange:
             const props = {
-                currentAddress,
-                network,
-                addressBook,
-                selectedContact,
                 name: 'New Contact',
                 address: account3.address.plain(),
                 isBlackListed: false,
             };
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                    selectedContact,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
+            };
 
             // Act:
-            const screen = render(<AddContact {...props} />);
+            const screen = renderConnected(<AddContact {...props} />, getStore(state));
 
             // Assert:
             const expectations = {
@@ -142,18 +159,25 @@ describe('screens/AddContact', () => {
 
         test('adds contact when press on button', () => {
             // Arrange:
-            const props = {
-                currentAddress,
-                network,
-                addressBook,
-                selectedContact,
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                    selectedContact,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
             };
+            const store = getStore(state);
             const nameToBeInputted = 'New contact';
             const addressToBeInputted = account3.address.plain();
             const notesToBeInputted = 'Lorem ipsum dolor sit amet';
 
             // Act:
-            const screen = render(<AddContact {...props} />);
+            const screen = renderConnected(<AddContact />, store);
             const nameInputElement = screen.getByTestId('input-name');
             const addressInputElement = screen.getByTestId('input-address');
             const notesInputElement = screen.getByTestId('input-notes');
@@ -162,6 +186,7 @@ describe('screens/AddContact', () => {
             fireEvent.changeText(addressInputElement, addressToBeInputted);
             fireEvent.changeText(notesInputElement, notesToBeInputted);
             fireEvent.press(buttonElement);
+            const addedContact = store.getState().addressBook.addressBook.getContactByAddress(addressToBeInputted);
 
             // Assert:
             const expectedContactToBeAdded = {
@@ -170,10 +195,8 @@ describe('screens/AddContact', () => {
                 notes: notesToBeInputted,
                 isBlackListed: false,
             };
-            expect(mockDispatchAction).toBeCalledWith({
-                type: 'addressBook/addContact',
-                payload: expectedContactToBeAdded,
-            });
+            expect(_.omit(addedContact, 'id')).toEqual(expectedContactToBeAdded);
+            expect(mockGoBack).toBeCalledTimes(1);
         });
     });
 
@@ -189,18 +212,25 @@ describe('screens/AddContact', () => {
 
         test('update contact when press on button', async () => {
             // Arrange:
-            const props = {
-                currentAddress,
-                network,
-                addressBook,
-                selectedContact,
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                    selectedContact,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
             };
-            const nameToBeInputted = 'New contact';
+            const store = getStore(state);
+            const nameToBeInputted = 'New contact 3';
             const addressToBeInputted = account3.address.plain();
             const notesToBeInputted = 'Lorem ipsum dolor sit amet';
 
             // Act:
-            const screen = render(<AddContact {...props} />);
+            const screen = renderConnected(<AddContact />, store);
             const nameInputElement = screen.getByTestId('input-name');
             const addressInputElement = screen.getByTestId('input-address');
             const notesInputElement = screen.getByTestId('input-notes');
@@ -210,25 +240,18 @@ describe('screens/AddContact', () => {
             fireEvent.changeText(notesInputElement, notesToBeInputted);
             fireEvent.press(buttonElement);
             await new Promise(setImmediate);
+            const addedContact = store.getState().addressBook.addressBook.getContactByAddress(addressToBeInputted);
+            const finalSelectedContact = store.getState().addressBook.selectedContact;
 
             // Assert:
             const expectedContactToBeAdded = {
-                id: 0,
                 name: nameToBeInputted,
                 address: addressToBeInputted,
                 notes: notesToBeInputted,
                 isBlackListed: false,
             };
-            const expectedFirstDispatchedAction = {
-                type: 'addressBook/selectContact',
-                payload: expectedContactToBeAdded,
-            };
-            const expectedSecondDispatchedAction = {
-                type: 'addressBook/updateContact',
-                payload: expectedContactToBeAdded,
-            };
-            expect(mockDispatchAction).nthCalledWith(1, expectedFirstDispatchedAction);
-            expect(mockDispatchAction).nthCalledWith(2, expectedSecondDispatchedAction);
+            expect(_.omit(addedContact, 'id')).toEqual(expectedContactToBeAdded);
+            expect(_.omit(finalSelectedContact, 'id')).toStrictEqual(expectedContactToBeAdded);
             expect(mockGoBack).toHaveBeenCalledTimes(1);
         });
     });
@@ -237,17 +260,28 @@ describe('screens/AddContact', () => {
         // Arrange:
         const name = 'Contact Name';
         const address = account3.address.plain();
-        const props = {
-            name,
-            address,
-            currentAddress,
-            network,
-            addressBook,
-        };
 
         const runListSelectorTest = async (isBlackListed, listToSelect, expectations) => {
+            // Arrange:
+            const props = {
+                name,
+                address,
+            };
+            const state = {
+                account: {
+                    selectedAccountAddress: currentAddress,
+                },
+                addressBook: {
+                    addressBook,
+                },
+                network: {
+                    selectedNetwork: network,
+                },
+            };
+            const store = getStore(state);
+
             // Act:
-            const screen = render(<AddContact isBlackListed={isBlackListed} {...props} />);
+            const screen = renderConnected(<AddContact isBlackListed={isBlackListed} {...props} />, store);
             const dropdownElement = screen.getByTestId('dropdown-selected-label');
             fireEvent.press(dropdownElement);
             const listItemElement = screen.getByText(listToSelect);
@@ -255,6 +289,7 @@ describe('screens/AddContact', () => {
             const buttonElement = screen.queryByText('t_CreateNewAccount.submitButton');
             fireEvent.press(buttonElement);
             await new Promise(setImmediate);
+            const addedContact = store.getState().addressBook.addressBook.getContactByAddress(address);
 
             // Assert:
             if (expectations.isNameFieldShown) {
@@ -262,10 +297,7 @@ describe('screens/AddContact', () => {
             } else {
                 expect(screen.queryByTestId('input-name')).toBeNull();
             }
-            expect(mockDispatchAction).toBeCalledWith({
-                type: 'addressBook/addContact',
-                payload: expectations.contactToBeAdded,
-            });
+            expect(_.omit(addedContact, 'id')).toEqual(expectations.contactToBeAdded);
         };
 
         test('hide name field when select blacklist', async () => {
