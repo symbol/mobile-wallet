@@ -1,6 +1,6 @@
 import store from '@src/store';
 
-export const getStore = state => {
+export const mockStore = state => {
     const initialState = store.getState();
 
     Object.entries(state).forEach(([moduleName, module]) => {

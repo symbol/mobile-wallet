@@ -5,7 +5,8 @@ import AddContact from '@src/screens/AddContact';
 import { Router } from '@src/Router';
 import { network } from '../../__mocks__/network';
 import { account1, account2, account3 } from '../../__mocks__/account';
-import { getStore } from '../../__mocks__/store';
+import { mockStore } from '../../__mocks__/store';
+import { mockSecureStorage } from '../../__mocks__/storage';
 import { AddressBook } from 'symbol-address-book';
 
 jest.mock('@src/locales/i18n', () => t => `t_${t}`);
@@ -15,6 +16,7 @@ const mockGoBack = jest.fn();
 const currentAddress = account1.address.plain();
 const contacts = [
     {
+        id: 0,
         name: 'Contact Name',
         address: account2.address.plain(),
     },
@@ -44,7 +46,7 @@ describe('screens/AddContact', () => {
             };
 
             // Act:
-            const screen = renderConnected(<AddContact />, getStore(state));
+            const screen = renderConnected(<AddContact />, mockStore(state));
             const addressInputElement = screen.getByTestId('input-address');
             fireEvent.changeText(addressInputElement, addressToBeInputted);
 
@@ -100,7 +102,7 @@ describe('screens/AddContact', () => {
             };
 
             // Act:
-            const screen = renderConnected(<AddContact />, getStore(state));
+            const screen = renderConnected(<AddContact />, mockStore(state));
 
             // Assert:
             const expectations = {
@@ -137,7 +139,7 @@ describe('screens/AddContact', () => {
             };
 
             // Act:
-            const screen = renderConnected(<AddContact {...props} />, getStore(state));
+            const screen = renderConnected(<AddContact {...props} />, mockStore(state));
 
             // Assert:
             const expectations = {
@@ -157,7 +159,7 @@ describe('screens/AddContact', () => {
             expect(screen.queryByText(expectations.buttonText)).not.toBeDisabled();
         });
 
-        test('adds contact when press on button', () => {
+        test('adds contact when press on button', async () => {
             // Arrange:
             const state = {
                 account: {
@@ -171,7 +173,8 @@ describe('screens/AddContact', () => {
                     selectedNetwork: network,
                 },
             };
-            const store = getStore(state);
+            mockSecureStorage({});
+            const store = mockStore(state);
             const nameToBeInputted = 'New contact';
             const addressToBeInputted = account3.address.plain();
             const notesToBeInputted = 'Lorem ipsum dolor sit amet';
@@ -186,6 +189,7 @@ describe('screens/AddContact', () => {
             fireEvent.changeText(addressInputElement, addressToBeInputted);
             fireEvent.changeText(notesInputElement, notesToBeInputted);
             fireEvent.press(buttonElement);
+            await new Promise(setImmediate);
             const addedContact = store.getState().addressBook.addressBook.getContactByAddress(addressToBeInputted);
 
             // Assert:
@@ -224,7 +228,8 @@ describe('screens/AddContact', () => {
                     selectedNetwork: network,
                 },
             };
-            const store = getStore(state);
+            mockSecureStorage({});
+            const store = mockStore(state);
             const nameToBeInputted = 'New contact 3';
             const addressToBeInputted = account3.address.plain();
             const notesToBeInputted = 'Lorem ipsum dolor sit amet';
@@ -278,7 +283,7 @@ describe('screens/AddContact', () => {
                     selectedNetwork: network,
                 },
             };
-            const store = getStore(state);
+            const store = mockStore(state);
 
             // Act:
             const screen = renderConnected(<AddContact isBlackListed={isBlackListed} {...props} />, store);
