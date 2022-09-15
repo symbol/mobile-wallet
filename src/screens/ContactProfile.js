@@ -7,6 +7,7 @@ import { Router } from '@src/Router';
 import GlobalStyles from '@src/styles/GlobalStyles';
 import ConfirmModal from '@src/components/molecules/ConfirmModal';
 import Row from '@src/components/controls/Row';
+import { createGoBack } from '@src/utils/navigation';
 import translate from '@src/locales/i18n';
 
 class ContactProfile extends Component {
@@ -20,7 +21,7 @@ class ContactProfile extends Component {
         contactQR: null,
     };
 
-    submit = () => {
+    edit = () => {
         Router.goToAddContact({}, this.props.componentId);
     };
 
@@ -31,7 +32,7 @@ class ContactProfile extends Component {
     };
 
     confirmRemove = id => {
-        store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(() => Router.goBack(this.props.componentId));
+        store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(createGoBack(this.props.componentId));
     };
 
     cancelRemove = () => {
@@ -40,16 +41,9 @@ class ContactProfile extends Component {
         });
     };
 
-    onViewShotRef = (ref: any) => {
-        if (ref) {
-            this.viewShotRef = ref;
-        }
-    };
-
     render() {
         const { selectedContact } = this.props;
-        let { isRemoveModalOpen } = this.state;
-        console.log(selectedContact);
+        const { isRemoveModalOpen } = this.state;
         const list = {
             address: selectedContact.address,
             transactionsAllowed: selectedContact.isBlackListed ? translate('addressBook.blocked') : translate('addressBook.allowed'),
@@ -58,7 +52,7 @@ class ContactProfile extends Component {
 
         return (
             <GradientBackground name="mesh_small" theme="light">
-                <TitleBar theme="light" onBack={() => Router.goBack(this.props.componentId)} title={selectedContact.name} />
+                <TitleBar theme="light" onBack={createGoBack(this.props.componentId)} title={selectedContact.name} />
                 <Section type="form" isScrollable>
                     <Section type="form-item">
                         <Section type="center">
@@ -70,7 +64,7 @@ class ContactProfile extends Component {
                     </Section>
                     <Section type="form-bottom">
                         <Section type="form-item">
-                            <TouchableOpacity onPress={() => this.submit()}>
+                            <TouchableOpacity onPress={() => this.edit()}>
                                 <Row align="center" justify="start">
                                     <Icon name="edit_primary" size="small" style={{ marginRight: 8 }} />
                                     <Text
