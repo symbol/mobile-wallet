@@ -128,7 +128,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
             status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
-            signerAddress: transaction.signer.address.pretty(),
+            signerAddress: transaction.signer.address.plain(),
             ...formattedTansaction,
             hash: transaction.hash || transaction.transactionInfo?.hash,
         };
@@ -150,7 +150,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
             deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
-            signerAddress: transaction.signer.address.pretty(),
+            signerAddress: transaction.signer.address.plain(),
             hash: transaction.hash || transaction.transactionInfo?.hash,
             cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
@@ -158,7 +158,7 @@ export class FormatTransaction {
         };
 
         if (transaction.type === TransactionType.AGGREGATE_BONDED) {
-            info.receivedCosignatures = transaction.cosignatures.map(signature => signature.signer.address.pretty());
+            info.receivedCosignatures = transaction.cosignatures.map(signature => signature.signer.address.plain());
         }
 
         return {
@@ -184,10 +184,10 @@ export class FormatTransaction {
         return {
             //...transaction,
             transactionType: transaction.type,
-            signerAddress: transaction.signer.address.pretty(),
+            signerAddress: transaction.signer.address.plain(),
             recipientAddress:
                 transaction.recipientAddress instanceof Address
-                    ? transaction.recipientAddress.pretty()
+                    ? transaction.recipientAddress.plain()
                     : transaction.recipientAddress.id.toHex(),
             messageText: transaction.message.payload,
             messageEncrypted: transaction.message.type === 0x01,
@@ -217,7 +217,7 @@ export class FormatTransaction {
             aliasAction: Constants.AliasAction[transaction.aliasAction],
             namespaceId: transaction.namespaceId.toHex(),
             namespaceName: namespaceName.name,
-            address: transaction.address.pretty(),
+            address: transaction.address.plain(),
         };
     };
 
@@ -471,7 +471,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).plain(),
             startEpoch: transaction.startEpoch,
             endEpoch: transaction.endEpoch,
         };
@@ -482,7 +482,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).plain(),
         };
     };
 
@@ -491,7 +491,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).plain(),
         };
     };
 
@@ -500,7 +500,7 @@ export class FormatTransaction {
             transactionType: transaction.type,
             linkAction: Constants.LinkAction[transaction.linkAction],
             linkedPublicKey: transaction.linkedPublicKey,
-            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).pretty(),
+            linkedAccountAddress: Address.createFromPublicKey(transaction.linkedPublicKey, network.networkType).plain(),
         };
     };
 }

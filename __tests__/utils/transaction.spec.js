@@ -32,7 +32,7 @@ describe('transaction utils tests', () => {
         const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: statusUnconfirmed,
-            signerAddress: account2.address.pretty(),
+            signerAddress: account2.address.plain(),
             hash,
             cosignaturePublicKeys,
             fee,
@@ -48,7 +48,7 @@ describe('transaction utils tests', () => {
         const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_BONDED,
             status: statusUnconfirmed,
-            signerAddress: account2.address.pretty(),
+            signerAddress: account2.address.plain(),
             hash,
             cosignaturePublicKeys,
             fee,
@@ -93,8 +93,8 @@ describe('transaction utils tests', () => {
     });
 
     test('shoud be outgoing transaction', () => {
-        const signerAddress = currentAccount.address.pretty();
-        const recipientAddress = account2.address.pretty();
+        const signerAddress = currentAccount.address.plain();
+        const recipientAddress = account2.address.plain();
 
         const formattedTransaction = {
             transactionType: TransactionType.TRANSFER,
@@ -104,12 +104,12 @@ describe('transaction utils tests', () => {
             mosaics: [mosaic],
         };
 
-        expect(isOutgoingTransaction(formattedTransaction, currentAccount.address.pretty())).toBe(true);
+        expect(isOutgoingTransaction(formattedTransaction, currentAccount.address.plain())).toBe(true);
     });
 
     test('shoud not be outgoing transaction', () => {
-        const signerAddress = account2.address.pretty();
-        const recipientAddress = currentAccount.address.pretty();
+        const signerAddress = account2.address.plain();
+        const recipientAddress = currentAccount.address.plain();
 
         const formattedTransaction = {
             transactionType: TransactionType.TRANSFER,
@@ -119,16 +119,16 @@ describe('transaction utils tests', () => {
             mosaics: [mosaic],
         };
 
-        expect(isOutgoingTransaction(formattedTransaction, currentAccount.address.pretty())).toBe(false);
+        expect(isOutgoingTransaction(formattedTransaction, currentAccount.address.plain())).toBe(false);
     });
 
     test('shoud be transaction with unlink LinkAction', () => {
         const formattedTransaction = {
             transactionType: TransactionType.VRF_KEY_LINK,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             linkAction: Constants.LinkAction[LinkAction.Unlink],
             linkedPublicKey: account2.publicKey,
-            linkedAccountAddress: account2.address.pretty(),
+            linkedAccountAddress: account2.address.plain(),
         };
 
         expect(isUnlinkActionTransaction(formattedTransaction)).toBe(true);
@@ -137,11 +137,11 @@ describe('transaction utils tests', () => {
     test('shoud be transaction with unlink AliasAction', () => {
         const formattedTransaction = {
             transactionType: TransactionType.ADDRESS_ALIAS,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             aliasAction: Constants.AliasAction[AliasAction.Unlink],
             namespaceName: namespace1.name,
             namespaceId: namespace1.namespaceId,
-            address: account2.address.pretty(),
+            address: account2.address.plain(),
         };
 
         expect(isUnlinkActionTransaction(formattedTransaction)).toBe(true);
@@ -150,25 +150,25 @@ describe('transaction utils tests', () => {
     test('shoud not be transaction with unlink action', () => {
         const formattedKeyLinkTransaction = {
             transactionType: TransactionType.VRF_KEY_LINK,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             linkAction: Constants.LinkAction[LinkAction.Link],
             linkedPublicKey: account2.publicKey,
-            linkedAccountAddress: account2.address.pretty(),
+            linkedAccountAddress: account2.address.plain(),
         };
 
         const formattedAddressAliasTransaction = {
             transactionType: TransactionType.ADDRESS_ALIAS,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             aliasAction: Constants.AliasAction[AliasAction.Link],
             namespaceName: namespace1.name,
             namespaceId: namespace1.namespaceId,
-            address: account2.address.pretty(),
+            address: account2.address.plain(),
         };
 
         const formattedTransferTransaction = {
             transactionType: TransactionType.TRANSFER,
-            signerAddress: currentAccount.address.pretty(),
-            recipientAddress: account2.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
+            recipientAddress: account2.address.plain(),
             messageText,
             mosaics: [mosaic],
         };
@@ -181,8 +181,8 @@ describe('transaction utils tests', () => {
     test('shoud return AggregateComplete transaction preview info', () => {
         const formattedTransferTransaction = {
             transactionType: TransactionType.TRANSFER,
-            signerAddress: currentAccount.address.pretty(),
-            recipientAddress: account2.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
+            recipientAddress: account2.address.plain(),
             messageText,
             mosaics: [mosaic],
         };
@@ -198,13 +198,13 @@ describe('transaction utils tests', () => {
         const formattedTransaction = {
             transactionType: TransactionType.AGGREGATE_COMPLETE,
             status: statusConfirmed,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             hash,
             fee,
             innerTransactions: [formattedTransferTransaction, formattedNamespaceRegistrationTransaction],
         };
 
-        expect(getAggregateTransactionInfoPreview(formattedTransaction, currentAccount.address.pretty(), network)).toStrictEqual([
+        expect(getAggregateTransactionInfoPreview(formattedTransaction, currentAccount.address.plain(), network)).toStrictEqual([
             {
                 type: TransactionInfoPreviewValueType.AggregateInner,
                 value: {
@@ -218,13 +218,13 @@ describe('transaction utils tests', () => {
     test('shoud return Transfer transaction preview info', () => {
         const formattedTransaction = {
             transactionType: TransactionType.TRANSFER,
-            signerAddress: currentAccount.address.pretty(),
-            recipientAddress: account2.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
+            recipientAddress: account2.address.plain(),
             messageText,
             mosaics: [mosaic],
         };
 
-        expect(getTransferTransactionInfoPreview(formattedTransaction, currentAccount.address.pretty(), network)).toStrictEqual([
+        expect(getTransferTransactionInfoPreview(formattedTransaction, currentAccount.address.plain(), network)).toStrictEqual([
             {
                 type: TransactionInfoPreviewValueType.AmountOutgoing,
                 value: relativeAmount,
@@ -238,7 +238,7 @@ describe('transaction utils tests', () => {
     test('shoud return NamespaceRegistration transaction preview info', () => {
         const formattedTransaction = {
             transactionType: TransactionType.NAMESPACE_REGISTRATION,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             registrationType: Constants.NamespaceRegistrationType[0],
             namespaceName: namespace1.name,
             namespaceId: namespace1.namespaceId,
@@ -256,7 +256,7 @@ describe('transaction utils tests', () => {
     test('shoud return HashLock transaction preview info', () => {
         const formattedTransaction = {
             transactionType: TransactionType.HASH_LOCK,
-            signerAddress: currentAccount.address.pretty(),
+            signerAddress: currentAccount.address.plain(),
             duration: 1000,
             mosaics: [mosaic],
             hash,

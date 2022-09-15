@@ -85,7 +85,7 @@ class OptInSelectSymbolAccount extends Component<Props, State> {
                             {translate('optin.destinationMultisigAccount')}
                         </Text>
                         <Text style={styles.titleText} theme="light" type={'regular'} align={'left'}>
-                            {publicAccount.address.pretty()}
+                            {publicAccount.address.plain()}
                         </Text>
                         <Text style={styles.titleText} theme="light" type={'bold'} align={'left'}>
                             {translate('optin.selectCosignerSymbolDescription')}

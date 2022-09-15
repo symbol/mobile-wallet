@@ -88,7 +88,7 @@ class OptInReview extends Component<Props, State> {
             data = {
                 optinAddress: selectedNIS1Account.address,
                 optinNIS1Multisig: selectedNIS1MultisigAccount,
-                optinMultisigDestination: publicAccount.address.pretty(),
+                optinMultisigDestination: publicAccount.address.plain(),
                 // optinCosigner: AccountService.getAddressByAccountModelAndNetwork(selectedSymbolAccount, network),
             };
         } else {

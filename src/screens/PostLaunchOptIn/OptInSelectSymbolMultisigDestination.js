@@ -63,7 +63,7 @@ class OptInSelectSymbolMultisigDestination extends Component<Props, State> {
         if (publicAccount && pubkey.length === 64) {
             this.setState({
                 multisigAccount: {
-                    address: publicAccount.address.pretty(),
+                    address: publicAccount.address.plain(),
                     publicKey: publicAccount.publicKey,
                 },
             });

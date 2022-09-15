@@ -3,11 +3,11 @@ import type { NetworkModel } from '@src/storage/models/NetworkModel';
 
 export default class NamespaceService {
     static async resolveAddress(unResolvedAddress: NamespaceId | Address, network: NetworkModel): Promise<string> {
-        if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.pretty();
+        if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.plain();
 
         const address = await new NamespaceHttp(network.node).getLinkedAddress(unResolvedAddress).toPromise();
 
-        return address.pretty();
+        return address.plain();
     }
 
     static async resolveMosaicId(unresolvedMosaicId: NamespaceId | MosaicId, network: NetworkModel): Promise<string> {

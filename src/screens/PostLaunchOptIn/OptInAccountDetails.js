@@ -162,7 +162,7 @@ class OptInAccountDetails extends Component<Props, State> {
                             <Text type={'bold'} theme={'light'}>
                                 {translate('optin.destination')}
                             </Text>
-                            <CopyView>{publicAccount.address.pretty()}</CopyView>
+                            <CopyView>{publicAccount.address.plain()}</CopyView>
                         </Section>
                     )}
                     <Section type="form-item">

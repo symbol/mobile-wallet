@@ -6,7 +6,7 @@ import type { AppNetworkType, NetworkModel } from '@src/storage/models/NetworkMo
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
 import { AccountSecureStorage } from '@src/storage/persistence/AccountSecureStorage';
 import MosaicService from '@src/services/MosaicService';
-import { SymbolPaperWallet } from 'symbol-paper-wallets';
+import { SymbolPaperWallet } from 'symbol-wallets-lib';
 import { getAccountIndexFromDerivationPath, getMosaicRelativeAmount } from '@src/utils/format';
 
 export default class AccountService {
@@ -34,7 +34,7 @@ export default class AccountService {
      * Generates random mnemonic
      */
     static getAddressByAccountModelAndNetwork(accountModel: AccountModel, network: AppNetworkType): string {
-        return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.pretty();
+        return Account.createFromPrivateKey(accountModel.privateKey, this._appNetworkToNetworkType(network)).address.plain();
     }
     /**
      * Generates random mnemonic
@@ -223,7 +223,7 @@ export default class AccountService {
                 .getMultisigAccountInfo(Address.createFromRawAddress(address))
                 .toPromise();
             return {
-                cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.pretty()),
+                cosignatoryOf: multisigInfo.multisigAddresses.map(address => address.plain()),
                 isMultisig: multisigInfo.cosignatoryAddresses.length > 0,
             };
         } catch (e) {
