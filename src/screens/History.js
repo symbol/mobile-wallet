@@ -35,11 +35,7 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = {};
-
-type State = {};
-
-class History extends Component<Props, State> {
+class History extends Component {
     state = {
         showingDetails: -1,
     };
