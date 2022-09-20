@@ -15,3 +15,8 @@ export const account3 = Account.createFromPrivateKey(
     '0000000000000000000000000000000000000000000000000000000000000003',
     network.networkType
 );
+
+export const account4 = Account.createFromPrivateKey(
+    '0000000000000000000000000000000000000000000000000000000000000004',
+    network.networkType
+);

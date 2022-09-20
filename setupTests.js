@@ -18,5 +18,6 @@ jest.mock('@haskkor/react-native-pincode', () => {
     };
 });
 jest.mock('react-native-qrcode-scanner', () => {});
+jest.mock('react-native-svg', () => jest.requireActual('./__MOCKS__/react-native-svg'));
 
 global.renderConnected = (component, store) => render(<Provider store={store}>{component}</Provider>);
