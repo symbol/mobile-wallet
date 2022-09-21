@@ -73,7 +73,7 @@ describe('screens/History', () => {
             await store.dispatchAction({ type: 'transaction/init' });
             await new Promise(setImmediate);
             const screen = renderConnected(<History />, store);
-            const dropdownSelectorElement = screen.getAllByText('t_all')[0];
+            const dropdownSelectorElement = screen.getAllByText('t_history.all')[0];
             fireEvent.press(dropdownSelectorElement);
             const dropdownItemElement = screen.getAllByText(filterTextToPress).pop();
             fireEvent.press(dropdownItemElement);
@@ -96,7 +96,7 @@ describe('screens/History', () => {
 
         test('renders transactions except blocked when filter value is "ALL"', async () => {
             // Arrange:
-            const filterTextToPress = 't_all';
+            const filterTextToPress = 't_history.all';
             const transactionPage = transactionPageAddressBookAll;
 
             // Act + Assert:

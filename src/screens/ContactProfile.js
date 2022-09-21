@@ -102,8 +102,8 @@ class ContactProfile extends Component {
                 <ConfirmModal
                     isModalOpen={isRemoveModalOpen}
                     showTopbar={true}
-                    title={'Remove contact'}
-                    text={'Are you sure you want to remove contact?'}
+                    title={translate('addressBook.removeContactModalTitle')}
+                    text={translate('addressBook.removeContactModalBody')}
                     showClose={false}
                     onClose={() => this.cancelRemove()}
                     onSuccess={() => this.confirmRemove(selectedContact.id)}

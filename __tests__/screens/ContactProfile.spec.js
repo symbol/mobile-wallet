@@ -113,7 +113,7 @@ describe('screens/ContactProfile', () => {
 
             // Assert:
             expect(selectedContact).toStrictEqual(contact);
-            expect(screen.queryByText('Are you sure you want to remove contact?')).not.toBeNull();
+            expect(screen.queryByText('t_addressBook.removeContactModalBody')).not.toBeNull();
         });
 
         test('hides confirmation modal when press on discard button', async () => {
@@ -128,7 +128,7 @@ describe('screens/ContactProfile', () => {
 
             // Assert:
             expect(selectedContact).toStrictEqual(contact);
-            expect(screen.queryByText('Are you sure you want to remove contact?')).toBeNull();
+            expect(screen.queryByText('t_addressBook.removeContactModalBody')).toBeNull();
         });
 
         test('removes contact when press on confirm button', async () => {
@@ -136,7 +136,7 @@ describe('screens/ContactProfile', () => {
             const screen = renderConnected(<ContactProfile />, store);
             const removeButton = screen.getByText('t_addressBook.removeContact');
             fireEvent.press(removeButton);
-            const confirmButton = screen.getByText('Confirm');
+            const confirmButton = screen.getByText('t_unsortedKeys.confirmButton');
             fireEvent.press(confirmButton);
             await new Promise(setImmediate);
             const removedContact = store.getState().addressBook.addressBook.getContactByAddress(address);

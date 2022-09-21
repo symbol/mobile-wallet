@@ -107,7 +107,7 @@ class History extends Component {
         const { showingDetails } = this.state;
         const isLoading = isNextLoading || loading;
         const allFilters = [
-            { value: 'ALL', label: translate('all') },
+            { value: 'ALL', label: translate('history.all') },
             { value: 'SENT', label: translate('history.sent') },
             { value: 'RECEIVED', label: translate('history.received') },
             { value: 'BLOCKED', label: translate('history.blocked') },
