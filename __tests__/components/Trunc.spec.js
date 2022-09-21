@@ -18,7 +18,7 @@ describe('components/Trunc', () => {
         expect(result).toBe(expectedResult);
     };
 
-    describe('invalid type of "children" prop', () => {
+    describe('children prop is not a string', () => {
         // Arrange:
         const type = null;
         const length = 6;
@@ -38,7 +38,7 @@ describe('components/Trunc', () => {
         const type = null;
         const length = 6;
 
-        test('render full string when its length is equal to "length" prop', () => {
+        test('render full string when its length is equal to length prop', () => {
             // Arrange:
             const content = '123456';
 
@@ -47,7 +47,7 @@ describe('components/Trunc', () => {
             runTruncTest(content, type, length, expectedResult);
         });
 
-        test('render truncated string when its length is greater than "length" prop', () => {
+        test('render truncated string when its length is greater than length prop', () => {
             // Arrange:
             const content = '12345678';
 
@@ -108,7 +108,7 @@ describe('components/Trunc', () => {
             },
         ];
 
-        test('render string depending on its length and "type" prop', () => {
+        test('render string depending on its length and type prop', () => {
             // Act + Assert:
             tests.forEach(test => runTruncTest(test.content, test.type, length, test.expectedResult));
         });

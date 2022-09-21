@@ -40,7 +40,7 @@ describe('components/AddressDisplay', () => {
         const address = account2.address.plain();
         const contact = null;
 
-        test('render plain address when trunc is false', () => {
+        test('renders plain address when trunc is false', () => {
             // Arrange:
             const plain = false;
             const trunc = false;
@@ -53,7 +53,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render truncated address when trunc is true', () => {
+        test('renders truncated address when trunc is true', () => {
             // Arrange:
             const plain = false;
             const trunc = true;
@@ -77,7 +77,7 @@ describe('components/AddressDisplay', () => {
             isBlackListed: false,
         };
 
-        test('render full contact name when trunc is false', () => {
+        test('renders full contact name when trunc is false', () => {
             // Arrange:
             const plain = false;
             const trunc = false;
@@ -90,7 +90,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render truncated contact name when trunc is true', () => {
+        test('renders truncated contact name when trunc is true', () => {
             // Arrange:
             const plain = false;
             const trunc = true;
@@ -103,7 +103,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render contact address when plain is true', () => {
+        test('renders contact address when plain is true', () => {
             // Arrange:
             const plain = true;
             const trunc = false;
@@ -127,7 +127,7 @@ describe('components/AddressDisplay', () => {
             isBlackListed: true,
         };
 
-        test('render full contact name when trunc is false', () => {
+        test('renders full contact name when trunc is false', () => {
             // Arrange:
             const plain = false;
             const trunc = false;
@@ -140,7 +140,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render truncated contact name when trunc is true', () => {
+        test('renders truncated contact name when trunc is true', () => {
             // Arrange:
             const plain = false;
             const trunc = true;
@@ -153,7 +153,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render contact address when plain is true', () => {
+        test('renders contact address when plain is true', () => {
             // Arrange:
             const plain = true;
             const trunc = false;
@@ -172,7 +172,7 @@ describe('components/AddressDisplay', () => {
         const address = account1.address.plain();
         const contact = null;
 
-        test('render caption with plain address when trunc is false', () => {
+        test('renders caption with plain address when trunc is false', () => {
             // Arrange:
             const plain = false;
             const trunc = false;
@@ -185,7 +185,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render caption with truncated address when trunc is true', () => {
+        test('renders caption with truncated address when trunc is true', () => {
             // Arrange:
             const plain = false;
             const trunc = true;
@@ -198,7 +198,7 @@ describe('components/AddressDisplay', () => {
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
         });
 
-        test('render plain address without caption when plain is true', () => {
+        test('renders plain address without caption when plain is true', () => {
             // Arrange:
             const plain = true;
             const trunc = false;
