@@ -46,7 +46,9 @@ class ContactProfile extends Component {
         const { isRemoveModalOpen } = this.state;
         const list = {
             address: selectedContact.address,
-            transactionsAllowed: selectedContact.isBlackListed ? translate('addressBook.blocked') : translate('addressBook.allowed'),
+            transactionsAllowed: selectedContact.isBlackListed
+                ? translate('addressBook.transactionsBlocked')
+                : translate('addressBook.transactionsAllowed'),
             notes: selectedContact.notes,
         };
 

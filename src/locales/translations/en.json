@@ -731,8 +731,8 @@
 		"removeContactModalTitle": "Remove contact",
 		"removeContactModalBody": "Are you sure you want to remove contact?",
 		"listType": "List",
-		"allowed": "Allowed",
-		"blocked": "Blocked",
+		"transactionsAllowed": "Allowed",
+		"transactionsBlocked": "Blocked",
 		"addressBlocked": "Blocked",
 		"whitelist": "White List",
 		"blacklist": "Black List"

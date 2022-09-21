@@ -76,7 +76,7 @@ describe('screens/ContactProfile', () => {
             const isBlackListed = false;
 
             // Act + Assert:
-            const expectedTransactionAllowedText = 't_addressBook.allowed';
+            const expectedTransactionAllowedText = 't_addressBook.transactionsAllowed';
             renderListTypeTest(isBlackListed, expectedTransactionAllowedText);
         });
 
@@ -85,7 +85,7 @@ describe('screens/ContactProfile', () => {
             const isBlackListed = true;
 
             // Act + Assert:
-            const expectedTransactionAllowedText = 't_addressBook.blocked';
+            const expectedTransactionAllowedText = 't_addressBook.transactionsBlocked';
             renderListTypeTest(isBlackListed, expectedTransactionAllowedText);
         });
     });
