@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
-import { AddressDisplay } from '../../src/components/controls/AddressDisplay';
+import AddressDisplay from '../../src/components/controls/AddressDisplay';
 import { account1, account2 } from '../../__mocks__/account';
+import { mockStore } from '__mocks__/store';
 import { AddressBook } from 'symbol-address-book';
 
 jest.mock('@src/locales/i18n', () => t => `t_${t}`);
@@ -14,15 +14,21 @@ describe('components/AddressDisplay', () => {
             addressBook.addContact(contact);
         }
         const props = {
-            addressBook,
-            currentAddress: account1.address.plain(),
             plain,
             trunc,
         };
-        const labelText = 't_addressBook.addressBlocked';
+        const store = mockStore({
+            addressBook: {
+                addressBook,
+            },
+            account: {
+                selectedAccountAddress: account1.address.plain(),
+            },
+        });
+        const labelText = '!';
 
         // Act:
-        const screen = render(<AddressDisplay {...props}>{address}</AddressDisplay>);
+        const screen = renderConnected(<AddressDisplay {...props}>{address}</AddressDisplay>, store);
         const textContent = screen.getByTestId('text-display').children.join('');
 
         // Assert:
@@ -164,6 +170,23 @@ describe('components/AddressDisplay', () => {
                 showLabel: true,
             };
             runAddressDisplayTest(address, contact, plain, trunc, expectations);
+        });
+
+        test('renders "blocked" label when contact does not contain name', () => {
+            // Arrange:
+            const plain = false;
+            const trunc = false;
+            const contactWithoutName = {
+                ...contact,
+                name: '',
+            };
+
+            // Act + Assert:
+            const expectations = {
+                mainText: 't_addressBook.addressBlocked',
+                showLabel: true,
+            };
+            runAddressDisplayTest(address, contactWithoutName, plain, trunc, expectations);
         });
     });
 

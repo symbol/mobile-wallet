@@ -21,29 +21,30 @@ const contacts = [
         address: account2.address.plain(),
     },
 ];
-let addressBook = new AddressBook(contacts);
+let addressBook;
+let state;
 
 beforeEach(() => {
     Router.goBack = mockGoBack;
     mockGoBack.mockClear();
     addressBook = new AddressBook(contacts);
+    state = {
+        account: {
+            selectedAccountAddress: currentAddress,
+        },
+        addressBook: {
+            addressBook,
+        },
+        network: {
+            selectedNetwork: network,
+        },
+    };
 });
 
 describe('screens/AddContact', () => {
     describe('address warnings', () => {
         const runAddressWarningTest = (addressToBeInputted, expectedWarningText) => {
             // Arrange:
-            const state = {
-                account: {
-                    selectedAccountAddress: currentAddress,
-                },
-                addressBook: {
-                    addressBook,
-                },
-                network: {
-                    selectedNetwork: network,
-                },
-            };
 
             // Act:
             const screen = renderConnected(<AddContact />, mockStore(state));
@@ -79,6 +80,58 @@ describe('screens/AddContact', () => {
             // Act + Assert:
             const expectedWarningText = 't_addressBook.addressCurrentWarning';
             runAddressWarningTest(addressToBeInputted, expectedWarningText);
+        });
+    });
+
+    describe('name warning', () => {
+        const runNameWarningTest = async (nameToBeInputted, isBlackListed, expectedWarningToBeShown) => {
+            // Arrange:
+            const props = {
+                isBlackListed,
+            };
+            const store = mockStore(state);
+
+            // Act:
+            const screen = renderConnected(<AddContact isBlackListed={isBlackListed} {...props} />, store);
+            const addressInputElement = screen.getByTestId('input-name');
+            fireEvent.changeText(addressInputElement, nameToBeInputted);
+
+            // Assert:
+            if (expectedWarningToBeShown) {
+                expect(screen.queryByTex('t_addressBook.nameWarning')).not.toBeNull();
+            } else {
+                expect(screen.queryByTex('t_addressBook.nameWarning')).toBeNull();
+            }
+        };
+
+        test('renders warning when selected whitelist and name field is empty', () => {
+            // Arrange:
+            const nameToBeInputted = '';
+            const isBlackListed = false;
+
+            // Act + Assert:
+            const expectedWarningToBeShown = true;
+            runNameWarningTest(nameToBeInputted, isBlackListed, expectedWarningToBeShown);
+        });
+
+        test('does not renders warning when selected whitelist and name field is not empty', () => {
+            // Arrange:
+            const nameToBeInputted = 'Name';
+            const isBlackListed = false;
+
+            // Act + Assert:
+            const expectedWarningToBeShown = false;
+            runNameWarningTest(nameToBeInputted, isBlackListed, expectedWarningToBeShown);
+        });
+
+        test('does not renders warning when selected blacklist', () => {
+            // Arrange:
+            const nameToBeInputted = '';
+            const isBlackListed = true;
+
+            // Act + Assert:
+            const expectedWarningToBeShown = false;
+            runNameWarningTest(nameToBeInputted, isBlackListed, expectedWarningToBeShown);
         });
     });
 
@@ -272,17 +325,6 @@ describe('screens/AddContact', () => {
                 name,
                 address,
             };
-            const state = {
-                account: {
-                    selectedAccountAddress: currentAddress,
-                },
-                addressBook: {
-                    addressBook,
-                },
-                network: {
-                    selectedNetwork: network,
-                },
-            };
             const store = mockStore(state);
 
             // Act:
@@ -297,15 +339,10 @@ describe('screens/AddContact', () => {
             const addedContact = store.getState().addressBook.addressBook.getContactByAddress(address);
 
             // Assert:
-            if (expectations.isNameFieldShown) {
-                expect(screen.queryByTestId('input-name')).not.toBeNull();
-            } else {
-                expect(screen.queryByTestId('input-name')).toBeNull();
-            }
             expect(_.omit(addedContact, 'id')).toEqual(expectations.contactToBeAdded);
         };
 
-        test('hide name field when select blacklist', async () => {
+        test('adds contact to blacklist', async () => {
             // Arrange:
             const isBlackListed = false;
             const listToSelect = 't_addressBook.blacklist';
@@ -314,7 +351,7 @@ describe('screens/AddContact', () => {
             const expectations = {
                 isNameFieldShown: false,
                 contactToBeAdded: {
-                    name: '',
+                    name,
                     address,
                     notes: '',
                     isBlackListed: true,
@@ -323,7 +360,7 @@ describe('screens/AddContact', () => {
             await runListSelectorTest(isBlackListed, listToSelect, expectations);
         });
 
-        test('show name field when select whitelist', async () => {
+        test('adds contact to whitelist', async () => {
             // Arrange:
             const isBlackListed = true;
             const listToSelect = 't_addressBook.whitelist';

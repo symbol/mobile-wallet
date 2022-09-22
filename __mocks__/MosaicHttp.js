@@ -11,7 +11,7 @@ export const createGetMosaic = idInfoMap => mosaicId => {
     };
 };
 
-export const createMosaicInfo = (divisibility, expired)({
+export const createMosaicInfo = (divisibility, expired) => ({
     divisibility,
     expired,
 });

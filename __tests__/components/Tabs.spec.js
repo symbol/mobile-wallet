@@ -65,4 +65,42 @@ describe('components/Tabs', () => {
         // Assert:
         expect(mockOnChange).toBeCalledWith(2);
     });
+
+    describe('space prop', () => {
+        const runSpacePropTest = (space, expectedMargin) => {
+            // Arrange:
+            const props = {
+                list,
+                value,
+                space,
+            };
+
+            // Act:
+            const screen = render(<Tabs testID={testID} {...props} />);
+            const tabElement = screen.getByText('Tab 1').parent.parent.parent.parent;
+            const tabElementStyle = StyleSheet.flatten(tabElement.props.style);
+
+            // Assert:
+            expect(tabElementStyle).toHaveProperty('marginLeft');
+            expect(tabElementStyle.marginLeft).toBe(expectedMargin);
+        };
+
+        test('sets margin of 24 when value is "sm"', () => {
+            // Arrange:
+            const space = 'sm';
+
+            // Act + Assert:
+            const expectedMargin = 24;
+            runSpacePropTest(space, expectedMargin);
+        });
+
+        test('sets margin of 36 when value is "md"', () => {
+            // Arrange:
+            const space = 'md';
+
+            // Act + Assert:
+            const expectedMargin = 36;
+            runSpacePropTest(space, expectedMargin);
+        });
+    });
 });

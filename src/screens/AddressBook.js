@@ -51,7 +51,7 @@ export function AddressBookPage(props) {
             theme="light"
             titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={createGoBack(componentId)} />}
         >
-            <Tabs style={styles.tabs} value={listType} list={tabs} onChange={setListType} />
+            <Tabs style={styles.tabs} value={listType} list={tabs} space="md" onChange={setListType} />
             <ListContainer isScrollable={false}>
                 <FlatList
                     data={contactList}

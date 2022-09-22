@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         marginRight: 5,
     },
+    addressBlocked: {
+        color: GlobalStyles.color.RED,
+    },
 });
 
 export const AddressDisplay = props => {
@@ -42,14 +45,20 @@ export const AddressDisplay = props => {
         isBlocked = contact.isBlackListed;
     }
 
+    if (isBlocked && textString.length === 0) {
+        textString = translate('addressBook.addressBlocked');
+    }
+
+    const textStyle = [isBlocked ? styles.addressBlocked : {}, style];
+
     return (
         <Row align="center">
             {isBlocked && (
                 <Text type="bold" style={styles.labelBlocked}>
-                    {translate('addressBook.addressBlocked')}
+                    !
                 </Text>
             )}
-            <Text style={style} theme={theme} testID="text-display">
+            <Text style={textStyle} theme={theme} testID="text-display">
                 {prefixTextString}
                 <Trunc type={truncType} length={textString.length}>
                     {textString}

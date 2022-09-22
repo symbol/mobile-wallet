@@ -10,7 +10,11 @@ const styles = StyleSheet.create({
         marginBottom: 2,
         borderColor: GlobalStyles.color.WHITE,
     },
-    tab: {
+    tabSm: {
+        marginLeft: 24,
+        paddingBottom: 5,
+    },
+    tabMd: {
         marginLeft: 36,
         paddingBottom: 5,
     },
@@ -22,10 +26,11 @@ const styles = StyleSheet.create({
 });
 
 export default function Tabs(props) {
-    const { list, style, testID, value, onChange } = props;
+    const { list, space, style, testID, value, onChange } = props;
 
     const rootStyle = [styles.root, style];
-    const getTabStyle = item => (item.value === value ? [styles.tab, styles.activeTab] : styles.tab);
+    const baseTabStyle = space === 'md' ? styles.tabMd : styles.tabSm;
+    const getTabStyle = item => (item.value === value ? [baseTabStyle, styles.activeTab] : baseTabStyle);
 
     return (
         <Row style={rootStyle} testID={testID}>
@@ -47,8 +52,13 @@ Tabs.propsTypes = {
             value: PropTypes.any.isRequired,
         })
     ).isRequired,
+    space: PropTypes.oneOf(['sm', 'md']),
     style: PropTypes.object,
     testID: PropTypes.string,
     value: PropTypes.any.isRequired,
     onChange: PropTypes.isRequired,
+};
+
+Tabs.defaultProps = {
+    space: 'sm',
 };

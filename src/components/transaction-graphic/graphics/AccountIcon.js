@@ -29,8 +29,8 @@ class AccountIcon extends GraphicComponent {
 
         const contact = addressBook.getContactByAddress(address);
 
-        if (contact && contact.name && !this.isBlockedAddress) {
-            return Trunc({ type: 'contact-short', children: contact.name });
+        if (contact && contact.name) {
+            return Trunc({ type: 'contact', children: contact.name });
         }
 
         if (this.isBlockedAddress) {
@@ -50,10 +50,10 @@ class AccountIcon extends GraphicComponent {
 
     get textStyle() {
         if (this.isBlockedAddress) {
-            return [this.styles.text, this.styles.textDanger];
+            return [this.styles.textSmaller, this.styles.textDanger];
         }
 
-        return this.styles.text;
+        return this.styles.textSmaller;
     }
 
     render() {
@@ -66,7 +66,7 @@ class AccountIcon extends GraphicComponent {
                     </Text>
                 )}
                 {!this.props.hideCaption && !this.aliasAddress && (
-                    <Text x="120" y="122.8457" style={this.styles.textSmaller} textAnchor="middle">
+                    <Text x="120" y="122.8457" style={this.styles.textSmall} textAnchor="middle">
                         <TSpan x="130" dy="-9">
                             {this.stackedAddress[0]}
                         </TSpan>

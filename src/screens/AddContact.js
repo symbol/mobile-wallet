@@ -52,12 +52,13 @@ export class AddContact extends Component {
             id: this.state.id,
         };
 
-        store.dispatchAction({
-            type: 'addressBook/selectContact',
-            payload: contact,
-        });
         await store.dispatchAction({
             type: 'addressBook/updateContact',
+            payload: contact,
+        });
+
+        await store.dispatchAction({
+            type: 'addressBook/selectContact',
             payload: contact,
         });
 
@@ -116,7 +117,6 @@ export class AddContact extends Component {
     onListChange = listType => {
         this.setState({
             isBlackListed: listType === 'blacklist',
-            name: listType === 'blacklist' ? '' : this.state.name,
         });
     };
 
@@ -140,7 +140,8 @@ export class AddContact extends Component {
                 label: translate('addressBook.blacklist'),
             },
         ];
-        const isButtonDisabled = !isAddressValid || (!isBlackListed && name.length === 0) || isAddressTaken || isAddressCurrent;
+        const isButtonDisabled = !isAddressValid || isAddressTaken || isAddressCurrent || (!isBlackListed && name.length === 0);
+        let nameWarningText = '';
         let addressWarningText = '';
         let titleText = translate('addressBook.addContact');
         let buttonText = translate('CreateNewAccount.submitButton');
@@ -150,6 +151,10 @@ export class AddContact extends Component {
             titleText = translate('addressBook.updateContact');
             buttonText = translate('addressBook.updateContact');
             buttonAction = () => this.updateContact();
+        }
+
+        if (!isBlackListed && name.length === 0) {
+            nameWarningText = translate('addressBook.nameWarning');
         }
 
         if (!address.length) {
@@ -175,22 +180,6 @@ export class AddContact extends Component {
                             onChange={listType => this.onListChange(listType)}
                         />
                     </Section>
-                    {!isBlackListed && (
-                        <Section type="form-item">
-                            <Input
-                                value={name}
-                                placeholder={translate('table.name')}
-                                theme="light"
-                                onChangeText={this.onChangeField('name')}
-                                testID="input-name"
-                            />
-                            {name.length === 0 && (
-                                <Text theme="light" style={styles.warning}>
-                                    {translate('addressBook.nameWarning')}
-                                </Text>
-                            )}
-                        </Section>
-                    )}
                     <Section type="form-item">
                         <InputAddress
                             value={address}
@@ -204,6 +193,20 @@ export class AddContact extends Component {
                         {!!addressWarningText && (
                             <Text theme="light" style={styles.warning}>
                                 {addressWarningText}
+                            </Text>
+                        )}
+                    </Section>
+                    <Section type="form-item">
+                        <Input
+                            value={name}
+                            placeholder={translate('table.name')}
+                            theme="light"
+                            onChangeText={this.onChangeField('name')}
+                            testID="input-name"
+                        />
+                        {!!nameWarningText && (
+                            <Text theme="light" style={styles.warning}>
+                                {nameWarningText}
                             </Text>
                         )}
                     </Section>

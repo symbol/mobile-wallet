@@ -21,7 +21,7 @@ beforeEach(() => {
             addressBook: new AddressBook([
                 {
                     id: 0,
-                    name: 'Blocked One',
+                    name: '',
                     address: account2.address.plain(),
                     isBlackListed: true,
                 },
