@@ -33,6 +33,7 @@ class ContactProfile extends Component {
 
     confirmRemove = id => {
         store.dispatchAction({ type: 'addressBook/removeContact', payload: id }).then(createGoBack(this.props.componentId));
+        store.dispatchAction({ type: 'transaction/init' });
     };
 
     cancelRemove = () => {

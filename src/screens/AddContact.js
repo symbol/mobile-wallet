@@ -39,6 +39,7 @@ export class AddContact extends Component {
             type: 'addressBook/addContact',
             payload: contact,
         });
+        store.dispatchAction({ type: 'transaction/init' });
 
         return createGoBack(this.props.componentId)();
     };
@@ -59,6 +60,11 @@ export class AddContact extends Component {
 
         await store.dispatchAction({
             type: 'addressBook/selectContact',
+            payload: contact,
+        });
+
+        store.dispatchAction({
+            type: 'transaction/init',
             payload: contact,
         });
 
