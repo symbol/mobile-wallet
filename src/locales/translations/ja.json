@@ -484,7 +484,7 @@
 		"startEpoch": "有効期間開始",
 		"endEpoch": "有効期間終了",
 		"receivedCosignatures": "受信連署者",
-		"transactionsAllowed": "この連絡先からの受",
+		"transactionsAllowed": "この連絡先からの受信",
 		"v_unlimited": "制限無し",
 		"v_na": "N/A",
 		"v_infinity": "永久",
@@ -715,7 +715,7 @@
 	"addressBook": {
 		"title": "アドレス帳",
 		"addContact": "連絡先追加",
-		"updateContact": "保存t",
+		"updateContact": "保存",
 		"removeContact": "連絡先の消去",
 		"editContact": "連絡先の編集",
 		"nameWarning": "名前は必須項目です",
