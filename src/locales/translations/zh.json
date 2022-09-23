@@ -482,6 +482,7 @@
 		"startEpoch": "开始时期",
 		"endEpoch": "结束时期",
 		"receivedCosignatures": "收到的联署",
+		"transactionsAllowed": "交易来自此联系人",
 		"v_unlimited": "无限",
 		"v_na": "不适用",
 		"v_infinity": "无限",
@@ -598,6 +599,7 @@
 		"all": "所有",
 		"sent": "已发送",
 		"received": "已收到",
+		"blocked": "被阻止",
 		"transaction": {
 			"message": "消息",
 			"encrypted": "已加密",
@@ -726,9 +728,27 @@
 		"currentAccount": "你",
 		"currentAddress": "你的地址",
 		"alertNewVersionAppStoreTitle": "The new version of Symbol Wallet is available in the App Store",
-		"alertNewVersionAppStoreBody": "We strongly recommend that you update to the latest version!"
+		"alertNewVersionAppStoreBody": "We strongly recommend that you update to the latest version!",
+		"confirmButton": "确认"
 	},
 	"addressBook": {
-		"addressTakenWarning": "地址属于另一个联系人"
+		"title": "Address book",
+		"addContact": "Add contact",
+		"updateContact": "Update contact",
+		"removeContact": "删除",
+		"editContact": "修改",
+		"nameWarning": "Name is required",
+		"addressRequiredWarning": "地址必须填写",
+		"addressWarning": "Invalid address",
+		"addressTakenWarning": "地址属于另一个联系人",
+		"addressCurrentWarning": "这是您当前的帐户地址",
+		"removeContactModalTitle": "删除联系人",
+		"removeContactModalBody": "您确定要删除吗?",
+		"listType": "列表",
+		"transactionsAllowed": "被允许",
+		"transactionsBlocked": "被阻止",
+		"addressBlocked": "被阻止",
+		"whitelist": "白名单",
+		"blacklist": "黑名单"
 	}
 }

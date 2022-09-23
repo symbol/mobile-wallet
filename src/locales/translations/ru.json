@@ -491,6 +491,7 @@
 		"startEpoch": "Начало Эпохи",
 		"endEpoch": "Конец Эпохи",
 		"receivedCosignatures": "Полученные подписи",
+		"transactionsAllowed": "Входящие транзакции от этого контакта",
 		"v_unlimited": "НЕОГРАНИЧЕННЫЙ",
 		"v_na": "Данные отсутствуют ",
 		"v_infinity": "БЕСКОНЕЧНОСТЬ",
@@ -610,6 +611,7 @@
 		"all": "Все",
 		"sent": "Исходящие",
 		"received": "Входящие",
+		"blocked": "Чёрный Список",
 		"transaction": {
 			"message": "Сообщение",
 			"encrypted": "Зашифровано",
@@ -717,9 +719,21 @@
 		"title": "Адресная книга",
 		"addContact": "Добавить контакт",
 		"updateContact": "Обновить контакт",
-		"nameWarning": "Имя обязательно",
+		"removeContact": "Удалить контакт",
+		"editContact": "Редактировать контакт",
+		"nameWarning": "Требуется имя",
+		"addressRequiredWarning": "Требуется адрес",
 		"addressWarning": "Неверный адрес",
-		"addressTakenWarning": "Адрес принадлежит другому контакту"
+		"addressTakenWarning": "Адрес принадлежит другому контакту",
+		"addressCurrentWarning": "Адрес принадлежит Вашему аккаунту",
+		"removeContactModalTitle": "Удалить контакт",
+		"removeContactModalBody": "Вы уверены, что хотите удалить контакт?",
+		"listType": "Список",
+		"transactionsAllowed": "Разрешены",
+		"transactionsBlocked": "Помещаются в чёрный список",
+		"addressBlocked": "Заблокирован",
+		"whitelist": "Основной список",
+		"blacklist": "Чёрный список"
 	},
 	"fees": {
 		"slow": "Медленная",
@@ -752,7 +766,8 @@
 		"currentAccount": "Вы",
 		"currentAddress": "Ваш адрес",
 		"alertNewVersionAppStoreTitle": "В App Store доступна новая версия мобильного кошелька Symbol",
-		"alertNewVersionAppStoreBody": "Мы настоятельно рекомендуем Вам обновиться до последней версии!"
+		"alertNewVersionAppStoreBody": "Мы настоятельно рекомендуем Вам обновиться до последней версии!",
+		"confirmButton": "Подтвердить"
 	},
 	"optin": {
 		"title": "Пост Лаунч Опт-Ин",

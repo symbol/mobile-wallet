@@ -484,6 +484,7 @@
 		"startEpoch": "有効期間開始",
 		"endEpoch": "有効期間終了",
 		"receivedCosignatures": "受信連署者",
+		"transactionsAllowed": "この連絡先からの受",
 		"v_unlimited": "制限無し",
 		"v_na": "N/A",
 		"v_infinity": "永久",
@@ -608,6 +609,7 @@
 		"all": "全て",
 		"sent": "送信",
 		"received": "受信",
+		"blocked": "ブロック済",
 		"transaction": {
 			"message": "メッセージ",
 			"encrypted": "暗号化",
@@ -713,10 +715,22 @@
 	"addressBook": {
 		"title": "アドレス帳",
 		"addContact": "連絡先追加",
-		"updateContact": "Update contact",
+		"updateContact": "保存t",
+		"removeContact": "連絡先の消去",
+		"editContact": "連絡先の編集",
 		"nameWarning": "名前は必須項目です",
+		"addressRequiredWarning": "アドレスを入力してください",
 		"addressWarning": "無効なアドレスです",
-		"addressTakenWarning": "そのアドレスはすでに登録されています。"
+		"addressTakenWarning": "そのアドレスはすでに登録されています。",
+		"addressCurrentWarning": "あなたの現在のアカウントアドレス",
+		"removeContactModalTitle": "連絡先の消去",
+		"removeContactModalBody": "この連絡先を本当に消去しますか？",
+		"listType": "リスト",
+		"transactionsAllowed": "許可",
+		"transactionsBlocked": "ブロック",
+		"addressBlocked": "ブロックされています",
+		"whitelist": "ホワイトリスト",
+		"blacklist": "ブラックリスト"
 	},
 	"unsortedKeys": {
 		"copied": "コピーしました！",
@@ -743,6 +757,7 @@
 		"currentAccount": "あなた",
 		"currentAddress": "あなたのアドレス",
 		"alertNewVersionAppStoreTitle": "新しいバージョンのSymbolウォレットがアプリストアから利用可能です。",
-		"alertNewVersionAppStoreBody": "最新のバージョンにアップデートする事を強く推奨します。"
+		"alertNewVersionAppStoreBody": "最新のバージョンにアップデートする事を強く推奨します。",
+		"confirmButton": "確認"
 	}
 }
