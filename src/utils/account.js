@@ -12,3 +12,13 @@ export const isPrivateKeyValid = (privateKey: string): boolean => {
         return false;
     }
 };
+
+export const getMultisigInfoListFromMultisigGraphInfo = multisigAccountGraphInfo => {
+    const { multisigEntries } = multisigAccountGraphInfo;
+    const levels = [...multisigEntries.keys()].sort((a, b) => b - a);
+
+    return levels
+        .map(level => multisigEntries.get(level) || [])
+        .filter(multisigInfoList => multisigInfoList.length > 0)
+        .flat();
+};
