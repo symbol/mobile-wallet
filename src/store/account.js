@@ -1,9 +1,8 @@
 import AccountService from '@src/services/AccountService';
 import NamespaceService from '@src/services/NamespaceService';
-import { of } from 'rxjs';
 import { GlobalListener } from '@src/store/index';
+import { getMultisigInfoListFromMultisigGraphInfo } from '@src/utils/account';
 import { Address, RepositoryFactoryHttp } from 'symbol-sdk';
-import { catchError, map } from 'rxjs/operators';
 import _ from 'lodash';
 
 export default {
@@ -19,6 +18,8 @@ export default {
         accounts: [],
         cosignatoryOf: [],
         pendingSignature: false,
+        multisigTreeAccounts: [],
+        multisigTree: null,
         multisigGraphInfo: [],
         names: [],
     },
@@ -49,6 +50,14 @@ export default {
         },
         setCosignatoryOf(state, payload) {
             state.account.cosignatoryOf = payload;
+            return state;
+        },
+        setMultisigTreeAccounts(state, payload) {
+            state.account.multisigTreeAccounts = payload;
+            return state;
+        },
+        setMultisigTree(state, payload) {
+            state.account.multisigTree = payload;
             return state;
         },
         setMultisigGraphInfo(state, payload) {
@@ -139,27 +148,43 @@ export default {
         // load multisig tree data
         loadMultisigTree: async ({ commit, state }) => {
             const address = AccountService.getAddressByAccountModelAndNetwork(state.wallet.selectedAccount, state.network.network);
-            const repositoryFactory = new RepositoryFactoryHttp(state.network.selectedNode);
-            const multisigRepo = repositoryFactory.createMultisigRepository();
-            await multisigRepo
-                .getMultisigAccountGraphInfo(Address.createFromRawAddress(address))
-                .pipe(
-                    map(g => {
-                        commit({
-                            type: 'account/setMultisigGraphInfo',
-                            payload: g.multisigEntries,
-                        });
-                        return of(g);
-                    }),
-                    catchError(() => {
-                        commit({
-                            type: 'account/setMultisigGraphInfo',
-                            payload: undefined,
-                        });
-                        return of([]);
-                    })
-                )
-                .toPromise();
+            const multisigRepository = new RepositoryFactoryHttp(state.network.selectedNode).createMultisigRepository();
+
+            try {
+                const multisigAccountGraphInfo = await multisigRepository
+                    .getMultisigAccountGraphInfo(Address.createFromRawAddress(address))
+                    .toPromise();
+
+                const multisigTree = new Map(multisigAccountGraphInfo.multisigEntries);
+
+                for (const [currentLevel, multisigAccountInfos] of multisigAccountGraphInfo.multisigEntries) {
+                    if (currentLevel < 0) {
+                        for (const multisigAccountInfo of multisigAccountInfos) {
+                            const fetchedMultisigAccountGraphInfo = await multisigRepository
+                                .getMultisigAccountGraphInfo(multisigAccountInfo.accountAddress)
+                                .toPromise();
+
+                            fetchedMultisigAccountGraphInfo.multisigEntries.forEach((fetchedMultisigAccountInfos, fetchedLevel) => {
+                                const currentMultisigAccountInfos = multisigTree.get(currentLevel + fetchedLevel) || [];
+                                const newMultisigAccountInfos = [...currentMultisigAccountInfos, ...fetchedMultisigAccountInfos];
+                                const filteredMultisigAccountInfos = _.uniqBy(newMultisigAccountInfos, item => item.accountAddress.plain());
+
+                                multisigTree.set(currentLevel + fetchedLevel, filteredMultisigAccountInfos);
+                            });
+                        }
+                    }
+                }
+                const multisigTreeAccounts = getMultisigInfoListFromMultisigGraphInfo({
+                    multisigEntries: multisigTree,
+                });
+                commit({ type: 'account/setMultisigTreeAccounts', payload: multisigTreeAccounts });
+                commit({ type: 'account/setMultisigTree', payload: multisigTree });
+                commit({ type: 'account/setMultisigGraphInfo', payload: multisigAccountGraphInfo.multisigEntries });
+            } catch {
+                commit({ type: 'account/setMultisigTreeAccounts', payload: [] });
+                commit({ type: 'account/setMultisigTree', payload: null });
+                commit({ type: 'account/setMultisigGraphInfo', payload: undefined });
+            }
         },
         loadAccountNames: async ({ commit, state }) => {
             const address = Address.createFromRawAddress(
