@@ -37,6 +37,9 @@ export default class C extends Component<Props, State> {
             case 'regular':
                 globalStyle = { ...GlobalStyles.text.regular };
                 break;
+            case 'regular-compact':
+                globalStyle = { ...GlobalStyles.text.regularCompact };
+                break;
             case 'title-small':
                 globalStyle = { ...GlobalStyles.text.titleSmall };
                 break;

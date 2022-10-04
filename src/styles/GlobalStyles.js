@@ -91,6 +91,14 @@ export default {
             opacity: 0.6,
         },
 
+        regularCompact: {
+            color: COLORS.DARKWHITE,
+            fontFamily: 'NotoSans-Regular',
+            fontSize: 12,
+            lineHeight: 16,
+            opacity: 0.6,
+        },
+
         bold: {
             color: COLORS.WHITE,
             fontFamily: 'NotoSans-SemiBold',
