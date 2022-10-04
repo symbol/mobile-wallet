@@ -180,7 +180,12 @@ class History extends Component<Props, State> {
                     />
                 </ListContainer>
                 {currentTransaction && this.isAggregate(currentTransaction) && (
-                    <AggregateTransactionDetails transaction={currentTransaction} onClose={() => this.showDetails(-1)} {...this.props} />
+                    <AggregateTransactionDetails
+                        transaction={currentTransaction}
+                        onClose={() => this.showDetails(-1)}
+                        onError={this.onRefresh}
+                        {...this.props}
+                    />
                 )}
             </GradientBackground>
         );
