@@ -32,12 +32,6 @@ import ScanGenericQRCode from '@src/screens/ScanGenericQRCode';
 import CustomFlashMessage from '@src/components/organisms/CustomFlashMessage';
 import { showMessage } from 'react-native-flash-message';
 import LinkedKeysDetails from '@src/screens/LinkedKeysDetails';
-import Welcome from '@src/screens/PostLaunchOptIn/Welcome';
-import OptInAccountDetails from '@src/screens/PostLaunchOptIn/OptInAccountDetails';
-import OptInSelectSymbolAccount from '@src/screens/PostLaunchOptIn/OptInSelectSymbolAccount';
-import OptInReview from '@src/screens/PostLaunchOptIn/OptInReview';
-import NIS1AccountDetails from '@src/screens/PostLaunchOptIn/NIS1AccountDetails';
-import OptInSelectSymbolMultisigDestination from '@src/screens/PostLaunchOptIn/OptInSelectSymbolMultisigDestination';
 
 export const BASE_SCREEN_NAME = 'com.nemgroup.wallet';
 export const CUSTOM_FLASH_MESSAGE = `${BASE_SCREEN_NAME}.CUSTOM_FLASH_MESSAGE`;
@@ -70,12 +64,6 @@ export const ACCOUNT_DETAILS_SCREEN = `${BASE_SCREEN_NAME}.ACCOUNT_DETAILS_SCREE
 export const CREATE_ACCOUNT_SCREEN = `${BASE_SCREEN_NAME}.CREATE_ACCOUNT_SCREEN`;
 export const QR_SCANNER_SCREEN = `${BASE_SCREEN_NAME}.QR_SCANNER_SCREEN`;
 export const SHOW_LINKED_KEYS_SCREEN = `${BASE_SCREEN_NAME}.SHOW_LINKED_KEYS_SCREEN`;
-export const OPTIN_WELCOME = `${BASE_SCREEN_NAME}.OPTIN_WELCOME`;
-export const OPTIN_ACCOUNT_DETAIL = `${BASE_SCREEN_NAME}.OPTIN_ACCOUNT_DETAIL`;
-export const OPTIN_SYMBOL_ACCOUNT = `${BASE_SCREEN_NAME}.OPTIN_SYMBOL_ACCOUNT`;
-export const OPTIN_FINISH = `${BASE_SCREEN_NAME}.OPTIN_FINISH`;
-export const NIS1_ACCOUNT_DETAILS = `${BASE_SCREEN_NAME}.NIS1_ACCOUNT_DETAILS`;
-export const OPTIN_SELECT_MULTISIG_DESTINATION = `${BASE_SCREEN_NAME}.OPTIN_SELECT_MULTISIG_DESTINATION`;
 
 interface MessageProps {
     message: string;
@@ -115,12 +103,6 @@ export class Router {
         [CONTACT_PROFILE_SCREEN, ContactProfile],
         [QR_SCANNER_SCREEN, QRScanner],
         [SHOW_LINKED_KEYS_SCREEN, LinkedKeysDetails],
-        [OPTIN_WELCOME, Welcome],
-        [OPTIN_ACCOUNT_DETAIL, OptInAccountDetails],
-        [OPTIN_SYMBOL_ACCOUNT, OptInSelectSymbolAccount],
-        [OPTIN_FINISH, OptInReview],
-        [NIS1_ACCOUNT_DETAILS, NIS1AccountDetails],
-        [OPTIN_SELECT_MULTISIG_DESTINATION, OptInSelectSymbolMultisigDestination],
     ];
 
     static registerScreens() {
@@ -217,24 +199,6 @@ export class Router {
     }
     static goToShowLinkedKeys(passProps, parentComponent?) {
         return Router.goToScreen(SHOW_LINKED_KEYS_SCREEN, passProps, parentComponent);
-    }
-    static goToOptInWelcome(passProps, parentComponent?) {
-        return Router.goToScreen(OPTIN_WELCOME, passProps, parentComponent);
-    }
-    static goToOptInAccountDetails(passProps, parentComponent?) {
-        return Router.goToScreen(OPTIN_ACCOUNT_DETAIL, passProps, parentComponent);
-    }
-    static goToOptInSelectSymbolAccount(passProps, parentComponent?) {
-        return Router.goToScreen(OPTIN_SYMBOL_ACCOUNT, passProps, parentComponent);
-    }
-    static goToOptInFinish(passProps, parentComponent?) {
-        return Router.goToScreen(OPTIN_FINISH, passProps, parentComponent);
-    }
-    static goToNIS1AccountDetails(passProps, parentComponent?) {
-        return Router.goToScreen(NIS1_ACCOUNT_DETAILS, passProps, parentComponent);
-    }
-    static goToOptinSelectSymbolMultisigDestination(passProps, parentComponent?) {
-        return Router.goToScreen(OPTIN_SELECT_MULTISIG_DESTINATION, passProps, parentComponent);
     }
 
     static goToScreen(screen: string, passProps, parentComponent?) {

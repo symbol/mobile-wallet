@@ -102,12 +102,6 @@ class Home extends Component<Props, State> {
         const { showWarning } = this.state;
 
         const notifications = [];
-        notifications.push({
-            title: translate('home.optInTitle'),
-            description: translate('home.optInDescription'),
-            handler: () => Router.goToOptInWelcome({}, this.props.componentId),
-        });
-        //notifications.push({ title: translate('home.optInTitle'), description: translate('home.optInDescription' )});
         if (pendingSignature && !isMultisig) {
             notifications.push({
                 title: translate('home.pendingSignatureTitle'),
