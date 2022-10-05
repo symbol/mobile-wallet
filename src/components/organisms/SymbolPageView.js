@@ -5,7 +5,6 @@ import SymbolGradientContainer from '@src/components/organisms/SymbolGradientCon
 import FadeView from '@src/components/organisms/FadeView';
 import GradientButton from '@src/components/atoms/GradientButton';
 import GradientButtonLight from '@src/components/atoms/GradientButtonLight';
-import CompoundButton from '@src/components/atoms/CompoundButton';
 import LoadingAnimation from '@src/components/organisms/LoadingAnimation';
 
 const styles = StyleSheet.create({
@@ -239,8 +238,6 @@ type Props = {
 
     buttons: Button[],
     errorButtons: Button[],
-    separateButtons: boolean,
-    separateErrorButtons: boolean,
 
     footer: Node,
     footerTitle: string,
@@ -266,8 +263,6 @@ const WizardStepView = (props: Props) => {
         noScroll,
         buttons,
         errorButtons,
-        separateButtons,
-        separateErrorButtons,
 
         footer,
         footerTitle,
@@ -477,20 +472,7 @@ const WizardStepView = (props: Props) => {
                                 onPress={buttons[0].onPress}
                             />
                         )}
-                        {!separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
-                            <CompoundButton
-                                style={styles.buttons}
-                                titleLeft={buttons[0].title}
-                                titleRight={buttons[1].title}
-                                disabled={buttons[0].disabled || buttons[1].disabled}
-                                isLoading={buttons[0].isLoading || buttons[1].isLoading}
-                                iconLeft={buttons[0].icon}
-                                iconRight={buttons[1].icon}
-                                onPressLeft={buttons[0].onPress}
-                                onPressRight={buttons[1].onPress}
-                            />
-                        )}
-                        {separateButtons && !isLoading && !isError && buttons && buttons.length === 2 && (
+                        {!isLoading && !isError && buttons && buttons.length === 2 && (
                             <View style={styles.buttons}>
                                 <Button
                                     style={styles.button}
@@ -524,19 +506,7 @@ const WizardStepView = (props: Props) => {
                                 onPress={errorButtons[0].onPress}
                             />
                         )}
-                        {!separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
-                            <CompoundButton
-                                style={styles.buttons}
-                                titleLeft={errorButtons[0].title}
-                                titleRight={errorButtons[1].title}
-                                disabled={errorButtons[0].disabled || errorButtons[1].disabled}
-                                iconLeft={errorButtons[0].icon}
-                                iconRight={errorButtons[1].icon}
-                                onPressLeft={errorButtons[0].onPress}
-                                onPressRight={errorButtons[1].onPress}
-                            />
-                        )}
-                        {separateErrorButtons && !isLoading && isError && errorButtons && errorButtons.length === 2 && (
+                        {!isLoading && isError && errorButtons && errorButtons.length === 2 && (
                             <View style={styles.buttons}>
                                 <Button
                                     style={styles.button}
