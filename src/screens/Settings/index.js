@@ -13,7 +13,6 @@ import {
     SettingsPasscodeSelector,
     SymbolPageView,
 } from '@src/components';
-import SettingsNIS1NodeSelector from '@src/components/settings/SettingsNIS1NodeSelector';
 
 export default class Settings extends Component {
     render() {
@@ -31,7 +30,6 @@ export default class Settings extends Component {
             >
                 <View style={styles.listContainer}>
                     <SettingsLanguageSelector />
-                    <SettingsNIS1NodeSelector />
                     <SettingsPasscodeSelector {...this.props} />
                     <SettingsNodeSelector />
                     <SettingsBackup {...this.props} />

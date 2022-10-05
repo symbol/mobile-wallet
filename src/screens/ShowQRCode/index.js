@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import styles from './ShowQRCode.styl';
 import translate from '@src/locales/i18n';
-import WizardStepView from '@src/components/organisms/WizardStepView';
+import SymbolPageView from '@src/components/organisms/SymbolPageView';
 import { Text } from '@src/components';
 import { Router } from '@src/Router';
 import store from '@src/store';
@@ -102,17 +102,17 @@ class ShowQRCode extends Component {
             },
         ];
         return (
-            <WizardStepView
+            <SymbolPageView
                 title={translate('CreateWallet.ShowQRCode.title')}
                 buttons={buttons}
                 separateButtons={true}
                 onBack={() => Router.goBack(this.props.componentId)}
             >
-                <Text theme="dark" type="regular" align="center">
+                <Text theme="dark" type="regular">
                     {translate('CreateWallet.ShowQRCode.description')}
                 </Text>
                 {showErrorView && this.renderError()}
-            </WizardStepView>
+            </SymbolPageView>
         );
     }
 }
