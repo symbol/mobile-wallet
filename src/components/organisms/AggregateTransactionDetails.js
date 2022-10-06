@@ -244,13 +244,13 @@ class AggregateTransactionDetails extends Component {
             await store.dispatchAction({ type: 'addressBook/selectContact', payload: contact });
             Router.goToContactProfile({}, componentId);
         };
-        const blockSigner = async () => {
+        const addSignerToAddressBook = async listType => {
             this.close();
             await store.dispatchAction({ type: 'addressBook/selectContact', payload: null });
             Router.goToAddContact(
                 {
                     address: signerAddress,
-                    isBlackListed: true,
+                    isBlackListed: listType === 'blacklist',
                 },
                 componentId
             );
@@ -296,12 +296,12 @@ class AggregateTransactionDetails extends Component {
                         </Section>
                         <Section type="form-item">
                             <Row justify="space-between">
-                                <TouchableOpacity onPress={blockSigner}>
+                                <TouchableOpacity onPress={() => addSignerToAddressBook('blacklist')}>
                                     <Text type="bold" theme="dark" style={styles.linkText}>
                                         {translate('history.cosignFormButtonBlacklist')}
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={blockSigner}>
+                                <TouchableOpacity onPress={() => addSignerToAddressBook('whitelist')}>
                                     <Text type="bold" theme="dark" style={styles.linkText}>
                                         {translate('history.cosignFormButtonWhitelist')}
                                     </Text>
