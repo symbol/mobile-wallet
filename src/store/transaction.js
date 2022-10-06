@@ -167,6 +167,7 @@ export default {
         },
         checkPendingSignatures: async ({ commit, state }) => {
             try {
+                const { addressBook } = state.addressBook;
                 const { cosignatoryOf, isMultisig } = state.account;
                 const { addressFilter, filter } = state.transaction;
                 const { selectedNetwork } = state.network;
@@ -181,7 +182,11 @@ export default {
                 );
                 const transactionAwaitingSignature =
                     !isMultisig &&
-                    transactions.some(transaction => transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf));
+                    transactions.some(
+                        transaction =>
+                            !addressBook.getContactByAddress(transaction.signerAddress)?.isBlackListed &&
+                            transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf)
+                    );
 
                 commit({ type: 'transaction/setPendingSignature', payload: transactionAwaitingSignature });
             } catch (e) {
