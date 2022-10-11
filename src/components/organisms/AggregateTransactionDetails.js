@@ -325,7 +325,7 @@ class AggregateTransactionDetails extends Component {
                         <Section type="form-item">
                             <Button text={translate('history.cosignFormButtonGoToSign')} theme="dark" onPress={goToKnownSignerConfirm} />
                         </Section>
-                        <TouchableOpacity onPress={blockSigner}>
+                        <TouchableOpacity onPress={() => addSignerToAddressBook('blacklist')}>
                             <Text type="bold" theme="dark" style={styles.linkText}>
                                 {translate('history.cosignFormButtonBlacklist')}
                             </Text>

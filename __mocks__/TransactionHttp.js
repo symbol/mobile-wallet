@@ -24,3 +24,9 @@ export const createGetTransaction = transactions => transactionId => {
             }),
     };
 };
+
+export const createAnnounceAggregateBondedCosignature = () => () => {
+    return {
+        toPromise: () => Promise.resolve(),
+    };
+};

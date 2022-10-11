@@ -29,7 +29,8 @@ export class FormatTransaction {
         switch (transaction.type) {
             case TransactionType.AGGREGATE_BONDED:
             case TransactionType.AGGREGATE_COMPLETE:
-                return FormatTransaction.aggregate(transaction, network, preLoadedMosaics);
+                formattedTansaction = await FormatTransaction.aggregate(transaction, network, preLoadedMosaics);
+                break;
 
             case TransactionType.TRANSFER:
                 formattedTansaction = await FormatTransaction.transferTransaction(transaction, network, preLoadedMosaics);
@@ -147,11 +148,6 @@ export class FormatTransaction {
         }
 
         const info = {
-            transactionType: transaction.type,
-            status: transaction.isConfirmed() ? Constants.Message.CONFIRMED : Constants.Message.UNCONFIRMED,
-            deadline: formatTransactionLocalDateTime(transaction.deadline.toLocalDateTime(network.epochAdjustment)),
-            signerAddress: transaction.signer.address.plain(),
-            hash: transaction.hash || transaction.transactionInfo?.hash,
             cosignaturePublicKeys: cosignaturePublicKeys,
             signTransactionObject: transaction,
             fee: transaction.maxFee.toString(),

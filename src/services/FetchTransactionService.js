@@ -97,19 +97,16 @@ export default class FetchTransactionService {
                     return FormatTransaction.format(transaction, network, preLoadedMosaics);
                 }
 
-                return new TransactionHttp(network.node)
-                    .getTransaction(
-                        transaction.transactionInfo.id,
-                        transaction.isConfirmed()
-                            ? TransactionGroup.Confirmed
-                            : transaction.isUnconfirmed()
-                            ? TransactionGroup.Unconfirmed
-                            : TransactionGroup.Partial
-                    )
-                    .toPromise()
-                    .catch(e => console.log('Failed to fetch aggregate transaction', e))
-                    .then(fullTransactionData => FormatTransaction.format(fullTransactionData, network, preLoadedMosaics))
-                    .catch(e => console.log('Failed to format aggregate transaction', e));
+                const transactionGroup = transaction.isConfirmed()
+                    ? TransactionGroup.Confirmed
+                    : transaction.isUnconfirmed()
+                    ? TransactionGroup.Unconfirmed
+                    : TransactionGroup.Partial;
+                const aggregateTransactionDetails = await transactionHttp
+                    .getTransaction(transaction.transactionInfo.id, transactionGroup)
+                    .toPromise();
+
+                return FormatTransaction.format(aggregateTransactionDetails, network, preLoadedMosaics);
             })
         );
     }
