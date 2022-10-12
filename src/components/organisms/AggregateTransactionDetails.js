@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackHandler, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
     Button,
     Checkbox,
@@ -15,7 +15,6 @@ import {
     TableView,
     Tabs,
     Text,
-    TitleBar,
     TransactionGraphic,
 } from '@src/components';
 import store from '@src/store';
@@ -28,9 +27,6 @@ import GlobalStyles from '@src/styles/GlobalStyles';
 import _ from 'lodash';
 
 const styles = StyleSheet.create({
-    panel: {
-        backgroundColor: GlobalStyles.color.DARKWHITE,
-    },
     infoTable: {
         paddingTop: 16,
         paddingBottom: 16,
@@ -89,8 +85,8 @@ const styles = StyleSheet.create({
 class AggregateTransactionDetails extends Component {
     state = {
         transactionDetails: null,
-        isActive: false,
-        isLoading: false,
+        isActive: true,
+        isLoading: true,
         isGraphicExpanded: false,
         isSignFormShown: false,
         isBlackListedSigner: false,
@@ -98,12 +94,6 @@ class AggregateTransactionDetails extends Component {
         signFormView: '',
         selectedTab: 'innerTransactions',
     };
-
-    backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-        this.backHandler.remove();
-        this.close();
-        return true;
-    });
 
     componentDidMount() {
         const {
@@ -116,12 +106,6 @@ class AggregateTransactionDetails extends Component {
             selectedNode,
             transaction,
         } = this.props;
-
-        this.setState({
-            isActive: true,
-            isLoading: true,
-            transactionDetails: null,
-        });
 
         TransactionService.getTransactionDetails(transaction.hash, selectedNode)
             .then(async transactionDetails => {
@@ -160,16 +144,16 @@ class AggregateTransactionDetails extends Component {
                     message: error.message,
                     type: 'danger',
                 });
-                this.close();
                 onError(error);
+                this.close();
             });
     }
 
     close() {
-        const { onClose } = this.props;
-        this.backHandler.remove();
-        this.setState({ isActive: false });
-        setTimeout(onClose, 200);
+        this.setState({
+            isLoading: false,
+            isActive: false,
+        });
     }
 
     renderTabInnerTransactions() {
@@ -335,7 +319,6 @@ class AggregateTransactionDetails extends Component {
 
             case 'known_signer_confirm':
                 return (
-                    //<FadeView style={styles.signFormContainer}>
                     <Section type="form" style={styles.signFormWarning}>
                         <Section type="form-item">
                             <Text type="bold">{translate('history.cosignFormTitleLastWarning')}</Text>
@@ -362,7 +345,6 @@ class AggregateTransactionDetails extends Component {
                             </Text>
                         </TouchableOpacity>
                     </Section>
-                    //</FadeView>
                 );
 
             case 'trusted_signer_initial':
@@ -405,6 +387,7 @@ class AggregateTransactionDetails extends Component {
 
     render() {
         const { isActive, isLoading, isSignFormShown, selectedTab, transactionDetails } = this.state;
+        const { onClose } = this.props;
         const isContentLoaded = !isLoading && transactionDetails;
         const isTabInnerTransactionsShown = isContentLoaded && selectedTab === 'innerTransactions';
         const isTabInfoShown = isContentLoaded && selectedTab === 'info';
@@ -420,16 +403,7 @@ class AggregateTransactionDetails extends Component {
         ];
 
         return (
-            <SwipeablePanel
-                isActive={isActive}
-                fullWidth
-                openLarge
-                onlyLarge
-                onClose={() => this.close()}
-                onPressCloseButton={() => this.close()}
-                style={styles.panel}
-            >
-                <TitleBar theme="light" title={translate('history.transactionDetails')} onClose={() => this.close()} />
+            <SwipeablePanel isActive={isActive} title={translate('history.transactionDetails')} onClose={onClose}>
                 <Tabs value={selectedTab} list={tabs} onChange={selectedTab => this.setState({ selectedTab })} />
                 {!isContentLoaded && <LoadingAnimationFlexible isFade text=" " theme="light" style={styles.loadingView} />}
                 {isTabInnerTransactionsShown && this.renderTabInnerTransactions()}
