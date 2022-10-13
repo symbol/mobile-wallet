@@ -15,7 +15,7 @@ export const createGetTransaction = transactions => transactionId => {
     return {
         toPromise: () =>
             new Promise((resolve, reject) => {
-                const transaction = transactions.find(tx => tx.transactionInfo.id === transactionId);
+                const transaction = transactions.find(tx => tx.transactionInfo.id === transactionId || tx.hash === transactionId);
                 if (transaction) {
                     resolve(transaction);
                 }

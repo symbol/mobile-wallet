@@ -111,7 +111,7 @@ class AggregateTransactionDetails extends Component {
             .then(async transactionDetails => {
                 const { signerAddress } = transactionDetails;
                 const isAwaitingSignature =
-                    !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
+                    !isMultisig && transactionAwaitingSignatureByAccount(transactionDetails, selectedAccount, cosignatoryOf);
                 const signerContact = addressBook.getContactByAddress(signerAddress);
                 const isBlackListedSigner = signerContact && signerContact.isBlackListed;
                 const isWhiteListedSigner = signerContact && !isBlackListedSigner;
@@ -205,8 +205,8 @@ class AggregateTransactionDetails extends Component {
     }
 
     renderSignForm() {
-        const { addressBook, componentId, transaction } = this.props;
-        const { signerAddress, signFormView, isRiskAccepted } = this.state;
+        const { addressBook, componentId } = this.props;
+        const { signerAddress, signFormView, isRiskAccepted, transactionDetails } = this.state;
 
         const goToUnknownSignerOptions = () =>
             this.setState({
@@ -241,7 +241,7 @@ class AggregateTransactionDetails extends Component {
         };
         const signTransaction = () => {
             showPasscode(componentId, async () => {
-                await store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transaction });
+                await store.dispatchAction({ type: 'transfer/signAggregateBonded', payload: transactionDetails });
                 store.dispatchAction({ type: 'transaction/changeFilters', payload: {} });
                 this.close();
             });
