@@ -65,12 +65,12 @@ export default class PluginList extends Component<Props, State> {
                 <Row justify="space-between" align="center" style={styles.root}>
                     <Row justify="start" align="center">
                         {!!onOpenMenu && (
-                            <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onOpenMenu}>
+                            <TouchableOpacity testID="button-menu" style={[styles.iconLeft, leftIconStyle]} onPress={onOpenMenu}>
                                 <Icon name={iconMenuName} size="small" />
                             </TouchableOpacity>
                         )}
                         {!!onBack && (
-                            <TouchableOpacity style={[styles.iconLeft, leftIconStyle]} onPress={onBack}>
+                            <TouchableOpacity testID="button-back" style={[styles.iconLeft, leftIconStyle]} onPress={onBack}>
                                 <Icon name={iconBackName} />
                             </TouchableOpacity>
                         )}
@@ -84,12 +84,12 @@ export default class PluginList extends Component<Props, State> {
                     <Row justify="end" align="center">
                         {buttons}
                         {!!onSettings && (
-                            <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
+                            <TouchableOpacity testID="button-settings" style={[styles.iconRight, rightIconStyle]} onPress={onSettings}>
                                 <Icon name={iconSettingsName} size="small" />
                             </TouchableOpacity>
                         )}
                         {!!onClose && (
-                            <TouchableOpacity style={[styles.iconRight, rightIconStyle]} onPress={onClose}>
+                            <TouchableOpacity testID="button-close" style={[styles.iconRight, rightIconStyle]} onPress={onClose}>
                                 <Icon name={iconCloseName} size="small" />
                             </TouchableOpacity>
                         )}
