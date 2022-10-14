@@ -140,8 +140,8 @@ class History extends Component {
                                 <MultisigFilter
                                     theme="light"
                                     style={styles.filterRight}
-                                    selected={addressFilter}
-                                    onSelect={v => this.onSelectMultisig(v)}
+                                    value={addressFilter}
+                                    onChange={v => this.onSelectMultisig(v)}
                                 />
                             )}
                         </Row>
