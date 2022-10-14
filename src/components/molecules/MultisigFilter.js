@@ -1,42 +1,35 @@
-import React, { Component } from 'react';
-import { Dropdown } from '@src/components';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { shortifyAddress } from '@src/utils/format';
+import { Dropdown, Trunc } from '@src/components';
 import translate from '@src/locales/i18n';
 
-type Props = {
-    selected: string,
-    onSelect: (val: string) => {},
-};
+function MultisigFilter(props) {
+    const { cosignatoryOf, selectedAccountAddress, value, style, theme, onChange } = props;
 
-class MultisigFilter extends Component<Props> {
-    formatAddress = address => {
-        return address.substring(0, 6) + '...' + address.substring(address.length - 3, address.length);
-    };
-    render() {
-        const { cosignatoryOf, selectedAccountAddress, selected, onSelect, ...rest } = this.props;
-        const allMultisigAccounts = [
-            {
-                value: selectedAccountAddress,
-                label: translate('history.mainAccount'),
-            },
-            ...cosignatoryOf.map(address => ({
-                value: address,
-                label: shortifyAddress(address),
-            })),
-        ];
+    const list = [
+        {
+            value: selectedAccountAddress,
+            label: translate('unsortedKeys.currentAccount'),
+        },
+        ...cosignatoryOf.map(address => ({
+            value: address,
+            // notranslate
+            label: `Multisig (${Trunc({ type: 'address-short', children: address })})`,
+        })),
+    ];
 
-        return (
-            <Dropdown
-                list={allMultisigAccounts}
-                title={translate('history.accountFilter')}
-                value={this.formatAddress(selected)}
-                onChange={onSelect}
-                {...rest}
-            />
-        );
-    }
+    return (
+        <Dropdown list={list} title={translate('history.accountFilter')} value={value} style={style} theme={theme} onChange={onChange} />
+    );
 }
+
+MultisigFilter.propsTypes = {
+    value: PropTypes.string,
+    style: PropTypes.object,
+    theme: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+};
 
 export default connect(state => ({
     selectedAccountAddress: state.account.selectedAccountAddress,
