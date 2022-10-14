@@ -141,7 +141,7 @@ class AggregateTransactionDetails extends Component {
             })
             .catch(error => {
                 Router.showMessage({
-                    message: error.message,
+                    message: `${translate('t_notranslate.loadTransactionDetails')}.\n${error.message}`,
                     type: 'danger',
                 });
                 onError(error);

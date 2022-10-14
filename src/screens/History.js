@@ -14,6 +14,7 @@ import {
 } from '@src/components';
 import { connect } from 'react-redux';
 import MultisigFilter from '@src/components/molecules/MultisigFilter';
+import { Router } from '@src/Router';
 import store from '@src/store';
 import translate from '@src/locales/i18n';
 import { TransactionType } from 'symbol-sdk';
@@ -37,18 +38,18 @@ const styles = StyleSheet.create({
 
 class History extends Component {
     state = {
-        showingDetails: -1,
+        selectedTransactionIndex: -1,
     };
 
     showDetails = index => {
-        const { showingDetails } = this.state;
-        if (showingDetails === index) {
+        const { selectedTransactionIndex } = this.state;
+        if (selectedTransactionIndex === index) {
             this.setState({
-                showingDetails: -1,
+                selectedTransactionIndex: -1,
             });
         } else {
             this.setState({
-                showingDetails: index,
+                selectedTransactionIndex: index,
             });
         }
     };
@@ -78,41 +79,38 @@ class History extends Component {
 
     loadNextPage = () => {
         const { isLastPage } = this.props;
-        if (!isLastPage) {
+
+        if (isLastPage) {
+            return;
+        }
+
+        try {
             store.dispatchAction({ type: 'transaction/loadNextPage' });
+        } catch (error) {
+            Router.showMessage({
+                message: `${translate('t_notranslate.loadTransactionList')}.\n${error.message}`,
+                type: 'danger',
+            });
         }
     };
 
-    isAggregate = transaction => {
-        return (
-            transaction.transactionType === TransactionType.AGGREGATE_BONDED ||
-            transaction.transactionType === TransactionType.AGGREGATE_COMPLETE
-        );
-    };
-
-    renderTransactionItem = showingDetailsIndex => ({ item, index }) => {
-        return (
-            <ListItem onPress={() => this.showDetails(index)}>
-                <TransactionItem
-                    transaction={item}
-                    showDetails={showingDetailsIndex === index && !this.isAggregate(item)}
-                    componentId={this.props.componentId}
-                />
-            </ListItem>
-        );
-    };
-
     render() {
-        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, filter, isNextLoading } = this.props;
-        const { showingDetails } = this.state;
-        const isLoading = isNextLoading || loading;
+        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, isLoading, addressFilter, filter } = this.props;
+        const { selectedTransactionIndex } = this.state;
         const allFilters = [
             { value: 'ALL', label: translate('history.all') },
             { value: 'SENT', label: translate('history.sent') },
             { value: 'RECEIVED', label: translate('history.received') },
             { value: 'BLOCKED', label: translate('history.blocked') },
         ];
-        const currentTransaction = transactions[showingDetails];
+        const selectedTransaction = transactions[selectedTransactionIndex];
+
+        const isAggregate = transaction => {
+            return (
+                transaction.transactionType === TransactionType.AGGREGATE_BONDED ||
+                transaction.transactionType === TransactionType.AGGREGATE_COMPLETE
+            );
+        };
 
         return (
             <GradientBackground
@@ -152,24 +150,26 @@ class History extends Component {
                 <ListContainer style={styles.list} isScrollable={false} isLoading={isLoading}>
                     <FlatList
                         data={transactions}
-                        renderItem={this.renderTransactionItem(showingDetails)}
                         onEndReachedThreshold={0.9}
                         onEndReached={this.loadNextPage}
                         keyExtractor={(item, index) => '' + index + 'history'}
                         ListEmptyComponent={EmptyListMessage(!isLoading)}
                         contentContainerStyle={{ flexGrow: 1 }}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={false}
-                                onRefresh={this.onRefresh}
-                            />
-                        }
+                        renderItem={({ item, index }) => (
+                            <ListItem onPress={() => this.showDetails(index)}>
+                                <TransactionItem
+                                    transaction={item}
+                                    showDetails={selectedTransactionIndex === index && !isAggregate(item)}
+                                    componentId={this.props.componentId}
+                                />
+                            </ListItem>
+                        )}
+                        refreshControl={<RefreshControl refreshing={false} onRefresh={this.onRefresh} />}
                     />
                 </ListContainer>
-                {currentTransaction && this.isAggregate(currentTransaction) && (
+                {selectedTransaction && isAggregate(selectedTransaction) && (
                     <AggregateTransactionDetails
-                        transaction={currentTransaction}
+                        transaction={selectedTransaction}
                         onClose={() => this.showDetails(-1)}
                         onError={this.onRefresh}
                         {...this.props}
@@ -187,6 +187,5 @@ export default connect(state => ({
     isLastPage: state.transaction.isLastPage,
     addressFilter: state.transaction.addressFilter,
     filter: state.transaction.filter,
-    loading: state.transaction.loading,
-    isNextLoading: state.transaction.isNextLoading,
+    isLoading: state.transaction.isLoading,
 }))(History);

@@ -1,32 +1,20 @@
 import FetchTransactionService from '@src/services/FetchTransactionService';
 import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
 
-export type Filter = 'SENT' | 'RECEIVED' | 'ALL' | 'BLOCKED';
-
 export default {
     namespace: 'transaction',
     state: {
-        loading: false,
-        isNextLoading: false,
-        subscription: null,
+        isLoading: false,
         addressFilter: '',
         filter: 'ALL',
         transactions: [],
-        page: 0,
+        pageNumber: 0,
         isLastPage: false,
         pendingSignature: false,
     },
     mutations: {
         setLoading(state, payload) {
-            state.transaction.loading = payload;
-            return state;
-        },
-        setLoadingNext(state, payload) {
-            state.transaction.isNextLoading = payload;
-            return state;
-        },
-        setSubscription(state, payload) {
-            state.transaction.subscription = payload;
+            state.transaction.isLoading = payload;
             return state;
         },
         setAddressFilter(state, payload) {
@@ -45,8 +33,8 @@ export default {
             state.transaction.transactions.push(...payload);
             return state;
         },
-        setPage(state, payload) {
-            state.transaction.page = payload;
+        setPageNumber(state, payload) {
+            state.transaction.pageNumber = payload;
             return state;
         },
         setIsLastPage(state, payload) {
@@ -59,72 +47,59 @@ export default {
         },
     },
     actions: {
-        init: async ({ commit, state, dispatchAction }) => {
-            commit({
-                type: 'transaction/setAddressFilter',
-                payload: state.account.selectedAccountAddress,
-            });
+        init: async ({ dispatchAction }) => {
             await dispatchAction({ type: 'transaction/reset' });
             try {
                 await dispatchAction({ type: 'transaction/loadNextPage' });
-                await dispatchAction({
-                    type: 'transaction/checkPendingSignatures',
-                });
+                await dispatchAction({ type: 'transaction/checkPendingSignatures' });
             } catch (e) {
                 await dispatchAction({ type: 'transaction/reset' });
             }
         },
-        reset: async ({ commit }) => {
-            commit({ type: 'transaction/setPage', payload: 0 });
+        reset: async ({ commit, state }) => {
+            const { selectedAccountAddress } = state.account;
+            commit({ type: 'transaction/setAddressFilter', payload: selectedAccountAddress });
+            commit({ type: 'transaction/setPageNumber', payload: 0 });
             commit({ type: 'transaction/setLoading', payload: false });
             commit({ type: 'transaction/setIsLastPage', payload: false });
             commit({ type: 'transaction/setTransactions', payload: [] });
         },
         loadNextPage: async ({ commit, dispatchAction, state }) => {
-            if (state.transaction.loading) return;
-            commit({ type: 'transaction/setLoading', payload: true });
-            setTimeout(() => {
-                commit({ type: 'transaction/setLoadingNext', payload: true });
-            });
+            const { addressFilter, filter, isLoading, pageNumber } = state.transaction;
+            const { cosignatoryOf, multisigGraphInfo } = state.account;
+            const { selectedNetwork } = state.network;
+            const nextPage = pageNumber + 1;
 
-            if ((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && !!state.account.multisigGraphInfo) {
+            if (isLoading) return;
+
+            commit({ type: 'transaction/setLoading', payload: true });
+
+            if ((!cosignatoryOf || !cosignatoryOf.length) && !!multisigGraphInfo) {
                 await dispatchAction({ type: 'account/loadCosignatoryOf' });
             }
 
-            const nextPage = state.transaction.page + 1;
             try {
                 const transactions = await FetchTransactionService.getTransactionsFromAddress(
-                    state.transaction.addressFilter,
+                    addressFilter,
                     nextPage,
-                    state.transaction.filter,
-                    state.network.selectedNetwork,
-                    state.account.cosignatoryOf
+                    filter,
+                    selectedNetwork,
+                    cosignatoryOf
                 );
 
                 if (transactions.length === 0) {
-                    commit({
-                        type: 'transaction/setIsLastPage',
-                        payload: true,
-                    });
+                    commit({ type: 'transaction/setIsLastPage', payload: true });
                 } else {
                     dispatchAction({
                         type: 'transaction/addTransactions',
                         payload: transactions,
                     });
                 }
-                commit({ type: 'transaction/setPage', payload: nextPage });
+                commit({ type: 'transaction/setPageNumber', payload: nextPage });
                 commit({ type: 'transaction/setLoading', payload: false });
-                commit({
-                    type: 'transaction/setLoadingNext',
-                    payload: false,
-                });
             } catch (error) {
-                console.log(error);
-                commit({
-                    type: 'transaction/setLoadingNext',
-                    payload: false,
-                });
                 commit({ type: 'transaction/setLoading', payload: false });
+                throw error;
             }
         },
         addTransactions: async ({ commit, state }, transactions) => {
@@ -143,26 +118,16 @@ export default {
                 return filter === 'BLOCKED' ? isBlackListed : !isBlackListed;
             });
 
-            commit({
-                type: 'transaction/addTransactions',
-                payload: filteredTransactions,
-            });
+            commit({ type: 'transaction/addTransactions', payload: filteredTransactions });
         },
-        changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, filter }) => {
-            if (state.transaction.subscription) {
-                state.transaction.subscription.unsubscribe();
-            }
+        changeFilters: async ({ commit, dispatchAction }, { addressFilter, filter }) => {
             dispatchAction({ type: 'transaction/reset' });
-            if (addressFilter)
-                commit({
-                    type: 'transaction/setAddressFilter',
-                    payload: addressFilter,
-                });
-            if (filter)
-                commit({
-                    type: 'transaction/setDirectionFilter',
-                    payload: filter,
-                });
+            if (addressFilter) {
+                commit({ type: 'transaction/setAddressFilter', payload: addressFilter });
+            }
+            if (filter) {
+                commit({ type: 'transaction/setDirectionFilter', payload: filter });
+            }
             dispatchAction({ type: 'transaction/loadNextPage' });
         },
         checkPendingSignatures: async ({ commit, state }) => {
@@ -180,7 +145,7 @@ export default {
                     selectedNetwork,
                     cosignatoryOf
                 );
-                const transactionAwaitingSignature =
+                const isTransactionAwaitingSignature =
                     !isMultisig &&
                     transactions.some(
                         transaction =>
@@ -188,7 +153,7 @@ export default {
                             transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf)
                     );
 
-                commit({ type: 'transaction/setPendingSignature', payload: transactionAwaitingSignature });
+                commit({ type: 'transaction/setPendingSignature', payload: isTransactionAwaitingSignature });
             } catch (e) {
                 console.log('Failed to checkPendingSignatures', e);
             }
