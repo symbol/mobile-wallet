@@ -1,7 +1,7 @@
 {
   "name": "symbol-mobile-wallet",
-  "version": "1.4.1",
-  "private": true,
+  "version": "1.4.2",
+  "private": false,
   "scripts": {
     "git-info": "echo export default \"{ version: '$(git describe --tags `git rev-list --tags --max-count=1`)' };\"  > src/shared/_git_commit.js",
     "android": "react-native run-android",

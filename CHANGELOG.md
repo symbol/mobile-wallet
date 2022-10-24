@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.4.2][v1.4.2] - 24-Oct-2022
+### Changed
+- Upgraded the dependency `symbol-sdk` version to `v2.0.3`.
+
 ## [v1.4.1][v1.4.1] - 1-Feb-2022
 ### Fixed
 - Corrupted Paper Wallet Backup. [#284](https://github.com/symbol/mobile-wallet/issues/284)
@@ -48,3 +52,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 [v1.3.0]: https://github.com/symbol/mobile-wallet/releases/tag/1.3.0
 [v1.4.0]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.0
 [v1.4.1]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.1
+[v1.4.2]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.2
