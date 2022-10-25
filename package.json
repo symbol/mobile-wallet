@@ -95,7 +95,6 @@
     "react-redux": "^7.2.1",
     "react-zlib-js": "^1.0.4",
     "readable-stream": "^3.4.0",
-    "realm": "6.0.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "regenerator": "0.9.7",
