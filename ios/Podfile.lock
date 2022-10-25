@@ -256,7 +256,7 @@ PODS:
     - React
     - React-RCTImage
     - React-RCTText
-  - RealmJS (4.0.0-beta.0):
+  - RealmJS (6.0.1):
     - GCDWebServer
     - React
   - rn-fetch-blob (0.11.2):
@@ -498,7 +498,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: aefc8debafb4a374575adafb44a3352b9d5b618a
-  RealmJS: d1afbd12be13d7b455327adceaf2a2aea5f22e1a
+  RealmJS: cf6501f27894264dac14a97de49ad8499f31af11
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
@@ -517,6 +517,6 @@ SPEC CHECKSUMS:
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 20fd17220472d7f0cc78feeeb6b5f0fb3faf6ff5
+PODFILE CHECKSUM: 25b544a0504d4dff6bc9a0b4c995b82fe42966e7
 
 COCOAPODS: 1.9.3
