@@ -80,7 +80,7 @@ describe('screens/ContactProfile', () => {
             renderListTypeTest(isBlackListed, expectedTransactionAllowedText);
         });
 
-        test('renders the transactions are blocked text when isBlackListed is false', () => {
+        test('renders the transactions are blocked text when isBlackListed is true', () => {
             // Arrange:
             const isBlackListed = true;
 
