@@ -73,7 +73,7 @@ const ConfirmModal = (props: Props) => {
                             <Section type="form-item">
                                 <Button
                                     style={styles.button}
-                                    title="Confirm"
+                                    title={translate('unsortedKeys.confirmButton')}
                                     theme="light"
                                     fullWidth={false}
                                     disabled={confirmDisabled}

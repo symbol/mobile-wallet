@@ -482,6 +482,7 @@
 		"startEpoch": "Inizio dell’Epoca",
 		"endEpoch": "Fine dell’Epoca",
 		"receivedCosignatures": "Co-firme ricevute",
+		"transactionsAllowed": "Transazioni in entrata da questo contatto",
 		"v_unlimited": "ILLIMITATO",
 		"v_na": "N/A",
 		"v_infinity": "INFINITO",
@@ -602,7 +603,8 @@
 		"filter": "Filtro",
 		"all": "tutte",
 		"sent": "invia",
-		"received": "Ricevitore ",
+		"received": "Ricevitore",
+		"blocked": "Bloccato",
 		"transaction": {
 			"message": "Message",
 			"encrypted": "Criptato",
@@ -726,9 +728,27 @@
 		"currentAccount": "Tu",
 		"currentAddress": "Il tuo indirizzo",
 		"alertNewVersionAppStoreTitle": "La nuova versione di Symbol Wallet è disponibile nell'App Store",
-		"alertNewVersionAppStoreBody": "Consigliamo vivamente di eseguire l'aggiornamento all'ultima versione!"
+		"alertNewVersionAppStoreBody": "Consigliamo vivamente di eseguire l'aggiornamento all'ultima versione!",
+		"confirmButton": "Conferma"
 	},
 	"addressBook": {
-		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto"
+		"title": "Rubrica",
+		"addContact": "Aggiungi contatto",
+		"updateContact": "Aggiorna contatto",
+		"removeContact": "Rimuovi contatto",
+		"editContact": "Modifica contatto",
+		"nameWarning": "Сampo obbligatorio",
+		"addressRequiredWarning": "Сampo obbligatorio",
+		"addressWarning": "Invalid address",
+		"addressTakenWarning": "Questo indirizzo appartiene a un altro contatto",
+		"addressCurrentWarning": "Questo è l'indirizzo del tuo conto corrente",
+		"removeContactModalTitle": "Rimuovi contatto",
+		"removeContactModalBody": "Sei sicuro di voler eliminare il contatto?",
+		"listType": "Elenco",
+		"transactionsAllowed": "Permettere",
+		"transactionsBlocked": "Bloccato",
+		"addressBlocked": "Bloccato",
+		"whitelist": "Lista Bianca",
+		"blacklist": "Lista Vietata"
 	}
 }

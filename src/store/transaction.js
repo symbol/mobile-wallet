@@ -1,8 +1,7 @@
 import FetchTransactionService from '@src/services/FetchTransactionService';
 import { transactionAwaitingSignatureByAccount } from '@src/utils/transaction';
-import { from } from 'rxjs';
 
-export type DirectionFilter = 'SENT' | 'RECEIVED' | 'ALL';
+export type Filter = 'SENT' | 'RECEIVED' | 'ALL' | 'BLOCKED';
 
 export default {
     namespace: 'transaction',
@@ -11,7 +10,7 @@ export default {
         isNextLoading: false,
         subscription: null,
         addressFilter: '',
-        directionFilter: 'ALL',
+        filter: 'ALL',
         transactions: [],
         page: 0,
         isLastPage: false,
@@ -35,7 +34,7 @@ export default {
             return state;
         },
         setDirectionFilter(state, payload) {
-            state.transaction.directionFilter = payload;
+            state.transaction.filter = payload;
             return state;
         },
         setTransactions(state, payload) {
@@ -81,59 +80,75 @@ export default {
             commit({ type: 'transaction/setIsLastPage', payload: false });
             commit({ type: 'transaction/setTransactions', payload: [] });
         },
-        loadNextPage: async ({ commit, state }) => {
+        loadNextPage: async ({ commit, dispatchAction, state }) => {
             if (state.transaction.loading) return;
             commit({ type: 'transaction/setLoading', payload: true });
             setTimeout(() => {
                 commit({ type: 'transaction/setLoadingNext', payload: true });
             });
-            if ((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && state.account.multisigGraphInfo !== undefined) {
+
+            if ((!state.account.cosignatoryOf || !state.account.cosignatoryOf.length) && !!state.account.multisigGraphInfo) {
                 await dispatchAction({ type: 'account/loadCosignatoryOf' });
             }
+
             const nextPage = state.transaction.page + 1;
-            const subscription = from(
-                FetchTransactionService.getTransactionsFromAddress(
+            try {
+                const transactions = await FetchTransactionService.getTransactionsFromAddress(
                     state.transaction.addressFilter,
                     nextPage,
-                    state.transaction.directionFilter,
+                    state.transaction.filter,
                     state.network.selectedNetwork,
                     state.account.cosignatoryOf
-                )
-            ).subscribe(
-                transactions => {
-                    if (transactions.length === 0) {
-                        commit({
-                            type: 'transaction/setIsLastPage',
-                            payload: true,
-                        });
-                    } else {
-                        commit({
-                            type: 'transaction/addTransactions',
-                            payload: transactions,
-                        });
-                    }
-                    commit({ type: 'transaction/setPage', payload: nextPage });
-                    commit({ type: 'transaction/setLoading', payload: false });
+                );
+
+                if (transactions.length === 0) {
                     commit({
-                        type: 'transaction/setLoadingNext',
-                        payload: false,
+                        type: 'transaction/setIsLastPage',
+                        payload: true,
                     });
-                },
-                error => {
-                    console.log(error);
-                    commit({
-                        type: 'transaction/setLoadingNext',
-                        payload: false,
+                } else {
+                    dispatchAction({
+                        type: 'transaction/addTransactions',
+                        payload: transactions,
                     });
-                    commit({ type: 'transaction/setLoading', payload: false });
                 }
-            );
+                commit({ type: 'transaction/setPage', payload: nextPage });
+                commit({ type: 'transaction/setLoading', payload: false });
+                commit({
+                    type: 'transaction/setLoadingNext',
+                    payload: false,
+                });
+            } catch (error) {
+                console.log(error);
+                commit({
+                    type: 'transaction/setLoadingNext',
+                    payload: false,
+                });
+                commit({ type: 'transaction/setLoading', payload: false });
+            }
+        },
+        addTransactions: async ({ commit, state }, transactions) => {
+            const { addressBook } = state.addressBook;
+            const { filter } = state.transaction;
+
+            const filteredTransactions = transactions.filter(transaction => {
+                const contact = addressBook?.getContactByAddress(transaction.signerAddress);
+
+                if (!contact) {
+                    return filter !== 'BLOCKED';
+                }
+
+                const { isBlackListed } = contact;
+
+                return filter === 'BLOCKED' ? isBlackListed : !isBlackListed;
+            });
+
             commit({
-                type: 'transaction/setSubscription',
-                payload: subscription,
+                type: 'transaction/addTransactions',
+                payload: filteredTransactions,
             });
         },
-        changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, directionFilter }) => {
+        changeFilters: async ({ commit, state, dispatchAction }, { addressFilter, filter }) => {
             if (state.transaction.subscription) {
                 state.transaction.subscription.unsubscribe();
             }
@@ -143,24 +158,24 @@ export default {
                     type: 'transaction/setAddressFilter',
                     payload: addressFilter,
                 });
-            if (directionFilter)
+            if (filter)
                 commit({
                     type: 'transaction/setDirectionFilter',
-                    payload: directionFilter,
+                    payload: filter,
                 });
             dispatchAction({ type: 'transaction/loadNextPage' });
         },
         checkPendingSignatures: async ({ commit, state }) => {
             try {
                 const { cosignatoryOf, isMultisig } = state.account;
-                const { addressFilter, directionFilter } = state.transaction;
+                const { addressFilter, filter } = state.transaction;
                 const { selectedNetwork } = state.network;
                 const { selectedAccount } = state.wallet;
 
                 const transactions = await FetchTransactionService.getTransactionsFromAddress(
                     addressFilter,
                     1,
-                    directionFilter,
+                    filter,
                     selectedNetwork,
                     cosignatoryOf
                 );

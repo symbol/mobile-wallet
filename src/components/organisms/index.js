@@ -1,6 +1,7 @@
 export AccountBalanceWidget from './AccountBalanceWidget';
 export AggregateTransactionDetails from './AggregateTransactionDetails';
 export BalanceWidget from './BalanceWidget';
+export ContactItem from './ContactItem';
 export FadeView from './FadeView';
 export LinkExplorer from './LinkExplorer';
 export LinkFaucet from './LinkFaucet';

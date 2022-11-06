@@ -215,6 +215,7 @@ export default class Dropdown extends Component<Props, State> {
             modalInnerRenderer,
             children,
             showTitle = true,
+            testID,
         } = this.props;
         const { isSelectorOpen } = this.state;
         let inputStyles = [];
@@ -242,17 +243,27 @@ export default class Dropdown extends Component<Props, State> {
         if (isLoading) inputStyles.push(styles.disabled);
 
         return (
-            <View style={rootStyle}>
-                {!children && showTitle && <Text style={titleStyle}>{title}</Text>}
+            <View style={rootStyle} testID={testID}>
+                {!children && showTitle && (
+                    <Text testID="dropdown-title" style={titleStyle}>
+                        {title}
+                    </Text>
+                )}
                 {!children && (
                     <TouchableOpacity style={inputStyles} onPress={() => !isLoading && this.openSelector()}>
                         {selectedOption &&
                             (!customInputReneder ? (
-                                <Text style={styles.inputText}>{!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}</Text>
+                                <Text style={styles.inputText} testID="dropdown-selected-label">
+                                    {!isLoading && <Trunc length={36}>{selectedOption.label}</Trunc>}
+                                </Text>
                             ) : (
                                 customInputReneder(selectedOption)
                             ))}
-                        {!selectedOption && <Text style={styles.placeholder}>{placeholder}</Text>}
+                        {!selectedOption && (
+                            <Text style={styles.placeholder} testID="dropdown-placeholder">
+                                {placeholder}
+                            </Text>
+                        )}
                         <View style={[styles.icon, this.getIconPosition(iconWrapperWidth, iconOffset)]}>
                             <Icon name="expand" size={iconSize} />
                         </View>

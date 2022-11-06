@@ -16,6 +16,7 @@ import {
     Section,
     SwipeablePanel,
     TableView,
+    Tabs,
     Text,
     TitleBar,
     TransactionGraphic,
@@ -34,20 +35,6 @@ const FULL_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     panel: {
         backgroundColor: GlobalStyles.color.DARKWHITE,
-    },
-    tabs: {
-        borderBottomWidth: 2,
-        borderColor: GlobalStyles.color.WHITE,
-        marginBottom: 2,
-    },
-    tab: {
-        marginLeft: 20,
-        paddingBottom: 5,
-    },
-    activeTab: {
-        borderBottomColor: GlobalStyles.color.PINK,
-        borderBottomWidth: 2,
-        marginBottom: -2,
     },
     infoTable: {
         paddingTop: 16,
@@ -173,6 +160,17 @@ class AggregateTransactionDetails extends Component<Props, State> {
         const { transaction, selectedAccount, isMultisig, cosignatoryOf } = this.props;
         return !isMultisig && transactionAwaitingSignatureByAccount(transaction, selectedAccount, cosignatoryOf);
     };
+
+    isBlockedSigner() {
+        const { addressBook, transaction } = this.props;
+        const contact = addressBook.getContactByAddress(transaction.signerAddress);
+        console.log(transaction.signerAddress, contact);
+        if (contact && contact.isBlackListed) {
+            return true;
+        }
+
+        return false;
+    }
 
     onClose() {
         const { onClose } = this.props;
@@ -371,6 +369,16 @@ class AggregateTransactionDetails extends Component<Props, State> {
 
     render() {
         const { isActive, showLastWarning, isLoading, selectedTab, fullTransaction, needsSignature } = this.state;
+        const tabs = [
+            {
+                value: 'innerTransactions',
+                label: translate('history.innerTransactionTab'),
+            },
+            {
+                value: 'info',
+                label: translate('history.infoTransactionTab'),
+            },
+        ];
         let Content = null;
 
         switch (selectedTab) {
@@ -394,41 +402,19 @@ class AggregateTransactionDetails extends Component<Props, State> {
                 style={{ backgroundColor: '#f3f4f8' }}
             >
                 <TitleBar theme="light" title={translate('history.transactionDetails')} onClose={() => this.onClose()} />
-                {!showLastWarning && (
-                    <Row style={styles.tabs}>
-                        <TouchableOpacity
-                            style={[styles.tab, selectedTab === 'innerTransactions' && styles.activeTab]}
-                            onPress={() =>
-                                this.setState({
-                                    selectedTab: 'innerTransactions',
-                                })
-                            }
-                        >
-                            <Text type="bold" theme="light">
-                                {translate('history.innerTransactionTab')}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.tab, selectedTab === 'info' && styles.activeTab]}
-                            onPress={() => this.setState({ selectedTab: 'info' })}
-                        >
-                            <Text type="bold" theme="light">
-                                {translate('history.infoTransactionTab')}
-                            </Text>
-                        </TouchableOpacity>
-                    </Row>
-                )}
+                {!showLastWarning && <Tabs value={selectedTab} list={tabs} onChange={selectedTab => this.setState({ selectedTab })} />}
                 {(isLoading || !fullTransaction) && (
                     <LoadingAnimationFlexible isFade style={{ position: 'relative', height: '80%' }} text={' '} theme="light" />
                 )}
                 {!showLastWarning && !isLoading && fullTransaction && Content}
-                {needsSignature && !isLoading && this.renderSign()}
+                {needsSignature && !isLoading && !this.isBlockedSigner() && this.renderSign()}
             </SwipeablePanel>
         );
     }
 }
 
 export default connect(state => ({
+    addressBook: state.addressBook.addressBook,
     selectedNode: state.network.selectedNetwork,
     isLoading: state.transfer.isLoading,
     selectedAccount: state.wallet.selectedAccount,

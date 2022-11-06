@@ -1,68 +1,79 @@
-import React, { Component } from 'react';
-import { Button, GradientBackground, Section, TitleBar } from '@src/components';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button, ContactItem, GradientBackground, ListContainer, ListItem, Section, Tabs, TitleBar } from '@src/components';
 import { Router } from '@src/Router';
-import Contact from '@src/components/organisms/Contact';
 import store from '@src/store';
+import { createGoBack } from '@src/utils/navigation';
 import translate from '@src/locales/i18n';
 
-type Props = {
-    componentId: string,
-};
+const styles = StyleSheet.create({
+    tabs: {
+        marginBottom: 26,
+    },
+});
 
-type State = {};
+export function AddressBookPage(props) {
+    const { addressBook, componentId } = props;
+    const [listType, setListType] = useState('whitelist');
+    const tabs = [
+        {
+            value: 'whitelist',
+            label: translate('addressBook.whitelist'),
+        },
+        {
+            value: 'blacklist',
+            label: translate('addressBook.blacklist'),
+        },
+    ];
+    const contactList = addressBook
+        .getAllContacts()
+        .filter(contact => (listType === 'whitelist' ? !contact.isBlackListed : contact.isBlackListed));
 
-class AddressBookPage extends Component<Props, State> {
-    state = {};
-
-    submit = () => {
+    const openContact = contact =>
+        store
+            .dispatchAction({
+                type: 'addressBook/selectContact',
+                payload: contact,
+            })
+            .then(() => Router.goToContactProfile({}, componentId));
+    const addContact = () =>
         store
             .dispatchAction({
                 type: 'addressBook/selectContact',
                 payload: null,
             })
-            .then(() => Router.goToAddContact({}, this.props.componentId));
-    };
+            .then(() => Router.goToAddContact({ isBlackListed: listType === 'blacklist' }, componentId));
 
-    render() {
-        const { addressBook } = this.props;
-        const {} = this.state;
-
-        return (
-            <GradientBackground
-                name="mesh"
-                theme="light"
-                titleBar={
-                    <TitleBar theme="light" title={translate('addressBook.title')} onBack={() => Router.goBack(this.props.componentId)} />
-                }
-            >
-                <Section type="list" isScrollable>
-                    {addressBook.getAllContacts().map((contact, index) => {
-                        return (
-                            <Contact
-                                {...this.props}
-                                id={contact.id}
-                                name={contact.name}
-                                address={contact.address}
-                                phone={contact.phone}
-                                email={contact.email}
-                                label={contact.label}
-                                notes={contact.notes}
-                                key={'addr' + index}
-                            />
-                        );
-                    })}
-                </Section>
-                <Section type="form-bottom">
-                    <Section type="list">
-                        <Section type="form-item">
-                            <Button text={translate('addressBook.addContact')} theme="light" onPress={() => this.submit()} />
-                        </Section>
+    return (
+        <GradientBackground
+            name="mesh"
+            theme="light"
+            titleBar={<TitleBar theme="light" title={translate('addressBook.title')} onBack={createGoBack(componentId)} />}
+        >
+            <Tabs style={styles.tabs} value={listType} list={tabs} space="md" onChange={setListType} />
+            <ListContainer isScrollable={false}>
+                <FlatList
+                    data={contactList}
+                    renderItem={({ item, index }) => (
+                        <TouchableOpacity onPress={() => openContact(item)}>
+                            <ListItem>
+                                <ContactItem data={item} key={listType + index} />
+                            </ListItem>
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item, index) => 'contact' + index}
+                />
+            </ListContainer>
+            <Section type="form-bottom">
+                <Section type="list">
+                    <Section type="form-item">
+                        <Button text={translate('addressBook.addContact')} theme="light" onPress={addContact} />
                     </Section>
                 </Section>
-            </GradientBackground>
-        );
-    }
+            </Section>
+        </GradientBackground>
+    );
 }
 
 export default connect(state => ({

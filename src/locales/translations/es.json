@@ -487,6 +487,7 @@
 		"startEpoch": "Inicio de Epoch",
 		"endEpoch": "Fin de Epoch",
 		"receivedCosignatures": "Co-firmas recibidas",
+		"transactionsAllowed": "Transacciones entrantes de este contacto",
 		"v_unlimited": "ILIMITADO",
 		"v_na": "N/A",
 		"v_infinity": "INFINITO",
@@ -603,6 +604,7 @@
 		"all": "Todas",
 		"sent": "Enviado",
 		"received": "Recibido",
+		"blocked": "Obstruido",
 		"transaction": {
 			"message": "Mensaje",
 			"encrypted": "Encriptado",
@@ -729,10 +731,28 @@
 		"nothingToShow": "Nothing to show",
 		"currentAccount": "Tú",
 		"currentAddress": "Tu dirección",
-		"alertNewVersionAppStoreTitle": "The new version of Symbol Wallet is available in the App Store",
-		"alertNewVersionAppStoreBody": "We strongly recommend that you update to the latest version!"
+		"alertNewVersionAppStoreTitle": "La nueva versión de Symbol Wallet está disponible en la App Store",
+		"alertNewVersionAppStoreBody": "¡Le recomendamos encarecidamente que actualice a la última versión!",
+		"confirmButton": "Confirmación"
 	},
 	"addressBook": {
-		"addressTakenWarning": "Esta dirección corresponde a otro contacto"
+		"title": "Directorio",
+		"addContact": "Agregar contacto",
+		"updateContact": "Guardar contacto",
+		"removeContact": "Remover contacto",
+		"editContact": "Editar contacto",
+		"nameWarning": "Campo requerido",
+		"addressRequiredWarning": "Campo requerido",
+		"addressWarning": "Invalid address",
+		"addressTakenWarning": "Esta dirección corresponde a otro contacto",
+		"addressCurrentWarning": "Esta es la direccion de tu cuenta",
+		"removeContactModalTitle": "Eliminar contacto",
+		"removeContactModalBody": "¿Estás seguro de que quieres eliminar el contacto?",
+		"listType": "Lista",
+		"transactionsAllowed": "Permitido",
+		"transactionsBlocked": "Obstruido",
+		"addressBlocked": "Obstruido",
+		"whitelist": "Lista blanca",
+		"blacklist": "Lista prohibida"
 	}
 }

@@ -13,28 +13,28 @@ import { FormatTransaction } from '@src/services/FormatTransaction';
 import type { NetworkModel } from '@src/storage/models/NetworkModel';
 import type { TransactionModel } from '@src/storage/models/TransactionModel';
 import type { MosaicModel } from '@src/storage/models/MosaicModel';
-import type { DirectionFilter } from '@src/store/transaction';
+import type { Filter } from '@src/store/transaction';
 
 export default class FetchTransactionService {
     /**
      * Returns balance from a given Address and a node
      * @param rawAddress
      * @param page
-     * @param directionFilter
+     * @param filter
      * @param network
      * @returns {Promise<number>}
      */
     static async getTransactionsFromAddress(
         rawAddress: string,
         page: number,
-        directionFilter: DirectionFilter,
+        filter: Filter,
         network: NetworkModel,
         cosignatoryOf: []
     ): Promise<TransactionModel[]> {
         const transactionHttp = new TransactionHttp(network.node);
         const address = Address.createFromRawAddress(rawAddress);
         const baseSearchCriteria = { pageNumber: page, order: Order.Desc };
-        if (directionFilter === 'SENT') {
+        if (filter === 'SENT') {
             // FIXME: Workaround with bad performance
             const accountHttp = new AccountHttp(network.node);
             let accountInfo;
@@ -44,7 +44,7 @@ export default class FetchTransactionService {
             } catch {
                 return [];
             }
-        } else if (directionFilter === 'RECEIVED') {
+        } else if (filter === 'RECEIVED') {
             baseSearchCriteria.recipientAddress = address;
         } else {
             baseSearchCriteria.address = address;

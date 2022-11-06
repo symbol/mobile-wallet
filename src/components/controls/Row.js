@@ -56,7 +56,7 @@ type State = {};
 
 export default class Row extends Component<Props, State> {
     render() {
-        const { children, style = {}, justify, align, wrap, fullWidth } = this.props;
+        const { children, style = {}, justify, align, wrap, fullWidth, ...rest } = this.props;
         const stylesArray = [styles.main];
 
         if (typeof justify === 'string') stylesArray.push(styles['justify-' + justify]);
@@ -65,6 +65,10 @@ export default class Row extends Component<Props, State> {
         if (fullWidth) stylesArray.push(styles.fullWidth);
 
         stylesArray.push(style);
-        return <View style={stylesArray}>{children}</View>;
+        return (
+            <View style={stylesArray} {...rest}>
+                {children}
+            </View>
+        );
     }
 }

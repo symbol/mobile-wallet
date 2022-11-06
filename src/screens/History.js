@@ -35,11 +35,7 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = {};
-
-type State = {};
-
-class History extends Component<Props, State> {
+class History extends Component {
     state = {
         showingDetails: -1,
     };
@@ -67,7 +63,7 @@ class History extends Component<Props, State> {
     onSelectFilter = filterValue => {
         store.dispatchAction({
             type: 'transaction/changeFilters',
-            payload: { directionFilter: filterValue },
+            payload: { filter: filterValue },
         });
         this.setState({ filterValue });
     };
@@ -107,22 +103,14 @@ class History extends Component<Props, State> {
     };
 
     render() {
-        const {
-            cosignatoryOf,
-            onOpenMenu,
-            onOpenSettings,
-            transactions,
-            loading,
-            addressFilter,
-            directionFilter,
-            isNextLoading,
-        } = this.props;
+        const { cosignatoryOf, onOpenMenu, onOpenSettings, transactions, loading, addressFilter, filter, isNextLoading } = this.props;
         const { showingDetails } = this.state;
         const isLoading = isNextLoading || loading;
         const allFilters = [
-            { value: 'ALL', label: translate('all') },
+            { value: 'ALL', label: translate('history.all') },
             { value: 'SENT', label: translate('history.sent') },
             { value: 'RECEIVED', label: translate('history.received') },
+            { value: 'BLOCKED', label: translate('history.blocked') },
         ];
         const currentTransaction = transactions[showingDetails];
 
@@ -147,7 +135,7 @@ class History extends Component<Props, State> {
                                 style={styles.filter}
                                 list={allFilters}
                                 title={translate('history.filter')}
-                                value={directionFilter}
+                                value={filter}
                                 onChange={this.onSelectFilter}
                             />
                             {cosignatoryOf.length > 0 && (
@@ -193,7 +181,7 @@ export default connect(state => ({
     transactions: state.transaction.transactions,
     isLastPage: state.transaction.isLastPage,
     addressFilter: state.transaction.addressFilter,
-    directionFilter: state.transaction.directionFilter,
+    filter: state.transaction.filter,
     loading: state.transaction.loading,
     isNextLoading: state.transaction.isNextLoading,
 }))(History);
