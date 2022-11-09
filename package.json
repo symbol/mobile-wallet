@@ -41,7 +41,7 @@
     "i18n-js": "^3.3.0",
     "isomorphic-ws": "^4.0.1",
     "js-beautify": "^1.10.3",
-    "js-joda": "1.6.2",
+    "js-joda": "1.11.0",
     "lodash": "^4.17.11",
     "lodash.memoize": "^4.1.2",
     "module": "^1.2.5",
