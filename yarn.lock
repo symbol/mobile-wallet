@@ -8276,10 +8276,10 @@ js-beautify@^1.10.3:
     mkdirp "^1.0.4"
     nopt "^5.0.0"
 
-js-joda@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/js-joda/-/js-joda-1.6.2.tgz#f87e01871c978935698eda89407f58e8ba56fc18"
-  integrity sha512-xQWXtahRJciMIsHQudgEzAer2bTbbVEpTz9QmV0PCBeDTdoAVsFbAk4BcZd5U5Cnxus+Yaf2XjPWSKr9CNxr0Q==
+js-joda@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/js-joda/-/js-joda-1.11.0.tgz#e0e424b049cf7a9db3ed7729a6ca1f7d96b2486e"
+  integrity sha512-/HJpRhwP2fPyuSsCaZuoVJuaSIt8tUXykV4wOMRXrFk7RP9h9VWaFdS9YHKdMepxb/3TdXpL6IhfC9L0sqYVBw==
 
 js-sha256@^0.9.0:
   version "0.9.0"
