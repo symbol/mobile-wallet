@@ -1,20 +1,20 @@
 pipeline {
-    agent { label 'macos' }
-    
+    agent { label params.TARGET_OS == 'Android' ? 'ubuntu' : 'macos'  }
+
     options {
         skipStagesAfterUnstable()
     }
 
     parameters {
-        string(name: 'VERSION_NUMBER', defaultValue: '4.4.3', description: 'Version Number')
+        string(name: 'VERSION_NUMBER', defaultValue: '4.4.6', description: 'Version Number')
         string(name: 'DEPLOY_BETA_BRANCH', defaultValue: 'dev', description: 'Deploy Beta Branch Name')
         choice(
             name: 'TARGET_OS',
-            choices: ['All', 'IOS', 'Android'],
+            choices: ['Android', 'IOS', 'All'],
             description: 'Target Environment'
         )
     }
-    
+
     environment {
         RUNNING_ON_CI = 'true'
         VERSION_NUMBER = "${params.VERSION_NUMBER}"
@@ -64,6 +64,12 @@ pipeline {
                     }
                 }
                 stage('Build - Android') {
+                    agent {
+                        docker {
+                            image 'androidsdk/android-31'
+                            reuseNode true
+                        }
+                    }
                     when {
                         expression {
                             TARGET_OS == 'All' || TARGET_OS == 'Android'
@@ -96,7 +102,7 @@ pipeline {
                 }
             }
             steps {
-                // upload apk artifact to folder(env.branch_name) in AWS S3 bucket (s3://symbol-mobile-builds/branches) 
+                // upload apk artifact to folder(env.branch_name) in AWS S3 bucket (s3://symbol-mobile-builds/branches)
                 // note that there is a s3 bucket retention policy deleting the files older than 60 days
                 sh "aws s3 cp android/app/build/outputs/apk/prod/release/ s3://symbol-mobile-builds/branches/\$BRANCH_NAME --recursive --exclude '*' --include '*.apk'"
             }
