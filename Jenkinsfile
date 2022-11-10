@@ -1,5 +1,5 @@
 pipeline {
-    agent { label params.TARGET_OS == 'Android' ? 'ubuntu' : 'macos'  }
+    agent { label params.TARGET_OS == 'Android' ? 'ubuntu-agent' : 'macos'  }
 
     options {
         skipStagesAfterUnstable()
