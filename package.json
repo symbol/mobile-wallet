@@ -54,7 +54,6 @@
     "querystring-es3": "^0.2.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-background-fetch": "^3.0.4",
     "react-native-camera": "3.3.0",
     "react-native-chart-kit": "^6.6.1",
     "react-native-check-box": "^2.1.7",

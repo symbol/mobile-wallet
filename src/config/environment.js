@@ -2,7 +2,12 @@
  * @format
  * @flow
  */
-import {
+import config from '../../env/default.json';
+import { NetworkType } from 'symbol-sdk';
+import { languageNames } from '@src/locales/i18n';
+import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+
+const {
     sessionTimeoutInSeconds,
     marketCurrencyName,
     explorerURL,
@@ -21,10 +26,7 @@ import {
     nativeMosaicId,
     optInWhiteList,
     nglFinanceBot,
-} from 'react-native-env-json';
-import { NetworkType } from 'symbol-sdk';
-import { languageNames } from '@src/locales/i18n';
-import type { AppNetworkType } from '@src/storage/models/NetworkModel';
+} = config;
 
 // Session timeout
 const getSessionTimeoutInMillis = (): number => {
