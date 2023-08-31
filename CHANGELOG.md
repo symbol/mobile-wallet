@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.4.3][v1.4.3] - 31-Aug-2023
+### Changed
+- Target Android SDK 31.
+
 ## [v1.4.2][v1.4.2] - 24-Oct-2022
 ### Changed
 - Upgraded the dependency `symbol-sdk` version to `v2.0.3`.
@@ -53,3 +57,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 [v1.4.0]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.0
 [v1.4.1]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.1
 [v1.4.2]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.2
+[v1.4.3]: https://github.com/symbol/mobile-wallet/releases/tag/1.4.3
