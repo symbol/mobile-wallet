@@ -10,7 +10,7 @@ This application is built on `React Native` and therefore assumes you have all t
 ### Prerequisites
 
 - The **default network configuration** is fetched from the `env/default.json` file, and as part of the first-time setup, you should provide these. Check the `env/default.json.example` file to see what keys are required.
-- Node version should be **12.1.0** or above.
+- Node version should be from **16.x** to **17.9.1**.
 - [Hermes](https://hermesengine.dev/) is disabled [because of Realm dependency]
 - Android hosts 2 different product flavors - `dev` and `prod`, so you will need to specify this when building/releasing the application for android.
 - [Yarn](https://yarnpkg.com/en/) is preferred over **NPM** as a package manager.

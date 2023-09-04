@@ -1,6 +1,6 @@
 {
   "name": "symbol-mobile-wallet",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": true,
   "scripts": {
     "git-info": "echo export default \"{ version: '$(git describe --tags `git rev-list --tags --max-count=1`)' };\"  > src/shared/_git_commit.js",
@@ -54,7 +54,6 @@
     "querystring-es3": "^0.2.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-background-fetch": "^3.0.4",
     "react-native-camera": "3.3.0",
     "react-native-chart-kit": "^6.6.1",
     "react-native-check-box": "^2.1.7",
