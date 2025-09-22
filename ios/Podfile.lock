@@ -255,8 +255,6 @@ PODS:
     - React-RCTText
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNBackgroundFetch (3.1.0):
-    - React
   - RNCAsyncStorage (1.12.1):
     - React-Core
   - RNCClipboard (1.5.1):
@@ -485,7 +483,6 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: aefc8debafb4a374575adafb44a3352b9d5b618a
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
@@ -502,6 +499,6 @@ SPEC CHECKSUMS:
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 70f71db44ea3977836b72ce990560c32dd44fb18
+PODFILE CHECKSUM: 4449f719430491a029e78b10d5dfa60982f41a3c
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.15.2

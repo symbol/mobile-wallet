@@ -19,8 +19,8 @@
 		34074CDE242266560095DCA6 /* NotoSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34074CD9242266560095DCA6 /* NotoSans-Light.ttf */; };
 		34074CE3242278A30095DCA6 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34074CE2242278A30095DCA6 /* NotoSans-Bold.ttf */; };
 		5AF9D1DC499F433EA7905467 /* libRNLocalize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2E54949D3746B5BC37976B /* libRNLocalize.a */; };
-		AF2173C624112D60002D5B4A /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2173C424112D60002D5B4A /* RNBackgroundFetch+AppDelegate.m */; };
-		AF2173CB241131E5002D5B4A /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2173C9241131E5002D5B4A /* TSBackgroundFetch.framework */; };
+		AF2173C624112D60002D5B4A /* (null) in Sources */ = {isa = PBXBuildFile; };
+		AF2173CB241131E5002D5B4A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		AFACF896240D277B005AF57E /* libRNPermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFACF895240D277B005AF57E /* libRNPermissions.a */; };
 		BD9A588541184468B0AA670B /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C9D77DBAD945F397301644 /* libRNCAsyncStorage.a */; };
 		C3D48A9BD91A473F8218C1DB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF1ADA38F4C046489F40DAB3 /* libc++.tbd */; };
@@ -95,7 +95,7 @@
 				BD9A588541184468B0AA670B /* libRNCAsyncStorage.a in Frameworks */,
 				C4D92D11E3F84719A7B7BE15 /* libBVLinearGradient.a in Frameworks */,
 				5AF9D1DC499F433EA7905467 /* libRNLocalize.a in Frameworks */,
-				AF2173CB241131E5002D5B4A /* TSBackgroundFetch.framework in Frameworks */,
+				AF2173CB241131E5002D5B4A /* (null) in Frameworks */,
 				AFACF896240D277B005AF57E /* libRNPermissions.a in Frameworks */,
 				3105BA57B3CD459D91F27F59 /* libRNReanimated.a in Frameworks */,
 				EC2C0B7CE5F946689B6C44C5 /* libRNGestureHandler.a in Frameworks */,
@@ -130,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				34074CD3242266360095DCA6 /* Fonts */,
-				AF2173C424112D60002D5B4A /* RNBackgroundFetch+AppDelegate.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -154,7 +153,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AF2173C9241131E5002D5B4A /* TSBackgroundFetch.framework */,
 				AFACF895240D277B005AF57E /* libRNPermissions.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -256,7 +254,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = W594P93ZB8;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -341,7 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF2173C624112D60002D5B4A /* RNBackgroundFetch+AppDelegate.m in Sources */,
+				AF2173C624112D60002D5B4A /* (null) in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -367,9 +365,9 @@
 			baseConfigurationReference = 88F79594A4D170560D69F324 /* Pods-SymbolWallet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2210.26.1244;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2509.16.1330;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = W594P93ZB8;
 				ENABLE_TESTABILITY = NO;
@@ -395,15 +393,16 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				INFOPLIST_FILE = NEMCatapultWallet/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.4.8;
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemgrouplimited.symbolwallet;
 				PRODUCT_NAME = Symbol;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.nemgrouplimited.symbolwallet";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -414,9 +413,9 @@
 			baseConfigurationReference = 910789ECA0A43E281092F724 /* Pods-SymbolWallet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2210.26.1244;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2509.16.1330;
 				DEVELOPMENT_TEAM = W594P93ZB8;
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -440,15 +439,16 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				INFOPLIST_FILE = NEMCatapultWallet/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.4.8;
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemgrouplimited.symbolwallet;
 				PRODUCT_NAME = Symbol;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.nemgrouplimited.symbolwallet";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
