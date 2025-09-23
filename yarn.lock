@@ -10983,10 +10983,10 @@ symbol-sdk@1.0.0:
     tweetnacl "^1.0.3"
     ws "^7.3.1"
 
-symbol-sdk@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-2.0.3.tgz#17337157ff8db046cec152b7b11657b1bf417928"
-  integrity sha512-cTy1/E0yQCTMBrzCNCMMSVwgZdY0MTsw5A3vJCOyG9Dne03a/u8djEW5uB1H5c+mSul91FjP74Dey1Ay7uw8MQ==
+symbol-sdk@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-2.0.6.tgz#1fc64c9f043a9a30320556f7ff198419d8ecff65"
+  integrity sha512-Vx3yMTs3XnG0NJ3keqWuwni5b8kY4CEyOhLYS5VRWHMrO4xnANbrYXwgjF+jJqzWJkzkTwPiJAMaNaZUI88vZQ==
   dependencies:
     "@js-joda/core" "^3.2.0"
     catbuffer-typescript "^1.0.2"
