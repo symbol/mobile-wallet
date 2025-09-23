@@ -1,6 +1,6 @@
 {
   "name": "symbol-mobile-wallet",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "private": true,
   "scripts": {
     "git-info": "echo export default \"{ version: '$(git describe --tags `git rev-list --tags --max-count=1`)' };\"  > src/shared/_git_commit.js",
@@ -89,7 +89,7 @@
     "react-native-touch-id": "^4.4.1",
     "react-native-udp": "^2.1.0",
     "react-native-url": "^0.0.2",
-    "react-native-video": "^5.1.0-alpha8",
+    "react-native-video": "^5.2.2",
     "react-native-view-shot": "^3.0.2",
     "react-redux": "^7.2.1",
     "react-zlib-js": "^1.0.4",
@@ -109,7 +109,7 @@
     "symbol-hd-wallets": "0.14.1-alpha-202103051108",
     "symbol-post-launch-optin-module": "1.0.1",
     "symbol-qr-library": "0.14.1-alpha-202103081047",
-    "symbol-sdk": "2.0.3",
+    "symbol-sdk": "2.0.6",
     "symbol-wallets-lib": "0.1.0",
     "timers-browserify": "^1.0.1",
     "tls-browserify": "^0.2.2",
